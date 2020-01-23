@@ -37,18 +37,11 @@ package java.util.concurrent;
 import java.util.*;
 
 /**
- * A {@link Deque} that additionally supports blocking operations that wait
- * for the deque to become non-empty when retrieving an element, and wait for
- * space to become available in the deque when storing an element.
+ * A {@link Deque} 另外支持在检索元素时等待deque变为非空的阻塞操作，并等待存储元素时在deque中可用的空间。
  *
- * <p>{@code BlockingDeque} methods come in four forms, with different ways
- * of handling operations that cannot be satisfied immediately, but may be
- * satisfied at some point in the future:
- * one throws an exception, the second returns a special value (either
- * {@code null} or {@code false}, depending on the operation), the third
- * blocks the current thread indefinitely until the operation can succeed,
- * and the fourth blocks for only a given maximum time limit before giving
- * up.  These methods are summarized in the following table:
+ * <p>{@code BlockingDeque} 方法有四种形式，不同的方式处理不能立即满足的操作，但可能在将来的某个时间点满足：
+ * 一个抛出异常，第二个返回一个特殊值（ null或false ，具体取决于操作），第三个程序将无限期地阻止当前线程，
+ * 直到操作成功为止，而第四个程序块在放弃之前只有给定的最大时限。 这些方法总结在下表中：
  *
  * <table BORDER CELLPADDING=3 CELLSPACING=1>
  * <caption>Summary of BlockingDeque methods</caption>
@@ -116,14 +109,10 @@ import java.util.*;
  *  </tr>
  * </table>
  *
- * <p>Like any {@link BlockingQueue}, a {@code BlockingDeque} is thread safe,
- * does not permit null elements, and may (or may not) be
- * capacity-constrained.
+ * <p>像任何 {@link BlockingQueue}一样 ， BlockingDeque是线程安全的，不允许空元素，并且可能（或可能不）是容量受限的。
  *
- * <p>A {@code BlockingDeque} implementation may be used directly as a FIFO
- * {@code BlockingQueue}. The methods inherited from the
- * {@code BlockingQueue} interface are precisely equivalent to
- * {@code BlockingDeque} methods as indicated in the following table:
+ * <p>A {@code BlockingDeque} 实现可以直接用作FIFO BlockingQueue 。
+ * 从BlockingQueue接口BlockingDeque方法正好等同于下表所示的BlockingDeque方法：
  *
  * <table BORDER CELLPADDING=3 CELLSPACING=1>
  * <caption>Comparison of BlockingQueue and BlockingDeque methods</caption>
@@ -182,14 +171,11 @@ import java.util.*;
  *  </tr>
  * </table>
  *
- * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
+ * <p>存储器一致性效果：当与其他并发集合，事先将物体放置成在一个线程动作
  * {@code BlockingDeque}
  * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code BlockingDeque} in another thread.
- *
- * <p>This interface is a member of the
+ * 到该元素的从访问或移除后续动作BlockingDeque在另一个线程。.
+ * <p>此接口是成员
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
  * Java Collections Framework</a>.
  *
@@ -211,6 +197,8 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * throwing an {@code IllegalStateException} if no space is currently
      * available.  When using a capacity-restricted deque, it is generally
      * preferable to use {@link #offerFirst(Object) offerFirst}.
+     *
+     * 插入此双端队列的前面，如果它是立即可行且不会违反容量限制，抛出一个指定的元素 IllegalStateException如果当前没有空间可用。
      *
      * @param e the element to add
      * @throws IllegalStateException {@inheritDoc}
