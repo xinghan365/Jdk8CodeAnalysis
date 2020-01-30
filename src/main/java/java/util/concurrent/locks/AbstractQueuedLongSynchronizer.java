@@ -41,6 +41,10 @@ import java.util.Date;
 import sun.misc.Unsafe;
 
 /**
+ * AbstractQueuedSynchronizer的一个版本，其中同步状态保持为long 。
+ * 此类具有完全相同的结构，属性和为方法AbstractQueuedSynchronizer与所有的状态有关的参数和结果被定义为例外long而非int 。
+ * 当创建同步器（例如需要64位状态的多级锁和障碍）时，此类可能很有用。
+ *
  * A version of {@link AbstractQueuedSynchronizer} in
  * which synchronization state is maintained as a {@code long}.
  * This class has exactly the same structure, properties, and methods
@@ -71,6 +75,7 @@ public abstract class AbstractQueuedLongSynchronizer
     */
 
     /**
+     * 创建一个初始同步状态为零的新的 AbstractQueuedLongSynchronizer实例。
      * Creates a new {@code AbstractQueuedLongSynchronizer} instance
      * with initial synchronization state of zero.
      */
@@ -961,6 +966,11 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 以独占模式获取，忽略中断。
+     * 通过调用至少一次执行 tryAcquire(long)，成功返回。
+     * 否则线程排队，可能会重复阻塞和解除阻塞，直到成功调用tryAcquire(long) 。
+     * 该方法可以用于实现方法Lock.lock() 。
+     *
      * Acquires in exclusive mode, ignoring interrupts.  Implemented
      * by invoking at least once {@link #tryAcquire},
      * returning on success.  Otherwise the thread is queued, possibly
@@ -979,6 +989,11 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 以独占方式获得，如果中断，中止。
+     * 通过首先检查中断状态，然后调用至少一次tryAcquire(long) ，成功返回。
+     * 否则线程排队，可能会重复阻塞和解除阻塞，调用tryAcquire(long)直到成功或线程中断。
+     * 该方法可用于实现方法Lock.lockInterruptibly() 。
+     *
      * Acquires in exclusive mode, aborting if interrupted.
      * Implemented by first checking interrupt status, then invoking
      * at least once {@link #tryAcquire}, returning on
@@ -1001,6 +1016,11 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 尝试以独占模式获取，如果中断则中止，如果给定的超时时间失败。
+     * 通过首先检查中断状态，然后调用至少一次tryAcquire(long) ，成功返回。
+     * 否则，线程排队，可能重复阻塞和解除阻塞，调用tryAcquire(long)直到成功或线程中断或超时。
+     * 该方法可用于实现方法Lock.tryLock(long, TimeUnit) 。
+     *
      * Attempts to acquire in exclusive mode, aborting if interrupted,
      * and failing if the given timeout elapses.  Implemented by first
      * checking interrupt status, then invoking at least once {@link
@@ -1026,6 +1046,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 以专属模式发布。
+     * 如果tryRelease(long)返回true，则通过解除阻塞一个或多个线程来实现。
+     * 该方法可以用于实现方法Lock.unlock() 。
+     *
      * Releases in exclusive mode.  Implemented by unblocking one or
      * more threads if {@link #tryRelease} returns true.
      * This method can be used to implement method {@link Lock#unlock}.
@@ -1046,6 +1070,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 以共享模式获取，忽略中断。
+     * 通过首次调用至少一次执行 tryAcquireShared(long)，成功返回。
+     * 否则线程排队，可能会重复阻塞和解除阻塞，直到成功调用tryAcquireShared(long) 。
+     *
      * Acquires in shared mode, ignoring interrupts.  Implemented by
      * first invoking at least once {@link #tryAcquireShared},
      * returning on success.  Otherwise the thread is queued, possibly
@@ -1062,6 +1090,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 以共享方式获取，如果中断，中止。
+     * 通过首先检查中断状态，然后调用至少一次tryAcquireShared(long) ，成功返回。
+     * 否则线程排队，可能会重复阻塞和解除阻塞，调用tryAcquireShared(long)直到成功或线程中断。
+     *
      * Acquires in shared mode, aborting if interrupted.  Implemented
      * by first checking interrupt status, then invoking at least once
      * {@link #tryAcquireShared}, returning on success.  Otherwise the
@@ -1083,6 +1115,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 尝试以共享模式获取，如果中断则中止，如果给定的时间超过，则失败。
+     * 首先检查中断状态，然后调用至少一次tryAcquireShared(long) ，成功返回。
+     * 否则，线程排队，可能会重复阻塞和解除阻塞，调用tryAcquireShared(long)直到成功或线程中断或超时。
+     *
      * Attempts to acquire in shared mode, aborting if interrupted, and
      * failing if the given timeout elapses.  Implemented by first
      * checking interrupt status, then invoking at least once {@link
@@ -1107,6 +1143,8 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 以共享模式发布。 如果tryReleaseShared(long)返回true，则通过解除阻塞一个或多个线程来实现。
+     *
      * Releases in shared mode.  Implemented by unblocking one or more
      * threads if {@link #tryReleaseShared} returns true.
      *
@@ -1126,6 +1164,10 @@ public abstract class AbstractQueuedLongSynchronizer
     // Queue inspection methods
 
     /**
+     * 查询任何线程是否等待获取。
+     * 请注意，由于中断和超时可能会随时发生true ，因此true返回不能保证任何其他线程将获得。
+     * 在这个实现中，这个操作返回恒定的时间。
+     *
      * Queries whether any threads are waiting to acquire. Note that
      * because cancellations due to interrupts and timeouts may occur
      * at any time, a {@code true} return does not guarantee that any
@@ -1141,6 +1183,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     *
+     * 查询任何线程是否有争取获取此同步器; 那就是收购方法是否被阻止。
+     * 在这个实现中，这个操作返回恒定的时间。
+     *
      * Queries whether any threads have ever contended to acquire this
      * synchronizer; that is if an acquire method has ever blocked.
      *
@@ -1154,6 +1200,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     *
+     * 返回队列中第一个（等待时间最长的）线程，或null如果没有线程正在排队。
+     * 在这个实现中，这个操作通常在常量时间内返回，但如果其他线程同时修改队列，则可以在争用时迭代。
+     *
      * Returns the first (longest-waiting) thread in the queue, or
      * {@code null} if no threads are currently queued.
      *
@@ -1209,6 +1259,8 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 如果给定的线程当前排队，则返回true。
+     * 该实现遍历队列以确定给定线程的存在。
      * Returns true if the given thread is currently queued.
      *
      * <p>This implementation traverses the queue to determine
@@ -1245,6 +1297,31 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     *
+     * 查询任何线程是否等待获取比当前线程更长的时间。
+     * 调用此方法等同于（但可能更有效）：
+     *
+     *    getFirstQueuedThread() != Thread.currentThread() && hasQueuedThreads()
+     * 请注意，因为由于中断和超时而导致的取消可能随时发生，所以true返回不能保证其他一些线程将在当前线程之前获取。
+     * 同样，由于队列为空，这个方法返回了false之后，另一个线程可能会赢得比赛排队。
+     *
+     * 该方法被设计为由一个公平的同步器使用以避免barging 。
+     * 这样一个同步器的tryAcquire(long)方法应该返回false ，并且它的tryAcquireShared(long)方法应该返回一个负值，
+     * 如果这个方法返回true （除非这是一个可重入的获取）。
+     * 例如， tryAcquire公平，可重入，独占模式同步器的方法可能如下所示：
+     *
+     *  <pre> {@code
+     * protected boolean tryAcquire(int arg) {
+     *   if (isHeldExclusively()) {
+     *     // A reentrant acquire; increment hold count
+     *     return true;
+     *   } else if (hasQueuedPredecessors()) {
+     *     return false;
+     *   } else {
+     *     // try to acquire normally
+     *   }
+     * }}</pre>
+     *
      * Queries whether any threads have been waiting to acquire longer
      * than the current thread.
      *
@@ -1302,6 +1379,10 @@ public abstract class AbstractQueuedLongSynchronizer
     // Instrumentation and monitoring methods
 
     /**
+     * 返回等待获取的线程数的估计。
+     * 该值只是一个估计，因为线程数可能会在此方法遍历内部数据结构时动态更改。
+     * 该方法设计用于监控系统状态，不用于同步控制。
+     *
      * Returns an estimate of the number of threads waiting to
      * acquire.  The value is only an estimate because the number of
      * threads may change dynamically while this method traverses
@@ -1321,6 +1402,10 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 返回一个包含可能正在等待获取的线程的集合。
+     * 因为在构建此结果时，实际的线程集可能会动态更改，所以返回的集合只是尽力而为的估计。
+     * 返回的集合的元素没有特定的顺序。 该方法旨在便于构建提供更广泛监控设施的子类。
+     *
      * Returns a collection containing threads that may be waiting to
      * acquire.  Because the actual set of threads may change
      * dynamically while constructing this result, the returned
@@ -1342,6 +1427,9 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 返回一个包含可能正在等待以独占模式获取的线程的集合。
+     * 这具有相同的属性， getQueuedThreads() ，除了它只返回那些等待的线程由于独家获取。
+     *
      * Returns a collection containing threads that may be waiting to
      * acquire in exclusive mode. This has the same properties
      * as {@link #getQueuedThreads} except that it only returns
@@ -1362,6 +1450,8 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * 返回包含可能正在等待在共享模式下获取的线程的集合。
+     * 这具有相同的特性getQueuedThreads() ，但它仅返回那些等待的线程由于共享获取。
      * Returns a collection containing threads that may be waiting to
      * acquire in shared mode. This has the same properties
      * as {@link #getQueuedThreads} except that it only returns
@@ -1591,6 +1681,9 @@ public abstract class AbstractQueuedLongSynchronizer
     }
 
     /**
+     * Condition实现AbstractQueuedLongSynchronizer作为基础Lock实施。
+     * 该类的方法文档描述了从锁定和条件用户角度看的机制，而不是行为规范。
+     * 该类的导出版本通常需要附有描述依赖于相关联的AbstractQueuedLongSynchronizer的条件AbstractQueuedLongSynchronizer 。
      * Condition implementation for a {@link
      * AbstractQueuedLongSynchronizer} serving as the basis of a {@link
      * Lock} implementation.
@@ -1797,6 +1890,7 @@ public abstract class AbstractQueuedLongSynchronizer
         }
 
         /**
+         * 实现可中断条件等待。
          * Implements interruptible condition wait.
          * <ol>
          * <li> If current thread is interrupted, throw InterruptedException.
@@ -1870,6 +1964,8 @@ public abstract class AbstractQueuedLongSynchronizer
         }
 
         /**
+         *
+         * 实现绝对定时条件等待。
          * Implements absolute timed condition wait.
          * <ol>
          * <li> If current thread is interrupted, throw InterruptedException.

@@ -41,6 +41,84 @@ import java.util.Date;
 import sun.misc.Unsafe;
 
 /**
+ * 提供一个框架，用于实现依赖先进先出（FIFO）等待队列的阻塞锁和相关同步器（信号量，事件等）。
+ * 该类被设计为大多数类型的同步器的有用依据，这些同步器依赖于单个原子int值来表示状态。
+ * 子类必须定义改变此状态的受保护方法，以及根据该对象被获取或释放来定义该状态的含义。
+ * 给定这些，这个类中的其他方法执行所有排队和阻塞机制。
+ * 子类可以保持其他状态字段，但只以原子方式更新int使用方法操纵值getState() ， setState(int)和compareAndSetState(int, int)被跟踪相对于同步。
+ * 子类应定义为非公共内部助手类，用于实现其封闭类的同步属性。
+ * AbstractQueuedSynchronizer类不实现任何同步接口。
+ * 相反，它定义了一些方法，如acquireInterruptibly(int) ，可以通过具体的锁和相关同步器来调用适当履行其公共方法。
+ *
+ * 此类支持默认独占模式和共享模式。
+ * 当以独占模式获取时，尝试通过其他线程获取不能成功。
+ * 多线程获取的共享模式可能（但不需要）成功。
+ * 除了在机械意义上，这个类不理解这些差异，当共享模式获取成功时，下一个等待线程（如果存在）也必须确定它是否也可以获取。
+ * 在不同模式下等待的线程共享相同的FIFO队列。
+ * 通常，实现子类只支持这些模式之一，但是两者都可以在ReadWriteLock中发挥作用 。
+ * 仅支持独占或仅共享模式的子类不需要定义支持未使用模式的方法。
+ *
+ * 这个类定义的嵌套AbstractQueuedSynchronizer.ConditionObject
+ * 可用于作为一类Condition由子类支持独占模式用于该方法的实施isHeldExclusively()
+ * 份报告是否同步排他相对于保持在当前线程，方法release(int)与当前调用getState()值完全释放此目的，
+ * 和acquire(int) ，给定此保存的状态值，最终将此对象恢复到其先前获取的状态。
+ * AbstractQueuedSynchronizer方法将创建此类条件，因此如果不能满足此约束，请勿使用该约束。
+ * AbstractQueuedSynchronizer.ConditionObject的行为当然取决于其同步器实现的语义。
+ *
+ * 该类为内部队列提供检查，检测和监控方法，以及条件对象的类似方法。
+ * 这些可以根据需要导出到类中，使用AbstractQueuedSynchronizer进行同步机制。
+ *
+ * 此类的序列化仅存储底层原子整数维持状态，因此反序列化对象具有空线程队列。
+ * 需要可序列化的典型子类将定义一个readObject方法，可以将其恢复为readObject时的已知初始状态。
+ *
+ * 用法
+ * 使用这个类用作同步的基础上，重新定义以下方法，如适用，
+ * 通过检查和/或修改使用所述同步状态getState() ，
+ * setState(int)和/或compareAndSetState(int, int) ：
+ * <ul>
+ * <li> {@link #tryAcquire}
+ * <li> {@link #tryRelease}
+ * <li> {@link #tryAcquireShared}
+ * <li> {@link #tryReleaseShared}
+ * <li> {@link #isHeldExclusively}
+ * </ul>
+ * 每个这些方法默认抛出UnsupportedOperationException 。
+ * 这些方法的实现必须是线程安全的，通常应该是短的而不是阻止的。
+ * 定义这些方法是唯一支持使用此类的方法。 所有其他方法都被声明为final ，因为它们不能独立变化。
+ * 您还可以找到来自继承的方法AbstractOwnableSynchronizer有用跟踪线程拥有独家同步的。
+ * 我们鼓励您使用它们 - 这样可以使监控和诊断工具帮助用户确定哪些线程持有锁定。
+ *
+ * 即使这个类基于内部FIFO队列，它也不会自动执行FIFO采集策略。 排他同步的核心形式如下：
+ * <pre>
+ * Acquire:
+ *     while (!tryAcquire(arg)) {
+ *        <em>enqueue thread if it is not already queued</em>;
+ *        <em>possibly block current thread</em>;
+ *     }
+ *
+ * Release:
+ *     if (tryRelease(arg))
+ *        <em>unblock the first queued thread</em>;
+ * </pre>
+ * （共享模式类似，但可能包含级联信号。）
+ * 因为在采集检查入队之前调用，所以新获取的线程可能闯入其他被阻塞和排队的。
+ * 但是，如果需要，您可以通过内部调用一个或多个检查方法来定义tryAcquire
+ * 和/或tryAcquireShared来禁用驳船，从而提供一个合理的 FIFO采购订单。
+ * 特别地，最公平同步器可以定义tryAcquire返回false如果hasQueuedPredecessors()
+ * （具体地设计成由公平同步器中使用的方法）返回true 。 其他变化是可能的。
+ *
+ * 吞吐量和可扩展性通常对于默认的驳船（也称为贪心 ， 放弃和车队避免 ）战略来说是最高的。
+ * 虽然这不能保证是公平的或无饥饿的，但较早排队的线程在稍后排队的线程之前被允许重新侦听，
+ * 并且每次重新提供对于传入线程成功的机会。
+ * 此外，虽然获取在通常意义上不“旋转”，但是在阻止之前它们可以执行多个tryAcquire
+ * tryAcquire与其他计算的交互。 当独占同步只是简单地持有时，这样可以提供旋转的大部分好处，
+ * 而没有大部分负债。 如果需要，您可以通过以前通过“快速路径”检查获取方法的调用进行扩充，
+ * 可能预先检查hasContended()和/或hasQueuedThreads() ，
+ * 以便只有在同步器可能不被竞争的情况下才能进行。
+ *
+ * 该类为同步提供了一个高效和可扩展的基础，部分原因是可以依靠int状态，
+ * 获取和释放参数以及内部FIFO等待队列的同步器的使用范围。
+ * 当这不足够时，您可以使用atomic类，您自己的自定义Queue类和LockSupport类阻止支持从较低级别构建同步器。
  * Provides a framework for implementing blocking locks and related
  * synchronizers (semaphores, events, etc) that rely on
  * first-in-first-out (FIFO) wait queues.  This class is designed to
@@ -194,7 +272,10 @@ import sun.misc.Unsafe;
  * thread, this class does so anyway to make usage easier to monitor.
  * It also supports conditions and exposes
  * one of the instrumentation methods:
- *
+ *用法示例
+ * 这是一个不可重入互斥锁类，它使用零值来表示解锁状态，一个表示锁定状态。
+ * 虽然不可重入锁不严格要求记录当前的所有者线程，但是这样做无论如何使得使用更容易监视。
+ * 它还支持条件并公开其中一种仪器方法：
  *  <pre> {@code
  * class Mutex implements Lock, java.io.Serializable {
  *
@@ -258,7 +339,8 @@ import sun.misc.Unsafe;
  * except that it only requires a single {@code signal} to
  * fire. Because a latch is non-exclusive, it uses the {@code shared}
  * acquire and release methods.
- *
+ *这是一个类似CountDownLatch的闩锁类，只是它只需要一个signal才能触发。
+ * 因为锁存器是非排他的，它使用shared获取和释放方法。
  *  <pre> {@code
  * class BooleanLatch {
  *

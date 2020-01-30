@@ -30,6 +30,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 /**
+ * 这个类提供线程局部变量。
+ * 这些变量与其正常的对应方式不同，因为访问一个的每个线程（通过其get或set方法）都有自己独立初始化的变量副本。
+ * ThreadLocal实例通常是希望将状态与线程关联的类中的私有静态字段（例如，用户ID或事务ID）。
+ * 例如，下面的类生成每个线程本地的唯一标识符。
+ * 线程的ID在第一次调用ThreadId.get()时被分配，并在后续调用中保持不变。
+ *
  * This class provides thread-local variables.  These variables differ from
  * their normal counterparts in that each thread that accesses one (via its
  * {@code get} or {@code set} method) has its own, independently initialized
@@ -62,6 +68,8 @@ import java.util.function.Supplier;
  *     }
  * }
  * </pre>
+ * 只要线程存活并且ThreadLocal实例可以访问，每个线程都保存对其线程局部变量副本的隐式引用;
+ * 线程消失后，线程本地实例的所有副本都将被垃圾收集（除非存在对这些副本的其他引用）。
  * <p>Each thread holds an implicit reference to its copy of a thread-local
  * variable as long as the thread is alive and the {@code ThreadLocal}
  * instance is accessible; after a thread goes away, all of its copies of
@@ -106,6 +114,12 @@ public class ThreadLocal<T> {
     }
 
     /**
+     * 返回此线程局部变量的当前线程的“初始值”。
+     * 该方法将在第一次使用get()方法访问变量时被调用，除非线程先前调用了set(T)方法，在这种情况下， initialValue方法将不会被调用。
+     * 通常情况下，这种方法最多每个线程调用一次，但它可能会再次在以后的调用的情况下调用remove()其次是get() 。
+     * 这个实现简单地返回null ; 如果程序员希望线程局部变量具有除null之外的初始值，则ThreadLocal必须被子类化，并且该方法被覆盖。
+     * 通常，将使用匿名内部类。
+     *
      * Returns the current thread's "initial value" for this
      * thread-local variable.  This method will be invoked the first
      * time a thread accesses the variable with the {@link #get}
@@ -128,6 +142,8 @@ public class ThreadLocal<T> {
     }
 
     /**
+     * 创建线程局部变量。 变量的初始值是通过调用get方法来Supplier 。
+     *
      * Creates a thread local variable. The initial value of the variable is
      * determined by invoking the {@code get} method on the {@code Supplier}.
      *
@@ -149,6 +165,8 @@ public class ThreadLocal<T> {
     }
 
     /**
+     * 返回当前线程的此线程局部变量的副本中的值。
+     * 如果变量没有当前线程的值，则首先将其初始化为调用initialValue()方法返回的值。
      * Returns the value in the current thread's copy of this
      * thread-local variable.  If the variable has no value for the
      * current thread, it is first initialized to the value returned
@@ -206,6 +224,10 @@ public class ThreadLocal<T> {
     }
 
     /**
+     * 删除此线程局部变量的当前线程的值。
+     * 如果此线程本地变量随后是当前线程的read ，则其值将通过调用其initialValue()方法重新初始化 ，除非其当前线程的值为set 。
+     * 这可能导致当前线程中的initialValue方法的多次调用。
+     *
      * Removes the current thread's value for this thread-local
      * variable.  If this thread-local variable is subsequently
      * {@linkplain #get read} by the current thread, its value will be

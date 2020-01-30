@@ -27,6 +27,21 @@ package java.lang.ref;
 
 
 /**
+ *
+ * 软参考对象，由垃圾收集器根据内存需求自行清除。 软引用通常用于实现内存敏感缓存。
+ *
+ * 假设垃圾收集器在某个时间点确定对象是softly reachable 。
+ * 那时候，它可能会选择原子地清除对该对象的所有软引用，以及对任何其他可轻松访问的对象的所有软引用，
+ * 该对象可以通过一个强引用链来访问该对象。 在同一时间或稍后的时间，它将排入在引用队列中注册的新清除的软引用。
+ *
+ * 在虚拟机抛出OutOfMemoryError之前，所有软引用对象可以保证被清除。
+ * 否则，在清除软引用的时间或者对一组对不同对象的引用将被清除的顺序没有约束。
+ * 但是，鼓励虚拟机实现偏离清除最近创建或最近使用的软参考。
+ *
+ * 此类的直接实例可用于实现简单的缓存; 此类或派生子类也可用于较大的数据结构以实现更复杂的高速缓存。
+ * 只要软参考的指示是强有力的，即实际使用中，软参考将不会被清除。
+ * 因此，复杂的缓存可以例如阻止其最近使用的条目被丢弃，通过保持对这些条目的强烈的指示，使剩余的条目由垃圾收集器判断丢弃。
+ *
  * Soft reference objects, which are cleared at the discretion of the garbage
  * collector in response to memory demand.  Soft references are most often used
  * to implement memory-sensitive caches.

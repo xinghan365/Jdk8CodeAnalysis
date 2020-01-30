@@ -39,6 +39,11 @@ import java.util.function.IntBinaryOperator;
 import sun.misc.Unsafe;
 
 /**
+ * 一个int可能原子更新的值。
+ * 有关原子变量属性的描述，请参阅java.util.concurrent.atomic包规范。
+ * 一个AtomicInteger用于诸如原子增量计数器的应用程序中，不能用作Integer的替代品 。
+ * 但是，这个类确实扩展了Number以允许通过处理基于数字类的工具和实用程序的统一访问。
+ *
  * An {@code int} value that may be updated atomically.  See the
  * {@link java.util.concurrent.atomic} package specification for
  * description of the properties of atomic variables. An
