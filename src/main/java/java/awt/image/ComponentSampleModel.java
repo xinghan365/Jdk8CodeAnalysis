@@ -302,7 +302,9 @@ public class ComponentSampleModel extends SampleModel
         int map[] = new int[orig.length];
         int ret[] = new int[orig.length];
 
-        for (int i=0; i<map.length; i++) map[i] = i;
+        for (int i=0; i<map.length; i++) {
+            map[i] = i;
+        }
 
         for (int i = 0; i < ret.length; i++) {
             int index = i;
@@ -328,6 +330,7 @@ public class ComponentSampleModel extends SampleModel
      * @throws IllegalArgumentException if <code>w</code> or
      *         <code>h</code> is not greater than 0
      */
+    @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
         SampleModel ret=null;
         long size;
@@ -349,8 +352,9 @@ public class ComponentSampleModel extends SampleModel
             if (pStride > bStride) {
                 if (lStride > bStride) { // pix > line > band
                     bandOff = new int[bandOffsets.length];
-                    for (int i=0; i<bands; i++)
+                    for (int i=0; i<bands; i++) {
                         bandOff[i] = bandOffsets[i]-minBandOff;
+                    }
                     lStride = bStride+1;
                     pStride = lStride*h;
                 } else { // pix > band > line
@@ -364,8 +368,9 @@ public class ComponentSampleModel extends SampleModel
         } else {
             if (pStride > bStride) { // line > pix > band
                 bandOff = new int[bandOffsets.length];
-                for (int i=0; i<bands; i++)
+                for (int i=0; i<bands; i++) {
                     bandOff[i] = bandOffsets[i]-minBandOff;
+                }
                 pStride = bStride+1;
                 lStride = pStride*w;
             } else {
@@ -390,8 +395,9 @@ public class ComponentSampleModel extends SampleModel
             pStride *= -1;
         }
 
-        for (int i=0; i<bands; i++)
+        for (int i=0; i<bands; i++) {
             bandOff[i] += base;
+        }
         return new ComponentSampleModel(dataType, w, h, pStride,
                                         lStride, bankIndices, bandOff);
     }
@@ -408,11 +414,13 @@ public class ComponentSampleModel extends SampleModel
      * @return a <code>ComponentSampleModel</code> created with a subset
      *          of bands from this <code>ComponentSampleModel</code>.
      */
+    @Override
     public SampleModel createSubsetSampleModel(int bands[]) {
-       if (bands.length > bankIndices.length)
-            throw new RasterFormatException("There are only " +
-                                            bankIndices.length +
-                                            " bands");
+       if (bands.length > bankIndices.length) {
+           throw new RasterFormatException("There are only " +
+                                           bankIndices.length +
+                                           " bands");
+       }
         int newBankIndices[] = new int[bands.length];
         int newBandOffsets[] = new int[bands.length];
 
@@ -436,6 +444,7 @@ public class ComponentSampleModel extends SampleModel
      *         and size are consistent with this
      *         <code>ComponentSampleModel</code>.
      */
+    @Override
     public DataBuffer createDataBuffer() {
         DataBuffer dataBuffer = null;
 
@@ -504,12 +513,14 @@ public class ComponentSampleModel extends SampleModel
      *          for all bands, where each element in the array
      *          represents a band.
      */
+    @Override
     public final int[] getSampleSize() {
         int sampleSize[] = new int [numBands];
         int sizeInBits = getSampleSize(0);
 
-        for (int i=0; i<numBands; i++)
+        for (int i=0; i<numBands; i++) {
             sampleSize[i] = sizeInBits;
+        }
 
         return sampleSize;
     }
@@ -518,6 +529,7 @@ public class ComponentSampleModel extends SampleModel
      *  @param band the specified band
      *  @return the number of bits per sample for the specified band.
      */
+    @Override
     public final int getSampleSize(int band) {
         return DataBuffer.getDataTypeSize(dataType);
     }
@@ -564,6 +576,7 @@ public class ComponentSampleModel extends SampleModel
      * @see java.awt.image.SampleModel#getNumDataElements
      * @see #getNumBands
      */
+    @Override
     public final int getNumDataElements() {
         return getNumBands();
     }
@@ -616,6 +629,7 @@ public class ComponentSampleModel extends SampleModel
      * @throws ArrayIndexOutOfBoundsException if the coordinates are
      * not in bounds, or if obj is too small to hold the output.
      */
+    @Override
     public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -632,10 +646,11 @@ public class ComponentSampleModel extends SampleModel
 
             byte[] bdata;
 
-            if (obj == null)
+            if (obj == null) {
                 bdata = new byte[numDataElems];
-            else
+            } else {
                 bdata = (byte[])obj;
+            }
 
             for (int i=0; i<numDataElems; i++) {
                 bdata[i] = (byte)data.getElem(bankIndices[i],
@@ -650,10 +665,11 @@ public class ComponentSampleModel extends SampleModel
 
             short[] sdata;
 
-            if (obj == null)
+            if (obj == null) {
                 sdata = new short[numDataElems];
-            else
+            } else {
                 sdata = (short[])obj;
+            }
 
             for (int i=0; i<numDataElems; i++) {
                 sdata[i] = (short)data.getElem(bankIndices[i],
@@ -667,10 +683,11 @@ public class ComponentSampleModel extends SampleModel
 
             int[] idata;
 
-            if (obj == null)
+            if (obj == null) {
                 idata = new int[numDataElems];
-            else
+            } else {
                 idata = (int[])obj;
+            }
 
             for (int i=0; i<numDataElems; i++) {
                 idata[i] = data.getElem(bankIndices[i],
@@ -684,10 +701,11 @@ public class ComponentSampleModel extends SampleModel
 
             float[] fdata;
 
-            if (obj == null)
+            if (obj == null) {
                 fdata = new float[numDataElems];
-            else
+            } else {
                 fdata = (float[])obj;
+            }
 
             for (int i=0; i<numDataElems; i++) {
                 fdata[i] = data.getElemFloat(bankIndices[i],
@@ -701,10 +719,11 @@ public class ComponentSampleModel extends SampleModel
 
             double[] ddata;
 
-            if (obj == null)
+            if (obj == null) {
                 ddata = new double[numDataElems];
-            else
+            } else {
                 ddata = (double[])obj;
+            }
 
             for (int i=0; i<numDataElems; i++) {
                 ddata[i] = data.getElemDouble(bankIndices[i],
@@ -734,6 +753,7 @@ public class ComponentSampleModel extends SampleModel
      * @throws ArrayIndexOutOfBoundsException if the coordinates are
      * not in bounds, or if iArray is too small to hold the output.
      */
+    @Override
     public int[] getPixel(int x, int y, int iArray[], DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -767,6 +787,7 @@ public class ComponentSampleModel extends SampleModel
      * @return the samples of the pixels within the specified region.
      * @see #setPixels(int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public int[] getPixels(int x, int y, int w, int h,
                            int iArray[], DataBuffer data) {
         int x1 = x + w;
@@ -813,6 +834,7 @@ public class ComponentSampleModel extends SampleModel
      * @return the sample in a specified band for the specified pixel
      * @see #setSample(int, int, int, int, DataBuffer)
      */
+    @Override
     public int getSample(int x, int y, int b, DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
@@ -837,6 +859,7 @@ public class ComponentSampleModel extends SampleModel
      * @return a float value representing the sample in the specified
      * band for the specified pixel.
      */
+    @Override
     public float getSampleFloat(int x, int y, int b, DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
@@ -862,6 +885,7 @@ public class ComponentSampleModel extends SampleModel
      * @return a double value representing the sample in the specified
      * band for the specified pixel.
      */
+    @Override
     public double getSampleDouble(int x, int y, int b, DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
@@ -891,6 +915,7 @@ public class ComponentSampleModel extends SampleModel
      * @return the samples in the specified band of the specified pixel
      * @see #setSamples(int, int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public int[] getSamples(int x, int y, int w, int h, int b,
                             int iArray[], DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
@@ -956,6 +981,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      the DataBuffer containing the image data
      * @see #getDataElements(int, int, Object, DataBuffer)
      */
+    @Override
     public void setDataElements(int x, int y, Object obj, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -1033,6 +1059,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getPixel(int, int, int[], DataBuffer)
      */
+    @Override
     public void setPixel(int x, int y, int iArray[], DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -1058,6 +1085,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getPixels(int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           int iArray[], DataBuffer data) {
         int x1 = x + w;
@@ -1098,6 +1126,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      the DataBuffer containing the image data
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b, int s,
                           DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
@@ -1121,6 +1150,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b,
                           float s ,
                           DataBuffer data) {
@@ -1146,6 +1176,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b,
                           double s,
                           DataBuffer data) {
@@ -1173,6 +1204,7 @@ public class ComponentSampleModel extends SampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSamples(int, int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public void setSamples(int x, int y, int w, int h, int b,
                            int iArray[], DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
@@ -1193,6 +1225,7 @@ public class ComponentSampleModel extends SampleModel
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         if ((o == null) || !(o instanceof ComponentSampleModel)) {
             return false;
@@ -1212,6 +1245,7 @@ public class ComponentSampleModel extends SampleModel
     }
 
     // If we implement equals() we must also implement hashCode
+    @Override
     public int hashCode() {
         int hash = 0;
         hash = width;

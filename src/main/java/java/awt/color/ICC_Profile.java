@@ -740,6 +740,7 @@ public class ICC_Profile implements Serializable {
     ICC_Profile(ProfileDeferralInfo pdi) {
         this.deferralInfo = pdi;
         this.profileActivator = new ProfileActivator() {
+            @Override
             public void activate() throws ProfileDataException {
                 activateDeferredProfile();
             }
@@ -751,6 +752,7 @@ public class ICC_Profile implements Serializable {
     /**
      * Frees the resources associated with an ICC_Profile object.
      */
+    @Override
     protected void finalize () {
         if (cmmProfile != null) {
             CMSManager.getModule().freeProfile(cmmProfile);
@@ -927,6 +929,7 @@ public class ICC_Profile implements Serializable {
 
         return AccessController.doPrivileged(
             new PrivilegedAction<ICC_Profile>() {
+                 @Override
                  public ICC_Profile run() {
                      ICC_Profile p = null;
                      try {
@@ -1092,6 +1095,7 @@ public class ICC_Profile implements Serializable {
         profileActivator = null;
         deferralInfo = null;
         PrivilegedAction<FileInputStream> pa = new PrivilegedAction<FileInputStream>() {
+            @Override
             public FileInputStream run() {
                 File f = getStandardProfileFile(fileName);
                 if (f != null) {
@@ -1900,6 +1904,7 @@ public class ICC_Profile implements Serializable {
      */
     private static boolean standardProfileExists(final String fileName) {
         return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+                @Override
                 public Boolean run() {
                     return getStandardProfileFile(fileName) != null;
                 }

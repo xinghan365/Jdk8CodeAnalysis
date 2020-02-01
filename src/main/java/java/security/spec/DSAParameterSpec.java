@@ -65,6 +65,7 @@ java.security.interfaces.DSAParams {
      *
      * @return the prime {@code p}.
      */
+    @Override
     public BigInteger getP() {
         return this.p;
     }
@@ -74,6 +75,7 @@ java.security.interfaces.DSAParams {
      *
      * @return the sub-prime {@code q}.
      */
+    @Override
     public BigInteger getQ() {
         return this.q;
     }
@@ -83,6 +85,7 @@ java.security.interfaces.DSAParams {
      *
      * @return the base {@code g}.
      */
+    @Override
     public BigInteger getG() {
         return this.g;
     }

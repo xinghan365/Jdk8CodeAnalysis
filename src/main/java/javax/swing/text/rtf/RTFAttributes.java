@@ -208,6 +208,7 @@ class RTFAttributes
             rtfDefault = false;
         }
 
+        @Override
         public boolean set(MutableAttributeSet target)
         {
             /* TODO: There's some ambiguity about whether this should
@@ -217,6 +218,7 @@ class RTFAttributes
             return true;  /* true indicates we were successful */
         }
 
+        @Override
         public boolean set(MutableAttributeSet target, int parameter)
         {
             /* See above note in the case that parameter==1 */
@@ -227,14 +229,17 @@ class RTFAttributes
             return true; /* true indicates we were successful */
         }
 
+        @Override
         public boolean setDefault(MutableAttributeSet target)
         {
             if (swingDefault != rtfDefault ||
-                ( target.getAttribute(swingName) != null ) )
-              target.addAttribute(swingName, Boolean.valueOf(rtfDefault));
+                ( target.getAttribute(swingName) != null ) ) {
+                target.addAttribute(swingName, Boolean.valueOf(rtfDefault));
+            }
             return true;
         }
 
+        @Override
         public boolean writeValue(Object o_value,
                                   RTFGenerator target,
                                   boolean force)
@@ -242,10 +247,11 @@ class RTFAttributes
         {
             Boolean val;
 
-            if (o_value == null)
-              val = Boolean.valueOf(swingDefault);
-            else
-              val = (Boolean)o_value;
+            if (o_value == null) {
+                val = Boolean.valueOf(swingDefault);
+            } else {
+                val = (Boolean)o_value;
+            }
 
             if (force || (val.booleanValue() != rtfDefault)) {
                 if (val.booleanValue()) {
@@ -283,27 +289,32 @@ class RTFAttributes
             swingValue = Integer.valueOf(v);
         }
 
+        @Override
         public boolean set(MutableAttributeSet target)
         {
-            if (swingValue == null)
+            if (swingValue == null) {
                 target.removeAttribute(swingName);
-            else
+            } else {
                 target.addAttribute(swingName, swingValue);
+            }
 
             return true;
         }
 
+        @Override
         public boolean set(MutableAttributeSet target, int parameter)
         {
             return false;
         }
 
+        @Override
         public boolean setDefault(MutableAttributeSet target)
         {
             target.removeAttribute(swingName);
             return true;
         }
 
+        @Override
         public boolean writeValue(Object value,
                                   RTFGenerator target,
                                   boolean force)
@@ -366,45 +377,53 @@ class RTFAttributes
             return new NumericAttribute(d, s, r, null, dr, 20f);
         }
 
+        @Override
         public boolean set(MutableAttributeSet target)
         {
             return false;
         }
 
+        @Override
         public boolean set(MutableAttributeSet target, int parameter)
         {
             Number swingValue;
 
-            if (scale == 1f)
+            if (scale == 1f) {
                 swingValue = Integer.valueOf(parameter);
-            else
+            } else {
                 swingValue = new Float(parameter / scale);
+            }
             target.addAttribute(swingName, swingValue);
             return true;
         }
 
+        @Override
         public boolean setDefault(MutableAttributeSet target)
         {
             Number old = (Number)target.getAttribute(swingName);
-            if (old == null)
+            if (old == null) {
                 old = swingDefault;
+            }
             if (old != null && (
                     (scale == 1f && old.intValue() == rtfDefault) ||
                     (Math.round(old.floatValue() * scale) == rtfDefault)
-               ))
+               )) {
                 return true;
+            }
             set(target, rtfDefault);
             return true;
         }
 
+        @Override
         public boolean writeValue(Object o_value,
                                   RTFGenerator target,
                                   boolean force)
             throws IOException
         {
             Number value = (Number)o_value;
-            if (value == null)
+            if (value == null) {
                 value = swingDefault;
+            }
             if (value == null) {
                 /* TODO: What is the proper behavior if the Swing object does
                    not specify a value, and we don't know its default value?
@@ -413,8 +432,9 @@ class RTFAttributes
                 return true;
             }
             int int_value = Math.round(value.floatValue() * scale);
-            if (force || (int_value != rtfDefault))
+            if (force || (int_value != rtfDefault)) {
                 target.writeControlWord(rtfName, int_value);
+            }
             return true;
         }
     }

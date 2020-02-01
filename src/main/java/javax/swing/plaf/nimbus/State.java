@@ -184,27 +184,39 @@ public abstract class State<T extends JComponent>{
                 buffer.append("Default");
             }
             if ((state & SynthConstants.DISABLED) == SynthConstants.DISABLED) {
-                if (buffer.length() > 0) buffer.append("+");
+                if (buffer.length() > 0) {
+                    buffer.append("+");
+                }
                 buffer.append("Disabled");
             }
             if ((state & SynthConstants.ENABLED) == SynthConstants.ENABLED) {
-                if (buffer.length() > 0) buffer.append("+");
+                if (buffer.length() > 0) {
+                    buffer.append("+");
+                }
                 buffer.append("Enabled");
             }
             if ((state & SynthConstants.FOCUSED) == SynthConstants.FOCUSED) {
-                if (buffer.length() > 0) buffer.append("+");
+                if (buffer.length() > 0) {
+                    buffer.append("+");
+                }
                 buffer.append("Focused");
             }
             if ((state & SynthConstants.MOUSE_OVER) == SynthConstants.MOUSE_OVER) {
-                if (buffer.length() > 0) buffer.append("+");
+                if (buffer.length() > 0) {
+                    buffer.append("+");
+                }
                 buffer.append("MouseOver");
             }
             if ((state & SynthConstants.PRESSED) == SynthConstants.PRESSED) {
-                if (buffer.length() > 0) buffer.append("+");
+                if (buffer.length() > 0) {
+                    buffer.append("+");
+                }
                 buffer.append("Pressed");
             }
             if ((state & SynthConstants.SELECTED) == SynthConstants.SELECTED) {
-                if (buffer.length() > 0) buffer.append("+");
+                if (buffer.length() > 0) {
+                    buffer.append("+");
+                }
                 buffer.append("Selected");
             }
             return buffer.toString();

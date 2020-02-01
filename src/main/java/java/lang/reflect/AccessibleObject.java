@@ -92,7 +92,9 @@ public class AccessibleObject implements AnnotatedElement {
     public static void setAccessible(AccessibleObject[] array, boolean flag)
         throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(ACCESS_PERMISSION);
+        if (sm != null) {
+            sm.checkPermission(ACCESS_PERMISSION);
+        }
         for (int i = 0; i < array.length; i++) {
             setAccessible0(array[i], flag);
         }
@@ -125,7 +127,9 @@ public class AccessibleObject implements AnnotatedElement {
      */
     public void setAccessible(boolean flag) throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(ACCESS_PERMISSION);
+        if (sm != null) {
+            sm.checkPermission(ACCESS_PERMISSION);
+        }
         setAccessible0(this, flag);
     }
 
@@ -177,6 +181,7 @@ public class AccessibleObject implements AnnotatedElement {
      * @throws NullPointerException {@inheritDoc}
      * @since 1.5
      */
+    @Override
     public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
         throw new AssertionError("All subclasses should override this method");
     }
@@ -203,6 +208,7 @@ public class AccessibleObject implements AnnotatedElement {
     /**
      * @since 1.5
      */
+    @Override
     public Annotation[] getAnnotations() {
         return getDeclaredAnnotations();
     }
@@ -234,6 +240,7 @@ public class AccessibleObject implements AnnotatedElement {
     /**
      * @since 1.5
      */
+    @Override
     public Annotation[] getDeclaredAnnotations()  {
         throw new AssertionError("All subclasses should override this method");
     }

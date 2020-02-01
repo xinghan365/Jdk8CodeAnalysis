@@ -203,6 +203,7 @@ class TablePrintable implements Printable {
      *          NO_SUCH_PAGE if a non-existent page index is specified
      * @throws  PrinterException if an error causes printing to be aborted
      */
+    @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
                                                        throws PrinterException {
 

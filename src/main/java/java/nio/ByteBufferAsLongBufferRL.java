@@ -69,6 +69,7 @@ class ByteBufferAsLongBufferRL                  // package-private
 
     }
 
+    @Override
     public LongBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsLongBufferRL                  // package-private
         return new ByteBufferAsLongBufferRL(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public LongBuffer duplicate() {
         return new ByteBufferAsLongBufferRL(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsLongBufferRL                  // package-private
                                                     offset);
     }
 
+    @Override
     public LongBuffer asReadOnlyBuffer() {
 
 
@@ -123,6 +126,7 @@ class ByteBufferAsLongBufferRL                  // package-private
 
 
 
+    @Override
     public LongBuffer put(long x) {
 
 
@@ -132,6 +136,7 @@ class ByteBufferAsLongBufferRL                  // package-private
 
     }
 
+    @Override
     public LongBuffer put(int i, long x) {
 
 
@@ -141,6 +146,7 @@ class ByteBufferAsLongBufferRL                  // package-private
 
     }
 
+    @Override
     public LongBuffer compact() {
 
 
@@ -163,10 +169,12 @@ class ByteBufferAsLongBufferRL                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -213,6 +221,7 @@ class ByteBufferAsLongBufferRL                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
 

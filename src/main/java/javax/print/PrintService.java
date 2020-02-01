@@ -476,6 +476,7 @@ public interface PrintService {
      * @return true if this service is the same as the obj argument,
      * false otherwise.
      */
+    @Override
     public boolean equals(Object obj);
 
     /**
@@ -483,6 +484,7 @@ public interface PrintService {
      * <code>equals(Object)</code>.
      * @return hash code of this object.
      */
+    @Override
     public int hashCode();
 
 }

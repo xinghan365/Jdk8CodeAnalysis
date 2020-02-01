@@ -500,8 +500,9 @@ public abstract class Signature extends SignatureSpi {
                 && critSet.contains("2.5.29.15")) {
                 boolean[] keyUsageInfo = cert.getKeyUsage();
                 // keyUsageInfo[0] is for digitalSignature.
-                if ((keyUsageInfo != null) && (keyUsageInfo[0] == false))
+                if ((keyUsageInfo != null) && (keyUsageInfo[0] == false)) {
                     throw new InvalidKeyException("Wrong key usage");
+                }
             }
         }
 
@@ -808,6 +809,7 @@ public abstract class Signature extends SignatureSpi {
      *
      * @return a string representation of this signature object.
      */
+    @Override
     public String toString() {
         String initState = "";
         switch (state) {
@@ -926,6 +928,7 @@ public abstract class Signature extends SignatureSpi {
      * @exception CloneNotSupportedException if this is called
      * on an implementation that does not support {@code Cloneable}.
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         if (this instanceof Cloneable) {
             return super.clone();
@@ -990,6 +993,7 @@ public abstract class Signature extends SignatureSpi {
          * @exception CloneNotSupportedException if this is called on a
          * delegate that does not support {@code Cloneable}.
          */
+        @Override
         public Object clone() throws CloneNotSupportedException {
             chooseFirstProvider();
             if (sigSpi instanceof Cloneable) {
@@ -1034,6 +1038,7 @@ public abstract class Signature extends SignatureSpi {
          * delayed provider selection is not possible because initSign()/
          * initVerify() is not the first method called.
          */
+        @Override
         void chooseFirstProvider() {
             if (sigSpi != null) {
                 return;
@@ -1162,6 +1167,7 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected void engineInitVerify(PublicKey publicKey)
                 throws InvalidKeyException {
             if (sigSpi != null) {
@@ -1171,6 +1177,7 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected void engineInitSign(PrivateKey privateKey)
                 throws InvalidKeyException {
             if (sigSpi != null) {
@@ -1180,6 +1187,7 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected void engineInitSign(PrivateKey privateKey, SecureRandom sr)
                 throws InvalidKeyException {
             if (sigSpi != null) {
@@ -1189,63 +1197,74 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected void engineUpdate(byte b) throws SignatureException {
             chooseFirstProvider();
             sigSpi.engineUpdate(b);
         }
 
+        @Override
         protected void engineUpdate(byte[] b, int off, int len)
                 throws SignatureException {
             chooseFirstProvider();
             sigSpi.engineUpdate(b, off, len);
         }
 
+        @Override
         protected void engineUpdate(ByteBuffer data) {
             chooseFirstProvider();
             sigSpi.engineUpdate(data);
         }
 
+        @Override
         protected byte[] engineSign() throws SignatureException {
             chooseFirstProvider();
             return sigSpi.engineSign();
         }
 
+        @Override
         protected int engineSign(byte[] outbuf, int offset, int len)
                 throws SignatureException {
             chooseFirstProvider();
             return sigSpi.engineSign(outbuf, offset, len);
         }
 
+        @Override
         protected boolean engineVerify(byte[] sigBytes)
                 throws SignatureException {
             chooseFirstProvider();
             return sigSpi.engineVerify(sigBytes);
         }
 
+        @Override
         protected boolean engineVerify(byte[] sigBytes, int offset, int length)
                 throws SignatureException {
             chooseFirstProvider();
             return sigSpi.engineVerify(sigBytes, offset, length);
         }
 
+        @Override
         protected void engineSetParameter(String param, Object value)
                 throws InvalidParameterException {
             chooseFirstProvider();
             sigSpi.engineSetParameter(param, value);
         }
 
+        @Override
         protected void engineSetParameter(AlgorithmParameterSpec params)
                 throws InvalidAlgorithmParameterException {
             chooseFirstProvider();
             sigSpi.engineSetParameter(params);
         }
 
+        @Override
         protected Object engineGetParameter(String param)
                 throws InvalidParameterException {
             chooseFirstProvider();
             return sigSpi.engineGetParameter(param);
         }
 
+        @Override
         protected AlgorithmParameters engineGetParameters() {
             chooseFirstProvider();
             return sigSpi.engineGetParameters();
@@ -1264,6 +1283,7 @@ public abstract class Signature extends SignatureSpi {
             this.cipher = cipher;
         }
 
+        @Override
         protected void engineInitVerify(PublicKey publicKey)
                 throws InvalidKeyException {
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
@@ -1274,22 +1294,26 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected void engineInitSign(PrivateKey privateKey)
                 throws InvalidKeyException {
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             data = null;
         }
 
+        @Override
         protected void engineInitSign(PrivateKey privateKey,
-                SecureRandom random) throws InvalidKeyException {
+                                      SecureRandom random) throws InvalidKeyException {
             cipher.init(Cipher.ENCRYPT_MODE, privateKey, random);
             data = null;
         }
 
+        @Override
         protected void engineUpdate(byte b) throws SignatureException {
             engineUpdate(new byte[] {b}, 0, 1);
         }
 
+        @Override
         protected void engineUpdate(byte[] b, int off, int len)
                 throws SignatureException {
             if (data != null) {
@@ -1303,6 +1327,7 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected byte[] engineSign() throws SignatureException {
             try {
                 return cipher.doFinal();
@@ -1313,6 +1338,7 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected boolean engineVerify(byte[] sigBytes)
                 throws SignatureException {
             try {
@@ -1329,11 +1355,13 @@ public abstract class Signature extends SignatureSpi {
             }
         }
 
+        @Override
         protected void engineSetParameter(String param, Object value)
                 throws InvalidParameterException {
             throw new InvalidParameterException("Parameters not supported");
         }
 
+        @Override
         protected Object engineGetParameter(String param)
                 throws InvalidParameterException {
             throw new InvalidParameterException("Parameters not supported");

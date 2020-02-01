@@ -294,6 +294,7 @@ public class InvocationEvent extends AWTEvent implements ActiveEvent {
      *
      * @see #isDispatched
      */
+    @Override
     public void dispatch() {
         try {
             if (catchExceptions) {
@@ -409,6 +410,7 @@ public class InvocationEvent extends AWTEvent implements ActiveEvent {
      *
      * @return  A string identifying the event and its attributes
      */
+    @Override
     public String paramString() {
         String typeStr;
         switch(id) {

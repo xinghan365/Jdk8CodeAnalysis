@@ -257,26 +257,32 @@ public abstract class AWTEvent extends EventObject {
         }
         AWTAccessor.setAWTEventAccessor(
             new AWTAccessor.AWTEventAccessor() {
+                @Override
                 public void setPosted(AWTEvent ev) {
                     ev.isPosted = true;
                 }
 
+                @Override
                 public void setSystemGenerated(AWTEvent ev) {
                     ev.isSystemGenerated = true;
                 }
 
+                @Override
                 public boolean isSystemGenerated(AWTEvent ev) {
                     return ev.isSystemGenerated;
                 }
 
+                @Override
                 public AccessControlContext getAccessControlContext(AWTEvent ev) {
                     return ev.getAccessControlContext();
                 }
 
+                @Override
                 public byte[] getBData(AWTEvent ev) {
                     return ev.bdata;
                 }
 
+                @Override
                 public void setBData(AWTEvent ev, byte[] bdata) {
                     ev.bdata = bdata;
                 }
@@ -289,6 +295,7 @@ public abstract class AWTEvent extends EventObject {
             inputEvent_CanAccessSystemClipboard_Field =
                 java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction<Field>() {
+                            @Override
                             public Field run() {
                                 Field field = null;
                                 try {
@@ -396,6 +403,7 @@ public abstract class AWTEvent extends EventObject {
     /**
      * Returns a String representation of this object.
      */
+    @Override
     public String toString() {
         String srcName = null;
         if (source instanceof Component) {

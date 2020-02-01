@@ -140,14 +140,17 @@ public final class DelegationPermission extends BasicPermission
      * @return true if the specified permission is implied by this object,
      * false if not.
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof DelegationPermission))
+        if (!(p instanceof DelegationPermission)) {
             return false;
+        }
 
         DelegationPermission that = (DelegationPermission) p;
         if (this.subordinate.equals(that.subordinate) &&
-            this.service.equals(that.service))
+            this.service.equals(that.service)) {
             return true;
+        }
 
         return false;
     }
@@ -162,12 +165,15 @@ public final class DelegationPermission extends BasicPermission
      *  has the same subordinate and service principal as this.
      *  DelegationPermission object.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (! (obj instanceof DelegationPermission))
+        if (! (obj instanceof DelegationPermission)) {
             return false;
+        }
 
         DelegationPermission that = (DelegationPermission) obj;
         return implies(that);
@@ -178,6 +184,7 @@ public final class DelegationPermission extends BasicPermission
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return getName().hashCode();
     }
@@ -196,6 +203,7 @@ public final class DelegationPermission extends BasicPermission
      * DelegationPermissions.
      */
 
+    @Override
     public PermissionCollection newPermissionCollection() {
         return new KrbDelegationPermissionCollection();
     }
@@ -282,14 +290,17 @@ final class KrbDelegationPermissionCollection extends PermissionCollection
      * @return true if "permission" is a proper subset of a permission in
      * the collection, false if not.
      */
+    @Override
     public boolean implies(Permission permission) {
-        if (! (permission instanceof DelegationPermission))
-                return false;
+        if (! (permission instanceof DelegationPermission)) {
+            return false;
+        }
 
         synchronized (this) {
             for (Permission x : perms) {
-                if (x.implies(permission))
+                if (x.implies(permission)) {
                     return true;
+                }
             }
         }
         return false;
@@ -308,12 +319,15 @@ final class KrbDelegationPermissionCollection extends PermissionCollection
      * @exception SecurityException - if this PermissionCollection object
      *                                has been marked readonly
      */
+    @Override
     public void add(Permission permission) {
-        if (! (permission instanceof DelegationPermission))
+        if (! (permission instanceof DelegationPermission)) {
             throw new IllegalArgumentException("invalid permission: "+
                                                permission);
-        if (isReadOnly())
+        }
+        if (isReadOnly()) {
             throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        }
 
         synchronized (this) {
             perms.add(0, permission);
@@ -326,6 +340,7 @@ final class KrbDelegationPermissionCollection extends PermissionCollection
      *
      * @return an enumeration of all the DelegationPermission objects.
      */
+    @Override
     public Enumeration<Permission> elements() {
         // Convert Iterator into Enumeration
         synchronized (this) {

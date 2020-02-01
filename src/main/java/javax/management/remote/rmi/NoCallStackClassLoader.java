@@ -96,15 +96,18 @@ class NoCallStackClassLoader extends ClassLoader {
         /* Validation. */
         if (classNames == null || classNames.length == 0
             || byteCodes == null || classNames.length != byteCodes.length
-            || referencedClassNames == null || protectionDomain == null)
+            || referencedClassNames == null || protectionDomain == null) {
             throw new IllegalArgumentException();
+        }
         for (int i = 0; i < classNames.length; i++) {
-            if (classNames[i] == null || byteCodes[i] == null)
+            if (classNames[i] == null || byteCodes[i] == null) {
                 throw new IllegalArgumentException();
+            }
         }
         for (int i = 0; i < referencedClassNames.length; i++) {
-            if (referencedClassNames[i] == null)
+            if (referencedClassNames[i] == null) {
                 throw new IllegalArgumentException();
+            }
         }
 
         this.classNames = classNames;
@@ -134,8 +137,9 @@ class NoCallStackClassLoader extends ClassLoader {
          */
         if (referencedClassLoader != null) {
             for (int i = 0; i < referencedClassNames.length; i++) {
-                if (name.equals(referencedClassNames[i]))
+                if (name.equals(referencedClassNames[i])) {
                     return referencedClassLoader.loadClass(name);
+                }
             }
         }
 
@@ -175,8 +179,9 @@ class NoCallStackClassLoader extends ClassLoader {
     public static byte[] stringToBytes(String s) {
         final int slen = s.length();
         byte[] bytes = new byte[slen];
-        for (int i = 0; i < slen; i++)
+        for (int i = 0; i < slen; i++) {
             bytes[i] = (byte) s.charAt(i);
+        }
         return bytes;
     }
 }

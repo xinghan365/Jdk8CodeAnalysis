@@ -187,6 +187,7 @@ public class JRadioButtonMenuItem extends JMenuItem implements Accessible {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -219,6 +220,7 @@ public class JRadioButtonMenuItem extends JMenuItem implements Accessible {
      * @return  a string representation of this
      *          <code>JRadioButtonMenuItem</code>
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -227,6 +229,7 @@ public class JRadioButtonMenuItem extends JMenuItem implements Accessible {
      * Overriden to return true, JRadioButtonMenuItem supports
      * the selected state.
      */
+    @Override
     boolean shouldUpdateSelectedStateFromAction() {
         return true;
     }
@@ -244,6 +247,7 @@ public class JRadioButtonMenuItem extends JMenuItem implements Accessible {
      * @return an AccessibleJRadioButtonMenuItem that serves as the
      *         AccessibleContext of this JRadioButtonMenuItem
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJRadioButtonMenuItem();
@@ -273,6 +277,7 @@ public class JRadioButtonMenuItem extends JMenuItem implements Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.RADIO_BUTTON;
         }

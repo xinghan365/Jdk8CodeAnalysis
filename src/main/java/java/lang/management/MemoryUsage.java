@@ -236,6 +236,7 @@ public class MemoryUsage {
     /**
      * Returns a descriptive representation of this memory usage.
      */
+    @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append("init = " + init + "(" + (init >> 10) + "K) ");

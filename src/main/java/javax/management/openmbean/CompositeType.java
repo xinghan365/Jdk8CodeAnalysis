@@ -298,6 +298,7 @@ public class CompositeType extends OpenType<CompositeData> {
      * @return <code>true</code> if <var>obj</var> is a value for this
      * composite type, <code>false</code> otherwise.
      */
+    @Override
     public boolean isValue(Object obj) {
 
         // if obj is null or not CompositeData, return false
@@ -330,17 +331,20 @@ public class CompositeType extends OpenType<CompositeData> {
      */
     @Override
     boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof CompositeType))
+        if (!(ot instanceof CompositeType)) {
             return false;
+        }
         CompositeType ct = (CompositeType) ot;
-        if (!ct.getTypeName().equals(getTypeName()))
+        if (!ct.getTypeName().equals(getTypeName())) {
             return false;
+        }
         for (String key : keySet()) {
             OpenType<?> otItemType = ct.getType(key);
             OpenType<?> thisItemType = getType(key);
             if (otItemType == null ||
-                    !thisItemType.isAssignableFrom(otItemType))
+                    !thisItemType.isAssignableFrom(otItemType)) {
                 return false;
+            }
         }
         return true;
     }
@@ -362,6 +366,7 @@ public class CompositeType extends OpenType<CompositeData> {
      *
      * @return  <code>true</code> if the specified object is equal to this <code>CompositeType</code> instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         // if obj is null, return false
@@ -413,6 +418,7 @@ public class CompositeType extends OpenType<CompositeData> {
      *
      * @return  the hash code value for this <code>CompositeType</code> instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
@@ -444,6 +450,7 @@ public class CompositeType extends OpenType<CompositeData> {
      *
      * @return  a string representation of this <code>CompositeType</code> instance
      */
+    @Override
     public String toString() {
 
         // Calculate the string representation if it has not yet been done (ie 1st call to toString())
@@ -459,7 +466,9 @@ public class CompositeType extends OpenType<CompositeData> {
             String key;
             while (k.hasNext()) {
                 key = k.next();
-                if (i > 0) result.append(",");
+                if (i > 0) {
+                    result.append(",");
+                }
                 result.append("(itemName=");
                 result.append(key);
                 result.append(",itemType=");

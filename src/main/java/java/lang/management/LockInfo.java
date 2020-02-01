@@ -158,6 +158,7 @@ public class LockInfo {
      *
      * @return the string representation of a lock.
      */
+    @Override
     public String toString() {
         return className + '@' + Integer.toHexString(identityHashCode);
     }

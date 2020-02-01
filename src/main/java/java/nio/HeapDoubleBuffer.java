@@ -94,6 +94,7 @@ class HeapDoubleBuffer
 
     }
 
+    @Override
     public DoubleBuffer slice() {
         return new HeapDoubleBuffer(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapDoubleBuffer
                                         this.position() + offset);
     }
 
+    @Override
     public DoubleBuffer duplicate() {
         return new HeapDoubleBuffer(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapDoubleBuffer
                                         offset);
     }
 
+    @Override
     public DoubleBuffer asReadOnlyBuffer() {
 
         return new HeapDoubleBufferR(hb,
@@ -131,10 +134,12 @@ class HeapDoubleBuffer
         return i + offset;
     }
 
+    @Override
     public double get() {
         return hb[ix(nextGetIndex())];
     }
 
+    @Override
     public double get(int i) {
         return hb[ix(checkIndex(i))];
     }
@@ -145,25 +150,30 @@ class HeapDoubleBuffer
 
 
 
+    @Override
     public DoubleBuffer get(double[] dst, int offset, int length) {
         checkBounds(offset, length, dst.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferUnderflowException();
+        }
         System.arraycopy(hb, ix(position()), dst, offset, length);
         position(position() + length);
         return this;
     }
 
+    @Override
     public boolean isDirect() {
         return false;
     }
 
 
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public DoubleBuffer put(double x) {
 
         hb[ix(nextPutIndex())] = x;
@@ -173,6 +183,7 @@ class HeapDoubleBuffer
 
     }
 
+    @Override
     public DoubleBuffer put(int i, double x) {
 
         hb[ix(checkIndex(i))] = x;
@@ -182,11 +193,13 @@ class HeapDoubleBuffer
 
     }
 
+    @Override
     public DoubleBuffer put(double[] src, int offset, int length) {
 
         checkBounds(offset, length, src.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferOverflowException();
+        }
         System.arraycopy(src, offset, hb, ix(position()), length);
         position(position() + length);
         return this;
@@ -195,23 +208,27 @@ class HeapDoubleBuffer
 
     }
 
+    @Override
     public DoubleBuffer put(DoubleBuffer src) {
 
         if (src instanceof HeapDoubleBuffer) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             HeapDoubleBuffer sb = (HeapDoubleBuffer)src;
             int n = sb.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             System.arraycopy(sb.hb, sb.ix(sb.position()),
                              hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
             int n = src.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             src.get(hb, ix(position()), n);
             position(position() + n);
         } else {
@@ -223,6 +240,7 @@ class HeapDoubleBuffer
 
     }
 
+    @Override
     public DoubleBuffer compact() {
 
         System.arraycopy(hb, ix(position()), hb, ix(0), remaining());
@@ -592,6 +610,7 @@ class HeapDoubleBuffer
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

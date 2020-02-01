@@ -129,8 +129,9 @@ public class ElementScanner6<R, P> extends AbstractElementVisitor6<R, P> {
      */
     public final R scan(Iterable<? extends Element> iterable, P p) {
         R result = DEFAULT_VALUE;
-        for(Element e : iterable)
+        for(Element e : iterable) {
             result = scan(e, p);
+        }
         return result;
     }
 
@@ -163,6 +164,7 @@ public class ElementScanner6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p  {@inheritDoc}
      * @return the result of scanning
      */
+    @Override
     public R visitPackage(PackageElement e, P p) {
         return scan(e.getEnclosedElements(), p);
     }
@@ -174,6 +176,7 @@ public class ElementScanner6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p  {@inheritDoc}
      * @return the result of scanning
      */
+    @Override
     public R visitType(TypeElement e, P p) {
         return scan(e.getEnclosedElements(), p);
     }
@@ -189,11 +192,13 @@ public class ElementScanner6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p  {@inheritDoc}
      * @return the result of scanning
      */
+    @Override
     public R visitVariable(VariableElement e, P p) {
-        if (e.getKind() != ElementKind.RESOURCE_VARIABLE)
+        if (e.getKind() != ElementKind.RESOURCE_VARIABLE) {
             return scan(e.getEnclosedElements(), p);
-        else
+        } else {
             return visitUnknown(e, p);
+        }
     }
 
     /**
@@ -203,6 +208,7 @@ public class ElementScanner6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p  {@inheritDoc}
      * @return the result of scanning
      */
+    @Override
     public R visitExecutable(ExecutableElement e, P p) {
         return scan(e.getParameters(), p);
     }
@@ -214,6 +220,7 @@ public class ElementScanner6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p  {@inheritDoc}
      * @return the result of scanning
      */
+    @Override
     public R visitTypeParameter(TypeParameterElement e, P p) {
         return scan(e.getEnclosedElements(), p);
     }

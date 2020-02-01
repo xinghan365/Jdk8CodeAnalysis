@@ -408,12 +408,14 @@ public class MouseEvent extends InputEvent {
         }
         AWTAccessor.setMouseEventAccessor(
             new AWTAccessor.MouseEventAccessor() {
+                @Override
                 public boolean isCausedByTouchEvent(MouseEvent ev) {
                     return ev.causedByTouchEvent;
                 }
 
+                @Override
                 public void setCausedByTouchEvent(MouseEvent ev,
-                    boolean causedByTouchEvent) {
+                                                  boolean causedByTouchEvent) {
                     ev.causedByTouchEvent = causedByTouchEvent;
                 }
             });
@@ -646,6 +648,7 @@ public class MouseEvent extends InputEvent {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getModifiersEx() {
         int tmpModifiers = modifiers;
         if (shouldExcludeButtonFromExtModifiers) {
@@ -1020,6 +1023,7 @@ public class MouseEvent extends InputEvent {
      *
      * @return a string identifying the event and its attributes
      */
+    @Override
     public String paramString() {
         StringBuilder str = new StringBuilder(80);
 

@@ -203,6 +203,7 @@ public interface ResultSet extends Wrapper, AutoCloseable {
      *
      * @exception SQLException if a database access error occurs
      */
+    @Override
     void close() throws SQLException;
 
     /**

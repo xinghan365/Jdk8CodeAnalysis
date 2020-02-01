@@ -150,7 +150,9 @@ class CSSParser {
                 parseDeclarationBlock();
             }
             else {
-                while (getNextStatement());
+                while (getNextStatement()) {
+                    ;
+                }
             }
         } finally {
             callback = null;

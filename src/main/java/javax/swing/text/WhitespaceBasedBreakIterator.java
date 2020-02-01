@@ -43,6 +43,7 @@ class WhitespaceBasedBreakIterator extends BreakIterator {
     /**
      * Calculate break positions eagerly parallel to reading text.
      */
+    @Override
     public void setText(CharacterIterator ci) {
         int begin = ci.getBeginIndex();
         text = new char[ci.getEndIndex() - begin];
@@ -67,38 +68,47 @@ class WhitespaceBasedBreakIterator extends BreakIterator {
         System.arraycopy(breaks0, 0, breaks = new int[brIx], 0, brIx);
     }
 
+    @Override
     public CharacterIterator getText() {
         return new StringCharacterIterator(new String(text));
     }
 
+    @Override
     public int first() {
         return breaks[pos = 0];
     }
 
+    @Override
     public int last() {
         return breaks[pos = breaks.length - 1];
     }
 
+    @Override
     public int current() {
         return breaks[pos];
     }
 
+    @Override
     public int next() {
         return (pos == breaks.length - 1 ? DONE : breaks[++pos]);
     }
 
+    @Override
     public int previous() {
         return (pos == 0 ? DONE : breaks[--pos]);
     }
 
+    @Override
     public int next(int n) {
         return checkhit(pos + n);
     }
 
+    @Override
     public int following(int n) {
         return adjacent(n, 1);
     }
 
+    @Override
     public int preceding(int n) {
         return adjacent(n, -1);
     }

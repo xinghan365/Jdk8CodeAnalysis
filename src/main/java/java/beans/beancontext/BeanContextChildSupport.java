@@ -97,8 +97,11 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * property
      * @throws PropertyVetoException if the change is rejected
      */
+    @Override
     public synchronized void setBeanContext(BeanContext bc) throws PropertyVetoException {
-        if (bc == beanContext) return;
+        if (bc == beanContext) {
+            return;
+        }
 
         BeanContext oldValue = beanContext;
         BeanContext newValue = bc;
@@ -123,7 +126,9 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
             }
         }
 
-        if (beanContext != null) releaseBeanContextResources();
+        if (beanContext != null) {
+            releaseBeanContextResources();
+        }
 
         beanContext       = newValue;
         rejectedSetBCOnce = false;
@@ -133,7 +138,9 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
                            newValue
         );
 
-        if (beanContext != null) initializeBeanContextResources();
+        if (beanContext != null) {
+            initializeBeanContextResources();
+        }
     }
 
     /**
@@ -142,6 +149,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * @return the nesting <code>BeanContext</code> for
      * this <code>BeanContextChildSupport</code>.
      */
+    @Override
     public synchronized BeanContext getBeanContext() { return beanContext; }
 
     /**
@@ -155,6 +163,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * @param name The name of the property to listen on
      * @param pcl The <code>PropertyChangeListener</code> to be added
      */
+    @Override
     public void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
         pcSupport.addPropertyChangeListener(name, pcl);
     }
@@ -172,6 +181,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * @param name The name of the property that was listened on
      * @param pcl The PropertyChangeListener to be removed
      */
+    @Override
     public void removePropertyChangeListener(String name, PropertyChangeListener pcl) {
         pcSupport.removePropertyChangeListener(name, pcl);
     }
@@ -187,6 +197,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * @param name The name of the property to listen on
      * @param vcl The <code>VetoableChangeListener</code> to be added
      */
+    @Override
     public void addVetoableChangeListener(String name, VetoableChangeListener vcl) {
         vcSupport.addVetoableChangeListener(name, vcl);
     }
@@ -204,6 +215,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * @param name The name of the property that was listened on
      * @param vcl The <code>VetoableChangeListener</code> to be removed
      */
+    @Override
     public void removeVetoableChangeListener(String name, VetoableChangeListener vcl) {
         vcSupport.removeVetoableChangeListener(name, vcl);
     }
@@ -216,6 +228,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * @param bcsre The <code>BeanContextServiceRevokedEvent</code> fired as a
      * result of a service being revoked
      */
+    @Override
     public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) { }
 
     /**
@@ -227,6 +240,7 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
      * result of a service becoming available
      *
      */
+    @Override
     public void serviceAvailable(BeanContextServiceAvailableEvent bcsae) { }
 
     /**
@@ -321,11 +335,11 @@ public class BeanContextChildSupport implements BeanContextChild, BeanContextSer
          * serializable.
          */
 
-        if (!equals(beanContextChildPeer) && !(beanContextChildPeer instanceof Serializable))
+        if (!equals(beanContextChildPeer) && !(beanContextChildPeer instanceof Serializable)) {
             throw new IOException("BeanContextChildSupport beanContextChildPeer not Serializable");
-
-        else
+        } else {
             oos.defaultWriteObject();
+        }
 
     }
 

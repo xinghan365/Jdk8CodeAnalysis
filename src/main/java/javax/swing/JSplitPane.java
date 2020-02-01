@@ -343,16 +343,19 @@ public class JSplitPane extends JComponent implements Accessible
         setLayout(null);
         setUIProperty("opaque", Boolean.TRUE);
         orientation = newOrientation;
-        if (orientation != HORIZONTAL_SPLIT && orientation != VERTICAL_SPLIT)
+        if (orientation != HORIZONTAL_SPLIT && orientation != VERTICAL_SPLIT) {
             throw new IllegalArgumentException("cannot create JSplitPane, " +
                                                "orientation must be one of " +
                                                "JSplitPane.HORIZONTAL_SPLIT " +
                                                "or JSplitPane.VERTICAL_SPLIT");
+        }
         continuousLayout = newContinuousLayout;
-        if (newLeftComponent != null)
+        if (newLeftComponent != null) {
             setLeftComponent(newLeftComponent);
-        if (newRightComponent != null)
+        }
+        if (newRightComponent != null) {
             setRightComponent(newRightComponent);
+        }
         updateUI();
 
     }
@@ -398,6 +401,7 @@ public class JSplitPane extends JComponent implements Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((SplitPaneUI)UIManager.getUI(this));
         revalidate();
@@ -414,6 +418,7 @@ public class JSplitPane extends JComponent implements Accessible
      *       expert: true
      *  description: A string that specifies the name of the L&amp;F class.
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -882,6 +887,7 @@ public class JSplitPane extends JComponent implements Accessible
      *
      * @param component the <code>Component</code> to remove
      */
+    @Override
     public void remove(Component component) {
         if (component == leftComponent) {
             leftComponent = null;
@@ -905,6 +911,7 @@ public class JSplitPane extends JComponent implements Accessible
      *        1 specifies the left/top component and 2 specifies the
      *        bottom/right component
      */
+    @Override
     public void remove(int index) {
         Component    comp = getComponent(index);
 
@@ -926,6 +933,7 @@ public class JSplitPane extends JComponent implements Accessible
      * <code>leftComonent</code> and <code>rightComponent</code>
      * instance variables.
      */
+    @Override
     public void removeAll() {
         leftComponent = rightComponent = null;
         super.removeAll();
@@ -985,6 +993,7 @@ public class JSplitPane extends JComponent implements Accessible
      *          object does not match an existing component
      * @see java.awt.Container#addImpl(Component, Object, int)
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index)
     {
         Component             toRemove;
@@ -1043,6 +1052,7 @@ public class JSplitPane extends JComponent implements Accessible
      *
      * @param g the <code>Graphics</code> context within which to paint
      */
+    @Override
     protected void paintChildren(Graphics g) {
         super.paintChildren(g);
 
@@ -1072,6 +1082,7 @@ public class JSplitPane extends JComponent implements Accessible
         }
     }
 
+    @Override
     void setUIProperty(String propertyName, Object value) {
         if (propertyName == "dividerSize") {
             if (!dividerSizeSet) {
@@ -1099,6 +1110,7 @@ public class JSplitPane extends JComponent implements Accessible
      *
      * @return  a string representation of this <code>JSplitPane</code>.
      */
+    @Override
     protected String paramString() {
         String orientationString = (orientation == HORIZONTAL_SPLIT ?
                                     "HORIZONTAL_SPLIT" : "VERTICAL_SPLIT");
@@ -1134,6 +1146,7 @@ public class JSplitPane extends JComponent implements Accessible
      *       expert: true
      *  description: The AccessibleContext associated with this SplitPane.
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJSplitPane();
@@ -1165,6 +1178,7 @@ public class JSplitPane extends JComponent implements Accessible
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             // FIXME: [[[WDW - Should also add BUSY if this implements
@@ -1187,6 +1201,7 @@ public class JSplitPane extends JComponent implements Accessible
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -1197,6 +1212,7 @@ public class JSplitPane extends JComponent implements Accessible
          *
          * @return a localized String describing the value of this object
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(getDividerLocation());
         }
@@ -1207,6 +1223,7 @@ public class JSplitPane extends JComponent implements Accessible
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // TIGER - 4422535
             if (n == null) {
@@ -1222,6 +1239,7 @@ public class JSplitPane extends JComponent implements Accessible
          *
          * @return The minimum value of this object.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(getUI().getMinimumDividerLocation(
                                                         JSplitPane.this));
@@ -1233,6 +1251,7 @@ public class JSplitPane extends JComponent implements Accessible
          *
          * @return The maximum value of this object.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.valueOf(getUI().getMaximumDividerLocation(
                                                         JSplitPane.this));
@@ -1246,6 +1265,7 @@ public class JSplitPane extends JComponent implements Accessible
          * the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SPLIT_PANE;
         }

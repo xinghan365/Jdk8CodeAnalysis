@@ -170,7 +170,9 @@ public final class MarshalledObject<T> implements Serializable {
      */
     public T get() throws IOException, ClassNotFoundException {
         if (objBytes == null)   // must have been a null object
+        {
             return null;
+        }
 
         ByteArrayInputStream bin = new ByteArrayInputStream(objBytes);
         // locBytes is null if no annotations
@@ -189,6 +191,7 @@ public final class MarshalledObject<T> implements Serializable {
      *
      * @return a hash code
      */
+    @Override
     public int hashCode() {
         return hash;
     }
@@ -208,26 +211,31 @@ public final class MarshalledObject<T> implements Serializable {
      * serialized object; <code>false</code> otherwise
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
         if (obj != null && obj instanceof MarshalledObject) {
             MarshalledObject<?> other = (MarshalledObject<?>) obj;
 
             // if either is a ref to null, both must be
-            if (objBytes == null || other.objBytes == null)
+            if (objBytes == null || other.objBytes == null) {
                 return objBytes == other.objBytes;
+            }
 
             // quick, easy test
-            if (objBytes.length != other.objBytes.length)
+            if (objBytes.length != other.objBytes.length) {
                 return false;
+            }
 
             //!! There is talk about adding an array comparision method
             //!! at 1.2 -- if so, this should be rewritten.  -arnold
             for (int i = 0; i < objBytes.length; ++i) {
-                if (objBytes[i] != other.objBytes[i])
+                if (objBytes[i] != other.objBytes[i]) {
                     return false;
+                }
             }
             return true;
         } else {
@@ -284,12 +292,14 @@ public final class MarshalledObject<T> implements Serializable {
          * Overrides MarshalOutputStream.writeLocation implementation to write
          * annotations to the location stream.
          */
+        @Override
         protected void writeLocation(String loc) throws IOException {
             hadAnnotations |= (loc != null);
             locOut.writeObject(loc);
         }
 
 
+        @Override
         public void flush() throws IOException {
             super.flush();
             locOut.flush();
@@ -342,6 +352,7 @@ public final class MarshalledObject<T> implements Serializable {
          * the stream we were given, or <code>null</code> if we were given a
          * <code>null</code> location stream.
          */
+        @Override
         protected Object readLocation()
             throws IOException, ClassNotFoundException
         {

@@ -47,8 +47,9 @@ public class UnknownFormatConversionException extends IllegalFormatException {
      *         Unknown conversion
      */
     public UnknownFormatConversionException(String s) {
-        if (s == null)
+        if (s == null) {
             throw new NullPointerException();
+        }
         this.s = s;
     }
 
@@ -62,6 +63,7 @@ public class UnknownFormatConversionException extends IllegalFormatException {
     }
 
     // javadoc inherited from Throwable.java
+    @Override
     public String getMessage() {
         return String.format("Conversion = '%s'", s);
     }

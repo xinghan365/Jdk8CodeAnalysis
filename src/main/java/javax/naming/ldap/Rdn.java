@@ -285,6 +285,7 @@ public class Rdn implements Serializable, Comparable<Object> {
      *
      * @return The string representation of the Rdn.
      */
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         int size = entries.size();
@@ -316,6 +317,7 @@ public class Rdn implements Serializable, Comparable<Object> {
      *          is less than, equal to, or greater than the given Object.
      * @exception ClassCastException if obj is null or not a Rdn.
      */
+    @Override
     public int compareTo(Object obj) {
         if (!(obj instanceof Rdn)) {
             throw new ClassCastException("The obj is not a Rdn");
@@ -357,6 +359,7 @@ public class Rdn implements Serializable, Comparable<Object> {
      * @return true if the specified object is equal to this Rdn.
      * @see #hashCode()
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -384,6 +387,7 @@ public class Rdn implements Serializable, Comparable<Object> {
      * @return An int representing the hash code of this Rdn.
      * @see #equals
      */
+    @Override
     public int hashCode() {
 
         // Sum up the hash codes of the components.
@@ -433,6 +437,7 @@ public class Rdn implements Serializable, Comparable<Object> {
             return value;
         }
 
+        @Override
         public int compareTo(RdnEntry that) {
             int diff = type.compareToIgnoreCase(that.type);
             if (diff != 0) {
@@ -445,6 +450,7 @@ public class Rdn implements Serializable, Comparable<Object> {
                         that.getValueComparable());
         }
 
+        @Override
         public boolean equals(Object obj) {
             if (obj == this) {
                 return true;
@@ -460,11 +466,13 @@ public class Rdn implements Serializable, Comparable<Object> {
                         that.getValueComparable()));
         }
 
+        @Override
         public int hashCode() {
             return (type.toUpperCase(Locale.ENGLISH).hashCode() +
                 getValueComparable().hashCode());
         }
 
+        @Override
         public String toString() {
             return type + "=" + escapeValue(value);
         }

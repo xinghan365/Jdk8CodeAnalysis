@@ -42,6 +42,7 @@ public final class DiagnosticCollector<S> implements DiagnosticListener<S> {
     private List<Diagnostic<? extends S>> diagnostics =
         Collections.synchronizedList(new ArrayList<Diagnostic<? extends S>>());
 
+    @Override
     public void report(Diagnostic<? extends S> diagnostic) {
         diagnostic.getClass(); // null check
         diagnostics.add(diagnostic);

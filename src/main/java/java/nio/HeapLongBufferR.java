@@ -94,6 +94,7 @@ class HeapLongBufferR
 
     }
 
+    @Override
     public LongBuffer slice() {
         return new HeapLongBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapLongBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public LongBuffer duplicate() {
         return new HeapLongBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapLongBufferR
                                         offset);
     }
 
+    @Override
     public LongBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapLongBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public LongBuffer put(long x) {
 
 
@@ -173,6 +178,7 @@ class HeapLongBufferR
 
     }
 
+    @Override
     public LongBuffer put(int i, long x) {
 
 
@@ -182,6 +188,7 @@ class HeapLongBufferR
 
     }
 
+    @Override
     public LongBuffer put(long[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapLongBufferR
 
     }
 
+    @Override
     public LongBuffer put(LongBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapLongBufferR
 
     }
 
+    @Override
     public LongBuffer compact() {
 
 
@@ -592,6 +601,7 @@ class HeapLongBufferR
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

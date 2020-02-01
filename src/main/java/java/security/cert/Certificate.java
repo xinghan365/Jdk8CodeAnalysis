@@ -102,6 +102,7 @@ public abstract class Certificate implements java.io.Serializable {
      * @return true iff the encoded forms of the two certificates
      * match, false otherwise.
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
@@ -125,6 +126,7 @@ public abstract class Certificate implements java.io.Serializable {
      *
      * @return the hashcode value.
      */
+    @Override
     public int hashCode() {
         int h = hash;
         if (h == -1) {
@@ -224,6 +226,7 @@ public abstract class Certificate implements java.io.Serializable {
      *
      * @return a string representation of this certificate.
      */
+    @Override
     public abstract String toString();
 
     /**

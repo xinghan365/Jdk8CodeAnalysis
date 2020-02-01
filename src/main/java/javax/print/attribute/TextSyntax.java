@@ -107,6 +107,7 @@ public abstract class TextSyntax implements Serializable, Cloneable {
      *
      * @return  A hashcode value for this object.
      */
+    @Override
     public int hashCode() {
         return value.hashCode() ^ locale.hashCode();
     }
@@ -132,6 +133,7 @@ public abstract class TextSyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this text
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return(object != null &&
                object instanceof TextSyntax &&
@@ -145,6 +147,7 @@ public abstract class TextSyntax implements Serializable, Cloneable {
      *
      * @return  A String identifying this object.
      */
+    @Override
     public String toString(){
         return value;
     }

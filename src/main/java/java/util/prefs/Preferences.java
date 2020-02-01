@@ -229,6 +229,7 @@ public abstract class Preferences {
         // 1. Try user-specified system property
         String factoryName = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return System.getProperty(
                         "java.util.prefs.PreferencesFactory");}});
@@ -265,6 +266,7 @@ public abstract class Preferences {
 
         return AccessController.doPrivileged(
             new PrivilegedAction<PreferencesFactory>() {
+                @Override
                 public PreferencesFactory run() {
                     return factory1();}});
     }
@@ -420,13 +422,15 @@ public abstract class Preferences {
      *         node associated with it.
      */
     private static String nodeName(Class<?> c) {
-        if (c.isArray())
+        if (c.isArray()) {
             throw new IllegalArgumentException(
                 "Arrays have no associated preferences node.");
+        }
         String className = c.getName();
         int pkgEndIndex = className.lastIndexOf('.');
-        if (pkgEndIndex < 0)
+        if (pkgEndIndex < 0) {
             return "/<unnamed>";
+        }
         String packageName = className.substring(0, pkgEndIndex);
         return "/" + packageName.replace('.', '/');
     }
@@ -448,8 +452,9 @@ public abstract class Preferences {
      */
     public static Preferences userRoot() {
         SecurityManager security = System.getSecurityManager();
-        if (security != null)
+        if (security != null) {
             security.checkPermission(prefsPerm);
+        }
 
         return factory.userRoot();
     }
@@ -464,8 +469,9 @@ public abstract class Preferences {
      */
     public static Preferences systemRoot() {
         SecurityManager security = System.getSecurityManager();
-        if (security != null)
+        if (security != null) {
             security.checkPermission(prefsPerm);
+        }
 
         return factory.systemRoot();
     }
@@ -1025,6 +1031,7 @@ public abstract class Preferences {
      * as if computed by the expression:<tt>(this.isUserNode() ? "User" :
      * "System") + " Preference Node: " + this.absolutePath()</tt>.
      */
+    @Override
     public abstract String toString();
 
     /**

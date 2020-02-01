@@ -298,6 +298,7 @@ public interface Mixer extends Line {
          * @return <code>true</code> if this info object is the same as the
          * <code>obj</code> argument; <code>false</code> otherwise
          */
+        @Override
         public final boolean equals(Object obj) {
             return super.equals(obj);
         }
@@ -307,6 +308,7 @@ public interface Mixer extends Line {
          *
          * @return the hashcode for this object
          */
+        @Override
         public final int hashCode() {
             return super.hashCode();
         }
@@ -347,6 +349,7 @@ public interface Mixer extends Line {
          * Provides a string representation of the mixer info.
          * @return a string describing the info object
          */
+        @Override
         public final String toString() {
             return (name + ", version " + version);
         }

@@ -89,6 +89,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param newModel the TreeModel that is to provide the data
      */
+    @Override
     public void setModel(TreeModel newModel) {
         super.setModel(newModel);
         rebuild(false);
@@ -101,6 +102,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * @param rootVisible true if the root node of the tree is to be displayed
      * @see #rootVisible
      */
+    @Override
     public void setRootVisible(boolean rootVisible) {
         if(isRootVisible() != rootVisible) {
             super.setRootVisible(rootVisible);
@@ -124,9 +126,11 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param rowHeight the height of each cell, in pixels
      */
+    @Override
     public void setRowHeight(int rowHeight) {
-        if(rowHeight <= 0)
+        if(rowHeight <= 0) {
             throw new IllegalArgumentException("FixedHeightLayoutCache only supports row heights greater than 0");
+        }
         if(getRowHeight() != rowHeight) {
             super.setRowHeight(rowHeight);
             visibleNodesChanged();
@@ -136,6 +140,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
     /**
      * Returns the number of visible rows.
      */
+    @Override
     public int getRowCount() {
         return rowCount;
     }
@@ -144,6 +149,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * Does nothing, FixedHeightLayoutCache doesn't cache width, and that
      * is all that could change.
      */
+    @Override
     public void invalidatePathBounds(TreePath path) {
     }
 
@@ -152,6 +158,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * Informs the TreeState that it needs to recalculate all the sizes
      * it is referencing.
      */
+    @Override
     public void invalidateSizes() {
         // Nothing to do here, rowHeight still same, which is all
         // this is interested in, visible region may have changed though.
@@ -161,6 +168,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
     /**
       * Returns true if the value identified by row is currently expanded.
       */
+    @Override
     public boolean isExpanded(TreePath path) {
         if(path != null) {
             FHTreeStateNode     lastNode = getNodeForPath(path, true, false);
@@ -177,14 +185,17 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * @param placeIn  a Rectangle object giving the available space
      * @return a Rectangle object specifying the space to be used
      */
+    @Override
     public Rectangle getBounds(TreePath path, Rectangle placeIn) {
-        if(path == null)
+        if(path == null) {
             return null;
+        }
 
         FHTreeStateNode      node = getNodeForPath(path, true, false);
 
-        if(node != null)
+        if(node != null) {
             return getBounds(node, -1, placeIn);
+        }
 
         // node hasn't been created yet.
         TreePath       parentPath = path.getParentPath();
@@ -195,8 +206,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                                  (parentPath.getLastPathComponent(),
                                   path.getLastPathComponent());
 
-            if(childIndex != -1)
+            if(childIndex != -1) {
                 return getBounds(node, childIndex, placeIn);
+            }
         }
         return null;
     }
@@ -205,6 +217,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
       * Returns the path for passed in row.  If row is not visible
       * null is returned.
       */
+    @Override
     public TreePath getPathForRow(int row) {
         if(row >= 0 && row < getRowCount()) {
             if(root.getPathForRow(row, getRowCount(), info)) {
@@ -219,14 +232,17 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
       * at.  Will return -1 if any of the elements in path are not
       * currently visible.
       */
+    @Override
     public int getRowForPath(TreePath path) {
-        if(path == null || root == null)
+        if(path == null || root == null) {
             return -1;
+        }
 
         FHTreeStateNode         node = getNodeForPath(path, true, false);
 
-        if(node != null)
+        if(node != null) {
             return node.getRow();
+        }
 
         TreePath       parentPath = path.getParentPath();
 
@@ -246,9 +262,11 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
       * returned object is exactly at x, y you should get the bounds for
       * the returned path and test x, y against that.
       */
+    @Override
     public TreePath getPathClosestTo(int x, int y) {
-        if(getRowCount() == 0)
+        if(getRowCount() == 0) {
             return null;
+        }
 
         int                row = getRowContainingYLocation(y);
 
@@ -258,11 +276,13 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
     /**
      * Returns the number of visible children for row.
      */
+    @Override
     public int getVisibleChildCount(TreePath path) {
         FHTreeStateNode         node = getNodeForPath(path, true, false);
 
-        if(node == null)
+        if(node == null) {
             return 0;
+        }
         return node.getTotalChildCount();
     }
 
@@ -271,9 +291,11 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * starting at the passed in location. The ordering of the enumeration
      * is based on how the paths are displayed.
      */
+    @Override
     public Enumeration<TreePath> getVisiblePathsFrom(TreePath path) {
-        if(path == null)
+        if(path == null) {
             return null;
+        }
 
         FHTreeStateNode         node = getNodeForPath(path, true, false);
 
@@ -295,31 +317,35 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * Marks the path <code>path</code> expanded state to
      * <code>isExpanded</code>.
      */
+    @Override
     public void setExpandedState(TreePath path, boolean isExpanded) {
-        if(isExpanded)
+        if(isExpanded) {
             ensurePathIsExpanded(path, true);
-        else if(path != null) {
+        } else if(path != null) {
             TreePath              parentPath = path.getParentPath();
 
             // YECK! Make the parent expanded.
             if(parentPath != null) {
                 FHTreeStateNode     parentNode = getNodeForPath(parentPath,
                                                                 false, true);
-                if(parentNode != null)
+                if(parentNode != null) {
                     parentNode.makeVisible();
+                }
             }
             // And collapse the child.
             FHTreeStateNode         childNode = getNodeForPath(path, true,
                                                                false);
 
-            if(childNode != null)
+            if(childNode != null) {
                 childNode.collapse(true);
+            }
         }
     }
 
     /**
      * Returns true if the path is expanded, and visible.
      */
+    @Override
     public boolean getExpandedState(TreePath path) {
         FHTreeStateNode       node = getNodeForPath(path, true, false);
 
@@ -343,6 +369,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      *
      * <p>e.childIndices() returns the index(es) of the changed node(s).</p>
      */
+    @Override
     public void treeNodesChanged(TreeModelEvent e) {
         if(e != null) {
             int                 changedIndexs[];
@@ -368,8 +395,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                                                      changedIndexs[counter]));
                         }
                     }
-                    if(changedParent.isVisible() && changedParent.isExpanded())
+                    if(changedParent.isVisible() && changedParent.isExpanded()) {
                         visibleNodesChanged();
+                    }
                 }
                 // Null for root indicates it changed.
                 else if (changedParent == root && changedParent.isVisible() &&
@@ -387,6 +415,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * <p>e.childIndices() returns the indices of the new nodes in
      * ascending order.
      */
+    @Override
     public void treeNodesInserted(TreeModelEvent e) {
         if(e != null) {
             int                 changedIndexs[];
@@ -408,10 +437,12 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     changedParent.childInsertedAtModelIndex
                         (changedIndexs[counter], isVisible);
                 }
-                if(isVisible && treeSelectionModel != null)
+                if(isVisible && treeSelectionModel != null) {
                     treeSelectionModel.resetRowSelection();
-                if(changedParent.isVisible())
+                }
+                if(changedParent.isVisible()) {
                     this.visibleNodesChanged();
+                }
             }
         }
     }
@@ -426,6 +457,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      *
      * <p>e.childIndices() returns the indices the nodes had before they were deleted in ascending order.</p>
      */
+    @Override
     public void treeNodesRemoved(TreeModelEvent e) {
         if(e != null) {
             int                  changedIndexs[];
@@ -449,8 +481,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                                      (changedIndexs[counter], isVisible);
                 }
                 if(isVisible) {
-                    if(treeSelectionModel != null)
+                    if(treeSelectionModel != null) {
                         treeSelectionModel.resetRowSelection();
+                    }
                     if (treeModel.getChildCount(changedParentNode.
                                                 getUserObject()) == 0 &&
                                   changedParentNode.isLeaf()) {
@@ -459,8 +492,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     }
                     visibleNodesChanged();
                 }
-                else if(changedParentNode.isVisible())
+                else if(changedParentNode.isVisible()) {
                     visibleNodesChanged();
+                }
             }
         }
     }
@@ -474,6 +508,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
      * <p>e.path() holds the path to the node.</p>
      * <p>e.childIndices() returns null.</p>
      */
+    @Override
     public void treeStructureChanged(TreeModelEvent e) {
         if(e != null) {
             TreePath          changedPath = SwingUtilities2.getTreePath(e, getModel());
@@ -508,10 +543,12 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     changedNode = getNodeForPath(changedPath, false, true);
                     changedNode.expand();
                 }
-                if(treeSelectionModel != null && wasVisible && wasExpanded)
+                if(treeSelectionModel != null && wasVisible && wasExpanded) {
                     treeSelectionModel.resetRowSelection();
-                if(wasVisible)
+                }
+                if(wasVisible) {
                     this.visibleNodesChanged();
+                }
             }
         }
     }
@@ -553,11 +590,13 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         Rectangle      bounds = getNodeDimensions(value, row, level,
                                                   expanded, boundsBuffer);
         // No node dimensions, bail.
-        if(bounds == null)
+        if(bounds == null) {
             return null;
+        }
 
-        if(placeIn == null)
+        if(placeIn == null) {
             placeIn = new Rectangle();
+        }
 
         placeIn.x = bounds.x;
         placeIn.height = getRowHeight();
@@ -633,8 +672,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
       * row index, the last row index is returned.
       */
     private int getRowContainingYLocation(int location) {
-        if(getRowCount() == 0)
+        if(getRowCount() == 0) {
             return -1;
+        }
         return Math.max(0, Math.min(getRowCount() - 1,
                                     location / getRowHeight()));
     }
@@ -659,8 +699,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
 
                 if(lastNode != null) {
                     lastNode.makeVisible();
-                    if(expandLast)
+                    if(expandLast) {
                         lastNode.expand();
+                    }
                     return true;
                 }
             }
@@ -688,12 +729,14 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
 
             node = getMapping(path);
             if(node != null) {
-                if(onlyIfVisible && !node.isVisible())
+                if(onlyIfVisible && !node.isVisible()) {
                     return null;
+                }
                 return node;
             }
-            if(onlyIfVisible)
+            if(onlyIfVisible) {
                 return null;
+            }
 
             // Check all the parent paths, until a match is found.
             Stack<TreePath> paths;
@@ -774,6 +817,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
          * Messaged when this node is added somewhere, resets the path
          * and adds a mapping from path to this node.
          */
+        @Override
         public void setParent(MutableTreeNode parent) {
             super.setParent(parent);
             if(parent != null) {
@@ -787,6 +831,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
          * Messaged when this node is removed from its parent, this messages
          * <code>removedFromMapping</code> to remove all the children.
          */
+        @Override
         public void remove(int childIndex) {
             FHTreeStateNode     node = (FHTreeStateNode)getChildAt(childIndex);
 
@@ -797,15 +842,17 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         /**
          * Messaged to set the user object. This resets the path.
          */
+        @Override
         public void setUserObject(Object o) {
             super.setUserObject(o);
             if(path != null) {
                 FHTreeStateNode      parent = (FHTreeStateNode)getParent();
 
-                if(parent != null)
+                if(parent != null) {
                     resetChildrenPaths(parent.getTreePath());
-                else
+                } else {
                     resetChildrenPaths(null);
+                }
             }
         }
 
@@ -833,9 +880,11 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
          */
         public FHTreeStateNode getChildAtModelIndex(int index) {
             // PENDING: Make this a binary search!
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
-                if(((FHTreeStateNode)getChildAt(counter)).childIndex == index)
-                    return (FHTreeStateNode)getChildAt(counter);
+            for(int counter = getChildCount() - 1; counter >= 0; counter--) {
+                if(((FHTreeStateNode)getChildAt(counter)).childIndex == index) {
+                    return (FHTreeStateNode) getChildAt(counter);
+                }
+            }
             return null;
         }
 
@@ -846,8 +895,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         public boolean isVisible() {
             FHTreeStateNode         parent = (FHTreeStateNode)getParent();
 
-            if(parent == null)
+            if(parent == null) {
                 return true;
+            }
             return (parent.isExpanded() && parent.isVisible());
         }
 
@@ -872,10 +922,12 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                 counter < maxCounter; counter++) {
                 child = (FHTreeStateNode)getChildAt(counter);
                 if(child.childIndex >= index) {
-                    if(child.childIndex == index)
+                    if(child.childIndex == index) {
                         return child.row;
-                    if(counter == 0)
+                    }
+                    if(counter == 0) {
                         return getRow() + 1 + index;
+                    }
                     return child.row - (child.childIndex - index);
                 }
             }
@@ -940,14 +992,16 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
          */
         protected void resetChildrenPaths(TreePath parentPath) {
             removeMapping(this);
-            if(parentPath == null)
+            if(parentPath == null) {
                 path = new TreePath(getUserObject());
-            else
+            } else {
                 path = parentPath.pathByAddingChild(getUserObject());
+            }
             addMapping(this);
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
+            for(int counter = getChildCount() - 1; counter >= 0; counter--) {
                 ((FHTreeStateNode)getChildAt(counter)).
                                resetChildrenPaths(path);
+            }
         }
 
         /**
@@ -957,8 +1011,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         protected void removeFromMapping() {
             if(path != null) {
                 removeMapping(this);
-                for(int counter = getChildCount() - 1; counter >= 0; counter--)
+                for(int counter = getChildCount() - 1; counter >= 0; counter--) {
                     ((FHTreeStateNode)getChildAt(counter)).removeFromMapping();
+                }
             }
         }
 
@@ -971,8 +1026,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
             int      newChildIndex = treeModel.getIndexOfChild
                                      (getUserObject(), userObject);
 
-            if(newChildIndex < 0)
+            if(newChildIndex < 0) {
                 return null;
+            }
 
             FHTreeStateNode     aNode;
             FHTreeStateNode     child = createNodeForValue(userObject,
@@ -1006,8 +1062,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
             row += amount;
             if(isExpanded) {
                 for(int counter = getChildCount() - 1; counter >= 0;
-                    counter--)
+                    counter--) {
                     ((FHTreeStateNode)getChildAt(counter)).adjustRowBy(amount);
+                }
             }
         }
 
@@ -1022,8 +1079,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
             if(isExpanded) {
                 // children following startIndex.
                 for(int counter = getChildCount() - 1; counter >= startIndex;
-                    counter--)
+                    counter--) {
                     ((FHTreeStateNode)getChildAt(counter)).adjustRowBy(amount);
+                }
             }
             // Parent
             FHTreeStateNode        parent = (FHTreeStateNode)getParent();
@@ -1056,8 +1114,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         protected int setRowAndChildren(int nextRow) {
             row = nextRow;
 
-            if(!isExpanded())
+            if(!isExpanded()) {
                 return row + 1;
+            }
 
             int              lastRow = row + 1;
             int              lastModelIndex = 0;
@@ -1126,8 +1185,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         protected void makeVisible() {
             FHTreeStateNode       parent = (FHTreeStateNode)getParent();
 
-            if(parent != null)
+            if(parent != null) {
                 parent.expandParentAndReceiver();
+            }
         }
 
         /**
@@ -1137,8 +1197,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         protected void expandParentAndReceiver() {
             FHTreeStateNode       parent = (FHTreeStateNode)getParent();
 
-            if(parent != null)
+            if(parent != null) {
                 parent.expandParentAndReceiver();
+            }
             expand();
         }
 
@@ -1178,17 +1239,20 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     // the children.
                     adjustRowBy(-childCount, 0);
                 }
-                else
+                else {
                     isExpanded = false;
+                }
 
-                if(adjustRows && isVisible() && treeSelectionModel != null)
+                if(adjustRows && isVisible() && treeSelectionModel != null) {
                     treeSelectionModel.resetRowSelection();
+                }
             }
         }
 
         /**
          * Returns true if the receiver is a leaf.
          */
+        @Override
         public boolean isLeaf() {
             TreeModel model = getModel();
 
@@ -1213,8 +1277,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     counter = maxCounter;
                 }
             }
-            if(!added)
+            if(!added) {
                 add(newChild);
+            }
         }
 
         /**
@@ -1253,9 +1318,10 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                         // Since matched and children are always sorted by
                         // index, no need to continue testing with the
                         // above.
-                        for(; counter < maxCounter; counter++)
+                        for(; counter < maxCounter; counter++) {
                             ((FHTreeStateNode)getChildAt(counter)).
                                               childIndex--;
+                        }
                         childCount--;
                         return;
                     }
@@ -1300,8 +1366,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     }
                     /* Since matched and children are always sorted by
                        index, no need to continue testing with the above. */
-                    for(; counter < maxCounter; counter++)
+                    for(; counter < maxCounter; counter++) {
                         ((FHTreeStateNode)getChildAt(counter)).childIndex++;
+                    }
                     childCount++;
                     return;
                 }
@@ -1406,16 +1473,19 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
             for(int counter = 0, maxCounter = getChildCount();
                 counter < maxCounter; counter++) {
                 aChild = (FHTreeStateNode)getChildAt(counter);
-                if(aChild.childIndex >= stopIndex)
+                if(aChild.childIndex >= stopIndex) {
                     counter = maxCounter;
-                else
+                } else {
                     retCount += aChild.getTotalChildCount();
+                }
             }
-            if(parent != null)
+            if(parent != null) {
                 return retCount + ((FHTreeStateNode)getParent())
                                    .getCountTo(childIndex);
-            if(!isRootVisible())
+            }
+            if(!isRootVisible()) {
                 return (retCount - 1);
+            }
             return retCount;
         }
 
@@ -1432,9 +1502,9 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
             for(int counter = 0, maxCounter = getChildCount();
                 counter < maxCounter; counter++) {
                 aChild = (FHTreeStateNode)getChildAt(counter);
-                if(aChild.childIndex >= stopIndex)
+                if(aChild.childIndex >= stopIndex) {
                     return retCount;
-                else {
+                } else {
                     retCount += aChild.getTotalChildCount();
                 }
             }
@@ -1459,13 +1529,15 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         protected int               childIndex;
 
         protected TreePath getPath() {
-            if(node == null)
+            if(node == null) {
                 return null;
+            }
 
-            if(isNodeParentNode)
+            if(isNodeParentNode) {
                 return node.getTreePath().pathByAddingChild(treeModel.getChild
                                             (node.getUserObject(),
                                              childIndex));
+            }
             return node.path;
         }
     } // FixedHeightLayoutCache.SearchInfo
@@ -1502,6 +1574,7 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         /**
          * @return true if more visible nodes.
          */
+        @Override
         public boolean hasMoreElements() {
             return (parent != null);
         }
@@ -1509,23 +1582,26 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
         /**
          * @return next visible TreePath.
          */
+        @Override
         public TreePath nextElement() {
-            if(!hasMoreElements())
+            if(!hasMoreElements()) {
                 throw new NoSuchElementException("No more visible paths");
+            }
 
             TreePath                retObject;
 
-            if(nextIndex == -1)
+            if(nextIndex == -1) {
                 retObject = parent.getTreePath();
-            else {
+            } else {
                 FHTreeStateNode  node = parent.getChildAtModelIndex(nextIndex);
 
-                if(node == null)
+                if(node == null) {
                     retObject = parent.getTreePath().pathByAddingChild
                                   (treeModel.getChild(parent.getUserObject(),
                                                       nextIndex));
-                else
+                } else {
                     retObject = node.getTreePath();
+                }
             }
             updateNextObject();
             return retObject;
@@ -1560,11 +1636,13 @@ public class FixedHeightLayoutCache extends AbstractLayoutCache {
                     parent = newParent;
                     childCount = treeModel.getChildCount
                                             (parent.getUserObject());
-                    if(updateNextIndex())
+                    if(updateNextIndex()) {
                         return true;
+                    }
                 }
-                else
+                else {
                     parent = null;
+                }
             }
             return false;
         }

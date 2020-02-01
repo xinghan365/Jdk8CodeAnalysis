@@ -59,6 +59,7 @@ public class JMXServerErrorException extends IOException {
         cause = err;
     }
 
+    @Override
     public Throwable getCause() {
         return cause;
     }

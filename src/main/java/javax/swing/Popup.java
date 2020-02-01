@@ -248,10 +248,12 @@ public class Popup {
             }
         }
 
+        @Override
         public void update(Graphics g) {
             paint(g);
         }
 
+        @Override
         public void show() {
             this.pack();
             if (getWidth() > 0 && getHeight() > 0) {

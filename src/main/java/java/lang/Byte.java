@@ -80,8 +80,9 @@ public final class Byte extends Number implements Comparable<Byte> {
         static final Byte cache[] = new Byte[-(-128) + 127 + 1];
 
         static {
-            for(int i = 0; i < cache.length; i++)
+            for(int i = 0; i < cache.length; i++) {
                 cache[i] = new Byte((byte)(i - 128));
+            }
         }
     }
 
@@ -147,9 +148,10 @@ public final class Byte extends Number implements Comparable<Byte> {
     public static byte parseByte(String s, int radix)
         throws NumberFormatException {
         int i = Integer.parseInt(s, radix);
-        if (i < MIN_VALUE || i > MAX_VALUE)
+        if (i < MIN_VALUE || i > MAX_VALUE) {
             throw new NumberFormatException(
                 "Value out of range. Value:\"" + s + "\" Radix:" + radix);
+        }
         return (byte)i;
     }
 
@@ -275,9 +277,10 @@ public final class Byte extends Number implements Comparable<Byte> {
      */
     public static Byte decode(String nm) throws NumberFormatException {
         int i = Integer.decode(nm);
-        if (i < MIN_VALUE || i > MAX_VALUE)
+        if (i < MIN_VALUE || i > MAX_VALUE) {
             throw new NumberFormatException(
                     "Value " + i + " out of range from input " + nm);
+        }
         return valueOf((byte)i);
     }
 
@@ -320,6 +323,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * Returns the value of this {@code Byte} as a
      * {@code byte}.
      */
+    @Override
     public byte byteValue() {
         return value;
     }
@@ -329,6 +333,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public short shortValue() {
         return (short)value;
     }
@@ -338,6 +343,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public int intValue() {
         return (int)value;
     }
@@ -347,6 +353,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public long longValue() {
         return (long)value;
     }
@@ -356,6 +363,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public float floatValue() {
         return (float)value;
     }
@@ -365,6 +373,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * after a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public double doubleValue() {
         return (double)value;
     }
@@ -379,6 +388,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * @return  a string representation of the value of this object in
      *          base&nbsp;10.
      */
+    @Override
     public String toString() {
         return Integer.toString((int)value);
     }
@@ -416,6 +426,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      * @return          {@code true} if the objects are the same;
      *                  {@code false} otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Byte) {
             return value == ((Byte)obj).byteValue();
@@ -436,6 +447,7 @@ public final class Byte extends Number implements Comparable<Byte> {
      *           comparison).
      * @since   1.2
      */
+    @Override
     public int compareTo(Byte anotherByte) {
         return compare(this.value, anotherByte.value);
     }

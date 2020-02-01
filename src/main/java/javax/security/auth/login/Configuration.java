@@ -224,14 +224,16 @@ public abstract class Configuration {
     public static Configuration getConfiguration() {
 
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null)
+        if (sm != null) {
             sm.checkPermission(new AuthPermission("getLoginConfiguration"));
+        }
 
         synchronized (Configuration.class) {
             if (configuration == null) {
                 String config_class = null;
                 config_class = AccessController.doPrivileged
                     (new PrivilegedAction<String>() {
+                    @Override
                     public String run() {
                         return java.security.Security.getProperty
                                     ("login.configuration.provider");
@@ -245,6 +247,7 @@ public abstract class Configuration {
                     final String finalClass = config_class;
                     Configuration untrustedImpl = AccessController.doPrivileged(
                             new PrivilegedExceptionAction<Configuration>() {
+                                @Override
                                 public Configuration run() throws ClassNotFoundException,
                                         InstantiationException,
                                         IllegalAccessException {
@@ -257,6 +260,7 @@ public abstract class Configuration {
                             });
                     AccessController.doPrivileged(
                             new PrivilegedExceptionAction<Void>() {
+                                @Override
                                 public Void run() {
                                     setConfiguration(untrustedImpl);
                                     return null;
@@ -298,8 +302,9 @@ public abstract class Configuration {
      */
     public static void setConfiguration(Configuration configuration) {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null)
+        if (sm != null) {
             sm.checkPermission(new AuthPermission("setLoginConfiguration"));
+        }
         Configuration.configuration = configuration;
     }
 
@@ -596,16 +601,21 @@ public abstract class Configuration {
             this.params = params;
         }
 
+        @Override
         public String getType() { return type; }
 
+        @Override
         public Configuration.Parameters getParameters() { return params; }
 
+        @Override
         public Provider getProvider() { return p; }
 
+        @Override
         public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
             return spi.engineGetAppConfigurationEntry(name);
         }
 
+        @Override
         public void refresh() {
             spi.engineRefresh();
         }

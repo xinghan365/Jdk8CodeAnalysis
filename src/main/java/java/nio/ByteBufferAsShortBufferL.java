@@ -69,6 +69,7 @@ class ByteBufferAsShortBufferL                  // package-private
 
     }
 
+    @Override
     public ShortBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsShortBufferL                  // package-private
         return new ByteBufferAsShortBufferL(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public ShortBuffer duplicate() {
         return new ByteBufferAsShortBufferL(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsShortBufferL                  // package-private
                                                     offset);
     }
 
+    @Override
     public ShortBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsShortBufferRL(bb,
@@ -107,10 +110,12 @@ class ByteBufferAsShortBufferL                  // package-private
         return (i << 1) + offset;
     }
 
+    @Override
     public short get() {
         return Bits.getShortL(bb, ix(nextGetIndex()));
     }
 
+    @Override
     public short get(int i) {
         return Bits.getShortL(bb, ix(checkIndex(i)));
     }
@@ -123,6 +128,7 @@ class ByteBufferAsShortBufferL                  // package-private
 
 
 
+    @Override
     public ShortBuffer put(short x) {
 
         Bits.putShortL(bb, ix(nextPutIndex()), x);
@@ -132,6 +138,7 @@ class ByteBufferAsShortBufferL                  // package-private
 
     }
 
+    @Override
     public ShortBuffer put(int i, short x) {
 
         Bits.putShortL(bb, ix(checkIndex(i)), x);
@@ -141,6 +148,7 @@ class ByteBufferAsShortBufferL                  // package-private
 
     }
 
+    @Override
     public ShortBuffer compact() {
 
         int pos = position();
@@ -163,10 +171,12 @@ class ByteBufferAsShortBufferL                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -213,6 +223,7 @@ class ByteBufferAsShortBufferL                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
 

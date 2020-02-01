@@ -454,6 +454,7 @@ public class RoleInfo implements Serializable {
      *
      * @return a description of the role info.
      */
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("role info name: " + name);

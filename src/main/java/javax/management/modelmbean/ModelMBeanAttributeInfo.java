@@ -367,6 +367,7 @@ public class ModelMBeanAttributeInfo
          * @see #setDescriptor
          */
 
+        @Override
         public Descriptor getDescriptor() {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -396,6 +397,7 @@ public class ModelMBeanAttributeInfo
         *
         * @see #getDescriptor
         */
+        @Override
         public void setDescriptor(Descriptor inDescriptor) {
             attrDescriptor =  validDescriptor(inDescriptor);
         }

@@ -33,6 +33,7 @@ import sun.reflect.ConstructorAccessor;
     package to instantiate objects in this package. */
 
 class ReflectAccess implements sun.reflect.LangReflectAccess {
+    @Override
     public Field newField(Class<?> declaringClass,
                           String name,
                           Class<?> type,
@@ -50,6 +51,7 @@ class ReflectAccess implements sun.reflect.LangReflectAccess {
                          annotations);
     }
 
+    @Override
     public Method newMethod(Class<?> declaringClass,
                             String name,
                             Class<?>[] parameterTypes,
@@ -75,6 +77,7 @@ class ReflectAccess implements sun.reflect.LangReflectAccess {
                           annotationDefault);
     }
 
+    @Override
     public <T> Constructor<T> newConstructor(Class<T> declaringClass,
                                              Class<?>[] parameterTypes,
                                              Class<?>[] checkedExceptions,
@@ -94,40 +97,49 @@ class ReflectAccess implements sun.reflect.LangReflectAccess {
                                   parameterAnnotations);
     }
 
+    @Override
     public MethodAccessor getMethodAccessor(Method m) {
         return m.getMethodAccessor();
     }
 
+    @Override
     public void setMethodAccessor(Method m, MethodAccessor accessor) {
         m.setMethodAccessor(accessor);
     }
 
+    @Override
     public ConstructorAccessor getConstructorAccessor(Constructor<?> c) {
         return c.getConstructorAccessor();
     }
 
+    @Override
     public void setConstructorAccessor(Constructor<?> c,
                                        ConstructorAccessor accessor)
     {
         c.setConstructorAccessor(accessor);
     }
 
+    @Override
     public int getConstructorSlot(Constructor<?> c) {
         return c.getSlot();
     }
 
+    @Override
     public String getConstructorSignature(Constructor<?> c) {
         return c.getSignature();
     }
 
+    @Override
     public byte[] getConstructorAnnotations(Constructor<?> c) {
         return c.getRawAnnotations();
     }
 
+    @Override
     public byte[] getConstructorParameterAnnotations(Constructor<?> c) {
         return c.getRawParameterAnnotations();
     }
 
+    @Override
     public byte[] getExecutableTypeAnnotationBytes(Executable ex) {
         return ex.getTypeAnnotationBytes();
     }
@@ -136,14 +148,17 @@ class ReflectAccess implements sun.reflect.LangReflectAccess {
     // Copying routines, needed to quickly fabricate new Field,
     // Method, and Constructor objects from templates
     //
+    @Override
     public Method      copyMethod(Method arg) {
         return arg.copy();
     }
 
+    @Override
     public Field       copyField(Field arg) {
         return arg.copy();
     }
 
+    @Override
     public <T> Constructor<T> copyConstructor(Constructor<T> arg) {
         return arg.copy();
     }

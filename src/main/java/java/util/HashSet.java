@@ -169,6 +169,7 @@ public class HashSet<E>
      * @return an Iterator over the elements in this set
      * @see ConcurrentModificationException
      */
+    @Override
     public Iterator<E> iterator() {
         return map.keySet().iterator();
     }
@@ -178,6 +179,7 @@ public class HashSet<E>
      *
      * @return the number of elements in this set (its cardinality)
      */
+    @Override
     public int size() {
         return map.size();
     }
@@ -187,6 +189,7 @@ public class HashSet<E>
      *
      * @return <tt>true</tt> if this set contains no elements
      */
+    @Override
     public boolean isEmpty() {
         return map.isEmpty();
     }
@@ -200,6 +203,7 @@ public class HashSet<E>
      * @param o element whose presence in this set is to be tested
      * @return <tt>true</tt> if this set contains the specified element
      */
+    @Override
     public boolean contains(Object o) {
         return map.containsKey(o);
     }
@@ -216,6 +220,7 @@ public class HashSet<E>
      * @return <tt>true</tt> if this set did not already contain the specified
      * element
      */
+    @Override
     public boolean add(E e) {
         return map.put(e, PRESENT)==null;
     }
@@ -232,6 +237,7 @@ public class HashSet<E>
      * @param o object to be removed from this set, if present
      * @return <tt>true</tt> if the set contained the specified element
      */
+    @Override
     public boolean remove(Object o) {
         return map.remove(o)==PRESENT;
     }
@@ -240,6 +246,7 @@ public class HashSet<E>
      * Removes all of the elements from this set.
      * The set will be empty after this call returns.
      */
+    @Override
     public void clear() {
         map.clear();
     }
@@ -250,6 +257,7 @@ public class HashSet<E>
      *
      * @return a shallow copy of this set
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object clone() {
         try {
@@ -284,8 +292,9 @@ public class HashSet<E>
         s.writeInt(map.size());
 
         // Write out all elements in the proper order.
-        for (E e : map.keySet())
+        for (E e : map.keySet()) {
             s.writeObject(e);
+        }
     }
 
     /**
@@ -355,6 +364,7 @@ public class HashSet<E>
      * @return a {@code Spliterator} over the elements in this set
      * @since 1.8
      */
+    @Override
     public Spliterator<E> spliterator() {
         return new HashMap.KeySpliterator<E,Object>(map, 0, -1, 0, 0);
     }

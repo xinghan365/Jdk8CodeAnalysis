@@ -99,8 +99,9 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
      * Returns the keyType for this key as defined in the Kerberos Spec.
      */
     public final int getKeyType() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return keyType;
     }
 
@@ -108,13 +109,15 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
      * Methods from java.security.Key
      */
 
+    @Override
     public final String getAlgorithm() {
         return getAlgorithmName(keyType);
     }
 
     private String getAlgorithmName(int eType) {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
 
         switch (eType) {
         case EncryptedData.ETYPE_DES_CBC_CRC:
@@ -142,18 +145,23 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
         }
     }
 
+    @Override
     public final String getFormat() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return "RAW";
     }
 
+    @Override
     public final byte[] getEncoded() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return keyBytes.clone();
     }
 
+    @Override
     public void destroy() throws DestroyFailedException {
         if (!destroyed) {
             destroyed = true;
@@ -161,6 +169,7 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
         }
     }
 
+    @Override
     public boolean isDestroyed() {
         return destroyed;
     }
@@ -199,6 +208,7 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
         }
     }
 
+    @Override
     public String toString() {
         HexDumpEncoder hd = new HexDumpEncoder();
         return "EncryptionKey: keyType=" + keyType
@@ -211,6 +221,7 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
 
     }
 
+    @Override
     public int hashCode() {
         int result = 17;
         if(isDestroyed()) {
@@ -220,10 +231,12 @@ class KeyImpl implements SecretKey, Destroyable, Serializable {
         return 37 * result + keyType;
     }
 
+    @Override
     public boolean equals(Object other) {
 
-        if (other == this)
+        if (other == this) {
             return true;
+        }
 
         if (! (other instanceof KeyImpl)) {
             return false;

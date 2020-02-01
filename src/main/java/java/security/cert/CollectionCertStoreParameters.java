@@ -84,8 +84,9 @@ public class CollectionCertStoreParameters
      * {@code null}
      */
     public CollectionCertStoreParameters(Collection<?> collection) {
-        if (collection == null)
+        if (collection == null) {
             throw new NullPointerException();
+        }
         coll = collection;
     }
 
@@ -117,6 +118,7 @@ public class CollectionCertStoreParameters
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -131,6 +133,7 @@ public class CollectionCertStoreParameters
      *
      * @return a formatted string describing the parameters
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("CollectionCertStoreParameters: [\n");

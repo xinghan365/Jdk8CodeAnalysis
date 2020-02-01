@@ -109,8 +109,9 @@ public class LongAccumulator extends Striped64 implements Serializable {
                 (a = as[getProbe() & m]) == null ||
                 !(uncontended =
                   (r = function.applyAsLong(v = a.value, x)) == v ||
-                  a.cas(v, r)))
+                  a.cas(v, r))) {
                 longAccumulate(x, function, uncontended);
+            }
         }
     }
 
@@ -128,8 +129,9 @@ public class LongAccumulator extends Striped64 implements Serializable {
         long result = base;
         if (as != null) {
             for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
+                if ((a = as[i]) != null) {
                     result = function.applyAsLong(result, a.value);
+                }
             }
         }
         return result;
@@ -148,8 +150,9 @@ public class LongAccumulator extends Striped64 implements Serializable {
         base = identity;
         if (as != null) {
             for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
+                if ((a = as[i]) != null) {
                     a.value = identity;
+                }
             }
         }
     }
@@ -184,6 +187,7 @@ public class LongAccumulator extends Striped64 implements Serializable {
      * Returns the String representation of the current value.
      * @return the String representation of the current value
      */
+    @Override
     public String toString() {
         return Long.toString(get());
     }
@@ -193,6 +197,7 @@ public class LongAccumulator extends Striped64 implements Serializable {
      *
      * @return the current value
      */
+    @Override
     public long longValue() {
         return get();
     }
@@ -201,6 +206,7 @@ public class LongAccumulator extends Striped64 implements Serializable {
      * Returns the {@linkplain #get current value} as an {@code int}
      * after a narrowing primitive conversion.
      */
+    @Override
     public int intValue() {
         return (int)get();
     }
@@ -209,6 +215,7 @@ public class LongAccumulator extends Striped64 implements Serializable {
      * Returns the {@linkplain #get current value} as a {@code float}
      * after a widening primitive conversion.
      */
+    @Override
     public float floatValue() {
         return (float)get();
     }
@@ -217,6 +224,7 @@ public class LongAccumulator extends Striped64 implements Serializable {
      * Returns the {@linkplain #get current value} as a {@code double}
      * after a widening primitive conversion.
      */
+    @Override
     public double doubleValue() {
         return (double)get();
     }

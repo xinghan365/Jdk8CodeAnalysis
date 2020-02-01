@@ -79,6 +79,7 @@ public abstract class URISyntax implements Serializable, Cloneable {
      *
      * @return  A hashcode value for this object.
      */
+    @Override
     public int hashCode() {
         return uri.hashCode();
     }
@@ -102,6 +103,7 @@ public abstract class URISyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this URI
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return(object != null &&
                object instanceof URISyntax &&
@@ -114,6 +116,7 @@ public abstract class URISyntax implements Serializable, Cloneable {
      *
      * @return  A String identifying this object.
      */
+    @Override
     public String toString() {
         return uri.toString();
     }

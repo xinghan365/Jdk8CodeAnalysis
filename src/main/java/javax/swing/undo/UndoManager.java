@@ -275,7 +275,9 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see #getLimit
      */
     public synchronized void setLimit(int l) {
-        if (!inProgress) throw new RuntimeException("Attempt to call UndoManager.setLimit() after UndoManager.end() has been called");
+        if (!inProgress) {
+            throw new RuntimeException("Attempt to call UndoManager.setLimit() after UndoManager.end() has been called");
+        }
         limit = l;
         trimForLimit();
     }
@@ -404,6 +406,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see #canUndo
      * @see #editToBeUndone
      */
+    @Override
     public synchronized void undo() throws CannotUndoException {
         if (inProgress) {
             UndoableEdit edit = editToBeUndone();
@@ -426,6 +429,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see CompoundEdit#canUndo
      * @see #editToBeUndone
      */
+    @Override
     public synchronized boolean canUndo() {
         if (inProgress) {
             UndoableEdit edit = editToBeUndone();
@@ -449,6 +453,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see #canRedo
      * @see #editToBeRedone
      */
+    @Override
     public synchronized void redo() throws CannotRedoException {
         if (inProgress) {
             UndoableEdit edit = editToBeRedone();
@@ -471,6 +476,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see CompoundEdit#canRedo
      * @see #editToBeRedone
      */
+    @Override
     public synchronized boolean canRedo() {
         if (inProgress) {
             UndoableEdit edit = editToBeRedone();
@@ -494,6 +500,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see CompoundEdit#end
      * @see CompoundEdit#addEdit
      */
+    @Override
     public synchronized boolean addEdit(UndoableEdit anEdit) {
         boolean retVal;
 
@@ -526,6 +533,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      *
      * @see CompoundEdit#end
      */
+    @Override
     public synchronized void end() {
         super.end();
         this.trimEdits(indexOfNextAdd, edits.size()-1);
@@ -562,6 +570,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see     #undo
      * @see     CompoundEdit#getUndoPresentationName
      */
+    @Override
     public synchronized String getUndoPresentationName() {
         if (inProgress) {
             if (canUndo()) {
@@ -587,6 +596,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      * @see     #redo
      * @see     CompoundEdit#getRedoPresentationName
      */
+    @Override
     public synchronized String getRedoPresentationName() {
         if (inProgress) {
             if (canRedo()) {
@@ -607,6 +617,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      *        <code>UndoableEditEvent</code> will be added from
      * @see #addEdit
      */
+    @Override
     public void undoableEditHappened(UndoableEditEvent e) {
         addEdit(e.getEdit());
     }
@@ -617,6 +628,7 @@ public class UndoManager extends CompoundEdit implements UndoableEditListener {
      *
      * @return a String representation of this object
      */
+    @Override
     public String toString() {
         return super.toString() + " limit: " + limit +
             " indexOfNextAdd: " + indexOfNextAdd;

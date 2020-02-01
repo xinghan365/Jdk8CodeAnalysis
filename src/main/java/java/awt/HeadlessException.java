@@ -42,6 +42,7 @@ public class HeadlessException extends UnsupportedOperationException {
     public HeadlessException(String msg) {
         super(msg);
     }
+    @Override
     public String getMessage() {
         String superMessage = super.getMessage();
         String headlessMessage = GraphicsEnvironment.getHeadlessMessage();

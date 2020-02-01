@@ -120,6 +120,7 @@ public class ExceptionInInitializerError extends LinkageError {
      *          cause is nonexistent or unknown.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return exception;
     }

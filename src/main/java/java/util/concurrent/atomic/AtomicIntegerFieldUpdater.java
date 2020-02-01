@@ -386,6 +386,7 @@ public abstract class AtomicIntegerFieldUpdater<T> {
             try {
                 field = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Field>() {
+                        @Override
                         public Field run() throws NoSuchFieldException {
                             return tclass.getDeclaredField(fieldName);
                         }
@@ -405,11 +406,13 @@ public abstract class AtomicIntegerFieldUpdater<T> {
                 throw new RuntimeException(ex);
             }
 
-            if (field.getType() != int.class)
+            if (field.getType() != int.class) {
                 throw new IllegalArgumentException("Must be integer type");
+            }
 
-            if (!Modifier.isVolatile(modifiers))
+            if (!Modifier.isVolatile(modifiers)) {
                 throw new IllegalArgumentException("Must be volatile type");
+            }
 
             // Access to protected field members is restricted to receivers only
             // of the accessing class, or one of its subclasses, and the
@@ -462,8 +465,9 @@ public abstract class AtomicIntegerFieldUpdater<T> {
          * failure, throws cause.
          */
         private final void accessCheck(T obj) {
-            if (!cclass.isInstance(obj))
+            if (!cclass.isInstance(obj)) {
                 throwAccessCheckException(obj);
+            }
         }
 
         /**
@@ -471,9 +475,9 @@ public abstract class AtomicIntegerFieldUpdater<T> {
          * protected access, else ClassCastException.
          */
         private final void throwAccessCheckException(T obj) {
-            if (cclass == tclass)
+            if (cclass == tclass) {
                 throw new ClassCastException();
-            else
+            } else {
                 throw new RuntimeException(
                     new IllegalAccessException(
                         "Class " +
@@ -482,59 +486,72 @@ public abstract class AtomicIntegerFieldUpdater<T> {
                         tclass.getName() +
                         " using an instance of " +
                         obj.getClass().getName()));
+            }
         }
 
+        @Override
         public final boolean compareAndSet(T obj, int expect, int update) {
             accessCheck(obj);
             return U.compareAndSwapInt(obj, offset, expect, update);
         }
 
+        @Override
         public final boolean weakCompareAndSet(T obj, int expect, int update) {
             accessCheck(obj);
             return U.compareAndSwapInt(obj, offset, expect, update);
         }
 
+        @Override
         public final void set(T obj, int newValue) {
             accessCheck(obj);
             U.putIntVolatile(obj, offset, newValue);
         }
 
+        @Override
         public final void lazySet(T obj, int newValue) {
             accessCheck(obj);
             U.putOrderedInt(obj, offset, newValue);
         }
 
+        @Override
         public final int get(T obj) {
             accessCheck(obj);
             return U.getIntVolatile(obj, offset);
         }
 
+        @Override
         public final int getAndSet(T obj, int newValue) {
             accessCheck(obj);
             return U.getAndSetInt(obj, offset, newValue);
         }
 
+        @Override
         public final int getAndAdd(T obj, int delta) {
             accessCheck(obj);
             return U.getAndAddInt(obj, offset, delta);
         }
 
+        @Override
         public final int getAndIncrement(T obj) {
             return getAndAdd(obj, 1);
         }
 
+        @Override
         public final int getAndDecrement(T obj) {
             return getAndAdd(obj, -1);
         }
 
+        @Override
         public final int incrementAndGet(T obj) {
             return getAndAdd(obj, 1) + 1;
         }
 
+        @Override
         public final int decrementAndGet(T obj) {
             return getAndAdd(obj, -1) - 1;
         }
 
+        @Override
         public final int addAndGet(T obj, int delta) {
             return getAndAdd(obj, delta) + delta;
         }

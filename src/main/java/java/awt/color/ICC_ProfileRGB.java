@@ -136,6 +136,7 @@ extends ICC_Profile {
      * @return A 3-element <CODE>float</CODE> array containing the x, y,
      * and z components of the profile's <CODE>mediaWhitePointTag</CODE>.
      */
+    @Override
     public float[] getMediaWhitePoint() {
         return super.getMediaWhitePoint();
     }
@@ -197,6 +198,7 @@ extends ICC_Profile {
      * @exception ProfileDataException if the profile does not specify
      *            the corresponding TRC as a single gamma value.
      */
+    @Override
     public float getGamma(int component) {
     float theGamma;
     int theSignature;
@@ -253,6 +255,7 @@ extends ICC_Profile {
      * @exception ProfileDataException if the profile does not specify
      *            the corresponding TRC as a table.
      */
+    @Override
     public short[] getTRC(int component) {
     short[] theTRC;
     int theSignature;

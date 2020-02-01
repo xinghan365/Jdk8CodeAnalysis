@@ -149,6 +149,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
     /**
      * Starts the string monitor.
      */
+    @Override
     public synchronized void start() {
         if (isActive()) {
             MONITOR_LOGGER.logp(Level.FINER, StringMonitor.class.getName(),
@@ -168,6 +169,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
     /**
      * Stops the string monitor.
      */
+    @Override
     public synchronized void stop() {
         doStop();
     }
@@ -214,6 +216,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      * @deprecated As of JMX 1.2, replaced by
      * {@link #getDerivedGauge(ObjectName)}
      */
+    @Override
     @Deprecated
     public synchronized String getDerivedGauge() {
         if (observedObjects.isEmpty()) {
@@ -232,6 +235,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      * @deprecated As of JMX 1.2, replaced by
      * {@link #getDerivedGaugeTimeStamp(ObjectName)}
      */
+    @Override
     @Deprecated
     public synchronized long getDerivedGaugeTimeStamp() {
         if (observedObjects.isEmpty()) {
@@ -249,6 +253,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      *
      * @see #setStringToCompare
      */
+    @Override
     public synchronized String getStringToCompare() {
         return stringToCompare;
     }
@@ -264,6 +269,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      *
      * @see #getStringToCompare
      */
+    @Override
     public synchronized void setStringToCompare(String value)
         throws IllegalArgumentException {
 
@@ -271,8 +277,9 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
             throw new IllegalArgumentException("Null string to compare");
         }
 
-        if (stringToCompare.equals(value))
+        if (stringToCompare.equals(value)) {
             return;
+        }
         stringToCompare = value;
 
         // Reset values.
@@ -293,6 +300,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      *
      * @see #setNotifyMatch
      */
+    @Override
     public synchronized boolean getNotifyMatch() {
         return notifyMatch;
     }
@@ -305,9 +313,11 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      *
      * @see #getNotifyMatch
      */
+    @Override
     public synchronized void setNotifyMatch(boolean value) {
-        if (notifyMatch == value)
+        if (notifyMatch == value) {
             return;
+        }
         notifyMatch = value;
     }
 
@@ -320,6 +330,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      *
      * @see #setNotifyDiffer
      */
+    @Override
     public synchronized boolean getNotifyDiffer() {
         return notifyDiffer;
     }
@@ -332,9 +343,11 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      *
      * @see #getNotifyDiffer
      */
+    @Override
     public synchronized void setNotifyDiffer(boolean value) {
-        if (notifyDiffer == value)
+        if (notifyDiffer == value) {
             return;
+        }
         notifyDiffer = value;
     }
 
@@ -387,8 +400,9 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
     synchronized void onErrorNotification(MonitorNotification notification) {
         final StringMonitorObservedObject o = (StringMonitorObservedObject)
             getObservedObject(notification.getObservedObject());
-        if (o == null)
+        if (o == null) {
             return;
+        }
 
         // Reset values.
         //
@@ -406,8 +420,9 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
 
         final StringMonitorObservedObject o =
             (StringMonitorObservedObject) getObservedObject(object);
-        if (o == null)
+        if (o == null) {
             return null;
+        }
 
         // Send matching notification if notifyMatch is true.
         // Send differing notification if notifyDiffer is true.

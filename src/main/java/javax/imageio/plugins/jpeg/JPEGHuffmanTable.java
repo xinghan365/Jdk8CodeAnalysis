@@ -240,6 +240,7 @@ public class JPEGHuffmanTable {
      * Returns a {@code String} representing this Huffman table.
      * @return a {@code String} representing this Huffman table.
      */
+    @Override
     public String toString() {
         String ls = System.getProperty("line.separator", "\n");
         StringBuilder sb = new StringBuilder("JPEGHuffmanTable");

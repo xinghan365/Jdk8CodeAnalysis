@@ -327,6 +327,7 @@ public final class Bidi {
     /**
      * Display the bidi internal state, used in debugging.
      */
+    @Override
     public String toString() {
         return bidiBase.toString();
     }

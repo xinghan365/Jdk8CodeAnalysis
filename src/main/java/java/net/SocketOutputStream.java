@@ -72,6 +72,7 @@ class SocketOutputStream extends FileOutputStream
      * @since 1.4
      * @spec JSR-51
      */
+    @Override
     public final FileChannel getChannel() {
         return null;
     }
@@ -129,6 +130,7 @@ class SocketOutputStream extends FileOutputStream
      * @param b the data to be written
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void write(int b) throws IOException {
         temp[0] = (byte)b;
         socketWrite(temp, 0, 1);
@@ -139,6 +141,7 @@ class SocketOutputStream extends FileOutputStream
      * @param b the data to be written
      * @exception SocketException If an I/O error has occurred.
      */
+    @Override
     public void write(byte b[]) throws IOException {
         socketWrite(b, 0, b.length);
     }
@@ -151,6 +154,7 @@ class SocketOutputStream extends FileOutputStream
      * @param len the number of bytes that are written
      * @exception SocketException If an I/O error has occurred.
      */
+    @Override
     public void write(byte b[], int off, int len) throws IOException {
         socketWrite(b, off, len);
     }
@@ -159,22 +163,27 @@ class SocketOutputStream extends FileOutputStream
      * Closes the stream.
      */
     private boolean closing = false;
+    @Override
     public void close() throws IOException {
         // Prevent recursion. See BugId 4484411
-        if (closing)
+        if (closing) {
             return;
+        }
         closing = true;
         if (socket != null) {
-            if (!socket.isClosed())
+            if (!socket.isClosed()) {
                 socket.close();
-        } else
+            }
+        } else {
             impl.close();
+        }
         closing = false;
     }
 
     /**
      * Overrides finalize, the fd is closed by the Socket.
      */
+    @Override
     protected void finalize() {}
 
     /**

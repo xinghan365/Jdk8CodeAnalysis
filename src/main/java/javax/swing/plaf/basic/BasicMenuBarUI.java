@@ -67,6 +67,7 @@ public class BasicMenuBarUI extends MenuBarUI  {
         map.put(new Actions(Actions.TAKE_FOCUS));
     }
 
+    @Override
     public void installUI(JComponent c) {
         menuBar = (JMenuBar) c;
 
@@ -96,8 +97,9 @@ public class BasicMenuBarUI extends MenuBarUI  {
 
         for (int i = 0; i < menuBar.getMenuCount(); i++) {
             JMenu menu = menuBar.getMenu(i);
-            if (menu!=null)
+            if (menu!=null) {
                 menu.getModel().addChangeListener(changeListener);
+            }
         }
         menuBar.addContainerListener(containerListener);
     }
@@ -123,6 +125,7 @@ public class BasicMenuBarUI extends MenuBarUI  {
         return null;
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults();
         uninstallListeners();
@@ -142,8 +145,9 @@ public class BasicMenuBarUI extends MenuBarUI  {
 
         for (int i = 0; i < menuBar.getMenuCount(); i++) {
             JMenu menu = menuBar.getMenu(i);
-            if (menu !=null)
+            if (menu !=null) {
                 menu.getModel().removeChangeListener(changeListener);
+            }
         }
 
         containerListener = null;
@@ -173,10 +177,12 @@ public class BasicMenuBarUI extends MenuBarUI  {
     }
 
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return null;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return null;
     }
@@ -185,6 +191,7 @@ public class BasicMenuBarUI extends MenuBarUI  {
         //
         // ChangeListener
         //
+        @Override
         public void stateChanged(ChangeEvent e) {
             int i,c;
             for(i=0,c = menuBar.getMenuCount() ; i < c ; i++) {
@@ -199,15 +206,19 @@ public class BasicMenuBarUI extends MenuBarUI  {
         //
         // ContainerListener
         //
+        @Override
         public void componentAdded(ContainerEvent e) {
             Component c = e.getChild();
-            if (c instanceof JMenu)
+            if (c instanceof JMenu) {
                 ((JMenu)c).getModel().addChangeListener(changeListener);
+            }
         }
+        @Override
         public void componentRemoved(ContainerEvent e) {
             Component c = e.getChild();
-            if (c instanceof JMenu)
+            if (c instanceof JMenu) {
                 ((JMenu)c).getModel().removeChangeListener(changeListener);
+            }
         }
     }
 
@@ -219,6 +230,7 @@ public class BasicMenuBarUI extends MenuBarUI  {
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             // TAKE_FOCUS
             JMenuBar menuBar = (JMenuBar)e.getSource();

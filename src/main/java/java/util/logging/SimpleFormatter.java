@@ -137,6 +137,7 @@ public class SimpleFormatter extends Formatter {
      * @param record the log record to be formatted.
      * @return a formatted log record
      */
+    @Override
     public synchronized String format(LogRecord record) {
         dat.setTime(record.getMillis());
         String source;

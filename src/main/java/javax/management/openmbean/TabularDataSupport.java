@@ -170,6 +170,7 @@ public class TabularDataSupport
     /**
      * Returns the <i>tabular type</i> describing this <tt>TabularData</tt> instance.
      */
+    @Override
     public TabularType getTabularType() {
 
         return tabularType;
@@ -193,6 +194,7 @@ public class TabularDataSupport
      * @throws InvalidOpenTypeException   if <var>value</var> does not conform to this <tt>TabularData</tt> instance's
      *                                    row type definition.
      */
+    @Override
     public Object[] calculateIndex(CompositeData value) {
 
         // Check value is valid
@@ -220,6 +222,7 @@ public class TabularDataSupport
      *
      * @return  <tt>true</tt> if this <tt>TabularData</tt> indexes a row value with the specified key.
      */
+    @Override
     public boolean containsKey(Object key) {
 
         // if key is not an array of Object instances, return false
@@ -243,6 +246,7 @@ public class TabularDataSupport
      *
      * @return  <tt>true</tt> if this <tt>TabularData</tt> indexes a row value with the specified key.
      */
+    @Override
     public boolean containsKey(Object[] key) {
 
         return  ( key == null ? false : dataMap.containsKey(Arrays.asList(key)));
@@ -257,6 +261,7 @@ public class TabularDataSupport
      *
      * @return  <tt>true</tt> if this <tt>TabularData</tt> instance contains the specified row value.
      */
+    @Override
     public boolean containsValue(CompositeData value) {
 
         return dataMap.containsValue(value);
@@ -270,6 +275,7 @@ public class TabularDataSupport
      *
      * @return  <tt>true</tt> if this <tt>TabularData</tt> instance contains the specified row value.
      */
+    @Override
     public boolean containsValue(Object value) {
 
         return dataMap.containsValue(value);
@@ -283,6 +289,7 @@ public class TabularDataSupport
      * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
      *                               <tt>TabularType</tt> definition
      */
+    @Override
     public Object get(Object key) {
 
         return get((Object[]) key);
@@ -304,6 +311,7 @@ public class TabularDataSupport
      * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
      *                               <tt>TabularType</tt> type definition.
      */
+    @Override
     public CompositeData get(Object[] key) {
 
         // Check key is not null and valid with tabularType
@@ -342,11 +350,13 @@ public class TabularDataSupport
      * <tt>TabularData</tt> instance's <tt>TabularType</tt> definition
      * already maps to an existing value
      */
+    @Override
     public Object put(Object key, Object value) {
         internalPut((CompositeData) value);
         return value; // should be return internalPut(...); (5090566)
     }
 
+    @Override
     public void put(CompositeData value) {
         internalPut(value);
     }
@@ -376,6 +386,7 @@ public class TabularDataSupport
      * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
      *                               <tt>TabularType</tt> definition
      */
+    @Override
     public Object remove(Object key) {
 
         return remove((Object[]) key);
@@ -396,6 +407,7 @@ public class TabularDataSupport
      * @throws InvalidKeyException   if the <var>key</var> does not conform to this <tt>TabularData</tt> instance's
      *                               <tt>TabularType</tt> definition
      */
+    @Override
     public CompositeData remove(Object[] key) {
 
         // Check key is not null and valid with tabularType
@@ -442,6 +454,7 @@ public class TabularDataSupport
      * already maps to an existing value in this instance, or two
      * values in <var>t</var> have the same index.
      */
+    @Override
     public void putAll(Map<?,?> t) {
 
         // if t is null or empty, just return
@@ -494,6 +507,7 @@ public class TabularDataSupport
      * already maps to an existing value in this instance, or two
      * elements of <var>values</var> have the same index
      */
+    @Override
     public void putAll(CompositeData[] values) {
 
         // if values is null or empty, just return
@@ -532,6 +546,7 @@ public class TabularDataSupport
     /**
      * Removes all rows from this <code>TabularDataSupport</code> instance.
      */
+    @Override
     public void clear() {
 
         dataMap.clear();
@@ -546,6 +561,7 @@ public class TabularDataSupport
      *
      * @return the number of rows in this <code>TabularDataSupport</code> instance.
      */
+    @Override
     public int size() {
 
         return dataMap.size();
@@ -556,6 +572,7 @@ public class TabularDataSupport
      *
      * @return <tt>true</tt> if this <code>TabularDataSupport</code> instance contains no rows.
      */
+    @Override
     public boolean isEmpty() {
 
         return (this.size() == 0);
@@ -585,6 +602,7 @@ public class TabularDataSupport
      * @return a set view ({@code Set<List<?>>}) of the keys used to index
      * the rows of this {@code TabularDataSupport} instance.
      */
+    @Override
     public Set<Object> keySet() {
 
         return dataMap.keySet() ;
@@ -610,6 +628,7 @@ public class TabularDataSupport
      * @return a collection view ({@code Collection<CompositeData>}) of
      * the values contained in this {@code TabularDataSupport} instance.
      */
+    @Override
     @SuppressWarnings("unchecked")  // historical confusion about the return type
     public Collection<Object> values() {
 
@@ -646,6 +665,7 @@ public class TabularDataSupport
      * of the mappings contained in this map.
      * @see java.util.Map.Entry
      */
+    @Override
     @SuppressWarnings("unchecked")  // historical confusion about the return type
     public Set<Map.Entry<Object,Object>> entrySet() {
 
@@ -665,6 +685,7 @@ public class TabularDataSupport
        because this would fail with existing code that subclassed
        TabularDataSupport and overrode Object clone().  It would not
        override the new clone().  */
+    @Override
     public Object clone() {
         try {
             TabularDataSupport c = (TabularDataSupport) super.clone();
@@ -694,6 +715,7 @@ public class TabularDataSupport
      *
      * @return  <code>true</code> if the specified object is equal to this <code>TabularDataSupport</code> instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         // if obj is null, return false
@@ -756,13 +778,15 @@ public class TabularDataSupport
      *
      * @return  the hash code value for this <code>TabularDataSupport</code> instance
      */
+   @Override
    public int hashCode() {
 
         int result = 0;
 
         result += this.tabularType.hashCode();
-        for (Object value : values())
+        for (Object value : values()) {
             result += value.hashCode();
+        }
 
         return result;
 
@@ -778,6 +802,7 @@ public class TabularDataSupport
      *
      * @return  a string representation of this <code>TabularDataSupport</code> instance
      */
+    @Override
     public String toString() {
 
         return new StringBuilder()

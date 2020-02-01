@@ -102,9 +102,9 @@ public final class AccessControlContext {
 
     static Debug getDebug()
     {
-        if (debugInit)
+        if (debugInit) {
             return debug;
-        else {
+        } else {
             if (Policy.isSet()) {
                 debug = Debug.getInstance("access");
                 debugInit = true;
@@ -136,8 +136,9 @@ public final class AccessControlContext {
         } else {
             List<ProtectionDomain> v = new ArrayList<>(context.length);
             for (int i =0; i< context.length; i++) {
-                if ((context[i] != null) &&  (!v.contains(context[i])))
+                if ((context[i] != null) &&  (!v.contains(context[i]))) {
                     v.add(context[i]);
+                }
             }
             if (!v.isEmpty()) {
                 this.context = new ProtectionDomain[v.size()];
@@ -463,6 +464,7 @@ public final class AccessControlContext {
                     final ProtectionDomain pd = context[i];
                     final Debug db = debug;
                     AccessController.doPrivileged (new PrivilegedAction<Void>() {
+                        @Override
                         public Void run() {
                             db.println("domain that failed "+pd);
                             return null;
@@ -746,20 +748,25 @@ public final class AccessControlContext {
      * @return true if <i>obj</i> is an AccessControlContext, and has the
      * same set of ProtectionDomains as this context, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (! (obj instanceof AccessControlContext))
+        if (! (obj instanceof AccessControlContext)) {
             return false;
+        }
 
         AccessControlContext that = (AccessControlContext) obj;
 
-        if (!equalContext(that))
+        if (!equalContext(that)) {
             return false;
+        }
 
-        if (!equalLimitedContext(that))
+        if (!equalLimitedContext(that)) {
             return false;
+        }
 
         return true;
     }
@@ -769,14 +776,17 @@ public final class AccessControlContext {
      * privilege complications.
      */
     private boolean equalContext(AccessControlContext that) {
-        if (!equalPDs(this.context, that.context))
+        if (!equalPDs(this.context, that.context)) {
             return false;
+        }
 
-        if (this.combiner == null && that.combiner != null)
+        if (this.combiner == null && that.combiner != null) {
             return false;
+        }
 
-        if (this.combiner != null && !this.combiner.equals(that.combiner))
+        if (this.combiner != null && !this.combiner.equals(that.combiner)) {
             return false;
+        }
 
         return true;
     }
@@ -786,11 +796,13 @@ public final class AccessControlContext {
             return (b == null);
         }
 
-        if (b == null)
+        if (b == null) {
             return false;
+        }
 
-        if (!(containsAllPDs(a, b) && containsAllPDs(b, a)))
+        if (!(containsAllPDs(a, b) && containsAllPDs(b, a))) {
             return false;
+        }
 
         return true;
     }
@@ -801,20 +813,23 @@ public final class AccessControlContext {
      * scope is in effect.
      */
     private boolean equalLimitedContext(AccessControlContext that) {
-        if (that == null)
+        if (that == null) {
             return false;
+        }
 
         /*
          * If neither instance has limited privilege scope then we're done.
          */
-        if (!this.isLimited && !that.isLimited)
+        if (!this.isLimited && !that.isLimited) {
             return true;
+        }
 
         /*
          * If only one instance has limited privilege scope then we're done.
          */
-         if (!(this.isLimited && that.isLimited))
+         if (!(this.isLimited && that.isLimited)) {
              return false;
+         }
 
         /*
          * Wrapped instances should never escape outside the implementation
@@ -827,14 +842,17 @@ public final class AccessControlContext {
             return false;
         }
 
-        if (this.permissions == null && that.permissions != null)
+        if (this.permissions == null && that.permissions != null) {
             return false;
+        }
 
-        if (this.permissions != null && that.permissions == null)
+        if (this.permissions != null && that.permissions == null) {
             return false;
+        }
 
-        if (!(this.containsAllLimits(that) && that.containsAllLimits(this)))
+        if (!(this.containsAllLimits(that) && that.containsAllLimits(this))) {
             return false;
+        }
 
         /*
          * Skip through any wrapped contexts.
@@ -848,17 +866,21 @@ public final class AccessControlContext {
          * of this instance by optimize() so we only care about any limited
          * privilege state they may have.
          */
-        if (thisNextPC == null && thatNextPC != null && thatNextPC.isLimited)
+        if (thisNextPC == null && thatNextPC != null && thatNextPC.isLimited) {
             return false;
+        }
 
-        if (thisNextPC != null && !thisNextPC.equalLimitedContext(thatNextPC))
+        if (thisNextPC != null && !thisNextPC.equalLimitedContext(thatNextPC)) {
             return false;
+        }
 
-        if (this.parent == null && that.parent != null)
+        if (this.parent == null && that.parent != null) {
             return false;
+        }
 
-        if (this.parent != null && !this.parent.equals(that.parent))
+        if (this.parent != null && !this.parent.equals(that.parent)) {
             return false;
+        }
 
         return true;
     }
@@ -870,8 +892,9 @@ public final class AccessControlContext {
     private static AccessControlContext getNextPC(AccessControlContext acc) {
         while (acc != null && acc.privilegedContext != null) {
             acc = acc.privilegedContext;
-            if (!acc.isWrapped)
+            if (!acc.isWrapped) {
                 return acc;
+            }
         }
         return null;
     }
@@ -904,7 +927,9 @@ public final class AccessControlContext {
                         thisPdClass == thatPd.getClass() && thisPd.equals(thatPd));
                 }
             }
-            if (!match) return false;
+            if (!match) {
+                return false;
+            }
         }
         return match;
     }
@@ -913,8 +938,9 @@ public final class AccessControlContext {
         boolean match = false;
         Permission thisPerm;
 
-        if (this.permissions == null && that.permissions == null)
+        if (this.permissions == null && that.permissions == null) {
             return true;
+        }
 
         for (int i = 0; i < this.permissions.length; i++) {
             Permission limit = this.permissions[i];
@@ -925,7 +951,9 @@ public final class AccessControlContext {
                 match = (limitClass.equals(perm.getClass()) &&
                     limit.equals(perm));
             }
-            if (!match) return false;
+            if (!match) {
+                return false;
+            }
         }
         return match;
     }
@@ -939,15 +967,18 @@ public final class AccessControlContext {
      * @return a hash code value for this context.
      */
 
+    @Override
     public int hashCode() {
         int hashCode = 0;
 
-        if (context == null)
+        if (context == null) {
             return hashCode;
+        }
 
         for (int i =0; i < context.length; i++) {
-            if (context[i] != null)
+            if (context[i] != null) {
                 hashCode ^= context[i].hashCode();
+            }
         }
 
         return hashCode;

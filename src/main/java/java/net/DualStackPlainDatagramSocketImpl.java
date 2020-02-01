@@ -65,21 +65,25 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         exclusiveBind = exclBind;
     }
 
+    @Override
     protected void datagramSocketCreate() throws SocketException {
-        if (fd == null)
+        if (fd == null) {
             throw new SocketException("Socket closed");
+        }
 
         int newfd = socketCreate(false /* v6Only */);
 
         fdAccess.set(fd, newfd);
     }
 
+    @Override
     protected synchronized void bind0(int lport, InetAddress laddr)
         throws SocketException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (laddr == null)
+        if (laddr == null) {
             throw new NullPointerException("argument address");
+        }
 
         socketBind(nativefd, laddr, lport, exclusiveBind);
         if (lport == 0) {
@@ -89,11 +93,13 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         }
     }
 
+    @Override
     protected synchronized int peek(InetAddress address) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (address == null)
+        if (address == null) {
             throw new NullPointerException("Null address in peek()");
+        }
 
         // Use peekData()
         DatagramPacket peekPacket = new DatagramPacket(new byte[1], 1);
@@ -102,65 +108,81 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         return peekPort;
     }
 
+    @Override
     protected synchronized int peekData(DatagramPacket p) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (p == null)
+        if (p == null) {
             throw new NullPointerException("packet");
-        if (p.getData() == null)
+        }
+        if (p.getData() == null) {
             throw new NullPointerException("packet buffer");
+        }
 
         return socketReceiveOrPeekData(nativefd, p, timeout, connected, true /*peek*/);
     }
 
+    @Override
     protected synchronized void receive0(DatagramPacket p) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (p == null)
+        if (p == null) {
             throw new NullPointerException("packet");
-        if (p.getData() == null)
+        }
+        if (p.getData() == null) {
             throw new NullPointerException("packet buffer");
+        }
 
         socketReceiveOrPeekData(nativefd, p, timeout, connected, false /*receive*/);
     }
 
+    @Override
     protected void send(DatagramPacket p) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (p == null)
+        if (p == null) {
             throw new NullPointerException("null packet");
+        }
 
-        if (p.getAddress() == null ||p.getData() ==null)
+        if (p.getAddress() == null ||p.getData() ==null) {
             throw new NullPointerException("null address || null buffer");
+        }
 
         socketSend(nativefd, p.getData(), p.getOffset(), p.getLength(),
                    p.getAddress(), p.getPort(), connected);
     }
 
+    @Override
     protected void connect0(InetAddress address, int port) throws SocketException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (address == null)
+        if (address == null) {
             throw new NullPointerException("address");
+        }
 
         socketConnect(nativefd, address, port);
     }
 
+    @Override
     protected void disconnect0(int family /*unused*/) {
-        if (fd == null || !fd.valid())
+        if (fd == null || !fd.valid()) {
             return;   // disconnect doesn't throw any exceptions
+        }
 
         socketDisconnect(fdAccess.get(fd));
     }
 
+    @Override
     protected void datagramSocketClose() {
-        if (fd == null || !fd.valid())
+        if (fd == null || !fd.valid()) {
             return;   // close doesn't throw any exceptions
+        }
 
         socketClose(fdAccess.get(fd));
         fdAccess.set(fd, -1);
     }
 
+    @Override
     @SuppressWarnings("fallthrough")
     protected void socketSetOption(int opt, Object val) throws SocketException {
         int nativefd = checkAndReturnNativeFD();
@@ -191,6 +213,7 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         socketSetIntOption(nativefd, opt, optionValue);
     }
 
+    @Override
     protected Object socketGetOption(int opt) throws SocketException {
         int nativefd = checkAndReturnNativeFD();
 
@@ -198,8 +221,9 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         if (opt == SO_BINDADDR) {
             return socketLocalAddress(nativefd);
         }
-        if (opt == SO_REUSEADDR && reuseAddressEmulated)
+        if (opt == SO_REUSEADDR && reuseAddressEmulated) {
             return isReuseAddress;
+        }
 
         int value = socketGetIntOption(nativefd, opt);
         Object returnValue = null;
@@ -226,29 +250,35 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
      * TwoStacksPlainDatagramSocketImpl. This is to overcome the lack
      * of behavior defined for multicasting over a dual layer socket by the RFC.
      */
+    @Override
     protected void join(InetAddress inetaddr, NetworkInterface netIf)
         throws IOException {
         throw new IOException("Method not implemented!");
     }
 
+    @Override
     protected void leave(InetAddress inetaddr, NetworkInterface netIf)
         throws IOException {
         throw new IOException("Method not implemented!");
     }
 
+    @Override
     protected void setTimeToLive(int ttl) throws IOException {
         throw new IOException("Method not implemented!");
     }
 
+    @Override
     protected int getTimeToLive() throws IOException {
         throw new IOException("Method not implemented!");
     }
 
+    @Override
     @Deprecated
     protected void setTTL(byte ttl) throws IOException {
         throw new IOException("Method not implemented!");
     }
 
+    @Override
     @Deprecated
     protected byte getTTL() throws IOException {
         throw new IOException("Method not implemented!");
@@ -256,8 +286,9 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
     /* END Multicast specific methods */
 
     private int checkAndReturnNativeFD() throws SocketException {
-        if (fd == null || !fd.valid())
+        if (fd == null || !fd.valid()) {
             throw new SocketException("Socket closed");
+        }
 
         return fdAccess.get(fd);
     }
@@ -293,5 +324,6 @@ class DualStackPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
 
     private static native int socketGetIntOption(int fd, int cmd) throws SocketException;
 
+    @Override
     native int dataAvailable();
 }

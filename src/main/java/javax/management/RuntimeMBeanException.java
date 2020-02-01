@@ -81,6 +81,7 @@ public class RuntimeMBeanException extends JMRuntimeException   {
      *
      * @return the wrapped {@link RuntimeException}.
      */
+    @Override
     public Throwable getCause() {
         return runtimeException;
     }

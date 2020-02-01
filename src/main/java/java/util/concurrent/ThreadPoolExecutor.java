@@ -620,6 +620,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         }
 
         /** Delegates main run loop to outer runWorker  */
+        @Override
         public void run() {
             runWorker(this);
         }
@@ -629,10 +630,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         // The value 0 represents the unlocked state.
         // The value 1 represents the locked state.
 
+        @Override
         protected boolean isHeldExclusively() {
             return getState() != 0;
         }
 
+        @Override
         protected boolean tryAcquire(int unused) {
             if (compareAndSetState(0, 1)) {
                 setExclusiveOwnerThread(Thread.currentThread());
@@ -641,6 +644,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             return false;
         }
 
+        @Override
         protected boolean tryRelease(int unused) {
             setExclusiveOwnerThread(null);
             setState(0);
@@ -678,8 +682,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         for (;;) {
             int c = ctl.get();
             if (runStateAtLeast(c, targetState) ||
-                ctl.compareAndSet(c, ctlOf(targetState, workerCountOf(c))))
+                ctl.compareAndSet(c, ctlOf(targetState, workerCountOf(c)))) {
                 break;
+            }
         }
     }
 
@@ -698,8 +703,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             int c = ctl.get();
             if (isRunning(c) ||
                 runStateAtLeast(c, TIDYING) ||
-                (runStateOf(c) == SHUTDOWN && ! workQueue.isEmpty()))
+                (runStateOf(c) == SHUTDOWN && ! workQueue.isEmpty())) {
                 return;
+            }
             if (workerCountOf(c) != 0) { // Eligible to terminate
                 interruptIdleWorkers(ONLY_ONE);
                 return;
@@ -743,8 +749,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             final ReentrantLock mainLock = this.mainLock;
             mainLock.lock();
             try {
-                for (Worker w : workers)
+                for (Worker w : workers) {
                     security.checkAccess(w.thread);
+                }
             } finally {
                 mainLock.unlock();
             }
@@ -759,8 +766,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         final ReentrantLock mainLock = this.mainLock;
         mainLock.lock();
         try {
-            for (Worker w : workers)
+            for (Worker w : workers) {
                 w.interruptIfStarted();
+            }
         } finally {
             mainLock.unlock();
         }
@@ -799,8 +807,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                         w.unlock();
                     }
                 }
-                if (onlyOne)
+                if (onlyOne) {
                     break;
+                }
             }
         } finally {
             mainLock.unlock();
@@ -861,8 +870,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         q.drainTo(taskList);
         if (!q.isEmpty()) {
             for (Runnable r : q.toArray(new Runnable[0])) {
-                if (q.remove(r))
+                if (q.remove(r)) {
                     taskList.add(r);
+                }
             }
         }
         return taskList;
@@ -908,19 +918,23 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             if (rs >= SHUTDOWN &&
                 ! (rs == SHUTDOWN &&
                    firstTask == null &&
-                   ! workQueue.isEmpty()))
+                   ! workQueue.isEmpty())) {
                 return false;
+            }
 
             for (;;) {
                 int wc = workerCountOf(c);
                 if (wc >= CAPACITY ||
-                    wc >= (core ? corePoolSize : maximumPoolSize))
+                    wc >= (core ? corePoolSize : maximumPoolSize)) {
                     return false;
-                if (compareAndIncrementWorkerCount(c))
+                }
+                if (compareAndIncrementWorkerCount(c)) {
                     break retry;
+                }
                 c = ctl.get();  // Re-read ctl
-                if (runStateOf(c) != rs)
+                if (runStateOf(c) != rs) {
                     continue retry;
+                }
                 // else CAS failed due to workerCount change; retry inner loop
             }
         }
@@ -943,11 +957,14 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                     if (rs < SHUTDOWN ||
                         (rs == SHUTDOWN && firstTask == null)) {
                         if (t.isAlive()) // precheck that t is startable
+                        {
                             throw new IllegalThreadStateException();
+                        }
                         workers.add(w);
                         int s = workers.size();
-                        if (s > largestPoolSize)
+                        if (s > largestPoolSize) {
                             largestPoolSize = s;
+                        }
                         workerAdded = true;
                     }
                 } finally {
@@ -959,8 +976,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                 }
             }
         } finally {
-            if (! workerStarted)
+            if (! workerStarted) {
                 addWorkerFailed(w);
+            }
         }
         return workerStarted;
     }
@@ -976,8 +994,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         final ReentrantLock mainLock = this.mainLock;
         mainLock.lock();
         try {
-            if (w != null)
+            if (w != null) {
                 workers.remove(w);
+            }
             decrementWorkerCount();
             tryTerminate();
         } finally {
@@ -1000,7 +1019,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      */
     private void processWorkerExit(Worker w, boolean completedAbruptly) {
         if (completedAbruptly) // If abrupt, then workerCount wasn't adjusted
+        {
             decrementWorkerCount();
+        }
 
         final ReentrantLock mainLock = this.mainLock;
         mainLock.lock();
@@ -1017,10 +1038,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         if (runStateLessThan(c, STOP)) {
             if (!completedAbruptly) {
                 int min = allowCoreThreadTimeOut ? 0 : corePoolSize;
-                if (min == 0 && ! workQueue.isEmpty())
+                if (min == 0 && ! workQueue.isEmpty()) {
                     min = 1;
-                if (workerCountOf(c) >= min)
+                }
+                if (workerCountOf(c) >= min) {
                     return; // replacement not needed
+                }
             }
             addWorker(null, false);
         }
@@ -1063,8 +1086,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
             if ((wc > maximumPoolSize || (timed && timedOut))
                 && (wc > 1 || workQueue.isEmpty())) {
-                if (compareAndDecrementWorkerCount(c))
+                if (compareAndDecrementWorkerCount(c)) {
                     return null;
+                }
                 continue;
             }
 
@@ -1072,8 +1096,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                 Runnable r = timed ?
                     workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
                     workQueue.take();
-                if (r != null)
+                if (r != null) {
                     return r;
+                }
                 timedOut = true;
             } catch (InterruptedException retry) {
                 timedOut = false;
@@ -1140,8 +1165,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                 if ((runStateAtLeast(ctl.get(), STOP) ||
                      (Thread.interrupted() &&
                       runStateAtLeast(ctl.get(), STOP))) &&
-                    !wt.isInterrupted())
+                    !wt.isInterrupted()) {
                     wt.interrupt();
+                }
                 try {
                     beforeExecute(wt, task);
                     Throwable thrown = null;
@@ -1310,10 +1336,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         if (corePoolSize < 0 ||
             maximumPoolSize <= 0 ||
             maximumPoolSize < corePoolSize ||
-            keepAliveTime < 0)
+            keepAliveTime < 0) {
             throw new IllegalArgumentException();
-        if (workQueue == null || threadFactory == null || handler == null)
+        }
+        if (workQueue == null || threadFactory == null || handler == null) {
             throw new NullPointerException();
+        }
         this.acc = System.getSecurityManager() == null ?
                 null :
                 AccessController.getContext();
@@ -1339,9 +1367,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *         cannot be accepted for execution
      * @throws NullPointerException if {@code command} is null
      */
+    @Override
     public void execute(Runnable command) {
-        if (command == null)
+        if (command == null) {
             throw new NullPointerException();
+        }
         /*
          * Proceed in 3 steps:
          *
@@ -1364,19 +1394,22 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          */
         int c = ctl.get();
         if (workerCountOf(c) < corePoolSize) {
-            if (addWorker(command, true))
+            if (addWorker(command, true)) {
                 return;
+            }
             c = ctl.get();
         }
         if (isRunning(c) && workQueue.offer(command)) {
             int recheck = ctl.get();
-            if (! isRunning(recheck) && remove(command))
+            if (! isRunning(recheck) && remove(command)) {
                 reject(command);
-            else if (workerCountOf(recheck) == 0)
+            } else if (workerCountOf(recheck) == 0) {
                 addWorker(null, false);
+            }
         }
-        else if (!addWorker(command, false))
+        else if (!addWorker(command, false)) {
             reject(command);
+        }
     }
 
     /**
@@ -1390,6 +1423,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *
      * @throws SecurityException {@inheritDoc}
      */
+    @Override
     public void shutdown() {
         final ReentrantLock mainLock = this.mainLock;
         mainLock.lock();
@@ -1421,6 +1455,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *
      * @throws SecurityException {@inheritDoc}
      */
+    @Override
     public List<Runnable> shutdownNow() {
         List<Runnable> tasks;
         final ReentrantLock mainLock = this.mainLock;
@@ -1437,6 +1472,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         return tasks;
     }
 
+    @Override
     public boolean isShutdown() {
         return ! isRunning(ctl.get());
     }
@@ -1457,10 +1493,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         return ! isRunning(c) && runStateLessThan(c, TERMINATED);
     }
 
+    @Override
     public boolean isTerminated() {
         return runStateAtLeast(ctl.get(), TERMINATED);
     }
 
+    @Override
     public boolean awaitTermination(long timeout, TimeUnit unit)
         throws InterruptedException {
         long nanos = unit.toNanos(timeout);
@@ -1468,10 +1506,12 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         mainLock.lock();
         try {
             for (;;) {
-                if (runStateAtLeast(ctl.get(), TERMINATED))
+                if (runStateAtLeast(ctl.get(), TERMINATED)) {
                     return true;
-                if (nanos <= 0)
+                }
+                if (nanos <= 0) {
                     return false;
+                }
                 nanos = termination.awaitNanos(nanos);
             }
         } finally {
@@ -1483,6 +1523,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * Invokes {@code shutdown} when this executor is no longer
      * referenced and it has no threads.
      */
+    @Override
     protected void finalize() {
         SecurityManager sm = System.getSecurityManager();
         if (sm == null || acc == null) {
@@ -1501,8 +1542,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @see #getThreadFactory
      */
     public void setThreadFactory(ThreadFactory threadFactory) {
-        if (threadFactory == null)
+        if (threadFactory == null) {
             throw new NullPointerException();
+        }
         this.threadFactory = threadFactory;
     }
 
@@ -1524,8 +1566,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @see #getRejectedExecutionHandler
      */
     public void setRejectedExecutionHandler(RejectedExecutionHandler handler) {
-        if (handler == null)
+        if (handler == null) {
             throw new NullPointerException();
+        }
         this.handler = handler;
     }
 
@@ -1551,21 +1594,23 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @see #getCorePoolSize
      */
     public void setCorePoolSize(int corePoolSize) {
-        if (corePoolSize < 0)
+        if (corePoolSize < 0) {
             throw new IllegalArgumentException();
+        }
         int delta = corePoolSize - this.corePoolSize;
         this.corePoolSize = corePoolSize;
-        if (workerCountOf(ctl.get()) > corePoolSize)
+        if (workerCountOf(ctl.get()) > corePoolSize) {
             interruptIdleWorkers();
-        else if (delta > 0) {
+        } else if (delta > 0) {
             // We don't really know how many new threads are "needed".
             // As a heuristic, prestart enough new workers (up to new
             // core size) to handle the current number of tasks in
             // queue, but stop if queue becomes empty while doing so.
             int k = Math.min(delta, workQueue.size());
             while (k-- > 0 && addWorker(null, true)) {
-                if (workQueue.isEmpty())
+                if (workQueue.isEmpty()) {
                     break;
+                }
             }
         }
     }
@@ -1599,10 +1644,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      */
     void ensurePrestart() {
         int wc = workerCountOf(ctl.get());
-        if (wc < corePoolSize)
+        if (wc < corePoolSize) {
             addWorker(null, true);
-        else if (wc == 0)
+        } else if (wc == 0) {
             addWorker(null, false);
+        }
     }
 
     /**
@@ -1614,8 +1660,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      */
     public int prestartAllCoreThreads() {
         int n = 0;
-        while (addWorker(null, true))
+        while (addWorker(null, true)) {
             ++n;
+        }
         return n;
     }
 
@@ -1654,12 +1701,14 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @since 1.6
      */
     public void allowCoreThreadTimeOut(boolean value) {
-        if (value && keepAliveTime <= 0)
+        if (value && keepAliveTime <= 0) {
             throw new IllegalArgumentException("Core threads must have nonzero keep alive times");
+        }
         if (value != allowCoreThreadTimeOut) {
             allowCoreThreadTimeOut = value;
-            if (value)
+            if (value) {
                 interruptIdleWorkers();
+            }
         }
     }
 
@@ -1676,11 +1725,13 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @see #getMaximumPoolSize
      */
     public void setMaximumPoolSize(int maximumPoolSize) {
-        if (maximumPoolSize <= 0 || maximumPoolSize < corePoolSize)
+        if (maximumPoolSize <= 0 || maximumPoolSize < corePoolSize) {
             throw new IllegalArgumentException();
+        }
         this.maximumPoolSize = maximumPoolSize;
-        if (workerCountOf(ctl.get()) > maximumPoolSize)
+        if (workerCountOf(ctl.get()) > maximumPoolSize) {
             interruptIdleWorkers();
+        }
     }
 
     /**
@@ -1708,15 +1759,18 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @see #getKeepAliveTime(TimeUnit)
      */
     public void setKeepAliveTime(long time, TimeUnit unit) {
-        if (time < 0)
+        if (time < 0) {
             throw new IllegalArgumentException();
-        if (time == 0 && allowsCoreThreadTimeOut())
+        }
+        if (time == 0 && allowsCoreThreadTimeOut()) {
             throw new IllegalArgumentException("Core threads must have nonzero keep alive times");
+        }
         long keepAliveTime = unit.toNanos(time);
         long delta = keepAliveTime - this.keepAliveTime;
         this.keepAliveTime = keepAliveTime;
-        if (delta < 0)
+        if (delta < 0) {
             interruptIdleWorkers();
+        }
     }
 
     /**
@@ -1784,16 +1838,19 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             Iterator<Runnable> it = q.iterator();
             while (it.hasNext()) {
                 Runnable r = it.next();
-                if (r instanceof Future<?> && ((Future<?>)r).isCancelled())
+                if (r instanceof Future<?> && ((Future<?>)r).isCancelled()) {
                     it.remove();
+                }
             }
         } catch (ConcurrentModificationException fallThrough) {
             // Take slow path if we encounter interference during traversal.
             // Make copy for traversal and call remove for cancelled entries.
             // The slow path is more likely to be O(N*N).
-            for (Object r : q.toArray())
-                if (r instanceof Future<?> && ((Future<?>)r).isCancelled())
+            for (Object r : q.toArray()) {
+                if (r instanceof Future<?> && ((Future<?>)r).isCancelled()) {
                     q.remove(r);
+                }
+            }
         }
 
         tryTerminate(); // In case SHUTDOWN and now empty
@@ -1830,9 +1887,11 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         mainLock.lock();
         try {
             int n = 0;
-            for (Worker w : workers)
-                if (w.isLocked())
+            for (Worker w : workers) {
+                if (w.isLocked()) {
                     ++n;
+                }
+            }
             return n;
         } finally {
             mainLock.unlock();
@@ -1870,8 +1929,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             long n = completedTaskCount;
             for (Worker w : workers) {
                 n += w.completedTasks;
-                if (w.isLocked())
+                if (w.isLocked()) {
                     ++n;
+                }
             }
             return n + workQueue.size();
         } finally {
@@ -1893,8 +1953,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         mainLock.lock();
         try {
             long n = completedTaskCount;
-            for (Worker w : workers)
+            for (Worker w : workers) {
                 n += w.completedTasks;
+            }
             return n;
         } finally {
             mainLock.unlock();
@@ -1908,6 +1969,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *
      * @return a string identifying this pool, as well as its state
      */
+    @Override
     public String toString() {
         long ncompleted;
         int nworkers, nactive;
@@ -1919,8 +1981,9 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             nworkers = workers.size();
             for (Worker w : workers) {
                 ncompleted += w.completedTasks;
-                if (w.isLocked())
+                if (w.isLocked()) {
                     ++nactive;
+                }
             }
         } finally {
             mainLock.unlock();
@@ -2033,6 +2096,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          * @param r the runnable task requested to be executed
          * @param e the executor attempting to execute this task
          */
+        @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
             if (!e.isShutdown()) {
                 r.run();
@@ -2057,6 +2121,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          * @param e the executor attempting to execute this task
          * @throws RejectedExecutionException always
          */
+        @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
             throw new RejectedExecutionException("Task " + r.toString() +
                                                  " rejected from " +
@@ -2080,6 +2145,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          * @param r the runnable task requested to be executed
          * @param e the executor attempting to execute this task
          */
+        @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
         }
     }
@@ -2104,6 +2170,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          * @param r the runnable task requested to be executed
          * @param e the executor attempting to execute this task
          */
+        @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
             if (!e.isShutdown()) {
                 e.getQueue().poll();

@@ -236,6 +236,7 @@ public final class IIORegistry extends ServiceRegistry {
          */
         PrivilegedAction doRegistration =
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     Iterator categories = getCategories();
                     while (categories.hasNext()) {

@@ -144,6 +144,7 @@ public class CSS implements Serializable {
          * should exactly match the string specified in the
          * CSS specification.
          */
+        @Override
         public String toString() {
             return name;
         }
@@ -430,6 +431,7 @@ public class CSS implements Serializable {
          * should exactly match the string specified in the
          * CSS specification.
          */
+        @Override
         public String toString() {
             return name;
         }
@@ -549,12 +551,13 @@ public class CSS implements Serializable {
      * point size corresponding to <code>sz</code>.
      */
     void setBaseFontSize(int sz) {
-        if (sz < 1)
-          baseFontSize = 0;
-        else if (sz > 7)
-          baseFontSize = 7;
-        else
-          baseFontSize = sz;
+        if (sz < 1) {
+            baseFontSize = 0;
+        } else if (sz > 7) {
+            baseFontSize = 7;
+        } else {
+            baseFontSize = sz;
+        }
     }
 
     /**
@@ -1123,30 +1126,33 @@ public class CSS implements Serializable {
 
       // Red
       String str = Integer.toHexString(color.getRed());
-      if (str.length() > 2)
-        str = str.substring(0, 2);
-      else if (str.length() < 2)
-        colorstr += "0" + str;
-      else
-        colorstr += str;
+      if (str.length() > 2) {
+          str = str.substring(0, 2);
+      } else if (str.length() < 2) {
+          colorstr += "0" + str;
+      } else {
+          colorstr += str;
+      }
 
       // Green
       str = Integer.toHexString(color.getGreen());
-      if (str.length() > 2)
-        str = str.substring(0, 2);
-      else if (str.length() < 2)
-        colorstr += "0" + str;
-      else
-        colorstr += str;
+      if (str.length() > 2) {
+          str = str.substring(0, 2);
+      } else if (str.length() < 2) {
+          colorstr += "0" + str;
+      } else {
+          colorstr += str;
+      }
 
       // Blue
       str = Integer.toHexString(color.getBlue());
-      if (str.length() > 2)
-        str = str.substring(0, 2);
-      else if (str.length() < 2)
-        colorstr += "0" + str;
-      else
-        colorstr += str;
+      if (str.length() > 2) {
+          str = str.substring(0, 2);
+      } else if (str.length() < 2) {
+          colorstr += "0" + str;
+      } else {
+          colorstr += str;
+      }
 
       return colorstr;
     }
@@ -1184,49 +1190,50 @@ public class CSS implements Serializable {
       if (str == null) {
           return null;
       }
-      if (str.length() == 0)
-        color = Color.black;
-      else if (str.startsWith("rgb(")) {
+      if (str.length() == 0) {
+          color = Color.black;
+      } else if (str.startsWith("rgb(")) {
           color = parseRGB(str);
       }
-      else if (str.charAt(0) == '#')
-        color = hexToColor(str);
-      else if (str.equalsIgnoreCase("Black"))
-        color = hexToColor("#000000");
-      else if(str.equalsIgnoreCase("Silver"))
-        color = hexToColor("#C0C0C0");
-      else if(str.equalsIgnoreCase("Gray"))
-        color = hexToColor("#808080");
-      else if(str.equalsIgnoreCase("White"))
-        color = hexToColor("#FFFFFF");
-      else if(str.equalsIgnoreCase("Maroon"))
-        color = hexToColor("#800000");
-      else if(str.equalsIgnoreCase("Red"))
-        color = hexToColor("#FF0000");
-      else if(str.equalsIgnoreCase("Purple"))
-        color = hexToColor("#800080");
-      else if(str.equalsIgnoreCase("Fuchsia"))
-        color = hexToColor("#FF00FF");
-      else if(str.equalsIgnoreCase("Green"))
-        color = hexToColor("#008000");
-      else if(str.equalsIgnoreCase("Lime"))
-        color = hexToColor("#00FF00");
-      else if(str.equalsIgnoreCase("Olive"))
-        color = hexToColor("#808000");
-      else if(str.equalsIgnoreCase("Yellow"))
-        color = hexToColor("#FFFF00");
-      else if(str.equalsIgnoreCase("Navy"))
-        color = hexToColor("#000080");
-      else if(str.equalsIgnoreCase("Blue"))
-        color = hexToColor("#0000FF");
-      else if(str.equalsIgnoreCase("Teal"))
-        color = hexToColor("#008080");
-      else if(str.equalsIgnoreCase("Aqua"))
-        color = hexToColor("#00FFFF");
-      else if(str.equalsIgnoreCase("Orange"))
-        color = hexToColor("#FF8000");
-      else
+      else if (str.charAt(0) == '#') {
+          color = hexToColor(str);
+      } else if (str.equalsIgnoreCase("Black")) {
+          color = hexToColor("#000000");
+      } else if(str.equalsIgnoreCase("Silver")) {
+          color = hexToColor("#C0C0C0");
+      } else if(str.equalsIgnoreCase("Gray")) {
+          color = hexToColor("#808080");
+      } else if(str.equalsIgnoreCase("White")) {
+          color = hexToColor("#FFFFFF");
+      } else if(str.equalsIgnoreCase("Maroon")) {
+          color = hexToColor("#800000");
+      } else if(str.equalsIgnoreCase("Red")) {
+          color = hexToColor("#FF0000");
+      } else if(str.equalsIgnoreCase("Purple")) {
+          color = hexToColor("#800080");
+      } else if(str.equalsIgnoreCase("Fuchsia")) {
+          color = hexToColor("#FF00FF");
+      } else if(str.equalsIgnoreCase("Green")) {
+          color = hexToColor("#008000");
+      } else if(str.equalsIgnoreCase("Lime")) {
+          color = hexToColor("#00FF00");
+      } else if(str.equalsIgnoreCase("Olive")) {
+          color = hexToColor("#808000");
+      } else if(str.equalsIgnoreCase("Yellow")) {
+          color = hexToColor("#FFFF00");
+      } else if(str.equalsIgnoreCase("Navy")) {
+          color = hexToColor("#000080");
+      } else if(str.equalsIgnoreCase("Blue")) {
+          color = hexToColor("#0000FF");
+      } else if(str.equalsIgnoreCase("Teal")) {
+          color = hexToColor("#008080");
+      } else if(str.equalsIgnoreCase("Aqua")) {
+          color = hexToColor("#00FFFF");
+      } else if(str.equalsIgnoreCase("Orange")) {
+          color = hexToColor("#FF8000");
+      } else {
           color = hexToColor(str); // sometimes get specified without leading #
+      }
       return color;
     }
 
@@ -1299,9 +1306,11 @@ public class CSS implements Serializable {
     }
 
     static int getIndexOfSize(float pt, int[] sizeMap) {
-        for (int i = 0; i < sizeMap.length; i ++ )
-                if (pt <= sizeMap[i])
-                        return i + 1;
+        for (int i = 0; i < sizeMap.length; i ++ ) {
+            if (pt <= sizeMap[i]) {
+                return i + 1;
+            }
+        }
         return sizeMap.length;
     }
 
@@ -1352,12 +1361,13 @@ public class CSS implements Serializable {
         int[] sizeMap = (ss != null) ? ss.getSizeMap() :
             StyleSheet.sizeMapDefault;
         --index;
-        if (index < 0)
-          return sizeMap[0];
-        else if (index > sizeMap.length - 1)
-          return sizeMap[sizeMap.length - 1];
-        else
-          return sizeMap[index];
+        if (index < 0) {
+            return sizeMap[0];
+        } else if (index > sizeMap.length - 1) {
+            return sizeMap[sizeMap.length - 1];
+        } else {
+            return sizeMap[index];
+        }
     }
 
 
@@ -1622,6 +1632,7 @@ public class CSS implements Serializable {
         /**
          * Return the CSS format of the value
          */
+        @Override
         public String toString() {
             return svalue;
         }
@@ -1649,6 +1660,7 @@ public class CSS implements Serializable {
          * This produces a StringValue, so that it can be
          * used to convert from CSS to StyleConstants values.
          */
+        @Override
         Object parseCssValue(String value) {
             StringValue sv = new StringValue();
             sv.svalue = value;
@@ -1666,6 +1678,7 @@ public class CSS implements Serializable {
          * @return the CSS value that represents the
          *   <code>StyleConstants</code> value
          */
+        @Override
         Object fromStyleConstants(StyleConstants key, Object value) {
             if (key == StyleConstants.Italic) {
                 if (value.equals(Boolean.TRUE)) {
@@ -1726,6 +1739,7 @@ public class CSS implements Serializable {
          * @return the <code>StyleConstants</code> attribute value that
          *   represents the CSS attribute value
          */
+        @Override
         Object toStyleConstants(StyleConstants key, View v) {
             if (key == StyleConstants.Italic) {
                 if (svalue.indexOf("italic") >= 0) {
@@ -1843,6 +1857,7 @@ public class CSS implements Serializable {
             }
         }
 
+        @Override
         Object parseCssValue(String value) {
             FontSize fs = new FontSize();
             fs.svalue = value;
@@ -1885,6 +1900,7 @@ public class CSS implements Serializable {
             return fs;
         }
 
+        @Override
         Object parseHtmlValue(String value) {
             if ((value == null) || (value.length() == 0)) {
                 return null;
@@ -1933,6 +1949,7 @@ public class CSS implements Serializable {
          * @return the CSS value that represents the
          *   <code>StyleConstants</code> value
          */
+        @Override
         Object fromStyleConstants(StyleConstants key, Object value) {
             if (value instanceof Number) {
                 FontSize fs = new FontSize();
@@ -1954,6 +1971,7 @@ public class CSS implements Serializable {
          * @return the <code>StyleConstants</code> attribute value that
          *   represents the CSS attribute value
          */
+        @Override
         Object toStyleConstants(StyleConstants key, View v) {
             if (v != null) {
                 return Integer.valueOf(getValue(v.getAttributes(), null));
@@ -1975,6 +1993,7 @@ public class CSS implements Serializable {
             return family;
         }
 
+        @Override
         Object parseCssValue(String value) {
             int cIndex = value.indexOf(',');
             FontFamily ff = new FontFamily();
@@ -1992,8 +2011,9 @@ public class CSS implements Serializable {
                 while (!done) {
                     // skip ws.
                     while (cIndex < length &&
-                           Character.isWhitespace(value.charAt(cIndex)))
+                           Character.isWhitespace(value.charAt(cIndex))) {
                         cIndex++;
+                    }
                     // Find next ','
                     lastIndex = cIndex;
                     cIndex = value.indexOf(',', cIndex);
@@ -2027,6 +2047,7 @@ public class CSS implements Serializable {
             ff.family = fontName;
         }
 
+        @Override
         Object parseHtmlValue(String value) {
             // TBD
             return parseCssValue(value);
@@ -2043,6 +2064,7 @@ public class CSS implements Serializable {
          * @return the CSS value that represents the
          *   <code>StyleConstants</code> value
          */
+        @Override
         Object fromStyleConstants(StyleConstants key, Object value) {
             return parseCssValue(value.toString());
         }
@@ -2056,6 +2078,7 @@ public class CSS implements Serializable {
          * @return the <code>StyleConstants</code> attribute value that
          *   represents the CSS attribute value
          */
+        @Override
         Object toStyleConstants(StyleConstants key, View v) {
             return family;
         }
@@ -2069,6 +2092,7 @@ public class CSS implements Serializable {
             return weight;
         }
 
+        @Override
         Object parseCssValue(String value) {
             FontWeight fw = new FontWeight();
             fw.svalue = value;
@@ -2098,6 +2122,7 @@ public class CSS implements Serializable {
          * @return the CSS value that represents the
          *   <code>StyleConstants</code> value
          */
+        @Override
         Object fromStyleConstants(StyleConstants key, Object value) {
             if (value.equals(Boolean.TRUE)) {
                 return parseCssValue("bold");
@@ -2114,6 +2139,7 @@ public class CSS implements Serializable {
          * @return the <code>StyleConstants</code> attribute value that
          *   represents the CSS attribute value
          */
+        @Override
         Object toStyleConstants(StyleConstants key, View v) {
             return (weight > 500) ? Boolean.TRUE : Boolean.FALSE;
         }
@@ -2134,6 +2160,7 @@ public class CSS implements Serializable {
             return c;
         }
 
+        @Override
         Object parseCssValue(String value) {
 
             Color c = stringToColor(value);
@@ -2146,6 +2173,7 @@ public class CSS implements Serializable {
             return null;
         }
 
+        @Override
         Object parseHtmlValue(String value) {
             return parseCssValue(value);
         }
@@ -2161,6 +2189,7 @@ public class CSS implements Serializable {
          * @return the CSS value that represents the
          *   <code>StyleConstants</code> value
          */
+        @Override
         Object fromStyleConstants(StyleConstants key, Object value) {
             ColorValue colorValue = new ColorValue();
             colorValue.c = (Color)value;
@@ -2177,6 +2206,7 @@ public class CSS implements Serializable {
          * @return the <code>StyleConstants</code> attribute value that
          *   represents the CSS attribute value
          */
+        @Override
         Object toStyleConstants(StyleConstants key, View v) {
             return c;
         }
@@ -2190,6 +2220,7 @@ public class CSS implements Serializable {
             return style;
         }
 
+        @Override
         Object parseCssValue(String value) {
             CSS.Value cssv = CSS.getValue(value);
             if (cssv != null) {
@@ -2284,6 +2315,7 @@ public class CSS implements Serializable {
             return percentage;
         }
 
+        @Override
         Object parseCssValue(String value) {
             LengthValue lv;
             try {
@@ -2321,6 +2353,7 @@ public class CSS implements Serializable {
             return lv;
         }
 
+        @Override
         Object parseHtmlValue(String value) {
             if (value.equals(HTML.NULL_ATTRIBUTE_VALUE)) {
                 value = "1";
@@ -2338,6 +2371,7 @@ public class CSS implements Serializable {
          * @return the CSS value that represents the
          *   <code>StyleConstants</code> value
          */
+        @Override
         Object fromStyleConstants(StyleConstants key, Object value) {
             LengthValue v = new LengthValue();
             v.svalue = value.toString();
@@ -2354,6 +2388,7 @@ public class CSS implements Serializable {
          * @return the <code>StyleConstants</code> attribute value that
          *   represents the CSS attribute value
          */
+        @Override
         Object toStyleConstants(StyleConstants key, View v) {
             return new Float(getValue(false));
         }
@@ -2380,6 +2415,7 @@ public class CSS implements Serializable {
             percentage = false;
         }
 
+        @Override
         Object parseCssValue(String value) {
             if (value != null) {
                 if (value.equals("thick")) {
@@ -2396,6 +2432,7 @@ public class CSS implements Serializable {
             return super.parseCssValue(value);
         }
 
+        @Override
         Object parseHtmlValue(String value) {
             if (value == HTML.NULL_ATTRIBUTE_VALUE) {
                 return parseCssValue("medium");
@@ -2413,6 +2450,7 @@ public class CSS implements Serializable {
      * repeating.
      */
     static class CssValueMapper extends CssValue {
+        @Override
         Object parseCssValue(String value) {
             Object retValue = cssValueToInternalValueMap.get(value);
             if (retValue == null) {
@@ -2422,6 +2460,7 @@ public class CSS implements Serializable {
         }
 
 
+        @Override
         Object parseHtmlValue(String value) {
             Object retValue = htmlValueToCssValueMap.get(value);
             if (retValue == null) {
@@ -2444,6 +2483,7 @@ public class CSS implements Serializable {
         //
         short relative;
 
+        @Override
         Object parseCssValue(String value) {
             // 'top left' and 'left top' both mean the same as '0% 0%'.
             // 'top', 'top center' and 'center top' mean the same as '50% 0%'.
@@ -2584,12 +2624,14 @@ public class CSS implements Serializable {
         private boolean    loadedImage;
         private ImageIcon  image;
 
+        @Override
         Object parseCssValue(String value) {
             BackgroundImage retValue = new BackgroundImage();
             retValue.svalue = value;
             return retValue;
         }
 
+        @Override
         Object parseHtmlValue(String value) {
             return parseCssValue(value);
         }
@@ -2731,6 +2773,7 @@ public class CSS implements Serializable {
             return value * scale;
         }
 
+        @Override
         public String toString() {
             return type + " " + value;
         }

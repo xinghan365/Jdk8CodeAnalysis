@@ -171,13 +171,16 @@ public class Expression extends Statement {
         this.value = value;
     }
 
-    /*pp*/ String instanceName(Object instance) {
+    /*pp*/
+    @Override
+    String instanceName(Object instance) {
         return instance == unbound ? "<unbound>" : super.instanceName(instance);
     }
 
     /**
      * Prints the value of this expression using a Java-style syntax.
      */
+    @Override
     public String toString() {
         return instanceName(value) + "=" + super.toString();
     }

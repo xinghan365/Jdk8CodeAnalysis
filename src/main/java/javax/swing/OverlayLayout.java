@@ -82,6 +82,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      *
      * @param target the container
      */
+    @Override
     public void invalidateLayout(Container target) {
         checkContainer(target);
         xChildren = null;
@@ -97,6 +98,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @param name the name of the component
      * @param comp the the component to be added
      */
+    @Override
     public void addLayoutComponent(String name, Component comp) {
         invalidateLayout(comp.getParent());
     }
@@ -107,6 +109,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      *
      * @param comp the component to remove
      */
+    @Override
     public void removeLayoutComponent(Component comp) {
         invalidateLayout(comp.getParent());
     }
@@ -119,6 +122,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @param comp the component to be added
      * @param constraints  where/how the component is added to the layout.
      */
+    @Override
     public void addLayoutComponent(Component comp, Object constraints) {
         invalidateLayout(comp.getParent());
     }
@@ -133,6 +137,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @return a Dimension object containing the preferred dimensions
      * @see #minimumLayoutSize
      */
+    @Override
     public Dimension preferredLayoutSize(Container target) {
         checkContainer(target);
         checkRequests();
@@ -153,6 +158,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @return a Dimension object containing the minimum dimensions
      * @see #preferredLayoutSize
      */
+    @Override
     public Dimension minimumLayoutSize(Container target) {
         checkContainer(target);
         checkRequests();
@@ -175,6 +181,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      *         dimensions
      * @see #preferredLayoutSize
      */
+    @Override
     public Dimension maximumLayoutSize(Container target) {
         checkContainer(target);
         checkRequests();
@@ -192,6 +199,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @param target the container
      * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
      */
+    @Override
     public float getLayoutAlignmentX(Container target) {
         checkContainer(target);
         checkRequests();
@@ -204,6 +212,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @param target the container
      * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
      */
+    @Override
     public float getLayoutAlignmentY(Container target) {
         checkContainer(target);
         checkRequests();
@@ -218,6 +227,7 @@ public class OverlayLayout implements LayoutManager2,Serializable {
      * @exception AWTError  if the target isn't the container specified to the
      *                      constructor
      */
+    @Override
     public void layoutContainer(Container target) {
         checkContainer(target);
         checkRequests();

@@ -94,5 +94,6 @@ public interface DigestMethod extends XMLStructure, AlgorithmMethod {
      * @return the algorithm-specific parameters (may be <code>null</code> if
      *    not specified)
      */
+    @Override
     AlgorithmParameterSpec getParameterSpec();
 }

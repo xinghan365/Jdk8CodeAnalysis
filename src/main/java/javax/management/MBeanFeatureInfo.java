@@ -127,6 +127,7 @@ public class MBeanFeatureInfo implements Serializable, DescriptorRead {
      *
      * @since 1.6
      */
+    @Override
     public Descriptor getDescriptor() {
         return (Descriptor) ImmutableDescriptor.nonNullDescriptor(descriptor).clone();
     }
@@ -142,17 +143,21 @@ public class MBeanFeatureInfo implements Serializable, DescriptorRead {
      * values are equal (not necessarily identical) to those of this
      * MBeanFeatureInfo.
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof MBeanFeatureInfo))
+        }
+        if (!(o instanceof MBeanFeatureInfo)) {
             return false;
+        }
         MBeanFeatureInfo p = (MBeanFeatureInfo) o;
         return (Objects.equals(p.getName(), getName()) &&
                 Objects.equals(p.getDescription(), getDescription()) &&
                 Objects.equals(p.getDescriptor(), getDescriptor()));
     }
 
+    @Override
     public int hashCode() {
         return getName().hashCode() ^ getDescription().hashCode() ^
                getDescriptor().hashCode();

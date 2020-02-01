@@ -62,6 +62,7 @@ public class Book implements Pageable {
      * Returns the number of pages in this <code>Book</code>.
      * @return the number of pages this <code>Book</code> contains.
      */
+    @Override
     public int getNumberOfPages(){
         return mPages.size();
     }
@@ -76,6 +77,7 @@ public class Book implements Pageable {
      * @throws IndexOutOfBoundsException if the <code>Pageable</code>
      *          does not contain the requested page
      */
+    @Override
     public PageFormat getPageFormat(int pageIndex)
         throws IndexOutOfBoundsException
     {
@@ -91,6 +93,7 @@ public class Book implements Pageable {
      * @throws IndexOutOfBoundsException if the <code>Pageable</code>
      *            does not contain the requested page
      */
+    @Override
     public Printable getPrintable(int pageIndex)
         throws IndexOutOfBoundsException
     {

@@ -112,25 +112,32 @@ final class DiagramComponent extends JComponent implements MouseListener, MouseM
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent event) {
         mouseDragged(event);
     }
 
+    @Override
     public void mouseReleased(MouseEvent event) {
     }
 
+    @Override
     public void mouseClicked(MouseEvent event) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent event) {
     }
 
+    @Override
     public void mouseExited(MouseEvent event) {
     }
 
+    @Override
     public void mouseMoved(MouseEvent event) {
     }
 
+    @Override
     public void mouseDragged(MouseEvent event) {
         if (isEnabled()) {
             float y = getValue(event.getY(), this.insets.top, this.height);

@@ -88,13 +88,15 @@ public abstract class AbstractMarshallerImpl implements Marshaller
     /** store the value of the fragment property. */
     private boolean fragment = false;
 
-    public final void marshal( Object obj, java.io.OutputStream os )
+    @Override
+    public final void marshal(Object obj, java.io.OutputStream os )
         throws JAXBException {
 
         checkNotNull( obj, "obj", os, "os" );
         marshal( obj, new StreamResult(os) );
     }
 
+    @Override
     public void marshal(Object jaxbElement, File output) throws JAXBException {
         checkNotNull(jaxbElement, "jaxbElement", output, "output" );
         try {
@@ -109,21 +111,24 @@ public abstract class AbstractMarshallerImpl implements Marshaller
         }
     }
 
-    public final void marshal( Object obj, java.io.Writer w )
+    @Override
+    public final void marshal(Object obj, java.io.Writer w )
         throws JAXBException {
 
         checkNotNull( obj, "obj", w, "writer" );
         marshal( obj, new StreamResult(w) );
     }
 
-    public final void marshal( Object obj, org.xml.sax.ContentHandler handler )
+    @Override
+    public final void marshal(Object obj, org.xml.sax.ContentHandler handler )
         throws JAXBException {
 
         checkNotNull( obj, "obj", handler, "handler" );
         marshal( obj, new SAXResult(handler) );
     }
 
-    public final void marshal( Object obj, org.w3c.dom.Node node )
+    @Override
+    public final void marshal(Object obj, org.w3c.dom.Node node )
         throws JAXBException {
 
         checkNotNull( obj, "obj", node, "node" );
@@ -137,7 +142,8 @@ public abstract class AbstractMarshallerImpl implements Marshaller
      * Implementations that choose to support this method must
      * override this method.
      */
-    public org.w3c.dom.Node getNode( Object obj ) throws JAXBException {
+    @Override
+    public org.w3c.dom.Node getNode(Object obj ) throws JAXBException {
 
         checkNotNull( obj, "obj", Boolean.TRUE, "foo" );
 
@@ -320,7 +326,8 @@ public abstract class AbstractMarshallerImpl implements Marshaller
      * needs to handle additional properties, it should override
      * this method in a derived class.
      */
-    public void setProperty( String name, Object value )
+    @Override
+    public void setProperty(String name, Object value )
         throws PropertyException {
 
         if( name == null ) {
@@ -364,7 +371,8 @@ public abstract class AbstractMarshallerImpl implements Marshaller
      * needs to support additional provider specific properties,
      * it should override this method in a derived class.
      */
-    public Object getProperty( String name )
+    @Override
+    public Object getProperty(String name )
         throws PropertyException {
 
         if( name == null ) {
@@ -373,22 +381,28 @@ public abstract class AbstractMarshallerImpl implements Marshaller
         }
 
         // recognize and handle four pre-defined properties.
-        if( JAXB_ENCODING.equals(name) )
+        if( JAXB_ENCODING.equals(name) ) {
             return getEncoding();
-        if( JAXB_FORMATTED_OUTPUT.equals(name) )
+        }
+        if( JAXB_FORMATTED_OUTPUT.equals(name) ) {
             return isFormattedOutput()?Boolean.TRUE:Boolean.FALSE;
-        if( JAXB_NO_NAMESPACE_SCHEMA_LOCATION.equals(name) )
+        }
+        if( JAXB_NO_NAMESPACE_SCHEMA_LOCATION.equals(name) ) {
             return getNoNSSchemaLocation();
-        if( JAXB_SCHEMA_LOCATION.equals(name) )
+        }
+        if( JAXB_SCHEMA_LOCATION.equals(name) ) {
             return getSchemaLocation();
-        if( JAXB_FRAGMENT.equals(name) )
+        }
+        if( JAXB_FRAGMENT.equals(name) ) {
             return isFragment()?Boolean.TRUE:Boolean.FALSE;
+        }
 
         throw new PropertyException(name);
     }
     /**
      * @see javax.xml.bind.Marshaller#getEventHandler()
      */
+    @Override
     public ValidationEventHandler getEventHandler() throws JAXBException {
         return eventHandler;
     }
@@ -396,6 +410,7 @@ public abstract class AbstractMarshallerImpl implements Marshaller
     /**
      * @see javax.xml.bind.Marshaller#setEventHandler(ValidationEventHandler)
      */
+    @Override
     public void setEventHandler(ValidationEventHandler handler)
         throws JAXBException {
 
@@ -413,18 +428,20 @@ public abstract class AbstractMarshallerImpl implements Marshaller
      * assert that the given object is a Boolean
      */
     private void checkBoolean( String name, Object value ) throws PropertyException {
-        if(!(value instanceof Boolean))
+        if(!(value instanceof Boolean)) {
             throw new PropertyException(
                 Messages.format( Messages.MUST_BE_BOOLEAN, name ) );
+        }
     }
 
     /*
      * assert that the given object is a String
      */
     private void checkString( String name, Object value ) throws PropertyException {
-        if(!(value instanceof String))
+        if(!(value instanceof String)) {
             throw new PropertyException(
                 Messages.format( Messages.MUST_BE_STRING, name ) );
+        }
     }
 
     /*
@@ -443,52 +460,64 @@ public abstract class AbstractMarshallerImpl implements Marshaller
         }
     }
 
+    @Override
     public void marshal(Object obj, XMLEventWriter writer)
         throws JAXBException {
 
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void marshal(Object obj, XMLStreamWriter writer)
         throws JAXBException {
 
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setSchema(Schema schema) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Schema getSchema() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setAdapter(XmlAdapter adapter) {
-        if(adapter==null)
+        if(adapter==null) {
             throw new IllegalArgumentException();
+        }
         setAdapter((Class)adapter.getClass(),adapter);
     }
 
+    @Override
     public <A extends XmlAdapter> void setAdapter(Class<A> type, A adapter) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public <A extends XmlAdapter> A getAdapter(Class<A> type) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setAttachmentMarshaller(AttachmentMarshaller am) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public AttachmentMarshaller getAttachmentMarshaller() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setListener(Listener listener) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Listener getListener() {
         throw new UnsupportedOperationException();
     }

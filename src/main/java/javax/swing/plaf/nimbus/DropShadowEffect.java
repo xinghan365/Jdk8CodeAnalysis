@@ -110,8 +110,10 @@ class DropShadowEffect extends ShadowEffect {
             tmpBuf1[i] = (val > 255) ? (byte) 0xFF : (byte) val;
         }
         // create color image with shadow color and greyscale image as alpha
-        if (dst == null) dst = new BufferedImage(w, h,
-                BufferedImage.TYPE_INT_ARGB);
+        if (dst == null) {
+            dst = new BufferedImage(w, h,
+                    BufferedImage.TYPE_INT_ARGB);
+        }
         WritableRaster shadowRaster = dst.getRaster();
         int red = color.getRed(), green = color.getGreen(), blue = color.getBlue();
         for (int y = 0; y < h; y++) {

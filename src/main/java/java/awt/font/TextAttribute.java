@@ -273,6 +273,7 @@ public final class TextAttribute extends Attribute {
     /**
      * Resolves instances being deserialized to the predefined constants.
      */
+    @Override
     protected Object readResolve() throws InvalidObjectException {
         if (this.getClass() != TextAttribute.class) {
             throw new InvalidObjectException(

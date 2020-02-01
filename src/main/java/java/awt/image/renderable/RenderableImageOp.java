@@ -83,6 +83,7 @@ public class RenderableImageOp implements RenderableImage {
      *
      * @return a (possibly empty) Vector of RenderableImages, or null.
      */
+    @Override
     public Vector<RenderableImage> getSources() {
         return getRenderableSources();
     }
@@ -115,6 +116,7 @@ public class RenderableImageOp implements RenderableImage {
      * @return a reference to the property Object, or the value
      *         java.awt.Image.UndefinedProperty.
      */
+    @Override
     public Object getProperty(String name) {
         return myCRIF.getProperty(paramBlock, name);
     }
@@ -123,6 +125,7 @@ public class RenderableImageOp implements RenderableImage {
      * Return a list of names recognized by getProperty.
      * @return a list of property names.
      */
+    @Override
     public String[] getPropertyNames() {
         return myCRIF.getPropertyNames();
     }
@@ -137,6 +140,7 @@ public class RenderableImageOp implements RenderableImage {
      *         same arguments might produce different results;
      *         <code>false</code> otherwise.
      */
+    @Override
     public boolean isDynamic() {
         return myCRIF.isDynamic();
     }
@@ -148,6 +152,7 @@ public class RenderableImageOp implements RenderableImage {
      *
      * @return the width of the image in user coordinates.
      */
+    @Override
     public float getWidth() {
         if (boundingBox == null) {
             boundingBox = myCRIF.getBounds2D(paramBlock);
@@ -161,6 +166,7 @@ public class RenderableImageOp implements RenderableImage {
      *
      * @return the height of the image in user coordinates.
      */
+    @Override
     public float getHeight() {
         if (boundingBox == null) {
             boundingBox = myCRIF.getBounds2D(paramBlock);
@@ -171,6 +177,7 @@ public class RenderableImageOp implements RenderableImage {
     /**
      * Gets the minimum X coordinate of the rendering-independent image data.
      */
+    @Override
     public float getMinX() {
         if (boundingBox == null) {
             boundingBox = myCRIF.getBounds2D(paramBlock);
@@ -181,6 +188,7 @@ public class RenderableImageOp implements RenderableImage {
     /**
      * Gets the minimum Y coordinate of the rendering-independent image data.
      */
+    @Override
     public float getMinY() {
         if (boundingBox == null) {
             boundingBox = myCRIF.getBounds2D(paramBlock);
@@ -239,6 +247,7 @@ public class RenderableImageOp implements RenderableImage {
      * @param hints a RenderingHints object containing hints.
      * @return a RenderedImage containing the rendered data.
      */
+    @Override
     public RenderedImage createScaledRendering(int w, int h,
                                                RenderingHints hints) {
         // DSR -- code to try to get a unit scale
@@ -262,6 +271,7 @@ public class RenderableImageOp implements RenderableImage {
      *
      * @return a RenderedImage containing the rendered data.
      */
+    @Override
     public RenderedImage createDefaultRendering() {
         AffineTransform usr2dev = new AffineTransform(); // Identity
         RenderContext newRC = new RenderContext(usr2dev);
@@ -306,6 +316,7 @@ public class RenderableImageOp implements RenderableImage {
      * @param renderContext The RenderContext to use to perform the rendering.
      * @return a RenderedImage containing the desired output image.
      */
+    @Override
     public RenderedImage createRendering(RenderContext renderContext) {
         RenderedImage image = null;
         RenderContext rcOut = null;

@@ -81,6 +81,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
     static {
         AWTAccessor.setDefaultKeyboardFocusManagerAccessor(
             new AWTAccessor.DefaultKeyboardFocusManagerAccessor() {
+                @Override
                 public void consumeNextKeyTyped(DefaultKeyboardFocusManager dkfm, KeyEvent e) {
                     dkfm.consumeNextKeyTyped(e);
                 }
@@ -98,6 +99,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
         /**
          * Returns string representation of the marker
          */
+        @Override
         public String toString() {
             return ">>> Marker after " + after + " on " + untilFocused;
         }
@@ -222,6 +224,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
                                                     AppContext toNotify) {
             super(nested, toNotify);
         }
+        @Override
         public final void dispatch() {
             KeyboardFocusManager manager =
                 KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -273,6 +276,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
                 EventDispatchThread edt = (EventDispatchThread)
                     Thread.currentThread();
                 edt.pumpEvents(SentEvent.ID, new Conditional() {
+                        @Override
                         public boolean evaluate() {
                             return !se.dispatched && !targetAppContext.isDisposed();
                         }
@@ -338,6 +342,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @return <code>true</code> if this method dispatched the event;
      *         <code>false</code> otherwise
      */
+    @Override
     public boolean dispatchEvent(AWTEvent e) {
         if (focusLog.isLoggable(PlatformLogger.Level.FINE) && (e instanceof WindowEvent || e instanceof FocusEvent)) {
             focusLog.fine("" + e);
@@ -643,16 +648,18 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
                 FocusEvent fe = (FocusEvent)e;
                 Component currentFocusOwner = getGlobalFocusOwner();
                 if (currentFocusOwner == null) {
-                    if (focusLog.isLoggable(PlatformLogger.Level.FINE))
+                    if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
                         focusLog.fine("Skipping {0} because focus owner is null", e);
+                    }
                     break;
                 }
                 // Ignore cases where a Component loses focus to itself.
                 // If we make a mistake because of retargeting, then the
                 // FOCUS_GAINED handler will correct it.
                 if (currentFocusOwner == fe.getOppositeComponent()) {
-                    if (focusLog.isLoggable(PlatformLogger.Level.FINE))
+                    if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
                         focusLog.fine("Skipping {0} because current focus owner is equal to opposite", e);
+                    }
                     break;
                 }
 
@@ -724,10 +731,11 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
                 Window losingFocusWindow = we.getWindow();
                 Window activeWindow = getGlobalActiveWindow();
                 Window oppositeWindow = we.getOppositeWindow();
-                if (focusLog.isLoggable(PlatformLogger.Level.FINE))
+                if (focusLog.isLoggable(PlatformLogger.Level.FINE)) {
                     focusLog.fine("Active {0}, Current focused {1}, losing focus {2} opposite {3}",
                                   activeWindow, currentFocusedWindow,
                                   losingFocusWindow, oppositeWindow);
+                }
                 if (currentFocusedWindow == null) {
                     break;
                 }
@@ -825,6 +833,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @return <code>true</code>
      * @see Component#dispatchEvent
      */
+    @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         Component focusOwner = (((AWTEvent)e).isPosted) ? getFocusOwner() : e.getComponent();
 
@@ -880,6 +889,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @see #dispatchKeyEvent
      * @see MenuShortcut
      */
+    @Override
     public boolean postProcessKeyEvent(KeyEvent e) {
         if (!e.isConsumed()) {
             Component target = e.getComponent();
@@ -1044,6 +1054,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * Clears markers queue
      * @since 1.5
      */
+    @Override
     void clearMarkers() {
         synchronized(this) {
             typeAheadMarkers.clear();
@@ -1142,6 +1153,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      *        traversal key for the Component
      * @param e the event that may represent a focus traversal key
      */
+    @Override
     public void processKeyEvent(Component focusedComponent, KeyEvent e) {
         // consume processed event if needed
         if (consumeProcessedKeyEvent(e)) {
@@ -1239,6 +1251,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @see #dequeueKeyEvents
      * @see #discardKeyEvents
      */
+    @Override
     protected synchronized void enqueueKeyEvents(long after,
                                                  Component untilFocused) {
         if (untilFocused == null) {
@@ -1281,6 +1294,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @see #enqueueKeyEvents
      * @see #discardKeyEvents
      */
+    @Override
     protected synchronized void dequeueKeyEvents(long after,
                                                  Component untilFocused) {
         if (untilFocused == null) {
@@ -1328,6 +1342,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @see #enqueueKeyEvents
      * @see #dequeueKeyEvents
      */
+    @Override
     protected synchronized void discardKeyEvents(Component comp) {
         if (comp == null) {
             return;
@@ -1390,6 +1405,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @see FocusTraversalPolicy
      * @see Component#transferFocusBackward
      */
+    @Override
     public void focusPreviousComponent(Component aComponent) {
         if (aComponent != null) {
             aComponent.transferFocusBackward();
@@ -1405,6 +1421,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      * @see FocusTraversalPolicy
      * @see Component#transferFocus
      */
+    @Override
     public void focusNextComponent(Component aComponent) {
         if (aComponent != null) {
             aComponent.transferFocus();
@@ -1423,6 +1440,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      *        traversal operation
      * @see Component#transferFocusUpCycle
      */
+    @Override
     public void upFocusCycle(Component aComponent) {
         if (aComponent != null) {
             aComponent.transferFocusUpCycle();
@@ -1440,6 +1458,7 @@ public class DefaultKeyboardFocusManager extends KeyboardFocusManager {
      *        traversal operation
      * @see Container#transferFocusDownCycle
      */
+    @Override
     public void downFocusCycle(Container aContainer) {
         if (aContainer != null && aContainer.isFocusCycleRoot()) {
             aContainer.transferFocusDownCycle();

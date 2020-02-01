@@ -230,6 +230,7 @@ public class PipedReader extends Reader {
      *          {@link #connect(java.io.PipedWriter) unconnected}, closed,
      *          or an I/O error occurs.
      */
+    @Override
     public synchronized int read()  throws IOException {
         if (!connected) {
             throw new IOException("Pipe not connected");
@@ -287,6 +288,7 @@ public class PipedReader extends Reader {
      *                  {@link #connect(java.io.PipedWriter) unconnected}, closed,
      *                  or an I/O error occurs.
      */
+    @Override
     public synchronized int read(char cbuf[], int off, int len)  throws IOException {
         if (!connected) {
             throw new IOException("Pipe not connected");
@@ -333,6 +335,7 @@ public class PipedReader extends Reader {
      *                  <a href=PipedInputStream.html#BROKEN> <code>broken</code></a>,
      *                  {@link #connect(java.io.PipedWriter) unconnected}, or closed.
      */
+    @Override
     public synchronized boolean ready() throws IOException {
         if (!connected) {
             throw new IOException("Pipe not connected");
@@ -355,6 +358,7 @@ public class PipedReader extends Reader {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void close()  throws IOException {
         in = -1;
         closedByReader = true;

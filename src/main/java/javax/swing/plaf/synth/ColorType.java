@@ -135,6 +135,7 @@ public class ColorType {
      *
      * @return the description of the string
      */
+    @Override
     public String toString() {
         return description;
     }

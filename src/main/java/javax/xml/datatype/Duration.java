@@ -860,6 +860,7 @@ public abstract class Duration {
      *
      * @see #compare(Duration duration)
      */
+    @Override
     public boolean equals(final Object duration) {
 
         if (duration == null || !(duration instanceof Duration)) {
@@ -874,6 +875,7 @@ public abstract class Duration {
      *
      * @see Object#hashCode()
      */
+    @Override
     public abstract int hashCode();
 
     /**
@@ -890,6 +892,7 @@ public abstract class Duration {
      *
      * @return A non-<code>null</code> valid <code>String</code> representation of this <code>Duration</code>.
      */
+    @Override
     public String toString() {
 
         StringBuffer buf = new StringBuffer();

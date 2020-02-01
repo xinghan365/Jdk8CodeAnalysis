@@ -224,6 +224,7 @@ public class ModelMBeanNotificationInfo
      * Creates and returns a new ModelMBeanNotificationInfo which is a
      * duplicate of this ModelMBeanNotificationInfo.
      **/
+    @Override
     public Object clone () {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -242,6 +243,7 @@ public class ModelMBeanNotificationInfo
      *
      * @see #setDescriptor
      **/
+    @Override
     public Descriptor getDescriptor() {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -280,6 +282,7 @@ public class ModelMBeanNotificationInfo
      *
      * @see #getDescriptor
      **/
+    @Override
     public void setDescriptor(Descriptor inDescriptor) {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -295,6 +298,7 @@ public class ModelMBeanNotificationInfo
      *
      * @return a string describing this object.
      **/
+    @Override
     public String toString() {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -316,7 +320,9 @@ public class ModelMBeanNotificationInfo
         retStr.append(" ; Types: ");
         String[] nTypes = this.getNotifTypes();
         for (int i=0; i < nTypes.length; i++) {
-            if (i > 0) retStr.append(", ");
+            if (i > 0) {
+                retStr.append(", ");
+            }
             retStr.append(nTypes[i]);
         }
         return retStr.toString();

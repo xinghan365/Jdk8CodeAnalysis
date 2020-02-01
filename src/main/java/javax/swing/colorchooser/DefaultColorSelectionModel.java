@@ -78,6 +78,7 @@ public class DefaultColorSelectionModel implements ColorSelectionModel, Serializ
      *
      * @return the selected <code>Color</code>
      */
+    @Override
     public Color getSelectedColor() {
         return selectedColor;
     }
@@ -93,6 +94,7 @@ public class DefaultColorSelectionModel implements ColorSelectionModel, Serializ
      *
      * @param color the new <code>Color</code>
      */
+    @Override
     public void setSelectedColor(Color color) {
         if (color != null && !selectedColor.equals(color)) {
             selectedColor = color;
@@ -106,6 +108,7 @@ public class DefaultColorSelectionModel implements ColorSelectionModel, Serializ
      *
      * @param l the <code>ChangeListener</code> to be added
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -114,6 +117,7 @@ public class DefaultColorSelectionModel implements ColorSelectionModel, Serializ
      * Removes a <code>ChangeListener</code> from the model.
      * @param l the <code>ChangeListener</code> to be removed
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }

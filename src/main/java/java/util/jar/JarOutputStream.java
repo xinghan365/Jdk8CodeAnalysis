@@ -86,6 +86,7 @@ class JarOutputStream extends ZipOutputStream {
      * @exception ZipException if a ZIP error has occurred
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void putNextEntry(ZipEntry ze) throws IOException {
         if (firstEntry) {
             // Make sure that extra field data for first JAR

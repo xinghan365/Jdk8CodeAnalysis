@@ -57,67 +57,83 @@ class MetalHighContrastTheme extends DefaultMetalTheme {
 
     // This does not override getSecondary1 (102,102,102)
 
+    @Override
     public String getName() {
         return "Contrast";
     }
 
+    @Override
     protected ColorUIResource getPrimary1() {
         return primary1;
     }
 
+    @Override
     protected ColorUIResource getPrimary2() {
         return primary2;
     }
 
+    @Override
     protected ColorUIResource getPrimary3() {
         return primary3;
     }
 
+    @Override
     public ColorUIResource getPrimaryControlHighlight() {
         return primaryHighlight;
     }
 
+    @Override
     protected ColorUIResource getSecondary2() {
         return secondary2;
     }
 
+    @Override
     protected ColorUIResource getSecondary3() {
         return secondary3;
     }
 
+    @Override
     public ColorUIResource getControlHighlight() {
         // This was super.getSecondary3();
         return secondary2;
     }
 
+    @Override
     public ColorUIResource getFocusColor() {
         return getBlack();
     }
 
+    @Override
     public ColorUIResource getTextHighlightColor() {
         return getBlack();
     }
 
+    @Override
     public ColorUIResource getHighlightedTextColor() {
         return getWhite();
     }
 
+    @Override
     public ColorUIResource getMenuSelectedBackground() {
         return getBlack();
     }
 
+    @Override
     public ColorUIResource getMenuSelectedForeground() {
         return getWhite();
     }
 
+    @Override
     public ColorUIResource getAcceleratorForeground() {
         return getBlack();
     }
 
+    @Override
     public ColorUIResource getAcceleratorSelectedForeground() {
         return getWhite();
     }
 
+    @Override
     public void addCustomEntriesToTable(UIDefaults table) {
         Border blackLineBorder = new BorderUIResource(new LineBorder(
                     getBlack()));
@@ -183,6 +199,7 @@ class MetalHighContrastTheme extends DefaultMetalTheme {
     /**
      * Returns true if this is a theme provided by the core platform.
      */
+    @Override
     boolean isSystemTheme() {
         return (getClass() == MetalHighContrastTheme.class);
     }

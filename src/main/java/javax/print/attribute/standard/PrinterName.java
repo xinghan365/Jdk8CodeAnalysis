@@ -87,6 +87,7 @@ public final class PrinterName extends TextSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this printer
      *          name attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) && object instanceof PrinterName);
     }
@@ -101,6 +102,7 @@ public final class PrinterName extends TextSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterName.class;
     }
@@ -114,6 +116,7 @@ public final class PrinterName extends TextSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-name";
     }

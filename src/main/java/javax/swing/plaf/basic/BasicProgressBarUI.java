@@ -132,6 +132,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         return new BasicProgressBarUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         progressBar = (JProgressBar)c;
         installDefaults();
@@ -141,6 +142,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         }
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         if (progressBar.isIndeterminate()) {
             cleanUpIndeterminateValues();
@@ -158,7 +160,9 @@ public class BasicProgressBarUI extends ProgressBarUI {
                                          "ProgressBar.foreground",
                                          "ProgressBar.font");
         cellLength = UIManager.getInt("ProgressBar.cellLength");
-        if (cellLength == 0) cellLength = 1;
+        if (cellLength == 0) {
+            cellLength = 1;
+        }
         cellSpacing = UIManager.getInt("ProgressBar.cellSpacing");
         selectionForeground = UIManager.getColor("ProgressBar.selectionForeground");
         selectionBackground = UIManager.getColor("ProgressBar.selectionBackground");
@@ -248,6 +252,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         if (progressBar.isStringPainted() &&
@@ -272,6 +277,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -405,6 +411,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
      * Delegates painting to one of two methods:
      * paintDeterminate or paintIndeterminate.
      */
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (progressBar.isIndeterminate()) {
             paintIndeterminate(g, c);
@@ -815,6 +822,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
     }
 
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension       size;
         Insets          border = progressBar.getInsets();
@@ -871,6 +879,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
      * The Minimum size for this component is 10. The rationale here
      * is that there should be at least one pixel per 10 percent.
      */
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension pref = getPreferredSize(progressBar);
         if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
@@ -881,6 +890,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         return pref;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension pref = getPreferredSize(progressBar);
         if (progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
@@ -1182,6 +1192,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         /**
          * Reacts to the timer's action events.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (ADJUSTTIMER) {
                 long time = System.currentTimeMillis();
@@ -1219,6 +1230,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
         }
@@ -1227,6 +1239,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
 
     private class Handler implements ChangeListener, PropertyChangeListener, HierarchyListener {
         // ChangeListener
+        @Override
         public void stateChanged(ChangeEvent e) {
             BoundedRangeModel model = progressBar.getModel();
             int newRange = model.getMaximum() - model.getMinimum();
@@ -1246,6 +1259,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         }
 
         // PropertyChangeListener
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String prop = e.getPropertyName();
             if ("indeterminate" == prop) {
@@ -1260,6 +1274,7 @@ public class BasicProgressBarUI extends ProgressBarUI {
         }
 
         // we don't want the animation to keep running if we're not displayable
+        @Override
         public void hierarchyChanged(HierarchyEvent he) {
             if ((he.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED) != 0) {
                 if (progressBar.isIndeterminate()) {

@@ -105,6 +105,7 @@ public final class Timestamp implements Serializable {
      *
      * @return a hash code value for this timestamp.
      */
+    @Override
     public int hashCode() {
         if (myhash == -1) {
             myhash = timestamp.hashCode() + signerCertPath.hashCode();
@@ -121,6 +122,7 @@ public final class Timestamp implements Serializable {
      *
      * @return true if the timestamp are considered equal, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || (!(obj instanceof Timestamp))) {
             return false;
@@ -140,6 +142,7 @@ public final class Timestamp implements Serializable {
      * @return A string comprising the date and time of the timestamp and
      *         its signer's certificate.
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("(");

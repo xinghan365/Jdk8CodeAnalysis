@@ -123,10 +123,12 @@ public class SoftReference<T> extends Reference<T> {
      * @return   The object to which this reference refers, or
      *           <code>null</code> if this reference object has been cleared
      */
+    @Override
     public T get() {
         T o = super.get();
-        if (o != null && this.timestamp != clock)
+        if (o != null && this.timestamp != clock) {
             this.timestamp = clock;
+        }
         return o;
     }
 

@@ -203,6 +203,7 @@ class DirectLongBufferRU
 
     }
 
+    @Override
     public LongBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectLongBufferRU
         return new DirectLongBufferRU(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public LongBuffer duplicate() {
         return new DirectLongBufferRU(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectLongBufferRU
                                               0);
     }
 
+    @Override
     public LongBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectLongBufferRU
 
 
 
+    @Override
     public LongBuffer put(long x) {
 
 
@@ -301,6 +305,7 @@ class DirectLongBufferRU
 
     }
 
+    @Override
     public LongBuffer put(int i, long x) {
 
 
@@ -310,6 +315,7 @@ class DirectLongBufferRU
 
     }
 
+    @Override
     public LongBuffer put(LongBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectLongBufferRU
 
     }
 
+    @Override
     public LongBuffer put(long[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectLongBufferRU
 
     }
 
+    @Override
     public LongBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectLongBufferRU
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -455,6 +465,7 @@ class DirectLongBufferRU
 
 
 
+    @Override
     public ByteOrder order() {
 
 

@@ -69,6 +69,7 @@ public interface ListIterator<E> extends Iterator<E> {
      * @return {@code true} if the list iterator has more elements when
      *         traversing the list in the forward direction
      */
+    @Override
     boolean hasNext();
 
     /**
@@ -81,6 +82,7 @@ public interface ListIterator<E> extends Iterator<E> {
      * @return the next element in the list
      * @throws NoSuchElementException if the iteration has no next element
      */
+    @Override
     E next();
 
     /**
@@ -147,6 +149,7 @@ public interface ListIterator<E> extends Iterator<E> {
      *         {@code add} have been called after the last call to
      *         {@code next} or {@code previous}
      */
+    @Override
     void remove();
 
     /**

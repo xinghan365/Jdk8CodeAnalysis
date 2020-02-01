@@ -61,6 +61,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
         this.stream = stream;
     }
 
+    @Override
     public int read() throws IOException {
         checkClosed();
 
@@ -73,6 +74,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
         return val;
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         checkClosed();
 
@@ -107,18 +109,21 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
         return len;
     }
 
+    @Override
     public void write(int b) throws IOException {
         flushBits(); // this will call checkClosed() for us
         cache.write(b, streamPos);
         ++streamPos;
     }
 
+    @Override
     public void write(byte[] b, int off, int len) throws IOException {
         flushBits(); // this will call checkClosed() for us
         cache.write(b, off, len, streamPos);
         streamPos += len;
     }
 
+    @Override
     public long length() {
         try {
             checkClosed();
@@ -138,6 +143,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
      * @see #isCachedMemory
      * @see #isCachedFile
      */
+    @Override
     public boolean isCached() {
         return true;
     }
@@ -151,6 +157,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
      * @see #isCached
      * @see #isCachedMemory
      */
+    @Override
     public boolean isCachedFile() {
         return false;
     }
@@ -164,6 +171,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
      * @see #isCached
      * @see #isCachedFile
      */
+    @Override
     public boolean isCachedMemory() {
         return true;
     }
@@ -174,6 +182,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
      * is released.  The destination <code>OutputStream</code>
      * is not closed.
      */
+    @Override
     public void close() throws IOException {
         long length = cache.getLength();
         seek(length);
@@ -184,6 +193,7 @@ public class MemoryCacheImageOutputStream extends ImageOutputStreamImpl {
         stream = null;
     }
 
+    @Override
     public void flushBefore(long pos) throws IOException {
         long oFlushedPos = flushedPos;
         super.flushBefore(pos); // this will call checkClosed() for us

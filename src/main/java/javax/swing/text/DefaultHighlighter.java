@@ -52,6 +52,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      *
      * @param g the graphics context
      */
+    @Override
     public void paint(Graphics g) {
         // PENDING(prinz) - should cull ranges not visible
         int len = highlights.size();
@@ -85,6 +86,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      * @param c the editor component
      * @see Highlighter#install
      */
+    @Override
     public void install(JTextComponent c) {
         component = c;
         removeAllHighlights();
@@ -97,6 +99,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      * @param c the component
      * @see Highlighter#deinstall
      */
+    @Override
     public void deinstall(JTextComponent c) {
         component = null;
     }
@@ -112,6 +115,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      *   to refer to the highlight
      * @exception BadLocationException if the specified location is invalid
      */
+    @Override
     public Object addHighlight(int p0, int p1, Highlighter.HighlightPainter p) throws BadLocationException {
         if (p0 < 0) {
             throw new BadLocationException("Invalid start offset", p0);
@@ -138,6 +142,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      *
      * @param tag the reference to the highlight
      */
+    @Override
     public void removeHighlight(Object tag) {
         if (tag instanceof LayeredHighlightInfo) {
             LayeredHighlightInfo lhi = (LayeredHighlightInfo)tag;
@@ -155,6 +160,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
     /**
      * Removes all highlights.
      */
+    @Override
     public void removeAllHighlights() {
         TextUI mapper = component.getUI();
         if (getDrawsLayeredHighlights()) {
@@ -224,6 +230,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      * @param p1 the end of the range &gt;= p0
      * @exception BadLocationException if the specified location is invalid
      */
+    @Override
     public void changeHighlight(Object tag, int p0, int p1) throws BadLocationException {
         if (p0 < 0) {
             throw new BadLocationException("Invalid beginning of the range", p0);
@@ -272,6 +279,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      * @return the copy
      * @see Highlighter#getHighlights
      */
+    @Override
     public Highlighter.Highlight[] getHighlights() {
         int size = highlights.size();
         if (size == 0) {
@@ -294,6 +302,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
      * @param editor JTextComponent
      * @param view View instance being rendered
      */
+    @Override
     public void paintLayeredHighlights(Graphics g, int p0, int p1,
                                        Shape viewBounds,
                                        JTextComponent editor, View view) {
@@ -400,6 +409,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
          * @param bounds the bounding box for the highlight
          * @param c the editor
          */
+        @Override
         public void paint(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c) {
             Rectangle alloc = bounds.getBounds();
             try {
@@ -449,6 +459,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
          * @param view View painting for
          * @return region drawing occurred in
          */
+        @Override
         public Shape paintLayer(Graphics g, int offs0, int offs1,
                                 Shape bounds, JTextComponent c, View view) {
             Color color = getColor();
@@ -505,14 +516,17 @@ public class DefaultHighlighter extends LayeredHighlighter {
 
     class HighlightInfo implements Highlighter.Highlight {
 
+        @Override
         public int getStartOffset() {
             return p0.getOffset();
         }
 
+        @Override
         public int getEndOffset() {
             return p1.getOffset();
         }
 
+        @Override
         public Highlighter.HighlightPainter getPainter() {
             return painter;
         }
@@ -530,8 +544,9 @@ public class DefaultHighlighter extends LayeredHighlighter {
     class LayeredHighlightInfo extends HighlightInfo {
 
         void union(Shape bounds) {
-            if (bounds == null)
+            if (bounds == null) {
                 return;
+            }
 
             Rectangle alloc;
             if (bounds instanceof Rectangle) {
@@ -596,6 +611,7 @@ public class DefaultHighlighter extends LayeredHighlighter {
         /**
          * Executes range(s) damage and cleans range queue.
          */
+        @Override
         public synchronized void run() {
             if (component != null) {
                 TextUI mapper = component.getUI();

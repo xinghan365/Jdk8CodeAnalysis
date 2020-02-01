@@ -63,6 +63,7 @@ public class MalformedInputException
      * Returns the message.
      * @return the message
      */
+    @Override
     public String getMessage() {
         return "Input length = " + inputLength;
     }

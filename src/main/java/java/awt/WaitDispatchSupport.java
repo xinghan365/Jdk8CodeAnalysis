@@ -182,6 +182,7 @@ class WaitDispatchSupport implements SecondaryLoop {
             }
 
             final Runnable run = new Runnable() {
+                @Override
                 public void run() {
                     log.fine("Starting a new event pump");
                     if (filter == null) {
@@ -231,6 +232,7 @@ class WaitDispatchSupport implements SecondaryLoop {
                 //
                 // Event pump should be privileged. See 6300270.
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         run.run();
                         return null;
@@ -242,7 +244,9 @@ class WaitDispatchSupport implements SecondaryLoop {
                 }
                 keepBlockingCT.set(true);
                 synchronized (getTreeLock()) {
-                    if (afterExit.get()) return false;
+                    if (afterExit.get()) {
+                        return false;
+                    }
                     if (filter != null) {
                         dispatchThread.addEventFilter(filter);
                     }
@@ -290,6 +294,7 @@ class WaitDispatchSupport implements SecondaryLoop {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean exit() {
         if (log.isLoggable(PlatformLogger.Level.FINE)) {
             log.fine("exit(): blockingEDT=" + keepBlockingEDT.get() +
@@ -308,6 +313,7 @@ class WaitDispatchSupport implements SecondaryLoop {
     }
 
     private final Runnable wakingRunnable = new Runnable() {
+        @Override
         public void run() {
             log.fine("Wake up EDT");
             synchronized (getTreeLock()) {

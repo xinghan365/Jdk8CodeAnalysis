@@ -77,6 +77,7 @@ public class BasicTextFieldUI extends BasicTextUI {
      *
      * @return the name ("TextField")
      */
+    @Override
     protected String getPropertyPrefix() {
         return "TextField";
     }
@@ -87,6 +88,7 @@ public class BasicTextFieldUI extends BasicTextUI {
      * @param elem the element
      * @return the view
      */
+    @Override
     public View create(Element elem) {
         Document doc = elem.getDocument();
         Object i18nFlag = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
@@ -120,6 +122,7 @@ public class BasicTextFieldUI extends BasicTextUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         View rootView = getRootView((JTextComponent)c);
@@ -161,6 +164,7 @@ public class BasicTextFieldUI extends BasicTextUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -184,10 +188,12 @@ public class BasicTextFieldUI extends BasicTextUI {
          * a field since it scrolls, so this is implemented to
          * return <code>Integer.MAX_VALUE</code>.
          */
+        @Override
         public int getFlowSpan(int index) {
             return Integer.MAX_VALUE;
         }
 
+        @Override
         protected void setJustification(int j) {
             // Justification is done in adjustAllocation(), so disable
             // ParagraphView's justification handling by doing nothing here.
@@ -317,6 +323,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          *
          * @see View#paint
          */
+        @Override
         public void paint(Graphics g, Shape a) {
             Rectangle r = (Rectangle) a;
             g.clipRect(r.x, r.y, r.width, r.height);
@@ -330,6 +337,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          * @param axis View.X_AXIS or View.Y_AXIS
          * @return the weight -> 1 for View.X_AXIS, else 0
          */
+        @Override
         public int getResizeWeight(int axis) {
             if (axis == View.X_AXIS) {
                 return 1;
@@ -348,6 +356,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          *   represent a valid location in the associated document
          * @see View#modelToView
          */
+        @Override
         public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
             return super.modelToView(pos, adjustAllocation(a), b);
         }
@@ -371,6 +380,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          * @exception IllegalArgumentException for an invalid bias argument
          * @see View#viewToModel
          */
+        @Override
         public Shape modelToView(int p0, Position.Bias b0,
                                  int p1, Position.Bias b1, Shape a)
             throws BadLocationException
@@ -389,6 +399,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          *  given point in the view
          * @see View#viewToModel
          */
+        @Override
         public int viewToModel(float fx, float fy, Shape a, Position.Bias[] bias) {
             return super.viewToModel(fx, fy, adjustAllocation(a), bias);
         }
@@ -402,6 +413,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          * @param f the factory to use to rebuild if the view has children
          * @see View#insertUpdate
          */
+        @Override
         public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
             super.insertUpdate(changes, adjustAllocation(a), f);
             updateVisibilityModel();
@@ -416,6 +428,7 @@ public class BasicTextFieldUI extends BasicTextUI {
          * @param f the factory to use to rebuild if the view has children
          * @see View#removeUpdate
          */
+        @Override
         public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
             super.removeUpdate(changes, adjustAllocation(a), f);
             updateVisibilityModel();

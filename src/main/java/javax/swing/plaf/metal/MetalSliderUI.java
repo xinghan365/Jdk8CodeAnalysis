@@ -106,7 +106,8 @@ public class MetalSliderUI extends BasicSliderUI {
         }
     }
 
-    public void installUI( JComponent c ) {
+    @Override
+    public void installUI(JComponent c ) {
         trackWidth = ((Integer)UIManager.get( "Slider.trackWidth" )).intValue();
         tickLength = safeLength = ((Integer)UIManager.get( "Slider.majorTickLength" )).intValue();
         horizThumbIcon = SAFE_HORIZ_THUMB_ICON =
@@ -125,12 +126,14 @@ public class MetalSliderUI extends BasicSliderUI {
         prepareFilledSliderField();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener( JSlider slider ) {
+    @Override
+    protected PropertyChangeListener createPropertyChangeListener(JSlider slider ) {
         return new MetalPropertyListener();
     }
 
     protected class MetalPropertyListener extends BasicSliderUI.PropertyChangeHandler {
-        public void propertyChange( PropertyChangeEvent e ) {  // listen for slider fill
+        @Override
+        public void propertyChange(PropertyChangeEvent e ) {  // listen for slider fill
             super.propertyChange( e );
 
             if (e.getPropertyName().equals(SLIDER_FILL)) {
@@ -150,6 +153,7 @@ public class MetalSliderUI extends BasicSliderUI {
         }
     }
 
+    @Override
     public void paintThumb(Graphics g)  {
         Rectangle knobBounds = thumbRect;
 
@@ -191,6 +195,7 @@ public class MetalSliderUI extends BasicSliderUI {
                              trackRight - trackLeft, trackBottom - trackTop);
     }
 
+    @Override
     public void paintTrack(Graphics g)  {
         if (MetalLookAndFeel.usingOcean()) {
             oceanPaintTrack(g);
@@ -454,9 +459,11 @@ public class MetalSliderUI extends BasicSliderUI {
         g.translate(-paintRect.x, -paintRect.y);
     }
 
+    @Override
     public void paintFocus(Graphics g)  {
     }
 
+    @Override
     protected Dimension getThumbSize() {
         Dimension size = new Dimension();
 
@@ -477,6 +484,7 @@ public class MetalSliderUI extends BasicSliderUI {
      * tick area for vertical sliders.  BasicSliderUI uses the returned value to
      * determine the tick area rectangle.
      */
+    @Override
     public int getTickLength() {
         return slider.getOrientation() == JSlider.HORIZONTAL ? safeLength + TICK_BUFFER + 1 :
         safeLength + TICK_BUFFER + 3;
@@ -518,21 +526,25 @@ public class MetalSliderUI extends BasicSliderUI {
         return (int)(getThumbSize().getHeight()-getTrackWidth())/2;
     }
 
-    protected void scrollDueToClickInTrack( int dir ) {
+    @Override
+    protected void scrollDueToClickInTrack(int dir ) {
         scrollByUnit( dir );
     }
 
-    protected void paintMinorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
+    @Override
+    protected void paintMinorTickForHorizSlider(Graphics g, Rectangle tickBounds, int x ) {
         g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
         g.drawLine( x, TICK_BUFFER, x, TICK_BUFFER + (safeLength / 2) );
     }
 
-    protected void paintMajorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
+    @Override
+    protected void paintMajorTickForHorizSlider(Graphics g, Rectangle tickBounds, int x ) {
         g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
         g.drawLine( x, TICK_BUFFER , x, TICK_BUFFER + (safeLength - 1) );
     }
 
-    protected void paintMinorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
+    @Override
+    protected void paintMinorTickForVertSlider(Graphics g, Rectangle tickBounds, int y ) {
         g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
 
         if (MetalUtils.isLeftToRight(slider)) {
@@ -543,7 +555,8 @@ public class MetalSliderUI extends BasicSliderUI {
         }
     }
 
-    protected void paintMajorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
+    @Override
+    protected void paintMajorTickForVertSlider(Graphics g, Rectangle tickBounds, int y ) {
         g.setColor( slider.isEnabled() ? slider.getForeground() : MetalLookAndFeel.getControlShadow() );
 
         if (MetalUtils.isLeftToRight(slider)) {

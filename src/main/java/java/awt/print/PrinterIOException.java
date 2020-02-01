@@ -82,6 +82,7 @@ public class PrinterIOException extends PrinterException {
      * @return  the cause of this exception.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return mException;
     }

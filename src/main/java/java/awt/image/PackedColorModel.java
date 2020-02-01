@@ -306,6 +306,7 @@ public abstract class PackedColorModel extends ColorModel {
      *         <code>h</code> is not greater than 0
      * @see SampleModel
      */
+    @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
         return new SinglePixelPackedSampleModel(transferType, w, h,
                                                 maskArray);
@@ -322,6 +323,7 @@ public abstract class PackedColorModel extends ColorModel {
      *         <code>false</code> otherwise.
      * @see SampleModel
      */
+    @Override
     public boolean isCompatibleSampleModel(SampleModel sm) {
         if (! (sm instanceof SinglePixelPackedSampleModel)) {
             return false;
@@ -370,6 +372,7 @@ public abstract class PackedColorModel extends ColorModel {
      * @return a <code>WritableRaster</code> that represents the alpha
      *         channel of the image contained in <code>raster</code>.
      */
+    @Override
     public WritableRaster getAlphaRaster(WritableRaster raster) {
         if (hasAlpha() == false) {
             return null;
@@ -393,6 +396,7 @@ public abstract class PackedColorModel extends ColorModel {
      * is an instance of <code>PackedColorModel</code> and equals this
      * <code>PackedColorModel</code>; <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PackedColorModel)) {
             return false;

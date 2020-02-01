@@ -140,6 +140,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
      * @see #initSystemColorDefaults
      * @see #initComponentDefaults
      */
+    @Override
     public UIDefaults getDefaults() {
         UIDefaults table = new UIDefaults(610, 0.75f);
 
@@ -153,6 +154,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
     /**
      * {@inheritDoc}
      */
+    @Override
     public void initialize() {
         if (needsEventHelper) {
             installAWTEventListener();
@@ -168,6 +170,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
             // when the AppContext is disposed(), at which time this laf should
             // be uninitialize()d.
             disposer = new PropertyChangeListener() {
+                @Override
                 public void propertyChange(PropertyChangeEvent prpChg) {
                     uninitialize();
                 }
@@ -181,6 +184,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
     /**
      * {@inheritDoc}
      */
+    @Override
     public void uninitialize() {
         AppContext context = AppContext.getAppContext();
         synchronized (BasicPopupMenuUI.MOUSE_GRABBER_KEY) {
@@ -607,6 +611,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
         // *** List value objects
 
         Object listCellRendererActiveValue = new UIDefaults.ActiveValue() {
+            @Override
             public Object createValue(UIDefaults table) {
                 return new DefaultListCellRenderer.UIResource();
             }
@@ -2057,6 +2062,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
             audioResource = resource;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (audioBuffer == null) {
                 audioBuffer = loadAudioData(audioResource);
@@ -2082,6 +2088,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
             }
         }
 
+        @Override
         public void update(LineEvent event) {
             if (event.getType() == LineEvent.Type.STOP) {
                 cancelCurrentSound((Clip)event.getLine());
@@ -2134,6 +2141,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
          */
         byte[] buffer = AccessController.doPrivileged(
                                                  new PrivilegedAction<byte[]>() {
+                @Override
                 public byte[] run() {
                     try {
                         InputStream resource = BasicLookAndFeel.this.
@@ -2255,6 +2263,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
             AccessController.doPrivileged(this);
         }
 
+        @Override
         public Object run() {
             Toolkit tk = Toolkit.getDefaultToolkit();
             if(invocator == null) {
@@ -2266,6 +2275,7 @@ public abstract class BasicLookAndFeel extends LookAndFeel implements Serializab
             return null;
         }
 
+        @Override
         public void eventDispatched(AWTEvent ev) {
             int eventID = ev.getID();
             if((eventID & AWTEvent.MOUSE_EVENT_MASK) != 0) {

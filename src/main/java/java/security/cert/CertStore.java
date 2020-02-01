@@ -117,8 +117,9 @@ public class CertStore {
         this.storeSpi = storeSpi;
         this.provider = provider;
         this.type = type;
-        if (params != null)
+        if (params != null) {
             this.params = (CertStoreParameters) params.clone();
+        }
     }
 
     /**
@@ -410,6 +411,7 @@ public class CertStore {
     public final static String getDefaultType() {
         String cstype;
         cstype = AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
             public String run() {
                 return Security.getProperty(CERTSTORE_TYPE);
             }

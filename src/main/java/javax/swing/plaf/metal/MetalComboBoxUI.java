@@ -57,6 +57,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
         return new MetalComboBoxUI();
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (MetalLookAndFeel.usingOcean()) {
             super.paint(g, c);
@@ -72,6 +73,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
      * @throws NullPointerException if any of the arguments are null.
      * @since 1.5
      */
+    @Override
     public void paintCurrentValue(Graphics g, Rectangle bounds,
                                   boolean hasFocus) {
         // This is really only called if we're using ocean.
@@ -104,6 +106,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
      * @throws NullPointerException if any of the arguments are null.
      * @since 1.5
      */
+    @Override
     public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
                                             boolean hasFocus) {
         // This is really only called if we're using ocean.
@@ -142,6 +145,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         int baseline;
         if (MetalLookAndFeel.usingOcean() && height >= 4) {
@@ -157,14 +161,17 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
         return baseline;
     }
 
+    @Override
     protected ComboBoxEditor createEditor() {
         return new MetalComboBoxEditor.UIResource();
     }
 
+    @Override
     protected ComboPopup createPopup() {
         return super.createPopup();
     }
 
+    @Override
     protected JButton createArrowButton() {
         boolean iconOnly = (comboBox.isEditable() ||
                             MetalLookAndFeel.usingOcean());
@@ -194,6 +201,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
         }
     }
 
+    @Override
     public PropertyChangeListener createPropertyChangeListener() {
         return new MetalPropertyChangeListener();
     }
@@ -203,6 +211,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
      * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
      */
     public class MetalPropertyChangeListener extends BasicComboBoxUI.PropertyChangeHandler {
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             super.propertyChange( e );
             String propertyName = e.getPropertyName();
@@ -238,6 +247,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
     @Deprecated
     protected void editablePropertyChanged( PropertyChangeEvent e ) { }
 
+    @Override
     protected LayoutManager createLayoutManager() {
         return new MetalComboBoxLayoutManager();
     }
@@ -247,7 +257,8 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
      * Instantiate it only within subclasses of {@code MetalComboBoxUI}.
      */
     public class MetalComboBoxLayoutManager extends BasicComboBoxUI.ComboBoxLayoutManager {
-        public void layoutContainer( Container parent ) {
+        @Override
+        public void layoutContainer(Container parent ) {
             layoutComboBox( parent, this );
         }
         public void superLayout( Container parent ) {
@@ -308,15 +319,18 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
     // provide is no longer necessary and should be removed. However,
     // removing them will create an uncompatible API change.
 
+    @Override
     public void configureEditor() {
         super.configureEditor();
     }
 
+    @Override
     public void unconfigureEditor() {
         super.unconfigureEditor();
     }
 
-    public Dimension getMinimumSize( JComponent c ) {
+    @Override
+    public Dimension getMinimumSize(JComponent c ) {
         if ( !isMinimumSizeDirty ) {
             return new Dimension( cachedMinimumSize );
         }
@@ -375,6 +389,7 @@ public class MetalComboBoxUI extends BasicComboBoxUI {
         // provide is no longer necessary and should be removed. However,
         // removing them will create an uncompatible API change.
 
+        @Override
         public void delegateFocus(MouseEvent e) {
             super.delegateFocus(e);
         }

@@ -140,8 +140,12 @@ public class AWTEventMulticaster implements
      * @return resulting listener
      */
     protected EventListener remove(EventListener oldl) {
-        if (oldl == a)  return b;
-        if (oldl == b)  return a;
+        if (oldl == a) {
+            return b;
+        }
+        if (oldl == b) {
+            return a;
+        }
         EventListener a2 = removeInternal(a, oldl);
         EventListener b2 = removeInternal(b, oldl);
         if (a2 == a && b2 == b) {
@@ -155,6 +159,7 @@ public class AWTEventMulticaster implements
      * componentResized methods on listener-a and listener-b.
      * @param e the component event
      */
+    @Override
     public void componentResized(ComponentEvent e) {
         ((ComponentListener)a).componentResized(e);
         ((ComponentListener)b).componentResized(e);
@@ -165,6 +170,7 @@ public class AWTEventMulticaster implements
      * componentMoved methods on listener-a and listener-b.
      * @param e the component event
      */
+    @Override
     public void componentMoved(ComponentEvent e) {
         ((ComponentListener)a).componentMoved(e);
         ((ComponentListener)b).componentMoved(e);
@@ -175,6 +181,7 @@ public class AWTEventMulticaster implements
      * componentShown methods on listener-a and listener-b.
      * @param e the component event
      */
+    @Override
     public void componentShown(ComponentEvent e) {
         ((ComponentListener)a).componentShown(e);
         ((ComponentListener)b).componentShown(e);
@@ -185,6 +192,7 @@ public class AWTEventMulticaster implements
      * componentHidden methods on listener-a and listener-b.
      * @param e the component event
      */
+    @Override
     public void componentHidden(ComponentEvent e) {
         ((ComponentListener)a).componentHidden(e);
         ((ComponentListener)b).componentHidden(e);
@@ -195,6 +203,7 @@ public class AWTEventMulticaster implements
      * componentAdded methods on listener-a and listener-b.
      * @param e the component event
      */
+    @Override
     public void componentAdded(ContainerEvent e) {
         ((ContainerListener)a).componentAdded(e);
         ((ContainerListener)b).componentAdded(e);
@@ -205,6 +214,7 @@ public class AWTEventMulticaster implements
      * componentRemoved methods on listener-a and listener-b.
      * @param e the component event
      */
+    @Override
     public void componentRemoved(ContainerEvent e) {
         ((ContainerListener)a).componentRemoved(e);
         ((ContainerListener)b).componentRemoved(e);
@@ -215,6 +225,7 @@ public class AWTEventMulticaster implements
      * focusGained methods on listener-a and listener-b.
      * @param e the focus event
      */
+    @Override
     public void focusGained(FocusEvent e) {
         ((FocusListener)a).focusGained(e);
         ((FocusListener)b).focusGained(e);
@@ -225,6 +236,7 @@ public class AWTEventMulticaster implements
      * focusLost methods on listener-a and listener-b.
      * @param e the focus event
      */
+    @Override
     public void focusLost(FocusEvent e) {
         ((FocusListener)a).focusLost(e);
         ((FocusListener)b).focusLost(e);
@@ -235,6 +247,7 @@ public class AWTEventMulticaster implements
      * keyTyped methods on listener-a and listener-b.
      * @param e the key event
      */
+    @Override
     public void keyTyped(KeyEvent e) {
         ((KeyListener)a).keyTyped(e);
         ((KeyListener)b).keyTyped(e);
@@ -245,6 +258,7 @@ public class AWTEventMulticaster implements
      * keyPressed methods on listener-a and listener-b.
      * @param e the key event
      */
+    @Override
     public void keyPressed(KeyEvent e) {
         ((KeyListener)a).keyPressed(e);
         ((KeyListener)b).keyPressed(e);
@@ -255,6 +269,7 @@ public class AWTEventMulticaster implements
      * keyReleased methods on listener-a and listener-b.
      * @param e the key event
      */
+    @Override
     public void keyReleased(KeyEvent e) {
         ((KeyListener)a).keyReleased(e);
         ((KeyListener)b).keyReleased(e);
@@ -265,6 +280,7 @@ public class AWTEventMulticaster implements
      * mouseClicked methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mouseClicked(MouseEvent e) {
         ((MouseListener)a).mouseClicked(e);
         ((MouseListener)b).mouseClicked(e);
@@ -275,6 +291,7 @@ public class AWTEventMulticaster implements
      * mousePressed methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mousePressed(MouseEvent e) {
         ((MouseListener)a).mousePressed(e);
         ((MouseListener)b).mousePressed(e);
@@ -285,6 +302,7 @@ public class AWTEventMulticaster implements
      * mouseReleased methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
         ((MouseListener)a).mouseReleased(e);
         ((MouseListener)b).mouseReleased(e);
@@ -295,6 +313,7 @@ public class AWTEventMulticaster implements
      * mouseEntered methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
         ((MouseListener)a).mouseEntered(e);
         ((MouseListener)b).mouseEntered(e);
@@ -305,6 +324,7 @@ public class AWTEventMulticaster implements
      * mouseExited methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mouseExited(MouseEvent e) {
         ((MouseListener)a).mouseExited(e);
         ((MouseListener)b).mouseExited(e);
@@ -315,6 +335,7 @@ public class AWTEventMulticaster implements
      * mouseDragged methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mouseDragged(MouseEvent e) {
         ((MouseMotionListener)a).mouseDragged(e);
         ((MouseMotionListener)b).mouseDragged(e);
@@ -325,6 +346,7 @@ public class AWTEventMulticaster implements
      * mouseMoved methods on listener-a and listener-b.
      * @param e the mouse event
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
         ((MouseMotionListener)a).mouseMoved(e);
         ((MouseMotionListener)b).mouseMoved(e);
@@ -335,6 +357,7 @@ public class AWTEventMulticaster implements
      * windowOpened methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowOpened(WindowEvent e) {
         ((WindowListener)a).windowOpened(e);
         ((WindowListener)b).windowOpened(e);
@@ -345,6 +368,7 @@ public class AWTEventMulticaster implements
      * windowClosing methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowClosing(WindowEvent e) {
         ((WindowListener)a).windowClosing(e);
         ((WindowListener)b).windowClosing(e);
@@ -355,6 +379,7 @@ public class AWTEventMulticaster implements
      * windowClosed methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowClosed(WindowEvent e) {
         ((WindowListener)a).windowClosed(e);
         ((WindowListener)b).windowClosed(e);
@@ -365,6 +390,7 @@ public class AWTEventMulticaster implements
      * windowIconified methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowIconified(WindowEvent e) {
         ((WindowListener)a).windowIconified(e);
         ((WindowListener)b).windowIconified(e);
@@ -375,6 +401,7 @@ public class AWTEventMulticaster implements
      * windowDeiconified methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowDeiconified(WindowEvent e) {
         ((WindowListener)a).windowDeiconified(e);
         ((WindowListener)b).windowDeiconified(e);
@@ -385,6 +412,7 @@ public class AWTEventMulticaster implements
      * windowActivated methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowActivated(WindowEvent e) {
         ((WindowListener)a).windowActivated(e);
         ((WindowListener)b).windowActivated(e);
@@ -395,6 +423,7 @@ public class AWTEventMulticaster implements
      * windowDeactivated methods on listener-a and listener-b.
      * @param e the window event
      */
+    @Override
     public void windowDeactivated(WindowEvent e) {
         ((WindowListener)a).windowDeactivated(e);
         ((WindowListener)b).windowDeactivated(e);
@@ -406,6 +435,7 @@ public class AWTEventMulticaster implements
      * @param e the window event
      * @since 1.4
      */
+    @Override
     public void windowStateChanged(WindowEvent e) {
         ((WindowStateListener)a).windowStateChanged(e);
         ((WindowStateListener)b).windowStateChanged(e);
@@ -418,6 +448,7 @@ public class AWTEventMulticaster implements
      * @param e the window event
      * @since 1.4
      */
+    @Override
     public void windowGainedFocus(WindowEvent e) {
         ((WindowFocusListener)a).windowGainedFocus(e);
         ((WindowFocusListener)b).windowGainedFocus(e);
@@ -429,6 +460,7 @@ public class AWTEventMulticaster implements
      * @param e the window event
      * @since 1.4
      */
+    @Override
     public void windowLostFocus(WindowEvent e) {
         ((WindowFocusListener)a).windowLostFocus(e);
         ((WindowFocusListener)b).windowLostFocus(e);
@@ -439,6 +471,7 @@ public class AWTEventMulticaster implements
      * actionPerformed methods on listener-a and listener-b.
      * @param e the action event
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         ((ActionListener)a).actionPerformed(e);
         ((ActionListener)b).actionPerformed(e);
@@ -449,6 +482,7 @@ public class AWTEventMulticaster implements
      * itemStateChanged methods on listener-a and listener-b.
      * @param e the item event
      */
+    @Override
     public void itemStateChanged(ItemEvent e) {
         ((ItemListener)a).itemStateChanged(e);
         ((ItemListener)b).itemStateChanged(e);
@@ -459,10 +493,12 @@ public class AWTEventMulticaster implements
      * adjustmentValueChanged methods on listener-a and listener-b.
      * @param e the adjustment event
      */
+    @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
         ((AdjustmentListener)a).adjustmentValueChanged(e);
         ((AdjustmentListener)b).adjustmentValueChanged(e);
     }
+    @Override
     public void textValueChanged(TextEvent e) {
         ((TextListener)a).textValueChanged(e);
         ((TextListener)b).textValueChanged(e);
@@ -473,6 +509,7 @@ public class AWTEventMulticaster implements
      * inputMethodTextChanged methods on listener-a and listener-b.
      * @param e the item event
      */
+    @Override
     public void inputMethodTextChanged(InputMethodEvent e) {
        ((InputMethodListener)a).inputMethodTextChanged(e);
        ((InputMethodListener)b).inputMethodTextChanged(e);
@@ -483,6 +520,7 @@ public class AWTEventMulticaster implements
      * caretPositionChanged methods on listener-a and listener-b.
      * @param e the item event
      */
+    @Override
     public void caretPositionChanged(InputMethodEvent e) {
        ((InputMethodListener)a).caretPositionChanged(e);
        ((InputMethodListener)b).caretPositionChanged(e);
@@ -494,6 +532,7 @@ public class AWTEventMulticaster implements
      * @param e the item event
      * @since 1.3
      */
+    @Override
     public void hierarchyChanged(HierarchyEvent e) {
         ((HierarchyListener)a).hierarchyChanged(e);
         ((HierarchyListener)b).hierarchyChanged(e);
@@ -505,6 +544,7 @@ public class AWTEventMulticaster implements
      * @param e the item event
      * @since 1.3
      */
+    @Override
     public void ancestorMoved(HierarchyEvent e) {
         ((HierarchyBoundsListener)a).ancestorMoved(e);
         ((HierarchyBoundsListener)b).ancestorMoved(e);
@@ -516,6 +556,7 @@ public class AWTEventMulticaster implements
      * @param e the item event
      * @since 1.3
      */
+    @Override
     public void ancestorResized(HierarchyEvent e) {
         ((HierarchyBoundsListener)a).ancestorResized(e);
         ((HierarchyBoundsListener)b).ancestorResized(e);
@@ -527,6 +568,7 @@ public class AWTEventMulticaster implements
      * @param e the mouse event
      * @since 1.4
      */
+    @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         ((MouseWheelListener)a).mouseWheelMoved(e);
         ((MouseWheelListener)b).mouseWheelMoved(e);
@@ -886,8 +928,12 @@ public class AWTEventMulticaster implements
      * @param b event listener-b
      */
     protected static EventListener addInternal(EventListener a, EventListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
         return new AWTEventMulticaster(a, b);
     }
 

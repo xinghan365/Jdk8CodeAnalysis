@@ -164,8 +164,9 @@ class ArrayTable implements Cloneable {
      */
     public int size() {
         int size;
-        if (table==null)
+        if (table==null) {
             return 0;
+        }
         if (isArray()) {
             size = ((Object[])table).length/2;
         } else {
@@ -225,9 +226,10 @@ class ArrayTable implements Cloneable {
                     // Copy from two past the index, up to
                     // the end of tmp (which is two elements
                     // shorter than the old list)
-                    if (index < tmp.length)
+                    if (index < tmp.length) {
                         System.arraycopy(array, index+2, tmp, index,
                                          tmp.length - index);
+                    }
                     // set the listener array to the new array or null
                     table = (tmp.length == 0) ? null : tmp;
                 }
@@ -251,6 +253,7 @@ class ArrayTable implements Cloneable {
     /*
      * Returns a clone of the <code>ArrayTable</code>.
      */
+    @Override
     public Object clone() {
         ArrayTable newArrayTable = new ArrayTable();
         if (isArray()) {

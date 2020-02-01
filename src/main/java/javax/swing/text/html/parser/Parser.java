@@ -1156,7 +1156,9 @@ class Parser implements DTDConstants {
                 // match end tag
                 if ((i >= 0) && (text[i++] == '<') && (text[i] == '/')) {
                     while ((++i < textpos) &&
-                           (Character.toLowerCase(text[i]) == stack.elem.name.charAt(j++)));
+                           (Character.toLowerCase(text[i]) == stack.elem.name.charAt(j++))) {
+                        ;
+                    }
                     if (i == textpos) {
                         textpos -= (stack.elem.name.length() + 2);
                         if ((textpos > 0) && (text[textpos-1] == '\n')) {
@@ -1256,8 +1258,9 @@ class Parser implements DTDConstants {
                 break;
 
               case '\t':
-                  if (delim < 0)
+                  if (delim < 0) {
                       c = ' ';
+                  }
               case ' ':
                 ch = readCh();
                 if (delim < 0) {

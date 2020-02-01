@@ -141,6 +141,7 @@ public abstract class Signer extends Identity {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Void>() {
+                @Override
                 public Void run() throws KeyManagementException {
                     setPublicKey(pub);
                     return null;
@@ -152,6 +153,7 @@ public abstract class Signer extends Identity {
         privateKey = priv;
     }
 
+    @Override
     String printKeys() {
         String keys = "";
         PublicKey publicKey = getPublicKey();
@@ -169,6 +171,7 @@ public abstract class Signer extends Identity {
      *
      * @return a string of information about the signer.
      */
+    @Override
     public String toString() {
         return "[Signer]" + super.toString();
     }

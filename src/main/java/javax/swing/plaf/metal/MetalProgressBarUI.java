@@ -59,6 +59,7 @@ public class MetalProgressBarUI extends BasicProgressBarUI {
      * <code>paintDeterminate</code> method.
      * @since 1.4
      */
+    @Override
     public void paintDeterminate(Graphics g, JComponent c) {
         super.paintDeterminate(g,c);
 
@@ -139,6 +140,7 @@ public class MetalProgressBarUI extends BasicProgressBarUI {
      * <code>paintIndeterminate</code> method.
      * @since 1.4
      */
+    @Override
     public void paintIndeterminate(Graphics g, JComponent c) {
         super.paintIndeterminate(g, c);
 

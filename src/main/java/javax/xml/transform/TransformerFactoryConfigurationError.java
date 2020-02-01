@@ -100,6 +100,7 @@ public class TransformerFactoryConfigurationError extends Error {
      *
      * @return The error message.
      */
+    @Override
     public String getMessage() {
 
         String message = super.getMessage();

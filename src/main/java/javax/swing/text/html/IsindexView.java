@@ -58,6 +58,7 @@ class IsindexView extends ComponentView implements ActionListener {
      * that contains the PROMPT to the left and <code>JTextField</code>
      * to the right.
      */
+    @Override
     public Component createComponent() {
         AttributeSet attr = getElement().getAttributes();
 
@@ -88,6 +89,7 @@ class IsindexView extends ComponentView implements ActionListener {
      * contents of the JTextField.  The search
      * contents are URLEncoded.
      */
+    @Override
     public void actionPerformed(ActionEvent evt) {
 
         String data = textField.getText();

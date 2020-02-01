@@ -312,8 +312,9 @@ public class Executors {
      * @throws NullPointerException if executor null
      */
     public static ExecutorService unconfigurableExecutorService(ExecutorService executor) {
-        if (executor == null)
+        if (executor == null) {
             throw new NullPointerException();
+        }
         return new DelegatedExecutorService(executor);
     }
 
@@ -328,8 +329,9 @@ public class Executors {
      * @throws NullPointerException if executor null
      */
     public static ScheduledExecutorService unconfigurableScheduledExecutorService(ScheduledExecutorService executor) {
-        if (executor == null)
+        if (executor == null) {
             throw new NullPointerException();
+        }
         return new DelegatedScheduledExecutorService(executor);
     }
 
@@ -402,8 +404,9 @@ public class Executors {
      * @throws NullPointerException if task null
      */
     public static <T> Callable<T> callable(Runnable task, T result) {
-        if (task == null)
+        if (task == null) {
             throw new NullPointerException();
+        }
         return new RunnableAdapter<T>(task, result);
     }
 
@@ -415,8 +418,9 @@ public class Executors {
      * @throws NullPointerException if task null
      */
     public static Callable<Object> callable(Runnable task) {
-        if (task == null)
+        if (task == null) {
             throw new NullPointerException();
+        }
         return new RunnableAdapter<Object>(task, null);
     }
 
@@ -428,9 +432,11 @@ public class Executors {
      * @throws NullPointerException if action null
      */
     public static Callable<Object> callable(final PrivilegedAction<?> action) {
-        if (action == null)
+        if (action == null) {
             throw new NullPointerException();
+        }
         return new Callable<Object>() {
+            @Override
             public Object call() { return action.run(); }};
     }
 
@@ -443,9 +449,11 @@ public class Executors {
      * @throws NullPointerException if action null
      */
     public static Callable<Object> callable(final PrivilegedExceptionAction<?> action) {
-        if (action == null)
+        if (action == null) {
             throw new NullPointerException();
+        }
         return new Callable<Object>() {
+            @Override
             public Object call() throws Exception { return action.run(); }};
     }
 
@@ -464,8 +472,9 @@ public class Executors {
      * @throws NullPointerException if callable null
      */
     public static <T> Callable<T> privilegedCallable(Callable<T> callable) {
-        if (callable == null)
+        if (callable == null) {
             throw new NullPointerException();
+        }
         return new PrivilegedCallable<T>(callable);
     }
 
@@ -490,8 +499,9 @@ public class Executors {
      * class loader
      */
     public static <T> Callable<T> privilegedCallableUsingCurrentClassLoader(Callable<T> callable) {
-        if (callable == null)
+        if (callable == null) {
             throw new NullPointerException();
+        }
         return new PrivilegedCallableUsingCurrentClassLoader<T>(callable);
     }
 
@@ -507,6 +517,7 @@ public class Executors {
             this.task = task;
             this.result = result;
         }
+        @Override
         public T call() {
             task.run();
             return result;
@@ -525,10 +536,12 @@ public class Executors {
             this.acc = AccessController.getContext();
         }
 
+        @Override
         public T call() throws Exception {
             try {
                 return AccessController.doPrivileged(
                     new PrivilegedExceptionAction<T>() {
+                        @Override
                         public T run() throws Exception {
                             return task.call();
                         }
@@ -565,10 +578,12 @@ public class Executors {
             this.ccl = Thread.currentThread().getContextClassLoader();
         }
 
+        @Override
         public T call() throws Exception {
             try {
                 return AccessController.doPrivileged(
                     new PrivilegedExceptionAction<T>() {
+                        @Override
                         public T run() throws Exception {
                             Thread t = Thread.currentThread();
                             ClassLoader cl = t.getContextClassLoader();
@@ -608,14 +623,17 @@ public class Executors {
                          "-thread-";
         }
 
+        @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(group, r,
                                   namePrefix + threadNumber.getAndIncrement(),
                                   0);
-            if (t.isDaemon())
+            if (t.isDaemon()) {
                 t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
                 t.setPriority(Thread.NORM_PRIORITY);
+            }
             return t;
         }
     }
@@ -643,10 +661,13 @@ public class Executors {
             this.ccl = Thread.currentThread().getContextClassLoader();
         }
 
+        @Override
         public Thread newThread(final Runnable r) {
             return super.newThread(new Runnable() {
+                @Override
                 public void run() {
                     AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                        @Override
                         public Void run() {
                             Thread.currentThread().setContextClassLoader(ccl);
                             r.run();
@@ -665,37 +686,50 @@ public class Executors {
     static class DelegatedExecutorService extends AbstractExecutorService {
         private final ExecutorService e;
         DelegatedExecutorService(ExecutorService executor) { e = executor; }
+        @Override
         public void execute(Runnable command) { e.execute(command); }
+        @Override
         public void shutdown() { e.shutdown(); }
+        @Override
         public List<Runnable> shutdownNow() { return e.shutdownNow(); }
+        @Override
         public boolean isShutdown() { return e.isShutdown(); }
+        @Override
         public boolean isTerminated() { return e.isTerminated(); }
+        @Override
         public boolean awaitTermination(long timeout, TimeUnit unit)
             throws InterruptedException {
             return e.awaitTermination(timeout, unit);
         }
+        @Override
         public Future<?> submit(Runnable task) {
             return e.submit(task);
         }
+        @Override
         public <T> Future<T> submit(Callable<T> task) {
             return e.submit(task);
         }
+        @Override
         public <T> Future<T> submit(Runnable task, T result) {
             return e.submit(task, result);
         }
+        @Override
         public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
             throws InterruptedException {
             return e.invokeAll(tasks);
         }
+        @Override
         public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
                                              long timeout, TimeUnit unit)
             throws InterruptedException {
             return e.invokeAll(tasks, timeout, unit);
         }
+        @Override
         public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
             throws InterruptedException, ExecutionException {
             return e.invokeAny(tasks);
         }
+        @Override
         public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
                                long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
@@ -708,6 +742,7 @@ public class Executors {
         FinalizableDelegatedExecutorService(ExecutorService executor) {
             super(executor);
         }
+        @Override
         protected void finalize() {
             super.shutdown();
         }
@@ -725,15 +760,19 @@ public class Executors {
             super(executor);
             e = executor;
         }
+        @Override
         public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
             return e.schedule(command, delay, unit);
         }
+        @Override
         public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
             return e.schedule(callable, delay, unit);
         }
+        @Override
         public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
             return e.scheduleAtFixedRate(command, initialDelay, period, unit);
         }
+        @Override
         public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
             return e.scheduleWithFixedDelay(command, initialDelay, delay, unit);
         }

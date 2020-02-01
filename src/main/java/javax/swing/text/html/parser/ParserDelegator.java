@@ -98,6 +98,7 @@ public class ParserDelegator extends HTMLEditorKit.Parser implements Serializabl
         setDefaultDTD();
     }
 
+    @Override
     public void parse(Reader r, HTMLEditorKit.ParserCallback cb, boolean ignoreCharSet) throws IOException {
         new DocumentParser(getDefaultDTD()).parse(r, cb, ignoreCharSet);
     }
@@ -115,6 +116,7 @@ public class ParserDelegator extends HTMLEditorKit.Parser implements Serializabl
     static InputStream getResourceAsStream(final String name) {
         return AccessController.doPrivileged(
                 new PrivilegedAction<InputStream>() {
+                    @Override
                     public InputStream run() {
                         return ParserDelegator.class.getResourceAsStream(name);
                     }

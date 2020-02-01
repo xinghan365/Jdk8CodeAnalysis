@@ -302,6 +302,7 @@ public class CertPathBuilder {
     public final static String getDefaultType() {
         String cpbtype =
             AccessController.doPrivileged(new PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return Security.getProperty(CPB_TYPE);
                 }

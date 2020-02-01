@@ -149,8 +149,9 @@ public abstract class Policy {
     public static Policy getPolicy()
     {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null)
+        if (sm != null) {
             sm.checkPermission(SecurityConstants.GET_POLICY_PERMISSION);
+        }
         return getPolicyNoCheck();
     }
 
@@ -171,6 +172,7 @@ public abstract class Policy {
                 if (pinfo.policy == null) {
                     String policy_class = AccessController.doPrivileged(
                         new PrivilegedAction<String>() {
+                        @Override
                         public String run() {
                             return Security.getProperty("policy.provider");
                         }
@@ -200,6 +202,7 @@ public abstract class Policy {
                         final String pc = policy_class;
                         Policy pol = AccessController.doPrivileged(
                             new PrivilegedAction<Policy>() {
+                            @Override
                             public Policy run() {
                                 try {
                                     ClassLoader cl =
@@ -264,8 +267,10 @@ public abstract class Policy {
     public static void setPolicy(Policy p)
     {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(
-                                 new SecurityPermission("setPolicy"));
+        if (sm != null) {
+            sm.checkPermission(
+                                     new SecurityPermission("setPolicy"));
+        }
         if (p != null) {
             initPolicy(p);
         }
@@ -304,6 +309,7 @@ public abstract class Policy {
 
         ProtectionDomain policyDomain =
         AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
+            @Override
             public ProtectionDomain run() {
                 return p.getClass().getProtectionDomain();
             }
@@ -644,8 +650,9 @@ public abstract class Policy {
     public PermissionCollection getPermissions(ProtectionDomain domain) {
         PermissionCollection pc = null;
 
-        if (domain == null)
+        if (domain == null) {
             return new Permissions();
+        }
 
         if (pdMapping == null) {
             initPolicy(this);

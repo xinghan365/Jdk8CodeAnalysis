@@ -687,6 +687,7 @@ public class ServiceRegistry {
      * @exception Throwable if an error occurs during superclass
      * finalization.
      */
+    @Override
     public void finalize() throws Throwable {
         deregisterAll();
         super.finalize();
@@ -804,6 +805,7 @@ class SubRegistry {
         accMap.clear();
     }
 
+    @Override
     public void finalize() {
         clear();
     }
@@ -840,10 +842,12 @@ class FilterIterator<T> implements Iterator<T> {
         next = null;
     }
 
+    @Override
     public boolean hasNext() {
         return next != null;
     }
 
+    @Override
     public T next() {
         if (next == null) {
             throw new NoSuchElementException();
@@ -853,6 +857,7 @@ class FilterIterator<T> implements Iterator<T> {
         return o;
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

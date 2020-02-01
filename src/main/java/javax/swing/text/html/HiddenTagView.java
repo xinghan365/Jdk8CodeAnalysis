@@ -49,6 +49,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
         yAlign = 1;
     }
 
+    @Override
     protected Component createComponent() {
         JTextField tf = new JTextField(getElement().getName());
         Document doc = getDocument();
@@ -77,6 +78,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
         return panel;
     }
 
+    @Override
     public float getAlignment(int axis) {
         if (axis == View.Y_AXIS) {
             return yAlign;
@@ -84,6 +86,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
         return 0.5f;
     }
 
+    @Override
     public float getMinimumSpan(int axis) {
         if (axis == View.X_AXIS && isVisible()) {
             // Default to preferred.
@@ -92,6 +95,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
         return super.getMinimumSpan(axis);
     }
 
+    @Override
     public float getPreferredSpan(int axis) {
         if (axis == View.X_AXIS && isVisible()) {
             return Math.max(30, super.getPreferredSpan(axis));
@@ -99,6 +103,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
         return super.getPreferredSpan(axis);
     }
 
+    @Override
     public float getMaximumSpan(int axis) {
         if (axis == View.X_AXIS && isVisible()) {
             // Default to preferred.
@@ -108,19 +113,23 @@ class HiddenTagView extends EditableView implements DocumentListener {
     }
 
     // DocumentListener methods
+    @Override
     public void insertUpdate(DocumentEvent e) {
         updateModelFromText();
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         updateModelFromText();
     }
 
+    @Override
     public void changedUpdate(DocumentEvent e) {
         updateModelFromText();
     }
 
     // View method
+    @Override
     public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         if (!isSettingAttributes) {
             setTextFromModel();
@@ -165,6 +174,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
         }
         else {
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     _setTextFromModel();
                 }
@@ -217,6 +227,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
             }
             else {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         _updateModelFromText();
                     }
@@ -297,6 +308,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
 
 
     static class StartTagBorder implements Border, Serializable {
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int width, int height) {
             g.setColor(UnknownTagBorderColor);
@@ -317,10 +329,12 @@ class HiddenTagView extends EditableView implements DocumentListener {
                        x + width - 1, y + height / 2);
         }
 
+        @Override
         public Insets getBorderInsets(Component c) {
             return new Insets(2, 2 + padding, 2, tagSize + 2 + padding);
         }
 
+        @Override
         public boolean isBorderOpaque() {
             return false;
         }
@@ -328,6 +342,7 @@ class HiddenTagView extends EditableView implements DocumentListener {
 
 
     static class EndTagBorder implements Border, Serializable {
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int width, int height) {
             g.setColor(UnknownTagBorderColor);
@@ -348,10 +363,12 @@ class HiddenTagView extends EditableView implements DocumentListener {
                        x, y + height / 2);
         }
 
+        @Override
         public Insets getBorderInsets(Component c) {
             return new Insets(2, tagSize + 2 + padding, 2, 2 + padding);
         }
 
+        @Override
         public boolean isBorderOpaque() {
             return false;
         }

@@ -230,6 +230,7 @@ public class AWTKeyStroke implements Serializable {
     private static Constructor getCtor(final Class clazz)
     {
         Constructor ctor = AccessController.doPrivileged(new PrivilegedAction<Constructor>() {
+            @Override
             public Constructor run() {
                 try {
                     Constructor ctor = clazz.getDeclaredConstructor((Class[]) null);
@@ -694,6 +695,7 @@ public class AWTKeyStroke implements Serializable {
      *
      * @return an int that represents this object
      */
+    @Override
     public int hashCode() {
         return (((int)keyChar) + 1) * (2 * (keyCode + 1)) * (modifiers + 1) +
             (onKeyRelease ? 1 : 2);
@@ -705,6 +707,7 @@ public class AWTKeyStroke implements Serializable {
      * @param anObject the Object to compare this object to
      * @return true if the objects are identical
      */
+    @Override
     public final boolean equals(Object anObject) {
         if (anObject instanceof AWTKeyStroke) {
             AWTKeyStroke ks = (AWTKeyStroke)anObject;
@@ -724,6 +727,7 @@ public class AWTKeyStroke implements Serializable {
      * @return a String representation of this object
      * @see #getAWTKeyStroke(String)
      */
+    @Override
     public String toString() {
         if (keyCode == KeyEvent.VK_UNDEFINED) {
             return getModifiersText(modifiers) + "typed " + keyChar;

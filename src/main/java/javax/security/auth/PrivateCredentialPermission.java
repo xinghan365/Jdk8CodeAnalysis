@@ -170,9 +170,10 @@ public final class PrivateCredentialPermission extends Permission {
     public PrivateCredentialPermission(String name, String actions) {
         super(name);
 
-        if (!"read".equalsIgnoreCase(actions))
+        if (!"read".equalsIgnoreCase(actions)) {
             throw new IllegalArgumentException
                 (ResourcesMgr.getString("actions.can.only.be.read."));
+        }
         init(name);
     }
 
@@ -246,15 +247,18 @@ public final class PrivateCredentialPermission extends Permission {
      * @return true if this {@code PrivateCredentialPermission} implies
      * the specified {@code Permission}, false if not.
      */
+    @Override
     public boolean implies(Permission p) {
 
-        if (p == null || !(p instanceof PrivateCredentialPermission))
+        if (p == null || !(p instanceof PrivateCredentialPermission)) {
             return false;
+        }
 
         PrivateCredentialPermission that = (PrivateCredentialPermission)p;
 
-        if (!impliesCredentialClass(credentialClass, that.credentialClass))
+        if (!impliesCredentialClass(credentialClass, that.credentialClass)) {
             return false;
+        }
 
         return impliesPrincipalSet(credOwners, that.credOwners);
     }
@@ -276,12 +280,15 @@ public final class PrivateCredentialPermission extends Permission {
      *          has the same credential class as this object,
      *          and has the same Principals as this object.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (! (obj instanceof PrivateCredentialPermission))
+        if (! (obj instanceof PrivateCredentialPermission)) {
             return false;
+        }
 
         PrivateCredentialPermission that = (PrivateCredentialPermission)obj;
 
@@ -293,6 +300,7 @@ public final class PrivateCredentialPermission extends Permission {
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return this.credentialClass.hashCode();
     }
@@ -305,6 +313,7 @@ public final class PrivateCredentialPermission extends Permission {
      *
      * @return the actions (always returns "read").
      */
+    @Override
     public String getActions() {
         return "read";
     }
@@ -319,6 +328,7 @@ public final class PrivateCredentialPermission extends Permission {
      *
      * @return null in all cases.
      */
+    @Override
     public PermissionCollection newPermissionCollection() {
         return null;
     }
@@ -334,13 +344,15 @@ public final class PrivateCredentialPermission extends Permission {
         String principalClass = null;
         String principalName = null;
 
-        if (testing)
+        if (testing) {
             System.out.println("whole name = " + name);
+        }
 
         // get the Credential Class
         credentialClass = tokenizer.nextToken();
-        if (testing)
+        if (testing) {
             System.out.println("Credential Class = " + credentialClass);
+        }
 
         if (tokenizer.hasMoreTokens() == false) {
             MessageFormat form = new MessageFormat(ResourcesMgr.getString
@@ -358,8 +370,9 @@ public final class PrivateCredentialPermission extends Permission {
 
             // get the Principal Class
             principalClass = tokenizer.nextToken();
-            if (testing)
+            if (testing) {
                 System.out.println("    Principal Class = " + principalClass);
+            }
 
             if (tokenizer.hasMoreTokens() == false) {
                 MessageFormat form = new MessageFormat(ResourcesMgr.getString
@@ -393,8 +406,9 @@ public final class PrivateCredentialPermission extends Permission {
 
                 while (tokenizer.hasMoreTokens()) {
                     principalName = principalName + tokenizer.nextToken();
-                    if (principalName.endsWith("\""))
+                    if (principalName.endsWith("\"")) {
                         break;
+                    }
                 }
 
                 if (!principalName.endsWith("\"")) {
@@ -408,8 +422,9 @@ public final class PrivateCredentialPermission extends Permission {
                 }
             }
 
-            if (testing)
+            if (testing) {
                 System.out.println("\tprincipalName = '" + principalName + "'");
+            }
 
             principalName = principalName.substring
                                         (1, principalName.length() - 1);
@@ -420,8 +435,9 @@ public final class PrivateCredentialPermission extends Permission {
                         ("PrivateCredentialPermission.Principal.Class.can.not.be.a.wildcard.value.if.Principal.Name.is.not.a.wildcard.value"));
             }
 
-            if (testing)
+            if (testing) {
                 System.out.println("\tprincipalName = '" + principalName + "'");
+            }
 
             pList.add(new CredOwner(principalClass, principalName));
         }
@@ -433,15 +449,18 @@ public final class PrivateCredentialPermission extends Permission {
     private boolean impliesCredentialClass(String thisC, String thatC) {
 
         // this should never happen
-        if (thisC == null || thatC == null)
+        if (thisC == null || thatC == null) {
             return false;
+        }
 
-        if (testing)
+        if (testing) {
             System.out.println("credential class comparison: " +
                                 thisC + "/" + thatC);
+        }
 
-        if (thisC.equals("*"))
+        if (thisC.equals("*")) {
             return true;
+        }
 
         /**
          * XXX let's not enable this for now --
@@ -460,14 +479,17 @@ public final class PrivateCredentialPermission extends Permission {
     private boolean impliesPrincipalSet(CredOwner[] thisP, CredOwner[] thatP) {
 
         // this should never happen
-        if (thisP == null || thatP == null)
+        if (thisP == null || thatP == null) {
             return false;
+        }
 
-        if (thatP.length == 0)
+        if (thatP.length == 0) {
             return true;
+        }
 
-        if (thisP.length == 0)
+        if (thisP.length == 0) {
             return false;
+        }
 
         for (int i = 0; i < thisP.length; i++) {
             boolean foundMatch = false;
@@ -530,8 +552,9 @@ public final class PrivateCredentialPermission extends Permission {
         }
 
         public boolean implies(Object obj) {
-            if (obj == null || !(obj instanceof CredOwner))
+            if (obj == null || !(obj instanceof CredOwner)) {
                 return false;
+            }
 
             CredOwner that = (CredOwner)obj;
 
@@ -551,6 +574,7 @@ public final class PrivateCredentialPermission extends Permission {
             return false;
         }
 
+        @Override
         public String toString() {
             MessageFormat form = new MessageFormat(ResourcesMgr.getString
                 ("CredOwner.Principal.Class.class.Principal.Name.name"));

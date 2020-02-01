@@ -113,6 +113,7 @@ public interface CharSequence {
      *
      * @return  a string consisting of exactly this sequence of characters
      */
+    @Override
     public String toString();
 
     /**
@@ -131,10 +132,12 @@ public interface CharSequence {
         class CharIterator implements PrimitiveIterator.OfInt {
             int cur = 0;
 
+            @Override
             public boolean hasNext() {
                 return cur < length();
             }
 
+            @Override
             public int nextInt() {
                 if (hasNext()) {
                     return charAt(cur++);
@@ -202,10 +205,12 @@ public interface CharSequence {
                 }
             }
 
+            @Override
             public boolean hasNext() {
                 return cur < length();
             }
 
+            @Override
             public int nextInt() {
                 final int length = length();
 

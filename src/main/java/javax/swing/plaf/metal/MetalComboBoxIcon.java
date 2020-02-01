@@ -45,6 +45,7 @@ public class MetalComboBoxIcon implements Icon, Serializable {
     /**
      * Paints the horizontal bars for the
      */
+    @Override
     public void paintIcon(Component c, Graphics g, int x, int y){
         JComponent component = (JComponent)c;
         int iconWidth = getIconWidth();
@@ -64,11 +65,13 @@ public class MetalComboBoxIcon implements Icon, Serializable {
     /**
      * Created a stub to satisfy the interface.
      */
+    @Override
     public int getIconWidth() { return 10; }
 
     /**
      * Created a stub to satisfy the interface.
      */
+    @Override
     public int getIconHeight()  { return 5; }
 
 }

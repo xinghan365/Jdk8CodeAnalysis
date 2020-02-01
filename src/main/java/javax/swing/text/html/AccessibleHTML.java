@@ -214,6 +214,7 @@ class AccessibleHTML implements Accessible {
     /**
      * Returns the root AccessibleContext for the document
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (rootHTMLAccessibleContext == null) {
             rootHTMLAccessibleContext =
@@ -246,6 +247,7 @@ class AccessibleHTML implements Accessible {
          *
          * @see #setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             if (model != null) {
                 return (String)model.getProperty(Document.TitleProperty);
@@ -264,6 +266,7 @@ class AccessibleHTML implements Accessible {
          *
          * @see #setAccessibleName
          */
+        @Override
         public String getAccessibleDescription() {
             return editor.getContentType();
         }
@@ -286,6 +289,7 @@ class AccessibleHTML implements Accessible {
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TEXT;
         }
@@ -304,6 +308,7 @@ class AccessibleHTML implements Accessible {
         }
 
         // begin AccessibleContext implementation ...
+        @Override
         public AccessibleContext getAccessibleContext() {
             return this;
         }
@@ -315,6 +320,7 @@ class AccessibleHTML implements Accessible {
          * of the object
          * @see AccessibleStateSet
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = new AccessibleStateSet();
             Component comp = getTextComponent();
@@ -347,6 +353,7 @@ class AccessibleHTML implements Accessible {
          * @see #getAccessibleChildrenCount
          * @see #getAccessibleChild
          */
+        @Override
         public int getAccessibleIndexInParent() {
             return elementInfo.getIndexInParent();
         }
@@ -356,6 +363,7 @@ class AccessibleHTML implements Accessible {
          *
          * @return the number of accessible children of the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return elementInfo.getChildCount();
         }
@@ -370,6 +378,7 @@ class AccessibleHTML implements Accessible {
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             ElementInfo childInfo = elementInfo.getChild(i);
             if (childInfo != null && childInfo instanceof Accessible) {
@@ -391,12 +400,14 @@ class AccessibleHTML implements Accessible {
          * added to a containment hierarchy such that the locale can be
          * determined from the containing parent.
          */
+        @Override
         public Locale getLocale() throws IllegalComponentStateException {
             return editor.getLocale();
         }
         // ... end AccessibleContext implementation
 
         // begin AccessibleComponent implementation ...
+        @Override
         public AccessibleComponent getAccessibleComponent() {
             return this;
         }
@@ -408,6 +419,7 @@ class AccessibleHTML implements Accessible {
          * otherwise, null
          * @see #setBackground
          */
+        @Override
         public Color getBackground() {
             return getTextComponent().getBackground();
         }
@@ -418,6 +430,7 @@ class AccessibleHTML implements Accessible {
          * @param c the new Color for the background
          * @see #setBackground
          */
+        @Override
         public void setBackground(Color c) {
             getTextComponent().setBackground(c);
         }
@@ -429,6 +442,7 @@ class AccessibleHTML implements Accessible {
          * otherwise, null
          * @see #setForeground
          */
+        @Override
         public Color getForeground() {
             return getTextComponent().getForeground();
         }
@@ -439,6 +453,7 @@ class AccessibleHTML implements Accessible {
          * @param c the new Color for the foreground
          * @see #getForeground
          */
+        @Override
         public void setForeground(Color c) {
             getTextComponent().setForeground(c);
         }
@@ -449,6 +464,7 @@ class AccessibleHTML implements Accessible {
          * @return the Cursor, if supported, of the object; otherwise, null
          * @see #setCursor
          */
+        @Override
         public Cursor getCursor() {
             return getTextComponent().getCursor();
         }
@@ -459,6 +475,7 @@ class AccessibleHTML implements Accessible {
          * @param cursor the new Cursor for the object
          * @see #getCursor
          */
+        @Override
         public void setCursor(Cursor cursor) {
             getTextComponent().setCursor(cursor);
         }
@@ -469,6 +486,7 @@ class AccessibleHTML implements Accessible {
          * @return the Font,if supported, for the object; otherwise, null
          * @see #setFont
          */
+        @Override
         public Font getFont() {
             return getTextComponent().getFont();
         }
@@ -479,6 +497,7 @@ class AccessibleHTML implements Accessible {
          * @param f the new Font for the object
          * @see #getFont
          */
+        @Override
         public void setFont(Font f) {
             getTextComponent().setFont(f);
         }
@@ -490,6 +509,7 @@ class AccessibleHTML implements Accessible {
          * @return the FontMetrics, if supported, the object; otherwise, null
          * @see #getFont
          */
+        @Override
         public FontMetrics getFontMetrics(Font f) {
             return getTextComponent().getFontMetrics(f);
         }
@@ -505,6 +525,7 @@ class AccessibleHTML implements Accessible {
          * @see AccessibleState#ENABLED
          * @see AccessibleStateSet
          */
+        @Override
         public boolean isEnabled() {
             return getTextComponent().isEnabled();
         }
@@ -515,6 +536,7 @@ class AccessibleHTML implements Accessible {
          * @param b if true, enables this object; otherwise, disables it
          * @see #isEnabled
          */
+        @Override
         public void setEnabled(boolean b) {
             getTextComponent().setEnabled(b);
         }
@@ -534,6 +556,7 @@ class AccessibleHTML implements Accessible {
          * @see AccessibleState#VISIBLE
          * @see AccessibleStateSet
          */
+        @Override
         public boolean isVisible() {
             return getTextComponent().isVisible();
         }
@@ -544,6 +567,7 @@ class AccessibleHTML implements Accessible {
          * @param b if true, shows this object; otherwise, hides it
          * @see #isVisible
          */
+        @Override
         public void setVisible(boolean b) {
             getTextComponent().setVisible(b);
         }
@@ -557,6 +581,7 @@ class AccessibleHTML implements Accessible {
          *
          * @return true if object is showing; otherwise, false
          */
+        @Override
         public boolean isShowing() {
             return getTextComponent().isShowing();
         }
@@ -570,6 +595,7 @@ class AccessibleHTML implements Accessible {
          * @return true if object contains Point; otherwise false
          * @see #getBounds
          */
+        @Override
         public boolean contains(Point p) {
             Rectangle r = getBounds();
             if (r != null) {
@@ -587,6 +613,7 @@ class AccessibleHTML implements Accessible {
          * @see #getBounds
          * @see #getLocation
          */
+        @Override
         public Point getLocationOnScreen() {
             Point editorLocation = getTextComponent().getLocationOnScreen();
             Rectangle r = getBounds();
@@ -609,6 +636,7 @@ class AccessibleHTML implements Accessible {
          * @see #getBounds
          * @see #getLocationOnScreen
          */
+        @Override
         public Point getLocation() {
             Rectangle r = getBounds();
             if (r != null) {
@@ -623,6 +651,7 @@ class AccessibleHTML implements Accessible {
          * @param p the new position for the top-left corner
          * @see #getLocation
          */
+        @Override
         public void setLocation(Point p) {
         }
 
@@ -635,6 +664,7 @@ class AccessibleHTML implements Accessible {
          * this object is not on the screen.
          * @see #contains
          */
+        @Override
         public Rectangle getBounds() {
             return elementInfo.getBounds();
         }
@@ -647,6 +677,7 @@ class AccessibleHTML implements Accessible {
          * @param r rectangle indicating this component's bounds
          * @see #getBounds
          */
+        @Override
         public void setBounds(Rectangle r) {
         }
 
@@ -660,6 +691,7 @@ class AccessibleHTML implements Accessible {
          * null if this object is not on the screen
          * @see #setSize
          */
+        @Override
         public Dimension getSize() {
             Rectangle r = getBounds();
             if (r != null) {
@@ -675,6 +707,7 @@ class AccessibleHTML implements Accessible {
          * @param d The dimension specifying the new size of the object.
          * @see #getSize
          */
+        @Override
         public void setSize(Dimension d) {
             Component comp = getTextComponent();
             comp.setSize(d);
@@ -688,6 +721,7 @@ class AccessibleHTML implements Accessible {
          * @return the Accessible, if it exists, at the specified location;
          * otherwise null
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             ElementInfo innerMostElement = getElementInfoAt(rootElementInfo, p);
             if (innerMostElement instanceof Accessible) {
@@ -741,6 +775,7 @@ class AccessibleHTML implements Accessible {
          * @see AccessibleState#FOCUSED
          * @see AccessibleStateSet
          */
+        @Override
         public boolean isFocusTraversable() {
             Component comp = getTextComponent();
             if (comp instanceof JTextComponent) {
@@ -757,6 +792,7 @@ class AccessibleHTML implements Accessible {
          * focus.
          * @see #isFocusTraversable
          */
+        @Override
         public void requestFocus() {
             // TIGER - 4856191
             if (! isFocusTraversable()) {
@@ -796,6 +832,7 @@ class AccessibleHTML implements Accessible {
          * @param l the focus listener
          * @see #removeFocusListener
          */
+        @Override
         public void addFocusListener(FocusListener l) {
             getTextComponent().addFocusListener(l);
         }
@@ -807,6 +844,7 @@ class AccessibleHTML implements Accessible {
          * @param l the focus listener
          * @see #addFocusListener
          */
+        @Override
         public void removeFocusListener(FocusListener l) {
             getTextComponent().removeFocusListener(l);
         }
@@ -827,6 +865,7 @@ class AccessibleHTML implements Accessible {
         // begin AccessibleText implementation ...
         private AccessibleContext accessibleContext;
 
+        @Override
         public AccessibleContext getAccessibleContext() {
             if (accessibleContext == null) {
                 accessibleContext = new TextAccessibleContext(this);
@@ -844,6 +883,7 @@ class AccessibleHTML implements Accessible {
                 super(elementInfo);
             }
 
+            @Override
             public AccessibleText getAccessibleText() {
                 return this;
             }
@@ -863,6 +903,7 @@ class AccessibleHTML implements Accessible {
              *
              * @see #setAccessibleName
              */
+            @Override
             public String getAccessibleName() {
                 if (model != null) {
                     return (String)model.getProperty(Document.TitleProperty);
@@ -881,6 +922,7 @@ class AccessibleHTML implements Accessible {
              *
              * @see #setAccessibleName
              */
+            @Override
             public String getAccessibleDescription() {
                 return editor.getContentType();
             }
@@ -903,6 +945,7 @@ class AccessibleHTML implements Accessible {
              * @return an instance of AccessibleRole describing the role of the object
              * @see AccessibleRole
              */
+            @Override
             public AccessibleRole getAccessibleRole() {
                 return AccessibleRole.TEXT;
             }
@@ -916,6 +959,7 @@ class AccessibleHTML implements Accessible {
              * @return the zero-based index of the character under Point p; if
              * Point is invalid returns -1.
              */
+            @Override
             public int getIndexAtPoint(Point p) {
                 View v = getView();
                 if (v != null) {
@@ -935,6 +979,7 @@ class AccessibleHTML implements Accessible {
              * @return the screen coordinates of the character's the bounding box,
              * if index is invalid returns an empty rectangle.
              */
+            @Override
             public Rectangle getCharacterBounds(int i) {
                 try {
                     return editor.getUI().modelToView(editor, i);
@@ -948,6 +993,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the number of characters
              */
+            @Override
             public int getCharCount() {
                 if (validateIfNecessary()) {
                     Element elem = elementInfo.getElement();
@@ -963,6 +1009,7 @@ class AccessibleHTML implements Accessible {
              * value as the offset (the caret is between two characters).
              * @return the zero-based offset of the caret.
              */
+            @Override
             public int getCaretPosition() {
                 View v = getView();
                 if (v == null) {
@@ -990,15 +1037,18 @@ class AccessibleHTML implements Accessible {
                 public int modelOffset;
             }
 
+            @Override
             public String getAtIndex(int part, int index) {
                 return getAtIndex(part, index, 0);
             }
 
 
+            @Override
             public String getAfterIndex(int part, int index) {
                 return getAtIndex(part, index, 1);
             }
 
+            @Override
             public String getBeforeIndex(int part, int index) {
                 return getAtIndex(part, index, -1);
             }
@@ -1165,6 +1215,7 @@ class AccessibleHTML implements Accessible {
              * @param i the zero-based index into the text
              * @return the AttributeSet of the character
              */
+            @Override
             public AttributeSet getCharacterAttribute(int i) {
                 if (model instanceof StyledDocument) {
                     StyledDocument doc = (StyledDocument)model;
@@ -1183,6 +1234,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the index into the text of the start of the selection
              */
+            @Override
             public int getSelectionStart() {
                 return editor.getSelectionStart();
             }
@@ -1194,6 +1246,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the index into the text of the end of the selection
              */
+            @Override
             public int getSelectionEnd() {
                 return editor.getSelectionEnd();
             }
@@ -1203,6 +1256,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the String portion of the text that is selected
              */
+            @Override
             public String getSelectedText() {
                 return editor.getSelectedText();
             }
@@ -1236,6 +1290,7 @@ class AccessibleHTML implements Accessible {
             super(element, parent);
         }
 
+        @Override
         protected void invalidate(boolean first) {
             super.invalidate(first);
             width = height = -1;
@@ -1269,6 +1324,7 @@ class AccessibleHTML implements Accessible {
         // begin AccessibleIcon implementation ...
         private AccessibleContext accessibleContext;
 
+        @Override
         public AccessibleContext getAccessibleContext() {
             if (accessibleContext == null) {
                 accessibleContext = new IconAccessibleContext(this);
@@ -1301,6 +1357,7 @@ class AccessibleHTML implements Accessible {
              *
              * @see #setAccessibleName
              */
+            @Override
             public String getAccessibleName() {
                 return getAccessibleIconDescription();
             }
@@ -1315,6 +1372,7 @@ class AccessibleHTML implements Accessible {
              *
              * @see #setAccessibleName
              */
+            @Override
             public String getAccessibleDescription() {
                 return editor.getContentType();
             }
@@ -1337,10 +1395,12 @@ class AccessibleHTML implements Accessible {
              * @return an instance of AccessibleRole describing the role of the object
              * @see AccessibleRole
              */
+            @Override
             public AccessibleRole getAccessibleRole() {
                 return AccessibleRole.ICON;
             }
 
+            @Override
             public AccessibleIcon [] getAccessibleIcon() {
                 AccessibleIcon [] icons = new AccessibleIcon[1];
                 icons[0] = this;
@@ -1355,6 +1415,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the description of the icon
              */
+            @Override
             public String getAccessibleIconDescription() {
                 return ((ImageView)getView()).getAltText();
             }
@@ -1367,6 +1428,7 @@ class AccessibleHTML implements Accessible {
              *
              * @param description the description of the icon
              */
+            @Override
             public void setAccessibleIconDescription(String description) {
             }
 
@@ -1375,6 +1437,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the width of the icon.
              */
+            @Override
             public int getAccessibleIconWidth() {
                 if (width == -1) {
                     width = getImageSize(HTML.Attribute.WIDTH);
@@ -1387,6 +1450,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the height of the icon.
              */
+            @Override
             public int getAccessibleIconHeight() {
                 if (height == -1) {
                     height = getImageSize(HTML.Attribute.HEIGHT);
@@ -1431,6 +1495,7 @@ class AccessibleHTML implements Accessible {
         /**
          * Overriden to update the grid when validating.
          */
+        @Override
         protected void validate() {
             super.validate();
             updateGrid();
@@ -1439,6 +1504,7 @@ class AccessibleHTML implements Accessible {
         /**
          * Overriden to only alloc instances of TableRowElementInfos.
          */
+        @Override
         protected void loadChildren(Element e) {
 
             for (int counter = 0; counter < e.getElementCount(); counter++) {
@@ -1567,6 +1633,7 @@ class AccessibleHTML implements Accessible {
         // begin AccessibleTable implementation ...
         private AccessibleContext accessibleContext;
 
+        @Override
         public AccessibleContext getAccessibleContext() {
             if (accessibleContext == null) {
                 accessibleContext = new TableAccessibleContext(this);
@@ -1601,6 +1668,7 @@ class AccessibleHTML implements Accessible {
              *
              * @see #setAccessibleName
              */
+            @Override
             public String getAccessibleName() {
                 // return the role of the object
                 return getAccessibleRole().toString();
@@ -1616,6 +1684,7 @@ class AccessibleHTML implements Accessible {
              *
              * @see #setAccessibleName
              */
+            @Override
             public String getAccessibleDescription() {
                 return editor.getContentType();
             }
@@ -1638,6 +1707,7 @@ class AccessibleHTML implements Accessible {
              * @return an instance of AccessibleRole describing the role of the object
              * @see AccessibleRole
              */
+            @Override
             public AccessibleRole getAccessibleRole() {
                 return AccessibleRole.TABLE;
             }
@@ -1652,6 +1722,7 @@ class AccessibleHTML implements Accessible {
              * @see #getAccessibleChildrenCount
              * @gsee #getAccessibleChild
              */
+            @Override
             public int getAccessibleIndexInParent() {
                 return elementInfo.getIndexInParent();
             }
@@ -1661,6 +1732,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the number of accessible children of the object.
              */
+            @Override
             public int getAccessibleChildrenCount() {
                 return ((TableElementInfo)elementInfo).getRowCount() *
                     ((TableElementInfo)elementInfo).getColumnCount();
@@ -1676,6 +1748,7 @@ class AccessibleHTML implements Accessible {
              * @return the Accessible child of the object
              * @see #getAccessibleChildrenCount
              */
+            @Override
             public Accessible getAccessibleChild(int i) {
                 int rowCount = ((TableElementInfo)elementInfo).getRowCount();
                 int columnCount = ((TableElementInfo)elementInfo).getColumnCount();
@@ -1688,6 +1761,7 @@ class AccessibleHTML implements Accessible {
                 }
             }
 
+            @Override
             public AccessibleTable getAccessibleTable() {
                 return this;
             }
@@ -1697,6 +1771,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the caption for the table
              */
+            @Override
             public Accessible getAccessibleCaption() {
                 ElementInfo captionInfo = getCaptionInfo();
                 if (captionInfo instanceof Accessible) {
@@ -1711,6 +1786,7 @@ class AccessibleHTML implements Accessible {
              *
              * @param a the caption for the table
              */
+            @Override
             public void setAccessibleCaption(Accessible a) {
             }
 
@@ -1719,6 +1795,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the summary description of the table
              */
+            @Override
             public Accessible getAccessibleSummary() {
                 return null;
             }
@@ -1728,6 +1805,7 @@ class AccessibleHTML implements Accessible {
              *
              * @param a the summary description of the table
              */
+            @Override
             public void setAccessibleSummary(Accessible a) {
             }
 
@@ -1736,6 +1814,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the number of rows in the table
              */
+            @Override
             public int getAccessibleRowCount() {
                 return ((TableElementInfo)elementInfo).getRowCount();
             }
@@ -1745,6 +1824,7 @@ class AccessibleHTML implements Accessible {
              *
              * @return the number of columns in the table
              */
+            @Override
             public int getAccessibleColumnCount() {
                 return ((TableElementInfo)elementInfo).getColumnCount();
             }
@@ -1757,6 +1837,7 @@ class AccessibleHTML implements Accessible {
              * @param c zero-based column of the table
              * @return the Accessible at the specified row and column
              */
+            @Override
             public Accessible getAccessibleAt(int r, int c) {
                 TableCellElementInfo cellInfo = getCell(r, c);
                 if (cellInfo != null) {
@@ -1773,6 +1854,7 @@ class AccessibleHTML implements Accessible {
              * @return the number of rows occupied by the Accessible at a
              * given specified (row, column)
              */
+            @Override
             public int getAccessibleRowExtentAt(int r, int c) {
                 return ((TableElementInfo)elementInfo).getRowExtentAt(r, c);
             }
@@ -1784,6 +1866,7 @@ class AccessibleHTML implements Accessible {
              * @return the number of columns occupied by the Accessible at a
              * given specified row and column
              */
+            @Override
             public int getAccessibleColumnExtentAt(int r, int c) {
                 return ((TableElementInfo)elementInfo).getColumnExtentAt(r, c);
             }
@@ -1794,6 +1877,7 @@ class AccessibleHTML implements Accessible {
              * @return an AccessibleTable representing the row
              * headers
              */
+            @Override
             public AccessibleTable getAccessibleRowHeader() {
                 return rowHeadersTable;
             }
@@ -1804,6 +1888,7 @@ class AccessibleHTML implements Accessible {
              * @param table an AccessibleTable representing the
              * row headers
              */
+            @Override
             public void setAccessibleRowHeader(AccessibleTable table) {
             }
 
@@ -1813,6 +1898,7 @@ class AccessibleHTML implements Accessible {
              * @return an AccessibleTable representing the column
              * headers
              */
+            @Override
             public AccessibleTable getAccessibleColumnHeader() {
                 return null;
             }
@@ -1823,6 +1909,7 @@ class AccessibleHTML implements Accessible {
              * @param table an AccessibleTable representing the
              * column headers
              */
+            @Override
             public void setAccessibleColumnHeader(AccessibleTable table) {
             }
 
@@ -1832,6 +1919,7 @@ class AccessibleHTML implements Accessible {
              * @param r zero-based row of the table
              * @return the description of the row
              */
+            @Override
             public Accessible getAccessibleRowDescription(int r) {
                 return null;
             }
@@ -1842,6 +1930,7 @@ class AccessibleHTML implements Accessible {
              * @param r zero-based row of the table
              * @param a the description of the row
              */
+            @Override
             public void setAccessibleRowDescription(int r, Accessible a) {
             }
 
@@ -1851,6 +1940,7 @@ class AccessibleHTML implements Accessible {
              * @param c zero-based column of the table
              * @return the text description of the column
              */
+            @Override
             public Accessible getAccessibleColumnDescription(int c) {
                 return null;
             }
@@ -1861,6 +1951,7 @@ class AccessibleHTML implements Accessible {
              * @param c zero-based column of the table
              * @param a the text description of the column
              */
+            @Override
             public void setAccessibleColumnDescription(int c, Accessible a) {
             }
 
@@ -1874,6 +1965,7 @@ class AccessibleHTML implements Accessible {
              * row and column is selected. Otherwise, the boolean value
              * false
              */
+            @Override
             public boolean isAccessibleSelected(int r, int c) {
                 if (validateIfNecessary()) {
                     if (r < 0 || r >= getAccessibleRowCount() ||
@@ -1900,6 +1992,7 @@ class AccessibleHTML implements Accessible {
              * @return the boolean value true if the specified row is selected.
              * Otherwise, false.
              */
+            @Override
             public boolean isAccessibleRowSelected(int r) {
                 if (validateIfNecessary()) {
                     if (r < 0 || r >= getAccessibleRowCount()) {
@@ -1933,6 +2026,7 @@ class AccessibleHTML implements Accessible {
              * @return the boolean value true if the specified column is selected.
              * Otherwise, false.
              */
+            @Override
             public boolean isAccessibleColumnSelected(int c) {
                 if (validateIfNecessary()) {
                     if (c < 0 || c >= getAccessibleColumnCount()) {
@@ -1963,6 +2057,7 @@ class AccessibleHTML implements Accessible {
              * @return an array of selected rows where each element is a
              * zero-based row of the table
              */
+            @Override
             public int [] getSelectedAccessibleRows() {
                 if (validateIfNecessary()) {
                     int nRows = getAccessibleRowCount();
@@ -1988,6 +2083,7 @@ class AccessibleHTML implements Accessible {
              * @return an array of selected columns where each element is a
              * zero-based column of the table
              */
+            @Override
             public int [] getSelectedAccessibleColumns() {
                 if (validateIfNecessary()) {
                     int nColumns = getAccessibleRowCount();
@@ -2154,6 +2250,7 @@ class AccessibleHTML implements Accessible {
                  *
                  * @return the caption for the table
                  */
+                @Override
                 public Accessible getAccessibleCaption() {
                     return null;
                 }
@@ -2163,6 +2260,7 @@ class AccessibleHTML implements Accessible {
                  *
                  * @param a the caption for the table
                  */
+                @Override
                 public void setAccessibleCaption(Accessible a) {
                 }
 
@@ -2171,6 +2269,7 @@ class AccessibleHTML implements Accessible {
                  *
                  * @return the summary description of the table
                  */
+                @Override
                 public Accessible getAccessibleSummary() {
                     return null;
                 }
@@ -2180,6 +2279,7 @@ class AccessibleHTML implements Accessible {
                  *
                  * @param a the summary description of the table
                  */
+                @Override
                 public void setAccessibleSummary(Accessible a) {
                 }
 
@@ -2188,6 +2288,7 @@ class AccessibleHTML implements Accessible {
                  *
                  * @return the number of rows in the table
                  */
+                @Override
                 public int getAccessibleRowCount() {
                     return rowCount;
                 }
@@ -2197,6 +2298,7 @@ class AccessibleHTML implements Accessible {
                  *
                  * @return the number of columns in the table
                  */
+                @Override
                 public int getAccessibleColumnCount() {
                     return columnCount;
                 }
@@ -2218,6 +2320,7 @@ class AccessibleHTML implements Accessible {
                  * @param c zero-based column of the table
                  * @return the Accessible at the specified row and column
                  */
+                @Override
                 public Accessible getAccessibleAt(int r, int c) {
                     ElementInfo elementInfo = getElementInfoAt(r, c);
                     if (elementInfo instanceof Accessible) {
@@ -2234,6 +2337,7 @@ class AccessibleHTML implements Accessible {
                  * @return the number of rows occupied by the Accessible at a
                  * given specified (row, column)
                  */
+                @Override
                 public int getAccessibleRowExtentAt(int r, int c) {
                     TableCellElementInfo elementInfo = getElementInfoAt(r, c);
                     if (elementInfo != null) {
@@ -2250,6 +2354,7 @@ class AccessibleHTML implements Accessible {
                  * @return the number of columns occupied by the Accessible at a
                  * given specified row and column
                  */
+                @Override
                 public int getAccessibleColumnExtentAt(int r, int c) {
                     TableCellElementInfo elementInfo = getElementInfoAt(r, c);
                     if (elementInfo != null) {
@@ -2265,6 +2370,7 @@ class AccessibleHTML implements Accessible {
                  * @return an AccessibleTable representing the row
                  * headers
                  */
+                @Override
                 public AccessibleTable getAccessibleRowHeader() {
                     return null;
                 }
@@ -2275,6 +2381,7 @@ class AccessibleHTML implements Accessible {
                  * @param table an AccessibleTable representing the
                  * row headers
                  */
+                @Override
                 public void setAccessibleRowHeader(AccessibleTable table) {
                 }
 
@@ -2284,6 +2391,7 @@ class AccessibleHTML implements Accessible {
                  * @return an AccessibleTable representing the column
                  * headers
                  */
+                @Override
                 public AccessibleTable getAccessibleColumnHeader() {
                     return null;
                 }
@@ -2294,6 +2402,7 @@ class AccessibleHTML implements Accessible {
                  * @param table an AccessibleTable representing the
                  * column headers
                  */
+                @Override
                 public void setAccessibleColumnHeader(AccessibleTable table) {
                 }
 
@@ -2303,6 +2412,7 @@ class AccessibleHTML implements Accessible {
                  * @param r zero-based row of the table
                  * @return the description of the row
                  */
+                @Override
                 public Accessible getAccessibleRowDescription(int r) {
                     return null;
                 }
@@ -2313,6 +2423,7 @@ class AccessibleHTML implements Accessible {
                  * @param r zero-based row of the table
                  * @param a the description of the row
                  */
+                @Override
                 public void setAccessibleRowDescription(int r, Accessible a) {
                 }
 
@@ -2322,6 +2433,7 @@ class AccessibleHTML implements Accessible {
                  * @param c zero-based column of the table
                  * @return the text description of the column
                  */
+                @Override
                 public Accessible getAccessibleColumnDescription(int c) {
                     return null;
                 }
@@ -2332,6 +2444,7 @@ class AccessibleHTML implements Accessible {
                  * @param c zero-based column of the table
                  * @param a the text description of the column
                  */
+                @Override
                 public void setAccessibleColumnDescription(int c, Accessible a) {
                 }
 
@@ -2345,6 +2458,7 @@ class AccessibleHTML implements Accessible {
                  * row and column is selected. Otherwise, the boolean value
                  * false
                  */
+                @Override
                 public boolean isAccessibleSelected(int r, int c) {
                     return false;
                 }
@@ -2357,6 +2471,7 @@ class AccessibleHTML implements Accessible {
                  * @return the boolean value true if the specified row is selected.
                  * Otherwise, false.
                  */
+                @Override
                 public boolean isAccessibleRowSelected(int r) {
                     return false;
                 }
@@ -2369,6 +2484,7 @@ class AccessibleHTML implements Accessible {
                  * @return the boolean value true if the specified column is selected.
                  * Otherwise, false.
                  */
+                @Override
                 public boolean isAccessibleColumnSelected(int c) {
                     return false;
                 }
@@ -2379,6 +2495,7 @@ class AccessibleHTML implements Accessible {
                  * @return an array of selected rows where each element is a
                  * zero-based row of the table
                  */
+                @Override
                 public int [] getSelectedAccessibleRows() {
                     return new int [0];
                 }
@@ -2389,6 +2506,7 @@ class AccessibleHTML implements Accessible {
                  * @return an array of selected columns where each element is a
                  * zero-based column of the table
                  */
+                @Override
                 public int [] getSelectedAccessibleColumns() {
                     return new int [0];
                 }
@@ -2409,6 +2527,7 @@ class AccessibleHTML implements Accessible {
                 this.rowNumber = rowNumber;
             }
 
+            @Override
             protected void loadChildren(Element e) {
                 for (int x = 0; x < e.getElementCount(); x++) {
                     AttributeSet attrs = e.getElement(x).getAttributes();
@@ -2477,6 +2596,7 @@ class AccessibleHTML implements Accessible {
              * Overriden to invalidate the table as well as
              * TableRowElementInfo.
              */
+            @Override
             protected void invalidate(boolean first) {
                 super.invalidate(first);
                 getParent().invalidate(true);
@@ -2619,6 +2739,7 @@ class AccessibleHTML implements Accessible {
              * Overriden to invalidate the TableRowElementInfo as well as
              * the TableCellElementInfo.
              */
+            @Override
             protected void invalidate(boolean first) {
                 super.invalidate(first);
                 getParent().invalidate(true);
@@ -3033,12 +3154,15 @@ class AccessibleHTML implements Accessible {
      * any event.
      */
     private class DocumentHandler implements DocumentListener {
+        @Override
         public void insertUpdate(DocumentEvent e) {
             getRootInfo().update(e);
         }
+        @Override
         public void removeUpdate(DocumentEvent e) {
             getRootInfo().update(e);
         }
+        @Override
         public void changedUpdate(DocumentEvent e) {
             getRootInfo().update(e);
         }
@@ -3048,6 +3172,7 @@ class AccessibleHTML implements Accessible {
      * PropertyChangeListener installed on the editor.
      */
     private class PropertyChangeHandler implements PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("document")) {
                 // handle the document change

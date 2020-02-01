@@ -251,6 +251,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      *             constructed using the constructor which takes only a
      *             RenderingHints argument, since the operation is ill defined.
      */
+    @Override
     public final BufferedImage filter(BufferedImage src, BufferedImage dest) {
         ColorSpace srcColorSpace, destColorSpace;
         BufferedImage savdest = null;
@@ -467,6 +468,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      *             with one of the constructors that applies only to
      *             operations on BufferedImages.
      */
+    @Override
     public final WritableRaster filter (Raster src, WritableRaster dest)  {
 
         if (CSList != null) {
@@ -583,6 +585,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      * @return a <code>Rectangle2D</code> that is the bounding box
      *         of the destination, given the specified <code>src</code>
      */
+    @Override
     public final Rectangle2D getBounds2D (BufferedImage src) {
         return getBounds2D(src.getRaster());
     }
@@ -595,6 +598,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      * @return a <code>Rectangle2D</code> that is the bounding box
      *         of the destination, given the specified <code>src</code>
      */
+    @Override
     public final Rectangle2D getBounds2D (Raster src) {
         /*        return new Rectangle (src.getXOffset(),
                               src.getYOffset(),
@@ -615,6 +619,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      *         created without any <code>ICC_Profile</code> or
      *         <code>ColorSpace</code> defined for the destination
      */
+    @Override
     public BufferedImage createCompatibleDestImage (BufferedImage src,
                                                     ColorModel destCM) {
         ColorSpace cs = null;;
@@ -676,6 +681,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      *         was created without sufficient information to define the
      *         <code>dst</code> and <code>src</code> color spaces
      */
+    @Override
     public WritableRaster createCompatibleDestRaster (Raster src) {
         int ncomponents;
 
@@ -716,6 +722,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      * @return <code>dstPt</code> after setting its location to be
      *         the same as <code>srcPt</code>
      */
+    @Override
     public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
             dstPt = new Point2D.Float();
@@ -749,6 +756,7 @@ public class ColorConvertOp implements BufferedImageOp, RasterOp {
      * @return the <code>RenderingHints</code> object of this
      *         <code>ColorConvertOp</code>
      */
+    @Override
     public final RenderingHints getRenderingHints() {
         return hints;
     }

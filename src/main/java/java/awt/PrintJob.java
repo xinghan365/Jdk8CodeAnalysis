@@ -73,6 +73,7 @@ public abstract class PrintJob {
      * Ends this print job once it is no longer referenced.
      * @see #end
      */
+    @Override
     public void finalize() {
         end();
     }

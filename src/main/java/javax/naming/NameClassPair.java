@@ -285,6 +285,7 @@ public class NameClassPair implements java.io.Serializable {
      *
      * @return The string representation of this name/class pair.
      */
+    @Override
     public String toString() {
         return (isRelative() ? "" : "(not relative)") + getName() + ": " +
                 getClassName();

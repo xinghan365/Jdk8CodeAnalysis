@@ -107,6 +107,7 @@ public final class CopiesSupported extends SetOfIntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this copies
      *          supported attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return super.equals (object) && object instanceof CopiesSupported;
     }
@@ -121,6 +122,7 @@ public final class CopiesSupported extends SetOfIntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return CopiesSupported.class;
     }
@@ -134,6 +136,7 @@ public final class CopiesSupported extends SetOfIntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "copies-supported";
     }

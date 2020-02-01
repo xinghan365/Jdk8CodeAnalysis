@@ -322,6 +322,7 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
      *
      * @see XMLDecoder#readObject
      */
+    @Override
     public void writeObject(Object o) {
         if (internal) {
             super.writeObject(o);
@@ -392,6 +393,7 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
      *               to the stream.
      * @see java.beans.PersistenceDelegate#initialize
      */
+    @Override
     public void writeStatement(Statement oldStm) {
         // System.out.println("XMLEncoder::writeStatement: " + oldStm);
         boolean internal = this.internal;
@@ -445,6 +447,7 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
      *               to the stream.
      * @see java.beans.PersistenceDelegate#initialize
      */
+    @Override
     public void writeExpression(Expression oldExp) {
         boolean internal = this.internal;
         this.internal = true;
@@ -502,6 +505,7 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
         clear();
     }
 
+    @Override
     void clear() {
         super.clear();
         nameGenerator.clear();
@@ -526,6 +530,7 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
      * postamble and then closes the output stream associated
      * with this stream.
      */
+    @Override
     public void close() {
         flush();
         writeln("</java>");
@@ -798,15 +803,33 @@ public class XMLEncoder extends Encoder implements AutoCloseable {
 
     @SuppressWarnings("rawtypes")
     static Class primitiveTypeFor(Class wrapper) {
-        if (wrapper == Boolean.class) return Boolean.TYPE;
-        if (wrapper == Byte.class) return Byte.TYPE;
-        if (wrapper == Character.class) return Character.TYPE;
-        if (wrapper == Short.class) return Short.TYPE;
-        if (wrapper == Integer.class) return Integer.TYPE;
-        if (wrapper == Long.class) return Long.TYPE;
-        if (wrapper == Float.class) return Float.TYPE;
-        if (wrapper == Double.class) return Double.TYPE;
-        if (wrapper == Void.class) return Void.TYPE;
+        if (wrapper == Boolean.class) {
+            return Boolean.TYPE;
+        }
+        if (wrapper == Byte.class) {
+            return Byte.TYPE;
+        }
+        if (wrapper == Character.class) {
+            return Character.TYPE;
+        }
+        if (wrapper == Short.class) {
+            return Short.TYPE;
+        }
+        if (wrapper == Integer.class) {
+            return Integer.TYPE;
+        }
+        if (wrapper == Long.class) {
+            return Long.TYPE;
+        }
+        if (wrapper == Float.class) {
+            return Float.TYPE;
+        }
+        if (wrapper == Double.class) {
+            return Double.TYPE;
+        }
+        if (wrapper == Void.class) {
+            return Void.TYPE;
+        }
         return null;
     }
 }

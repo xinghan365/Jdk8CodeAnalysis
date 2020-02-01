@@ -107,6 +107,7 @@ public abstract class IIOServiceProvider implements RegisterableService {
      *
      * @see ServiceRegistry#registerServiceProvider(Object provider)
      */
+    @Override
     public void onRegistration(ServiceRegistry registry,
                                Class<?> category) {}
 
@@ -120,6 +121,7 @@ public abstract class IIOServiceProvider implements RegisterableService {
      *
      * @see ServiceRegistry#deregisterServiceProvider(Object provider)
      */
+    @Override
     public void onDeregistration(ServiceRegistry registry,
                                  Class<?> category) {}
 

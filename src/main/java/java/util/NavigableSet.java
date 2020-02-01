@@ -161,6 +161,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
      *
      * @return an iterator over the elements in this set, in ascending order
      */
+    @Override
     Iterator<E> iterator();
 
     /**
@@ -293,6 +294,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     SortedSet<E> subSet(E fromElement, E toElement);
 
     /**
@@ -304,6 +306,7 @@ public interface NavigableSet<E> extends SortedSet<E> {
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     SortedSet<E> headSet(E toElement);
 
     /**
@@ -315,5 +318,6 @@ public interface NavigableSet<E> extends SortedSet<E> {
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     SortedSet<E> tailSet(E fromElement);
 }

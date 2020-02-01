@@ -105,6 +105,7 @@ public abstract class FileSystemView {
         final WeakReference<FileSystemView> weakReference = new WeakReference<FileSystemView>(this);
 
         UIManager.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 FileSystemView fileSystemView = weakReference.get();
 
@@ -591,10 +592,12 @@ public abstract class FileSystemView {
             super(s);
         }
 
+        @Override
         public boolean isDirectory() {
             return true;
         }
 
+        @Override
         public String getName() {
             return getPath();
         }
@@ -614,6 +617,7 @@ class UnixFileSystemView extends FileSystemView {
     /**
      * Creates a new folder with a default folder name.
      */
+    @Override
     public File createNewFolder(File containingDir) throws IOException {
         if(containingDir == null) {
             throw new IOException("Containing directory is null:");
@@ -637,14 +641,17 @@ class UnixFileSystemView extends FileSystemView {
         return newFolder;
     }
 
+    @Override
     public boolean isFileSystemRoot(File dir) {
         return dir != null && dir.getAbsolutePath().equals("/");
     }
 
+    @Override
     public boolean isDrive(File dir) {
         return isFloppyDrive(dir);
     }
 
+    @Override
     public boolean isFloppyDrive(File dir) {
         // Could be looking at the path for Solaris, but wouldn't be reliable.
         // For example:
@@ -652,6 +659,7 @@ class UnixFileSystemView extends FileSystemView {
         return false;
     }
 
+    @Override
     public boolean isComputerNode(File dir) {
         if (dir != null) {
             String parent = dir.getParent();
@@ -674,10 +682,12 @@ class WindowsFileSystemView extends FileSystemView {
     private static final String newFolderNextString  =
             UIManager.getString("FileChooser.win32.newFolder.subsequent");
 
+    @Override
     public Boolean isTraversable(File f) {
         return Boolean.valueOf(isFileSystemRoot(f) || isComputerNode(f) || f.isDirectory());
     }
 
+    @Override
     public File getChild(File parent, String fileName) {
         if (fileName.startsWith("\\")
             && !fileName.startsWith("\\\\")
@@ -702,6 +712,7 @@ class WindowsFileSystemView extends FileSystemView {
      *
      * The Windows implementation gets information from the ShellFolder class.
      */
+    @Override
     public String getSystemTypeDescription(File f) {
         if (f == null) {
             return null;
@@ -717,6 +728,7 @@ class WindowsFileSystemView extends FileSystemView {
     /**
      * @return the Desktop folder.
      */
+    @Override
     public File getHomeDirectory() {
         File[] roots = getRoots();
         return (roots.length == 0) ? null : roots[0];
@@ -725,6 +737,7 @@ class WindowsFileSystemView extends FileSystemView {
     /**
      * Creates a new folder with a default folder name.
      */
+    @Override
     public File createNewFolder(File containingDir) throws IOException {
         if(containingDir == null) {
             throw new IOException("Containing directory is null:");
@@ -747,12 +760,15 @@ class WindowsFileSystemView extends FileSystemView {
         return newFolder;
     }
 
+    @Override
     public boolean isDrive(File dir) {
         return isFileSystemRoot(dir);
     }
 
+    @Override
     public boolean isFloppyDrive(final File dir) {
         String path = AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
             public String run() {
                 return dir.getAbsolutePath();
             }
@@ -764,6 +780,7 @@ class WindowsFileSystemView extends FileSystemView {
     /**
      * Returns a File object constructed from the given path string.
      */
+    @Override
     public File createFileObject(String path) {
         // Check for missing backslash after drive letter such as "C:" or "C:filename"
         if (path.length() >= 2 && path.charAt(1) == ':' && Character.isLetter(path.charAt(0))) {
@@ -776,10 +793,12 @@ class WindowsFileSystemView extends FileSystemView {
         return super.createFileObject(path);
     }
 
+    @Override
     protected File createFileSystemRoot(File f) {
         // Problem: Removable drives on Windows return false on f.exists()
         // Workaround: Override exists() to always return true.
         return new FileSystemRoot(f) {
+            @Override
             public boolean exists() {
                 return true;
             }
@@ -799,6 +818,7 @@ class GenericFileSystemView extends FileSystemView {
     /**
      * Creates a new folder with a default folder name.
      */
+    @Override
     public File createNewFolder(File containingDir) throws IOException {
         if(containingDir == null) {
             throw new IOException("Containing directory is null:");

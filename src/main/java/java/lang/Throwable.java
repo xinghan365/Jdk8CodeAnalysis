@@ -364,8 +364,9 @@ public class Throwable implements Serializable {
         }
         detailMessage = message;
         this.cause = cause;
-        if (!enableSuppression)
+        if (!enableSuppression) {
             suppressedExceptions = null;
+        }
     }
 
     /**
@@ -453,11 +454,13 @@ public class Throwable implements Serializable {
      * @since  1.4
      */
     public synchronized Throwable initCause(Throwable cause) {
-        if (this.cause != this)
+        if (this.cause != this) {
             throw new IllegalStateException("Can't overwrite cause with " +
                                             Objects.toString(cause, "a null"), this);
-        if (cause == this)
+        }
+        if (cause == this) {
             throw new IllegalArgumentException("Self-causation not permitted", this);
+        }
         this.cause = cause;
         return this;
     }
@@ -476,6 +479,7 @@ public class Throwable implements Serializable {
      *
      * @return a string representation of this throwable.
      */
+    @Override
     public String toString() {
         String s = getClass().getName();
         String message = getLocalizedMessage();
@@ -655,17 +659,20 @@ public class Throwable implements Serializable {
             // Print our stack trace
             s.println(this);
             StackTraceElement[] trace = getOurStackTrace();
-            for (StackTraceElement traceElement : trace)
+            for (StackTraceElement traceElement : trace) {
                 s.println("\tat " + traceElement);
+            }
 
             // Print suppressed exceptions, if any
-            for (Throwable se : getSuppressed())
+            for (Throwable se : getSuppressed()) {
                 se.printEnclosedStackTrace(s, trace, SUPPRESSED_CAPTION, "\t", dejaVu);
+            }
 
             // Print cause, if any
             Throwable ourCause = getCause();
-            if (ourCause != null)
+            if (ourCause != null) {
                 ourCause.printEnclosedStackTrace(s, trace, CAUSE_CAPTION, "", dejaVu);
+            }
         }
     }
 
@@ -694,20 +701,24 @@ public class Throwable implements Serializable {
 
             // Print our stack trace
             s.println(prefix + caption + this);
-            for (int i = 0; i <= m; i++)
+            for (int i = 0; i <= m; i++) {
                 s.println(prefix + "\tat " + trace[i]);
-            if (framesInCommon != 0)
+            }
+            if (framesInCommon != 0) {
                 s.println(prefix + "\t... " + framesInCommon + " more");
+            }
 
             // Print suppressed exceptions, if any
-            for (Throwable se : getSuppressed())
+            for (Throwable se : getSuppressed()) {
                 se.printEnclosedStackTrace(s, trace, SUPPRESSED_CAPTION,
                                            prefix +"\t", dejaVu);
+            }
 
             // Print cause, if any
             Throwable ourCause = getCause();
-            if (ourCause != null)
+            if (ourCause != null) {
                 ourCause.printEnclosedStackTrace(s, trace, CAUSE_CAPTION, prefix, dejaVu);
+            }
         }
     }
 
@@ -741,10 +752,12 @@ public class Throwable implements Serializable {
             this.printStream = printStream;
         }
 
+        @Override
         Object lock() {
             return printStream;
         }
 
+        @Override
         void println(Object o) {
             printStream.println(o);
         }
@@ -757,10 +770,12 @@ public class Throwable implements Serializable {
             this.printWriter = printWriter;
         }
 
+        @Override
         Object lock() {
             return printWriter;
         }
 
+        @Override
         void println(Object o) {
             printWriter.println(o);
         }
@@ -824,8 +839,9 @@ public class Throwable implements Serializable {
             (stackTrace == null && backtrace != null) /* Out of protocol state */) {
             int depth = getStackTraceDepth();
             stackTrace = new StackTraceElement[depth];
-            for (int i=0; i < depth; i++)
+            for (int i=0; i < depth; i++) {
                 stackTrace[i] = getStackTraceElement(i);
+            }
         } else if (stackTrace == null) {
             return UNASSIGNED_STACK;
         }
@@ -864,14 +880,17 @@ public class Throwable implements Serializable {
         // Validate argument
         StackTraceElement[] defensiveCopy = stackTrace.clone();
         for (int i = 0; i < defensiveCopy.length; i++) {
-            if (defensiveCopy[i] == null)
+            if (defensiveCopy[i] == null) {
                 throw new NullPointerException("stackTrace[" + i + "]");
+            }
         }
 
         synchronized (this) {
             if (this.stackTrace == null && // Immutable stack
                 backtrace == null) // Test for out of protocol state
+            {
                 return;
+            }
             this.stackTrace = defensiveCopy;
         }
     }
@@ -931,10 +950,12 @@ public class Throwable implements Serializable {
                 for (Throwable t : candidateSuppressedExceptions) {
                     // Enforce constraints on suppressed exceptions in
                     // case of corrupt or malicious stream.
-                    if (t == null)
+                    if (t == null) {
                         throw new NullPointerException(NULL_CAUSE_MESSAGE);
-                    if (t == this)
+                    }
+                    if (t == this) {
                         throw new IllegalArgumentException(SELF_SUPPRESSION_MESSAGE);
+                    }
                     suppList.add(t);
                 }
                 // If there are any invalid suppressed exceptions,
@@ -965,8 +986,9 @@ public class Throwable implements Serializable {
                     stackTrace = null;
                 } else { // Verify stack trace elements are non-null.
                     for (StackTraceElement ste : candidateStackTrace) {
-                        if (ste == null)
+                        if (ste == null) {
                             throw new NullPointerException("null StackTraceElement in serial stream.");
+                        }
                     }
                     stackTrace = candidateStackTrace;
                 }
@@ -1019,8 +1041,9 @@ public class Throwable implements Serializable {
 
         StackTraceElement[] oldStackTrace = stackTrace;
         try {
-            if (stackTrace == null)
+            if (stackTrace == null) {
                 stackTrace = SentinelHolder.STACK_TRACE_SENTINEL;
+            }
             s.defaultWriteObject();
         } finally {
             stackTrace = oldStackTrace;
@@ -1078,17 +1101,22 @@ public class Throwable implements Serializable {
      * @since 1.7
      */
     public final synchronized void addSuppressed(Throwable exception) {
-        if (exception == this)
+        if (exception == this) {
             throw new IllegalArgumentException(SELF_SUPPRESSION_MESSAGE, exception);
+        }
 
-        if (exception == null)
+        if (exception == null) {
             throw new NullPointerException(NULL_CAUSE_MESSAGE);
+        }
 
         if (suppressedExceptions == null) // Suppressed exceptions not recorded
+        {
             return;
+        }
 
-        if (suppressedExceptions == SUPPRESSED_SENTINEL)
+        if (suppressedExceptions == SUPPRESSED_SENTINEL) {
             suppressedExceptions = new ArrayList<>(1);
+        }
 
         suppressedExceptions.add(exception);
     }
@@ -1112,9 +1140,10 @@ public class Throwable implements Serializable {
      */
     public final synchronized Throwable[] getSuppressed() {
         if (suppressedExceptions == SUPPRESSED_SENTINEL ||
-            suppressedExceptions == null)
+            suppressedExceptions == null) {
             return EMPTY_THROWABLE_ARRAY;
-        else
+        } else {
             return suppressedExceptions.toArray(EMPTY_THROWABLE_ARRAY);
+        }
     }
 }

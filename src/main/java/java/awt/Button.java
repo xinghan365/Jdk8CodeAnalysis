@@ -157,6 +157,7 @@ public class Button extends Component implements Accessible {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Button.class) {
             return base + nameCounter++;
@@ -171,10 +172,12 @@ public class Button extends Component implements Accessible {
      * @see     java.awt.Toolkit#createButton(java.awt.Button)
      * @see     java.awt.Component#getToolkit()
      */
+    @Override
     public void addNotify() {
         synchronized(getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createButton(this);
+            }
             super.addNotify();
         }
     }
@@ -336,6 +339,7 @@ public class Button extends Component implements Accessible {
      * @see #getActionListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ActionListener.class) {
@@ -347,6 +351,7 @@ public class Button extends Component implements Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == ActionEvent.ACTION_PERFORMED) {
             if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
@@ -372,6 +377,7 @@ public class Button extends Component implements Accessible {
      * @see          java.awt.Button#processActionEvent
      * @since        JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ActionEvent) {
             processActionEvent((ActionEvent)e);
@@ -419,6 +425,7 @@ public class Button extends Component implements Accessible {
      *
      * @return     the parameter string of this button
      */
+    @Override
     protected String paramString() {
         return super.paramString() + ",label=" + label;
     }
@@ -487,11 +494,12 @@ public class Button extends Component implements Accessible {
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (actionListenerK == key)
-          addActionListener((ActionListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (actionListenerK == key) {
+            addActionListener((ActionListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -515,6 +523,7 @@ public class Button extends Component implements Accessible {
      *  description: The AccessibleContext associated with this Button.
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTButton();
@@ -542,6 +551,7 @@ public class Button extends Component implements Accessible {
          * @return the localized name of the object -- can be null if this
          * object does not have a name
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -562,6 +572,7 @@ public class Button extends Component implements Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -574,6 +585,7 @@ public class Button extends Component implements Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -585,6 +597,7 @@ public class Button extends Component implements Accessible {
          *
          * @return 1, the number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 1;
         }
@@ -594,6 +607,7 @@ public class Button extends Component implements Accessible {
          *
          * @param i zero-based index of the actions
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             if (i == 0) {
                 // [[[PENDING:  WDW -- need to provide a localized string]]]
@@ -609,6 +623,7 @@ public class Button extends Component implements Accessible {
          * @param i zero-based index of actions
          * @return true if the the action was performed; else false.
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             if (i == 0) {
                 // Simulate a button click
@@ -629,6 +644,7 @@ public class Button extends Component implements Accessible {
          * this is selected.
          * @see javax.swing.AbstractButton#isSelected()
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(0);
         }
@@ -638,6 +654,7 @@ public class Button extends Component implements Accessible {
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             return false;
         }
@@ -647,6 +664,7 @@ public class Button extends Component implements Accessible {
          *
          * @return An Integer of 0.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(0);
         }
@@ -656,6 +674,7 @@ public class Button extends Component implements Accessible {
          *
          * @return An Integer of 0.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.valueOf(0);
         }
@@ -667,6 +686,7 @@ public class Button extends Component implements Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PUSH_BUTTON;
         }

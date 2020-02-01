@@ -144,6 +144,7 @@ public final class NumberUpSupported    extends SetOfIntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this number up
      *          supported attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof NumberUpSupported);
@@ -159,6 +160,7 @@ public final class NumberUpSupported    extends SetOfIntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return NumberUpSupported.class;
     }
@@ -172,6 +174,7 @@ public final class NumberUpSupported    extends SetOfIntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "number-up-supported";
     }

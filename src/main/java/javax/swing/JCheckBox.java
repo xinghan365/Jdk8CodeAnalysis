@@ -224,6 +224,7 @@ public class JCheckBox extends JToggleButton implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ButtonUI)UIManager.getUI(this));
     }
@@ -240,6 +241,7 @@ public class JCheckBox extends JToggleButton implements Accessible {
      *        expert: true
      *   description: A string that specifies the name of the L&amp;F class
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -249,6 +251,7 @@ public class JCheckBox extends JToggleButton implements Accessible {
      * The icon for checkboxs comes from the look and feel,
      * not the Action; this is overriden to do nothing.
      */
+    @Override
     void setIconFromAction(Action a) {
     }
 
@@ -292,6 +295,7 @@ public class JCheckBox extends JToggleButton implements Accessible {
      *
      * @return  a string representation of this JCheckBox.
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -312,6 +316,7 @@ public class JCheckBox extends JToggleButton implements Accessible {
      *       expert: true
      *  description: The AccessibleContext associated with this CheckBox.
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJCheckBox();
@@ -342,6 +347,7 @@ public class JCheckBox extends JToggleButton implements Accessible {
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CHECK_BOX;
         }

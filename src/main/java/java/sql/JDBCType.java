@@ -221,6 +221,7 @@ public enum JDBCType implements SQLType {
      *{@inheritDoc }
      * @return The name of this {@code SQLType}.
      */
+    @Override
     public String getName() {
         return name();
     }
@@ -229,6 +230,7 @@ public enum JDBCType implements SQLType {
      * @return  The name of the vendor for this data type which is
      * {@literal java.sql} for JDBCType.
      */
+    @Override
     public String getVendor() {
         return "java.sql";
     }
@@ -238,6 +240,7 @@ public enum JDBCType implements SQLType {
      * @return  An Integer representing the data type. For {@code JDBCType},
      * the value will be the same value as in {@code Types} for the data type.
      */
+    @Override
     public Integer getVendorTypeNumber() {
         return type;
     }
@@ -252,8 +255,9 @@ public enum JDBCType implements SQLType {
      */
     public static JDBCType valueOf(int type) {
         for( JDBCType sqlType : JDBCType.class.getEnumConstants()) {
-            if(type == sqlType.type)
+            if(type == sqlType.type) {
                 return sqlType;
+            }
         }
         throw new IllegalArgumentException("Type:" + type + " is not a valid "
                 + "Types.java value.");

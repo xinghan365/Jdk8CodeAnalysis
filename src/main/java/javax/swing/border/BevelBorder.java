@@ -109,6 +109,7 @@ public class BevelBorder extends AbstractBorder
      * @param width the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         if (bevelType == RAISED) {
              paintRaisedBevel(c, g, x, y, width, height);
@@ -123,6 +124,7 @@ public class BevelBorder extends AbstractBorder
      * @param c the component for which this border insets value applies
      * @param insets the object to be reinitialized
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         insets.set(2, 2, 2, 2);
         return insets;
@@ -234,6 +236,7 @@ public class BevelBorder extends AbstractBorder
     /**
      * Returns whether or not the border is opaque.
      */
+    @Override
     public boolean isBorderOpaque() { return true; }
 
     protected void paintRaisedBevel(Component c, Graphics g, int x, int y,

@@ -77,6 +77,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public FileFilter getAcceptAllFileFilter(JFileChooser a) {
         FileFilter returnValue =
             ((FileChooserUI) (uis.elementAt(0))).getAcceptAllFileFilter(a);
@@ -92,6 +93,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public FileView getFileView(JFileChooser a) {
         FileView returnValue =
             ((FileChooserUI) (uis.elementAt(0))).getFileView(a);
@@ -107,6 +109,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public String getApproveButtonText(JFileChooser a) {
         String returnValue =
             ((FileChooserUI) (uis.elementAt(0))).getApproveButtonText(a);
@@ -122,6 +125,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public String getDialogTitle(JFileChooser a) {
         String returnValue =
             ((FileChooserUI) (uis.elementAt(0))).getDialogTitle(a);
@@ -134,6 +138,7 @@ public class MultiFileChooserUI extends FileChooserUI {
     /**
      * Invokes the <code>rescanCurrentDirectory</code> method on each UI handled by this object.
      */
+    @Override
     public void rescanCurrentDirectory(JFileChooser a) {
         for (int i = 0; i < uis.size(); i++) {
             ((FileChooserUI) (uis.elementAt(i))).rescanCurrentDirectory(a);
@@ -143,6 +148,7 @@ public class MultiFileChooserUI extends FileChooserUI {
     /**
      * Invokes the <code>ensureFileIsVisible</code> method on each UI handled by this object.
      */
+    @Override
     public void ensureFileIsVisible(JFileChooser a, File b) {
         for (int i = 0; i < uis.size(); i++) {
             ((FileChooserUI) (uis.elementAt(i))).ensureFileIsVisible(a,b);
@@ -159,6 +165,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public boolean contains(JComponent a, int b, int c) {
         boolean returnValue =
             ((ComponentUI) (uis.elementAt(0))).contains(a,b,c);
@@ -171,6 +178,7 @@ public class MultiFileChooserUI extends FileChooserUI {
     /**
      * Invokes the <code>update</code> method on each UI handled by this object.
      */
+    @Override
     public void update(Graphics a, JComponent b) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).update(a,b);
@@ -192,6 +200,7 @@ public class MultiFileChooserUI extends FileChooserUI {
     /**
      * Invokes the <code>installUI</code> method on each UI handled by this object.
      */
+    @Override
     public void installUI(JComponent a) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).installUI(a);
@@ -201,6 +210,7 @@ public class MultiFileChooserUI extends FileChooserUI {
     /**
      * Invokes the <code>uninstallUI</code> method on each UI handled by this object.
      */
+    @Override
     public void uninstallUI(JComponent a) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).uninstallUI(a);
@@ -210,6 +220,7 @@ public class MultiFileChooserUI extends FileChooserUI {
     /**
      * Invokes the <code>paint</code> method on each UI handled by this object.
      */
+    @Override
     public void paint(Graphics a, JComponent b) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).paint(a,b);
@@ -222,6 +233,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getPreferredSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getPreferredSize(a);
@@ -237,6 +249,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getMinimumSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getMinimumSize(a);
@@ -252,6 +265,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getMaximumSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getMaximumSize(a);
@@ -267,6 +281,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public int getAccessibleChildrenCount(JComponent a) {
         int returnValue =
             ((ComponentUI) (uis.elementAt(0))).getAccessibleChildrenCount(a);
@@ -282,6 +297,7 @@ public class MultiFileChooserUI extends FileChooserUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Accessible getAccessibleChild(JComponent a, int b) {
         Accessible returnValue =
             ((ComponentUI) (uis.elementAt(0))).getAccessibleChild(a,b);

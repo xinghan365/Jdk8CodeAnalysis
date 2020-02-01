@@ -66,12 +66,14 @@ public class MimeHeaders {
         for(int i = 0; i < headers.size(); i++) {
             MimeHeader hdr = (MimeHeader) headers.elementAt(i);
             if (hdr.getName().equalsIgnoreCase(name)
-                && hdr.getValue() != null)
+                && hdr.getValue() != null) {
                 values.addElement(hdr.getValue());
+            }
         }
 
-        if (values.size() == 0)
+        if (values.size() == 0) {
             return null;
+        }
 
         String r[] = new String[values.size()];
         values.copyInto(r);
@@ -98,8 +100,9 @@ public class MimeHeaders {
     {
         boolean found = false;
 
-        if ((name == null) || name.equals(""))
+        if ((name == null) || name.equals("")) {
             throw new IllegalArgumentException("Illegal MimeHeader name");
+        }
 
         for(int i = 0; i < headers.size(); i++) {
             MimeHeader hdr = (MimeHeader) headers.elementAt(i);
@@ -109,13 +112,15 @@ public class MimeHeaders {
                                                         value), i);
                     found = true;
                 }
-                else
+                else {
                     headers.removeElementAt(i--);
+                }
             }
         }
 
-        if (!found)
+        if (!found) {
             addHeader(name, value);
+        }
     }
 
     /**
@@ -134,8 +139,9 @@ public class MimeHeaders {
      */
     public void addHeader(String name, String value)
     {
-        if ((name == null) || name.equals(""))
+        if ((name == null) || name.equals("")) {
             throw new IllegalArgumentException("Illegal MimeHeader name");
+        }
 
         int pos = headers.size();
 
@@ -160,8 +166,9 @@ public class MimeHeaders {
     public void removeHeader(String name) {
         for(int i = 0; i < headers.size(); i++) {
             MimeHeader hdr = (MimeHeader) headers.elementAt(i);
-            if (hdr.getName().equalsIgnoreCase(name))
+            if (hdr.getName().equalsIgnoreCase(name)) {
                 headers.removeElementAt(i--);
+            }
         }
     }
 
@@ -200,28 +207,36 @@ public class MimeHeaders {
             while (iterator.hasNext()) {
                 MimeHeader hdr = (MimeHeader) iterator.next();
 
-                if (names == null)
+                if (names == null) {
                     return match ? null : hdr;
+                }
 
-                for(int i = 0; i < names.length; i++)
-                    if (hdr.getName().equalsIgnoreCase(names[i]))
-                        if (match)
+                for(int i = 0; i < names.length; i++) {
+                    if (hdr.getName().equalsIgnoreCase(names[i])) {
+                        if (match) {
                             return hdr;
-                        else
+                        } else {
                             continue next;
-                if (!match)
+                        }
+                    }
+                }
+                if (!match) {
                     return hdr;
+                }
             }
             return null;
         }
 
 
+        @Override
         public boolean hasNext() {
-            if (nextHeader == null)
+            if (nextHeader == null) {
                 nextHeader = nextMatch();
+            }
             return nextHeader != null;
         }
 
+        @Override
         public Object next() {
             // hasNext should've prefetched the header for us,
             // return it.
@@ -230,11 +245,13 @@ public class MimeHeaders {
                 nextHeader = null;
                 return ret;
             }
-            if (hasNext())
+            if (hasNext()) {
                 return nextHeader;
+            }
             return null;
         }
 
+        @Override
         public void remove() {
             iterator.remove();
         }

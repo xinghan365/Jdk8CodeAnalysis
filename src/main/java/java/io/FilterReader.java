@@ -61,6 +61,7 @@ public abstract class FilterReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read() throws IOException {
         return in.read();
     }
@@ -70,6 +71,7 @@ public abstract class FilterReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read(char cbuf[], int off, int len) throws IOException {
         return in.read(cbuf, off, len);
     }
@@ -79,6 +81,7 @@ public abstract class FilterReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public long skip(long n) throws IOException {
         return in.skip(n);
     }
@@ -88,6 +91,7 @@ public abstract class FilterReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public boolean ready() throws IOException {
         return in.ready();
     }
@@ -95,6 +99,7 @@ public abstract class FilterReader extends Reader {
     /**
      * Tells whether this stream supports the mark() operation.
      */
+    @Override
     public boolean markSupported() {
         return in.markSupported();
     }
@@ -104,6 +109,7 @@ public abstract class FilterReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void mark(int readAheadLimit) throws IOException {
         in.mark(readAheadLimit);
     }
@@ -113,10 +119,12 @@ public abstract class FilterReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void reset() throws IOException {
         in.reset();
     }
 
+    @Override
     public void close() throws IOException {
         in.close();
     }

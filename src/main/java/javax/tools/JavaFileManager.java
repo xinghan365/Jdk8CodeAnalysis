@@ -385,6 +385,7 @@ public interface JavaFileManager extends Closeable, Flushable, OptionChecker {
      * @throws IOException if an I/O error occurred
      * @see #close
      */
+    @Override
     void flush() throws IOException;
 
     /**
@@ -398,5 +399,6 @@ public interface JavaFileManager extends Closeable, Flushable, OptionChecker {
      * @throws IOException if an I/O error occurred
      * @see #flush
      */
+    @Override
     void close() throws IOException;
 }

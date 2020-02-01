@@ -94,18 +94,22 @@ class MLetObjectInputStream extends ObjectInputStream {
         String s = objectstreamclass.getName();
         if (s.startsWith("[")) {
             int i;
-            for (i = 1; s.charAt(i) == '['; i++);
+            for (i = 1; s.charAt(i) == '['; i++) {
+                ;
+            }
             Class<?> class1;
             if (s.charAt(i) == 'L') {
                 class1 = loader.loadClass(s.substring(i + 1, s.length() - 1));
             } else {
-                if (s.length() != i + 1)
+                if (s.length() != i + 1) {
                     throw new ClassNotFoundException(s);
+                }
                 class1 = primitiveType(s.charAt(i));
             }
             int ai[] = new int[i];
-            for (int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++) {
                 ai[j] = 0;
+            }
 
             return Array.newInstance(class1, ai).getClass();
         } else {

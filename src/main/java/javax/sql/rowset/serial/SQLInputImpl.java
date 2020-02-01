@@ -170,6 +170,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *     position or if there are no further values in the stream.
      */
+    @Override
     public String readString() throws SQLException {
         return  (String)getNextAttribute();
     }
@@ -188,6 +189,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *     position or if there are no further values in the stream.
      */
+    @Override
     public boolean readBoolean() throws SQLException {
         Boolean attrib = (Boolean)getNextAttribute();
         return  (attrib == null) ? false : attrib.booleanValue();
@@ -207,6 +209,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *     position or if there are no further values in the stream
      */
+    @Override
     public byte readByte() throws SQLException {
         Byte attrib = (Byte)getNextAttribute();
         return  (attrib == null) ? 0 : attrib.byteValue();
@@ -225,6 +228,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public short readShort() throws SQLException {
         Short attrib = (Short)getNextAttribute();
         return (attrib == null) ? 0 : attrib.shortValue();
@@ -243,6 +247,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public int readInt() throws SQLException {
         Integer attrib = (Integer)getNextAttribute();
         return (attrib == null) ? 0 : attrib.intValue();
@@ -261,6 +266,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public long readLong() throws SQLException {
         Long attrib = (Long)getNextAttribute();
         return (attrib == null) ? 0 : attrib.longValue();
@@ -279,6 +285,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public float readFloat() throws SQLException {
         Float attrib = (Float)getNextAttribute();
         return (attrib == null) ? 0 : attrib.floatValue();
@@ -297,6 +304,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public double readDouble() throws SQLException {
         Double attrib = (Double)getNextAttribute();
         return (attrib == null)  ? 0 :  attrib.doubleValue();
@@ -315,6 +323,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public java.math.BigDecimal readBigDecimal() throws SQLException {
         return (java.math.BigDecimal)getNextAttribute();
     }
@@ -332,6 +341,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public byte[] readBytes() throws SQLException {
         return (byte[])getNextAttribute();
     }
@@ -349,6 +359,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *       position or if there are no more values in the stream
      */
+    @Override
     public java.sql.Date readDate() throws SQLException {
         return (java.sql.Date)getNextAttribute();
     }
@@ -367,6 +378,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public java.sql.Time readTime() throws SQLException {
         return (java.sql.Time)getNextAttribute();
     }
@@ -380,6 +392,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public java.sql.Timestamp readTimestamp() throws SQLException {
         return (java.sql.Timestamp)getNextAttribute();
     }
@@ -397,6 +410,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public java.io.Reader readCharacterStream() throws SQLException {
         return (java.io.Reader)getNextAttribute();
     }
@@ -415,6 +429,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public java.io.InputStream readAsciiStream() throws SQLException {
         return (java.io.InputStream)getNextAttribute();
     }
@@ -433,6 +448,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public java.io.InputStream readBinaryStream() throws SQLException {
         return (java.io.InputStream)getNextAttribute();
     }
@@ -467,6 +483,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public Object readObject() throws SQLException {
         Object attrib = getNextAttribute();
         if (attrib instanceof Struct) {
@@ -503,6 +520,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      *         position; or if there are no further values in the stream.
      */
+    @Override
     public Ref readRef() throws SQLException {
         return (Ref)getNextAttribute();
     }
@@ -524,6 +542,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public Blob readBlob() throws SQLException {
         return (Blob)getNextAttribute();
     }
@@ -545,6 +564,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public Clob readClob() throws SQLException {
         return (Clob)getNextAttribute();
     }
@@ -567,6 +587,7 @@ public class SQLInputImpl implements SQLInput {
      * position; or if there are no further values in the stream.
 
      */
+    @Override
     public Array readArray() throws SQLException {
         return (Array)getNextAttribute();
     }
@@ -581,6 +602,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if an error occurs determining the last value
      *         read was a <code>null</code> value or not;
      */
+    @Override
     public boolean wasNull() throws SQLException {
         return lastValueWasNull;
     }
@@ -602,6 +624,7 @@ public class SQLInputImpl implements SQLInput {
      * @throws SQLException if the read position is located at an invalid
      * position; or if there are no further values in the stream.
      */
+    @Override
     public java.net.URL readURL() throws SQLException {
         return (java.net.URL)getNextAttribute();
     }
@@ -618,6 +641,7 @@ public class SQLInputImpl implements SQLInput {
      * @exception SQLException if a database access error occurs
      * @since 1.6
      */
+     @Override
      public NClob readNClob() throws SQLException {
         return (NClob)getNextAttribute();
      }
@@ -632,6 +656,7 @@ public class SQLInputImpl implements SQLInput {
      * @exception SQLException if a database access error occurs
      * @since 1.6
      */
+    @Override
     public String readNString() throws SQLException {
         return (String)getNextAttribute();
     }
@@ -646,6 +671,7 @@ public class SQLInputImpl implements SQLInput {
      * @exception SQLException if a database access error occurs
      * @since 1.6
      */
+    @Override
     public SQLXML readSQLXML() throws SQLException {
         return (SQLXML)getNextAttribute();
     }
@@ -660,6 +686,7 @@ public class SQLInputImpl implements SQLInput {
      * @exception SQLException if a database access error occurs
      * @since 1.6
      */
+    @Override
     public RowId readRowId() throws SQLException {
         return  (RowId)getNextAttribute();
     }

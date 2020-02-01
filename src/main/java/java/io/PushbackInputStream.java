@@ -70,8 +70,9 @@ class PushbackInputStream extends FilterInputStream {
      * Check to make sure that this stream has not been closed
      */
     private void ensureOpen() throws IOException {
-        if (in == null)
+        if (in == null) {
             throw new IOException("Stream closed");
+        }
     }
 
     /**
@@ -131,6 +132,7 @@ class PushbackInputStream extends FilterInputStream {
      *             or an I/O error occurs.
      * @see        java.io.InputStream#read()
      */
+    @Override
     public int read() throws IOException {
         ensureOpen();
         if (pos < buf.length) {
@@ -162,6 +164,7 @@ class PushbackInputStream extends FilterInputStream {
      *             or an I/O error occurs.
      * @see        java.io.InputStream#read(byte[], int, int)
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (b == null) {
@@ -271,6 +274,7 @@ class PushbackInputStream extends FilterInputStream {
      * @see        java.io.FilterInputStream#in
      * @see        java.io.InputStream#available()
      */
+    @Override
     public int available() throws IOException {
         ensureOpen();
         int n = buf.length - pos;
@@ -302,6 +306,7 @@ class PushbackInputStream extends FilterInputStream {
      * @see        java.io.InputStream#skip(long n)
      * @since      1.2
      */
+    @Override
     public long skip(long n) throws IOException {
         ensureOpen();
         if (n <= 0) {
@@ -331,6 +336,7 @@ class PushbackInputStream extends FilterInputStream {
      * @see     java.io.InputStream#mark(int)
      * @see     java.io.InputStream#reset()
      */
+    @Override
     public boolean markSupported() {
         return false;
     }
@@ -345,6 +351,7 @@ class PushbackInputStream extends FilterInputStream {
      *                      the mark position becomes invalid.
      * @see     java.io.InputStream#reset()
      */
+    @Override
     public synchronized void mark(int readlimit) {
     }
 
@@ -360,6 +367,7 @@ class PushbackInputStream extends FilterInputStream {
      * @see     java.io.InputStream#mark(int)
      * @see     java.io.IOException
      */
+    @Override
     public synchronized void reset() throws IOException {
         throw new IOException("mark/reset not supported");
     }
@@ -373,9 +381,11 @@ class PushbackInputStream extends FilterInputStream {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public synchronized void close() throws IOException {
-        if (in == null)
+        if (in == null) {
             return;
+        }
         in.close();
         in = null;
         buf = null;

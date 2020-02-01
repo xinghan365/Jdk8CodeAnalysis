@@ -70,6 +70,7 @@ public class X509EncodedKeySpec extends EncodedKeySpec {
      * @return the X.509 encoding of the key. Returns a new array
      * each time this method is called.
      */
+    @Override
     public byte[] getEncoded() {
         return super.getEncoded();
     }
@@ -80,6 +81,7 @@ public class X509EncodedKeySpec extends EncodedKeySpec {
      *
      * @return the string {@code "X.509"}.
      */
+    @Override
     public final String getFormat() {
         return "X.509";
     }

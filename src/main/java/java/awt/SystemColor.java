@@ -495,6 +495,7 @@ public final class SystemColor extends Color implements java.io.Serializable {
      *
      * @return  a string representation of this <code>Color</code>
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[i=" + (index) + "]";
     }

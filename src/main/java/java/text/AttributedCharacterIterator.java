@@ -116,6 +116,7 @@ public interface AttributedCharacterIterator extends CharacterIterator {
          * for {@code x.equals(y)} if {@code x} and {@code y} refer
          * to the same object, and guarantees this for all subclasses.
          */
+        @Override
         public final boolean equals(Object obj) {
             return super.equals(obj);
         }
@@ -124,6 +125,7 @@ public interface AttributedCharacterIterator extends CharacterIterator {
          * Returns a hash code value for the object. This version is identical to
          * the one in {@code Object}, but is also final.
          */
+        @Override
         public final int hashCode() {
             return super.hashCode();
         }
@@ -133,6 +135,7 @@ public interface AttributedCharacterIterator extends CharacterIterator {
          * concatenation of class name, {@code "("}, a name identifying the attribute
          * and {@code ")"}.
          */
+        @Override
         public String toString() {
             return getClass().getName() + "(" + name + ")";
         }

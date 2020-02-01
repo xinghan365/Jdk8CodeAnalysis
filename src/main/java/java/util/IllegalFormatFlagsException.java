@@ -47,8 +47,9 @@ public class IllegalFormatFlagsException extends IllegalFormatException {
      *         The set of format flags which contain an illegal combination
      */
     public IllegalFormatFlagsException(String f) {
-        if (f == null)
+        if (f == null) {
             throw new NullPointerException();
+        }
         this.flags = f;
     }
 
@@ -61,6 +62,7 @@ public class IllegalFormatFlagsException extends IllegalFormatException {
         return flags;
     }
 
+    @Override
     public String getMessage() {
         return "Flags = '" + flags + "'";
     }

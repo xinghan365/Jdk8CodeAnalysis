@@ -59,9 +59,11 @@ class SequencedEvent extends AWTEvent implements ActiveEvent {
 
     static {
         AWTAccessor.setSequencedEventAccessor(new AWTAccessor.SequencedEventAccessor() {
+            @Override
             public AWTEvent getNested(AWTEvent sequencedEvent) {
                 return ((SequencedEvent)sequencedEvent).nested;
             }
+            @Override
             public boolean isSequencedEvent(AWTEvent event) {
                 return event instanceof SequencedEvent;
             }
@@ -127,6 +129,7 @@ class SequencedEvent extends AWTEvent implements ActiveEvent {
      * as EventQueue lock is held during dispatching.  The locks should be acquired
      * in the same order.
      */
+    @Override
     public final void dispatch() {
         try {
             appContext = AppContext.getAppContext();

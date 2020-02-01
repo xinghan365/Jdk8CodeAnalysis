@@ -255,6 +255,7 @@ public class ObjectStreamField
      * are compared.
      */
     // REMIND: deprecate?
+    @Override
     public int compareTo(Object obj) {
         ObjectStreamField other = (ObjectStreamField) obj;
         boolean isPrim = isPrimitive();
@@ -267,6 +268,7 @@ public class ObjectStreamField
     /**
      * Return a string that describes this field.
      */
+    @Override
     public String toString() {
         return signature + ' ' + name;
     }

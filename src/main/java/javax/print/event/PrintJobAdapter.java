@@ -48,6 +48,7 @@ public abstract class PrintJobAdapter implements PrintJobListener {
      *
      * @param pje the event being notified
      */
+    @Override
     public void printDataTransferCompleted(PrintJobEvent pje)  {
     }
 
@@ -56,6 +57,7 @@ public abstract class PrintJobAdapter implements PrintJobListener {
      *
      * @param pje the event being notified
      */
+    @Override
     public void printJobCompleted(PrintJobEvent pje)  {
     }
 
@@ -66,6 +68,7 @@ public abstract class PrintJobAdapter implements PrintJobListener {
      *
      * @param pje the event being notified
      */
+    @Override
     public void printJobFailed(PrintJobEvent pje)  {
     }
 
@@ -75,6 +78,7 @@ public abstract class PrintJobAdapter implements PrintJobListener {
      *
      * @param pje the event being notified
      */
+    @Override
     public void printJobCanceled(PrintJobEvent pje) {
     }
 
@@ -89,6 +93,7 @@ public abstract class PrintJobAdapter implements PrintJobListener {
      *
      * @param pje the event being notified
      */
+    @Override
     public void printJobNoMoreEvents(PrintJobEvent pje)  {
     }
 
@@ -99,6 +104,7 @@ public abstract class PrintJobAdapter implements PrintJobListener {
      *
      * @param pje the event being notified
      */
+    @Override
     public void printJobRequiresAttention(PrintJobEvent pje)  {
     }
 

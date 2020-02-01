@@ -219,6 +219,7 @@ public class MethodDescriptor extends FeatureDescriptor {
         }
     }
 
+    @Override
     void appendTo(StringBuilder sb) {
         appendTo(sb, "method", this.methodRef.get());
         if (this.parameterDescriptors != null) {

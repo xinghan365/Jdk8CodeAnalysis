@@ -138,8 +138,9 @@ public class ToolProvider {
     private static ToolProvider instance;
 
     private static synchronized ToolProvider instance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new ToolProvider();
+        }
         return instance;
     }
 
@@ -193,15 +194,18 @@ public class ToolProvider {
             ClassLoader cl = (refToolClassLoader == null ? null : refToolClassLoader.get());
             if (cl == null) {
                 File file = new File(System.getProperty("java.home"));
-                if (file.getName().equalsIgnoreCase("jre"))
+                if (file.getName().equalsIgnoreCase("jre")) {
                     file = file.getParentFile();
-                for (String name : defaultToolsLocation)
+                }
+                for (String name : defaultToolsLocation) {
                     file = new File(file, name);
+                }
 
                 // if tools not found, no point in trying a URLClassLoader
                 // so rethrow the original exception.
-                if (!file.exists())
+                if (!file.exists()) {
                     throw e;
+                }
 
                 URL[] urls = { file.toURI().toURL() };
                 trace(FINE, urls[0].toString());

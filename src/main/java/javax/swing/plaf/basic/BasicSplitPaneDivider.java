@@ -179,7 +179,9 @@ public class BasicSplitPaneDivider extends Container
         if (newUI != null) {
             splitPane = newUI.getSplitPane();
             if (splitPane != null) {
-                if (mouseHandler == null) mouseHandler = new MouseHandler();
+                if (mouseHandler == null) {
+                    mouseHandler = new MouseHandler();
+                }
                 splitPane.addMouseListener(mouseHandler);
                 splitPane.addMouseMotionListener(mouseHandler);
                 addMouseListener(mouseHandler);
@@ -253,6 +255,7 @@ public class BasicSplitPaneDivider extends Container
      * @return the value of the insets property.
      * @see #setBorder
      */
+    @Override
     public Insets getInsets() {
         Border    border = getBorder();
 
@@ -285,6 +288,7 @@ public class BasicSplitPaneDivider extends Container
     /**
      * Returns dividerSize x dividerSize
      */
+    @Override
     public Dimension getPreferredSize() {
         // Ideally this would return the size from the layout manager,
         // but that could result in the layed out size being different from
@@ -299,6 +303,7 @@ public class BasicSplitPaneDivider extends Container
     /**
      * Returns dividerSize x dividerSize
      */
+    @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
@@ -308,6 +313,7 @@ public class BasicSplitPaneDivider extends Container
      * Property change event, presumably from the JSplitPane, will message
      * updateOrientation if necessary.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (e.getSource() == splitPane) {
             if (e.getPropertyName() == JSplitPane.ORIENTATION_PROPERTY) {
@@ -328,6 +334,7 @@ public class BasicSplitPaneDivider extends Container
     /**
      * Paints the divider.
      */
+    @Override
     public void paint(Graphics g) {
       super.paint(g);
 
@@ -360,16 +367,18 @@ public class BasicSplitPaneDivider extends Container
             /* Create the left button and add an action listener to
                expand/collapse it. */
             leftButton = createLeftOneTouchButton();
-            if (leftButton != null)
+            if (leftButton != null) {
                 leftButton.addActionListener(new OneTouchActionHandler(true));
+            }
 
 
             /* Create the right button and add an action listener to
                expand/collapse it. */
             rightButton = createRightOneTouchButton();
-            if (rightButton != null)
+            if (rightButton != null) {
                 rightButton.addActionListener(new OneTouchActionHandler
                     (false));
+            }
 
             if (leftButton != null && rightButton != null) {
                 add(leftButton);
@@ -386,8 +395,10 @@ public class BasicSplitPaneDivider extends Container
      */
     protected JButton createLeftOneTouchButton() {
         JButton b = new JButton() {
+            @Override
             public void setBorder(Border b) {
             }
+            @Override
             public void paint(Graphics g) {
                 if (splitPane != null) {
                     int[]   xs = new int[3];
@@ -423,6 +434,7 @@ public class BasicSplitPaneDivider extends Container
                 }
             }
             // Don't want the button to participate in focus traversable.
+            @Override
             public boolean isFocusTraversable() {
                 return false;
             }
@@ -442,8 +454,10 @@ public class BasicSplitPaneDivider extends Container
      */
     protected JButton createRightOneTouchButton() {
         JButton b = new JButton() {
+            @Override
             public void setBorder(Border border) {
             }
+            @Override
             public void paint(Graphics g) {
                 if (splitPane != null) {
                     int[]          xs = new int[3];
@@ -477,6 +491,7 @@ public class BasicSplitPaneDivider extends Container
                 }
             }
             // Don't want the button to participate in focus traversable.
+            @Override
             public boolean isFocusTraversable() {
                 return false;
             }
@@ -530,6 +545,7 @@ public class BasicSplitPaneDivider extends Container
          * Starts the dragging session by creating the appropriate instance
          * of DragController.
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             if ((e.getSource() == BasicSplitPaneDivider.this ||
                  e.getSource() == splitPane) &&
@@ -572,6 +588,7 @@ public class BasicSplitPaneDivider extends Container
         /**
          * If dragger is not null it is messaged with completeDrag.
          */
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (dragger != null) {
                 if (e.getSource() == splitPane) {
@@ -603,6 +620,7 @@ public class BasicSplitPaneDivider extends Container
         /**
          * If dragger is not null it is messaged with continueDrag.
          */
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (dragger != null) {
                 if (e.getSource() == splitPane) {
@@ -629,6 +647,7 @@ public class BasicSplitPaneDivider extends Container
         /**
          *  Resets the cursor based on the orientation.
          */
+        @Override
         public void mouseMoved(MouseEvent e) {
         }
 
@@ -638,6 +657,7 @@ public class BasicSplitPaneDivider extends Container
          * @param e MouseEvent describing the details of the enter event.
          * @since 1.5
          */
+        @Override
         public void mouseEntered(MouseEvent e) {
             if (e.getSource() == BasicSplitPaneDivider.this) {
                 setMouseOver(true);
@@ -650,6 +670,7 @@ public class BasicSplitPaneDivider extends Container
          * @param e MouseEvent describing the details of the exit event.
          * @since 1.5
          */
+        @Override
         public void mouseExited(MouseEvent e) {
             if (e.getSource() == BasicSplitPaneDivider.this) {
                 setMouseOver(false);
@@ -733,7 +754,9 @@ public class BasicSplitPaneDivider extends Container
                     maxX = Math.max(0, splitPane.getSize().width -
                                     (getSize().width + right));
                 }
-                if (maxX < minX) minX = maxX = 0;
+                if (maxX < minX) {
+                    minX = maxX = 0;
+                }
             }
         }
 
@@ -854,7 +877,9 @@ public class BasicSplitPaneDivider extends Container
                     maxX = Math.max(0, splitPane.getSize().height -
                                     (getSize().height + bottom));
                 }
-                if (maxX < minX) minX = maxX = 0;
+                if (maxX < minX) {
+                    minX = maxX = 0;
+                }
             }
         }
 
@@ -863,6 +888,7 @@ public class BasicSplitPaneDivider extends Container
          * Returns the y argument, since this is used for vertical
          * splits.
          */
+        @Override
         protected int getNeededLocation(int x, int y) {
             int newY;
 
@@ -875,6 +901,7 @@ public class BasicSplitPaneDivider extends Container
          * Returns the new position to put the divider at based on
          * the passed in MouseEvent.
          */
+        @Override
         protected int positionForMouseEvent(MouseEvent e) {
             int newY = (e.getSource() == BasicSplitPaneDivider.this) ?
                         (e.getY() + getLocation().y) : e.getY();
@@ -894,6 +921,7 @@ public class BasicSplitPaneDivider extends Container
      */
     protected class DividerLayout implements LayoutManager
     {
+        @Override
         public void layoutContainer(Container c) {
             if (leftButton != null && rightButton != null &&
                 c == BasicSplitPaneDivider.this) {
@@ -954,6 +982,7 @@ public class BasicSplitPaneDivider extends Container
         }
 
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             // NOTE: This isn't really used, refer to
             // BasicSplitPaneDivider.getPreferredSize for the reason.
@@ -995,13 +1024,16 @@ public class BasicSplitPaneDivider extends Container
         }
 
 
+        @Override
         public Dimension preferredLayoutSize(Container c) {
             return minimumLayoutSize(c);
         }
 
 
+        @Override
         public void removeLayoutComponent(Component c) {}
 
+        @Override
         public void addLayoutComponent(String string, Component c) {}
     } // End of class BasicSplitPaneDivider.DividerLayout
 
@@ -1019,6 +1051,7 @@ public class BasicSplitPaneDivider extends Container
             this.toMinimum = toMinimum;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Insets  insets = splitPane.getInsets();
             int     lastLoc = splitPane.getLastDividerLocation();

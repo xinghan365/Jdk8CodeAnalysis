@@ -79,6 +79,7 @@ public class Time extends java.util.Date {
      *             a negative number is milliseconds before
      *               January 1, 1970, 00:00:00 GMT
      */
+    @Override
     public void setTime(long time) {
         super.setTime(time);
     }
@@ -96,7 +97,9 @@ public class Time extends java.util.Date {
         int firstColon;
         int secondColon;
 
-        if (s == null) throw new java.lang.IllegalArgumentException();
+        if (s == null) {
+            throw new IllegalArgumentException();
+        }
 
         firstColon = s.indexOf(':');
         secondColon = s.indexOf(':', firstColon+1);
@@ -118,6 +121,7 @@ public class Time extends java.util.Date {
      *
      * @return a <code>String</code> in hh:mm:ss format
      */
+    @Override
     @SuppressWarnings("deprecation")
     public String toString () {
         int hour = super.getHours();
@@ -156,6 +160,7 @@ public class Time extends java.util.Date {
     *           method is invoked
     * @see #setYear
     */
+    @Override
     @Deprecated
     public int getYear() {
         throw new java.lang.IllegalArgumentException();
@@ -170,6 +175,7 @@ public class Time extends java.util.Date {
     *           method is invoked
     * @see #setMonth
     */
+    @Override
     @Deprecated
     public int getMonth() {
         throw new java.lang.IllegalArgumentException();
@@ -183,6 +189,7 @@ public class Time extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this
     *           method is invoked
     */
+    @Override
     @Deprecated
     public int getDay() {
         throw new java.lang.IllegalArgumentException();
@@ -197,6 +204,7 @@ public class Time extends java.util.Date {
     *           method is invoked
     * @see #setDate
     */
+    @Override
     @Deprecated
     public int getDate() {
         throw new java.lang.IllegalArgumentException();
@@ -211,6 +219,7 @@ public class Time extends java.util.Date {
     *           method is invoked
     * @see #getYear
     */
+    @Override
     @Deprecated
     public void setYear(int i) {
         throw new java.lang.IllegalArgumentException();
@@ -225,6 +234,7 @@ public class Time extends java.util.Date {
     *           method is invoked
     * @see #getMonth
     */
+    @Override
     @Deprecated
     public void setMonth(int i) {
         throw new java.lang.IllegalArgumentException();
@@ -239,6 +249,7 @@ public class Time extends java.util.Date {
     *           method is invoked
     * @see #getDate
     */
+    @Override
     @Deprecated
     public void setDate(int i) {
         throw new java.lang.IllegalArgumentException();

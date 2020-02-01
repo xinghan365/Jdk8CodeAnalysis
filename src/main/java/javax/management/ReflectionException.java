@@ -81,6 +81,7 @@ public class ReflectionException extends JMException   {
      *
      * @return the wrapped {@link Exception}.
      */
+    @Override
     public Throwable getCause() {
         return exception;
     }

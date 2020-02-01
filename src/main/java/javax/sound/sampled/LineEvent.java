@@ -135,9 +135,12 @@ public class LineEvent extends java.util.EventObject {
      * between implementations of Java Sound.
      * @return a string describing the event.
      */
+    @Override
     public String toString() {
         String sType = "";
-        if (type != null) sType = type.toString()+" ";
+        if (type != null) {
+            sType = type.toString()+" ";
+        }
         String sLine;
         if (getLine() == null) {
             sLine = "null";
@@ -180,6 +183,7 @@ public class LineEvent extends java.util.EventObject {
          * @return <code>true</code> if this event type is the same as
          * <code>obj</code>; <code>false</code> otherwise
          */
+        @Override
         public final boolean equals(Object obj) {
             return super.equals(obj);
         }
@@ -188,6 +192,7 @@ public class LineEvent extends java.util.EventObject {
         /**
          * Finalizes the hashcode method.
          */
+        @Override
         public final int hashCode() {
             return super.hashCode();
         }
@@ -196,6 +201,7 @@ public class LineEvent extends java.util.EventObject {
         /**
          * Returns the type name as the string representation.
          */
+        @Override
         public String toString() {
             return name;
         }

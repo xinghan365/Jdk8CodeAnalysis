@@ -89,6 +89,7 @@ public final class DateTimeAtProcessing extends DateTimeSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this date-time
      *          at processing attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return(super.equals (object) &&
                object instanceof DateTimeAtProcessing);
@@ -104,6 +105,7 @@ public final class DateTimeAtProcessing extends DateTimeSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return DateTimeAtProcessing.class;
     }
@@ -117,6 +119,7 @@ public final class DateTimeAtProcessing extends DateTimeSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "date-time-at-processing";
     }

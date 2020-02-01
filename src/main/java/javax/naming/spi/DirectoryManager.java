@@ -224,8 +224,9 @@ public class DirectoryManager extends NamingManager {
         FactoryEnumeration factories = ResourceManager.getFactories(
             Context.OBJECT_FACTORIES, environment, nameCtx);
 
-        if (factories == null)
+        if (factories == null) {
             return null;
+        }
 
         ObjectFactory factory;
         Object answer = null;

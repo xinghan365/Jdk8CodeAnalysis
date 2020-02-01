@@ -66,6 +66,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      *   This value will be null if the view has not yet been displayed.
      * @see View#insertUpdate
      */
+    @Override
     public void insertUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
         sync(fv);
         super.insertUpdate(fv, e, alloc);
@@ -79,6 +80,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      * @param alloc the current allocation of the view inside of the insets.
      * @see View#removeUpdate
      */
+    @Override
     public void removeUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
         sync(fv);
         super.removeUpdate(fv, e, alloc);
@@ -93,6 +95,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      * @param f the factory to use to rebuild if the view has children
      * @see View#changedUpdate
      */
+    @Override
     public void changedUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
         sync(fv);
         super.changedUpdate(fv, e, alloc);
@@ -106,6 +109,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      *
      * @param fv the view to reflow
      */
+    @Override
     public void layout(FlowView fv) {
         super.layout(fv);
     }
@@ -123,6 +127,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      *   this views element from which to start.
      * @return the position to start the next row
      */
+    @Override
     protected int layoutRow(FlowView fv, int rowIndex, int p0) {
         int p1 = super.layoutRow(fv, rowIndex, p0);
         View row = fv.getView(rowIndex);
@@ -162,6 +167,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      * @param desiredSpan the current layout span >= 0
      * @param x the location r starts at.
      */
+    @Override
     protected void adjustRow(FlowView fv, int rowIndex, int desiredSpan, int x) {
     }
 
@@ -175,6 +181,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
      * @param spanLeft the about of span left to fill in the row
      * @param rowIndex the row the view will be placed into
      */
+    @Override
     protected View createView(FlowView fv, int startOffset, int spanLeft, int rowIndex) {
         // Get the child view that contains the given starting position
         View lv = getLogicalView(fv);
@@ -417,6 +424,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns the index of the first character of the run
          * with respect to all attributes containing the current character.
          */
+        @Override
         public int getRunStart() {
             int pos = toModelPosition(getIndex());
             int i = v.getViewIndex(pos, Position.Bias.Forward);
@@ -428,6 +436,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns the index of the first character of the run
          * with respect to the given attribute containing the current character.
          */
+        @Override
         public int getRunStart(AttributedCharacterIterator.Attribute attribute) {
             if (attribute instanceof TextAttribute) {
                 int pos = toModelPosition(getIndex());
@@ -443,6 +452,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns the index of the first character of the run
          * with respect to the given attributes containing the current character.
          */
+        @Override
         public int getRunStart(Set<? extends Attribute> attributes) {
             int index = getBeginIndex();
             Object[] a = attributes.toArray();
@@ -457,6 +467,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns the index of the first character following the run
          * with respect to all attributes containing the current character.
          */
+        @Override
         public int getRunLimit() {
             int pos = toModelPosition(getIndex());
             int i = v.getViewIndex(pos, Position.Bias.Forward);
@@ -468,6 +479,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns the index of the first character following the run
          * with respect to the given attribute containing the current character.
          */
+        @Override
         public int getRunLimit(AttributedCharacterIterator.Attribute attribute) {
             if (attribute instanceof TextAttribute) {
                 int pos = toModelPosition(getIndex());
@@ -483,6 +495,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns the index of the first character following the run
          * with respect to the given attributes containing the current character.
          */
+        @Override
         public int getRunLimit(Set<? extends Attribute> attributes) {
             int index = getEndIndex();
             Object[] a = attributes.toArray();
@@ -497,6 +510,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns a map with the attributes defined on the current
          * character.
          */
+        @Override
         public Map<Attribute, Object> getAttributes() {
             Object[] ka = keys.toArray();
             Hashtable<Attribute, Object> h = new Hashtable<Attribute, Object>();
@@ -515,6 +529,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * Returns null if the attribute is not defined.
          * @param attribute the key of the attribute whose value is requested.
          */
+        @Override
         public Object getAttribute(AttributedCharacterIterator.Attribute attribute) {
             int pos = toModelPosition(getIndex());
             int childIndex = v.getViewIndex(pos, Position.Bias.Forward);
@@ -534,6 +549,7 @@ class TextLayoutStrategy extends FlowView.FlowStrategy {
          * iterator's text range. The set is empty if no
          * attributes are defined.
          */
+        @Override
         public Set<Attribute> getAllAttributeKeys() {
             return keys;
         }

@@ -58,43 +58,51 @@ public abstract class WindowAdapter
     /**
      * Invoked when a window has been opened.
      */
+    @Override
     public void windowOpened(WindowEvent e) {}
 
     /**
      * Invoked when a window is in the process of being closed.
      * The close operation can be overridden at this point.
      */
+    @Override
     public void windowClosing(WindowEvent e) {}
 
     /**
      * Invoked when a window has been closed.
      */
+    @Override
     public void windowClosed(WindowEvent e) {}
 
     /**
      * Invoked when a window is iconified.
      */
+    @Override
     public void windowIconified(WindowEvent e) {}
 
     /**
      * Invoked when a window is de-iconified.
      */
+    @Override
     public void windowDeiconified(WindowEvent e) {}
 
     /**
      * Invoked when a window is activated.
      */
+    @Override
     public void windowActivated(WindowEvent e) {}
 
     /**
      * Invoked when a window is de-activated.
      */
+    @Override
     public void windowDeactivated(WindowEvent e) {}
 
     /**
      * Invoked when a window state is changed.
      * @since 1.4
      */
+    @Override
     public void windowStateChanged(WindowEvent e) {}
 
     /**
@@ -104,6 +112,7 @@ public abstract class WindowAdapter
      *
      * @since 1.4
      */
+    @Override
     public void windowGainedFocus(WindowEvent e) {}
 
     /**
@@ -113,5 +122,6 @@ public abstract class WindowAdapter
      *
      * @since 1.4
      */
+    @Override
     public void windowLostFocus(WindowEvent e) {}
 }

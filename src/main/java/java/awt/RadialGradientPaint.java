@@ -589,6 +589,7 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
      * @see AffineTransform
      * @see RenderingHints
      */
+    @Override
     public PaintContext createContext(ColorModel cm,
                                       Rectangle deviceBounds,
                                       Rectangle2D userBounds,

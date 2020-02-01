@@ -144,8 +144,9 @@ class Field extends AccessibleObject implements Member {
         // which implicitly requires that new java.lang.reflect
         // objects be fabricated for each reflective call on Class
         // objects.)
-        if (this.root != null)
+        if (this.root != null) {
             throw new IllegalArgumentException("Can not copy a non-root Field");
+        }
 
         Field res = new Field(clazz, name, type, modifiers, slot, signature, annotations);
         res.root = this;
@@ -160,6 +161,7 @@ class Field extends AccessibleObject implements Member {
      * Returns the {@code Class} object representing the class or interface
      * that declares the field represented by this {@code Field} object.
      */
+    @Override
     public Class<?> getDeclaringClass() {
         return clazz;
     }
@@ -167,6 +169,7 @@ class Field extends AccessibleObject implements Member {
     /**
      * Returns the name of the field represented by this {@code Field} object.
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -178,6 +181,7 @@ class Field extends AccessibleObject implements Member {
      *
      * @see Modifier
      */
+    @Override
     public int getModifiers() {
         return modifiers;
     }
@@ -202,6 +206,7 @@ class Field extends AccessibleObject implements Member {
      * field as defined by the Java Language Specification.
      * @since 1.5
      */
+    @Override
     public boolean isSynthetic() {
         return Modifier.isSynthetic(getModifiers());
     }
@@ -243,10 +248,11 @@ class Field extends AccessibleObject implements Member {
      * @since 1.5
      */
     public Type getGenericType() {
-        if (getGenericSignature() != null)
+        if (getGenericSignature() != null) {
             return getGenericInfo().getGenericType();
-        else
+        } else {
             return getType();
+        }
     }
 
 
@@ -256,6 +262,7 @@ class Field extends AccessibleObject implements Member {
      * they were declared by the same class and have the same name
      * and type.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof Field) {
             Field other = (Field)obj;
@@ -271,6 +278,7 @@ class Field extends AccessibleObject implements Member {
      * exclusive-or of the hashcodes for the underlying field's
      * declaring class name and its name.
      */
+    @Override
     public int hashCode() {
         return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
     }
@@ -296,6 +304,7 @@ class Field extends AccessibleObject implements Member {
      * @return a string describing this {@code Field}
      * @jls 8.3.1 Field Modifiers
      */
+    @Override
     public String toString() {
         int mod = getModifiers();
         return (((mod == 0) ? "" : (Modifier.toString(mod) + " "))
@@ -1077,12 +1086,15 @@ class Field extends AccessibleObject implements Member {
         // First check to see if one has been created yet, and take it
         // if so
         FieldAccessor tmp = null;
-        if (root != null) tmp = root.getFieldAccessor(overrideFinalCheck);
+        if (root != null) {
+            tmp = root.getFieldAccessor(overrideFinalCheck);
+        }
         if (tmp != null) {
-            if (overrideFinalCheck)
+            if (overrideFinalCheck) {
                 overrideFieldAccessor = tmp;
-            else
+            } else {
                 fieldAccessor = tmp;
+            }
         } else {
             // Otherwise fabricate one and propagate it up to the root
             tmp = reflectionFactory.newFieldAccessor(this, overrideFinalCheck);
@@ -1101,10 +1113,11 @@ class Field extends AccessibleObject implements Member {
     // Sets the FieldAccessor for this Field object and
     // (recursively) its root
     private void setFieldAccessor(FieldAccessor accessor, boolean overrideFinalCheck) {
-        if (overrideFinalCheck)
+        if (overrideFinalCheck) {
             overrideFieldAccessor = accessor;
-        else
+        } else {
             fieldAccessor = accessor;
+        }
         // Propagate up
         if (root != null) {
             root.setFieldAccessor(accessor, overrideFinalCheck);
@@ -1115,6 +1128,7 @@ class Field extends AccessibleObject implements Member {
      * @throws NullPointerException {@inheritDoc}
      * @since 1.5
      */
+    @Override
     public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
         Objects.requireNonNull(annotationClass);
         return annotationClass.cast(declaredAnnotations().get(annotationClass));
@@ -1135,6 +1149,7 @@ class Field extends AccessibleObject implements Member {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Annotation[] getDeclaredAnnotations()  {
         return AnnotationParser.toArray(declaredAnnotations());
     }

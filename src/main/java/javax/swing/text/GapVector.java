@@ -154,7 +154,9 @@ abstract class GapVector implements Serializable {
      * target block.
      */
     void close(int position, int nItems) {
-        if (nItems == 0)  return;
+        if (nItems == 0) {
+            return;
+        }
 
         int end = position + nItems;
         int new_gs = (g1 - g0) + nItems;
@@ -189,8 +191,9 @@ abstract class GapVector implements Serializable {
     int open(int position, int nItems) {
         int gapSize = g1 - g0;
         if (nItems == 0) {
-            if (position > g0)
+            if (position > g0) {
                 position += gapSize;
+            }
             return position;
         }
 

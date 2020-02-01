@@ -356,6 +356,7 @@ public final class JobAttributes implements Cloneable {
      * @return  the newly created copy; it is safe to cast this Object into
      *          a <code>JobAttributes</code>
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -948,6 +949,7 @@ public final class JobAttributes implements Cloneable {
      * @return  whether obj is equal to this JobAttribute according to the
      *          above criteria.
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof JobAttributes)) {
             return false;
@@ -1010,6 +1012,7 @@ public final class JobAttributes implements Cloneable {
      *
      * @return  the hash code.
      */
+    @Override
     public int hashCode() {
         int rest = ((copies + fromPage + maxPage + minPage + prFirst + prLast +
                      toPage) * 31) << 21;
@@ -1039,6 +1042,7 @@ public final class JobAttributes implements Cloneable {
      *
      * @return  the string representation.
      */
+    @Override
     public String toString() {
         int[][] pageRanges = getPageRanges();
         String prStr = "[";

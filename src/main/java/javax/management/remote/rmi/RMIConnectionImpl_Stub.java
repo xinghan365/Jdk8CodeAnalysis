@@ -80,6 +80,7 @@ public final class RMIConnectionImpl_Stub
     // methods from remote interfaces
     
     // implementation of addNotificationListener(ObjectName, ObjectName, MarshalledObject, MarshalledObject, Subject)
+    @Override
     public void addNotificationListener(javax.management.ObjectName $param_ObjectName_1, javax.management.ObjectName $param_ObjectName_2, java.rmi.MarshalledObject $param_MarshalledObject_3, java.rmi.MarshalledObject $param_MarshalledObject_4, javax.security.auth.Subject $param_Subject_5)
 	throws java.io.IOException, javax.management.InstanceNotFoundException
     {
@@ -97,6 +98,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of addNotificationListeners(ObjectName[], MarshalledObject[], Subject[])
+    @Override
     public java.lang.Integer[] addNotificationListeners(javax.management.ObjectName[] $param_arrayOf_ObjectName_1, java.rmi.MarshalledObject[] $param_arrayOf_MarshalledObject_2, javax.security.auth.Subject[] $param_arrayOf_Subject_3)
 	throws java.io.IOException, javax.management.InstanceNotFoundException
     {
@@ -115,6 +117,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of close()
+    @Override
     public void close()
 	throws java.io.IOException
     {
@@ -130,6 +133,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of createMBean(String, ObjectName, MarshalledObject, String[], Subject)
+    @Override
     public javax.management.ObjectInstance createMBean(java.lang.String $param_String_1, javax.management.ObjectName $param_ObjectName_2, java.rmi.MarshalledObject $param_MarshalledObject_3, java.lang.String[] $param_arrayOf_String_4, javax.security.auth.Subject $param_Subject_5)
 	throws java.io.IOException, javax.management.InstanceAlreadyExistsException, javax.management.MBeanException, javax.management.MBeanRegistrationException, javax.management.NotCompliantMBeanException, javax.management.ReflectionException
     {
@@ -154,6 +158,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of createMBean(String, ObjectName, ObjectName, MarshalledObject, String[], Subject)
+    @Override
     public javax.management.ObjectInstance createMBean(java.lang.String $param_String_1, javax.management.ObjectName $param_ObjectName_2, javax.management.ObjectName $param_ObjectName_3, java.rmi.MarshalledObject $param_MarshalledObject_4, java.lang.String[] $param_arrayOf_String_5, javax.security.auth.Subject $param_Subject_6)
 	throws java.io.IOException, javax.management.InstanceAlreadyExistsException, javax.management.InstanceNotFoundException, javax.management.MBeanException, javax.management.MBeanRegistrationException, javax.management.NotCompliantMBeanException, javax.management.ReflectionException
     {
@@ -180,6 +185,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of createMBean(String, ObjectName, ObjectName, Subject)
+    @Override
     public javax.management.ObjectInstance createMBean(java.lang.String $param_String_1, javax.management.ObjectName $param_ObjectName_2, javax.management.ObjectName $param_ObjectName_3, javax.security.auth.Subject $param_Subject_4)
 	throws java.io.IOException, javax.management.InstanceAlreadyExistsException, javax.management.InstanceNotFoundException, javax.management.MBeanException, javax.management.MBeanRegistrationException, javax.management.NotCompliantMBeanException, javax.management.ReflectionException
     {
@@ -206,6 +212,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of createMBean(String, ObjectName, Subject)
+    @Override
     public javax.management.ObjectInstance createMBean(java.lang.String $param_String_1, javax.management.ObjectName $param_ObjectName_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.InstanceAlreadyExistsException, javax.management.MBeanException, javax.management.MBeanRegistrationException, javax.management.NotCompliantMBeanException, javax.management.ReflectionException
     {
@@ -230,6 +237,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of fetchNotifications(long, int, long)
+    @Override
     public javax.management.remote.NotificationResult fetchNotifications(long $param_long_1, int $param_int_2, long $param_long_3)
 	throws java.io.IOException
     {
@@ -246,6 +254,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getAttribute(ObjectName, String, Subject)
+    @Override
     public java.lang.Object getAttribute(javax.management.ObjectName $param_ObjectName_1, java.lang.String $param_String_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.AttributeNotFoundException, javax.management.InstanceNotFoundException, javax.management.MBeanException, javax.management.ReflectionException
     {
@@ -270,6 +279,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getAttributes(ObjectName, String[], Subject)
+    @Override
     public javax.management.AttributeList getAttributes(javax.management.ObjectName $param_ObjectName_1, java.lang.String[] $param_arrayOf_String_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.ReflectionException
     {
@@ -290,6 +300,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getConnectionId()
+    @Override
     public java.lang.String getConnectionId()
 	throws java.io.IOException
     {
@@ -306,6 +317,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getDefaultDomain(Subject)
+    @Override
     public java.lang.String getDefaultDomain(javax.security.auth.Subject $param_Subject_1)
 	throws java.io.IOException
     {
@@ -322,6 +334,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getDomains(Subject)
+    @Override
     public java.lang.String[] getDomains(javax.security.auth.Subject $param_Subject_1)
 	throws java.io.IOException
     {
@@ -338,6 +351,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getMBeanCount(Subject)
+    @Override
     public java.lang.Integer getMBeanCount(javax.security.auth.Subject $param_Subject_1)
 	throws java.io.IOException
     {
@@ -354,6 +368,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getMBeanInfo(ObjectName, Subject)
+    @Override
     public javax.management.MBeanInfo getMBeanInfo(javax.management.ObjectName $param_ObjectName_1, javax.security.auth.Subject $param_Subject_2)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.IntrospectionException, javax.management.ReflectionException
     {
@@ -376,6 +391,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of getObjectInstance(ObjectName, Subject)
+    @Override
     public javax.management.ObjectInstance getObjectInstance(javax.management.ObjectName $param_ObjectName_1, javax.security.auth.Subject $param_Subject_2)
 	throws java.io.IOException, javax.management.InstanceNotFoundException
     {
@@ -394,6 +410,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of invoke(ObjectName, String, MarshalledObject, String[], Subject)
+    @Override
     public java.lang.Object invoke(javax.management.ObjectName $param_ObjectName_1, java.lang.String $param_String_2, java.rmi.MarshalledObject $param_MarshalledObject_3, java.lang.String[] $param_arrayOf_String_4, javax.security.auth.Subject $param_Subject_5)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.MBeanException, javax.management.ReflectionException
     {
@@ -416,6 +433,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of isInstanceOf(ObjectName, String, Subject)
+    @Override
     public boolean isInstanceOf(javax.management.ObjectName $param_ObjectName_1, java.lang.String $param_String_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.InstanceNotFoundException
     {
@@ -434,6 +452,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of isRegistered(ObjectName, Subject)
+    @Override
     public boolean isRegistered(javax.management.ObjectName $param_ObjectName_1, javax.security.auth.Subject $param_Subject_2)
 	throws java.io.IOException
     {
@@ -450,6 +469,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of queryMBeans(ObjectName, MarshalledObject, Subject)
+    @Override
     public java.util.Set queryMBeans(javax.management.ObjectName $param_ObjectName_1, java.rmi.MarshalledObject $param_MarshalledObject_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException
     {
@@ -466,6 +486,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of queryNames(ObjectName, MarshalledObject, Subject)
+    @Override
     public java.util.Set queryNames(javax.management.ObjectName $param_ObjectName_1, java.rmi.MarshalledObject $param_MarshalledObject_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException
     {
@@ -482,6 +503,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of removeNotificationListener(ObjectName, ObjectName, MarshalledObject, MarshalledObject, Subject)
+    @Override
     public void removeNotificationListener(javax.management.ObjectName $param_ObjectName_1, javax.management.ObjectName $param_ObjectName_2, java.rmi.MarshalledObject $param_MarshalledObject_3, java.rmi.MarshalledObject $param_MarshalledObject_4, javax.security.auth.Subject $param_Subject_5)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.ListenerNotFoundException
     {
@@ -501,6 +523,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of removeNotificationListener(ObjectName, ObjectName, Subject)
+    @Override
     public void removeNotificationListener(javax.management.ObjectName $param_ObjectName_1, javax.management.ObjectName $param_ObjectName_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.ListenerNotFoundException
     {
@@ -520,6 +543,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of removeNotificationListeners(ObjectName, Integer[], Subject)
+    @Override
     public void removeNotificationListeners(javax.management.ObjectName $param_ObjectName_1, java.lang.Integer[] $param_arrayOf_Integer_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.ListenerNotFoundException
     {
@@ -539,6 +563,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of setAttribute(ObjectName, MarshalledObject, Subject)
+    @Override
     public void setAttribute(javax.management.ObjectName $param_ObjectName_1, java.rmi.MarshalledObject $param_MarshalledObject_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.AttributeNotFoundException, javax.management.InstanceNotFoundException, javax.management.InvalidAttributeValueException, javax.management.MBeanException, javax.management.ReflectionException
     {
@@ -564,6 +589,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of setAttributes(ObjectName, MarshalledObject, Subject)
+    @Override
     public javax.management.AttributeList setAttributes(javax.management.ObjectName $param_ObjectName_1, java.rmi.MarshalledObject $param_MarshalledObject_2, javax.security.auth.Subject $param_Subject_3)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.ReflectionException
     {
@@ -584,6 +610,7 @@ public final class RMIConnectionImpl_Stub
     }
     
     // implementation of unregisterMBean(ObjectName, Subject)
+    @Override
     public void unregisterMBean(javax.management.ObjectName $param_ObjectName_1, javax.security.auth.Subject $param_Subject_2)
 	throws java.io.IOException, javax.management.InstanceNotFoundException, javax.management.MBeanRegistrationException
     {

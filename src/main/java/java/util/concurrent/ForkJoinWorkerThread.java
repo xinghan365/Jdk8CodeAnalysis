@@ -149,6 +149,7 @@ public class ForkJoinWorkerThread extends Thread {
      * called explicitly. It performs the main run loop to execute
      * {@link ForkJoinTask}s.
      */
+    @Override
     public void run() {
         if (workQueue.array == null) { // only run once
             Throwable exception = null;
@@ -161,8 +162,9 @@ public class ForkJoinWorkerThread extends Thread {
                 try {
                     onTermination(exception);
                 } catch (Throwable ex) {
-                    if (exception == null)
+                    if (exception == null) {
                         exception = ex;
+                    }
                 } finally {
                     pool.deregisterWorker(this, exception);
                 }
@@ -260,9 +262,10 @@ public class ForkJoinWorkerThread extends Thread {
                     u.getObject(Thread.currentThread(), tg);
                 while (group != null) {
                     ThreadGroup parent = (ThreadGroup)u.getObject(group, gp);
-                    if (parent == null)
+                    if (parent == null) {
                         return new ThreadGroup(group,
                                                "InnocuousForkJoinWorkerThreadGroup");
+                    }
                     group = parent;
                 }
             } catch (Exception e) {

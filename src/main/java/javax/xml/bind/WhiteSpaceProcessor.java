@@ -61,21 +61,26 @@ abstract class WhiteSpaceProcessor {
         int i=text.length()-1;
 
         // look for the first whitespace char.
-        while( i>=0 && !isWhiteSpaceExceptSpace(text.charAt(i)) )
+        while( i>=0 && !isWhiteSpaceExceptSpace(text.charAt(i)) ) {
             i--;
+        }
 
         if( i<0 )
             // no such whitespace. replace(text)==text.
+        {
             return text;
+        }
 
         // we now know that we need to modify the text.
         // allocate a char array to do it.
         StringBuilder buf = new StringBuilder(text);
 
         buf.setCharAt(i--,' ');
-        for( ; i>=0; i-- )
-            if( isWhiteSpaceExceptSpace(buf.charAt(i)))
-                buf.setCharAt(i,' ');
+        for( ; i>=0; i-- ) {
+            if( isWhiteSpaceExceptSpace(buf.charAt(i))) {
+                buf.setCharAt(i, ' ');
+            }
+        }
 
         return new String(buf);
     }
@@ -88,18 +93,21 @@ abstract class WhiteSpaceProcessor {
         int len = text.length();
         int start = 0;
 
-        while( start<len && isWhiteSpace(text.charAt(start)) )
+        while( start<len && isWhiteSpace(text.charAt(start)) ) {
             start++;
+        }
 
         int end = len-1;
 
-        while( end>start && isWhiteSpace(text.charAt(end)) )
+        while( end>start && isWhiteSpace(text.charAt(end)) ) {
             end--;
+        }
 
-        if(start==0 && end==len-1)
+        if(start==0 && end==len-1) {
             return text;    // no change
-        else
+        } else {
             return text.subSequence(start,end+1);
+        }
     }
 
     public static String collapse(String text) {
@@ -119,13 +127,16 @@ abstract class WhiteSpaceProcessor {
         // never see it.
         int s=0;
         while(s<len) {
-            if(isWhiteSpace(text.charAt(s)))
+            if(isWhiteSpace(text.charAt(s))) {
                 break;
+            }
             s++;
         }
         if(s==len)
             // the input happens to be already collapsed.
+        {
             return text;
+        }
 
         // we now know that the input contains spaces.
         // let's sit down and do the collapsing normally.
@@ -133,8 +144,9 @@ abstract class WhiteSpaceProcessor {
         StringBuilder result = new StringBuilder(len /*allocate enough size to avoid re-allocation*/ );
 
         if(s!=0) {
-            for( int i=0; i<s; i++ )
+            for( int i=0; i<s; i++ ) {
                 result.append(text.charAt(i));
+            }
             result.append(' ');
         }
 
@@ -142,20 +154,23 @@ abstract class WhiteSpaceProcessor {
         for (int i = s+1; i < len; i++) {
             char ch = text.charAt(i);
             boolean b = isWhiteSpace(ch);
-            if (inStripMode && b)
+            if (inStripMode && b) {
                 continue; // skip this character
+            }
 
             inStripMode = b;
-            if (inStripMode)
+            if (inStripMode) {
                 result.append(' ');
-            else
+            } else {
                 result.append(ch);
+            }
         }
 
         // remove trailing whitespaces
         len = result.length();
-        if (len > 0 && result.charAt(len - 1) == ' ')
+        if (len > 0 && result.charAt(len - 1) == ' ') {
             result.setLength(len - 1);
+        }
         // whitespaces are already collapsed,
         // so all we have to do is to remove the last one character
         // if it's a whitespace.
@@ -167,9 +182,11 @@ abstract class WhiteSpaceProcessor {
      * Returns true if the specified string is all whitespace.
      */
     public static final boolean isWhiteSpace(CharSequence s) {
-        for( int i=s.length()-1; i>=0; i-- )
-            if(!isWhiteSpace(s.charAt(i)))
+        for( int i=s.length()-1; i>=0; i-- ) {
+            if(!isWhiteSpace(s.charAt(i))) {
                 return false;
+            }
+        }
         return true;
     }
 
@@ -177,7 +194,9 @@ abstract class WhiteSpaceProcessor {
     public static final boolean isWhiteSpace(char ch) {
         // most of the characters are non-control characters.
         // so check that first to quickly return false for most of the cases.
-        if( ch>0x20 )   return false;
+        if( ch>0x20 ) {
+            return false;
+        }
 
         // other than we have to do four comparisons.
         return ch == 0x9 || ch == 0xA || ch == 0xD || ch == 0x20;
@@ -190,7 +209,9 @@ abstract class WhiteSpaceProcessor {
     protected static final boolean isWhiteSpaceExceptSpace(char ch) {
         // most of the characters are non-control characters.
         // so check that first to quickly return false for most of the cases.
-        if( ch>=0x20 )   return false;
+        if( ch>=0x20 ) {
+            return false;
+        }
 
         // other than we have to do four comparisons.
         return ch == 0x9 || ch == 0xA || ch == 0xD;

@@ -50,12 +50,14 @@ public class BasicPanelUI extends PanelUI {
         return panelUI;
     }
 
+    @Override
     public void installUI(JComponent c) {
         JPanel p = (JPanel)c;
         super.installUI(p);
         installDefaults(p);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         JPanel p = (JPanel)c;
         uninstallDefaults(p);
@@ -84,6 +86,7 @@ public class BasicPanelUI extends PanelUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         Border border = c.getBorder();
@@ -101,6 +104,7 @@ public class BasicPanelUI extends PanelUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);

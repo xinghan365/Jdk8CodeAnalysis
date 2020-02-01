@@ -48,6 +48,7 @@ class EditableView extends ComponentView {
         super(e);
     }
 
+    @Override
     public float getMinimumSpan(int axis) {
         if (isVisible) {
             return super.getMinimumSpan(axis);
@@ -55,6 +56,7 @@ class EditableView extends ComponentView {
         return 0;
     }
 
+    @Override
     public float getPreferredSpan(int axis) {
         if (isVisible) {
             return super.getPreferredSpan(axis);
@@ -62,6 +64,7 @@ class EditableView extends ComponentView {
         return 0;
     }
 
+    @Override
     public float getMaximumSpan(int axis) {
         if (isVisible) {
             return super.getMaximumSpan(axis);
@@ -69,6 +72,7 @@ class EditableView extends ComponentView {
         return 0;
     }
 
+    @Override
     public void paint(Graphics g, Shape allocation) {
         Component c = getComponent();
         Container host = getContainer();
@@ -101,6 +105,7 @@ class EditableView extends ComponentView {
         }
     }
 
+    @Override
     public void setParent(View parent) {
         if (parent != null) {
             Container host = parent.getContainer();
@@ -118,6 +123,7 @@ class EditableView extends ComponentView {
     /**
      * @return true if the Component is visible.
      */
+    @Override
     public boolean isVisible() {
         return isVisible;
     }

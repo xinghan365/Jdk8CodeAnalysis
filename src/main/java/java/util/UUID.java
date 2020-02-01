@@ -105,10 +105,12 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
         long msb = 0;
         long lsb = 0;
         assert data.length == 16 : "data must be 16 bytes in length";
-        for (int i=0; i<8; i++)
+        for (int i=0; i<8; i++) {
             msb = (msb << 8) | (data[i] & 0xff);
-        for (int i=8; i<16; i++)
+        }
+        for (int i=8; i<16; i++) {
             lsb = (lsb << 8) | (data[i] & 0xff);
+        }
         this.mostSigBits = msb;
         this.leastSigBits = lsb;
     }
@@ -190,10 +192,12 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
      */
     public static UUID fromString(String name) {
         String[] components = name.split("-");
-        if (components.length != 5)
+        if (components.length != 5) {
             throw new IllegalArgumentException("Invalid UUID string: "+name);
-        for (int i=0; i<5; i++)
+        }
+        for (int i=0; i<5; i++) {
             components[i] = "0x"+components[i];
+        }
 
         long mostSigBits = Long.decode(components[0]).longValue();
         mostSigBits <<= 16;
@@ -372,6 +376,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
      *
      * @return  A string representation of this {@code UUID}
      */
+    @Override
     public String toString() {
         return (digits(mostSigBits >> 32, 8) + "-" +
                 digits(mostSigBits >> 16, 4) + "-" +
@@ -391,6 +396,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
      *
      * @return  A hash code value for this {@code UUID}
      */
+    @Override
     public int hashCode() {
         long hilo = mostSigBits ^ leastSigBits;
         return ((int)(hilo >> 32)) ^ (int) hilo;
@@ -408,9 +414,11 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
      * @return  {@code true} if the objects are the same; {@code false}
      *          otherwise
      */
+    @Override
     public boolean equals(Object obj) {
-        if ((null == obj) || (obj.getClass() != UUID.class))
+        if ((null == obj) || (obj.getClass() != UUID.class)) {
             return false;
+        }
         UUID id = (UUID)obj;
         return (mostSigBits == id.mostSigBits &&
                 leastSigBits == id.leastSigBits);
@@ -432,6 +440,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
      *          greater than {@code val}
      *
      */
+    @Override
     public int compareTo(UUID val) {
         // The ordering is intentionally set up so that the UUIDs
         // can simply be numerically compared as two numbers

@@ -216,6 +216,7 @@ public class CompoundName implements Name {
       *
       * @return A non-null string representation of this compound name.
       */
+    @Override
     public String toString() {
         return (impl.toString());
     }
@@ -243,6 +244,7 @@ public class CompoundName implements Name {
       * @return true if obj is equal to this compound name, false otherwise.
       * @see #compareTo(java.lang.Object obj)
       */
+    @Override
     public boolean equals(Object obj) {
         // %%% check syntax too?
         return (obj != null &&
@@ -261,6 +263,7 @@ public class CompoundName implements Name {
       *
       * @return An int representing the hash code of this name.
       */
+    @Override
     public int hashCode() {
         return impl.hashCode();
     }
@@ -273,6 +276,7 @@ public class CompoundName implements Name {
       *
       * @return A non-null copy of this compound name.
       */
+    @Override
     public Object clone() {
         return (new CompoundName(getAll(), mySyntax));
     }
@@ -308,6 +312,7 @@ public class CompoundName implements Name {
      * @exception ClassCastException if obj is not a CompoundName.
      * @see #equals(java.lang.Object)
      */
+    @Override
     public int compareTo(Object obj) {
         if (!(obj instanceof CompoundName)) {
             throw new ClassCastException("Not a CompoundName");
@@ -320,6 +325,7 @@ public class CompoundName implements Name {
       *
       * @return The nonnegative number of components in this compound name.
       */
+    @Override
     public int size() {
         return (impl.size());
     }
@@ -330,6 +336,7 @@ public class CompoundName implements Name {
       *
       * @return true if this compound name is empty, false otherwise.
       */
+    @Override
     public boolean isEmpty() {
         return (impl.isEmpty());
     }
@@ -343,6 +350,7 @@ public class CompoundName implements Name {
       * @return A non-null enumeration of the components of this
       * compound name. Each element of the enumeration is of class String.
       */
+    @Override
     public Enumeration<String> getAll() {
         return (impl.getAll());
     }
@@ -356,6 +364,7 @@ public class CompoundName implements Name {
       * @exception ArrayIndexOutOfBoundsException if posn is outside the
       *         specified range.
       */
+    @Override
     public String get(int posn) {
         return (impl.get(posn));
     }
@@ -375,6 +384,7 @@ public class CompoundName implements Name {
       * @exception ArrayIndexOutOfBoundsException
       *         If posn is outside the specified range.
       */
+    @Override
     public Name getPrefix(int posn) {
         Enumeration<String> comps = impl.getPrefix(posn);
         return (new CompoundName(comps, mySyntax));
@@ -395,6 +405,7 @@ public class CompoundName implements Name {
       * @exception ArrayIndexOutOfBoundsException
       *         If posn is outside the specified range.
       */
+    @Override
     public Name getSuffix(int posn) {
         Enumeration<String> comps = impl.getSuffix(posn);
         return (new CompoundName(comps, mySyntax));
@@ -413,6 +424,7 @@ public class CompoundName implements Name {
       * @return true if n is a CompoundName and
       *                 is a prefix of this compound name, false otherwise.
       */
+    @Override
     public boolean startsWith(Name n) {
         if (n instanceof CompoundName) {
             return (impl.startsWith(n.size(), n.getAll()));
@@ -434,6 +446,7 @@ public class CompoundName implements Name {
       * @return true if n is a CompoundName and
       *         is a suffix of this compound name, false otherwise.
       */
+    @Override
     public boolean endsWith(Name n) {
         if (n instanceof CompoundName) {
             return (impl.endsWith(n.size(), n.getAll()));
@@ -454,6 +467,7 @@ public class CompoundName implements Name {
       *            or if the addition of the components violates the syntax
       *            of this compound name (e.g. exceeding number of components).
       */
+    @Override
     public Name addAll(Name suffix) throws InvalidNameException {
         if (suffix instanceof CompoundName) {
             impl.addAll(suffix.getAll());
@@ -484,6 +498,7 @@ public class CompoundName implements Name {
       *            or if the addition of the components violates the syntax
       *            of this compound name (e.g. exceeding number of components).
       */
+    @Override
     public Name addAll(int posn, Name n) throws InvalidNameException {
         if (n instanceof CompoundName) {
             impl.addAll(posn, n.getAll());
@@ -502,6 +517,7 @@ public class CompoundName implements Name {
       * @exception InvalidNameException If adding comp at end of the name
       *                         would violate the compound name's syntax.
       */
+    @Override
     public Name add(String comp) throws InvalidNameException{
         impl.add(comp);
         return this;
@@ -523,6 +539,7 @@ public class CompoundName implements Name {
       * @exception InvalidNameException If adding comp at the specified position
       *                         would violate the compound name's syntax.
       */
+    @Override
     public Name add(int posn, String comp) throws InvalidNameException{
         impl.add(posn, comp);
         return this;
@@ -543,6 +560,7 @@ public class CompoundName implements Name {
       * @exception InvalidNameException If deleting the component
       *                         would violate the compound name's syntax.
       */
+    @Override
     public Object remove(int posn) throws InvalidNameException {
         return impl.remove(posn);
     }

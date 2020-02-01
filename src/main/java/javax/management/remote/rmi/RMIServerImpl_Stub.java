@@ -30,6 +30,7 @@ public final class RMIServerImpl_Stub
     // methods from remote interfaces
     
     // implementation of getVersion()
+    @Override
     public java.lang.String getVersion()
 	throws java.rmi.RemoteException
     {
@@ -46,6 +47,7 @@ public final class RMIServerImpl_Stub
     }
     
     // implementation of newClient(Object)
+    @Override
     public javax.management.remote.rmi.RMIConnection newClient(java.lang.Object $param_Object_1)
 	throws java.io.IOException
     {

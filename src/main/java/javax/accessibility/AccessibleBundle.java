@@ -122,6 +122,7 @@ public abstract class AccessibleBundle {
      * @return a localized String describing the key using the default locale
      * @see #toDisplayString
      */
+    @Override
     public String toString() {
         return toDisplayString();
     }

@@ -56,7 +56,8 @@ import java.net.URL;
  */
 public class DefaultValidationEventHandler implements ValidationEventHandler {
 
-    public boolean handleEvent( ValidationEvent event ) {
+    @Override
+    public boolean handleEvent(ValidationEvent event ) {
 
         if( event == null ) {
             throw new IllegalArgumentException();
@@ -115,8 +116,9 @@ public class DefaultValidationEventHandler implements ValidationEventHandler {
 
             if( url!=null || line!=-1 ) {
                 msg.append( "line " + line );
-                if( url!=null )
+                if( url!=null ) {
                     msg.append( " of " + url );
+                }
             } else if( obj != null ) {
                 msg.append( " obj: " + obj.toString() );
             } else if( node != null ) {

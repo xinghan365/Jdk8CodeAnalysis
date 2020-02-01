@@ -292,6 +292,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
      * @param name the name of the component
      * @param comp the component to be added
      */
+    @Override
     public void addLayoutComponent(String name, Component comp) {
     }
 
@@ -299,6 +300,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
      * Removes the specified component from the layout.
      * @param comp the component to be removed
      */
+    @Override
     public void removeLayoutComponent(Component comp) {
     }
 
@@ -322,6 +324,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
      * @see       java.awt.GridLayout#minimumLayoutSize
      * @see       java.awt.Container#getPreferredSize()
      */
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
       synchronized (parent.getTreeLock()) {
         Insets insets = parent.getInsets();
@@ -371,6 +374,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
      * @see         java.awt.GridLayout#preferredLayoutSize
      * @see         java.awt.Container#doLayout
      */
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
       synchronized (parent.getTreeLock()) {
         Insets insets = parent.getInsets();
@@ -418,6 +422,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
      * @see        java.awt.Container
      * @see        java.awt.Container#doLayout
      */
+    @Override
     public void layoutContainer(Container parent) {
       synchronized (parent.getTreeLock()) {
         Insets insets = parent.getInsets();
@@ -474,6 +479,7 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
      * Returns the string representation of this grid layout's values.
      * @return     a string representation of this grid layout
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap +
                                        ",rows=" + rows + ",cols=" + cols + "]";

@@ -49,6 +49,7 @@ class SynthBorder extends AbstractBorder implements UIResource {
         this(ui, null);
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y,
                             int width, int height) {
         JComponent jc = (JComponent)c;
@@ -69,6 +70,7 @@ class SynthBorder extends AbstractBorder implements UIResource {
      * @param insets the object to be reinitialized
      * @return the <code>insets</code> object
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         if (this.insets != null) {
             if (insets == null) {
@@ -130,6 +132,7 @@ class SynthBorder extends AbstractBorder implements UIResource {
      * This default implementation returns false.
      * @return false
      */
+    @Override
     public boolean isBorderOpaque() {
         return false;
     }

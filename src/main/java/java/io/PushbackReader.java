@@ -69,8 +69,9 @@ public class PushbackReader extends FilterReader {
 
     /** Checks to make sure that the stream has not been closed. */
     private void ensureOpen() throws IOException {
-        if (buf == null)
+        if (buf == null) {
             throw new IOException("Stream closed");
+        }
     }
 
     /**
@@ -81,13 +82,15 @@ public class PushbackReader extends FilterReader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (pos < buf.length)
+            if (pos < buf.length) {
                 return buf[pos++];
-            else
+            } else {
                 return super.read();
+            }
         }
     }
 
@@ -103,6 +106,7 @@ public class PushbackReader extends FilterReader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read(char cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -117,8 +121,9 @@ public class PushbackReader extends FilterReader {
                 }
                 int avail = buf.length - pos;
                 if (avail > 0) {
-                    if (len < avail)
+                    if (len < avail) {
                         avail = len;
+                    }
                     System.arraycopy(buf, pos, cbuf, off, avail);
                     pos += avail;
                     off += avail;
@@ -151,8 +156,9 @@ public class PushbackReader extends FilterReader {
     public void unread(int c) throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (pos == 0)
+            if (pos == 0) {
                 throw new IOException("Pushback buffer overflow");
+            }
             buf[--pos] = (char) c;
         }
     }
@@ -174,8 +180,9 @@ public class PushbackReader extends FilterReader {
     public void unread(char cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (len > pos)
+            if (len > pos) {
                 throw new IOException("Pushback buffer overflow");
+            }
             pos -= len;
             System.arraycopy(cbuf, off, buf, pos, len);
         }
@@ -201,6 +208,7 @@ public class PushbackReader extends FilterReader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public boolean ready() throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -214,6 +222,7 @@ public class PushbackReader extends FilterReader {
      *
      * @exception  IOException  Always, since mark is not supported
      */
+    @Override
     public void mark(int readAheadLimit) throws IOException {
         throw new IOException("mark/reset not supported");
     }
@@ -224,6 +233,7 @@ public class PushbackReader extends FilterReader {
      *
      * @exception  IOException  Always, since reset is not supported
      */
+    @Override
     public void reset() throws IOException {
         throw new IOException("mark/reset not supported");
     }
@@ -232,6 +242,7 @@ public class PushbackReader extends FilterReader {
      * Tells whether this stream supports the mark() operation, which it does
      * not.
      */
+    @Override
     public boolean markSupported() {
         return false;
     }
@@ -244,6 +255,7 @@ public class PushbackReader extends FilterReader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void close() throws IOException {
         super.close();
         buf = null;
@@ -260,9 +272,11 @@ public class PushbackReader extends FilterReader {
      * @exception  IllegalArgumentException  If <code>n</code> is negative.
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public long skip(long n) throws IOException {
-        if (n < 0L)
+        if (n < 0L) {
             throw new IllegalArgumentException("skip value is negative");
+        }
         synchronized (lock) {
             ensureOpen();
             int avail = buf.length - pos;

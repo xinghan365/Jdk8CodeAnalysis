@@ -536,6 +536,7 @@ public class SimpleTimeZone extends TimeZone {
      * local time.
      * @since 1.4
      */
+    @Override
     public int getOffset(long date) {
         return getOffsets(date, null);
     }
@@ -543,6 +544,7 @@ public class SimpleTimeZone extends TimeZone {
     /**
      * @see TimeZone#getOffsets
      */
+    @Override
     int getOffsets(long date, int[] offsets) {
         int offset = rawOffset;
 
@@ -602,6 +604,7 @@ public class SimpleTimeZone extends TimeZone {
      *                  <code>month</code>, <code>day</code>, <code>dayOfWeek</code>,
      *                  or <code>millis</code> parameters are out of range
      */
+    @Override
     public int getOffset(int era, int year, int month, int day, int dayOfWeek,
                          int millis)
     {
@@ -779,6 +782,7 @@ public class SimpleTimeZone extends TimeZone {
      * @return the GMT offset value in milliseconds
      * @see #setRawOffset
      */
+    @Override
     public int getRawOffset()
     {
         // The given date will be taken into account while
@@ -791,6 +795,7 @@ public class SimpleTimeZone extends TimeZone {
      * This is the offset to add to UTC to get local time.
      * @see #getRawOffset
      */
+    @Override
     public void setRawOffset(int offsetMillis)
     {
         this.rawOffset = offsetMillis;
@@ -825,6 +830,7 @@ public class SimpleTimeZone extends TimeZone {
      * @see #setDSTSavings
      * @since 1.2
      */
+    @Override
     public int getDSTSavings() {
         return useDaylight ? dstSavings : 0;
     }
@@ -834,6 +840,7 @@ public class SimpleTimeZone extends TimeZone {
      * @return true if this time zone uses daylight saving time;
      * false otherwise.
      */
+    @Override
     public boolean useDaylightTime()
     {
         return useDaylight;
@@ -858,6 +865,7 @@ public class SimpleTimeZone extends TimeZone {
      * @return true if daylight saving time is in effective at the
      * given date; false otherwise.
      */
+    @Override
     public boolean inDaylightTime(Date date)
     {
         return (getOffset(date.getTime()) != rawOffset);
@@ -867,6 +875,7 @@ public class SimpleTimeZone extends TimeZone {
      * Returns a clone of this <code>SimpleTimeZone</code> instance.
      * @return a clone of this instance.
      */
+    @Override
     public Object clone()
     {
         return super.clone();
@@ -876,6 +885,7 @@ public class SimpleTimeZone extends TimeZone {
      * Generates the hash code for the SimpleDateFormat object.
      * @return the hash code for this object
      */
+    @Override
     public synchronized int hashCode()
     {
         return startMonth ^ startDay ^ startDayOfWeek ^ startTime ^
@@ -889,6 +899,7 @@ public class SimpleTimeZone extends TimeZone {
      * @return     True if the given <code>obj</code> is the same as this
      *             <code>SimpleTimeZone</code> object; false otherwise.
      */
+    @Override
     public boolean equals(Object obj)
     {
         if (this == obj) {
@@ -911,6 +922,7 @@ public class SimpleTimeZone extends TimeZone {
      * same rules and offset as this one
      * @since 1.2
      */
+    @Override
     public boolean hasSameRules(TimeZone other) {
         if (this == other) {
             return true;
@@ -943,6 +955,7 @@ public class SimpleTimeZone extends TimeZone {
      * Returns a string representation of this time zone.
      * @return a string representation of this time zone.
      */
+    @Override
     public String toString() {
         return getClass().getName() +
             "[id=" + getID() +

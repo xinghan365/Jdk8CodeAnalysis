@@ -209,6 +209,7 @@ public class StAXSource implements Source {
      * @throws UnsupportedOperationException Is <strong>always</strong>
      *   thrown by this method.
      */
+    @Override
     public void setSystemId(final String systemId) {
 
         throw new UnsupportedOperationException(
@@ -229,6 +230,7 @@ public class StAXSource implements Source {
      *
      * @return System identifier used by this <code>StAXSource</code>.
      */
+    @Override
     public String getSystemId() {
 
         return systemId;

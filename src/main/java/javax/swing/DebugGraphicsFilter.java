@@ -40,6 +40,7 @@ class DebugGraphicsFilter extends RGBImageFilter {
         color = c;
     }
 
+    @Override
     public int filterRGB(int x, int y, int rgb) {
         return color.getRGB() | (rgb & 0xFF000000);
     }

@@ -102,6 +102,7 @@ public class BeanDescriptor extends FeatureDescriptor {
         customizerClassRef = old.customizerClassRef;
     }
 
+    @Override
     void appendTo(StringBuilder sb) {
         appendTo(sb, "beanClass", this.beanClassRef);
         appendTo(sb, "customizerClass", this.customizerClassRef);

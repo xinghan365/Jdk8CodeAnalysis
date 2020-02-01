@@ -356,6 +356,7 @@ public class SyncFactory {
                 String strRowsetProperties;
                 try {
                     strRowsetProperties = AccessController.doPrivileged(new PrivilegedAction<String>() {
+                        @Override
                         public String run() {
                             return System.getProperty("rowset.properties");
                         }
@@ -425,6 +426,7 @@ public class SyncFactory {
             String providerImpls;
             try {
                 providerImpls = AccessController.doPrivileged(new PrivilegedAction<String>() {
+                    @Override
                     public String run() {
                         return System.getProperty(ROWSET_SYNC_PROVIDER);
                     }
@@ -855,6 +857,7 @@ class ProviderImpl extends SyncProvider {
         vendorName = vendor;
     }
 
+    @Override
     public String getVendor() {
         return vendorName;
     }
@@ -863,6 +866,7 @@ class ProviderImpl extends SyncProvider {
         ver = providerVer;
     }
 
+    @Override
     public String getVersion() {
         return ver;
     }
@@ -875,6 +879,7 @@ class ProviderImpl extends SyncProvider {
         return index;
     }
 
+    @Override
     public int getDataSourceLock() throws SyncProviderException {
 
         int dsLock = 0;
@@ -888,6 +893,7 @@ class ProviderImpl extends SyncProvider {
         return dsLock;
     }
 
+    @Override
     public int getProviderGrade() {
 
         int grade = 0;
@@ -901,6 +907,7 @@ class ProviderImpl extends SyncProvider {
         return grade;
     }
 
+    @Override
     public String getProviderID() {
         return className;
     }
@@ -915,6 +922,7 @@ class ProviderImpl extends SyncProvider {
     }
     }
      */
+    @Override
     public javax.sql.RowSetReader getRowSetReader() {
 
         RowSetReader rsReader = null;
@@ -929,6 +937,7 @@ class ProviderImpl extends SyncProvider {
 
     }
 
+    @Override
     public javax.sql.RowSetWriter getRowSetWriter() {
 
         RowSetWriter rsWriter = null;
@@ -941,6 +950,7 @@ class ProviderImpl extends SyncProvider {
         return rsWriter;
     }
 
+    @Override
     public void setDataSourceLock(int param)
             throws SyncProviderException {
 
@@ -952,6 +962,7 @@ class ProviderImpl extends SyncProvider {
         }
     }
 
+    @Override
     public int supportsUpdatableView() {
 
         int view = 0;

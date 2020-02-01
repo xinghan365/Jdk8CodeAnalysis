@@ -56,6 +56,7 @@ public class IllegalFormatWidthException extends IllegalFormatException {
         return w;
     }
 
+    @Override
     public String getMessage() {
         return Integer.toString(w);
     }

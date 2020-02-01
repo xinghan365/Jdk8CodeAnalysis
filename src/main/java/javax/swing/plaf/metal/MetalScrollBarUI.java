@@ -76,21 +76,25 @@ public class MetalScrollBarUI extends BasicScrollBarUI
         return new MetalScrollBarUI();
     }
 
+    @Override
     protected void installDefaults() {
         scrollBarWidth = ((Integer)(UIManager.get( "ScrollBar.width" ))).intValue();
         super.installDefaults();
         bumps = new MetalBumps( 10, 10, thumbHighlightColor, thumbShadow, thumbColor );
     }
 
+    @Override
     protected void installListeners(){
         super.installListeners();
         ((ScrollBarListener)propertyChangeListener).handlePropertyChange( scrollbar.getClientProperty( FREE_STANDING_PROP ) );
     }
 
+    @Override
     protected PropertyChangeListener createPropertyChangeListener(){
         return new ScrollBarListener();
     }
 
+    @Override
     protected void configureScrollBarColors()
     {
         super.configureScrollBarColors();
@@ -104,7 +108,8 @@ public class MetalScrollBarUI extends BasicScrollBarUI
 
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    @Override
+    public Dimension getPreferredSize(JComponent c )
     {
         if ( scrollbar.getOrientation() == JScrollBar.VERTICAL )
         {
@@ -119,20 +124,23 @@ public class MetalScrollBarUI extends BasicScrollBarUI
 
     /** Returns the view that represents the decrease view.
       */
-    protected JButton createDecreaseButton( int orientation )
+    @Override
+    protected JButton createDecreaseButton(int orientation )
     {
         decreaseButton = new MetalScrollButton( orientation, scrollBarWidth, isFreeStanding );
         return decreaseButton;
     }
 
     /** Returns the view that represents the increase view. */
-    protected JButton createIncreaseButton( int orientation )
+    @Override
+    protected JButton createIncreaseButton(int orientation )
     {
         increaseButton =  new MetalScrollButton( orientation, scrollBarWidth, isFreeStanding );
         return increaseButton;
     }
 
-    protected void paintTrack( Graphics g, JComponent c, Rectangle trackBounds )
+    @Override
+    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds )
     {
         g.translate( trackBounds.x, trackBounds.y );
 
@@ -209,7 +217,8 @@ public class MetalScrollBarUI extends BasicScrollBarUI
         g.translate( -trackBounds.x, -trackBounds.y );
     }
 
-    protected void paintThumb( Graphics g, JComponent c, Rectangle thumbBounds )
+    @Override
+    protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds )
     {
         if (!c.isEnabled()) {
             return;
@@ -375,6 +384,7 @@ public class MetalScrollBarUI extends BasicScrollBarUI
         g.translate( -thumbBounds.x, -thumbBounds.y );
     }
 
+    @Override
     protected Dimension getMinimumThumbSize()
     {
         return new Dimension( scrollBarWidth, scrollBarWidth );
@@ -384,6 +394,7 @@ public class MetalScrollBarUI extends BasicScrollBarUI
       * This is overridden only to increase the invalid area.  This
       * ensures that the "Shadow" below the thumb is invalidated
       */
+    @Override
     protected void setThumbBounds(int x, int y, int width, int height)
     {
         /* If the thumbs bounds haven't changed, we're done.
@@ -411,6 +422,7 @@ public class MetalScrollBarUI extends BasicScrollBarUI
 
     class ScrollBarListener extends BasicScrollBarUI.PropertyChangeHandler
     {
+        @Override
         public void propertyChange(PropertyChangeEvent e)
         {
             String name = e.getPropertyName();

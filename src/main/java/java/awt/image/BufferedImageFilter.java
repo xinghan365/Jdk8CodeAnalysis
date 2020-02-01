@@ -92,6 +92,7 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
      *        <code>BufferedImageFilter</code>
      * @see ImageConsumer#setDimensions
      */
+    @Override
     public void setDimensions(int width, int height) {
         if (width <= 0 || height <= 0) {
             imageComplete(STATICIMAGEDONE);
@@ -121,6 +122,7 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
      *        <code>ColorModel</code> of this <code>BufferedImageFilter</code>
      * @see ImageConsumer#setColorModel
      */
+    @Override
     public void setColorModel(ColorModel model) {
         this.model = model;
     }
@@ -158,6 +160,7 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
      * @see ImageConsumer#setPixels(int, int, int, int, ColorModel, byte[],
                                     int, int)
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
                           int scansize) {
@@ -245,6 +248,7 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
      * @see ImageConsumer#setPixels(int, int, int, int, ColorModel, int[],
                                     int, int)
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
                           int scansize) {
@@ -336,6 +340,7 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
      * instance.
      * @see ImageConsumer#imageComplete
      */
+    @Override
     public void imageComplete(int status) {
         WritableRaster wr;
         switch(status) {
@@ -351,14 +356,20 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
 
         case SINGLEFRAMEDONE:
         case STATICIMAGEDONE:
-            if (width <= 0 || height <= 0) break;
+            if (width <= 0 || height <= 0) {
+                break;
+            }
             if (model instanceof DirectColorModel) {
-                if (intPixels == null) break;
+                if (intPixels == null) {
+                    break;
+                }
                 wr = createDCMraster();
             }
             else if (model instanceof IndexColorModel) {
                 int[] bandOffsets = {0};
-                if (bytePixels == null) break;
+                if (bytePixels == null) {
+                    break;
+                }
                 DataBufferByte db = new DataBufferByte(bytePixels,
                                                        width*height);
                 wr = Raster.createInterleavedRaster(db, width, height, width,
@@ -366,7 +377,9 @@ public class BufferedImageFilter extends ImageFilter implements Cloneable {
             }
             else {
                 convertToRGB();
-                if (intPixels == null) break;
+                if (intPixels == null) {
+                    break;
+                }
                 wr = createDCMraster();
             }
             BufferedImage bi = new BufferedImage(model, wr,

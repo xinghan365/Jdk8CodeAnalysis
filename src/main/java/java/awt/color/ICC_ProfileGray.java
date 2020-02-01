@@ -94,6 +94,7 @@ extends ICC_Profile {
      * @return an array containing the components of the
      * mediaWhitePointTag in the ICC profile.
      */
+    @Override
     public float[] getMediaWhitePoint() {
         return super.getMediaWhitePoint();
     }

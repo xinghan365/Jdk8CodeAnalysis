@@ -122,6 +122,7 @@ class AttributeList implements DTDConstants, Serializable {
     /**
      * @return string representation
      */
+    @Override
     public String toString() {
         return name;
     }

@@ -104,6 +104,7 @@ class BetweenQueryExp extends QueryEval implements QueryExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
         ValueExp val1 = exp1.apply(name);

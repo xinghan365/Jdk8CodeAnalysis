@@ -78,6 +78,7 @@ class NotQueryExp extends QueryEval implements QueryExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
         return exp.apply(name) == false;

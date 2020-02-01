@@ -87,6 +87,7 @@ public class OceanTheme extends DefaultMetalTheme {
             this.rtl = rtl;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (MetalUtils.isLeftToRight(c)) {
                 super.paintIcon(c, g, x, y);
@@ -106,6 +107,7 @@ public class OceanTheme extends DefaultMetalTheme {
             this.pressed = pressed;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             ButtonModel model = ((AbstractButton)c).getModel();
             if (model.isPressed() && model.isArmed()) {
@@ -128,6 +130,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @param table the defaults table, non-null
      * @throws NullPointerException if {@code table} is {@code null}
      */
+    @Override
     public void addCustomEntriesToTable(UIDefaults table) {
         Object focusBorder = new SwingLazyValue(
                       "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
@@ -201,6 +204,7 @@ public class OceanTheme extends DefaultMetalTheme {
             // close2
             "InternalFrame.closeIcon",
                      new UIDefaults.LazyValue() {
+                         @Override
                          public Object createValue(UIDefaults table) {
                              return new IFIcon(getHastenedIcon("icons/ocean/close.gif", table),
                                                getHastenedIcon("icons/ocean/close-pressed.gif", table));
@@ -209,6 +213,7 @@ public class OceanTheme extends DefaultMetalTheme {
             // minimize
             "InternalFrame.iconifyIcon",
                      new UIDefaults.LazyValue() {
+                         @Override
                          public Object createValue(UIDefaults table) {
                              return new IFIcon(getHastenedIcon("icons/ocean/iconify.gif", table),
                                                getHastenedIcon("icons/ocean/iconify-pressed.gif", table));
@@ -217,6 +222,7 @@ public class OceanTheme extends DefaultMetalTheme {
             // restore
             "InternalFrame.minimizeIcon",
                      new UIDefaults.LazyValue() {
+                         @Override
                          public Object createValue(UIDefaults table) {
                              return new IFIcon(getHastenedIcon("icons/ocean/minimize.gif", table),
                                                getHastenedIcon("icons/ocean/minimize-pressed.gif", table));
@@ -228,6 +234,7 @@ public class OceanTheme extends DefaultMetalTheme {
             // maximize2
             "InternalFrame.maximizeIcon",
                      new UIDefaults.LazyValue() {
+                         @Override
                          public Object createValue(UIDefaults table) {
                              return new IFIcon(getHastenedIcon("icons/ocean/maximize.gif", table),
                                                getHastenedIcon("icons/ocean/maximize-pressed.gif", table));
@@ -236,6 +243,7 @@ public class OceanTheme extends DefaultMetalTheme {
             // paletteclose
             "InternalFrame.paletteCloseIcon",
                      new UIDefaults.LazyValue() {
+                         @Override
                          public Object createValue(UIDefaults table) {
                              return new IFIcon(getHastenedIcon("icons/ocean/paletteClose.gif", table),
                                                getHastenedIcon("icons/ocean/paletteClose-pressed.gif", table));
@@ -290,6 +298,7 @@ public class OceanTheme extends DefaultMetalTheme {
 
             "Tree.collapsedIcon",
                   new UIDefaults.LazyValue() {
+                      @Override
                       public Object createValue(UIDefaults table) {
                           return new COIcon(getHastenedIcon("icons/ocean/collapsed.gif", table),
                                             getHastenedIcon("icons/ocean/collapsed-rtl.gif", table));
@@ -316,6 +325,7 @@ public class OceanTheme extends DefaultMetalTheme {
     /**
      * Overriden to enable picking up the system fonts, if applicable.
      */
+    @Override
     boolean isSystemTheme() {
         return true;
     }
@@ -325,6 +335,7 @@ public class OceanTheme extends DefaultMetalTheme {
      *
      * @return "Ocean"
      */
+    @Override
     public String getName() {
         return "Ocean";
     }
@@ -336,6 +347,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the primary 1 color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getPrimary1() {
         return PRIMARY1;
     }
@@ -347,6 +359,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the primary 2 color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getPrimary2() {
         return PRIMARY2;
     }
@@ -358,6 +371,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the primary 3 color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getPrimary3() {
         return PRIMARY3;
     }
@@ -369,6 +383,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the secondary 1 color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getSecondary1() {
         return SECONDARY1;
     }
@@ -380,6 +395,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the secondary 2 color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getSecondary2() {
         return SECONDARY2;
     }
@@ -391,6 +407,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the secondary 3 color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getSecondary3() {
         return SECONDARY3;
     }
@@ -402,6 +419,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the black color
      * @see java.awt.Color#decode
      */
+    @Override
     protected ColorUIResource getBlack() {
         return OCEAN_BLACK;
     }
@@ -413,6 +431,7 @@ public class OceanTheme extends DefaultMetalTheme {
      * @return the desktop color
      * @see java.awt.Color#decode
      */
+    @Override
     public ColorUIResource getDesktopColor() {
         return MetalTheme.white;
     }
@@ -423,6 +442,7 @@ public class OceanTheme extends DefaultMetalTheme {
      *
      * @return the inactive control text color
      */
+    @Override
     public ColorUIResource getInactiveControlTextColor() {
         return INACTIVE_CONTROL_TEXT_COLOR;
     }
@@ -433,6 +453,7 @@ public class OceanTheme extends DefaultMetalTheme {
      *
      * @return the control text color
      */
+    @Override
     public ColorUIResource getControlTextColor() {
         return CONTROL_TEXT_COLOR;
     }
@@ -443,6 +464,7 @@ public class OceanTheme extends DefaultMetalTheme {
      *
      * @return the menu disabled foreground color
      */
+    @Override
     public ColorUIResource getMenuDisabledForeground() {
         return MENU_DISABLED_FOREGROUND;
     }

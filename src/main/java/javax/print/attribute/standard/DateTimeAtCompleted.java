@@ -88,6 +88,7 @@ public final class DateTimeAtCompleted extends DateTimeSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this date-time
      *          at completed attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return(super.equals (object) &&
                object instanceof DateTimeAtCompleted);
@@ -105,6 +106,7 @@ public final class DateTimeAtCompleted extends DateTimeSyntax
          * @return  Printing attribute class (category), an instance of class
          *          {@link java.lang.Class java.lang.Class}.
          */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return DateTimeAtCompleted.class;
     }
@@ -118,6 +120,7 @@ public final class DateTimeAtCompleted extends DateTimeSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "date-time-at-completed";
     }

@@ -91,6 +91,7 @@ class OrQueryExp extends QueryEval implements QueryExp {
      * @exception BadBinaryOpValueExpException The expression passed to the method is invalid.
      * @exception BadAttributeValueExpException The attribute value passed to the method is invalid.
      */
+    @Override
     public boolean apply(ObjectName name) throws BadStringOperationException,
         BadBinaryOpValueExpException, BadAttributeValueExpException,
         InvalidApplicationException {

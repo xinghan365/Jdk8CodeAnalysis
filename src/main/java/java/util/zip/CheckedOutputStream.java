@@ -56,6 +56,7 @@ class CheckedOutputStream extends FilterOutputStream {
      * @param b the byte to be written
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void write(int b) throws IOException {
         out.write(b);
         cksum.update(b);
@@ -69,6 +70,7 @@ class CheckedOutputStream extends FilterOutputStream {
      * @param len the number of bytes to be written
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void write(byte[] b, int off, int len) throws IOException {
         out.write(b, off, len);
         cksum.update(b, off, len);

@@ -153,6 +153,7 @@ public class FormView extends ComponentView implements ActionListener {
      * big switch statement based upon the tag type
      * and html attributes of the associated element.
      */
+    @Override
     protected Component createComponent() {
         AttributeSet attr = getElement().getAttributes();
         HTML.Tag t = (HTML.Tag)
@@ -386,6 +387,7 @@ public class FormView extends ComponentView implements ActionListener {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public float getMaximumSpan(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -421,6 +423,7 @@ public class FormView extends ComponentView implements ActionListener {
      *
      * @param evt the ActionEvent.
      */
+    @Override
     public void actionPerformed(ActionEvent evt) {
         Element element = getElement();
         StringBuilder dataBuffer = new StringBuilder();
@@ -501,6 +504,7 @@ public class FormView extends ComponentView implements ActionListener {
         final FormSubmitEvent fse = formEvent;
         final URL url = actionURL;
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 if (fse != null) {
                     c.fireHyperlinkUpdate(fse);
@@ -554,6 +558,7 @@ public class FormView extends ComponentView implements ActionListener {
      */
     protected class MouseEventListener extends MouseAdapter {
 
+        @Override
         public void mouseReleased(MouseEvent evt) {
             String imageData = getImageData(evt.getPoint());
             imageSubmit(imageData);
@@ -947,6 +952,7 @@ public class FormView extends ComponentView implements ActionListener {
             this.model = model;
         }
 
+        @Override
         public void actionPerformed(ActionEvent ae) {
             // PENDING: When mime support is added to JFileChooser use the
             // accept value of attrs.

@@ -187,6 +187,7 @@ public class JRadioButton extends JToggleButton implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ButtonUI)UIManager.getUI(this));
     }
@@ -203,6 +204,7 @@ public class JRadioButton extends JToggleButton implements Accessible {
      *        expert: true
      *   description: A string that specifies the name of the L&amp;F class.
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -212,6 +214,7 @@ public class JRadioButton extends JToggleButton implements Accessible {
      * The icon for radio buttons comes from the look and feel,
      * not the Action.
      */
+    @Override
     void setIconFromAction(Action a) {
     }
 
@@ -240,6 +243,7 @@ public class JRadioButton extends JToggleButton implements Accessible {
      *
      * @return  a string representation of this JRadioButton.
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -262,6 +266,7 @@ public class JRadioButton extends JToggleButton implements Accessible {
      *       expert: true
      *  description: The AccessibleContext associated with this Button
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJRadioButton();
@@ -292,6 +297,7 @@ public class JRadioButton extends JToggleButton implements Accessible {
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.RADIO_BUTTON;
         }

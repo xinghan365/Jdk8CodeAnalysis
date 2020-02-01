@@ -59,6 +59,7 @@ public class PhantomReference<T> extends Reference<T> {
      *
      * @return  <code>null</code>
      */
+    @Override
     public T get() {
         return null;
     }

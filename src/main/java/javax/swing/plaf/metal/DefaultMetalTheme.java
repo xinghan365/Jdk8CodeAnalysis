@@ -211,6 +211,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the name of this theme.
      */
+    @Override
     public String getName() { return "Steel"; }
 
     /**
@@ -226,6 +227,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the primary 1 color
      */
+    @Override
     protected ColorUIResource getPrimary1() { return primary1; }
 
     /**
@@ -234,6 +236,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the primary 2 color
      */
+    @Override
     protected ColorUIResource getPrimary2() { return primary2; }
 
     /**
@@ -242,6 +245,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the primary 3 color
      */
+    @Override
     protected ColorUIResource getPrimary3() { return primary3; }
 
     /**
@@ -250,6 +254,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the secondary 1 color
      */
+    @Override
     protected ColorUIResource getSecondary1() { return secondary1; }
 
     /**
@@ -258,6 +263,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the secondary 2 color
      */
+    @Override
     protected ColorUIResource getSecondary2() { return secondary2; }
 
     /**
@@ -266,6 +272,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the secondary 3 color
      */
+    @Override
     protected ColorUIResource getSecondary3() { return secondary3; }
 
 
@@ -277,6 +284,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the control text font
      */
+    @Override
     public FontUIResource getControlTextFont() {
         return getFont(CONTROL_TEXT_FONT);
     }
@@ -286,6 +294,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the system text font
      */
+    @Override
     public FontUIResource getSystemTextFont() {
         return getFont(SYSTEM_TEXT_FONT);
     }
@@ -295,6 +304,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the user text font
      */
+    @Override
     public FontUIResource getUserTextFont() {
         return getFont(USER_TEXT_FONT);
     }
@@ -307,6 +317,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the menu text font
      */
+    @Override
     public FontUIResource getMenuTextFont() {
         return getFont(MENU_TEXT_FONT);
     }
@@ -316,6 +327,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the window title font
      */
+    @Override
     public FontUIResource getWindowTitleFont() {
         return getFont(WINDOW_TITLE_FONT);
     }
@@ -325,6 +337,7 @@ public class DefaultMetalTheme extends MetalTheme {
      *
      * @return the sub-text font
      */
+    @Override
     public FontUIResource getSubTextFont() {
         return getFont(SUB_TEXT_FONT);
     }
@@ -333,6 +346,7 @@ public class DefaultMetalTheme extends MetalTheme {
         return fontDelegate.getFont(key);
     }
 
+    @Override
     void install() {
         if (MetalLookAndFeel.isWindows() &&
                              MetalLookAndFeel.useSystemFonts()) {
@@ -346,6 +360,7 @@ public class DefaultMetalTheme extends MetalTheme {
     /**
      * Returns true if this is a theme provided by the core platform.
      */
+    @Override
     boolean isSystemTheme() {
         return (getClass() == DefaultMetalTheme.class);
     }
@@ -389,6 +404,7 @@ public class DefaultMetalTheme extends MetalTheme {
         protected Font getPrivilegedFont(final int key) {
             return java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<Font>() {
+                    @Override
                     public Font run() {
                         return Font.getFont(getDefaultPropertyName(key));
                     }
@@ -409,6 +425,7 @@ public class DefaultMetalTheme extends MetalTheme {
             checkedPriviledged = new boolean[6];
         }
 
+        @Override
         public FontUIResource getFont(int type) {
             if (fonts[type] != null) {
                 return fonts[type];

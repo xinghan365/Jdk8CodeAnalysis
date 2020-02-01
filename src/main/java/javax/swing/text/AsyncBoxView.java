@@ -354,6 +354,7 @@ public class AsyncBoxView extends View {
      * @param length the number of existing views to replace &gt;= 0
      * @param views the child views to insert
      */
+    @Override
     public void replace(int offset, int length, View[] views) {
         synchronized(stats) {
             // remove the replaced state records
@@ -442,8 +443,9 @@ public class AsyncBoxView extends View {
      * @see #removeUpdate
      * @see #changedUpdate
      */
+    @Override
     protected void updateLayout(DocumentEvent.ElementChange ec,
-                                    DocumentEvent e, Shape a) {
+                                DocumentEvent e, Shape a) {
         if (ec != null) {
             // the newly inserted children don't have a valid
             // offset so the child locator needs to be messaged
@@ -472,6 +474,7 @@ public class AsyncBoxView extends View {
      *
      * @param parent the parent of the view, null if none
      */
+    @Override
     public void setParent(View parent) {
         super.setParent(parent);
         if ((parent != null) && (getViewCount() == 0)) {
@@ -492,6 +495,7 @@ public class AsyncBoxView extends View {
      * @param height true if the height preference has changed
      * @see javax.swing.JComponent#revalidate
      */
+    @Override
     public synchronized void preferenceChanged(View child, boolean width, boolean height) {
         if (child == null) {
             getParent().preferenceChanged(this, width, height);
@@ -528,6 +532,7 @@ public class AsyncBoxView extends View {
      * @param width the width &gt;= 0
      * @param height the height &gt;= 0
      */
+    @Override
     public void setSize(float width, float height) {
         setSpanOnAxis(X_AXIS, width);
         setSpanOnAxis(Y_AXIS, height);
@@ -606,6 +611,7 @@ public class AsyncBoxView extends View {
      * @param alloc the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape alloc) {
         synchronized (locator) {
             locator.setAllocation(alloc);
@@ -624,6 +630,7 @@ public class AsyncBoxView extends View {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getPreferredSpan(int axis) {
         float margin = getInsetSpan(axis);
         if (axis == this.axis) {
@@ -649,6 +656,7 @@ public class AsyncBoxView extends View {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getMinimumSpan(int axis) {
         if (axis == this.axis) {
             return getPreferredSpan(axis);
@@ -677,6 +685,7 @@ public class AsyncBoxView extends View {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getMaximumSpan(int axis) {
         if (axis == this.axis) {
             return getPreferredSpan(axis);
@@ -693,6 +702,7 @@ public class AsyncBoxView extends View {
      * @return the number of views &gt;= 0
      * @see View#getViewCount
      */
+    @Override
     public int getViewCount() {
         synchronized(stats) {
             return stats.size();
@@ -706,6 +716,7 @@ public class AsyncBoxView extends View {
      * @param n the number of the view to get, &gt;= 0 &amp;&amp; &lt; getViewCount()
      * @return the view
      */
+    @Override
     public View getView(int n) {
         ChildState cs = getChildState(n);
         if (cs != null) {
@@ -725,6 +736,7 @@ public class AsyncBoxView extends View {
      * @param a  the allocation to this view.
      * @return the allocation to the child
      */
+    @Override
     public Shape getChildAllocation(int index, Shape a) {
         Shape ca = locator.getChildAllocation(index, a);
         return ca;
@@ -741,6 +753,7 @@ public class AsyncBoxView extends View {
      *   -1 if no view represents that position
      * @since 1.3
      */
+    @Override
     public int getViewIndex(int pos, Position.Bias b) {
         return getViewIndexAtPosition(pos, b);
     }
@@ -760,6 +773,7 @@ public class AsyncBoxView extends View {
      * @exception IllegalArgumentException for an invalid bias argument
      * @see View#viewToModel
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         int index = getViewIndex(pos, b);
         Shape ca = locator.getChildAllocation(index, a);
@@ -796,6 +810,7 @@ public class AsyncBoxView extends View {
      * filled in to indicate that the point given is closer to the next
      * character in the model or the previous character in the model.
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn) {
         int pos;    // return position
         int index;  // child index to forward to
@@ -850,6 +865,7 @@ public class AsyncBoxView extends View {
      *                                 position within the document
      * @exception IllegalArgumentException if <code>direction</code> is invalid
      */
+    @Override
     public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
                                          int direction,
                                          Position.Bias[] biasRet)
@@ -1239,6 +1255,7 @@ public class AsyncBoxView extends View {
          * may have become visible).
          * </ol>
          */
+        @Override
         public void run () {
             AbstractDocument doc = (AbstractDocument) getDocument();
             try {
@@ -1419,6 +1436,7 @@ public class AsyncBoxView extends View {
      */
     class FlushTask implements Runnable {
 
+        @Override
         public void run() {
             flushRequirementChanges();
         }

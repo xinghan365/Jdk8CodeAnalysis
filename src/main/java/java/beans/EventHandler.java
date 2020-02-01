@@ -420,12 +420,14 @@ public class EventHandler implements InvocationHandler {
      *
      * @see EventHandler
      */
+    @Override
     public Object invoke(final Object proxy, final Method method, final Object[] arguments) {
         AccessControlContext acc = this.acc;
         if ((acc == null) && (System.getSecurityManager() != null)) {
             throw new SecurityException("AccessControlContext is not set");
         }
         return AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            @Override
             public Object run() {
                 return invokeInternal(proxy, method, arguments);
             }
@@ -694,6 +696,7 @@ public class EventHandler implements InvocationHandler {
         final ClassLoader loader = getClassLoader(listenerInterface);
         final Class<?>[] interfaces = {listenerInterface};
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
+            @Override
             @SuppressWarnings("unchecked")
             public T run() {
                 return (T) Proxy.newProxyInstance(loader, interfaces, handler);

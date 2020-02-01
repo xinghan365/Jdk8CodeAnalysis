@@ -109,6 +109,7 @@ public class SynthSliderUI extends BasicSliderUI
      * Uninstalls default setting. This method is called when a
      * {@code LookAndFeel} is uninstalled.
      */
+    @Override
     protected void uninstallDefaults(JSlider slider) {
         SynthContext context = getContext(slider, ENABLED);
         style.uninstallDefaults(context);
@@ -743,7 +744,9 @@ public class SynthSliderUI extends BasicSliderUI
     private int getComponentState(JComponent c, Region region) {
         if (region == Region.SLIDER_THUMB && thumbActive &&c.isEnabled()) {
             int state = thumbPressed ? PRESSED : MOUSE_OVER;
-            if (c.isFocusOwner()) state |= FOCUSED;
+            if (c.isFocusOwner()) {
+                state |= FOCUSED;
+            }
             return state;
         }
         return SynthLookAndFeel.getComponentState(c);

@@ -55,6 +55,7 @@ public final class NetworkInterface {
     static {
         AccessController.doPrivileged(
             new java.security.PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     System.loadLibrary("net");
                     return null;
@@ -137,6 +138,7 @@ public final class NetworkInterface {
 
             }
 
+            @Override
             public InetAddress nextElement() {
                 if (i < count) {
                     return local_addrs[i++];
@@ -145,6 +147,7 @@ public final class NetworkInterface {
                 }
             }
 
+            @Override
             public boolean hasMoreElements() {
                 return (i < count);
             }
@@ -198,6 +201,7 @@ public final class NetworkInterface {
             subIFs() {
             }
 
+            @Override
             public NetworkInterface nextElement() {
                 if (i < childs.length) {
                     return childs[i++];
@@ -206,6 +210,7 @@ public final class NetworkInterface {
                 }
             }
 
+            @Override
             public boolean hasMoreElements() {
                 return (i < childs.length);
             }
@@ -271,8 +276,9 @@ public final class NetworkInterface {
      *          If the specified name is {@code null}.
      */
     public static NetworkInterface getByName(String name) throws SocketException {
-        if (name == null)
+        if (name == null) {
             throw new NullPointerException();
+        }
         return getByName0(name);
     }
 
@@ -288,8 +294,9 @@ public final class NetworkInterface {
      * @since 1.7
      */
     public static NetworkInterface getByIndex(int index) throws SocketException {
-        if (index < 0)
+        if (index < 0) {
             throw new IllegalArgumentException("Interface index can't be negative");
+        }
         return getByIndex0(index);
     }
 
@@ -355,11 +362,13 @@ public final class NetworkInterface {
         final NetworkInterface[] netifs = getAll();
 
         // specified to return null if no network interfaces
-        if (netifs == null)
+        if (netifs == null) {
             return null;
+        }
 
         return new Enumeration<NetworkInterface>() {
             private int i = 0;
+            @Override
             public NetworkInterface nextElement() {
                 if (netifs != null && i < netifs.length) {
                     NetworkInterface netif = netifs[i++];
@@ -369,6 +378,7 @@ public final class NetworkInterface {
                 }
             }
 
+            @Override
             public boolean hasMoreElements() {
                 return (netifs != null && i < netifs.length);
             }
@@ -521,6 +531,7 @@ public final class NetworkInterface {
      *          {@code false} otherwise.
      * @see     java.net.InetAddress#getAddress()
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof NetworkInterface)) {
             return false;
@@ -566,10 +577,12 @@ public final class NetworkInterface {
         return true;
     }
 
+    @Override
     public int hashCode() {
         return name == null? 0: name.hashCode();
     }
 
+    @Override
     public String toString() {
         String result = "name:";
         result += name == null? "null": name;

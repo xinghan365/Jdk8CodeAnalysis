@@ -254,6 +254,7 @@ public class CompositeName implements Name {
       *
       * @return A non-null string representation of this composite name.
       */
+    @Override
     public String toString() {
         return impl.toString();
     }
@@ -271,6 +272,7 @@ public class CompositeName implements Name {
       * @return true if obj is equal to this composite name, false otherwise.
       * @see #hashCode
       */
+    @Override
     public boolean equals(Object obj) {
         return (obj != null &&
                 obj instanceof CompositeName &&
@@ -285,6 +287,7 @@ public class CompositeName implements Name {
       * @return An int representing the hash code of this name.
       * @see #equals
       */
+    @Override
     public int hashCode() {
         return impl.hashCode();
     }
@@ -317,6 +320,7 @@ public class CompositeName implements Name {
      *          is less than, equal to, or greater than the given Object.
      * @exception ClassCastException if obj is not a CompositeName.
      */
+    @Override
     public int compareTo(Object obj) {
         if (!(obj instanceof CompositeName)) {
             throw new ClassCastException("Not a CompositeName");
@@ -331,6 +335,7 @@ public class CompositeName implements Name {
       *
       * @return A non-null copy of this composite name.
       */
+    @Override
     public Object clone() {
         return (new CompositeName(getAll()));
     }
@@ -340,6 +345,7 @@ public class CompositeName implements Name {
       *
       * @return The nonnegative number of components in this composite name.
       */
+    @Override
     public int size() {
         return (impl.size());
     }
@@ -350,6 +356,7 @@ public class CompositeName implements Name {
       *
       * @return true if this composite name is empty, false otherwise.
       */
+    @Override
     public boolean isEmpty() {
         return (impl.isEmpty());
     }
@@ -364,6 +371,7 @@ public class CompositeName implements Name {
       *         this composite name. Each element of the enumeration is of
       *         class String.
       */
+    @Override
     public Enumeration<String> getAll() {
         return (impl.getAll());
     }
@@ -377,6 +385,7 @@ public class CompositeName implements Name {
       * @exception ArrayIndexOutOfBoundsException if posn is outside the
       *         specified range.
       */
+    @Override
     public String get(int posn) {
         return (impl.get(posn));
     }
@@ -393,6 +402,7 @@ public class CompositeName implements Name {
       * @exception ArrayIndexOutOfBoundsException
       *         If posn is outside the specified range.
       */
+    @Override
     public Name getPrefix(int posn) {
         Enumeration<String> comps = impl.getPrefix(posn);
         return (new CompositeName(comps));
@@ -411,6 +421,7 @@ public class CompositeName implements Name {
       * @exception ArrayIndexOutOfBoundsException
       *         If posn is outside the specified range.
       */
+    @Override
     public Name getSuffix(int posn) {
         Enumeration<String> comps = impl.getSuffix(posn);
         return (new CompositeName(comps));
@@ -426,6 +437,7 @@ public class CompositeName implements Name {
       * @return true if n is a CompositeName and
       *         is a prefix of this composite name, false otherwise.
       */
+    @Override
     public boolean startsWith(Name n) {
         if (n instanceof CompositeName) {
             return (impl.startsWith(n.size(), n.getAll()));
@@ -445,6 +457,7 @@ public class CompositeName implements Name {
       * @return true if n is a CompositeName and
       *         is a suffix of this composite name, false otherwise.
       */
+    @Override
     public boolean endsWith(Name n) {
         if (n instanceof CompositeName) {
             return (impl.endsWith(n.size(), n.getAll()));
@@ -461,6 +474,7 @@ public class CompositeName implements Name {
       * @return The updated CompositeName, not a new one. Cannot be null.
       * @exception InvalidNameException If suffix is not a composite name.
       */
+    @Override
     public Name addAll(Name suffix)
         throws InvalidNameException
     {
@@ -488,6 +502,7 @@ public class CompositeName implements Name {
       * @exception ArrayIndexOutOfBoundsException
       *         If posn is outside the specified range.
       */
+    @Override
     public Name addAll(int posn, Name n)
         throws InvalidNameException
     {
@@ -508,6 +523,7 @@ public class CompositeName implements Name {
       * @exception InvalidNameException If adding comp at end of the name
       *                         would violate the name's syntax.
       */
+    @Override
     public Name add(String comp) throws InvalidNameException {
         impl.add(comp);
         return this;
@@ -529,6 +545,7 @@ public class CompositeName implements Name {
       * @exception InvalidNameException If adding comp at the specified position
       *                         would violate the name's syntax.
       */
+    @Override
     public Name add(int posn, String comp)
         throws InvalidNameException
     {
@@ -551,6 +568,7 @@ public class CompositeName implements Name {
       * @exception InvalidNameException If deleting the component
       *                         would violate the name's syntax.
       */
+    @Override
     public Object remove(int posn) throws InvalidNameException{
         return impl.remove(posn);
     }

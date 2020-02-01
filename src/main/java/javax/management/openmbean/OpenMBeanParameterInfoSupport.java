@@ -374,14 +374,16 @@ public class OpenMBeanParameterInfoSupport
                     name, description, openType,
                     makeDescriptor(xopenType, defaultValue, xlegalValues,
                                    xminValue, xmaxValue));
-        } else
+        } else {
             return this;
+        }
     }
 
     /**
      * Returns the open type for the values of the parameter described
      * by this {@code OpenMBeanParameterInfoSupport} instance.
      */
+    @Override
     public OpenType<?> getOpenType() {
         return openType;
     }
@@ -391,6 +393,7 @@ public class OpenMBeanParameterInfoSupport
      * {@code OpenMBeanParameterInfoSupport} instance, if specified,
      * or {@code null} otherwise.
      */
+    @Override
     public Object getDefaultValue() {
 
         // Special case for ArrayType and TabularType
@@ -407,6 +410,7 @@ public class OpenMBeanParameterInfoSupport
      * described by this {@code OpenMBeanParameterInfoSupport}
      * instance, if specified, or {@code null} otherwise.
      */
+    @Override
     public Set<?> getLegalValues() {
 
         // Special case for ArrayType and TabularType
@@ -424,6 +428,7 @@ public class OpenMBeanParameterInfoSupport
      * {@code OpenMBeanParameterInfoSupport} instance, if specified,
      * or {@code null} otherwise.
      */
+    @Override
     public Comparable<?> getMinValue() {
 
         // Note: only comparable values have a minValue, so that's not
@@ -437,6 +442,7 @@ public class OpenMBeanParameterInfoSupport
      * {@code OpenMBeanParameterInfoSupport} instance, if specified,
      * or {@code null} otherwise.
      */
+    @Override
     public Comparable<?> getMaxValue() {
 
         // Note: only comparable values have a maxValue, so that's not
@@ -451,6 +457,7 @@ public class OpenMBeanParameterInfoSupport
      * default value for the described parameter, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasDefaultValue() {
 
         return (defaultValue != null);
@@ -462,6 +469,7 @@ public class OpenMBeanParameterInfoSupport
      * set of legal values for the described parameter, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasLegalValues() {
 
         return (legalValues != null);
@@ -473,6 +481,7 @@ public class OpenMBeanParameterInfoSupport
      * minimal value for the described parameter, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasMinValue() {
 
         return (minValue != null);
@@ -484,6 +493,7 @@ public class OpenMBeanParameterInfoSupport
      * maximal value for the described parameter, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasMaxValue() {
 
         return (maxValue != null);
@@ -501,6 +511,7 @@ public class OpenMBeanParameterInfoSupport
      * {@code OpenMBeanParameterInfo} instance,
      * {@code false} otherwise.
      */
+    @Override
     public boolean isValue(Object obj) {
         return OpenMBeanAttributeInfoSupport.isValue(this, obj);
         // compiler bug? should be able to omit class name here
@@ -540,9 +551,11 @@ public class OpenMBeanParameterInfoSupport
      * @return {@code true} if the specified object is equal to this
      * {@code OpenMBeanParameterInfoSupport} instance.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof OpenMBeanParameterInfo))
+        if (!(obj instanceof OpenMBeanParameterInfo)) {
             return false;
+        }
 
         OpenMBeanParameterInfo other = (OpenMBeanParameterInfo) obj;
 
@@ -579,13 +592,15 @@ public class OpenMBeanParameterInfoSupport
      * @return the hash code value for this {@code
      * OpenMBeanParameterInfoSupport} instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done
         // (ie 1st call to hashCode())
         //
-        if (myHashCode == null)
+        if (myHashCode == null) {
             myHashCode = OpenMBeanAttributeInfoSupport.hashCode(this);
+        }
 
         // return always the same hash code for this instance (immutable)
         //
@@ -610,13 +625,15 @@ public class OpenMBeanParameterInfoSupport
      * @return a string representation of this
      * {@code OpenMBeanParameterInfoSupport} instance.
      */
+    @Override
     public String toString() {
 
         // Calculate the string value if it has not yet been done (ie
         // 1st call to toString())
         //
-        if (myToString == null)
+        if (myToString == null) {
             myToString = OpenMBeanAttributeInfoSupport.toString(this);
+        }
 
         // return always the same string representation for this
         // instance (immutable)

@@ -80,6 +80,7 @@ public class EmptyBorder extends AbstractBorder implements Serializable
     /**
      * Does no drawing by default.
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
     }
 
@@ -88,6 +89,7 @@ public class EmptyBorder extends AbstractBorder implements Serializable
      * @param c the component for which this border insets value applies
      * @param insets the object to be reinitialized
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         insets.left = left;
         insets.top = top;
@@ -108,6 +110,7 @@ public class EmptyBorder extends AbstractBorder implements Serializable
      * Returns whether or not the border is opaque.
      * Returns false by default.
      */
+    @Override
     public boolean isBorderOpaque() { return false; }
 
 }

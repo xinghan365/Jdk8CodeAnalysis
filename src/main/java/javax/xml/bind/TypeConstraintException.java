@@ -150,6 +150,7 @@ public class TypeConstraintException extends java.lang.RuntimeException {
      * Returns a short description of this TypeConstraintException.
      *
      */
+    @Override
     public String toString() {
         return linkedException == null ?
             super.toString() :
@@ -163,7 +164,8 @@ public class TypeConstraintException extends java.lang.RuntimeException {
      *
      * @param s PrintStream to use for output
      */
-    public void printStackTrace( java.io.PrintStream s ) {
+    @Override
+    public void printStackTrace(java.io.PrintStream s ) {
         if( linkedException != null ) {
           linkedException.printStackTrace(s);
           s.println("--------------- linked to ------------------");
@@ -177,6 +179,7 @@ public class TypeConstraintException extends java.lang.RuntimeException {
      * of the linkedException if it is non-null) to <tt>System.err</tt>.
      *
      */
+    @Override
     public void printStackTrace() {
         printStackTrace(System.err);
     }

@@ -110,6 +110,7 @@ public final class W3CEndpointReference extends EndpointReference {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void writeTo(Result result){
         try {
             Marshaller marshaller = w3cjc.createMarshaller();

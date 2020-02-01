@@ -175,6 +175,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationServiceNotRegisteredException  if it is not
      * registered
      */
+    @Override
     public void isActive()
         throws RelationServiceNotRegisteredException {
         if (myMBeanServer == null) {
@@ -194,6 +195,7 @@ public class RelationService extends NotificationBroadcasterSupport
     // Pre-registration: retrieves its ObjectName and MBean Server
     //
     // No exception thrown.
+    @Override
     public ObjectName preRegister(MBeanServer server,
                                   ObjectName name)
         throws Exception {
@@ -204,17 +206,20 @@ public class RelationService extends NotificationBroadcasterSupport
     }
 
     // Post-registration: does nothing
+    @Override
     public void postRegister(Boolean registrationDone) {
         return;
     }
 
     // Pre-unregistration: does nothing
+    @Override
     public void preDeregister()
         throws Exception {
         return;
     }
 
     // Post-unregistration: does nothing
+    @Override
     public void postDeregister() {
         return;
     }
@@ -235,6 +240,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @see #setPurgeFlag
      */
+    @Override
     public boolean getPurgeFlag() {
         return myPurgeFlag;
     }
@@ -251,6 +257,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @see #getPurgeFlag
      */
+    @Override
     public void setPurgeFlag(boolean purgeFlag) {
 
         myPurgeFlag = purgeFlag;
@@ -276,6 +283,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * <P>- no role info provided
      * <P>- one null role info provided
      */
+    @Override
     public void createRelationType(String relationTypeName,
                                    RoleInfo[] roleInfoArray)
         throws IllegalArgumentException,
@@ -316,6 +324,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * <P>- one null role info provided
      * <P>- there is already a relation type with that name
      */
+    @Override
     public void addRelationType(RelationType relationTypeObj)
         throws IllegalArgumentException,
                InvalidRelationTypeException {
@@ -356,6 +365,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @return ArrayList of relation type names (Strings)
      */
+    @Override
     public List<String> getAllRelationTypeNames() {
         ArrayList<String> result;
         synchronized(myRelType2ObjMap) {
@@ -376,6 +386,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationTypeNotFoundException  if there is no relation type
      * with that name.
      */
+    @Override
     public List<RoleInfo> getRoleInfos(String relationTypeName)
         throws IllegalArgumentException,
                RelationTypeNotFoundException {
@@ -410,6 +421,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RoleInfoNotFoundException  if the role is not part of the
      * relation type.
      */
+    @Override
     public RoleInfo getRoleInfo(String relationTypeName,
                                 String roleInfoName)
         throws IllegalArgumentException,
@@ -448,6 +460,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationTypeNotFoundException  If there is no relation type
      * with that name
      */
+    @Override
     public void removeRelationType(String relationTypeName)
         throws RelationServiceNotRegisteredException,
                IllegalArgumentException,
@@ -547,6 +560,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * class expected for that role
      * <P>- an MBean provided for that role does not exist
      */
+    @Override
     public void createRelation(String relationId,
                                String relationTypeName,
                                RoleList roleList)
@@ -638,6 +652,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RoleNotFoundException  if a value is provided for a role
      * that does not exist in the relation type
      */
+    @Override
     public void addRelation(ObjectName relationObjectName)
         throws IllegalArgumentException,
                RelationServiceNotRegisteredException,
@@ -810,6 +825,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException there is no relation associated
      * to that id
      */
+    @Override
     public ObjectName isRelationMBean(String relationId)
         throws IllegalArgumentException,
                RelationNotFoundException{
@@ -842,6 +858,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @exception IllegalArgumentException  if null parameter
      */
+    @Override
     public String isRelation(ObjectName objectName)
         throws IllegalArgumentException {
 
@@ -873,6 +890,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @exception IllegalArgumentException  if null parameter
      */
+    @Override
     public Boolean hasRelation(String relationId)
         throws IllegalArgumentException {
 
@@ -899,6 +917,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @return ArrayList of String
      */
+    @Override
     public List<String> getAllRelationIds() {
         List<String> result;
         synchronized(myRelId2ObjMap) {
@@ -923,6 +942,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationTypeNotFoundException  if the relation type is not
      * known in the Relation Service
      */
+    @Override
     public Integer checkRoleReading(String roleName,
                                     String relationTypeName)
         throws IllegalArgumentException,
@@ -982,6 +1002,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception IllegalArgumentException  if null parameter
      * @exception RelationTypeNotFoundException  if unknown relation type
      */
+    @Override
     public Integer checkRoleWriting(Role role,
                                     String relationTypeName,
                                     Boolean initFlag)
@@ -1046,6 +1067,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if there is no relation for given
      * relation id
      */
+    @Override
     public void sendRelationCreationNotification(String relationId)
         throws IllegalArgumentException,
                RelationNotFoundException {
@@ -1098,6 +1120,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if there is no relation for given
      * relation id
      */
+    @Override
     public void sendRoleUpdateNotification(String relationId,
                                            Role newRole,
                                            List<ObjectName> oldValue)
@@ -1111,8 +1134,9 @@ public class RelationService extends NotificationBroadcasterSupport
             throw new IllegalArgumentException(excMsg);
         }
 
-        if (!(oldValue instanceof ArrayList<?>))
+        if (!(oldValue instanceof ArrayList<?>)) {
             oldValue = new ArrayList<ObjectName>(oldValue);
+        }
 
         RELATION_LOGGER.entering(RelationService.class.getName(),
                 "sendRoleUpdateNotification",
@@ -1162,6 +1186,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if there is no relation for given
      * relation id
      */
+    @Override
     public void sendRelationRemovalNotification(String relationId,
                                                 List<ObjectName> unregMBeanList)
         throws IllegalArgumentException,
@@ -1212,6 +1237,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * Service is not registered in the MBean Server
      * @exception RelationNotFoundException  if no relation for given id.
      */
+    @Override
     public void updateRoleMap(String relationId,
                               Role newRole,
                               List<ObjectName> oldValue)
@@ -1325,6 +1351,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if no relation corresponding to
      * given relation id
      */
+    @Override
     public void removeRelation(String relationId)
         throws RelationServiceNotRegisteredException,
                IllegalArgumentException,
@@ -1473,6 +1500,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationServiceNotRegisteredException  if the Relation
      * Service is not registered in the MBean Server.
      */
+    @Override
     public void purgeRelations()
         throws RelationServiceNotRegisteredException {
 
@@ -1599,6 +1627,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @exception IllegalArgumentException  if null parameter
      */
+    @Override
     public Map<String,List<String>>
         findReferencingRelations(ObjectName mbeanName,
                                  String relationTypeName,
@@ -1709,6 +1738,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @exception IllegalArgumentException  if null parameter
      */
+    @Override
     public Map<ObjectName,List<String>>
         findAssociatedMBeans(ObjectName mbeanName,
                              String relationTypeName,
@@ -1785,6 +1815,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationTypeNotFoundException  if there is no relation type
      * with that name.
      */
+    @Override
     public List<String> findRelationsOfType(String relationTypeName)
         throws IllegalArgumentException,
                RelationTypeNotFoundException {
@@ -1803,10 +1834,11 @@ public class RelationService extends NotificationBroadcasterSupport
         List<String> result;
         synchronized(myRelType2RelIdsMap) {
             List<String> result1 = myRelType2RelIdsMap.get(relationTypeName);
-            if (result1 == null)
+            if (result1 == null) {
                 result = new ArrayList<String>();
-            else
+            } else {
                 result = new ArrayList<String>(result1);
+            }
         }
 
         RELATION_LOGGER.exiting(RelationService.class.getName(),
@@ -1833,6 +1865,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @see #setRole
      */
+    @Override
     public List<ObjectName> getRole(String relationId,
                                     String roleName)
         throws RelationServiceNotRegisteredException,
@@ -1881,10 +1914,11 @@ public class RelationService extends NotificationBroadcasterSupport
                                          "getRole",
                                          params,
                                          signature));
-                if (invokeResult == null || invokeResult instanceof ArrayList<?>)
+                if (invokeResult == null || invokeResult instanceof ArrayList<?>) {
                     result = invokeResult;
-                else
+                } else {
                     result = new ArrayList<ObjectName>(invokeResult);
+                }
             } catch (InstanceNotFoundException exc1) {
                 throw new RuntimeException(exc1.getMessage());
             } catch (ReflectionException exc2) {
@@ -1920,6 +1954,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @see #setRoles
      */
+    @Override
     public RoleResult getRoles(String relationId,
                                String[] roleNameArray)
         throws RelationServiceNotRegisteredException,
@@ -1994,6 +2029,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationServiceNotRegisteredException  if the Relation
      * Service is not registered in the MBean Server
      */
+    @Override
     public RoleResult getAllRoles(String relationId)
         throws IllegalArgumentException,
                RelationNotFoundException,
@@ -2044,6 +2080,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if no relation with given id
      * @exception RoleNotFoundException  if there is no role with given name
      */
+    @Override
     public Integer getRoleCardinality(String relationId,
                                       String roleName)
         throws IllegalArgumentException,
@@ -2134,6 +2171,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @see #getRole
      */
+    @Override
     public void setRole(String relationId,
                         Role role)
         throws RelationServiceNotRegisteredException,
@@ -2236,6 +2274,7 @@ public class RelationService extends NotificationBroadcasterSupport
      *
      * @see #getRoles
      */
+    @Override
     public RoleResult setRoles(String relationId,
                                RoleList roleList)
         throws RelationServiceNotRegisteredException,
@@ -2312,6 +2351,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if no relation for given
      * relation id
      */
+    @Override
     public Map<ObjectName,List<String>>
         getReferencedMBeans(String relationId)
             throws IllegalArgumentException,
@@ -2362,6 +2402,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @exception RelationNotFoundException  if no relation for given
      * relation id
      */
+    @Override
     public String getRelationTypeName(String relationId)
         throws IllegalArgumentException,
                RelationNotFoundException {
@@ -2413,6 +2454,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * @param handback  An opaque object which helps the listener to
      * associate information regarding the MBean emitter (can be null).
      */
+    @Override
     public void handleNotification(Notification notif,
                                    Object handback) {
 
@@ -2493,6 +2535,7 @@ public class RelationService extends NotificationBroadcasterSupport
      * Returns a NotificationInfo object containing the name of the Java class
      * of the notification and the notification types sent.
      */
+    @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
 
         RELATION_LOGGER.entering(RelationService.class.getName(),
@@ -2870,14 +2913,16 @@ public class RelationService extends NotificationBroadcasterSupport
 
                 // Enables ObjectNames in newRefList
                 if (newRefList != null) {
-                    for (ObjectName newObjName : newRefList)
+                    for (ObjectName newObjName : newRefList) {
                         myUnregNtfFilter.enableObjectName(newObjName);
+                    }
                 }
 
                 if (obsoleteRefList != null) {
                     // Disables ObjectNames in obsoleteRefList
-                    for (ObjectName obsObjName : obsoleteRefList)
+                    for (ObjectName obsObjName : obsoleteRefList) {
                         myUnregNtfFilter.disableObjectName(obsObjName);
+                    }
                 }
 
 // Under test
@@ -3586,6 +3631,7 @@ public class RelationService extends NotificationBroadcasterSupport
             ntfType.equals(RelationNotification.RELATION_MBEAN_REMOVAL))
 
             // Creation or removal
+        {
             ntf = new RelationNotification(ntfType,
                                            this,
                                            seqNo.longValue(),
@@ -3595,8 +3641,7 @@ public class RelationService extends NotificationBroadcasterSupport
                                            relTypeName,
                                            relObjName,
                                            unregMBeanList);
-
-        else if (ntfType.equals(RelationNotification.RELATION_BASIC_UPDATE)
+        } else if (ntfType.equals(RelationNotification.RELATION_BASIC_UPDATE)
                  ||
                  ntfType.equals(RelationNotification.RELATION_MBEAN_UPDATE))
             {

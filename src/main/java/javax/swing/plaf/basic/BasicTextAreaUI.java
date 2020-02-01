@@ -75,10 +75,12 @@ public class BasicTextAreaUI extends BasicTextUI {
      *
      * @return the name ("TextArea")
      */
+    @Override
     protected String getPropertyPrefix() {
         return "TextArea";
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         //the fix for 4785160 is undone
@@ -94,6 +96,7 @@ public class BasicTextAreaUI extends BasicTextUI {
      *
      * @param evt the property change event
      */
+    @Override
     protected void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getPropertyName().equals("lineWrap") ||
@@ -116,6 +119,7 @@ public class BasicTextAreaUI extends BasicTextUI {
      *
      * @since 1.5
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return super.getPreferredSize(c);
         //the fix for 4785160 is undone
@@ -130,6 +134,7 @@ public class BasicTextAreaUI extends BasicTextUI {
      *
      * @since 1.5
      */
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return super.getMinimumSize(c);
         //the fix for 4785160 is undone
@@ -142,6 +147,7 @@ public class BasicTextAreaUI extends BasicTextUI {
      * @param elem the element
      * @return the view
      */
+    @Override
     public View create(Element elem) {
         Document doc = elem.getDocument();
         Object i18nFlag = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
@@ -184,6 +190,7 @@ public class BasicTextAreaUI extends BasicTextUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         Object i18nFlag = ((JTextComponent)c).getDocument().
@@ -216,6 +223,7 @@ public class BasicTextAreaUI extends BasicTextUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -235,6 +243,7 @@ public class BasicTextAreaUI extends BasicTextUI {
             layoutPool.setParent(this);
         }
 
+        @Override
         public void setParent(View parent) {
             super.setParent(parent);
             if (parent != null) {
@@ -242,6 +251,7 @@ public class BasicTextAreaUI extends BasicTextUI {
             }
         }
 
+        @Override
         protected void setPropertiesFromAttributes() {
             Component c = getContainer();
             if ((c != null) && (! c.getComponentOrientation().isLeftToRight())) {
@@ -255,6 +265,7 @@ public class BasicTextAreaUI extends BasicTextUI {
          * Fetch the constraining span to flow against for
          * the given child index.
          */
+        @Override
         public int getFlowSpan(int index) {
             Component c = getContainer();
             if (c instanceof JTextArea) {
@@ -267,6 +278,7 @@ public class BasicTextAreaUI extends BasicTextUI {
             return super.getFlowSpan(index);
         }
 
+        @Override
         protected SizeRequirements calculateMinorAxisRequirements(int axis,
                                                                   SizeRequirements r) {
             SizeRequirements req = super.calculateMinorAxisRequirements(axis, r);
@@ -297,6 +309,7 @@ public class BasicTextAreaUI extends BasicTextUI {
          * @param width the width >= 0
          * @param height the height >= 0
          */
+        @Override
         public void setSize(float width, float height) {
             if ((int) width != getWidth()) {
                 preferenceChanged(null, true, true);
@@ -317,6 +330,7 @@ public class BasicTextAreaUI extends BasicTextUI {
                 super(elem);
             }
 
+            @Override
             protected int getViewIndexAtPosition(int pos) {
                 Element elem = getElement();
                 if (elem.getElementCount() > 0) {
@@ -325,11 +339,13 @@ public class BasicTextAreaUI extends BasicTextUI {
                 return 0;
             }
 
+            @Override
             protected boolean updateChildren(DocumentEvent.ElementChange ec,
                                              DocumentEvent e, ViewFactory f) {
                 return false;
             }
 
+            @Override
             protected void loadChildren(ViewFactory f) {
                 Element elem = getElement();
                 if (elem.getElementCount() > 0) {
@@ -340,9 +356,11 @@ public class BasicTextAreaUI extends BasicTextUI {
                 }
             }
 
+            @Override
             public float getPreferredSpan(int axis) {
-                if( getViewCount() != 1 )
+                if( getViewCount() != 1 ) {
                     throw new Error("One child view is assumed.");
+                }
 
                 View v = getView(0);
                 return v.getPreferredSpan(axis);
@@ -362,6 +380,7 @@ public class BasicTextAreaUI extends BasicTextUI {
              * @see #forwardUpdate
              * @since 1.3
              */
+            @Override
             protected void forwardUpdateToView(View v, DocumentEvent e,
                                                Shape a, ViewFactory f) {
                 v.setParent(this);
@@ -371,21 +390,26 @@ public class BasicTextAreaUI extends BasicTextUI {
             // The following methods don't do anything useful, they
             // simply keep the class from being abstract.
 
+            @Override
             public void paint(Graphics g, Shape allocation) {
             }
 
+            @Override
             protected boolean isBefore(int x, int y, Rectangle alloc) {
                 return false;
             }
 
+            @Override
             protected boolean isAfter(int x, int y, Rectangle alloc) {
                 return false;
             }
 
+            @Override
             protected View getViewAtPoint(int x, int y, Rectangle alloc) {
                 return null;
             }
 
+            @Override
             protected void childAllocation(int index, Rectangle a) {
             }
         }

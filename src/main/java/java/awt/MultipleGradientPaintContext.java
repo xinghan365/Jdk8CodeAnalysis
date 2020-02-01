@@ -621,6 +621,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final Raster getRaster(int x, int y, int w, int h) {
         // If working raster is big enough, reuse it. Otherwise,
         // build a large enough new one.
@@ -708,6 +709,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final void dispose() {
         if (saved != null) {
             putCachedRaster(model, saved);
@@ -718,6 +720,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final ColorModel getColorModel() {
         return model;
     }

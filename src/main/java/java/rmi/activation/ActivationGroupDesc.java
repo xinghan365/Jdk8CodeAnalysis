@@ -274,6 +274,7 @@ public final class ActivationGroupDesc implements Serializable {
          * @see         java.util.Hashtable
          * @since 1.2
          */
+        @Override
         public boolean equals(Object obj) {
 
             if (obj instanceof CommandEnvironment) {
@@ -293,6 +294,7 @@ public final class ActivationGroupDesc implements Serializable {
          * @return an integer
          * @see java.util.Hashtable
          */
+        @Override
         public int hashCode()
         {
             // hash command and ignore possibly expensive options
@@ -328,6 +330,7 @@ public final class ActivationGroupDesc implements Serializable {
      * @see             java.util.Hashtable
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
 
         if (obj instanceof ActivationGroupDesc) {
@@ -351,6 +354,7 @@ public final class ActivationGroupDesc implements Serializable {
      * @return an integer
      * @see java.util.Hashtable
      */
+    @Override
     public int hashCode() {
         // hash location, className, data, and env
         // but omit props (may be expensive)

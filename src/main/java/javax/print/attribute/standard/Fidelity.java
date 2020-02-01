@@ -91,6 +91,7 @@ public final class Fidelity extends EnumSyntax
     /**
      * Returns the string table for class Fidelity.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -98,6 +99,7 @@ public final class Fidelity extends EnumSyntax
     /**
      * Returns the enumeration value table for class Fidelity.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }   /**
@@ -109,6 +111,7 @@ public final class Fidelity extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return Fidelity.class;
     }
@@ -122,6 +125,7 @@ public final class Fidelity extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "ipp-attribute-fidelity";
     }

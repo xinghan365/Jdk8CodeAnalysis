@@ -63,6 +63,7 @@ public class BasicToggleButtonUI extends BasicButtonUI {
         return toggleButtonUI;
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return propertyPrefix;
     }
@@ -71,6 +72,7 @@ public class BasicToggleButtonUI extends BasicButtonUI {
     // ********************************
     //          Paint Methods
     // ********************************
+    @Override
     public void paint(Graphics g, JComponent c) {
         AbstractButton b = (AbstractButton) c;
         ButtonModel model = b.getModel();
@@ -168,6 +170,7 @@ public class BasicToggleButtonUI extends BasicButtonUI {
      * Overriden so that the text will not be rendered as shifted for
      * Toggle buttons and subclasses.
      */
+    @Override
     protected int getTextShiftOffset() {
         return 0;
     }

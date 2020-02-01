@@ -130,6 +130,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *
      * @return the number of elements in this set
      */
+    @Override
     public int size() {
         return al.size();
     }
@@ -139,6 +140,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *
      * @return {@code true} if this set contains no elements
      */
+    @Override
     public boolean isEmpty() {
         return al.isEmpty();
     }
@@ -152,6 +154,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @param o element whose presence in this set is to be tested
      * @return {@code true} if this set contains the specified element
      */
+    @Override
     public boolean contains(Object o) {
         return al.contains(o);
     }
@@ -172,6 +175,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *
      * @return an array containing all the elements in this set
      */
+    @Override
     public Object[] toArray() {
         return al.toArray();
     }
@@ -217,6 +221,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *         set
      * @throws NullPointerException if the specified array is null
      */
+    @Override
     public <T> T[] toArray(T[] a) {
         return al.toArray(a);
     }
@@ -225,6 +230,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * Removes all of the elements from this set.
      * The set will be empty after this call returns.
      */
+    @Override
     public void clear() {
         al.clear();
     }
@@ -241,6 +247,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @param o object to be removed from this set, if present
      * @return {@code true} if this set contained the specified element
      */
+    @Override
     public boolean remove(Object o) {
         return al.remove(o);
     }
@@ -257,6 +264,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @return {@code true} if this set did not already contain the specified
      *         element
      */
+    @Override
     public boolean add(E e) {
         return al.addIfAbsent(e);
     }
@@ -272,6 +280,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @throws NullPointerException if the specified collection is null
      * @see #contains(Object)
      */
+    @Override
     public boolean containsAll(Collection<?> c) {
         return al.containsAll(c);
     }
@@ -289,6 +298,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @throws NullPointerException if the specified collection is null
      * @see #add(Object)
      */
+    @Override
     public boolean addAll(Collection<? extends E> c) {
         return al.addAllAbsent(c) > 0;
     }
@@ -308,6 +318,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *         or if the specified collection is null
      * @see #remove(Object)
      */
+    @Override
     public boolean removeAll(Collection<?> c) {
         return al.removeAll(c);
     }
@@ -329,6 +340,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *         or if the specified collection is null
      * @see #remove(Object)
      */
+    @Override
     public boolean retainAll(Collection<?> c) {
         return al.retainAll(c);
     }
@@ -344,6 +356,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *
      * @return an iterator over the elements in this set
      */
+    @Override
     public Iterator<E> iterator() {
         return al.iterator();
     }
@@ -364,11 +377,14 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @param o object to be compared for equality with this set
      * @return {@code true} if the specified object is equal to this set
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof Set))
+        }
+        if (!(o instanceof Set)) {
             return false;
+        }
         Set<?> set = (Set<?>)(o);
         Iterator<?> it = set.iterator();
 
@@ -382,8 +398,9 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
         boolean[] matched = new boolean[len];
         int k = 0;
         outer: while (it.hasNext()) {
-            if (++k > len)
+            if (++k > len) {
                 return false;
+            }
             Object x = it.next();
             for (int i = 0; i < len; ++i) {
                 if (!matched[i] && eq(x, elements[i])) {
@@ -396,10 +413,12 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
         return k == len;
     }
 
+    @Override
     public boolean removeIf(Predicate<? super E> filter) {
         return al.removeIf(filter);
     }
 
+    @Override
     public void forEach(Consumer<? super E> action) {
         al.forEach(action);
     }
@@ -419,6 +438,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @return a {@code Spliterator} over the elements in this set
      * @since 1.8
      */
+    @Override
     public Spliterator<E> spliterator() {
         return Spliterators.spliterator
             (al.getArray(), Spliterator.IMMUTABLE | Spliterator.DISTINCT);

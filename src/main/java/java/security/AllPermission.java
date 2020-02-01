@@ -87,6 +87,7 @@ public final class AllPermission extends Permission {
      *
      * @return return
      */
+    @Override
     public boolean implies(Permission p) {
          return true;
     }
@@ -98,6 +99,7 @@ public final class AllPermission extends Permission {
      * @param obj the object we are testing for equality with this object.
      * @return true if <i>obj</i> is an AllPermission, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         return (obj instanceof AllPermission);
     }
@@ -108,6 +110,7 @@ public final class AllPermission extends Permission {
      * @return a hash code value for this object.
      */
 
+    @Override
     public int hashCode() {
         return 1;
     }
@@ -117,6 +120,7 @@ public final class AllPermission extends Permission {
      *
      * @return the actions.
      */
+    @Override
     public String getActions() {
         return "<all actions>";
     }
@@ -129,6 +133,7 @@ public final class AllPermission extends Permission {
      * @return a new PermissionCollection object suitable for
      * storing AllPermissions.
      */
+    @Override
     public PermissionCollection newPermissionCollection() {
         return new AllPermissionCollection();
     }
@@ -183,12 +188,15 @@ final class AllPermissionCollection
      *                                has been marked readonly
      */
 
+    @Override
     public void add(Permission permission) {
-        if (! (permission instanceof AllPermission))
+        if (! (permission instanceof AllPermission)) {
             throw new IllegalArgumentException("invalid permission: "+
                                                permission);
-        if (isReadOnly())
+        }
+        if (isReadOnly()) {
             throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        }
 
         all_allowed = true; // No sync; staleness OK
     }
@@ -202,6 +210,7 @@ final class AllPermissionCollection
      * @return always returns true.
      */
 
+    @Override
     public boolean implies(Permission permission) {
         return all_allowed; // No sync; staleness OK
     }
@@ -212,14 +221,17 @@ final class AllPermissionCollection
      *
      * @return an enumeration of all the AllPermission objects.
      */
+    @Override
     public Enumeration<Permission> elements() {
         return new Enumeration<Permission>() {
             private boolean hasMore = all_allowed;
 
+            @Override
             public boolean hasMoreElements() {
                 return hasMore;
             }
 
+            @Override
             public Permission nextElement() {
                 hasMore = false;
                 return SecurityConstants.ALL_PERMISSION;

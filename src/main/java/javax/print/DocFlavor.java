@@ -568,6 +568,7 @@ public class DocFlavor implements Serializable, Cloneable {
      *          A "class=" parameter is appended to the
      *          MIME type string to indicate the representation class name.
      */
+    @Override
     public String toString() {
         return getStringValue();
     }
@@ -575,6 +576,7 @@ public class DocFlavor implements Serializable, Cloneable {
     /**
      * Returns a hash code for this doc flavor object.
      */
+    @Override
     public int hashCode() {
         return getStringValue().hashCode();
     }
@@ -597,6 +599,7 @@ public class DocFlavor implements Serializable, Cloneable {
      * @return  True if this doc flavor object equals <CODE>obj</CODE>, false
      *          otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         return
             obj != null &&

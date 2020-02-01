@@ -119,34 +119,40 @@ public abstract class KeyboardFocusManager
         }
         AWTAccessor.setKeyboardFocusManagerAccessor(
             new AWTAccessor.KeyboardFocusManagerAccessor() {
+                @Override
                 public int shouldNativelyFocusHeavyweight(Component heavyweight,
-                                                   Component descendant,
-                                                   boolean temporary,
-                                                   boolean focusedWindowChangeAllowed,
-                                                   long time,
-                                                   CausedFocusEvent.Cause cause)
+                                                          Component descendant,
+                                                          boolean temporary,
+                                                          boolean focusedWindowChangeAllowed,
+                                                          long time,
+                                                          CausedFocusEvent.Cause cause)
                 {
                     return KeyboardFocusManager.shouldNativelyFocusHeavyweight(
                         heavyweight, descendant, temporary, focusedWindowChangeAllowed, time, cause);
                 }
+                @Override
                 public boolean processSynchronousLightweightTransfer(Component heavyweight,
-                                                              Component descendant,
-                                                              boolean temporary,
-                                                              boolean focusedWindowChangeAllowed,
-                                                              long time)
+                                                                     Component descendant,
+                                                                     boolean temporary,
+                                                                     boolean focusedWindowChangeAllowed,
+                                                                     long time)
                 {
                     return KeyboardFocusManager.processSynchronousLightweightTransfer(
                         heavyweight, descendant, temporary, focusedWindowChangeAllowed, time);
                 }
+                @Override
                 public void removeLastFocusRequest(Component heavyweight) {
                     KeyboardFocusManager.removeLastFocusRequest(heavyweight);
                 }
+                @Override
                 public void setMostRecentFocusOwner(Window window, Component component) {
                     KeyboardFocusManager.setMostRecentFocusOwner(window, component);
                 }
+                @Override
                 public KeyboardFocusManager getCurrentKeyboardFocusManager(AppContext ctx) {
                     return KeyboardFocusManager.getCurrentKeyboardFocusManager(ctx);
                 }
+                @Override
                 public Container getCurrentFocusCycleRoot() {
                     return KeyboardFocusManager.currentFocusCycleRoot;
                 }
@@ -641,6 +647,7 @@ public abstract class KeyboardFocusManager
 
     void clearGlobalFocusOwnerPriv() {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
+            @Override
             public Void run() {
                 clearGlobalFocusOwner();
                 return null;
@@ -1292,6 +1299,7 @@ public abstract class KeyboardFocusManager
 
     void setGlobalCurrentFocusCycleRootPriv(final Container newFocusCycleRoot) {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
+            @Override
             public Void run() {
                 setGlobalCurrentFocusCycleRoot(newFocusCycleRoot);
                 return null;
@@ -1970,6 +1978,7 @@ public abstract class KeyboardFocusManager
      *         <code>false</code> otherwise
      * @see #dispatchEvent
      */
+    @Override
     public abstract boolean dispatchKeyEvent(KeyEvent e);
 
     /**
@@ -1984,6 +1993,7 @@ public abstract class KeyboardFocusManager
      * @see #dispatchKeyEvent
      * @see MenuShortcut
      */
+    @Override
     public abstract boolean postProcessKeyEvent(KeyEvent e);
 
     /**
@@ -2177,6 +2187,7 @@ public abstract class KeyboardFocusManager
             this.temporary = temporary;
             this.cause = cause;
         }
+        @Override
         public String toString() {
             return "LightweightFocusRequest[component=" + component +
                 ",temporary=" + temporary + ", cause=" + cause + "]";
@@ -2238,6 +2249,7 @@ public abstract class KeyboardFocusManager
             }
             return lightweightRequests.getFirst();
         }
+        @Override
         public String toString() {
             boolean first = true;
             String str = "HeavyweightFocusRequest[heavweight=" + heavyweight +
@@ -2432,9 +2444,10 @@ public abstract class KeyboardFocusManager
             {
                 if (descendant == currentFocusOwner) {
                     // Redundant request.
-                    if (focusLog.isLoggable(PlatformLogger.Level.FINEST))
+                    if (focusLog.isLoggable(PlatformLogger.Level.FINEST)) {
                         focusLog.finest("1. SNFH_FAILURE for {0}",
                                         String.valueOf(descendant));
+                    }
                     return SNFH_FAILURE;
                 }
 
@@ -2466,8 +2479,9 @@ public abstract class KeyboardFocusManager
                 // SunToolkit.postPriorityEvent(newFocusOwnerEvent);
                 SunToolkit.postEvent(descendant.appContext, newFocusOwnerEvent);
 
-                if (focusLog.isLoggable(PlatformLogger.Level.FINEST))
+                if (focusLog.isLoggable(PlatformLogger.Level.FINEST)) {
                     focusLog.finest("2. SNFH_HANDLED for {0}", String.valueOf(descendant));
+                }
                 return SNFH_SUCCESS_HANDLED;
             } else if (hwFocusRequest != null &&
                        hwFocusRequest.heavyweight == heavyweight) {
@@ -2800,6 +2814,7 @@ public abstract class KeyboardFocusManager
                     currentLightweightRequests =
                         hwFocusRequest.lightweightRequests;
                     EventQueue.invokeLater(new Runnable() {
+                            @Override
                             public void run() {
                                 processCurrentLightweightRequests();
                             }
@@ -3065,6 +3080,7 @@ public abstract class KeyboardFocusManager
     private static boolean isProxyActiveImpl(KeyEvent e) {
         if (proxyActive == null) {
             proxyActive =  AccessController.doPrivileged(new PrivilegedAction<Field>() {
+                    @Override
                     public Field run() {
                         Field field = null;
                         try {

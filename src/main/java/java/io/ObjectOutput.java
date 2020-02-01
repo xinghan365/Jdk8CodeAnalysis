@@ -54,6 +54,7 @@ public interface ObjectOutput extends DataOutput, AutoCloseable {
      * @param b the byte
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void write(int b) throws IOException;
 
     /**
@@ -62,6 +63,7 @@ public interface ObjectOutput extends DataOutput, AutoCloseable {
      * @param b the data to be written
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void write(byte b[]) throws IOException;
 
     /**
@@ -71,6 +73,7 @@ public interface ObjectOutput extends DataOutput, AutoCloseable {
      * @param len       the number of bytes that are written
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void write(byte b[], int off, int len) throws IOException;
 
     /**
@@ -86,5 +89,6 @@ public interface ObjectOutput extends DataOutput, AutoCloseable {
      * stream.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void close() throws IOException;
 }

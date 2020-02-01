@@ -160,6 +160,7 @@ public class SizeRequirements implements Serializable {
      *
      * @return the string
      */
+    @Override
     public String toString() {
         return "[" + minimum + "," + preferred + "," + maximum + "]@" + alignment;
     }

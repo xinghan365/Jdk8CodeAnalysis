@@ -402,6 +402,7 @@ public class PrinterStateReason extends EnumSyntax implements Attribute {
     /**
      * Returns the string table for class PrinterStateReason.
      */
+    @Override
     protected String[] getStringTable() {
         return (String[])myStringTable.clone();
     }
@@ -409,6 +410,7 @@ public class PrinterStateReason extends EnumSyntax implements Attribute {
     /**
      * Returns the enumeration value table for class PrinterStateReason.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return (EnumSyntax[])myEnumValueTable.clone();
     }
@@ -424,6 +426,7 @@ public class PrinterStateReason extends EnumSyntax implements Attribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterStateReason.class;
     }
@@ -437,6 +440,7 @@ public class PrinterStateReason extends EnumSyntax implements Attribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-state-reason";
     }

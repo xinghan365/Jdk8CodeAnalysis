@@ -89,8 +89,9 @@ public class ByteArrayOutputStream extends OutputStream {
      */
     private void ensureCapacity(int minCapacity) {
         // overflow-conscious code
-        if (minCapacity - buf.length > 0)
+        if (minCapacity - buf.length > 0) {
             grow(minCapacity);
+        }
     }
 
     /**
@@ -111,16 +112,20 @@ public class ByteArrayOutputStream extends OutputStream {
         // overflow-conscious code
         int oldCapacity = buf.length;
         int newCapacity = oldCapacity << 1;
-        if (newCapacity - minCapacity < 0)
+        if (newCapacity - minCapacity < 0) {
             newCapacity = minCapacity;
-        if (newCapacity - MAX_ARRAY_SIZE > 0)
+        }
+        if (newCapacity - MAX_ARRAY_SIZE > 0) {
             newCapacity = hugeCapacity(minCapacity);
+        }
         buf = Arrays.copyOf(buf, newCapacity);
     }
 
     private static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) // overflow
+        {
             throw new OutOfMemoryError();
+        }
         return (minCapacity > MAX_ARRAY_SIZE) ?
             Integer.MAX_VALUE :
             MAX_ARRAY_SIZE;
@@ -131,6 +136,7 @@ public class ByteArrayOutputStream extends OutputStream {
      *
      * @param   b   the byte to be written.
      */
+    @Override
     public synchronized void write(int b) {
         ensureCapacity(count + 1);
         buf[count] = (byte) b;
@@ -145,6 +151,7 @@ public class ByteArrayOutputStream extends OutputStream {
      * @param   off   the start offset in the data.
      * @param   len   the number of bytes to write.
      */
+    @Override
     public synchronized void write(byte b[], int off, int len) {
         if ((off < 0) || (off > b.length) || (len < 0) ||
             ((off + len) - b.length > 0)) {
@@ -217,6 +224,7 @@ public class ByteArrayOutputStream extends OutputStream {
      * @return String decoded from the buffer's contents.
      * @since  JDK1.1
      */
+    @Override
     public synchronized String toString() {
         return new String(buf, 0, count);
     }
@@ -277,6 +285,7 @@ public class ByteArrayOutputStream extends OutputStream {
      * this class can be called after the stream has been closed without
      * generating an <tt>IOException</tt>.
      */
+    @Override
     public void close() throws IOException {
     }
 

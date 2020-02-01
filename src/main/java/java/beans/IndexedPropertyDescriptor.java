@@ -398,6 +398,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
      *
      * @since 1.4
      */
+    @Override
     public boolean equals(Object obj) {
         // Note: This would be identical to PropertyDescriptor but they don't
         // share the same fields.
@@ -486,6 +487,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
         indexedReadMethodName = old.indexedReadMethodName;
     }
 
+    @Override
     void updateGenericsFor(Class<?> type) {
         super.updateGenericsFor(type);
         try {
@@ -503,6 +505,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
      * @return a hash code value for this object.
      * @since 1.5
      */
+    @Override
     public int hashCode() {
         int result = super.hashCode();
 
@@ -516,6 +519,7 @@ public class IndexedPropertyDescriptor extends PropertyDescriptor {
         return result;
     }
 
+    @Override
     void appendTo(StringBuilder sb) {
         super.appendTo(sb);
         appendTo(sb, "indexedPropertyType", this.indexedPropertyTypeRef);

@@ -69,6 +69,7 @@ class ByteBufferAsCharBufferRB                  // package-private
 
     }
 
+    @Override
     public CharBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsCharBufferRB                  // package-private
         return new ByteBufferAsCharBufferRB(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public CharBuffer duplicate() {
         return new ByteBufferAsCharBufferRB(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsCharBufferRB                  // package-private
                                                     offset);
     }
 
+    @Override
     public CharBuffer asReadOnlyBuffer() {
 
 
@@ -123,6 +126,7 @@ class ByteBufferAsCharBufferRB                  // package-private
 
 
 
+    @Override
     public CharBuffer put(char x) {
 
 
@@ -132,6 +136,7 @@ class ByteBufferAsCharBufferRB                  // package-private
 
     }
 
+    @Override
     public CharBuffer put(int i, char x) {
 
 
@@ -141,6 +146,7 @@ class ByteBufferAsCharBufferRB                  // package-private
 
     }
 
+    @Override
     public CharBuffer compact() {
 
 
@@ -163,19 +169,23 @@ class ByteBufferAsCharBufferRB                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
 
 
+    @Override
     public String toString(int start, int end) {
-        if ((end > limit()) || (start > end))
+        if ((end > limit()) || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         try {
             int len = end - start;
             char[] ca = new char[len];
@@ -193,6 +203,7 @@ class ByteBufferAsCharBufferRB                  // package-private
 
     // --- Methods to support CharSequence ---
 
+    @Override
     public CharBuffer subSequence(int start, int end) {
         int pos = position();
         int lim = limit();
@@ -200,8 +211,9 @@ class ByteBufferAsCharBufferRB                  // package-private
         pos = (pos <= lim ? pos : lim);
         int len = lim - pos;
 
-        if ((start < 0) || (end > len) || (start > end))
+        if ((start < 0) || (end > len) || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         return new ByteBufferAsCharBufferRB(bb,
                                                   -1,
                                                   pos + start,
@@ -213,6 +225,7 @@ class ByteBufferAsCharBufferRB                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;

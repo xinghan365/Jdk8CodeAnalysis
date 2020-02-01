@@ -122,6 +122,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      *        <code>RowSet</code> object
      * @throws SQLException if the given number is equal to or less than zero
      */
+    @Override
     public void setColumnCount(int columnCount) throws SQLException {
 
         if (columnCount <= 0) {
@@ -164,6 +165,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs or
      *         the given index is out of bounds
      */
+    @Override
     public void setAutoIncrement(int columnIndex, boolean property) throws SQLException {
         checkColRange(columnIndex);
         colInfo[columnIndex].autoIncrement = property;
@@ -181,6 +183,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs or
      *         the given column number is out of bounds
      */
+    @Override
     public void setCaseSensitive(int columnIndex, boolean property) throws SQLException {
         checkColRange(columnIndex);
         colInfo[columnIndex].caseSensitive = property;
@@ -200,6 +203,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs or
      *         the given column number is out of bounds
      */
+    @Override
     public void setSearchable(int columnIndex, boolean property)
         throws SQLException {
         checkColRange(columnIndex);
@@ -217,6 +221,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public void setCurrency(int columnIndex, boolean property)
         throws SQLException {
         checkColRange(columnIndex);
@@ -243,6 +248,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      *           <code>ResultSetMetaData.columnNullable</code>, or
      *           <code>ResultSetMetaData.columnNullableUnknown</code>
      */
+    @Override
     public void setNullable(int columnIndex, int property) throws SQLException {
         if ((property < ResultSetMetaData.columnNoNulls) ||
             property > ResultSetMetaData.columnNullableUnknown) {
@@ -265,6 +271,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public void setSigned(int columnIndex, boolean property) throws SQLException {
         checkColRange(columnIndex);
         colInfo[columnIndex].signed = property;
@@ -282,6 +289,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      *        the given column number is out of bounds, or <i>size</i> is
      *        less than <code>0</code>
      */
+    @Override
     public void setColumnDisplaySize(int columnIndex, int size) throws SQLException {
         if (size < 0) {
             throw new SQLException("Invalid column display size. Cannot be less " +
@@ -305,6 +313,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column index is out of bounds
      */
+    @Override
     public void setColumnLabel(int columnIndex, String label) throws SQLException {
         checkColRange(columnIndex);
         if (label != null) {
@@ -325,6 +334,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs or the given column
      *      index is out of bounds
      */
+    @Override
     public void setColumnName(int columnIndex, String columnName) throws SQLException {
         checkColRange(columnIndex);
         if (columnName != null) {
@@ -347,6 +357,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *        or the given column number is out of bounds
      */
+    @Override
     public void setSchemaName(int columnIndex, String schemaName) throws SQLException {
         checkColRange(columnIndex);
         if (schemaName != null ) {
@@ -368,6 +379,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      *         <i>columnIndex</i> is out of bounds, or <i>precision</i>
      *         is less than <code>0</code>
      */
+    @Override
     public void setPrecision(int columnIndex, int precision) throws SQLException {
 
         if (precision < 0) {
@@ -390,6 +402,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      *         <i>columnIndex</i> is out of bounds, or <i>scale</i>
      *         is less than <code>0</code>
      */
+    @Override
     public void setScale(int columnIndex, int scale) throws SQLException {
         if (scale < 0) {
             throw new SQLException("Invalid scale size. Cannot be less " +
@@ -410,6 +423,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public void setTableName(int columnIndex, String tableName) throws SQLException {
         checkColRange(columnIndex);
         if (tableName != null) {
@@ -431,12 +445,14 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public void setCatalogName(int columnIndex, String catalogName) throws SQLException {
         checkColRange(columnIndex);
-        if (catalogName != null)
+        if (catalogName != null) {
             colInfo[columnIndex].catName = catalogName;
-        else
+        } else {
             colInfo[columnIndex].catName = "";
+        }
     }
 
     /**
@@ -453,6 +469,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      *         <code>java.sql.Types</code>
      * @see java.sql.Types
      */
+    @Override
     public void setColumnType(int columnIndex, int SQLType) throws SQLException {
         // examine java.sql.Type reflectively, loop on the fields and check
         // this. Separate out into a private method
@@ -472,6 +489,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public void setColumnTypeName(int columnIndex, String typeName)
         throws SQLException {
         checkColRange(columnIndex);
@@ -489,6 +507,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @return the number of columns
      * @throws SQLException if an error occurs determining the column count
      */
+    @Override
     public int getColumnCount() throws SQLException {
         return colCount;
     }
@@ -504,6 +523,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public boolean isAutoIncrement(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].autoIncrement;
@@ -520,6 +540,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public boolean isCaseSensitive(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].caseSensitive;
@@ -536,6 +557,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public boolean isSearchable(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].searchable;
@@ -552,6 +574,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public boolean isCurrency(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].currency;
@@ -570,6 +593,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public int isNullable(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].nullable;
@@ -586,6 +610,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public boolean isSigned(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].signed;
@@ -601,6 +626,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public int getColumnDisplaySize(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].columnDisplaySize;
@@ -616,6 +642,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public String getColumnLabel(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].columnLabel;
@@ -630,6 +657,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public String getColumnName(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].columnName;
@@ -647,6 +675,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public String getSchemaName(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         String str ="";
@@ -667,6 +696,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public int getPrecision(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].colPrecision;
@@ -682,6 +712,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public int getScale(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].colScale;
@@ -698,6 +729,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public String getTableName(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].tableName;
@@ -714,6 +746,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public String getCatalogName(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         String str ="";
@@ -737,6 +770,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * or the given column number is out of bounds
      * @see java.sql.Types
      */
+    @Override
     public int getColumnType(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].colType;
@@ -752,6 +786,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public String getColumnTypeName(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].colTypeName;
@@ -769,6 +804,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public boolean isReadOnly(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].readOnly;
@@ -787,6 +823,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public boolean isWritable(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return colInfo[columnIndex].writable;
@@ -803,6 +840,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      * or the given column number is out of bounds
      */
+    @Override
     public  boolean isDefinitelyWritable(int columnIndex) throws SQLException {
         checkColRange(columnIndex);
         return true;
@@ -830,6 +868,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws SQLException if a database access error occurs
      *         or the given column number is out of bounds
      */
+    @Override
     public String getColumnClassName(int columnIndex) throws SQLException {
         String className = String.class.getName();
 
@@ -915,6 +954,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * @throws java.sql.SQLException If no object found that implements the interface
      * @since 1.6
      */
+    @Override
     public <T> T unwrap(java.lang.Class<T> iface) throws java.sql.SQLException {
 
         if(isWrapperFor(iface)) {
@@ -939,6 +979,7 @@ public class RowSetMetaDataImpl implements RowSetMetaData,  Serializable {
      * for an object with the given interface.
      * @since 1.6
      */
+    @Override
     public boolean isWrapperFor(Class<?> interfaces) throws SQLException {
         return interfaces.isInstance(this);
     }

@@ -162,6 +162,7 @@ public RTFReader(StyledDocument destination)
  *
  *  @see RTFParser
  */
+@Override
 public void handleBinaryBlob(byte[] data)
 {
     if (skippingCharacters > 0) {
@@ -177,6 +178,7 @@ public void handleBinaryBlob(byte[] data)
 /**
  * Handles any pure text (containing no control characters) in the input
  * stream. Called by the superclass. */
+@Override
 public void handleText(String text)
 {
     if (skippingCharacters > 0) {
@@ -208,6 +210,7 @@ Color defaultColor()
  *  the current destination a chance to save its own state.
  * @see RTFParser#begingroup
  */
+@Override
 public void begingroup()
 {
     if (skippingCharacters > 0) {
@@ -218,15 +221,18 @@ public void begingroup()
     /* we do this little dance to avoid cloning the entire state stack and
        immediately throwing it away. */
     Object oldSaveState = parserState.get("_savedState");
-    if (oldSaveState != null)
+    if (oldSaveState != null) {
         parserState.remove("_savedState");
+    }
     Dictionary<String, Object> saveState = (Dictionary<String, Object>)((Hashtable)parserState).clone();
-    if (oldSaveState != null)
+    if (oldSaveState != null) {
         saveState.put("_savedState", oldSaveState);
+    }
     parserState.put("_savedState", saveState);
 
-    if (rtfDestination != null)
+    if (rtfDestination != null) {
         rtfDestination.begingroup();
+    }
 }
 
 /** Called by the superclass when the current RTF group is closed.
@@ -235,6 +241,7 @@ public void begingroup()
  *  destination.
  * @see RTFParser#endgroup
  */
+@Override
 public void endgroup()
 {
     if (skippingCharacters > 0) {
@@ -250,8 +257,9 @@ public void endgroup()
     }
     Dictionary oldParserState = parserState;
     parserState = restoredState;
-    if (rtfDestination != null)
+    if (rtfDestination != null) {
         rtfDestination.endgroup(oldParserState);
+    }
 }
 
 protected void setRTFDestination(Destination newDestination)
@@ -274,6 +282,7 @@ protected void setRTFDestination(Destination newDestination)
  *
  * @see OutputStream#close
  */
+@Override
 public void close()
     throws IOException
 {
@@ -299,6 +308,7 @@ public void close()
  *          <code>false</code> otherwise
  * @see RTFParser#handleKeyword
  */
+@Override
 public boolean handleKeyword(String keyword)
 {
     String item;
@@ -342,10 +352,11 @@ public boolean handleKeyword(String keyword)
     }
 
     if (keyword.equals("ansi")) {
-        if (useNeXTForAnsi)
+        if (useNeXTForAnsi) {
             setCharacterSet("NeXT");
-        else
+        } else {
             setCharacterSet("ansi");
+        }
         return true;
     }
 
@@ -370,8 +381,9 @@ public boolean handleKeyword(String keyword)
     }
 
     if (rtfDestination != null) {
-        if(rtfDestination.handleKeyword(keyword))
+        if(rtfDestination.handleKeyword(keyword)) {
             return true;
+        }
     }
 
     /* this point is reached only if the keyword is unrecognized */
@@ -445,6 +457,7 @@ public boolean handleKeyword(String keyword)
  *          <code>false</code> otherwise
  * @see RTFParser#handleKeyword
  */
+@Override
 public boolean handleKeyword(String keyword, int parameter)
 {
     boolean ignoreGroupIfUnknownKeywordSave = ignoreGroupIfUnknownKeyword;
@@ -462,8 +475,9 @@ public boolean handleKeyword(String keyword, int parameter)
         return true;
     }
     if (keyword.equals("u")) {
-        if (parameter < 0)
+        if (parameter < 0) {
             parameter = parameter + 65536;
+        }
         handleText((char)parameter);
         Number skip = (Number)(parserState.get("UnicodeSkip"));
         if (skip != null) {
@@ -481,12 +495,14 @@ public boolean handleKeyword(String keyword, int parameter)
     }
 
     if (keyword.startsWith("NeXT") ||
-        keyword.equals("private"))
+        keyword.equals("private")) {
         ignoreGroupIfUnknownKeywordSave = true;
+    }
 
     if (rtfDestination != null) {
-        if(rtfDestination.handleKeyword(keyword, parameter))
+        if(rtfDestination.handleKeyword(keyword, parameter)) {
             return true;
+        }
     }
 
     /* this point is reached only if the keyword is unrecognized */
@@ -541,8 +557,9 @@ public void setCharacterSet(String name)
 public static void
 defineCharacterSet(String name, char[] table)
 {
-    if (table.length < 256)
+    if (table.length < 256) {
         throw new IllegalArgumentException("Translation table must have 256 entries.");
+    }
     characterSets.put(name, table);
 }
 
@@ -560,6 +577,7 @@ getCharacterSet(final String name)
     if (set == null) {
         InputStream charsetStream = AccessController.doPrivileged(
                 new PrivilegedAction<InputStream>() {
+                    @Override
                     public InputStream run() {
                         return RTFReader.class.getResourceAsStream("charsets/" + name + ".txt");
                     }
@@ -638,39 +656,46 @@ interface Destination {
  *  It accepts all keywords and text but does nothing with them. */
 class DiscardingDestination implements Destination
 {
+    @Override
     public void handleBinaryBlob(byte[] data)
     {
         /* Discard binary blobs. */
     }
 
+    @Override
     public void handleText(String text)
     {
         /* Discard text. */
     }
 
+    @Override
     public boolean handleKeyword(String text)
     {
         /* Accept and discard keywords. */
         return true;
     }
 
+    @Override
     public boolean handleKeyword(String text, int parameter)
     {
         /* Accept and discard parameterized keywords. */
         return true;
     }
 
+    @Override
     public void begingroup()
     {
         /* Ignore groups --- the RTFReader will keep track of the
            current group level as necessary */
     }
 
+    @Override
     public void endgroup(Dictionary oldState)
     {
         /* Ignore groups */
     }
 
+    @Override
     public void close()
     {
         /* No end-of-destination cleanup needed */
@@ -685,18 +710,21 @@ class FonttblDestination implements Destination
     Integer fontNumberKey = null;
     String nextFontFamily;
 
+    @Override
     public void handleBinaryBlob(byte[] data)
     { /* Discard binary blobs. */ }
 
+    @Override
     public void handleText(String text)
     {
         int semicolon = text.indexOf(';');
         String fontName;
 
-        if (semicolon > -1)
+        if (semicolon > -1) {
             fontName = text.substring(0, semicolon);
-        else
+        } else {
             fontName = text;
+        }
 
 
         /* TODO: do something with the font family. */
@@ -714,6 +742,7 @@ class FonttblDestination implements Destination
         nextFontFamily = null;
     }
 
+    @Override
     public boolean handleKeyword(String keyword)
     {
         if (keyword.charAt(0) == 'f') {
@@ -724,6 +753,7 @@ class FonttblDestination implements Destination
         return false;
     }
 
+    @Override
     public boolean handleKeyword(String keyword, int parameter)
     {
         if (keyword.equals("f")) {
@@ -735,11 +765,14 @@ class FonttblDestination implements Destination
     }
 
     /* Groups are irrelevant. */
+    @Override
     public void begingroup() {}
+    @Override
     public void endgroup(Dictionary oldState) {}
 
     /* currently, the only thing we do when the font table ends is
        dump its contents to the debugging log. */
+    @Override
     public void close()
     {
         Enumeration<Integer> nums = fontTable.keys();
@@ -766,6 +799,7 @@ class ColortblDestination implements Destination
         proTemTable = new Vector<Color>();
     }
 
+    @Override
     public void handleText(String text)
     {
         int index;
@@ -779,6 +813,7 @@ class ColortblDestination implements Destination
         }
     }
 
+    @Override
     public void close()
     {
         int count = proTemTable.size();
@@ -787,28 +822,34 @@ class ColortblDestination implements Destination
         proTemTable.copyInto(colorTable);
     }
 
+    @Override
     public boolean handleKeyword(String keyword, int parameter)
     {
-        if (keyword.equals("red"))
+        if (keyword.equals("red")) {
             red = parameter;
-        else if (keyword.equals("green"))
+        } else if (keyword.equals("green")) {
             green = parameter;
-        else if (keyword.equals("blue"))
+        } else if (keyword.equals("blue")) {
             blue = parameter;
-        else
+        } else {
             return false;
+        }
 
         return true;
     }
 
     /* Colortbls don't understand any parameterless keywords */
+    @Override
     public boolean handleKeyword(String keyword) { return false; }
 
     /* Groups are irrelevant. */
+    @Override
     public void begingroup() {}
+    @Override
     public void endgroup(Dictionary oldState) {}
 
     /* Shouldn't see any binary blobs ... */
+    @Override
     public void handleBinaryBlob(byte[] data) {}
 }
 
@@ -825,11 +866,13 @@ class StylesheetDestination
         definedStyles = new Hashtable<Integer, StyleDefiningDestination>();
     }
 
+    @Override
     public void begingroup()
     {
         setRTFDestination(new StyleDefiningDestination());
     }
 
+    @Override
     public void close()
     {
         Vector<Style> chrStyles = new Vector<Style>();
@@ -851,8 +894,9 @@ class StylesheetDestination
             } else {
                 toSet = pgfStyles;
             }
-            if (toSet.size() <= style.number)
+            if (toSet.size() <= style.number) {
                 toSet.setSize(style.number + 1);
+            }
             toSet.setElementAt(defined, style.number);
         }
         if (!(chrStyles.isEmpty())) {
@@ -920,22 +964,27 @@ class StylesheetDestination
             hidden = false;
         }
 
+        @Override
         public void handleText(String text)
         {
-            if (styleName != null)
+            if (styleName != null) {
                 styleName = styleName + text;
-            else
+            } else {
                 styleName = text;
+            }
         }
 
+        @Override
         public void close() {
             int semicolon = (styleName == null) ? 0 : styleName.indexOf(';');
-            if (semicolon > 0)
+            if (semicolon > 0) {
                 styleName = styleName.substring(0, semicolon);
+            }
             definedStyles.put(Integer.valueOf(number), this);
             super.close();
         }
 
+        @Override
         public boolean handleKeyword(String keyword)
         {
             if (keyword.equals("additive")) {
@@ -949,6 +998,7 @@ class StylesheetDestination
             return super.handleKeyword(keyword);
         }
 
+        @Override
         public boolean handleKeyword(String keyword, int parameter)
         {
             if (keyword.equals("s")) {
@@ -978,8 +1028,9 @@ class StylesheetDestination
             Style basis = null;
             Style next = null;
 
-            if (realizedStyle != null)
+            if (realizedStyle != null) {
                 return realizedStyle;
+            }
 
             if (basedOn != STYLENUMBER_NONE) {
                 StyleDefiningDestination styleDest;
@@ -1016,8 +1067,9 @@ class StylesheetDestination
                 }
             }
 
-            if (next != null)
+            if (next != null) {
                 realizedStyle.addAttribute(Constants.StyleNext, next);
+            }
             realizedStyle.addAttribute(Constants.StyleAdditive,
                                        Boolean.valueOf(additive));
             realizedStyle.addAttribute(Constants.StyleHidden,
@@ -1063,8 +1115,10 @@ abstract class AttributeTrackingDestination implements Destination
         parserState.put("sec", sectionAttributes);
     }
 
+    @Override
     abstract public void handleText(String text);
 
+    @Override
     public void handleBinaryBlob(byte[] data)
     {
         /* This should really be in TextHandlingDestination, but
@@ -1073,6 +1127,7 @@ abstract class AttributeTrackingDestination implements Destination
         warning("Unexpected binary data in RTF file.");
     }
 
+    @Override
     public void begingroup()
     {
         AttributeSet characterParent = currentTextAttributes();
@@ -1098,6 +1153,7 @@ abstract class AttributeTrackingDestination implements Destination
         parserState.put("sec", sectionAttributes);
     }
 
+    @Override
     public void endgroup(Dictionary oldState)
     {
         characterAttributes = (MutableAttributeSet)parserState.get("chr");
@@ -1105,10 +1161,12 @@ abstract class AttributeTrackingDestination implements Destination
         sectionAttributes   = (MutableAttributeSet)parserState.get("sec");
     }
 
+    @Override
     public void close()
     {
     }
 
+    @Override
     public boolean handleKeyword(String keyword)
     {
         if (keyword.equals("ulnone")) {
@@ -1143,8 +1201,9 @@ abstract class AttributeTrackingDestination implements Destination
                     ok = false;
                     break;
                 }
-                if (ok)
+                if (ok) {
                     return true;
+                }
             }
         }
 
@@ -1167,12 +1226,14 @@ abstract class AttributeTrackingDestination implements Destination
         return false;
     }
 
+    @Override
     public boolean handleKeyword(String keyword, int parameter)
     {
         boolean booleanParameter = (parameter != 0);
 
-        if (keyword.equals("fc"))
+        if (keyword.equals("fc")) {
             keyword = "cf"; /* whatEVER, dude. */
+        }
 
         if (keyword.equals("f")) {
             parserState.put(keyword, Integer.valueOf(parameter));
@@ -1211,8 +1272,9 @@ abstract class AttributeTrackingDestination implements Destination
                     ok = false;
                     break;
                 }
-                if (ok)
+                if (ok) {
                     return true;
+                }
             }
         }
 
@@ -1246,14 +1308,17 @@ abstract class AttributeTrackingDestination implements Destination
 
             tabAlignment = TabStop.ALIGN_LEFT;
             item = (Number)(parserState.get("tab_alignment"));
-            if (item != null)
+            if (item != null) {
                 tabAlignment = item.intValue();
+            }
             tabLeader = TabStop.LEAD_NONE;
             item = (Number)(parserState.get("tab_leader"));
-            if (item != null)
+            if (item != null) {
                 tabLeader = item.intValue();
-            if (keyword.equals("tb"))
+            }
+            if (keyword.equals("tb")) {
                 tabAlignment = TabStop.ALIGN_BAR;
+            }
 
             parserState.remove("tab_alignment");
             parserState.remove("tab_leader");
@@ -1360,14 +1425,16 @@ abstract class AttributeTrackingDestination implements Destination
         fontnum = (Integer)parserState.get("f");
         /* note setFontFamily() can not handle a null font */
         String fontFamily;
-        if (fontnum != null)
+        if (fontnum != null) {
             fontFamily = fontTable.get(fontnum);
-        else
+        } else {
             fontFamily = null;
-        if (fontFamily != null)
+        }
+        if (fontFamily != null) {
             StyleConstants.setFontFamily(attributes, fontFamily);
-        else
+        } else {
             attributes.removeAttribute(StyleConstants.FontFamily);
+        }
 
         if (colorTable != null) {
             stateItem = (Integer)parserState.get("cf");
@@ -1393,8 +1460,9 @@ abstract class AttributeTrackingDestination implements Destination
         }
 
         Style characterStyle = (Style)parserState.get("characterStyle");
-        if (characterStyle != null)
+        if (characterStyle != null) {
             attributes.setResolveParent(characterStyle);
+        }
 
         /* Other attributes are maintained directly in "attributes" */
 
@@ -1424,17 +1492,20 @@ abstract class AttributeTrackingDestination implements Destination
             if (workingTabs != null) {
                 int count = ((Integer)workingTabs.get("stop count")).intValue();
                 tabs = new TabStop[count];
-                for (int ix = 1; ix <= count; ix ++)
+                for (int ix = 1; ix <= count; ix ++) {
                     tabs[ix-1] = (TabStop)workingTabs.get(Integer.valueOf(ix));
+                }
                 parserState.put("_tabs_immutable", tabs);
             }
         }
-        if (tabs != null)
+        if (tabs != null) {
             bld.addAttribute(Constants.Tabs, tabs);
+        }
 
         Style paragraphStyle = (Style)parserState.get("paragraphStyle");
-        if (paragraphStyle != null)
+        if (paragraphStyle != null) {
             bld.setResolveParent(paragraphStyle);
+        }
 
         return bld;
     }
@@ -1450,8 +1521,9 @@ abstract class AttributeTrackingDestination implements Destination
         MutableAttributeSet attributes = new SimpleAttributeSet(sectionAttributes);
 
         Style sectionStyle = (Style)parserState.get("sectionStyle");
-        if (sectionStyle != null)
+        if (sectionStyle != null) {
             attributes.setResolveParent(sectionStyle);
+        }
 
         return attributes;
     }
@@ -1469,8 +1541,9 @@ abstract class AttributeTrackingDestination implements Destination
         Enumeration<RTFAttribute> attributes = straightforwardAttributes.elements();
         while(attributes.hasMoreElements()) {
             RTFAttribute attr = attributes.nextElement();
-            if (attr.domain() == RTFAttribute.D_CHARACTER)
+            if (attr.domain() == RTFAttribute.D_CHARACTER) {
                 attr.setDefault(characterAttributes);
+            }
         }
 
         handleKeyword("sl", 1000);
@@ -1493,8 +1566,9 @@ abstract class AttributeTrackingDestination implements Destination
         Enumeration<RTFAttribute> attributes = straightforwardAttributes.elements();
         while(attributes.hasMoreElements()) {
             RTFAttribute attr = attributes.nextElement();
-            if (attr.domain() == RTFAttribute.D_PARAGRAPH)
+            if (attr.domain() == RTFAttribute.D_PARAGRAPH) {
                 attr.setDefault(characterAttributes);
+            }
         }
     }
 
@@ -1506,8 +1580,9 @@ abstract class AttributeTrackingDestination implements Destination
         Enumeration<RTFAttribute> attributes = straightforwardAttributes.elements();
         while(attributes.hasMoreElements()) {
             RTFAttribute attr = attributes.nextElement();
-            if (attr.domain() == RTFAttribute.D_SECTION)
+            if (attr.domain() == RTFAttribute.D_SECTION) {
                 attr.setDefault(characterAttributes);
+            }
         }
 
         parserState.remove("sectionStyle");
@@ -1537,24 +1612,29 @@ abstract class TextHandlingDestination
         inParagraph = false;
     }
 
+    @Override
     public void handleText(String text)
     {
-        if (! inParagraph)
+        if (! inParagraph) {
             beginParagraph();
+        }
 
         deliverText(text, currentTextAttributes());
     }
 
     abstract void deliverText(String text, AttributeSet characterAttributes);
 
+    @Override
     public void close()
     {
-        if (inParagraph)
+        if (inParagraph) {
             endParagraph();
+        }
 
         super.close();
     }
 
+    @Override
     public boolean handleKeyword(String keyword)
     {
         if (keyword.equals("\r") || keyword.equals("\n")) {
@@ -1603,6 +1683,7 @@ class DocumentDestination
     extends TextHandlingDestination
     implements Destination
 {
+    @Override
     public void deliverText(String text, AttributeSet characterAttributes)
     {
         try {
@@ -1616,6 +1697,7 @@ class DocumentDestination
         }
     }
 
+    @Override
     public void finishParagraph(AttributeSet pgfAttributes,
                                 AttributeSet chrAttributes)
     {
@@ -1630,6 +1712,7 @@ class DocumentDestination
         }
     }
 
+    @Override
     public void endSection()
     {
         /* If we implemented sections, we'd end 'em here */

@@ -197,6 +197,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @exception java.lang.Exception
      */
+    @Override
     public ObjectName preRegister(MBeanServer server, ObjectName name)
         throws java.lang.Exception {
         return name;
@@ -208,6 +209,7 @@ public class Timer extends NotificationBroadcasterSupport
      * <P>
      * Not used in this context.
      */
+    @Override
     public void postRegister (Boolean registrationDone) {
     }
 
@@ -219,6 +221,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @exception java.lang.Exception
      */
+    @Override
     public void preDeregister() throws java.lang.Exception {
 
         TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
@@ -235,6 +238,7 @@ public class Timer extends NotificationBroadcasterSupport
      * <P>
      * Not used in this context.
      */
+    @Override
     public void postDeregister() {
     }
 
@@ -246,6 +250,7 @@ public class Timer extends NotificationBroadcasterSupport
      * associated with this entry is a snapshot of the current types
      * that were given to addNotification.
      */
+    @Override
     public synchronized MBeanNotificationInfo[] getNotificationInfo() {
         Set<String> notifTypes = new TreeSet<String>();
         for (Object[] entry : timerTable.values()) {
@@ -271,6 +276,7 @@ public class Timer extends NotificationBroadcasterSupport
      * If the timer notification date remains earlier than the current date, this notification is just removed
      * from the list of notifications.
      */
+    @Override
     public synchronized void start() {
 
         TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
@@ -334,6 +340,7 @@ public class Timer extends NotificationBroadcasterSupport
     /**
      * Stops the timer.
      */
+    @Override
     public synchronized void stop() {
 
         TIMER_LOGGER.logp(Level.FINER, Timer.class.getName(),
@@ -419,6 +426,7 @@ public class Timer extends NotificationBroadcasterSupport
 //                                                Date date, long period, long nbOccurences)
 // end of NPCTE fix for bugId 4464388
 
+    @Override
     public synchronized Integer addNotification(String type, String message, Object userData,
                                                 Date date, long period, long nbOccurences, boolean fixedRate)
         throws java.lang.IllegalArgumentException {
@@ -564,6 +572,7 @@ public class Timer extends NotificationBroadcasterSupport
 //                                              Date date, long period)
 // end of NPCTE fix for bugId 4464388 */
 
+    @Override
     public synchronized Integer addNotification(String type, String message, Object userData,
                                                 Date date, long period, long nbOccurences)
         throws java.lang.IllegalArgumentException {
@@ -602,6 +611,7 @@ public class Timer extends NotificationBroadcasterSupport
 //                                              Date date, long period)
 // end of NPCTE fix for bugId 4464388 */
 
+    @Override
     public synchronized Integer addNotification(String type, String message, Object userData,
                                                 Date date, long period)
         throws java.lang.IllegalArgumentException {
@@ -634,6 +644,7 @@ public class Timer extends NotificationBroadcasterSupport
 //      throws java.lang.IllegalArgumentException {
 // end of NPCTE fix for bugId 4464388
 
+    @Override
     public synchronized Integer addNotification(String type, String message, Object userData, Date date)
         throws java.lang.IllegalArgumentException {
 
@@ -649,6 +660,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @exception InstanceNotFoundException The specified identifier does not correspond to any timer notification
      * in the list of notifications of this timer MBean.
      */
+    @Override
     public synchronized void removeNotification(Integer id) throws InstanceNotFoundException {
 
         // Check that the notification to remove is effectively in the timer table.
@@ -712,21 +724,25 @@ public class Timer extends NotificationBroadcasterSupport
      * @exception InstanceNotFoundException The specified type does not correspond to any timer notification
      * in the list of notifications of this timer MBean.
      */
+    @Override
     public synchronized void removeNotifications(String type) throws InstanceNotFoundException {
 
         Vector<Integer> v = getNotificationIDs(type);
 
-        if (v.isEmpty())
+        if (v.isEmpty()) {
             throw new InstanceNotFoundException("Timer notifications to remove not in the list of notifications");
+        }
 
-        for (Integer i : v)
+        for (Integer i : v) {
             removeNotification(i);
+        }
     }
 
     /**
      * Removes all the timer notifications from the list of notifications
      * and resets the counter used to update the timer notification identifiers.
      */
+    @Override
     public synchronized void removeAllNotifications() {
 
         TimerAlarmClock alarmClock;
@@ -775,6 +791,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @return The number of timer notifications.
      */
+    @Override
     public synchronized int getNbNotifications() {
         return timerTable.size();
     }
@@ -785,6 +802,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return A vector of <CODE>Integer</CODE> objects containing all the timer notification identifiers.
      * <BR>The vector is empty if there is no timer notification registered for this timer MBean.
      */
+    @Override
     public synchronized Vector<Integer> getAllNotificationIDs() {
         return new Vector<Integer>(timerTable.keySet());
     }
@@ -799,6 +817,7 @@ public class Timer extends NotificationBroadcasterSupport
      * <BR>The vector is empty if there is no timer notifications registered for this timer MBean
      * with the specified <CODE>type</CODE>.
      */
+    @Override
     public synchronized Vector<Integer> getNotificationIDs(String type) {
 
         String s;
@@ -808,8 +827,9 @@ public class Timer extends NotificationBroadcasterSupport
         for (Map.Entry<Integer,Object[]> entry : timerTable.entrySet()) {
             Object[] obj = entry.getValue();
             s = ((TimerNotification)obj[TIMER_NOTIF_INDEX]).getType();
-            if ((type == null) ? s == null : type.equals(s))
+            if ((type == null) ? s == null : type.equals(s)) {
                 v.addElement(entry.getKey());
+            }
         }
         return v;
     }
@@ -823,6 +843,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return The timer notification type or null if the identifier is not mapped to any
      * timer notification registered for this timer MBean.
      */
+    @Override
     public synchronized String getNotificationType(Integer id) {
 
         Object[] obj = timerTable.get(id);
@@ -840,6 +861,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return The timer notification detailed message or null if the identifier is not mapped to any
      * timer notification registered for this timer MBean.
      */
+    @Override
     public synchronized String getNotificationMessage(Integer id) {
 
         Object[] obj = timerTable.get(id);
@@ -861,6 +883,7 @@ public class Timer extends NotificationBroadcasterSupport
     //public Serializable getNotificationUserData(Integer id) {
     // end of NPCTE fix for bugId 4464388
 
+    @Override
     public synchronized Object getNotificationUserData(Integer id) {
         Object[] obj = timerTable.get(id);
         if (obj != null) {
@@ -877,6 +900,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return A copy of the date or null if the identifier is not mapped to any
      * timer notification registered for this timer MBean.
      */
+    @Override
     public synchronized Date getDate(Integer id) {
 
         Object[] obj = timerTable.get(id);
@@ -895,6 +919,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return A copy of the period or null if the identifier is not mapped to any
      * timer notification registered for this timer MBean.
      */
+    @Override
     public synchronized Long getPeriod(Integer id) {
 
         Object[] obj = timerTable.get(id);
@@ -912,6 +937,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return A copy of the remaining number of occurrences or null if the identifier is not mapped to any
      * timer notification registered for this timer MBean.
      */
+    @Override
     public synchronized Long getNbOccurences(Integer id) {
 
         Object[] obj = timerTable.get(id);
@@ -930,6 +956,7 @@ public class Timer extends NotificationBroadcasterSupport
      * @return A copy of the flag indicating whether a periodic notification is
      *         executed at <i>fixed-delay</i> or at <i>fixed-rate</i>.
      */
+    @Override
     public synchronized Boolean getFixedRate(Integer id) {
 
       Object[] obj = timerTable.get(id);
@@ -948,6 +975,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @see #setSendPastNotifications
      */
+    @Override
     public boolean getSendPastNotifications() {
         return sendPastNotifications;
     }
@@ -960,6 +988,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @see #getSendPastNotifications
      */
+    @Override
     public void setSendPastNotifications(boolean value) {
         sendPastNotifications = value;
     }
@@ -972,6 +1001,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @return <CODE>true</CODE> if the timer MBean is active, <CODE>false</CODE> otherwise.
      */
+    @Override
     public boolean isActive() {
         return isActive;
     }
@@ -981,6 +1011,7 @@ public class Timer extends NotificationBroadcasterSupport
      *
      * @return <CODE>true</CODE> if the list of timer notifications is empty, <CODE>false</CODE> otherwise.
      */
+    @Override
     public synchronized boolean isEmpty() {
         return (timerTable.isEmpty());
     }

@@ -140,6 +140,7 @@ class ByteArrayInputStream extends InputStream {
      * @return  the next byte of data, or <code>-1</code> if the end of the
      *          stream has been reached.
      */
+    @Override
     public synchronized int read() {
         return (pos < count) ? (buf[pos++] & 0xff) : -1;
     }
@@ -173,6 +174,7 @@ class ByteArrayInputStream extends InputStream {
      * <code>len</code> is negative, or <code>len</code> is greater than
      * <code>b.length - off</code>
      */
+    @Override
     public synchronized int read(byte b[], int off, int len) {
         if (b == null) {
             throw new NullPointerException();
@@ -208,6 +210,7 @@ class ByteArrayInputStream extends InputStream {
      * @param   n   the number of bytes to be skipped.
      * @return  the actual number of bytes skipped.
      */
+    @Override
     public synchronized long skip(long n) {
         long k = count - pos;
         if (n < k) {
@@ -228,6 +231,7 @@ class ByteArrayInputStream extends InputStream {
      * @return  the number of remaining bytes that can be read (or skipped
      *          over) from this input stream without blocking.
      */
+    @Override
     public synchronized int available() {
         return count - pos;
     }
@@ -239,6 +243,7 @@ class ByteArrayInputStream extends InputStream {
      *
      * @since   JDK1.1
      */
+    @Override
     public boolean markSupported() {
         return true;
     }
@@ -258,6 +263,7 @@ class ByteArrayInputStream extends InputStream {
      *
      * @since   JDK1.1
      */
+    @Override
     public void mark(int readAheadLimit) {
         mark = pos;
     }
@@ -267,6 +273,7 @@ class ByteArrayInputStream extends InputStream {
      * is 0 unless another position was marked or an offset was specified
      * in the constructor.
      */
+    @Override
     public synchronized void reset() {
         pos = mark;
     }
@@ -276,6 +283,7 @@ class ByteArrayInputStream extends InputStream {
      * this class can be called after the stream has been closed without
      * generating an <tt>IOException</tt>.
      */
+    @Override
     public void close() throws IOException {
     }
 

@@ -89,6 +89,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *
      * @return the copy
      */
+    @Override
     protected final Object clone() {
         Object o;
         try {
@@ -287,6 +288,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @return the desired span &gt;= 0
      * @see TabableView#getTabbedSpan
      */
+    @Override
     public float getTabbedSpan(float x, TabExpander e) {
         checkPainter();
 
@@ -325,6 +327,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @param p1 the ending document offset &gt;= p0
      * @return the span &gt;= 0
      */
+    @Override
     public float getPartialSpan(int p0, int p1) {
         checkPainter();
         float width = painter.getSpan(this, p0, p1, expander, x);
@@ -339,6 +342,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @return the starting offset into the model
      * @see View#getStartOffset
      */
+    @Override
     public int getStartOffset() {
         Element e = getElement();
         return (length > 0) ? e.getStartOffset() + offset : e.getStartOffset();
@@ -350,6 +354,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @return the ending offset into the model
      * @see View#getEndOffset
      */
+    @Override
     public int getEndOffset() {
         Element e = getElement();
         return (length > 0) ? e.getStartOffset() + offset + length : e.getEndOffset();
@@ -364,7 +369,9 @@ public class GlyphView extends View implements TabableView, Cloneable {
             selections = new byte[viewPosCount];
             return;
         }
-        for (int i = 0; i < viewPosCount; selections[i++] = 0);
+        for (int i = 0; i < viewPosCount; selections[i++] = 0) {
+            ;
+        }
     }
 
     /**
@@ -373,6 +380,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @param g the rendering surface to use
      * @param a the allocated region to render into
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         checkPainter();
 
@@ -461,7 +469,9 @@ public class GlyphView extends View implements TabableView, Cloneable {
                         while (curPos++ < viewLen) {
                             // searching for the next selection start
                             while(curPos < viewLen &&
-                                    selections[curPos] == 0) curPos++;
+                                    selections[curPos] == 0) {
+                                curPos++;
+                            }
                             if (startPos != curPos) {
                                 // paint unselected text
                                 paintTextUsingColor(g, a, fg,
@@ -470,7 +480,9 @@ public class GlyphView extends View implements TabableView, Cloneable {
                             int checkSum = 0;
                             // searching for next start position of unselected text
                             while (curPos < viewLen &&
-                                    (checkSum += selections[curPos]) != 0) curPos++;
+                                    (checkSum += selections[curPos]) != 0) {
+                                curPos++;
+                            }
                             startPos = curPos;
                         }
                         paintedText = true;
@@ -478,8 +490,9 @@ public class GlyphView extends View implements TabableView, Cloneable {
                 }
             }
         }
-        if(!paintedText)
+        if(!paintedText) {
             paintTextUsingColor(g, a, fg, p0, p1);
+        }
     }
 
     /**
@@ -577,6 +590,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *           that is returned, although there is no guarantee.
      *           The parent may choose to resize or break the view.
      */
+    @Override
     public float getPreferredSpan(int axis) {
         if (impliedCR) {
             return 0;
@@ -614,6 +628,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *   away from the origin.  An alignment of 0.5 would be the
      *   center of the view.
      */
+    @Override
     public float getAlignment(int axis) {
         checkPainter();
         if (axis == View.Y_AXIS) {
@@ -648,6 +663,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *   valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         checkPainter();
         return painter.modelToView(this, pos, b, a);
@@ -667,6 +683,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *  given point of view &gt;= 0
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] biasReturn) {
         checkPainter();
         return painter.viewToModel(this, x, y, a, biasReturn);
@@ -715,6 +732,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @see View#ExcellentBreakWeight
      * @see View#ForcedBreakWeight
      */
+    @Override
     public int getBreakWeight(int axis, float pos, float len) {
         if (axis == View.X_AXIS) {
             checkPainter();
@@ -748,6 +766,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *  returned.
      * @see View#breakView
      */
+    @Override
     public View breakView(int axis, int p0, float pos, float len) {
         if (axis == View.X_AXIS) {
             checkPainter();
@@ -862,6 +881,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *   support breaking into fragments
      * @see LabelView
      */
+    @Override
     public View createFragment(int p0, int p1) {
         checkPainter();
         Element elem = getElement();
@@ -896,6 +916,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      *                                 position within the document
      * @exception IllegalArgumentException for an invalid direction
      */
+    @Override
     public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
                                          int direction,
                                          Position.Bias[] biasRet)
@@ -918,6 +939,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @param f the factory to use to rebuild if the view has children
      * @see View#insertUpdate
      */
+    @Override
     public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         justificationInfo = null;
         breakSpots = null;
@@ -937,6 +959,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @param f the factory to use to rebuild if the view has children
      * @see View#removeUpdate
      */
+    @Override
     public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         justificationInfo = null;
         breakSpots = null;
@@ -956,6 +979,7 @@ public class GlyphView extends View implements TabableView, Cloneable {
      * @param f the factory to use to rebuild if the view has children
      * @see View#changedUpdate
      */
+    @Override
     public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         minimumSpan = -1;
         syncCR();

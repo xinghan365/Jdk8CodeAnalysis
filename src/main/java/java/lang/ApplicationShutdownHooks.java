@@ -42,6 +42,7 @@ class ApplicationShutdownHooks {
             Shutdown.add(1 /* shutdown hook invocation order */,
                 false /* not registered if shutdown in progress */,
                 new Runnable() {
+                    @Override
                     public void run() {
                         runHooks();
                     }
@@ -62,14 +63,17 @@ class ApplicationShutdownHooks {
      * but does not do any security checks.
      */
     static synchronized void add(Thread hook) {
-        if(hooks == null)
+        if(hooks == null) {
             throw new IllegalStateException("Shutdown in progress");
+        }
 
-        if (hook.isAlive())
+        if (hook.isAlive()) {
             throw new IllegalArgumentException("Hook already running");
+        }
 
-        if (hooks.containsKey(hook))
+        if (hooks.containsKey(hook)) {
             throw new IllegalArgumentException("Hook previously registered");
+        }
 
         hooks.put(hook, hook);
     }
@@ -78,11 +82,13 @@ class ApplicationShutdownHooks {
      * does not do any security checks.
      */
     static synchronized boolean remove(Thread hook) {
-        if(hooks == null)
+        if(hooks == null) {
             throw new IllegalStateException("Shutdown in progress");
+        }
 
-        if (hook == null)
+        if (hook == null) {
             throw new NullPointerException();
+        }
 
         return hooks.remove(hook) != null;
     }

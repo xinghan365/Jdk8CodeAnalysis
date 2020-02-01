@@ -78,6 +78,7 @@ public interface TypeMirror extends javax.lang.model.AnnotatedConstruct {
      * @param obj  the object to be compared with this type
      * @return {@code true} if the specified object is equal to this one
      */
+    @Override
     boolean equals(Object obj);
 
     /**
@@ -85,6 +86,7 @@ public interface TypeMirror extends javax.lang.model.AnnotatedConstruct {
      *
      * @see #equals
      */
+    @Override
     int hashCode();
 
     /**
@@ -95,6 +97,7 @@ public interface TypeMirror extends javax.lang.model.AnnotatedConstruct {
      *
      * @return a string representation of this type
      */
+    @Override
     String toString();
 
     /**

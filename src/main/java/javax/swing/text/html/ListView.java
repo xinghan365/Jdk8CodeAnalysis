@@ -50,6 +50,7 @@ public class ListView extends BlockView  {
      * @return the desired span
      * @see View#getPreferredSpan
      */
+    @Override
     public float getAlignment(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -69,6 +70,7 @@ public class ListView extends BlockView  {
      * @param allocation the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape allocation) {
         super.paint(g, allocation);
         Rectangle alloc = allocation.getBounds();
@@ -108,11 +110,13 @@ public class ListView extends BlockView  {
      * @param alloc the allocated region to render the child into
      * @param index the index of the child
      */
+    @Override
     protected void paintChild(Graphics g, Rectangle alloc, int index) {
         listPainter.paint(g, alloc.x, alloc.y, alloc.width, alloc.height, this, index);
         super.paintChild(g, alloc, index);
     }
 
+    @Override
     protected void setPropertiesFromAttributes() {
         super.setPropertiesFromAttributes();
         listPainter = getStyleSheet().getListPainter(getAttributes());

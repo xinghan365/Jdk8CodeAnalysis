@@ -72,21 +72,26 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
     protected boolean leadAnchorNotificationEnabled = true;
 
     /** {@inheritDoc} */
+    @Override
     public int getMinSelectionIndex() { return isSelectionEmpty() ? -1 : minIndex; }
 
     /** {@inheritDoc} */
+    @Override
     public int getMaxSelectionIndex() { return maxIndex; }
 
     /** {@inheritDoc} */
+    @Override
     public boolean getValueIsAdjusting() { return isAdjusting; }
 
     /** {@inheritDoc} */
+    @Override
     public int getSelectionMode() { return selectionMode; }
 
     /**
      * {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     public void setSelectionMode(int selectionMode) {
         switch (selectionMode) {
         case SINGLE_SELECTION:
@@ -100,21 +105,25 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSelectedIndex(int index) {
         return ((index < minIndex) || (index > maxIndex)) ? false : value.get(index);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSelectionEmpty() {
         return (minIndex > maxIndex);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addListSelectionListener(ListSelectionListener l) {
         listenerList.add(ListSelectionListener.class, l);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void removeListSelectionListener(ListSelectionListener l) {
         listenerList.remove(ListSelectionListener.class, l);
     }
@@ -416,6 +425,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
     }
 
     /** {@inheritDoc} */
+    @Override
     public void clearSelection() {
         removeSelectionIntervalImpl(minIndex, maxIndex, false);
     }
@@ -441,6 +451,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      *         (and neither index is {@code -1})
      * @see #addListSelectionListener
      */
+    @Override
     public void setSelectionInterval(int index0, int index1) {
         if (index0 == -1 || index1 == -1) {
             return;
@@ -485,6 +496,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      * @see #addListSelectionListener
      * @see #setSelectionInterval
      */
+    @Override
     public void addSelectionInterval(int index0, int index1)
     {
         if (index0 == -1 || index1 == -1) {
@@ -543,6 +555,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      *         (and neither index is {@code -1})
      * @see #addListSelectionListener
      */
+    @Override
     public void removeSelectionInterval(int index0, int index1)
     {
         removeSelectionIntervalImpl(index0, index1, true);
@@ -593,6 +606,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      * called to sync the selection model with a corresponding change
      * in the data model.
      */
+    @Override
     public void insertIndexInterval(int index, int length, boolean before)
     {
         /* The first new index will appear at insMinIndex and the last
@@ -639,6 +653,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      * model width a corresponding change in the data model.  Note
      * that (as always) index0 need not be &lt;= index1.
      */
+    @Override
     public void removeIndexInterval(int index0, int index1)
     {
         int rmMinIndex = Math.min(index0, index1);
@@ -679,6 +694,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
 
 
     /** {@inheritDoc} */
+    @Override
     public void setValueIsAdjusting(boolean isAdjusting) {
         if (isAdjusting != this.isAdjusting) {
             this.isAdjusting = isAdjusting;
@@ -693,6 +709,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      *
      * @return a <code>String</code> representation of this object
      */
+    @Override
     public String toString() {
         String s =  ((getValueIsAdjusting()) ? "~" : "=") + value.toString();
         return getClass().getName() + " " + Integer.toString(hashCode()) + " " + s;
@@ -706,6 +723,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      *    both (a) implement the Cloneable interface and (b) define a
      *    <code>clone</code> method.
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         DefaultListSelectionModel clone = (DefaultListSelectionModel)super.clone();
         clone.value = (BitSet)value.clone();
@@ -714,12 +732,14 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
     }
 
     /** {@inheritDoc} */
+    @Override
     @Transient
     public int getAnchorSelectionIndex() {
         return anchorIndex;
     }
 
     /** {@inheritDoc} */
+    @Override
     @Transient
     public int getLeadSelectionIndex() {
         return leadIndex;
@@ -733,6 +753,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      * @see #getAnchorSelectionIndex
      * @see #setLeadSelectionIndex
      */
+    @Override
     public void setAnchorSelectionIndex(int anchorIndex) {
         updateLeadAnchorIndices(anchorIndex, this.leadIndex);
         fireValueChanged();
@@ -805,6 +826,7 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
      * @see #getLeadSelectionIndex
      * @see #setAnchorSelectionIndex
      */
+    @Override
     public void setLeadSelectionIndex(int leadIndex) {
         int anchorIndex = this.anchorIndex;
 

@@ -64,6 +64,7 @@ public interface Name extends CharSequence {
      *          name as this
      * @see Element#equals
      */
+    @Override
     boolean equals(Object obj);
 
     /**
@@ -71,6 +72,7 @@ public interface Name extends CharSequence {
      *
      * @see #equals
      */
+    @Override
     int hashCode();
 
     /**

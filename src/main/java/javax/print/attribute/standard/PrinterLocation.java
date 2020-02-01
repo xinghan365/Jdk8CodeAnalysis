@@ -85,6 +85,7 @@ public final class PrinterLocation extends TextSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this printer
      *          location attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) && object instanceof PrinterLocation);
     }
@@ -99,6 +100,7 @@ public final class PrinterLocation extends TextSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterLocation.class;
     }
@@ -112,6 +114,7 @@ public final class PrinterLocation extends TextSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-location";
     }

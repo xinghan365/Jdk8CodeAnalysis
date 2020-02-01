@@ -72,6 +72,7 @@ public class StringSelection implements Transferable, ClipboardOwner {
      * @return an array of length two, whose elements are <code>DataFlavor.
      *         stringFlavor</code> and <code>DataFlavor.plainTextFlavor</code>
      */
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         // returning flavors itself would allow client code to modify
         // our internal behavior
@@ -89,6 +90,7 @@ public class StringSelection implements Transferable, ClipboardOwner {
      *   is not one of the above flavors
      * @throws NullPointerException if flavor is <code>null</code>
      */
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         // JCK Test StringSelection0003: if 'flavor' is null, throw NPE
         for (int i = 0; i < flavors.length; i++) {
@@ -123,6 +125,7 @@ public class StringSelection implements Transferable, ClipboardOwner {
      * @throws NullPointerException if flavor is <code>null</code>
      * @see java.io.Reader
      */
+    @Override
     public Object getTransferData(DataFlavor flavor)
         throws UnsupportedFlavorException, IOException
     {
@@ -136,6 +139,7 @@ public class StringSelection implements Transferable, ClipboardOwner {
         }
     }
 
+    @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
     }
 }

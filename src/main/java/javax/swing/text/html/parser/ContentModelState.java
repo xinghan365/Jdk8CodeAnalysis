@@ -125,9 +125,13 @@ class ContentModelState {
 
           case ',': {
             ContentModel m = (ContentModel)model.content;
-            for (int i = 0 ; i < value ; i++, m = m.next);
+            for (int i = 0 ; i < value ; i++, m = m.next) {
+                ;
+            }
 
-            for (; (m != null) && m.empty() ; m = m.next);
+            for (; (m != null) && m.empty() ; m = m.next) {
+                ;
+            }
             if (m != null) {
                 return false;
             }
@@ -157,7 +161,9 @@ class ContentModelState {
 
           case ',': {
               ContentModel m = (ContentModel)model.content;
-              for (int i = 0 ; i < value ; i++, m = m.next);
+              for (int i = 0 ; i < value ; i++, m = m.next) {
+                  ;
+              }
               return m.first();
           }
 
@@ -217,7 +223,9 @@ class ContentModelState {
 
           case ',': {
             ContentModel m = (ContentModel)model.content;
-            for (int i = 0 ; i < value ; i++, m = m.next);
+            for (int i = 0 ; i < value ; i++, m = m.next) {
+                ;
+            }
 
             if (m.first(token) || m.empty()) {
                 if (m.next == null) {

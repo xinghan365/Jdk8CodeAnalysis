@@ -170,6 +170,7 @@ public class XMLDecoder implements AutoCloseable {
      * This method closes the input stream associated
      * with this stream.
      */
+    @Override
     public void close() {
         if (parsingComplete()) {
             close(this.input.getCharacterStream());
@@ -197,6 +198,7 @@ public class XMLDecoder implements AutoCloseable {
                 throw new SecurityException("AccessControlContext is not set");
             }
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     XMLDecoder.this.handler.parse(XMLDecoder.this.input);
                     return null;

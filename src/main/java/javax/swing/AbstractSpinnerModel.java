@@ -72,6 +72,7 @@ public abstract class AbstractSpinnerModel implements SpinnerModel, Serializable
      * @see #removeChangeListener
      * @see SpinnerModel#addChangeListener
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -84,6 +85,7 @@ public abstract class AbstractSpinnerModel implements SpinnerModel, Serializable
      * @see #addChangeListener
      * @see SpinnerModel#removeChangeListener
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }

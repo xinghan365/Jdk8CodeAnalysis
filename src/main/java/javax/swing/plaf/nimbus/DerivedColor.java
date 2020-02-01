@@ -113,14 +113,28 @@ class DerivedColor extends Color {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DerivedColor)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DerivedColor)) {
+            return false;
+        }
         DerivedColor that = (DerivedColor) o;
-        if (aOffset != that.aOffset) return false;
-        if (Float.compare(that.bOffset, bOffset) != 0) return false;
-        if (Float.compare(that.hOffset, hOffset) != 0) return false;
-        if (Float.compare(that.sOffset, sOffset) != 0) return false;
-        if (!uiDefaultParentName.equals(that.uiDefaultParentName)) return false;
+        if (aOffset != that.aOffset) {
+            return false;
+        }
+        if (Float.compare(that.bOffset, bOffset) != 0) {
+            return false;
+        }
+        if (Float.compare(that.hOffset, hOffset) != 0) {
+            return false;
+        }
+        if (Float.compare(that.sOffset, sOffset) != 0) {
+            return false;
+        }
+        if (!uiDefaultParentName.equals(that.uiDefaultParentName)) {
+            return false;
+        }
         return true;
     }
 

@@ -225,6 +225,7 @@ public class Role implements Serializable {
      *
      * @return the description of the role.
      */
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("role name: " + name + "; role value: ");
@@ -248,6 +249,7 @@ public class Role implements Serializable {
      *
      * @return a Role that is an independent copy of the current Role object.
      */
+    @Override
     public Object clone() {
 
         try {
@@ -277,8 +279,9 @@ public class Role implements Serializable {
 
         StringBuilder result = new StringBuilder();
         for (ObjectName currObjName : roleValue) {
-            if (result.length() > 0)
+            if (result.length() > 0) {
                 result.append("\n");
+            }
             result.append(currObjName.toString());
         }
         return result.toString();

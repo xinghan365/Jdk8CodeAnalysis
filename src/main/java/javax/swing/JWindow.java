@@ -347,6 +347,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setTransferHandler
      * @since 1.6
      */
+    @Override
     public TransferHandler getTransferHandler() {
         return transferHandler;
     }
@@ -357,6 +358,7 @@ public class JWindow extends Window implements Accessible,
      *
      * @param g  the <code>Graphics</code> context in which to paint
      */
+    @Override
     public void update(Graphics g) {
         paint(g);
     }
@@ -401,6 +403,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index)
     {
         if(isRootPaneCheckingEnabled()) {
@@ -423,6 +426,7 @@ public class JWindow extends Window implements Accessible,
      * @see #add
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void remove(Component comp) {
         if (comp == rootPane) {
             super.remove(comp);
@@ -443,6 +447,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void setLayout(LayoutManager manager) {
         if(isRootPaneCheckingEnabled()) {
             getContentPane().setLayout(manager);
@@ -460,6 +465,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setRootPane
      * @see RootPaneContainer#getRootPane
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -502,6 +508,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setContentPane
      * @see RootPaneContainer#getContentPane
      */
+    @Override
     public Container getContentPane() {
         return getRootPane().getContentPane();
     }
@@ -522,6 +529,7 @@ public class JWindow extends Window implements Accessible,
      *     description: The client area of the window where child
      *                  components are normally inserted.
      */
+    @Override
     public void setContentPane(Container contentPane) {
         getRootPane().setContentPane(contentPane);
     }
@@ -533,6 +541,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setLayeredPane
      * @see RootPaneContainer#getLayeredPane
      */
+    @Override
     public JLayeredPane getLayeredPane() {
         return getRootPane().getLayeredPane();
     }
@@ -552,6 +561,7 @@ public class JWindow extends Window implements Accessible,
      *     hidden: true
      *     description: The pane which holds the various window layers.
      */
+    @Override
     public void setLayeredPane(JLayeredPane layeredPane) {
         getRootPane().setLayeredPane(layeredPane);
     }
@@ -563,6 +573,7 @@ public class JWindow extends Window implements Accessible,
      * @see #setGlassPane
      * @see RootPaneContainer#getGlassPane
      */
+    @Override
     public Component getGlassPane() {
         return getRootPane().getGlassPane();
     }
@@ -579,6 +590,7 @@ public class JWindow extends Window implements Accessible,
      *     hidden: true
      *     description: A transparent pane used for menu rendering.
      */
+    @Override
     public void setGlassPane(Component glassPane) {
         getRootPane().setGlassPane(glassPane);
     }
@@ -588,6 +600,7 @@ public class JWindow extends Window implements Accessible,
      *
      * @since 1.6
      */
+    @Override
     public Graphics getGraphics() {
         JComponent.getGraphicsInvoked(this);
         return super.getGraphics();
@@ -606,6 +619,7 @@ public class JWindow extends Window implements Accessible,
      * @see       RepaintManager
      * @since     1.6
      */
+    @Override
     public void repaint(long time, int x, int y, int width, int height) {
         if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
             RepaintManager.currentManager(this).addDirtyRegion(
@@ -626,6 +640,7 @@ public class JWindow extends Window implements Accessible,
      *
      * @return  a string representation of this <code>JWindow</code>
      */
+    @Override
     protected String paramString() {
         String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
                                                 "true" : "false");
@@ -651,6 +666,7 @@ public class JWindow extends Window implements Accessible,
      * @return an AccessibleJWindow that serves as the
      *         AccessibleContext of this JWindow
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJWindow();

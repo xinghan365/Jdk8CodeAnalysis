@@ -584,6 +584,7 @@ public class JFormattedTextField extends JTextField {
      * @param e the <code>InputMethodEvent</code>
      * @see InputMethodEvent
      */
+    @Override
     protected void processInputMethodEvent(InputMethodEvent e) {
         AttributedCharacterIterator text = e.getText();
         int commitCount = e.getCommittedCharacterCount();
@@ -608,6 +609,7 @@ public class JFormattedTextField extends JTextField {
      * @param e the <code>FocusEvent</code>
      * @see FocusEvent
      */
+    @Override
     protected void processFocusEvent(FocusEvent e) {
         super.processFocusEvent(e);
 
@@ -640,6 +642,7 @@ public class JFormattedTextField extends JTextField {
      * FOCUS_LOST behavior implementation
      */
     private class FocusLostHandler implements Runnable, Serializable {
+        @Override
         public void run() {
             int fb = JFormattedTextField.this.getFocusLostBehavior();
             if (fb == JFormattedTextField.COMMIT ||
@@ -672,6 +675,7 @@ public class JFormattedTextField extends JTextField {
      *
      * @return the command list
      */
+    @Override
     public Action[] getActions() {
         return TextAction.augmentList(super.getActions(), defaultActions);
     }
@@ -682,6 +686,7 @@ public class JFormattedTextField extends JTextField {
      * @return the string "FormattedTextFieldUI"
      * @see JComponent#getUIClassID
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -699,6 +704,7 @@ public class JFormattedTextField extends JTextField {
      *        bound: true
      *       expert: true
      */
+    @Override
     public void setDocument(Document doc) {
         if (documentListener != null && getDocument() != null) {
             getDocument().removeDocumentListener(documentListener);
@@ -1071,6 +1077,7 @@ public class JFormattedTextField extends JTextField {
          *
          * @return Copy of the AbstractFormatter
          */
+        @Override
         protected Object clone() throws CloneNotSupportedException {
             AbstractFormatter formatter = (AbstractFormatter)super.clone();
 
@@ -1106,6 +1113,7 @@ public class JFormattedTextField extends JTextField {
      * commitEdit.
      */
     static class CommitAction extends JTextField.NotifyAction {
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getFocusedComponent();
 
@@ -1123,6 +1131,7 @@ public class JFormattedTextField extends JTextField {
             super.actionPerformed(e);
         }
 
+        @Override
         public boolean isEnabled() {
             JTextComponent target = getFocusedComponent();
             if (target instanceof JFormattedTextField) {
@@ -1148,6 +1157,7 @@ public class JFormattedTextField extends JTextField {
             super("reset-field-edit");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getFocusedComponent();
 
@@ -1157,6 +1167,7 @@ public class JFormattedTextField extends JTextField {
             }
         }
 
+        @Override
         public boolean isEnabled() {
             JTextComponent target = getFocusedComponent();
             if (target instanceof JFormattedTextField) {
@@ -1175,12 +1186,15 @@ public class JFormattedTextField extends JTextField {
      * Sets the dirty state as the document changes.
      */
     private class DocumentHandler implements DocumentListener, Serializable {
+        @Override
         public void insertUpdate(DocumentEvent e) {
             setEdited(true);
         }
+        @Override
         public void removeUpdate(DocumentEvent e) {
             setEdited(true);
         }
+        @Override
         public void changedUpdate(DocumentEvent e) {}
     }
 }

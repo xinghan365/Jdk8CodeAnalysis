@@ -143,6 +143,7 @@ public interface AclEntry extends Cloneable {
      *
      * @return a string representation of the contents.
      */
+    @Override
     public String toString();
 
     /**

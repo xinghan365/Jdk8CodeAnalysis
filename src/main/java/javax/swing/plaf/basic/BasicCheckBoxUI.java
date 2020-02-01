@@ -69,6 +69,7 @@ public class BasicCheckBoxUI extends BasicRadioButtonUI {
         return checkboxUI;
     }
 
+    @Override
     public String getPropertyPrefix() {
         return propertyPrefix;
     }

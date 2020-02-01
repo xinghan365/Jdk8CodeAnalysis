@@ -161,6 +161,7 @@ public class BasicFileChooserUI extends FileChooserUI {
     public BasicFileChooserUI(JFileChooser b) {
     }
 
+    @Override
     public void installUI(JComponent c) {
         accessoryPanel = new JPanel(new BorderLayout());
         filechooser = (JFileChooser) c;
@@ -175,6 +176,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         filechooser.applyComponentOrientation(filechooser.getComponentOrientation());
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallListeners(filechooser);
         uninstallComponents(filechooser);
@@ -227,6 +229,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         ActionMap map = new ActionMapUIResource();
 
         Action refreshAction = new UIAction(FilePane.ACTION_REFRESH) {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 getFileChooser().rescanCurrentDirectory();
             }
@@ -383,9 +386,11 @@ public class BasicFileChooserUI extends FileChooserUI {
     public void setDirectoryName(String dirname) {
     }
 
+    @Override
     public void rescanCurrentDirectory(JFileChooser fc) {
     }
 
+    @Override
     public void ensureFileIsVisible(JFileChooser fc, File f) {
     }
 
@@ -401,6 +406,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         return null;
     }
 
+    @Override
     public JButton getDefaultButton(JFileChooser fc) {
         return getApproveButton(fc);
     }
@@ -454,6 +460,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             this.list = list;
         }
 
+        @Override
         public void mouseClicked(MouseEvent evt) {
             // Note: we can't depend on evt.getSource() because of backward
             // compatibility
@@ -480,6 +487,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent evt) {
             if (list != null) {
                 TransferHandler th1 = getFileChooser().getTransferHandler();
@@ -493,15 +501,19 @@ public class BasicFileChooserUI extends FileChooserUI {
             }
         }
 
+        @Override
         public void mouseExited(MouseEvent evt) {
         }
 
+        @Override
         public void mousePressed(MouseEvent evt) {
         }
 
+        @Override
         public void mouseReleased(MouseEvent evt) {
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent evt) {
             if(!evt.getValueIsAdjusting()) {
                 JFileChooser chooser = getFileChooser();
@@ -581,10 +593,12 @@ public class BasicFileChooserUI extends FileChooserUI {
          * transfer source.  The list is updated on a mouse enter to reflect the current
          * data transfer state of the file chooser.
          */
+        @Override
         public void mouseEntered(MouseEvent e) {
             handler.mouseEntered(e);
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             handler.mouseClicked(e);
         }
@@ -595,6 +609,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             getHandler().valueChanged(e);
         }
@@ -658,11 +673,13 @@ public class BasicFileChooserUI extends FileChooserUI {
     /**
      * Returns the default accept all file filter
      */
+    @Override
     public FileFilter getAcceptAllFileFilter(JFileChooser fc) {
         return acceptAllFileFilter;
     }
 
 
+    @Override
     public FileView getFileView(JFileChooser fc) {
         return fileView;
     }
@@ -671,6 +688,7 @@ public class BasicFileChooserUI extends FileChooserUI {
     /**
      * Returns the title of this dialog
      */
+    @Override
     public String getDialogTitle(JFileChooser fc) {
         String dialogTitle = fc.getDialogTitle();
         if (dialogTitle != null) {
@@ -698,6 +716,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         }
     }
 
+    @Override
     public String getApproveButtonText(JFileChooser fc) {
         String buttonText = fc.getApproveButtonText();
         if (buttonText != null) {
@@ -756,6 +775,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         protected NewFolderAction() {
             super(FilePane.ACTION_NEW_FOLDER);
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (readOnly) {
                 return;
@@ -798,6 +818,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         protected GoHomeAction() {
             super("Go Home");
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser fc = getFileChooser();
             changeDirectory(fc.getFileSystemView().getHomeDirectory());
@@ -809,6 +830,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             super("Go Up");
             putValue(Action.ACTION_COMMAND_KEY, FilePane.ACTION_CHANGE_TO_PARENT_DIRECTORY);
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             getFileChooser().changeToParentDirectory();
         }
@@ -821,6 +843,7 @@ public class BasicFileChooserUI extends FileChooserUI {
         protected ApproveSelectionAction() {
             super(FilePane.ACTION_APPROVE_SELECTION);
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (isDirectorySelected()) {
                 File dir = getDirectory();
@@ -1107,6 +1130,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             this.pattern = Pattern.compile(new String(rPat, 0, j), Pattern.CASE_INSENSITIVE);
         }
 
+        @Override
         public boolean accept(File f) {
             if (f == null) {
                 return false;
@@ -1117,6 +1141,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             return pattern.matcher(f.getName()).matches();
         }
 
+        @Override
         public String getDescription() {
             return globPattern;
         }
@@ -1126,6 +1151,7 @@ public class BasicFileChooserUI extends FileChooserUI {
      * Responds to a cancel request.
      */
     protected class CancelSelectionAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent e) {
             getFileChooser().cancelSelection();
         }
@@ -1135,6 +1161,7 @@ public class BasicFileChooserUI extends FileChooserUI {
      * Rescans the files in the current directory
      */
     protected class UpdateAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser fc = getFileChooser();
             fc.setCurrentDirectory(fc.getFileSystemView().createFileObject(getDirectoryName()));
@@ -1185,10 +1212,12 @@ public class BasicFileChooserUI extends FileChooserUI {
         public AcceptAllFileFilter() {
         }
 
+        @Override
         public boolean accept(File f) {
             return true;
         }
 
+        @Override
         public String getDescription() {
             return UIManager.getString("FileChooser.acceptAllFileFilterText");
         }
@@ -1210,6 +1239,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             iconCache = new Hashtable<File,Icon>();
         }
 
+        @Override
         public String getName(File f) {
             // Note: Returns display name rather than file name
             String fileName = null;
@@ -1220,10 +1250,12 @@ public class BasicFileChooserUI extends FileChooserUI {
         }
 
 
+        @Override
         public String getDescription(File f) {
             return f.getName();
         }
 
+        @Override
         public String getTypeDescription(File f) {
             String type = getFileChooser().getFileSystemView().getSystemTypeDescription(f);
             if (type == null) {
@@ -1247,6 +1279,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             iconCache.put(f, i);
         }
 
+        @Override
         public Icon getIcon(File f) {
             Icon icon = getCachedIcon(f);
             if(icon != null) {
@@ -1297,6 +1330,7 @@ public class BasicFileChooserUI extends FileChooserUI {
          * @return  The representation of the data to be transfered.
          *
          */
+        @Override
         protected Transferable createTransferable(JComponent c) {
             Object[] values = null;
             if (c instanceof JList) {
@@ -1333,6 +1367,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             return new FileTransferable(plainBuf.toString(), htmlBuf.toString(), values);
         }
 
+        @Override
         public int getSourceActions(JComponent c) {
             return COPY;
         }
@@ -1349,6 +1384,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             /**
              * Best format of the file chooser is DataFlavor.javaFileListFlavor.
              */
+            @Override
             protected DataFlavor[] getRicherFlavors() {
                 DataFlavor[] flavors = new DataFlavor[1];
                 flavors[0] = DataFlavor.javaFileListFlavor;
@@ -1358,6 +1394,7 @@ public class BasicFileChooserUI extends FileChooserUI {
             /**
              * The only richer format supported is the file list flavor
              */
+            @Override
             protected Object getRicherData(DataFlavor flavor) {
                 if (DataFlavor.javaFileListFlavor.equals(flavor)) {
                     ArrayList<Object> files = new ArrayList<Object>();

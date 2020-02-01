@@ -76,6 +76,7 @@ public class NotificationFilterSupport implements NotificationFilter {
      * @param notification The notification to be sent.
      * @return <CODE>true</CODE> if the notification should be sent to the listener, <CODE>false</CODE> otherwise.
      */
+    @Override
     public synchronized boolean isNotificationEnabled(Notification notification) {
 
         String type = notification.getType();

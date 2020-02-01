@@ -144,8 +144,9 @@ public class StandardEmitterMBean extends StandardMBean
                                     boolean isMXBean,
                                     NotificationEmitter emitter) {
         super(implementation, mbeanInterface, isMXBean);
-        if (emitter == null)
+        if (emitter == null) {
             throw new IllegalArgumentException("Null emitter");
+        }
         this.emitter = emitter;
         MBeanNotificationInfo[] infos = emitter.getNotificationInfo();
         if (infos == null || infos.length == 0) {
@@ -228,8 +229,9 @@ public class StandardEmitterMBean extends StandardMBean
     protected StandardEmitterMBean(Class<?> mbeanInterface, boolean isMXBean,
                                    NotificationEmitter emitter) {
         super(mbeanInterface, isMXBean);
-        if (emitter == null)
+        if (emitter == null) {
             throw new IllegalArgumentException("Null emitter");
+        }
         this.emitter = emitter;
         MBeanNotificationInfo[] infos = emitter.getNotificationInfo();
         if (infos == null || infos.length == 0) {
@@ -239,11 +241,13 @@ public class StandardEmitterMBean extends StandardMBean
         }
     }
 
+    @Override
     public void removeNotificationListener(NotificationListener listener)
             throws ListenerNotFoundException {
         emitter.removeNotificationListener(listener);
     }
 
+    @Override
     public void removeNotificationListener(NotificationListener listener,
                                            NotificationFilter filter,
                                            Object handback)
@@ -251,12 +255,14 @@ public class StandardEmitterMBean extends StandardMBean
         emitter.removeNotificationListener(listener, filter, handback);
     }
 
+    @Override
     public void addNotificationListener(NotificationListener listener,
                                         NotificationFilter filter,
                                         Object handback) {
         emitter.addNotificationListener(listener, filter, handback);
     }
 
+    @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
         // this getter might get called from the super constructor
         // when the notificationInfo has not been properly set yet
@@ -285,9 +291,9 @@ public class StandardEmitterMBean extends StandardMBean
      * constructor was not a {@code NotificationBroadcasterSupport}.
      */
     public void sendNotification(Notification n) {
-        if (emitter instanceof NotificationBroadcasterSupport)
+        if (emitter instanceof NotificationBroadcasterSupport) {
             ((NotificationBroadcasterSupport) emitter).sendNotification(n);
-        else {
+        } else {
             final String msg =
                 "Cannot sendNotification when emitter is not an " +
                 "instance of NotificationBroadcasterSupport: " +

@@ -90,6 +90,7 @@ public class Date extends java.util.Date {
      *        A negative number indicates the number of milliseconds
      *        before January 1, 1970, 00:00:00 GMT.
      */
+    @Override
     public void setTime(long date) {
         // If the millisecond date value contains time info, mask it out.
         super.setTime(date);
@@ -153,6 +154,7 @@ public class Date extends java.util.Date {
      * <P>
      * @return a String in yyyy-mm-dd format
      */
+    @Override
     @SuppressWarnings("deprecation")
     public String toString () {
         int year = super.getYear() + 1900;
@@ -182,6 +184,7 @@ public class Date extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this method is invoked
     * @see #setHours
     */
+    @Override
     @Deprecated
     public int getHours() {
         throw new java.lang.IllegalArgumentException();
@@ -195,6 +198,7 @@ public class Date extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this method is invoked
     * @see #setMinutes
     */
+    @Override
     @Deprecated
     public int getMinutes() {
         throw new java.lang.IllegalArgumentException();
@@ -208,6 +212,7 @@ public class Date extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this method is invoked
     * @see #setSeconds
     */
+    @Override
     @Deprecated
     public int getSeconds() {
         throw new java.lang.IllegalArgumentException();
@@ -221,6 +226,7 @@ public class Date extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this method is invoked
     * @see #getHours
     */
+    @Override
     @Deprecated
     public void setHours(int i) {
         throw new java.lang.IllegalArgumentException();
@@ -234,6 +240,7 @@ public class Date extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this method is invoked
     * @see #getMinutes
     */
+    @Override
     @Deprecated
     public void setMinutes(int i) {
         throw new java.lang.IllegalArgumentException();
@@ -247,6 +254,7 @@ public class Date extends java.util.Date {
     * @exception java.lang.IllegalArgumentException if this method is invoked
     * @see #getSeconds
     */
+    @Override
     @Deprecated
     public void setSeconds(int i) {
         throw new java.lang.IllegalArgumentException();

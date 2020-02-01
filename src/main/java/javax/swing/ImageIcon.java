@@ -98,6 +98,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
 
     static {
         component = AccessController.doPrivileged(new PrivilegedAction<Component>() {
+            @Override
             public Component run() {
                 try {
                     final Component component = createNoPermsComponent();
@@ -126,6 +127,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
         // Note, will have appContext set.
         return AccessController.doPrivileged(
                 new PrivilegedAction<Component>() {
+                    @Override
                     public Component run() {
                         return new Component() {
                         };
@@ -420,6 +422,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
      * @param x the X coordinate of the icon's top-left corner
      * @param y the Y coordinate of the icon's top-left corner
      */
+    @Override
     public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         if(imageObserver == null) {
            g.drawImage(image, x, y, c);
@@ -433,6 +436,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
      *
      * @return the width in pixels of this icon
      */
+    @Override
     public int getIconWidth() {
         return width;
     }
@@ -442,6 +446,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
      *
      * @return the height in pixels of this icon
      */
+    @Override
     public int getIconHeight() {
         return height;
     }
@@ -478,6 +483,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
      *
      * @return a string representing this image
      */
+    @Override
     public String toString() {
         if (description != null) {
             return description;
@@ -549,6 +555,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
      *  description: The AccessibleContext associated with this ImageIcon.
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleImageIcon();
@@ -586,6 +593,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.ICON;
         }
@@ -597,6 +605,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             return null;
         }
@@ -609,6 +618,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          * @return the Accessible parent of this object -- can be null if this
          * object does not have an Accessible parent
          */
+        @Override
         public Accessible getAccessibleParent() {
             return null;
         }
@@ -620,6 +630,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          * object does not have an accessible parent.
          * @see #getAccessibleParent
          */
+        @Override
         public int getAccessibleIndexInParent() {
             return -1;
         }
@@ -631,6 +642,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          *
          * @return the number of accessible children in the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return 0;
         }
@@ -641,6 +653,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          * @param i zero-based index of child
          * @return the nth Accessible child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             return null;
         }
@@ -650,6 +663,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          *
          * @return the locale of this object
          */
+        @Override
         public Locale getLocale() throws IllegalComponentStateException {
             return null;
         }
@@ -666,6 +680,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          *
          * @return the description of the icon
          */
+        @Override
         public String getAccessibleIconDescription() {
             return ImageIcon.this.getDescription();
         }
@@ -678,6 +693,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          *
          * @param description the description of the icon
          */
+        @Override
         public void setAccessibleIconDescription(String description) {
             ImageIcon.this.setDescription(description);
         }
@@ -687,6 +703,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          *
          * @return the height of the icon
          */
+        @Override
         public int getAccessibleIconHeight() {
             return ImageIcon.this.height;
         }
@@ -696,6 +713,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
          *
          * @return the width of the icon
          */
+        @Override
         public int getAccessibleIconWidth() {
             return ImageIcon.this.width;
         }

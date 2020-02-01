@@ -194,6 +194,7 @@ abstract class TexturePaintContext implements PaintContext {
     /**
      * Release the resources allocated for the operation.
      */
+    @Override
     public void dispose() {
         dropRaster(colorModel, outRas);
     }
@@ -201,6 +202,7 @@ abstract class TexturePaintContext implements PaintContext {
     /**
      * Return the ColorModel of the output.
      */
+    @Override
     public ColorModel getColorModel() {
         return colorModel;
     }
@@ -211,6 +213,7 @@ abstract class TexturePaintContext implements PaintContext {
      * @param x,y,w,h The area in device space for which colors are
      * generated.
      */
+    @Override
     public Raster getRaster(int x, int y, int w, int h) {
         if (outRas == null ||
             outRas.getWidth() < w ||
@@ -391,6 +394,7 @@ abstract class TexturePaintContext implements PaintContext {
             this.filter = filter;
         }
 
+        @Override
         public WritableRaster makeRaster(int w, int h) {
             WritableRaster ras = makeRaster(colorModel, srcRas, w, h);
             IntegerInterleavedRaster iiRas = (IntegerInterleavedRaster) ras;
@@ -400,6 +404,7 @@ abstract class TexturePaintContext implements PaintContext {
             return ras;
         }
 
+        @Override
         public void setRaster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
@@ -525,6 +530,7 @@ abstract class TexturePaintContext implements PaintContext {
             this.inOff = srcRas.getDataOffset(0);
         }
 
+        @Override
         public WritableRaster makeRaster(int w, int h) {
             WritableRaster ras = makeByteRaster(srcRas, w, h);
             ByteInterleavedRaster biRas = (ByteInterleavedRaster) ras;
@@ -534,10 +540,12 @@ abstract class TexturePaintContext implements PaintContext {
             return ras;
         }
 
+        @Override
         public void dispose() {
             dropByteRaster(outRas);
         }
 
+        @Override
         public void setRaster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
@@ -650,6 +658,7 @@ abstract class TexturePaintContext implements PaintContext {
             this.inOff = srcRas.getDataOffset(0);
         }
 
+        @Override
         public WritableRaster makeRaster(int w, int h) {
             // Note that we do not pass srcRas to makeRaster since it
             // is a Byte Raster and this colorModel needs an Int Raster
@@ -661,6 +670,7 @@ abstract class TexturePaintContext implements PaintContext {
             return ras;
         }
 
+        @Override
         public void setRaster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
@@ -747,10 +757,12 @@ abstract class TexturePaintContext implements PaintContext {
             this.filter = filter;
         }
 
+        @Override
         public WritableRaster makeRaster(int w, int h) {
             return makeRaster(colorModel, srcRas, w, h);
         }
 
+        @Override
         public void setRaster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,

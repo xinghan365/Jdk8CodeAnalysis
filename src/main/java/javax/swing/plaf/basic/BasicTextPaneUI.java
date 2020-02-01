@@ -73,10 +73,12 @@ public class BasicTextPaneUI extends BasicEditorPaneUI {
      *
      * @return the name ("TextPane")
      */
+    @Override
     protected String getPropertyPrefix() {
         return "TextPane";
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
     }
@@ -92,6 +94,7 @@ public class BasicTextPaneUI extends BasicEditorPaneUI {
      *
      * @param evt the property change event
      */
+    @Override
     protected void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
     }

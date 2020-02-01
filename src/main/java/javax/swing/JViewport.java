@@ -313,6 +313,7 @@ public class JViewport extends JComponent implements Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ViewportUI)UIManager.getUI(this));
     }
@@ -327,6 +328,7 @@ public class JViewport extends JComponent implements Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -344,6 +346,7 @@ public class JViewport extends JComponent implements Accessible
      * @param index       the index
      * @see #setView
      */
+    @Override
     protected void addImpl(Component child, Object constraints, int index) {
       setView(child);
     }
@@ -354,6 +357,7 @@ public class JViewport extends JComponent implements Accessible
      *
      * @see #setView
      */
+    @Override
     public void remove(Component child) {
         child.removeComponentListener(viewListener);
         super.remove(child);
@@ -380,6 +384,7 @@ public class JViewport extends JComponent implements Accessible
      * @see java.awt.Component#isValid
      * @see java.awt.Component#getPeer
      */
+    @Override
     public void scrollRectToVisible(Rectangle contentRect) {
         Component view = getView();
 
@@ -558,6 +563,7 @@ public class JViewport extends JComponent implements Accessible
      * @param border the <code>Border</code> to set
      * @exception IllegalArgumentException this method is not implemented
      */
+    @Override
     public final void setBorder(Border border) {
         if (border != null) {
             throw new IllegalArgumentException("JViewport.setBorder() not supported");
@@ -572,6 +578,7 @@ public class JViewport extends JComponent implements Accessible
      * @return a <code>Rectangle</code> of zero dimension and zero origin
      * @see #setBorder
      */
+    @Override
     public final Insets getInsets() {
         return new Insets(0, 0, 0, 0);
     }
@@ -588,6 +595,7 @@ public class JViewport extends JComponent implements Accessible
      * @beaninfo
      *   expert: true
      */
+    @Override
     public final Insets getInsets(Insets insets) {
         insets.left = insets.top = insets.right = insets.bottom = 0;
         return insets;
@@ -635,6 +643,7 @@ public class JViewport extends JComponent implements Accessible
      *
      * @return false
      */
+    @Override
     public boolean isOptimizedDrawingEnabled() {
         return false;
     }
@@ -647,6 +656,7 @@ public class JViewport extends JComponent implements Accessible
      * @return true if if scroll mode is a {@code BACKINGSTORE_SCROLL_MODE}.
      * @see JComponent#isPaintingOrigin()
      */
+    @Override
     protected boolean isPaintingOrigin() {
         return scrollMode == BACKINGSTORE_SCROLL_MODE;
     }
@@ -678,6 +688,7 @@ public class JViewport extends JComponent implements Accessible
      *
      * @param g the <code>Graphics</code> context within which to paint
      */
+    @Override
     public void paint(Graphics g)
     {
         int width = getWidth();
@@ -827,6 +838,7 @@ public class JViewport extends JComponent implements Accessible
      *
      * @see JComponent#reshape(int, int, int, int)
      */
+    @Override
     public void reshape(int x, int y, int w, int h) {
         boolean sizeChanged = (getWidth() != w) || (getHeight() != h);
         if (sizeChanged) {
@@ -1284,6 +1296,7 @@ public class JViewport extends JComponent implements Accessible
      */
     protected class ViewListener extends ComponentAdapter implements Serializable
     {
+        @Override
         public void componentResized(ComponentEvent e) {
             fireStateChanged();
             revalidate();
@@ -1382,12 +1395,14 @@ public class JViewport extends JComponent implements Accessible
      * @param     h   the height
      * @see       java.awt.Component#update(java.awt.Graphics)
      */
+    @Override
     public void repaint(long tm, int x, int y, int w, int h) {
         Container parent = getParent();
-        if(parent != null)
+        if(parent != null) {
             parent.repaint(tm,x+getX(),y+getY(),w,h);
-        else
+        } else {
             super.repaint(tm,x,y,w,h);
+        }
     }
 
 
@@ -1401,6 +1416,7 @@ public class JViewport extends JComponent implements Accessible
      *
      * @return  a string representation of this <code>JViewport</code>
      */
+    @Override
     protected String paramString() {
         String isViewSizeSetString = (isViewSizeSet ?
                                       "true" : "false");
@@ -1428,6 +1444,7 @@ public class JViewport extends JComponent implements Accessible
      * @param oldValue the old value of the property
      * @param newValue  the new value of the property
      */
+    @Override
     protected void firePropertyChange(String propertyName, Object oldValue,
                                       Object newValue) {
         super.firePropertyChange(propertyName, oldValue, newValue);
@@ -1472,6 +1489,7 @@ public class JViewport extends JComponent implements Accessible
 
     private Timer createRepaintTimer() {
         Timer timer = new Timer(300, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 // waitingForRepaint will be false if a paint came down
                 // with the complete clip rect, in which case we don't
@@ -1682,8 +1700,9 @@ public class JViewport extends JComponent implements Accessible
 
             oldClip.setBounds(clip);
             SwingUtilities.computeIntersection(0, 0, w, h, clip);
-            if(!clip.equals(oldClip))
+            if(!clip.equals(oldClip)) {
                 return false;
+            }
 
             if(lastParent != null && parent instanceof JComponent &&
                !((JComponent)parent).isOptimizedDrawingEnabled()) {
@@ -1700,8 +1719,9 @@ public class JViewport extends JComponent implements Accessible
                 while(index >= 0) {
                     tmp2 = comps[index].getBounds(tmp2);
 
-                    if(tmp2.intersects(clip))
+                    if(tmp2.intersects(clip)) {
                         return false;
+                    }
                     index--;
                 }
             }
@@ -1730,6 +1750,7 @@ public class JViewport extends JComponent implements Accessible
      * @return an AccessibleJViewport that serves as the
      *         AccessibleContext of this JViewport
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJViewport();
@@ -1758,6 +1779,7 @@ public class JViewport extends JComponent implements Accessible
          * @return an instance of AccessibleRole describing the role of
          * the object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.VIEWPORT;
         }

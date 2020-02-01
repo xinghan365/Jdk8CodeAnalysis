@@ -94,6 +94,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      * @return a string of the base type name of the Ref
      * @throws SerialException in no Ref object has been set
      */
+    @Override
     public String getBaseTypeName() throws SerialException {
         return baseTypeName;
     }
@@ -113,6 +114,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      * @throws SerialException if an error is encountered in the reference
      *        resolution
      */
+    @Override
     public Object getObject(java.util.Map<String,Class<?>> map)
         throws SerialException
     {
@@ -132,6 +134,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      * @throws SerialException if an error is encountered in the reference
      *         resolution
      */
+    @Override
     public Object getObject() throws SerialException {
 
         if (reference != null) {
@@ -160,6 +163,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      * @throws SerialException if an error is encountered generating the
      * the structured type referenced by this <code>SerialRef</code> object
      */
+    @Override
     public void setObject(Object obj) throws SerialException {
         try {
             reference.setObject(obj);
@@ -181,6 +185,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      *          equivalent to this SerialRef, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -197,6 +202,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      * Returns a hash code for this {@code SerialRef}.
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return (31 + object.hashCode()) * 31 + baseTypeName.hashCode();
     }
@@ -207,6 +213,7 @@ public class SerialRef implements Ref, Serializable, Cloneable {
      *
      * @return  a clone of this SerialRef
      */
+    @Override
     public Object clone() {
         try {
             SerialRef ref = (SerialRef) super.clone();

@@ -354,6 +354,7 @@ class JapaneseImperialCalendar extends Calendar {
      * <code>false</code> otherwise.
      * @see Calendar#compareTo(Calendar)
      */
+    @Override
     public boolean equals(Object obj) {
         return obj instanceof JapaneseImperialCalendar &&
             super.equals(obj);
@@ -363,6 +364,7 @@ class JapaneseImperialCalendar extends Calendar {
      * Generates the hash code for this
      * <code>JapaneseImperialCalendar</code> object.
      */
+    @Override
     public int hashCode() {
         return super.hashCode() ^ jdate.hashCode();
     }
@@ -395,6 +397,7 @@ class JapaneseImperialCalendar extends Calendar {
      * or if any calendar fields have out-of-range values in
      * non-lenient mode.
      */
+    @Override
     public void add(int field, int amount) {
         // If amount == 0, do nothing even the given field is out of
         // range. This is tested by JCK.
@@ -523,6 +526,7 @@ class JapaneseImperialCalendar extends Calendar {
         }
     }
 
+    @Override
     public void roll(int field, boolean up) {
         roll(field, up ? +1 : -1);
     }
@@ -547,6 +551,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #add(int,int)
      * @see #set(int,int)
      */
+    @Override
     public void roll(int field, int amount) {
         // If amount == 0, do nothing even the given field is out of
         // range. This is tested by JCK.
@@ -1059,6 +1064,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #getActualMinimum(int)
      * @see #getActualMaximum(int)
      */
+    @Override
     public int getMinimum(int field) {
         return MIN_VALUES[field];
     }
@@ -1081,6 +1087,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #getActualMinimum(int)
      * @see #getActualMaximum(int)
      */
+    @Override
     public int getMaximum(int field) {
         switch (field) {
         case YEAR:
@@ -1112,6 +1119,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #getActualMinimum(int)
      * @see #getActualMaximum(int)
      */
+    @Override
     public int getGreatestMinimum(int field) {
         return field == YEAR ? 1 : MIN_VALUES[field];
     }
@@ -1134,6 +1142,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #getActualMinimum(int)
      * @see #getActualMaximum(int)
      */
+    @Override
     public int getLeastMaximum(int field) {
         switch (field) {
         case YEAR:
@@ -1161,6 +1170,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #getLeastMaximum(int)
      * @see #getActualMaximum(int)
      */
+    @Override
     public int getActualMinimum(int field) {
         if (!isFieldSet(YEAR_MASK|MONTH_MASK|WEEK_OF_YEAR_MASK, field)) {
             return getMinimum(field);
@@ -1270,6 +1280,7 @@ class JapaneseImperialCalendar extends Calendar {
      * @see #getLeastMaximum(int)
      * @see #getActualMinimum(int)
      */
+    @Override
     public int getActualMaximum(int field) {
         final int fieldsForFixedMax = ERA_MASK|DAY_OF_WEEK_MASK|HOUR_MASK|AM_PM_MASK|
             HOUR_OF_DAY_MASK|MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK|
@@ -1513,6 +1524,7 @@ class JapaneseImperialCalendar extends Calendar {
         return t + date.getTimeOfDay() - date.getZoneOffset();
     }
 
+    @Override
     public Object clone() {
         JapaneseImperialCalendar other = (JapaneseImperialCalendar) super.clone();
 
@@ -1522,6 +1534,7 @@ class JapaneseImperialCalendar extends Calendar {
         return other;
     }
 
+    @Override
     public TimeZone getTimeZone() {
         TimeZone zone = super.getTimeZone();
         // To share the zone by the CalendarDate
@@ -1529,6 +1542,7 @@ class JapaneseImperialCalendar extends Calendar {
         return zone;
     }
 
+    @Override
     public void setTimeZone(TimeZone zone) {
         super.setTimeZone(zone);
         // To share the zone by the CalendarDate
@@ -1550,6 +1564,7 @@ class JapaneseImperialCalendar extends Calendar {
      *
      * @see Calendar#complete
      */
+    @Override
     protected void computeFields() {
         int mask = 0;
         if (isPartiallyNormalized()) {
@@ -1836,6 +1851,7 @@ class JapaneseImperialCalendar extends Calendar {
      *
      * @exception IllegalArgumentException if any calendar fields are invalid.
      */
+    @Override
     protected void computeTime() {
         // In non-lenient mode, perform brief checking of calendar
         // fields which have been set externally. Through this

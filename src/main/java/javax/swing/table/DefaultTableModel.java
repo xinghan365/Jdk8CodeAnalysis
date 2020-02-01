@@ -590,6 +590,7 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
      * Returns the number of rows in this data table.
      * @return the number of rows in the model
      */
+    @Override
     public int getRowCount() {
         return dataVector.size();
     }
@@ -598,6 +599,7 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
      * Returns the number of columns in this data table.
      * @return the number of columns in the model
      */
+    @Override
     public int getColumnCount() {
         return columnIdentifiers.size();
     }
@@ -611,6 +613,7 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
      * for this index, returns the default
      * name provided by the superclass.
      */
+    @Override
     public String getColumnName(int column) {
         Object id = null;
         // This test is to cover the case when
@@ -630,6 +633,7 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
      * @return                  true
      * @see #setValueAt
      */
+    @Override
     public boolean isCellEditable(int row, int column) {
         return true;
     }
@@ -644,6 +648,7 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
      * @exception  ArrayIndexOutOfBoundsException  if an invalid row or
      *               column was given
      */
+    @Override
     public Object getValueAt(int row, int column) {
         Vector rowVector = (Vector)dataVector.elementAt(row);
         return rowVector.elementAt(column);
@@ -660,6 +665,7 @@ public class DefaultTableModel extends AbstractTableModel implements Serializabl
      * @exception  ArrayIndexOutOfBoundsException  if an invalid row or
      *               column was given
      */
+    @Override
     public void setValueAt(Object aValue, int row, int column) {
         Vector rowVector = (Vector)dataVector.elementAt(row);
         rowVector.setElementAt(aValue, column);

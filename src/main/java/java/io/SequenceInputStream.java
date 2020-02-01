@@ -108,10 +108,13 @@ class SequenceInputStream extends InputStream {
 
         if (e.hasMoreElements()) {
             in = (InputStream) e.nextElement();
-            if (in == null)
+            if (in == null) {
                 throw new NullPointerException();
+            }
         }
-        else in = null;
+        else {
+            in = null;
+        }
 
     }
 
@@ -134,6 +137,7 @@ class SequenceInputStream extends InputStream {
      *
      * @since   JDK1.1
      */
+    @Override
     public int available() throws IOException {
         if (in == null) {
             return 0; // no way to signal EOF from available()
@@ -159,6 +163,7 @@ class SequenceInputStream extends InputStream {
      *             stream is reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public int read() throws IOException {
         while (in != null) {
             int c = in.read();
@@ -193,6 +198,7 @@ class SequenceInputStream extends InputStream {
      * <code>b.length - off</code>
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
         if (in == null) {
             return -1;
@@ -227,6 +233,7 @@ class SequenceInputStream extends InputStream {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void close() throws IOException {
         do {
             nextStream();

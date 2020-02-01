@@ -53,12 +53,14 @@ public class BasicSeparatorUI extends SeparatorUI
         return new BasicSeparatorUI();
     }
 
-    public void installUI( JComponent c )
+    @Override
+    public void installUI(JComponent c )
     {
         installDefaults( (JSeparator)c );
         installListeners( (JSeparator)c );
     }
 
+    @Override
     public void uninstallUI(JComponent c)
     {
         uninstallDefaults( (JSeparator)c );
@@ -83,7 +85,8 @@ public class BasicSeparatorUI extends SeparatorUI
     {
     }
 
-    public void paint( Graphics g, JComponent c )
+    @Override
+    public void paint(Graphics g, JComponent c )
     {
         Dimension s = c.getSize();
 
@@ -105,14 +108,18 @@ public class BasicSeparatorUI extends SeparatorUI
         }
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    @Override
+    public Dimension getPreferredSize(JComponent c )
     {
-        if ( ((JSeparator)c).getOrientation() == JSeparator.VERTICAL )
+        if ( ((JSeparator)c).getOrientation() == JSeparator.VERTICAL ) {
             return new Dimension( 2, 0 );
-        else
+        } else {
             return new Dimension( 0, 2 );
+        }
     }
 
-    public Dimension getMinimumSize( JComponent c ) { return null; }
-    public Dimension getMaximumSize( JComponent c ) { return null; }
+    @Override
+    public Dimension getMinimumSize(JComponent c ) { return null; }
+    @Override
+    public Dimension getMaximumSize(JComponent c ) { return null; }
 }

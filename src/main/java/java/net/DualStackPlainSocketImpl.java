@@ -58,21 +58,25 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
         exclusiveBind = exclBind;
     }
 
+    @Override
     void socketCreate(boolean stream) throws IOException {
-        if (fd == null)
+        if (fd == null) {
             throw new SocketException("Socket closed");
+        }
 
         int newfd = socket0(stream, false /*v6 Only*/);
 
         fdAccess.set(fd, newfd);
     }
 
+    @Override
     void socketConnect(InetAddress address, int port, int timeout)
         throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (address == null)
+        if (address == null) {
             throw new NullPointerException("inet address argument is null.");
+        }
 
         int connectResult;
         if (timeout <= 0) {
@@ -93,15 +97,18 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
          * previous to the connect (by the client) then localport field
          * will already be set.
          */
-        if (localport == 0)
+        if (localport == 0) {
             localport = localPort0(nativefd);
+        }
     }
 
+    @Override
     void socketBind(InetAddress address, int port) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (address == null)
+        if (address == null) {
             throw new NullPointerException("inet address argument is null.");
+        }
 
         bind0(nativefd, address, port, exclusiveBind);
         if (port == 0) {
@@ -113,17 +120,20 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
         this.address = address;
     }
 
+    @Override
     void socketListen(int backlog) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
         listen0(nativefd, backlog);
     }
 
+    @Override
     void socketAccept(SocketImpl s) throws IOException {
         int nativefd = checkAndReturnNativeFD();
 
-        if (s == null)
+        if (s == null) {
             throw new NullPointerException("socket is null");
+        }
 
         int newfd = -1;
         InetSocketAddress[] isaa = new InetSocketAddress[1];
@@ -150,29 +160,35 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
         s.localport = localport;
     }
 
+    @Override
     int socketAvailable() throws IOException {
         int nativefd = checkAndReturnNativeFD();
         return available0(nativefd);
     }
 
+    @Override
     void socketClose0(boolean useDeferredClose/*unused*/) throws IOException {
-        if (fd == null)
+        if (fd == null) {
             throw new SocketException("Socket closed");
+        }
 
-        if (!fd.valid())
+        if (!fd.valid()) {
             return;
+        }
 
         final int nativefd = fdAccess.get(fd);
         fdAccess.set(fd, -1);
         close0(nativefd);
     }
 
+    @Override
     void socketShutdown(int howto) throws IOException {
         int nativefd = checkAndReturnNativeFD();
         shutdown0(nativefd, howto);
     }
 
     // Intentional fallthrough after SO_REUSEADDR
+    @Override
     @SuppressWarnings("fallthrough")
     void socketSetOption(int opt, boolean on, Object value)
         throws SocketException {
@@ -216,6 +232,7 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
         setIntOption(nativefd, opt, optionValue);
     }
 
+    @Override
     int socketGetOption(int opt, Object iaContainerObj) throws SocketException {
         int nativefd = checkAndReturnNativeFD();
 
@@ -226,8 +243,9 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
         }
 
         // SO_REUSEADDR emulated when using exclusive bind
-        if (opt == SO_REUSEADDR && exclusiveBind)
+        if (opt == SO_REUSEADDR && exclusiveBind) {
             return isReuseAddress? 1 : -1;
+        }
 
         int value = getIntOption(nativefd, opt);
 
@@ -241,14 +259,16 @@ class DualStackPlainSocketImpl extends AbstractPlainSocketImpl
         return value;
     }
 
+    @Override
     void socketSendUrgentData(int data) throws IOException {
         int nativefd = checkAndReturnNativeFD();
         sendOOB(nativefd, data);
     }
 
     private int checkAndReturnNativeFD() throws SocketException {
-        if (fd == null || !fd.valid())
+        if (fd == null || !fd.valid()) {
             throw new SocketException("Socket closed");
+        }
 
         return fdAccess.get(fd);
     }

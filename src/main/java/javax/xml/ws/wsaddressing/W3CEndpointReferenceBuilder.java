@@ -212,8 +212,9 @@ public final class W3CEndpointReferenceBuilder {
      * is <code>null</code>.
      */
     public W3CEndpointReferenceBuilder referenceParameter(Element referenceParameter) {
-        if (referenceParameter == null)
-            throw new java.lang.IllegalArgumentException("The referenceParameter cannot be null.");
+        if (referenceParameter == null) {
+            throw new IllegalArgumentException("The referenceParameter cannot be null.");
+        }
         referenceParameters.add(referenceParameter);
         return this;
     }
@@ -234,8 +235,9 @@ public final class W3CEndpointReferenceBuilder {
      * is <code>null</code>.
      */
     public W3CEndpointReferenceBuilder metadata(Element metadataElement) {
-        if (metadataElement == null)
-            throw new java.lang.IllegalArgumentException("The metadataElement cannot be null.");
+        if (metadataElement == null) {
+            throw new IllegalArgumentException("The metadataElement cannot be null.");
+        }
         metadata.add(metadataElement);
         return this;
     }

@@ -125,8 +125,9 @@ public class AttributeList extends ArrayList<Object> {
     public AttributeList(List<Attribute> list) {
         // Check for null parameter
         //
-        if (list == null)
+        if (list == null) {
             throw new IllegalArgumentException("Null parameter");
+        }
 
         // Check for non-Attribute objects
         //
@@ -161,8 +162,9 @@ public class AttributeList extends ArrayList<Object> {
     @SuppressWarnings("unchecked")
     public List<Attribute> asList() {
         typeSafe = true;
-        if (tainted)
+        if (tainted) {
             adding((Collection<?>) this);  // will throw IllegalArgumentException
+        }
         return (List<Attribute>) (List<?>) this;
     }
 
@@ -322,16 +324,19 @@ public class AttributeList extends ArrayList<Object> {
     }
 
     private void adding(Object x) {
-        if (x == null || x instanceof Attribute)
+        if (x == null || x instanceof Attribute) {
             return;
-        if (typeSafe)
+        }
+        if (typeSafe) {
             throw new IllegalArgumentException("Not an Attribute: " + x);
-        else
+        } else {
             tainted = true;
+        }
     }
 
     private void adding(Collection<?> c) {
-        for (Object x : c)
+        for (Object x : c) {
             adding(x);
+        }
     }
 }

@@ -130,6 +130,7 @@ public interface DocumentEvent {
          *
          * @return the string
          */
+        @Override
         public String toString() {
             return typeString;
         }

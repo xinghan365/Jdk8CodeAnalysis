@@ -43,7 +43,8 @@ final class SimpleMethodHandle extends BoundMethodHandle {
 
     /*non-public*/ static final SpeciesData SPECIES_DATA = SpeciesData.EMPTY;
 
-    /*non-public*/ public SpeciesData speciesData() {
+    /*non-public*/ @Override
+    public SpeciesData speciesData() {
             return SPECIES_DATA;
     }
 

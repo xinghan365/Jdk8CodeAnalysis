@@ -63,6 +63,7 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
       return new MetalInternalFrameUI( (JInternalFrame) c);
   }
 
+  @Override
   public void installUI(JComponent c) {
     super.installUI(c);
 
@@ -76,6 +77,7 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
     //c.setOpaque(false);
   }
 
+  @Override
   public void uninstallUI(JComponent c) {
       frame = (JInternalFrame)c;
 
@@ -89,16 +91,19 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
       super.uninstallUI(c);
   }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
         frame.addPropertyChangeListener(metalPropertyChangeListener);
     }
 
+    @Override
     protected void uninstallListeners() {
         frame.removePropertyChangeListener(metalPropertyChangeListener);
         super.uninstallListeners();
     }
 
+  @Override
   protected void installKeyboardActions(){
       super.installKeyboardActions();
       ActionMap map = SwingUtilities.getUIActionMap(frame);
@@ -109,10 +114,12 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
       }
   }
 
+  @Override
   protected void uninstallKeyboardActions(){
       super.uninstallKeyboardActions();
   }
 
+    @Override
     protected void uninstallComponents() {
         titlePane = null;
         super.uninstallComponents();
@@ -129,6 +136,7 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
   }
 
 
+  @Override
   protected JComponent createNorthPane(JInternalFrame w) {
       return new MetalInternalFrameTitlePane(w);
   }
@@ -167,6 +175,7 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
   private static class MetalPropertyChangeHandler implements
         PropertyChangeListener
   {
+      @Override
       public void propertyChange(PropertyChangeEvent e)
       {
           String name = e.getPropertyName();
@@ -222,6 +231,7 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
             return rect;
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2 && e.getSource() == getNorthPane() &&
                 frame.isClosable() && !frame.isIcon()) {
@@ -249,6 +259,7 @@ public class MetalInternalFrameUI extends BasicInternalFrameUI {
      * on the TitlePane.
      * @since 1.6
      */
+    @Override
     protected MouseInputAdapter createBorderListener(JInternalFrame w) {
         return new BorderListener1();
     }

@@ -162,7 +162,9 @@ public abstract class Graphics {
      */
     public Graphics create(int x, int y, int width, int height) {
         Graphics g = create();
-        if (g == null) return null;
+        if (g == null) {
+            return null;
+        }
         g.translate(x, y);
         g.clipRect(0, 0, width, height);
         return g;
@@ -1160,6 +1162,7 @@ public abstract class Graphics {
      * Disposes of this graphics context once it is no longer referenced.
      * @see #dispose
      */
+    @Override
     public void finalize() {
         dispose();
     }
@@ -1169,6 +1172,7 @@ public abstract class Graphics {
      *                        <code>Graphics</code> object's value.
      * @return       a string representation of this graphics context.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[font=" + getFont() + ",color=" + getColor() + "]";
     }

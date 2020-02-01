@@ -233,14 +233,16 @@ public class LoginContext {
                                 ("createLoginContext." + name));
         }
 
-        if (name == null)
+        if (name == null) {
             throw new LoginException
                 (ResourcesMgr.getString("Invalid.null.input.name"));
+        }
 
         // get the Configuration
         if (config == null) {
             config = java.security.AccessController.doPrivileged
                 (new java.security.PrivilegedAction<Configuration>() {
+                @Override
                 public Configuration run() {
                     return Configuration.getConfiguration();
                 }
@@ -277,6 +279,7 @@ public class LoginContext {
 
         contextClassLoader = java.security.AccessController.doPrivileged
                 (new java.security.PrivilegedAction<ClassLoader>() {
+                @Override
                 public ClassLoader run() {
                     ClassLoader loader =
                             Thread.currentThread().getContextClassLoader();
@@ -300,11 +303,13 @@ public class LoginContext {
 
             this.callbackHandler = java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedExceptionAction<CallbackHandler>() {
+                @Override
                 public CallbackHandler run() throws Exception {
                     String defaultHandler = java.security.Security.getProperty
                         (DEFAULT_HANDLER);
-                    if (defaultHandler == null || defaultHandler.length() == 0)
+                    if (defaultHandler == null || defaultHandler.length() == 0) {
                         return null;
+                    }
                     Class<? extends CallbackHandler> c = Class.forName(
                             defaultHandler, true,
                             finalLoader).asSubclass(CallbackHandler.class);
@@ -379,9 +384,10 @@ public class LoginContext {
     public LoginContext(String name, Subject subject)
     throws LoginException {
         init(name);
-        if (subject == null)
+        if (subject == null) {
             throw new LoginException
                 (ResourcesMgr.getString("invalid.null.Subject.provided"));
+        }
         this.subject = subject;
         subjectProvided = true;
         loadDefaultCallbackHandler();
@@ -415,9 +421,10 @@ public class LoginContext {
     public LoginContext(String name, CallbackHandler callbackHandler)
     throws LoginException {
         init(name);
-        if (callbackHandler == null)
+        if (callbackHandler == null) {
             throw new LoginException(ResourcesMgr.getString
                                 ("invalid.null.CallbackHandler.provided"));
+        }
         this.callbackHandler = new SecureCallbackHandler
                                 (java.security.AccessController.getContext(),
                                 callbackHandler);
@@ -456,9 +463,10 @@ public class LoginContext {
     public LoginContext(String name, Subject subject,
                         CallbackHandler callbackHandler) throws LoginException {
         this(name, subject);
-        if (callbackHandler == null)
+        if (callbackHandler == null) {
             throw new LoginException(ResourcesMgr.getString
                                 ("invalid.null.CallbackHandler.provided"));
+        }
         this.callbackHandler = new SecureCallbackHandler
                                 (java.security.AccessController.getContext(),
                                 callbackHandler);
@@ -643,8 +651,9 @@ public class LoginContext {
      *          has not been attempted, this method returns null.
      */
     public Subject getSubject() {
-        if (!loginSucceeded && !subjectProvided)
+        if (!loginSucceeded && !subjectProvided) {
             return null;
+        }
         return subject;
     }
 
@@ -678,6 +687,7 @@ public class LoginContext {
         try {
             java.security.AccessController.doPrivileged
                 (new java.security.PrivilegedExceptionAction<Void>() {
+                @Override
                 public Void run() throws LoginException {
                     invoke(methodName);
                     return null;
@@ -766,17 +776,20 @@ public class LoginContext {
                         // clear state
                         clearState();
 
-                        if (debug != null)
+                        if (debug != null) {
                             debug.println(methodName + " SUFFICIENT success");
+                        }
                         return;
                     }
 
-                    if (debug != null)
+                    if (debug != null) {
                         debug.println(methodName + " success");
+                    }
                     success = true;
                 } else {
-                    if (debug != null)
+                    if (debug != null) {
                         debug.println(methodName + " ignored");
+                    }
                 }
 
             } catch (NoSuchMethodException nsme) {
@@ -859,14 +872,16 @@ public class LoginContext {
                 if (moduleStack[i].entry.getControlFlag() ==
                     AppConfigurationEntry.LoginModuleControlFlag.REQUISITE) {
 
-                    if (debug != null)
+                    if (debug != null) {
                         debug.println(methodName + " REQUISITE failure");
+                    }
 
                     // if REQUISITE, then immediately throw an exception
                     if (methodName.equals(ABORT_METHOD) ||
                         methodName.equals(LOGOUT_METHOD)) {
-                        if (firstRequiredError == null)
+                        if (firstRequiredError == null) {
                             firstRequiredError = le;
+                        }
                     } else {
                         throwException(firstRequiredError, le);
                     }
@@ -874,21 +889,25 @@ public class LoginContext {
                 } else if (moduleStack[i].entry.getControlFlag() ==
                     AppConfigurationEntry.LoginModuleControlFlag.REQUIRED) {
 
-                    if (debug != null)
+                    if (debug != null) {
                         debug.println(methodName + " REQUIRED failure");
+                    }
 
                     // mark down that a REQUIRED module failed
-                    if (firstRequiredError == null)
+                    if (firstRequiredError == null) {
                         firstRequiredError = le;
+                    }
 
                 } else {
 
-                    if (debug != null)
+                    if (debug != null) {
                         debug.println(methodName + " OPTIONAL failure");
+                    }
 
                     // mark down that an OPTIONAL module failed
-                    if (firstError == null)
+                    if (firstError == null) {
                         firstError = le;
+                    }
                 }
             }
         }
@@ -929,11 +948,13 @@ public class LoginContext {
             this.ch = ch;
         }
 
+        @Override
         public void handle(final Callback[] callbacks)
                 throws java.io.IOException, UnsupportedCallbackException {
             try {
                 java.security.AccessController.doPrivileged
                     (new java.security.PrivilegedExceptionAction<Void>() {
+                    @Override
                     public Void run() throws java.io.IOException,
                                         UnsupportedCallbackException {
                         ch.handle(callbacks);

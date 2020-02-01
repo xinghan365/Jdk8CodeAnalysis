@@ -114,6 +114,7 @@ public abstract class RMISocketFactory
      * @exception IOException if an I/O error occurs during socket creation
      * @since JDK1.1
      */
+    @Override
     public abstract Socket createSocket(String host, int port)
         throws IOException;
 
@@ -126,6 +127,7 @@ public abstract class RMISocketFactory
      * creation
      * @since JDK1.1
      */
+    @Override
     public abstract ServerSocket createServerSocket(int port)
         throws IOException;
 

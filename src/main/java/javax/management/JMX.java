@@ -374,15 +374,17 @@ public class JMX {
      * @throws NullPointerException if {@code interfaceClass} is null.
      */
     public static boolean isMXBeanInterface(Class<?> interfaceClass) {
-        if (!interfaceClass.isInterface())
+        if (!interfaceClass.isInterface()) {
             return false;
+        }
         if (!Modifier.isPublic(interfaceClass.getModifiers()) &&
             !Introspector.ALLOW_NONPUBLIC_MBEAN) {
             return false;
         }
         MXBean a = interfaceClass.getAnnotation(MXBean.class);
-        if (a != null)
+        if (a != null) {
             return a.value();
+        }
         return interfaceClass.getName().endsWith("MXBean");
         // We don't bother excluding the case where the name is
         // exactly the string "MXBean" since that would mean there
@@ -424,8 +426,9 @@ public class JMX {
         if (notificationEmitter) {
             interfaces =
                 new Class<?>[] {interfaceClass, NotificationEmitter.class};
-        } else
+        } else {
             interfaces = new Class<?>[] {interfaceClass};
+        }
 
         Object proxy = Proxy.newProxyInstance(
                 interfaceClass.getClassLoader(),

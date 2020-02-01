@@ -163,9 +163,11 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
         if (implementation == null) {
             // Have to use (T)this rather than mbeanInterface.cast(this)
             // because mbeanInterface might be null.
-            if (nullImplementationAllowed)
+            if (nullImplementationAllowed) {
                 implementation = Util.<T>cast(this);
-            else throw new IllegalArgumentException("implementation is null");
+            } else {
+                throw new IllegalArgumentException("implementation is null");
+            }
         }
         if (isMXBean) {
             if (mbeanInterface == null) {
@@ -324,8 +326,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     public void setImplementation(Object implementation)
         throws NotCompliantMBeanException {
 
-        if (implementation == null)
+        if (implementation == null) {
             throw new IllegalArgumentException("implementation is null");
+        }
 
         if (isMXBean()) {
             this.mbean = new MXBeanSupport(implementation,
@@ -365,6 +368,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     // From the DynamicMBean interface.
     // ------------------------------------------------------------------
+    @Override
     public Object getAttribute(String attribute)
         throws AttributeNotFoundException,
                MBeanException,
@@ -375,6 +379,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     // From the DynamicMBean interface.
     // ------------------------------------------------------------------
+    @Override
     public void setAttribute(Attribute attribute)
         throws AttributeNotFoundException,
                InvalidAttributeValueException,
@@ -386,6 +391,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     // From the DynamicMBean interface.
     // ------------------------------------------------------------------
+    @Override
     public AttributeList getAttributes(String[] attributes) {
         return mbean.getAttributes(attributes);
     }
@@ -393,6 +399,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     // From the DynamicMBean interface.
     // ------------------------------------------------------------------
+    @Override
     public AttributeList setAttributes(AttributeList attributes) {
         return mbean.setAttributes(attributes);
     }
@@ -400,6 +407,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     // From the DynamicMBean interface.
     // ------------------------------------------------------------------
+    @Override
     public Object invoke(String actionName, Object params[], String signature[])
             throws MBeanException, ReflectionException {
         return mbean.invoke(actionName, params, signature);
@@ -427,10 +435,13 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      * @return The cached MBeanInfo for that MBean, if not null, or a
      *         newly built MBeanInfo if none was cached.
      **/
+    @Override
     public MBeanInfo getMBeanInfo() {
         try {
             final MBeanInfo cached = getCachedMBeanInfo();
-            if (cached != null) return cached;
+            if (cached != null) {
+                return cached;
+            }
         } catch (RuntimeException x) {
             if (MISC_LOGGER.isLoggable(Level.FINEST)) {
                 MISC_LOGGER.logp(Level.FINEST,
@@ -487,7 +498,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      * @return the class name for the new MBeanInfo.
      **/
     protected String getClassName(MBeanInfo info) {
-        if (info == null) return getImplementationClass().getName();
+        if (info == null) {
+            return getImplementationClass().getName();
+        }
         return info.getClassName();
     }
 
@@ -503,7 +516,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      * @return the description for the new MBeanInfo.
      **/
     protected String getDescription(MBeanInfo info) {
-        if (info == null) return null;
+        if (info == null) {
+            return null;
+        }
         return info.getDescription();
     }
 
@@ -526,7 +541,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      * @return the description for the given MBeanFeatureInfo.
      **/
     protected String getDescription(MBeanFeatureInfo info) {
-        if (info == null) return null;
+        if (info == null) {
+            return null;
+        }
         return info.getDescription();
     }
 
@@ -582,7 +599,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     protected String getDescription(MBeanConstructorInfo ctor,
                                     MBeanParameterInfo   param,
                                     int sequence) {
-        if (param == null) return null;
+        if (param == null) {
+            return null;
+        }
         return param.getDescription();
     }
 
@@ -605,7 +624,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     protected String getParameterName(MBeanConstructorInfo ctor,
                                       MBeanParameterInfo param,
                                       int sequence) {
-        if (param == null) return null;
+        if (param == null) {
+            return null;
+        }
         return param.getName();
     }
 
@@ -637,7 +658,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      * @return the impact flag for the given MBeanOperationInfo.
      **/
     protected int getImpact(MBeanOperationInfo info) {
-        if (info == null) return MBeanOperationInfo.UNKNOWN;
+        if (info == null) {
+            return MBeanOperationInfo.UNKNOWN;
+        }
         return info.getImpact();
     }
 
@@ -660,7 +683,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     protected String getParameterName(MBeanOperationInfo op,
                                       MBeanParameterInfo param,
                                       int sequence) {
-        if (param == null) return null;
+        if (param == null) {
+            return null;
+        }
         return param.getName();
     }
 
@@ -683,7 +708,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     protected String getDescription(MBeanOperationInfo op,
                                     MBeanParameterInfo param,
                                     int sequence) {
-        if (param == null) return null;
+        if (param == null) {
+            return null;
+        }
         return param.getDescription();
     }
 
@@ -710,8 +737,12 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      **/
     protected MBeanConstructorInfo[]
         getConstructors(MBeanConstructorInfo[] ctors, Object impl) {
-            if (ctors == null) return null;
-            if (impl != null && impl != this) return null;
+            if (ctors == null) {
+                return null;
+            }
+            if (impl != null && impl != this) {
+                return null;
+            }
             return ctors;
     }
 
@@ -820,22 +851,27 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     }
 
     private static <T> boolean identicalArrays(T[] a, T[] b) {
-        if (a == b)
+        if (a == b) {
             return true;
-        if (a == null || b == null || a.length != b.length)
+        }
+        if (a == null || b == null || a.length != b.length) {
             return false;
+        }
         for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i])
+            if (a[i] != b[i]) {
                 return false;
+            }
         }
         return true;
     }
 
     private static <T> boolean equal(T a, T b) {
-        if (a == b)
+        if (a == b) {
             return true;
-        if (a == null || b == null)
+        }
+        if (a == null || b == null) {
             return false;
+        }
         return a.equals(b);
     }
 
@@ -844,9 +880,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
                       String name,
                       String description) {
         if (equal(name, pi.getName()) &&
-                equal(description, pi.getDescription()))
+                equal(description, pi.getDescription())) {
             return pi;
-        else if (pi instanceof OpenMBeanParameterInfo) {
+        } else if (pi instanceof OpenMBeanParameterInfo) {
             OpenMBeanParameterInfo opi = (OpenMBeanParameterInfo) pi;
             return new OpenMBeanParameterInfoSupport(name,
                                                      description,
@@ -865,8 +901,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
                       String description,
                       MBeanParameterInfo[] signature) {
         if (equal(description, ci.getDescription()) &&
-                identicalArrays(signature, ci.getSignature()))
+                identicalArrays(signature, ci.getSignature())) {
             return ci;
+        }
         if (ci instanceof OpenMBeanConstructorInfo) {
             OpenMBeanParameterInfo[] oparams =
                 paramsToOpenParams(signature);
@@ -889,8 +926,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
                       int impact) {
         if (equal(description, oi.getDescription()) &&
                 identicalArrays(signature, oi.getSignature()) &&
-                impact == oi.getImpact())
+                impact == oi.getImpact()) {
             return oi;
+        }
         if (oi instanceof OpenMBeanOperationInfo) {
             OpenMBeanOperationInfo ooi = (OpenMBeanOperationInfo) oi;
             OpenMBeanParameterInfo[] oparams =
@@ -914,8 +952,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     private static MBeanAttributeInfo
             customize(MBeanAttributeInfo ai,
                       String description) {
-        if (equal(description, ai.getDescription()))
+        if (equal(description, ai.getDescription())) {
             return ai;
+        }
         if (ai instanceof OpenMBeanAttributeInfo) {
             OpenMBeanAttributeInfo oai = (OpenMBeanAttributeInfo) ai;
             return new OpenMBeanAttributeInfoSupport(ai.getName(),
@@ -938,8 +977,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
 
     private static OpenMBeanParameterInfo[]
             paramsToOpenParams(MBeanParameterInfo[] params) {
-        if (params instanceof OpenMBeanParameterInfo[])
+        if (params instanceof OpenMBeanParameterInfo[]) {
             return (OpenMBeanParameterInfo[]) params;
+        }
         OpenMBeanParameterInfo[] oparams =
             new OpenMBeanParameterInfoSupport[params.length];
         System.arraycopy(params, 0, oparams, 0, params.length);
@@ -953,8 +993,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
             getConstructors(MBeanInfo info, Object impl) {
         final MBeanConstructorInfo[] ctors =
             getConstructors(info.getConstructors(), impl);
-        if (ctors == null)
+        if (ctors == null) {
             return null;
+        }
         final int ctorlen = ctors.length;
         final MBeanConstructorInfo[] nctors = new MBeanConstructorInfo[ctorlen];
         for (int i=0; i<ctorlen; i++) {
@@ -984,8 +1025,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     private MBeanOperationInfo[] getOperations(MBeanInfo info) {
         final MBeanOperationInfo[] ops = info.getOperations();
-        if (ops == null)
+        if (ops == null) {
             return null;
+        }
         final int oplen = ops.length;
         final MBeanOperationInfo[] nops = new MBeanOperationInfo[oplen];
         for (int i=0; i<oplen; i++) {
@@ -1014,8 +1056,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
     // ------------------------------------------------------------------
     private MBeanAttributeInfo[] getAttributes(MBeanInfo info) {
         final MBeanAttributeInfo[] atts = info.getAttributes();
-        if (atts == null)
+        if (atts == null) {
             return null; // should not happen
+        }
         final MBeanAttributeInfo[] natts;
         final int attlen = atts.length;
         natts = new MBeanAttributeInfo[attlen];
@@ -1070,6 +1113,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      *
      * @since 1.6
      */
+    @Override
     public ObjectName preRegister(MBeanServer server, ObjectName name)
             throws Exception {
         mbean.register(server, name);
@@ -1095,9 +1139,11 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      *
      * @since 1.6
      */
+    @Override
     public void postRegister(Boolean registrationDone) {
-        if (!registrationDone)
+        if (!registrationDone) {
             mbean.unregister();
+        }
     }
 
     /**
@@ -1115,6 +1161,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      *
      * @since 1.6
      */
+    @Override
     public void preDeregister() throws Exception {
     }
 
@@ -1133,6 +1180,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      *
      * @since 1.6
      */
+    @Override
     public void postDeregister() {
         mbean.unregister();
     }
@@ -1159,8 +1207,9 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
      */
     static boolean immutableInfo(Class<? extends StandardMBean> subclass) {
         if (subclass == StandardMBean.class ||
-            subclass == StandardEmitterMBean.class)
+            subclass == StandardEmitterMBean.class) {
             return true;
+        }
         synchronized (mbeanInfoSafeMap) {
             Boolean safe = mbeanInfoSafeMap.get(subclass);
             if (safe == null) {
@@ -1200,24 +1249,28 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
             this.subclass = subclass;
         }
 
+        @Override
         public Boolean run() {
             // Check for "void cacheMBeanInfo(MBeanInfo)" method.
             //
             if (overrides(subclass, StandardMBean.class,
-                          "cacheMBeanInfo", MBeanInfo.class))
+                          "cacheMBeanInfo", MBeanInfo.class)) {
                 return false;
+            }
 
             // Check for "MBeanInfo getCachedMBeanInfo()" method.
             //
             if (overrides(subclass, StandardMBean.class,
-                          "getCachedMBeanInfo", (Class<?>[]) null))
+                          "getCachedMBeanInfo", (Class<?>[]) null)) {
                 return false;
+            }
 
             // Check for "MBeanInfo getMBeanInfo()" method.
             //
             if (overrides(subclass, StandardMBean.class,
-                          "getMBeanInfo", (Class<?>[]) null))
+                          "getMBeanInfo", (Class<?>[]) null)) {
                 return false;
+            }
 
             // Check for "MBeanNotificationInfo[] getNotificationInfo()"
             // method.
@@ -1227,10 +1280,12 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
             // StandardEmitterMBean itself or can be assigned to
             // StandardEmitterMBean.
             //
-            if (StandardEmitterMBean.class.isAssignableFrom(subclass))
+            if (StandardEmitterMBean.class.isAssignableFrom(subclass)) {
                 if (overrides(subclass, StandardEmitterMBean.class,
-                              "getNotificationInfo", (Class<?>[]) null))
+                              "getNotificationInfo", (Class<?>[]) null)) {
                     return false;
+                }
+            }
             return true;
         }
     }

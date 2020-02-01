@@ -587,14 +587,22 @@ public class Introspector {
             Method read = pd.getReadMethod();
             Method write = pd.getWriteMethod();
             boolean cls = true;
-            if (read != null) cls = cls && read.getGenericReturnType() instanceof Class;
-            if (write != null) cls = cls && write.getGenericParameterTypes()[0] instanceof Class;
+            if (read != null) {
+                cls = cls && read.getGenericReturnType() instanceof Class;
+            }
+            if (write != null) {
+                cls = cls && write.getGenericParameterTypes()[0] instanceof Class;
+            }
             if (pd instanceof IndexedPropertyDescriptor) {
                 IndexedPropertyDescriptor ipd = (IndexedPropertyDescriptor) pd;
                 Method readI = ipd.getIndexedReadMethod();
                 Method writeI = ipd.getIndexedWriteMethod();
-                if (readI != null) cls = cls && readI.getGenericReturnType() instanceof Class;
-                if (writeI != null) cls = cls && writeI.getGenericParameterTypes()[1] instanceof Class;
+                if (readI != null) {
+                    cls = cls && readI.getGenericReturnType() instanceof Class;
+                }
+                if (writeI != null) {
+                    cls = cls && writeI.getGenericParameterTypes()[1] instanceof Class;
+                }
                 if (!cls) {
                     pd = new IndexedPropertyDescriptor(ipd);
                     pd.updateGenericsFor(this.beanClass);
@@ -1584,30 +1592,37 @@ class GenericBeanInfo extends SimpleBeanInfo {
         this.targetBeanInfoRef = old.targetBeanInfoRef;
     }
 
+    @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         return properties;
     }
 
+    @Override
     public int getDefaultPropertyIndex() {
         return defaultProperty;
     }
 
+    @Override
     public EventSetDescriptor[] getEventSetDescriptors() {
         return events;
     }
 
+    @Override
     public int getDefaultEventIndex() {
         return defaultEvent;
     }
 
+    @Override
     public MethodDescriptor[] getMethodDescriptors() {
         return methods;
     }
 
+    @Override
     public BeanDescriptor getBeanDescriptor() {
         return beanDescriptor;
     }
 
+    @Override
     public java.awt.Image getIcon(int iconKind) {
         BeanInfo targetBeanInfo = getTargetBeanInfo();
         if (targetBeanInfo != null) {

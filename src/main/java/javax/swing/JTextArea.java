@@ -235,6 +235,7 @@ public class JTextArea extends JTextComponent {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -614,6 +615,7 @@ public class JTextArea extends JTextComponent {
      *
      * @return the size
      */
+    @Override
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
         d = (d == null) ? new Dimension(400,400) : d;
@@ -636,6 +638,7 @@ public class JTextArea extends JTextComponent {
      *
      * @param f the font to use as the current font
      */
+    @Override
     public void setFont(Font f) {
         super.setFont(f);
         rowHeight = 0;
@@ -652,6 +655,7 @@ public class JTextArea extends JTextComponent {
      *
      * @return  a string representation of this JTextArea.
      */
+    @Override
     protected String paramString() {
         String wrapString = (wrap ?
                              "true" : "false");
@@ -678,6 +682,7 @@ public class JTextArea extends JTextComponent {
      * @return true if a viewport should force the Scrollables width
      * to match its own.
      */
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         return (wrap) ? true : super.getScrollableTracksViewportWidth();
     }
@@ -691,6 +696,7 @@ public class JTextArea extends JTextComponent {
      * @return The preferredSize of a JViewport whose view is this Scrollable.
      * @see JViewport#getPreferredSize
      */
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         Dimension size = super.getPreferredScrollableViewportSize();
         size = (size == null) ? new Dimension(400,400) : size;
@@ -724,6 +730,7 @@ public class JTextArea extends JTextComponent {
      * @see #getRowHeight
      * @see #getColumnWidth
      */
+    @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         switch (orientation) {
         case SwingConstants.VERTICAL:
@@ -764,6 +771,7 @@ public class JTextArea extends JTextComponent {
      * @return an AccessibleJTextArea that serves as the
      *         AccessibleContext of this JTextArea
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJTextArea();
@@ -795,6 +803,7 @@ public class JTextArea extends JTextComponent {
          * of the object
          * @see AccessibleStateSet
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             states.add(AccessibleState.MULTI_LINE);

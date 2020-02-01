@@ -94,6 +94,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer slice() {
         return new HeapByteBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapByteBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public ByteBuffer duplicate() {
         return new HeapByteBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapByteBufferR
                                         offset);
     }
 
+    @Override
     public ByteBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapByteBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public ByteBuffer put(byte x) {
 
 
@@ -173,6 +178,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer put(int i, byte x) {
 
 
@@ -182,6 +188,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer put(byte[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer put(ByteBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer compact() {
 
 
@@ -239,10 +248,12 @@ class HeapByteBufferR
 
 
 
+    @Override
     byte _get(int i) {                          // package-private
         return hb[i];
     }
 
+    @Override
     void _put(int i, byte b) {                  // package-private
 
 
@@ -265,6 +276,7 @@ class HeapByteBufferR
 
 
 
+    @Override
     public ByteBuffer putChar(char x) {
 
 
@@ -274,6 +286,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putChar(int i, char x) {
 
 
@@ -283,6 +296,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public CharBuffer asCharBuffer() {
         int size = this.remaining() >> 1;
         int off = offset + position();
@@ -316,6 +330,7 @@ class HeapByteBufferR
 
 
 
+    @Override
     public ByteBuffer putShort(short x) {
 
 
@@ -325,6 +340,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putShort(int i, short x) {
 
 
@@ -334,6 +350,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ShortBuffer asShortBuffer() {
         int size = this.remaining() >> 1;
         int off = offset + position();
@@ -367,6 +384,7 @@ class HeapByteBufferR
 
 
 
+    @Override
     public ByteBuffer putInt(int x) {
 
 
@@ -376,6 +394,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putInt(int i, int x) {
 
 
@@ -385,6 +404,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public IntBuffer asIntBuffer() {
         int size = this.remaining() >> 2;
         int off = offset + position();
@@ -418,6 +438,7 @@ class HeapByteBufferR
 
 
 
+    @Override
     public ByteBuffer putLong(long x) {
 
 
@@ -427,6 +448,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putLong(int i, long x) {
 
 
@@ -436,6 +458,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public LongBuffer asLongBuffer() {
         int size = this.remaining() >> 3;
         int off = offset + position();
@@ -469,6 +492,7 @@ class HeapByteBufferR
 
 
 
+    @Override
     public ByteBuffer putFloat(float x) {
 
 
@@ -478,6 +502,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putFloat(int i, float x) {
 
 
@@ -487,6 +512,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public FloatBuffer asFloatBuffer() {
         int size = this.remaining() >> 2;
         int off = offset + position();
@@ -520,6 +546,7 @@ class HeapByteBufferR
 
 
 
+    @Override
     public ByteBuffer putDouble(double x) {
 
 
@@ -529,6 +556,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putDouble(int i, double x) {
 
 
@@ -538,6 +566,7 @@ class HeapByteBufferR
 
     }
 
+    @Override
     public DoubleBuffer asDoubleBuffer() {
         int size = this.remaining() >> 3;
         int off = offset + position();

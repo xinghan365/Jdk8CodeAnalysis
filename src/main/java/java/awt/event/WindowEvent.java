@@ -387,6 +387,7 @@ public class WindowEvent extends ComponentEvent {
      *
      * @return a string identifying the event and its attributes
      */
+    @Override
     public String paramString() {
         String typeStr;
         switch(id) {

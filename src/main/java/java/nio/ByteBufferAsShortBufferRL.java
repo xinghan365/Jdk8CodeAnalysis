@@ -69,6 +69,7 @@ class ByteBufferAsShortBufferRL                  // package-private
 
     }
 
+    @Override
     public ShortBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsShortBufferRL                  // package-private
         return new ByteBufferAsShortBufferRL(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public ShortBuffer duplicate() {
         return new ByteBufferAsShortBufferRL(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsShortBufferRL                  // package-private
                                                     offset);
     }
 
+    @Override
     public ShortBuffer asReadOnlyBuffer() {
 
 
@@ -123,6 +126,7 @@ class ByteBufferAsShortBufferRL                  // package-private
 
 
 
+    @Override
     public ShortBuffer put(short x) {
 
 
@@ -132,6 +136,7 @@ class ByteBufferAsShortBufferRL                  // package-private
 
     }
 
+    @Override
     public ShortBuffer put(int i, short x) {
 
 
@@ -141,6 +146,7 @@ class ByteBufferAsShortBufferRL                  // package-private
 
     }
 
+    @Override
     public ShortBuffer compact() {
 
 
@@ -163,10 +169,12 @@ class ByteBufferAsShortBufferRL                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -213,6 +221,7 @@ class ByteBufferAsShortBufferRL                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
 

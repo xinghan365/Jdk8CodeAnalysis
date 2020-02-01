@@ -203,6 +203,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectByteBufferR
         return new DirectByteBufferR(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public ByteBuffer duplicate() {
         return new DirectByteBufferR(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectByteBufferR
                                               0);
     }
 
+    @Override
     public ByteBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectByteBufferR
 
 
 
+    @Override
     public ByteBuffer put(byte x) {
 
 
@@ -301,6 +305,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer put(int i, byte x) {
 
 
@@ -310,6 +315,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer put(ByteBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer put(byte[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -472,10 +482,12 @@ class DirectByteBufferR
 
 
 
+    @Override
     byte _get(int i) {                          // package-private
         return unsafe.getByte(address + i);
     }
 
+    @Override
     void _put(int i, byte b) {                  // package-private
 
 
@@ -519,6 +531,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putChar(char x) {
 
 
@@ -528,6 +541,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putChar(int i, char x) {
 
 
@@ -537,6 +551,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public CharBuffer asCharBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -610,6 +625,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putShort(short x) {
 
 
@@ -619,6 +635,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putShort(int i, short x) {
 
 
@@ -628,6 +645,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ShortBuffer asShortBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -701,6 +719,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putInt(int x) {
 
 
@@ -710,6 +729,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putInt(int i, int x) {
 
 
@@ -719,6 +739,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public IntBuffer asIntBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -792,6 +813,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putLong(long x) {
 
 
@@ -801,6 +823,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putLong(int i, long x) {
 
 
@@ -810,6 +833,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public LongBuffer asLongBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -883,6 +907,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putFloat(float x) {
 
 
@@ -892,6 +917,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putFloat(int i, float x) {
 
 
@@ -901,6 +927,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public FloatBuffer asFloatBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -974,6 +1001,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putDouble(double x) {
 
 
@@ -983,6 +1011,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public ByteBuffer putDouble(int i, double x) {
 
 
@@ -992,6 +1021,7 @@ class DirectByteBufferR
 
     }
 
+    @Override
     public DoubleBuffer asDoubleBuffer() {
         int off = this.position();
         int lim = this.limit();

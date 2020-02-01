@@ -101,6 +101,7 @@ public class SOAPException extends Exception {
      *         message of the embedded <code>Throwable</code> object,
      *         if there is one
      */
+    @Override
     public String getMessage() {
         String message = super.getMessage();
         if (message == null && cause != null) {
@@ -119,6 +120,7 @@ public class SOAPException extends Exception {
      *         if there is none
      */
 
+    @Override
     public Throwable getCause() {
         return cause;
     }
@@ -149,6 +151,7 @@ public class SOAPException extends Exception {
      * @throws IllegalStateException if the cause for this <code>SOAPException</code> object
      *         has already been initialized
      */
+    @Override
     public synchronized Throwable initCause(Throwable cause) {
         if (this.cause != null) {
             throw new IllegalStateException("Can't override cause");

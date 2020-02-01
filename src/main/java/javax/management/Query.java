@@ -643,8 +643,9 @@ package javax.management;
       * Query.{initial|any|final}SubString() methods.
       */
      private static String escapeString(String s) {
-         if (s == null)
+         if (s == null) {
              return null;
+         }
          s = s.replace("\\", "\\\\");
          s = s.replace("*", "\\*");
          s = s.replace("?", "\\?");

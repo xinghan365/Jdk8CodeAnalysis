@@ -41,6 +41,7 @@ class SynthSplitPaneDivider extends BasicSplitPaneDivider {
         super(ui);
     }
 
+    @Override
     protected void setMouseOver(boolean mouseOver) {
         if (isMouseOver() != mouseOver) {
             repaint();
@@ -48,6 +49,7 @@ class SynthSplitPaneDivider extends BasicSplitPaneDivider {
         super.setMouseOver(mouseOver);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
         if (e.getSource() == splitPane) {
@@ -64,6 +66,7 @@ class SynthSplitPaneDivider extends BasicSplitPaneDivider {
         }
     }
 
+    @Override
     public void paint(Graphics g) {
         Graphics g2 = g.create();
 
@@ -112,6 +115,7 @@ class SynthSplitPaneDivider extends BasicSplitPaneDivider {
      * Creates and return an instance of JButton that can be used to
      * collapse the left component in the split pane.
      */
+    @Override
     protected JButton createLeftOneTouchButton() {
         SynthArrowButton b = new SynthArrowButton(SwingConstants.NORTH);
         int oneTouchSize = lookupOneTouchSize();
@@ -135,6 +139,7 @@ class SynthSplitPaneDivider extends BasicSplitPaneDivider {
      * Creates and return an instance of JButton that can be used to
      * collapse the right component in the split pane.
      */
+    @Override
     protected JButton createRightOneTouchButton() {
         SynthArrowButton b = new SynthArrowButton(SwingConstants.NORTH);
         int oneTouchSize = lookupOneTouchSize();

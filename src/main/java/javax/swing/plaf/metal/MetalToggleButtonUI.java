@@ -82,6 +82,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
     // ********************************
     //        Install Defaults
     // ********************************
+    @Override
     public void installDefaults(AbstractButton b) {
         super.installDefaults(b);
         if(!defaults_initialized) {
@@ -92,6 +93,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
         }
     }
 
+    @Override
     protected void uninstallDefaults(AbstractButton b) {
         super.uninstallDefaults(b);
         defaults_initialized = false;
@@ -128,6 +130,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
      * @see javax.swing.plaf.ComponentUI#paint
      * @since 1.5
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         AbstractButton button = (AbstractButton)c;
         if ((c.getBackground() instanceof UIResource) &&
@@ -152,6 +155,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
         super.update(g, c);
     }
 
+    @Override
     protected void paintButtonPressed(Graphics g, AbstractButton b) {
         if ( b.isContentAreaFilled() ) {
             g.setColor(getSelectColor());
@@ -159,6 +163,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
         }
     }
 
+    @Override
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
         ButtonModel model = b.getModel();
@@ -182,6 +187,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
                 textRect.x, textRect.y + fm.getAscent());
     }
 
+    @Override
     protected void paintFocus(Graphics g, AbstractButton b,
                               Rectangle viewRect, Rectangle textRect, Rectangle iconRect){
 
@@ -219,6 +225,7 @@ public class MetalToggleButtonUI extends BasicToggleButtonUI {
      * @throws NullPointerException if any of the arguments are null.
      * @since 1.5
      */
+    @Override
     protected void paintIcon(Graphics g, AbstractButton b, Rectangle iconRect) {
         super.paintIcon(g, b, iconRect);
     }

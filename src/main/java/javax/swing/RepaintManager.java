@@ -450,7 +450,9 @@ public class RepaintManager
             }
         }
 
-        if (root == null) return;
+        if (root == null) {
+            return;
+        }
 
         synchronized(this) {
             if (extendDirtyRegion(c, x, y, w, h)) {
@@ -582,11 +584,13 @@ public class RepaintManager
                 runnableList = new LinkedList<Runnable>();
             }
             runnableList.add(new Runnable() {
+                @Override
                 public void run() {
                     AccessControlContext stack = AccessController.getContext();
                     AccessControlContext acc =
                         AWTAccessor.getComponentAccessor().getAccessControlContext(c);
                     javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
+                        @Override
                         public Void run() {
                             r.run();
                             return null;
@@ -630,10 +634,11 @@ public class RepaintManager
         synchronized(this) {
             r = dirtyComponents.get(aComponent);
         }
-        if(r == null)
+        if(r == null) {
             return new Rectangle(0,0,0,0);
-        else
+        } else {
             return new Rectangle(r);
+        }
     }
 
     /**
@@ -679,10 +684,11 @@ public class RepaintManager
 
         r = getDirtyRegion(aComponent);
         if(r.width == Integer.MAX_VALUE &&
-           r.height == Integer.MAX_VALUE)
+           r.height == Integer.MAX_VALUE) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
 
@@ -707,6 +713,7 @@ public class RepaintManager
                 AWTAccessor.getComponentAccessor().getAccessControlContext(c);
             javaSecurityAccess.doIntersectionPrivilege(
                 new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         c.validate();
                         return null;
@@ -812,6 +819,7 @@ public class RepaintManager
                 AccessControlContext acc =
                     AWTAccessor.getComponentAccessor().getAccessControlContext(dirtyComponent);
                 javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         Rectangle rect = tmpDirtyComponents.get(dirtyComponent);
                         // Sometimes when RepaintManager is changed during the painting
@@ -928,12 +936,14 @@ public class RepaintManager
         }
 
         for(;;) {
-            if(!(component instanceof JComponent))
+            if(!(component instanceof JComponent)) {
                 break;
+            }
 
             parent = component.getParent();
-            if(parent == null)
+            if(parent == null) {
                 break;
+            }
 
             component = parent;
 
@@ -970,8 +980,9 @@ public class RepaintManager
         // If we haven't seen this root before, then we need to add it to the
         // list of root dirty Views.
 
-        if (!roots.contains(rootDirtyComponent))
+        if (!roots.contains(rootDirtyComponent)) {
             roots.add(rootDirtyComponent);
+        }
     }
 
 
@@ -981,10 +992,12 @@ public class RepaintManager
      *
      * @return a String representation of this object
      */
+    @Override
     public synchronized String toString() {
         StringBuffer sb = new StringBuffer();
-        if(dirtyComponents != null)
+        if(dirtyComponents != null) {
             sb.append("" + dirtyComponents);
+        }
         return sb.toString();
     }
 
@@ -1662,10 +1675,12 @@ public class RepaintManager
         DisplayChangedHandler() {
         }
 
+        @Override
         public void displayChanged() {
             scheduleDisplayChanges();
         }
 
+        @Override
         public void paletteChanged() {
         }
 
@@ -1690,6 +1705,7 @@ public class RepaintManager
 
 
     private static final class DisplayChangedRunnable implements Runnable {
+        @Override
         public void run() {
             RepaintManager.currentManager((JComponent)null).displayChanged();
         }
@@ -1715,6 +1731,7 @@ public class RepaintManager
             return false;
         }
 
+        @Override
         public void run() {
             synchronized (this) {
                 pending = false;

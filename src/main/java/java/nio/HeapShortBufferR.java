@@ -94,6 +94,7 @@ class HeapShortBufferR
 
     }
 
+    @Override
     public ShortBuffer slice() {
         return new HeapShortBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapShortBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public ShortBuffer duplicate() {
         return new HeapShortBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapShortBufferR
                                         offset);
     }
 
+    @Override
     public ShortBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapShortBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public ShortBuffer put(short x) {
 
 
@@ -173,6 +178,7 @@ class HeapShortBufferR
 
     }
 
+    @Override
     public ShortBuffer put(int i, short x) {
 
 
@@ -182,6 +188,7 @@ class HeapShortBufferR
 
     }
 
+    @Override
     public ShortBuffer put(short[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapShortBufferR
 
     }
 
+    @Override
     public ShortBuffer put(ShortBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapShortBufferR
 
     }
 
+    @Override
     public ShortBuffer compact() {
 
 
@@ -592,6 +601,7 @@ class HeapShortBufferR
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

@@ -253,19 +253,23 @@ public class MBeanPermission extends Permission {
 
         int mask;
 
-        if (actions == null)
+        if (actions == null) {
             throw new IllegalArgumentException("MBeanPermission: " +
                                                "actions can't be null");
-        if (actions.equals(""))
+        }
+        if (actions.equals("")) {
             throw new IllegalArgumentException("MBeanPermission: " +
                                                "actions can't be empty");
+        }
 
         mask = getMask(actions);
 
-        if ((mask & ALL) != mask)
+        if ((mask & ALL) != mask) {
             throw new IllegalArgumentException("Invalid actions mask");
-        if (mask == NONE)
+        }
+        if (mask == NONE) {
             throw new IllegalArgumentException("Invalid actions mask");
+        }
         this.mask = mask;
     }
 
@@ -275,13 +279,15 @@ public class MBeanPermission extends Permission {
     private void parseName() {
         String name = getName();
 
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("MBeanPermission name " +
                                                "cannot be null");
+        }
 
-        if (name.equals(""))
+        if (name.equals("")) {
             throw new IllegalArgumentException("MBeanPermission name " +
                                                "cannot be empty");
+        }
 
         /* The name looks like "class#member[objectname]".  We subtract
            elements from the right as we parse, so after parsing the
@@ -310,12 +316,13 @@ public class MBeanPermission extends Permission {
                     //
                     String on = name.substring(openingBracket + 1,
                                                name.length() - 1);
-                    if (on.equals(""))
+                    if (on.equals("")) {
                         objectName = ObjectName.WILDCARD;
-                    else if (on.equals("-"))
+                    } else if (on.equals("-")) {
                         objectName = null;
-                    else
+                    } else {
                         objectName = new ObjectName(on);
+                    }
                 } catch (MalformedObjectNameException e) {
                     throw new IllegalArgumentException("MBeanPermission: " +
                                                        "The target name does " +
@@ -331,9 +338,9 @@ public class MBeanPermission extends Permission {
 
         int poundSign = name.indexOf("#");
 
-        if (poundSign == -1)
+        if (poundSign == -1) {
             setMember("*");
-        else {
+        } else {
             String memberName = name.substring(poundSign + 1);
             setMember(memberName);
             name = name.substring(0, poundSign);
@@ -373,12 +380,13 @@ public class MBeanPermission extends Permission {
     }
 
     private void setMember(String member) {
-        if (member == null || member.equals("-"))
+        if (member == null || member.equals("-")) {
             this.member = null;
-        else if (member.equals(""))
+        } else if (member.equals("")) {
             this.member = "*";
-        else
+        } else {
             this.member = member;
+        }
     }
 
     /**
@@ -450,23 +458,27 @@ public class MBeanPermission extends Permission {
     private static String makeName(String className, String member,
                                    ObjectName objectName) {
         final StringBuilder name = new StringBuilder();
-        if (className == null)
+        if (className == null) {
             className = "-";
+        }
         name.append(className);
-        if (member == null)
+        if (member == null) {
             member = "-";
+        }
         name.append("#" + member);
-        if (objectName == null)
+        if (objectName == null) {
             name.append("[-]");
-        else
+        } else {
             name.append("[").append(objectName.getCanonicalName()).append("]");
+        }
 
         /* In the interests of legibility for Permission.toString(), we
            transform the empty string into "*".  */
-        if (name.length() == 0)
+        if (name.length() == 0) {
             return "*";
-        else
+        } else {
             return name.toString();
+        }
     }
 
     /**
@@ -475,10 +487,12 @@ public class MBeanPermission extends Permission {
      *
      * @return the canonical string representation of the actions.
      */
+    @Override
     public String getActions() {
 
-        if (actions == null)
+        if (actions == null) {
             actions = getActions(this.mask);
+        }
 
         return actions;
     }
@@ -497,98 +511,146 @@ public class MBeanPermission extends Permission {
         }
 
         if ((mask & GetAttribute) == GetAttribute) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getAttribute");
         }
 
         if ((mask & GetClassLoader) == GetClassLoader) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getClassLoader");
         }
 
         if ((mask & GetClassLoaderFor) == GetClassLoaderFor) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getClassLoaderFor");
         }
 
         if ((mask & GetClassLoaderRepository) == GetClassLoaderRepository) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getClassLoaderRepository");
         }
 
         if ((mask & GetDomains) == GetDomains) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getDomains");
         }
 
         if ((mask & GetMBeanInfo) == GetMBeanInfo) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getMBeanInfo");
         }
 
         if ((mask & GetObjectInstance) == GetObjectInstance) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("getObjectInstance");
         }
 
         if ((mask & Instantiate) == Instantiate) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("instantiate");
         }
 
         if ((mask & Invoke) == Invoke) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("invoke");
         }
 
         if ((mask & IsInstanceOf) == IsInstanceOf) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("isInstanceOf");
         }
 
         if ((mask & QueryMBeans) == QueryMBeans) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("queryMBeans");
         }
 
         if ((mask & QueryNames) == QueryNames) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("queryNames");
         }
 
         if ((mask & RegisterMBean) == RegisterMBean) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("registerMBean");
         }
 
         if ((mask & RemoveNotificationListener) == RemoveNotificationListener) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("removeNotificationListener");
         }
 
         if ((mask & SetAttribute) == SetAttribute) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("setAttribute");
         }
 
         if ((mask & UnregisterMBean) == UnregisterMBean) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("unregisterMBean");
         }
 
@@ -600,6 +662,7 @@ public class MBeanPermission extends Permission {
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return this.getName().hashCode() + this.getActions().hashCode();
     }
@@ -637,8 +700,9 @@ public class MBeanPermission extends Permission {
         char[] a = action.toCharArray();
 
         int i = a.length - 1;
-        if (i < 0)
+        if (i < 0) {
             return mask;
+        }
 
         while (i != -1) {
             char c;
@@ -648,8 +712,9 @@ public class MBeanPermission extends Permission {
                                c == '\r' ||
                                c == '\n' ||
                                c == '\f' ||
-                               c == '\t'))
+                               c == '\t')) {
                 i--;
+            }
 
             // check for the known strings
             int matchlen;
@@ -1023,9 +1088,11 @@ public class MBeanPermission extends Permission {
      * @return true if the specified permission is implied by this object,
      * false if not.
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof MBeanPermission))
+        if (!(p instanceof MBeanPermission)) {
             return false;
+        }
 
         MBeanPermission that = (MBeanPermission) p;
 
@@ -1082,15 +1149,18 @@ public class MBeanPermission extends Permission {
             // bottom implies nothing but itself
             return false;
         } else if (this.classNameExactMatch) {
-            if (!that.classNameExactMatch)
+            if (!that.classNameExactMatch) {
                 return false; // exact never implies wildcard
-            if (!that.classNamePrefix.equals(this.classNamePrefix))
+            }
+            if (!that.classNamePrefix.equals(this.classNamePrefix)) {
                 return false; // exact match fails
+            }
         } else {
             // prefix match, works even if "that" is also a wildcard
             // e.g. a.* implies a.* and a.b.*
-            if (!that.classNamePrefix.startsWith(this.classNamePrefix))
+            if (!that.classNamePrefix.startsWith(this.classNamePrefix)) {
                 return false;
+            }
         }
 
         /* Check if this.member implies that.member */
@@ -1118,8 +1188,9 @@ public class MBeanPermission extends Permission {
                wildcard so we also allow equals for that case.  This
                never happens during real permission checks, but means
                the implies relation is reflexive.  */
-            if (!this.objectName.equals(that.objectName))
+            if (!this.objectName.equals(that.objectName)) {
                 return false;
+            }
         }
 
         return true;
@@ -1134,12 +1205,15 @@ public class MBeanPermission extends Permission {
      * @return true if obj is an MBeanPermission, and has the
      * same name and actions as this MBeanPermission object.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (! (obj instanceof MBeanPermission))
+        if (! (obj instanceof MBeanPermission)) {
             return false;
+        }
 
         MBeanPermission that = (MBeanPermission) obj;
 

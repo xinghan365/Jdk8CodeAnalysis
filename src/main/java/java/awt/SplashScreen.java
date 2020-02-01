@@ -120,6 +120,7 @@ public final class SplashScreen {
             if (!wasClosed && theInstance == null) {
                 java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction<Void>() {
+                        @Override
                         public Void run() {
                             System.loadLibrary("splashscreen");
                             return null;

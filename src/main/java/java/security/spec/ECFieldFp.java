@@ -61,6 +61,7 @@ public class ECFieldFp implements ECField {
      * for this prime finite field.
      * @return the field size in bits.
      */
+    @Override
     public int getFieldSize() {
         return p.bitLength();
     };
@@ -80,8 +81,11 @@ public class ECFieldFp implements ECField {
      * @return true if {@code obj} is an instance
      * of ECFieldFp and the prime value match, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj)  return true;
+        if (this == obj) {
+            return true;
+        }
         if (obj instanceof ECFieldFp) {
             return (p.equals(((ECFieldFp)obj).p));
         }
@@ -92,6 +96,7 @@ public class ECFieldFp implements ECField {
      * Returns a hash code value for this prime finite field.
      * @return a hash code value.
      */
+    @Override
     public int hashCode() {
         return p.hashCode();
     }

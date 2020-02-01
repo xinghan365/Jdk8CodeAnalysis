@@ -115,6 +115,7 @@ public class MatteBorder extends EmptyBorder
     /**
      * Paints the matte border.
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Insets insets = getBorderInsets(c);
         Color oldColor = g.getColor();
@@ -162,6 +163,7 @@ public class MatteBorder extends EmptyBorder
      * @param insets the object to be reinitialized
      * @since 1.3
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         return computeInsets(insets);
     }
@@ -170,6 +172,7 @@ public class MatteBorder extends EmptyBorder
      * Returns the insets of the border.
      * @since 1.3
      */
+    @Override
     public Insets getBorderInsets() {
         return computeInsets(new Insets(0,0,0,0));
     }
@@ -214,6 +217,7 @@ public class MatteBorder extends EmptyBorder
     /**
      * Returns whether or not the border is opaque.
      */
+    @Override
     public boolean isBorderOpaque() {
         // If a tileIcon is set, then it may contain transparent bits
         return color != null;

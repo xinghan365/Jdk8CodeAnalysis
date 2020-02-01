@@ -102,6 +102,7 @@ public class XMLFormatter extends Formatter {
      * @param record the log record to be formatted.
      * @return a formatted log record
      */
+    @Override
     public String format(LogRecord record) {
         StringBuilder sb = new StringBuilder(500);
         sb.append("<record>\n");
@@ -224,6 +225,7 @@ public class XMLFormatter extends Formatter {
      * @param   h  The target handler (can be null)
      * @return  a valid XML string
      */
+    @Override
     public String getHead(Handler h) {
         StringBuilder sb = new StringBuilder();
         String encoding;
@@ -263,6 +265,7 @@ public class XMLFormatter extends Formatter {
      * @param   h  The target handler (can be null)
      * @return  a valid XML string
      */
+    @Override
     public String getTail(Handler h) {
         return "</log>\n";
     }

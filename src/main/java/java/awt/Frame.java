@@ -456,6 +456,7 @@ public class Frame extends Window implements MenuContainer {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Frame.class) {
             return base + nameCounter++;
@@ -471,6 +472,7 @@ public class Frame extends Window implements MenuContainer {
      * @see Component#isDisplayable
      * @see #removeNotify
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
             if (peer == null) {
@@ -551,6 +553,7 @@ public class Frame extends Window implements MenuContainer {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setIconImage(Image image) {
         super.setIconImage(image);
     }
@@ -818,16 +821,19 @@ public class Frame extends Window implements MenuContainer {
     static {
         AWTAccessor.setFrameAccessor(
             new AWTAccessor.FrameAccessor() {
+                @Override
                 public void setExtendedState(Frame frame, int state) {
                     synchronized(frame.getObjectLock()) {
                         frame.state = state;
                     }
                 }
+                @Override
                 public int getExtendedState(Frame frame) {
                     synchronized(frame.getObjectLock()) {
                         return frame.state;
                     }
                 }
+                @Override
                 public Rectangle getMaximizedBounds(Frame frame) {
                     synchronized(frame.getObjectLock()) {
                         return frame.maximizedBounds;
@@ -995,6 +1001,7 @@ public class Frame extends Window implements MenuContainer {
      *           If <code>m</code> is <code>null</code>, then
      *           no action is taken
      */
+    @Override
     public void remove(MenuComponent m) {
         if (m == null) {
             return;
@@ -1025,6 +1032,7 @@ public class Frame extends Window implements MenuContainer {
      * @see Component#isDisplayable
      * @see #addNotify
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             FramePeer peer = (FramePeer)this.peer;
@@ -1042,6 +1050,7 @@ public class Frame extends Window implements MenuContainer {
         }
     }
 
+    @Override
     void postProcessKeyEvent(KeyEvent e) {
         if (menuBar != null && menuBar.handleShortcut(e)) {
             e.consume();
@@ -1059,6 +1068,7 @@ public class Frame extends Window implements MenuContainer {
      *
      * @return the parameter string of this frame
      */
+    @Override
     protected String paramString() {
         String str = super.paramString();
         if (title != null) {
@@ -1234,8 +1244,9 @@ public class Frame extends Window implements MenuContainer {
           }
       }
 
-      if (menuBar != null)
-        menuBar.parent = this;
+      if (menuBar != null) {
+          menuBar.parent = this;
+      }
 
       // Ensure 1.1 serialized Frames can read & hook-up
       // owned windows properly
@@ -1268,6 +1279,7 @@ public class Frame extends Window implements MenuContainer {
      *         AccessibleContext of this Frame
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTFrame();
@@ -1295,6 +1307,7 @@ public class Frame extends Window implements MenuContainer {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.FRAME;
         }
@@ -1306,6 +1319,7 @@ public class Frame extends Window implements MenuContainer {
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getFocusOwner() != null) {

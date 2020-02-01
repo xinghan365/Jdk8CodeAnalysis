@@ -70,6 +70,7 @@ class DefaultDatagramSocketImplFactory
         // Determine Windows Version.
         java.security.AccessController.doPrivileged(
                 new PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         version = 0;
                         try {
@@ -105,8 +106,9 @@ class DefaultDatagramSocketImplFactory
         try {
             prefix = AccessController.doPrivileged(
                 new sun.security.action.GetPropertyAction("impl.prefix", null));
-            if (prefix != null)
+            if (prefix != null) {
                 prefixImplClassLocal = Class.forName("java.net."+prefix+"DatagramSocketImpl");
+            }
         } catch (Exception e) {
             System.err.println("Can't find class: java.net." +
                                 prefix +
@@ -133,10 +135,11 @@ class DefaultDatagramSocketImplFactory
                 throw new SocketException("can't instantiate DatagramSocketImpl");
             }
         } else {
-            if (useDualStackImpl && !isMulticast)
+            if (useDualStackImpl && !isMulticast) {
                 return new DualStackPlainDatagramSocketImpl(exclusiveBind);
-            else
+            } else {
                 return new TwoStacksPlainDatagramSocketImpl(exclusiveBind && !isMulticast);
+            }
         }
     }
 }

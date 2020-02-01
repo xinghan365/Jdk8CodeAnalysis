@@ -65,6 +65,7 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
         setInheritsPopupMenu(true);
     }
 
+    @Override
     public String getDisplayName() {
         return UIManager.getString("ColorChooser.swatchesNameText", getLocale());
     }
@@ -88,6 +89,7 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
      * @see #getDisplayedMnemonicIndex
      * @since 1.4
      */
+    @Override
     public int getMnemonic() {
         return getInt("ColorChooser.swatchesMnemonic", -1);
     }
@@ -116,14 +118,17 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
      * @see #getMnemonic
      * @since 1.4
      */
+    @Override
     public int getDisplayedMnemonicIndex() {
         return getInt("ColorChooser.swatchesDisplayedMnemonicIndex", -1);
     }
 
+    @Override
     public Icon getSmallDisplayIcon() {
         return null;
     }
 
+    @Override
     public Icon getLargeDisplayIcon() {
         return null;
     }
@@ -132,10 +137,12 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
      * The background color, foreground color, and font are already set to the
      * defaults from the defaults table before this method is called.
      */
+    @Override
     public void installChooserPanel(JColorChooser enclosingChooser) {
         super.installChooserPanel(enclosingChooser);
     }
 
+    @Override
     protected void buildChooser() {
 
         String recentStr = UIManager.getString("ColorChooser.swatchesRecentText", getLocale());
@@ -199,6 +206,7 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
         add(superHolder);
     }
 
+    @Override
     public void uninstallChooserPanel(JColorChooser enclosingChooser) {
         super.uninstallChooserPanel(enclosingChooser);
         swatchPanel.removeMouseListener(mainSwatchListener);
@@ -216,12 +224,14 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
         removeAll();  // strip out all the sub-components
     }
 
+    @Override
     public void updateChooser() {
 
     }
 
 
     private class RecentSwatchKeyListener extends KeyAdapter {
+        @Override
         public void keyPressed(KeyEvent e) {
             if (KeyEvent.VK_SPACE == e.getKeyCode()) {
                 Color color = recentSwatchPanel.getSelectedColor();
@@ -231,6 +241,7 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
     }
 
     private class MainSwatchKeyListener extends KeyAdapter {
+        @Override
         public void keyPressed(KeyEvent e) {
             if (KeyEvent.VK_SPACE == e.getKeyCode()) {
                 Color color = swatchPanel.getSelectedColor();
@@ -241,6 +252,7 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
     }
 
     class RecentSwatchListener extends MouseAdapter implements Serializable {
+        @Override
         public void mousePressed(MouseEvent e) {
             if (isEnabled()) {
                 Color color = recentSwatchPanel.getColorForLocation(e.getX(), e.getY());
@@ -252,6 +264,7 @@ class DefaultSwatchChooserPanel extends AbstractColorChooserPanel {
     }
 
     class MainSwatchListener extends MouseAdapter implements Serializable {
+        @Override
         public void mousePressed(MouseEvent e) {
             if (isEnabled()) {
                 Color color = swatchPanel.getColorForLocation(e.getX(), e.getY());
@@ -287,16 +300,19 @@ class SwatchPanel extends JPanel {
         setInheritsPopupMenu(true);
 
         addFocusListener(new FocusAdapter() {
+            @Override
             public void focusGained(FocusEvent e) {
                 repaint();
             }
 
+            @Override
             public void focusLost(FocusEvent e) {
                 repaint();
             }
         });
 
         addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 int typed = e.getKeyCode();
                 switch (typed) {
@@ -355,6 +371,7 @@ class SwatchPanel extends JPanel {
 
     }
 
+    @Override
     public void paintComponent(Graphics g) {
          g.setColor(getBackground());
          g.fillRect(0,0,getWidth(), getHeight());
@@ -391,6 +408,7 @@ class SwatchPanel extends JPanel {
          }
     }
 
+    @Override
     public Dimension getPreferredSize() {
         int x = numSwatches.width * (swatchSize.width + gap.width) - 1;
         int y = numSwatches.height * (swatchSize.height + gap.height) - 1;
@@ -402,6 +420,7 @@ class SwatchPanel extends JPanel {
 
     }
 
+    @Override
     public String getToolTipText(MouseEvent e) {
         Color color = getColorForLocation(e.getX(), e.getY());
         return color.getRed()+", "+ color.getGreen() + ", " + color.getBlue();
@@ -438,6 +457,7 @@ class SwatchPanel extends JPanel {
 }
 
 class RecentSwatchPanel extends SwatchPanel {
+    @Override
     protected void initValues() {
         swatchSize = UIManager.getDimension("ColorChooser.swatchesRecentSwatchSize", getLocale());
         numSwatches = new Dimension( 5, 7 );
@@ -445,6 +465,7 @@ class RecentSwatchPanel extends SwatchPanel {
     }
 
 
+    @Override
     protected void initColors() {
         Color defaultRecentColor = UIManager.getColor("ColorChooser.swatchesDefaultRecentColor", getLocale());
         int numColors = numSwatches.width * numSwatches.height;
@@ -467,12 +488,14 @@ class RecentSwatchPanel extends SwatchPanel {
 class MainSwatchPanel extends SwatchPanel {
 
 
+    @Override
     protected void initValues() {
         swatchSize = UIManager.getDimension("ColorChooser.swatchesSwatchSize", getLocale());
         numSwatches = new Dimension( 31, 9 );
         gap = new Dimension(1, 1);
     }
 
+    @Override
     protected void initColors() {
         int[] rawValues = initRawValues();
         int numColors = rawValues.length / 3;

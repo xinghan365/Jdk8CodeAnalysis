@@ -213,6 +213,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
 // UI Installation/De-installation
 
+    @Override
     public void installUI(JComponent c) {
         this.tabPane = (JTabbedPane)c;
 
@@ -226,6 +227,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         installKeyboardActions();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions();
         uninstallListeners();
@@ -383,10 +385,18 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         // Fix for 6711145 BasicTabbedPanuUI should not throw a NPE if these
         // keys are missing. So we are setting them to there default values here
         // if the keys are missing.
-        if (tabInsets == null) tabInsets = new Insets(0,4,1,4);
-        if (selectedTabPadInsets == null) selectedTabPadInsets = new Insets(2,2,2,1);
-        if (tabAreaInsets == null) tabAreaInsets = new Insets(3,2,0,2);
-        if (contentBorderInsets == null) contentBorderInsets = new Insets(2,2,3,3);
+        if (tabInsets == null) {
+            tabInsets = new Insets(0,4,1,4);
+        }
+        if (selectedTabPadInsets == null) {
+            selectedTabPadInsets = new Insets(2,2,2,1);
+        }
+        if (tabAreaInsets == null) {
+            tabAreaInsets = new Insets(3,2,0,2);
+        }
+        if (contentBorderInsets == null) {
+            contentBorderInsets = new Insets(2,2,3,3);
+        }
     }
 
     protected void uninstallDefaults() {
@@ -600,11 +610,13 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         return rolloverTabIndex;
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         // Default to LayoutManager's minimumLayoutSize
         return null;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // Default to LayoutManager's maximumLayoutSize
         return null;
@@ -618,6 +630,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         int baseline = calculateBaselineIfNecessary();
@@ -650,6 +663,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -780,6 +794,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
 // UI Rendering
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         int selectedIndex = tabPane.getSelectedIndex();
         int tabPlacement = tabPane.getTabPlacement();
@@ -1463,12 +1478,14 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
      * Returns the bounds of the specified tab index.  The bounds are
      * with respect to the JTabbedPane's coordinate space.
      */
+    @Override
     public Rectangle getTabBounds(JTabbedPane pane, int i) {
         ensureCurrentLayout();
         Rectangle tabRect = new Rectangle();
         return getTabBounds(i, tabRect);
     }
 
+    @Override
     public int getTabRunCount(JTabbedPane pane) {
         ensureCurrentLayout();
         return runCount;
@@ -1478,6 +1495,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
      * Returns the tab index which intersects the specified point
      * in the JTabbedPane's coordinate space.
      */
+    @Override
     public int tabForCoordinate(JTabbedPane pane, int x, int y) {
         return tabForCoordinate(pane, x, y, true);
     }
@@ -2182,6 +2200,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String key = getName();
             JTabbedPane pane = (JTabbedPane)e.getSource();
@@ -2270,14 +2289,18 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
      */
     public class TabbedPaneLayout implements LayoutManager {
 
+        @Override
         public void addLayoutComponent(String name, Component comp) {}
 
+        @Override
         public void removeLayoutComponent(Component comp) {}
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             return calculateSize(false);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             return calculateSize(true);
         }
@@ -2385,6 +2408,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             return total;
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             /* Some of the code in this method deals with changing the
             * visibility of components to hide and show the contents for the
@@ -2885,14 +2909,17 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
     private class TabbedPaneScrollLayout extends TabbedPaneLayout {
 
+        @Override
         protected int preferredTabAreaHeight(int tabPlacement, int width) {
             return calculateMaxTabHeight(tabPlacement);
         }
 
+        @Override
         protected int preferredTabAreaWidth(int tabPlacement, int height) {
             return calculateMaxTabWidth(tabPlacement);
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             /* Some of the code in this method deals with changing the
              * visibility of components to hide and show the contents for the
@@ -3143,6 +3170,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
         }
 
+        @Override
         protected void calculateTabRects(int tabPlacement, int tabCount) {
             FontMetrics metrics = getFontMetrics();
             Dimension size = tabPane.getSize();
@@ -3344,6 +3372,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             viewport.setViewPosition(tabViewPosition);
         }
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             updateView();
         }
@@ -3419,6 +3448,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         /**
          * ActionListener for the scroll buttons.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             ActionMap map = tabPane.getActionMap();
 
@@ -3441,6 +3471,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
         }
 
+        @Override
         public String toString() {
             return "viewport.viewSize=" + viewport.getViewSize() + "\n" +
                               "viewport.viewRectangle="+viewport.getViewRect()+"\n"+
@@ -3474,6 +3505,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
             setBackground(bgColor);
         }
+        @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             BasicTabbedPaneUI.this.paintTabArea(g, tabPane.getTabPlacement(),
@@ -3486,6 +3518,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
         }
 
+        @Override
         public void doLayout() {
             if (getComponentCount() > 0) {
                 Component child = getComponent(0);
@@ -3514,6 +3547,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             JTabbedPane pane = (JTabbedPane)e.getSource();
             String name = e.getPropertyName();
@@ -3599,6 +3633,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         //
         // ChangeListener
         //
+        @Override
         public void stateChanged(ChangeEvent e) {
             JTabbedPane tabPane = (JTabbedPane)e.getSource();
             tabPane.revalidate();
@@ -3619,20 +3654,25 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         //
         // MouseListener
         //
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             setRolloverTab(e.getX(), e.getY());
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             setRolloverTab(-1);
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (!tabPane.isEnabled()) {
                 return;
@@ -3657,9 +3697,11 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         //
         // MouseMotionListener
         //
+        @Override
         public void mouseDragged(MouseEvent e) {
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             setRolloverTab(e.getX(), e.getY());
         }
@@ -3667,9 +3709,11 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         //
         // FocusListener
         //
+        @Override
         public void focusGained(FocusEvent e) {
            setFocusIndex(tabPane.getSelectedIndex(), true);
         }
+        @Override
         public void focusLost(FocusEvent e) {
            repaintTab(focusIndex);
         }
@@ -3708,6 +3752,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
        changes to tab text, this code should be removed and
        replaced by something which uses that.  */
 
+        @Override
         public void componentAdded(ContainerEvent e) {
             JTabbedPane tp = (JTabbedPane)e.getContainer();
             Component child = e.getChild();
@@ -3717,6 +3762,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             isRunsDirty = true;
             updateHtmlViews(tp.indexOfComponent(child));
         }
+        @Override
         public void componentRemoved(ContainerEvent e) {
             JTabbedPane tp = (JTabbedPane)e.getContainer();
             Component child = e.getChild();
@@ -3754,6 +3800,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);
         }
@@ -3768,6 +3815,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
         }
@@ -3782,6 +3830,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void mousePressed(MouseEvent e) {
             getHandler().mousePressed(e);
         }
@@ -3796,9 +3845,11 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void focusGained(FocusEvent e) {
             getHandler().focusGained(e);
         }
+        @Override
         public void focusLost(FocusEvent e) {
             getHandler().focusLost(e);
         }
@@ -3828,6 +3879,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             setOpaque(false);
         }
 
+        @Override
         public void remove(Component comp) {
             int index = tabPane.indexOfTabComponent(comp);
             super.remove(comp);
@@ -3847,10 +3899,12 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             }
         }
 
+        @Override
         public boolean isOptimizedDrawingEnabled() {
             return tabScroller != null && !tabScroller.croppedEdge.isParamsSet();
         }
 
+        @Override
         public void doLayout() {
             // We layout tabComponents in JTabbedPane's layout manager
             // and use this method as a hook for repainting tabs
@@ -3921,6 +3975,7 @@ public class BasicTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
             return UIManager.getColor("control");
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             if (isParamsSet() && g instanceof Graphics2D) {

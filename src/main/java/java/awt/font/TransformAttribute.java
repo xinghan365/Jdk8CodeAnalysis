@@ -126,6 +126,7 @@ public final class TransformAttribute implements Serializable {
     /**
      * @since 1.6
      */
+    @Override
     public int hashCode() {
         return transform == null ? 0 : transform.hashCode();
     }
@@ -140,6 +141,7 @@ public final class TransformAttribute implements Serializable {
      * transform.
      * @since 1.6
      */
+    @Override
     public boolean equals(Object rhs) {
         if (rhs != null) {
             try {

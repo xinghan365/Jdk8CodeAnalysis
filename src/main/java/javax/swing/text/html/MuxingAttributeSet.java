@@ -128,6 +128,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return the number of attributes
      * @see AttributeSet#getAttributeCount
      */
+    @Override
     public int getAttributeCount() {
         AttributeSet[] as = getAttributes();
         int n = 0;
@@ -147,6 +148,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return true if the attribute is defined
      * @see AttributeSet#isDefined
      */
+    @Override
     public boolean isDefined(Object key) {
         AttributeSet[] as = getAttributes();
         for (int i = 0; i < as.length; i++) {
@@ -164,6 +166,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return true if the same
      * @see AttributeSet#isEqual
      */
+    @Override
     public boolean isEqual(AttributeSet attr) {
         return ((getAttributeCount() == attr.getAttributeCount()) &&
                 containsAttributes(attr));
@@ -175,6 +178,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return the copy
      * @see AttributeSet#copyAttributes
      */
+    @Override
     public AttributeSet copyAttributes() {
         AttributeSet[] as = getAttributes();
         MutableAttributeSet a = new SimpleAttributeSet();
@@ -194,6 +198,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return the attribute value
      * @see AttributeSet#getAttribute
      */
+    @Override
     public Object getAttribute(Object key) {
         AttributeSet[] as = getAttributes();
         int n = as.length;
@@ -212,6 +217,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return the attribute names
      * @see AttributeSet#getAttributeNames
      */
+    @Override
     public Enumeration getAttributeNames() {
         return new MuxingAttributeNameEnumeration();
     }
@@ -224,6 +230,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return true if the name/value is defined
      * @see AttributeSet#containsAttribute
      */
+    @Override
     public boolean containsAttribute(Object name, Object value) {
         return value.equals(getAttribute(name));
     }
@@ -236,6 +243,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * @return true if the element contains all the attributes
      * @see AttributeSet#containsAttributes
      */
+    @Override
     public boolean containsAttributes(AttributeSet attrs) {
         boolean result = true;
 
@@ -252,6 +260,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
      * Returns null, subclasses may wish to do something more
      * intelligent with this.
      */
+    @Override
     public AttributeSet getResolveParent() {
         return null;
     }
@@ -273,6 +282,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
             updateEnum();
         }
 
+        @Override
         public boolean hasMoreElements() {
             if (currentEnum == null) {
                 return false;
@@ -280,6 +290,7 @@ class MuxingAttributeSet implements AttributeSet, Serializable {
             return currentEnum.hasMoreElements();
         }
 
+        @Override
         public Object nextElement() {
             if (currentEnum == null) {
                 throw new NoSuchElementException("No more names");

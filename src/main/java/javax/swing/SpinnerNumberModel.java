@@ -368,6 +368,7 @@ public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializ
      * @see #getPreviousValue
      * @see #setStepSize
      */
+    @Override
     public Object getNextValue() {
         return incrValue(+1);
     }
@@ -384,6 +385,7 @@ public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializ
      * @see #getNextValue
      * @see #setStepSize
      */
+    @Override
     public Object getPreviousValue() {
         return incrValue(-1);
     }
@@ -407,6 +409,7 @@ public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializ
      * @see #setValue
      * @see #getNumber
      */
+    @Override
     public Object getValue() {
         return value;
     }
@@ -438,6 +441,7 @@ public class SpinnerNumberModel extends AbstractSpinnerModel implements Serializ
      * @see #getValue
      * @see SpinnerModel#addChangeListener
      */
+    @Override
     public void setValue(Object value) {
         if ((value == null) || !(value instanceof Number)) {
             throw new IllegalArgumentException("illegal value");

@@ -376,6 +376,7 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * @param name the name of the component
      * @param comp the component to be added
      */
+    @Override
     public void addLayoutComponent(String name, Component comp) {
     }
 
@@ -385,6 +386,7 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * @param comp the component to remove
      * @see       java.awt.Container#removeAll
      */
+    @Override
     public void removeLayoutComponent(Component comp) {
     }
 
@@ -399,6 +401,7 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * @see #minimumLayoutSize
      * @see       java.awt.Container#getPreferredSize
      */
+    @Override
     public Dimension preferredLayoutSize(Container target) {
       synchronized (target.getTreeLock()) {
         Dimension dim = new Dimension(0, 0);
@@ -448,6 +451,7 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * @see       java.awt.Container
      * @see       java.awt.Container#doLayout
      */
+    @Override
     public Dimension minimumLayoutSize(Container target) {
       synchronized (target.getTreeLock()) {
         boolean useBaseline = getAlignOnBaseline();
@@ -584,6 +588,7 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * @see Container
      * @see       java.awt.Container#doLayout
      */
+    @Override
     public void layoutContainer(Container target) {
       synchronized (target.getTreeLock()) {
         Insets insets = target.getInsets();
@@ -680,6 +685,7 @@ public class FlowLayout implements LayoutManager, java.io.Serializable {
      * object and its values.
      * @return     a string representation of this layout
      */
+    @Override
     public String toString() {
         String str = "";
         switch (align) {

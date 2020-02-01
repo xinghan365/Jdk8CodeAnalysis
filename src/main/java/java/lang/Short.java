@@ -116,9 +116,10 @@ public final class Short extends Number implements Comparable<Short> {
     public static short parseShort(String s, int radix)
         throws NumberFormatException {
         int i = Integer.parseInt(s, radix);
-        if (i < MIN_VALUE || i > MAX_VALUE)
+        if (i < MIN_VALUE || i > MAX_VALUE) {
             throw new NumberFormatException(
                 "Value out of range. Value:\"" + s + "\" Radix:" + radix);
+        }
         return (short)i;
     }
 
@@ -206,8 +207,9 @@ public final class Short extends Number implements Comparable<Short> {
         static final Short cache[] = new Short[-(-128) + 127 + 1];
 
         static {
-            for(int i = 0; i < cache.length; i++)
+            for(int i = 0; i < cache.length; i++) {
                 cache[i] = new Short((short)(i - 128));
+            }
         }
     }
 
@@ -280,9 +282,10 @@ public final class Short extends Number implements Comparable<Short> {
      */
     public static Short decode(String nm) throws NumberFormatException {
         int i = Integer.decode(nm);
-        if (i < MIN_VALUE || i > MAX_VALUE)
+        if (i < MIN_VALUE || i > MAX_VALUE) {
             throw new NumberFormatException(
                     "Value " + i + " out of range from input " + nm);
+        }
         return valueOf((short)i);
     }
 
@@ -326,6 +329,7 @@ public final class Short extends Number implements Comparable<Short> {
      * a narrowing primitive conversion.
      * @jls 5.1.3 Narrowing Primitive Conversions
      */
+    @Override
     public byte byteValue() {
         return (byte)value;
     }
@@ -334,6 +338,7 @@ public final class Short extends Number implements Comparable<Short> {
      * Returns the value of this {@code Short} as a
      * {@code short}.
      */
+    @Override
     public short shortValue() {
         return value;
     }
@@ -343,6 +348,7 @@ public final class Short extends Number implements Comparable<Short> {
      * a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public int intValue() {
         return (int)value;
     }
@@ -352,6 +358,7 @@ public final class Short extends Number implements Comparable<Short> {
      * a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public long longValue() {
         return (long)value;
     }
@@ -361,6 +368,7 @@ public final class Short extends Number implements Comparable<Short> {
      * after a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public float floatValue() {
         return (float)value;
     }
@@ -370,6 +378,7 @@ public final class Short extends Number implements Comparable<Short> {
      * after a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public double doubleValue() {
         return (double)value;
     }
@@ -384,6 +393,7 @@ public final class Short extends Number implements Comparable<Short> {
      * @return  a string representation of the value of this object in
      *          base&nbsp;10.
      */
+    @Override
     public String toString() {
         return Integer.toString((int)value);
     }
@@ -421,6 +431,7 @@ public final class Short extends Number implements Comparable<Short> {
      * @return          {@code true} if the objects are the same;
      *                  {@code false} otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Short) {
             return value == ((Short)obj).shortValue();
@@ -441,6 +452,7 @@ public final class Short extends Number implements Comparable<Short> {
      *           comparison).
      * @since   1.2
      */
+    @Override
     public int compareTo(Short anotherShort) {
         return compare(this.value, anotherShort.value);
     }

@@ -396,6 +396,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @return a string representation of this drop location
          */
+        @Override
         public String toString() {
             return getClass().getName()
                    + "[dropPoint=" + getDropPoint() + ","
@@ -454,7 +455,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     {
         this (
             new AbstractListModel<E>() {
+                @Override
                 public int getSize() { return listData.length; }
+                @Override
                 public E getElementAt(int i) { return listData[i]; }
             }
         );
@@ -478,7 +481,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     public JList(final Vector<? extends E> listData) {
         this (
             new AbstractListModel<E>() {
+                @Override
                 public int getSize() { return listData.size(); }
+                @Override
                 public E getElementAt(int i) { return listData.elementAt(i); }
             }
         );
@@ -491,7 +496,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     public JList() {
         this (
             new AbstractListModel<E>() {
+              @Override
               public int getSize() { return 0; }
+              @Override
               public E getElementAt(int i) { throw new IndexOutOfBoundsException("No Data Model"); }
             }
         );
@@ -536,6 +543,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @see UIManager#getUI
      * @see SwingUtilities#updateComponentTreeUI
      */
+    @Override
     public void updateUI() {
         setUI((ListUI)UIManager.getUI(this));
 
@@ -555,6 +563,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -1263,6 +1272,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @param p the point to calculate a drop location for
      * @return the drop location, or <code>null</code>
      */
+    @Override
     DropLocation dropLocationForPoint(Point p) {
         DropLocation location = null;
         Rectangle rect = null;
@@ -1379,6 +1389,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *        actual drop occurred
      * @return any saved state for this component, or <code>null</code> if none
      */
+    @Override
     Object setDropLocation(TransferHandler.DropLocation location,
                            Object state,
                            boolean forDrop) {
@@ -1525,6 +1536,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @see JComponent#setToolTipText
      * @see JComponent#getToolTipText
      */
+    @Override
     public String getToolTipText(MouseEvent event) {
         if(event != null) {
             Point p = event.getPoint();
@@ -1700,7 +1712,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     public void setListData(final E[] listData) {
         setModel (
             new AbstractListModel<E>() {
+                @Override
                 public int getSize() { return listData.length; }
+                @Override
                 public E getElementAt(int i) { return listData[i]; }
             }
         );
@@ -1723,7 +1737,9 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
     public void setListData(final Vector<? extends E> listData) {
         setModel (
             new AbstractListModel<E>() {
+                @Override
                 public int getSize() { return listData.size(); }
+                @Override
                 public E getElementAt(int i) { return listData.elementAt(i); }
             }
         );
@@ -1812,6 +1828,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      */
     private class ListSelectionHandler implements ListSelectionListener, Serializable
     {
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             fireSelectionValueChanged(e.getFirstIndex(),
                                       e.getLastIndex(),
@@ -2356,19 +2373,21 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *                      the selected object, if one exists; otherwise {@code false}
      */
     public void setSelectedValue(Object anObject,boolean shouldScroll) {
-        if(anObject == null)
+        if(anObject == null) {
             setSelectedIndex(-1);
-        else if(!anObject.equals(getSelectedValue())) {
+        } else if(!anObject.equals(getSelectedValue())) {
             int i,c;
             ListModel<E> dm = getModel();
-            for(i=0,c=dm.getSize();i<c;i++)
+            for(i=0,c=dm.getSize();i<c;i++) {
                 if(anObject.equals(dm.getElementAt(i))){
                     setSelectedIndex(i);
-                    if(shouldScroll)
+                    if(shouldScroll) {
                         ensureIndexIsVisible(i);
+                    }
                     repaint();  /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
                     return;
                 }
+            }
             setSelectedIndex(-1);
         }
         repaint(); /** FIX-ME setSelectedIndex does not redraw all the time with the basic l&f**/
@@ -2431,6 +2450,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @see #getPreferredScrollableViewportSize
      * @see #setPrototypeCellValue
      */
+    @Override
     public Dimension getPreferredScrollableViewportSize()
     {
         if (getLayoutOrientation() != VERTICAL) {
@@ -2491,6 +2511,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *         {@code orientation} isn't one of {@code SwingConstants.VERTICAL} or
      *         {@code SwingConstants.HORIZONTAL}
      */
+    @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
     {
         checkScrollableParameters(visibleRect, orientation);
@@ -2637,6 +2658,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *         {@code orientation} isn't one of {@code SwingConstants.VERTICAL} or
      *         {@code SwingConstants.HORIZONTAL}
      */
+    @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
         checkScrollableParameters(visibleRect, orientation);
         if (orientation == SwingConstants.VERTICAL) {
@@ -2768,6 +2790,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *         width to match its own
      * @see Scrollable#getScrollableTracksViewportWidth
      */
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         if (getLayoutOrientation() == HORIZONTAL_WRAP &&
                                       getVisibleRowCount() <= 0) {
@@ -2794,6 +2817,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *         height to match its own
      * @see Scrollable#getScrollableTracksViewportHeight
      */
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         if (getLayoutOrientation() == VERTICAL_WRAP &&
                      getVisibleRowCount() <= 0) {
@@ -2832,6 +2856,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      *
      * @return  a {@code String} representation of this {@code JList}.
      */
+    @Override
     protected String paramString() {
         String selectionForegroundString = (selectionForeground != null ?
                                             selectionForeground.toString() :
@@ -2865,6 +2890,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
      * @return an {@code AccessibleJList} that serves as the
      *         {@code AccessibleContext} of this {@code JList}
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJList();
@@ -2909,6 +2935,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @param e PropertyChangeEvent
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String name = e.getPropertyName();
             Object oldValue = e.getOldValue();
@@ -2947,6 +2974,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @param e ListSelectionEvent
          *
          */
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             int oldLeadSelectionIndex = leadSelectionIndex;
             leadSelectionIndex = JList.this.getLeadSelectionIndex();
@@ -2991,6 +3019,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @param e ListDataEvent
          *
          */
+        @Override
         public void intervalAdded(ListDataEvent e) {
             firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                                Boolean.valueOf(false), Boolean.valueOf(true));
@@ -3002,6 +3031,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @param e ListDataEvent
          *
          */
+        @Override
         public void intervalRemoved(ListDataEvent e) {
             firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                                Boolean.valueOf(false), Boolean.valueOf(true));
@@ -3013,6 +3043,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @param e ListDataEvent
          *
          */
+         @Override
          public void contentsChanged(ListDataEvent e) {
              firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                                 Boolean.valueOf(false), Boolean.valueOf(true));
@@ -3027,6 +3058,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (selectionModel.getSelectionMode() !=
@@ -3043,6 +3075,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.LIST;
         }
@@ -3055,6 +3088,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @return the <code>Accessible</code> at the specified
          *    location, if it exists
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             int i = locationToIndex(p);
             if (i >= 0) {
@@ -3071,6 +3105,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @return the number of accessible children in the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return getModel().getSize();
         }
@@ -3081,6 +3116,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @param i zero-based index of child
          * @return the nth Accessible child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             if (i >= getModel().getSize()) {
                 return null;
@@ -3097,6 +3133,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @return this object
          */
+        @Override
         public AccessibleSelection getAccessibleSelection() {
             return this;
         }
@@ -3110,6 +3147,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @return the number of items currently selected.
          */
+         @Override
          public int getAccessibleSelectionCount() {
              return JList.this.getSelectedIndices().length;
          }
@@ -3123,6 +3161,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * @param i the zero-based index of selected items
          * @return an Accessible containing the selected item
          */
+         @Override
          public Accessible getAccessibleSelection(int i) {
              int len = getAccessibleSelectionCount();
              if (i < 0 || i >= len) {
@@ -3139,6 +3178,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * object.
          * @see AccessibleContext#getAccessibleChild
          */
+        @Override
         public boolean isAccessibleChildSelected(int i) {
             return isSelectedIndex(i);
         }
@@ -3152,6 +3192,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @param i the zero-based index of selectable items
          */
+         @Override
          public void addAccessibleSelection(int i) {
              JList.this.addSelectionInterval(i, i);
          }
@@ -3163,6 +3204,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          *
          * @param i the zero-based index of selectable items
          */
+         @Override
          public void removeAccessibleSelection(int i) {
              JList.this.removeSelectionInterval(i, i);
          }
@@ -3171,6 +3213,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * Clears the selection in the object, so that nothing in the
          * object is selected.
          */
+         @Override
          public void clearAccessibleSelection() {
              JList.this.clearSelection();
          }
@@ -3179,6 +3222,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
          * Causes every selected item in the object to be selected
          * if the object supports multiple selections.
          */
+         @Override
          public void selectAllAccessibleSelection() {
              JList.this.addSelectionInterval(0, getAccessibleChildrenCount() -1);
          }
@@ -3250,6 +3294,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             *
             * @return this object
             */
+            @Override
             public AccessibleContext getAccessibleContext() {
                 return this;
             }
@@ -3257,6 +3302,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
             // AccessibleContext methods
 
+            @Override
             public String getAccessibleName() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3266,6 +3312,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setAccessibleName(String s) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3273,6 +3320,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public String getAccessibleDescription() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3282,6 +3330,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setAccessibleDescription(String s) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3289,6 +3338,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public AccessibleRole getAccessibleRole() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3298,6 +3348,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public AccessibleStateSet getAccessibleStateSet() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 AccessibleStateSet s;
@@ -3329,10 +3380,12 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 return s;
             }
 
+            @Override
             public int getAccessibleIndexInParent() {
                 return indexInParent;
             }
 
+            @Override
             public int getAccessibleChildrenCount() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3342,6 +3395,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Accessible getAccessibleChild(int i) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3353,6 +3407,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Locale getLocale() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3362,6 +3417,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void addPropertyChangeListener(PropertyChangeListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3369,6 +3425,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void removePropertyChangeListener(PropertyChangeListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -3384,20 +3441,24 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
             *
             * @return this object
             */
+            @Override
             public AccessibleComponent getAccessibleComponent() {
                 return this; // to override getBounds()
             }
 
+            @Override
             public AccessibleSelection getAccessibleSelection() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 return ac != null ? ac.getAccessibleSelection() : null;
             }
 
+            @Override
             public AccessibleText getAccessibleText() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 return ac != null ? ac.getAccessibleText() : null;
             }
 
+            @Override
             public AccessibleValue getAccessibleValue() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 return ac != null ? ac.getAccessibleValue() : null;
@@ -3406,6 +3467,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
 
             // AccessibleComponent methods
 
+            @Override
             public Color getBackground() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3420,6 +3482,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setBackground(Color c) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3432,6 +3495,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Color getForeground() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3446,6 +3510,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setForeground(Color c) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3458,6 +3523,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Cursor getCursor() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3477,6 +3543,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setCursor(Cursor c) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3489,6 +3556,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Font getFont() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3503,6 +3571,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setFont(Font f) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3515,6 +3584,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public FontMetrics getFontMetrics(Font f) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3529,6 +3599,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public boolean isEnabled() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3543,6 +3614,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setEnabled(boolean b) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3555,6 +3627,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public boolean isVisible() {
                 int fi = parent.getFirstVisibleIndex();
                 int li = parent.getLastVisibleIndex();
@@ -3568,13 +3641,16 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                         && (indexInParent <= li));
             }
 
+            @Override
             public void setVisible(boolean b) {
             }
 
+            @Override
             public boolean isShowing() {
                 return (parent.isShowing() && isVisible());
             }
 
+            @Override
             public boolean contains(Point p) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3591,6 +3667,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Point getLocationOnScreen() {
                 if (parent != null) {
                     Point listLocation;
@@ -3612,6 +3689,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Point getLocation() {
                 if (parent != null) {
                     return parent.indexToLocation(indexInParent);
@@ -3620,12 +3698,14 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setLocation(Point p) {
                 if ((parent != null)  && (parent.contains(p))) {
                     ensureIndexIsVisible(indexInParent);
                 }
             }
 
+            @Override
             public Rectangle getBounds() {
                 if (parent != null) {
                     return parent.getCellBounds(indexInParent,indexInParent);
@@ -3634,6 +3714,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setBounds(Rectangle r) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3641,6 +3722,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Dimension getSize() {
                 Rectangle cellBounds = this.getBounds();
                 if (cellBounds != null) {
@@ -3650,6 +3732,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void setSize (Dimension d) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3662,6 +3745,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public Accessible getAccessibleAt(Point p) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3671,6 +3755,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public boolean isFocusTraversable() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3685,6 +3770,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void requestFocus() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3697,6 +3783,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void addFocusListener(FocusListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3709,6 +3796,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
                 }
             }
 
+            @Override
             public void removeFocusListener(FocusListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -3731,6 +3819,7 @@ public class JList<E> extends JComponent implements Scrollable, Accessible
              *         or a <code>null</code> array if none
              * @since 1.3
              */
+            @Override
             public AccessibleIcon [] getAccessibleIcon() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {

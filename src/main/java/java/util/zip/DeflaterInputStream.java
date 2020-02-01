@@ -104,12 +104,15 @@ public class DeflaterInputStream extends FilterInputStream {
         super(in);
 
         // Sanity checks
-        if (in == null)
+        if (in == null) {
             throw new NullPointerException("Null input");
-        if (defl == null)
+        }
+        if (defl == null) {
             throw new NullPointerException("Null deflater");
-        if (bufLen < 1)
+        }
+        if (bufLen < 1) {
             throw new IllegalArgumentException("Buffer size < 1");
+        }
 
         // Initialize
         def = defl;
@@ -122,6 +125,7 @@ public class DeflaterInputStream extends FilterInputStream {
      *
      * @throws IOException if an I/O error occurs
      */
+    @Override
     public void close() throws IOException {
         if (in != null) {
             try {
@@ -146,11 +150,13 @@ public class DeflaterInputStream extends FilterInputStream {
      * @throws IOException if an I/O error occurs or if this stream is
      * already closed
      */
+    @Override
     public int read() throws IOException {
         // Read a single byte of compressed data
         int len = read(rbuf, 0, 1);
-        if (len <= 0)
+        if (len <= 0) {
             return -1;
+        }
         return (rbuf[0] & 0xFF);
     }
 
@@ -167,6 +173,7 @@ public class DeflaterInputStream extends FilterInputStream {
      * @throws IOException if an I/O error occurs or if this input stream is
      * already closed
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         // Sanity checks
         ensureOpen();
@@ -220,6 +227,7 @@ public class DeflaterInputStream extends FilterInputStream {
      * @throws IOException if an I/O error occurs or if this stream is
      * already closed
      */
+    @Override
     public long skip(long n) throws IOException {
         if (n < 0) {
             throw new IllegalArgumentException("negative skip length");
@@ -227,8 +235,9 @@ public class DeflaterInputStream extends FilterInputStream {
         ensureOpen();
 
         // Skip bytes by repeatedly decompressing small blocks
-        if (rbuf.length < 512)
+        if (rbuf.length < 512) {
             rbuf = new byte[512];
+        }
 
         int total = (int)Math.min(n, Integer.MAX_VALUE);
         long cnt = 0;
@@ -255,6 +264,7 @@ public class DeflaterInputStream extends FilterInputStream {
      * @throws IOException if an I/O error occurs or if this stream is
      * already closed
      */
+    @Override
     public int available() throws IOException {
         ensureOpen();
         if (reachEOF) {
@@ -269,6 +279,7 @@ public class DeflaterInputStream extends FilterInputStream {
      *
      * @return false, always
      */
+    @Override
     public boolean markSupported() {
         return false;
     }
@@ -278,6 +289,7 @@ public class DeflaterInputStream extends FilterInputStream {
      *
      * @param limit maximum bytes that can be read before invalidating the position marker
      */
+    @Override
     public void mark(int limit) {
         // Operation not supported
     }
@@ -287,6 +299,7 @@ public class DeflaterInputStream extends FilterInputStream {
      *
      * @throws IOException always thrown
      */
+    @Override
     public void reset() throws IOException {
         throw new IOException("mark/reset not supported");
     }

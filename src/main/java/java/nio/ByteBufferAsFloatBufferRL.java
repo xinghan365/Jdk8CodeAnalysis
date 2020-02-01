@@ -69,6 +69,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
 
     }
 
+    @Override
     public FloatBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
         return new ByteBufferAsFloatBufferRL(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public FloatBuffer duplicate() {
         return new ByteBufferAsFloatBufferRL(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
                                                     offset);
     }
 
+    @Override
     public FloatBuffer asReadOnlyBuffer() {
 
 
@@ -123,6 +126,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
 
 
 
+    @Override
     public FloatBuffer put(float x) {
 
 
@@ -132,6 +136,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
 
     }
 
+    @Override
     public FloatBuffer put(int i, float x) {
 
 
@@ -141,6 +146,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
 
     }
 
+    @Override
     public FloatBuffer compact() {
 
 
@@ -163,10 +169,12 @@ class ByteBufferAsFloatBufferRL                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -213,6 +221,7 @@ class ByteBufferAsFloatBufferRL                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
 

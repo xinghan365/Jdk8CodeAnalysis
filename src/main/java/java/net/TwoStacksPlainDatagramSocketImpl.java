@@ -82,6 +82,7 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         exclusiveBind = exclBind;
     }
 
+    @Override
     protected synchronized void create() throws SocketException {
         fd1 = new FileDescriptor();
         try {
@@ -92,6 +93,7 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         }
     }
 
+    @Override
     protected synchronized void bind(int lport, InetAddress laddr)
         throws SocketException {
         super.bind(lport, laddr);
@@ -108,6 +110,7 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
 
     }
 
+    @Override
     protected synchronized void receive(DatagramPacket p)
         throws IOException {
         try {
@@ -117,6 +120,7 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         }
     }
 
+    @Override
     public Object getOption(int optID) throws SocketException {
         if (isClosed()) {
             throw new SocketException("Socket Closed");
@@ -135,6 +139,7 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
         }
     }
 
+    @Override
     protected void socketSetOption(int opt, Object val)
         throws SocketException
     {
@@ -148,10 +153,12 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
 
     }
 
+    @Override
     protected boolean isClosed() {
         return (fd == null && fd1 == null) ? true : false;
     }
 
+    @Override
     protected void close() {
         if (fd != null || fd1 != null) {
             datagramSocketClose();
@@ -167,46 +174,62 @@ class TwoStacksPlainDatagramSocketImpl extends AbstractPlainDatagramSocketImpl
                                              boolean exclBind)
         throws SocketException;
 
+    @Override
     protected native void send(DatagramPacket p) throws IOException;
 
+    @Override
     protected synchronized native int peek(InetAddress i) throws IOException;
 
+    @Override
     protected synchronized native int peekData(DatagramPacket p) throws IOException;
 
+    @Override
     protected synchronized native void receive0(DatagramPacket p)
         throws IOException;
 
+    @Override
     protected native void setTimeToLive(int ttl) throws IOException;
 
+    @Override
     protected native int getTimeToLive() throws IOException;
 
+    @Override
     @Deprecated
     protected native void setTTL(byte ttl) throws IOException;
 
+    @Override
     @Deprecated
     protected native byte getTTL() throws IOException;
 
+    @Override
     protected native void join(InetAddress inetaddr, NetworkInterface netIf)
         throws IOException;
 
+    @Override
     protected native void leave(InetAddress inetaddr, NetworkInterface netIf)
         throws IOException;
 
+    @Override
     protected native void datagramSocketCreate() throws SocketException;
 
+    @Override
     protected native void datagramSocketClose();
 
     protected native void socketNativeSetOption(int opt, Object val)
         throws SocketException;
 
+    @Override
     protected native Object socketGetOption(int opt) throws SocketException;
 
+    @Override
     protected native void connect0(InetAddress address, int port) throws SocketException;
 
     protected native Object socketLocalAddress(int family) throws SocketException;
 
+    @Override
     protected native void disconnect0(int family);
 
+    @Override
     native int dataAvailable();
 
     /**

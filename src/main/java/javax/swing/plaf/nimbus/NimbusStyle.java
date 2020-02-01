@@ -238,7 +238,9 @@ public final class NimbusStyle extends SynthStyle {
     private void validate() {
         // a non-null values object is the flag we use to determine whether
         // to reparse from UIManager.
-        if (values != null) return;
+        if (values != null) {
+            return;
+        }
 
         // reconstruct this NimbusStyle based on the entries in the UIManager
         // and possibly based on any overrides within the component's
@@ -359,7 +361,9 @@ public final class NimbusStyle extends SynthStyle {
             String temp = key.substring(prefix.length());
             //if there is a " or : then we skip it because it is a subregion
             //of some kind
-            if (temp.indexOf('"') != -1 || temp.indexOf(':') != -1) continue;
+            if (temp.indexOf('"') != -1 || temp.indexOf(':') != -1) {
+                continue;
+            }
             //remove the separator
             temp = temp.substring(1);
             //At this point, temp may be any of the following:
@@ -421,7 +425,9 @@ public final class NimbusStyle extends SynthStyle {
                     }
                 }
 
-                if (skip) continue;
+                if (skip) {
+                    continue;
+                }
 
                 //find the RuntimeState for this State
                 RuntimeState rs = null;
@@ -557,7 +563,9 @@ public final class NimbusStyle extends SynthStyle {
         }
         Color c = (Color) get(ctx, key);
         //if all else fails, return a default color (which is a ColorUIResource)
-        if (c == null) c = DEFAULT_COLOR;
+        if (c == null) {
+            c = DEFAULT_COLOR;
+        }
         return c;
     }
 
@@ -571,7 +579,9 @@ public final class NimbusStyle extends SynthStyle {
      */
     @Override protected Font getFontForState(SynthContext ctx) {
         Font f = (Font)get(ctx, "font");
-        if (f == null) f = UIManager.getFont("defaultFont");
+        if (f == null) {
+            f = UIManager.getFont("defaultFont");
+        }
 
         // Account for scale
         // The key "JComponent.sizeVariant" is used to match Apple's LAF
@@ -676,7 +686,9 @@ public final class NimbusStyle extends SynthStyle {
             }
             // return found object
             // Search UIManager Defaults
-            if (obj == null) obj = UIManager.get(fullKey);
+            if (obj == null) {
+                obj = UIManager.get(fullKey);
+            }
             // Search Synth Defaults for InputMaps
             if (obj == null && partialKey.equals("focusInputMap")) {
                 obj = super.get(ctx, fullKey);
@@ -706,7 +718,9 @@ public final class NimbusStyle extends SynthStyle {
         // check the cache
         tmpKey.init("backgroundPainter$$instance", xstate);
         p = (Painter)v.cache.get(tmpKey);
-        if (p != null) return p;
+        if (p != null) {
+            return p;
+        }
 
         // not in cache, so lookup and store in cache
         RuntimeState s = null;
@@ -717,7 +731,9 @@ public final class NimbusStyle extends SynthStyle {
                 break;
             }
         }
-        if (p == null) p = (Painter)get(ctx, "backgroundPainter");
+        if (p == null) {
+            p = (Painter)get(ctx, "backgroundPainter");
+        }
         if (p != null) {
             v.cache.put(new CacheKey("backgroundPainter$$instance", xstate), p);
         }
@@ -741,7 +757,9 @@ public final class NimbusStyle extends SynthStyle {
         // check the cache
         tmpKey.init("foregroundPainter$$instance", xstate);
         p = (Painter)v.cache.get(tmpKey);
-        if (p != null) return p;
+        if (p != null) {
+            return p;
+        }
 
         // not in cache, so lookup and store in cache
         RuntimeState s = null;
@@ -752,7 +770,9 @@ public final class NimbusStyle extends SynthStyle {
                 break;
             }
         }
-        if (p == null) p = (Painter)get(ctx, "foregroundPainter");
+        if (p == null) {
+            p = (Painter)get(ctx, "foregroundPainter");
+        }
         if (p != null) {
             v.cache.put(new CacheKey("foregroundPainter$$instance", xstate), p);
         }
@@ -776,7 +796,9 @@ public final class NimbusStyle extends SynthStyle {
         // check the cache
         tmpKey.init("borderPainter$$instance", xstate);
         p = (Painter)v.cache.get(tmpKey);
-        if (p != null) return p;
+        if (p != null) {
+            return p;
+        }
 
         // not in cache, so lookup and store in cache
         RuntimeState s = null;
@@ -787,7 +809,9 @@ public final class NimbusStyle extends SynthStyle {
                 break;
             }
         }
-        if (p == null) p = (Painter)get(ctx, "borderPainter");
+        if (p == null) {
+            p = (Painter)get(ctx, "borderPainter");
+        }
         if (p != null) {
             v.cache.put(new CacheKey("borderPainter$$instance", xstate), p);
         }
@@ -867,7 +891,9 @@ public final class NimbusStyle extends SynthStyle {
                 // standard states only
                 for (String stateStr : states) {
                     State.StandardState s = State.getStandardState(stateStr);
-                    if (s != null) xstate |= s.getState();
+                    if (s != null) {
+                        xstate |= s.getState();
+                    }
                 }
             } else {
                 // custom states
@@ -881,7 +907,9 @@ public final class NimbusStyle extends SynthStyle {
         } else {
             //if there are no custom states defined, then simply return the
             //state that Synth reported
-            if (v.stateTypes == null) return ctx.getComponentState();
+            if (v.stateTypes == null) {
+                return ctx.getComponentState();
+            }
 
             //there are custom states on this values, so I'll have to iterate
             //over them all and return a custom extended state
@@ -1101,9 +1129,15 @@ public final class NimbusStyle extends SynthStyle {
         @Override
         public boolean equals(Object obj) {
             final CacheKey other = (CacheKey) obj;
-            if (obj == null) return false;
-            if (this.xstate != other.xstate) return false;
-            if (!this.key.equals(other.key)) return false;
+            if (obj == null) {
+                return false;
+            }
+            if (this.xstate != other.xstate) {
+                return false;
+            }
+            if (!this.key.equals(other.key)) {
+                return false;
+            }
             return true;
         }
 

@@ -276,6 +276,7 @@ public class TextArea extends TextComponent {
      * Construct a name for this component.  Called by <code>getName</code>
      * when the name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (TextArea.class) {
             return base + nameCounter++;
@@ -287,10 +288,12 @@ public class TextArea extends TextComponent {
      * the appearance of the <code>TextArea</code> without changing any of its
      * functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createTextArea(this);
+            }
             super.addNotify();
         }
     }
@@ -505,6 +508,7 @@ public class TextArea extends TextComponent {
      * @see       java.awt.Component#getPreferredSize
      * @since     JDK1.1
      */
+    @Override
     public Dimension getPreferredSize() {
         return preferredSize();
     }
@@ -513,6 +517,7 @@ public class TextArea extends TextComponent {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getPreferredSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension preferredSize() {
         synchronized (getTreeLock()) {
@@ -557,6 +562,7 @@ public class TextArea extends TextComponent {
      * @see       java.awt.Component#getPreferredSize
      * @since     JDK1.1
      */
+    @Override
     public Dimension getMinimumSize() {
         return minimumSize();
     }
@@ -565,6 +571,7 @@ public class TextArea extends TextComponent {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getMinimumSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension minimumSize() {
         synchronized (getTreeLock()) {
@@ -583,6 +590,7 @@ public class TextArea extends TextComponent {
      *
      * @return      the parameter string of this text area
      */
+    @Override
     protected String paramString() {
         String sbVisStr;
         switch (scrollbarVisibility) {
@@ -670,6 +678,7 @@ public class TextArea extends TextComponent {
      *         <code>AccessibleContext</code> of this <code>TextArea</code>
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTTextArea();
@@ -697,6 +706,7 @@ public class TextArea extends TextComponent {
          * of the object
          * @see AccessibleStateSet
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             states.add(AccessibleState.MULTI_LINE);

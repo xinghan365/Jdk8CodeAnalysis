@@ -131,7 +131,9 @@ class ImageCache {
      * @return true if the image could be cached or false if the image is too big
      */
     public boolean setImage(Image image, GraphicsConfiguration config, int w, int h, Object... args) {
-        if (!isImageCachable(w, h)) return false;
+        if (!isImageCachable(w, h)) {
+            return false;
+        }
         int hash = hash(config, w, h, args);
         lock.writeLock().lock();
         try {
@@ -163,7 +165,9 @@ class ImageCache {
                     Map.Entry<Integer, PixelCountSoftReference> entry = mapIter.next();
                     mapIter.remove();
                     Image img = entry.getValue().get();
-                    if (img != null) img.flush();
+                    if (img != null) {
+                        img.flush();
+                    }
                     currentPixelCount -= entry.getValue().pixelCount;
                 }
             }

@@ -294,8 +294,9 @@ public class InitialContext implements Context {
         int colon_posn = str.indexOf(':');
         int slash_posn = str.indexOf('/');
 
-        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn))
+        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn)) {
             return str.substring(0, colon_posn);
+        }
         return null;
     }
 
@@ -313,8 +314,9 @@ public class InitialContext implements Context {
             defaultInitCtx = NamingManager.getInitialContext(myProps);
             gotDefault = true;
         }
-        if (defaultInitCtx == null)
+        if (defaultInitCtx == null) {
             throw new NoInitialContextException();
+        }
 
         return defaultInitCtx;
     }
@@ -413,98 +415,120 @@ public class InitialContext implements Context {
 // Context methods
 // Most Javadoc is deferred to the Context interface.
 
+    @Override
     public Object lookup(String name) throws NamingException {
         return getURLOrDefaultInitCtx(name).lookup(name);
     }
 
+    @Override
     public Object lookup(Name name) throws NamingException {
         return getURLOrDefaultInitCtx(name).lookup(name);
     }
 
+    @Override
     public void bind(String name, Object obj) throws NamingException {
         getURLOrDefaultInitCtx(name).bind(name, obj);
     }
 
+    @Override
     public void bind(Name name, Object obj) throws NamingException {
         getURLOrDefaultInitCtx(name).bind(name, obj);
     }
 
+    @Override
     public void rebind(String name, Object obj) throws NamingException {
         getURLOrDefaultInitCtx(name).rebind(name, obj);
     }
 
+    @Override
     public void rebind(Name name, Object obj) throws NamingException {
         getURLOrDefaultInitCtx(name).rebind(name, obj);
     }
 
+    @Override
     public void unbind(String name) throws NamingException  {
         getURLOrDefaultInitCtx(name).unbind(name);
     }
 
+    @Override
     public void unbind(Name name) throws NamingException  {
         getURLOrDefaultInitCtx(name).unbind(name);
     }
 
+    @Override
     public void rename(String oldName, String newName) throws NamingException {
         getURLOrDefaultInitCtx(oldName).rename(oldName, newName);
     }
 
+    @Override
     public void rename(Name oldName, Name newName)
         throws NamingException
     {
         getURLOrDefaultInitCtx(oldName).rename(oldName, newName);
     }
 
+    @Override
     public NamingEnumeration<NameClassPair> list(String name)
         throws NamingException
     {
         return (getURLOrDefaultInitCtx(name).list(name));
     }
 
+    @Override
     public NamingEnumeration<NameClassPair> list(Name name)
         throws NamingException
     {
         return (getURLOrDefaultInitCtx(name).list(name));
     }
 
+    @Override
     public NamingEnumeration<Binding> listBindings(String name)
             throws NamingException  {
         return getURLOrDefaultInitCtx(name).listBindings(name);
     }
 
+    @Override
     public NamingEnumeration<Binding> listBindings(Name name)
             throws NamingException  {
         return getURLOrDefaultInitCtx(name).listBindings(name);
     }
 
+    @Override
     public void destroySubcontext(String name) throws NamingException  {
         getURLOrDefaultInitCtx(name).destroySubcontext(name);
     }
 
+    @Override
     public void destroySubcontext(Name name) throws NamingException  {
         getURLOrDefaultInitCtx(name).destroySubcontext(name);
     }
 
+    @Override
     public Context createSubcontext(String name) throws NamingException  {
         return getURLOrDefaultInitCtx(name).createSubcontext(name);
     }
 
+    @Override
     public Context createSubcontext(Name name) throws NamingException  {
         return getURLOrDefaultInitCtx(name).createSubcontext(name);
     }
 
+    @Override
     public Object lookupLink(String name) throws NamingException  {
         return getURLOrDefaultInitCtx(name).lookupLink(name);
     }
 
+    @Override
     public Object lookupLink(Name name) throws NamingException {
         return getURLOrDefaultInitCtx(name).lookupLink(name);
     }
 
+    @Override
     public NameParser getNameParser(String name) throws NamingException {
         return getURLOrDefaultInitCtx(name).getNameParser(name);
     }
 
+    @Override
     public NameParser getNameParser(Name name) throws NamingException {
         return getURLOrDefaultInitCtx(name).getNameParser(name);
     }
@@ -516,6 +540,7 @@ public class InitialContext implements Context {
      * to any context other than itself, the value of the
      * <tt>prefix</tt> parameter must be an empty name (<tt>""</tt>).
      */
+    @Override
     public String composeName(String name, String prefix)
             throws NamingException {
         return name;
@@ -528,28 +553,33 @@ public class InitialContext implements Context {
      * to any context other than itself, the value of the
      * <tt>prefix</tt> parameter must be an empty name.
      */
+    @Override
     public Name composeName(Name name, Name prefix)
         throws NamingException
     {
         return (Name)name.clone();
     }
 
+    @Override
     public Object addToEnvironment(String propName, Object propVal)
             throws NamingException {
         myProps.put(propName, propVal);
         return getDefaultInitCtx().addToEnvironment(propName, propVal);
     }
 
+    @Override
     public Object removeFromEnvironment(String propName)
             throws NamingException {
         myProps.remove(propName);
         return getDefaultInitCtx().removeFromEnvironment(propName);
     }
 
+    @Override
     public Hashtable<?,?> getEnvironment() throws NamingException {
         return getDefaultInitCtx().getEnvironment();
     }
 
+    @Override
     public void close() throws NamingException {
         myProps = null;
         if (defaultInitCtx != null) {
@@ -559,6 +589,7 @@ public class InitialContext implements Context {
         gotDefault = false;
     }
 
+    @Override
     public String getNameInNamespace() throws NamingException {
         return getDefaultInitCtx().getNameInNamespace();
     }

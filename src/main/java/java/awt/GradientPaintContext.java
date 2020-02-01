@@ -203,6 +203,7 @@ class GradientPaintContext implements PaintContext {
     /**
      * Release the resources allocated for the operation.
      */
+    @Override
     public void dispose() {
         if (saved != null) {
             putCachedRaster(model, saved);
@@ -213,6 +214,7 @@ class GradientPaintContext implements PaintContext {
     /**
      * Return the ColorModel of the output.
      */
+    @Override
     public ColorModel getColorModel() {
         return model;
     }
@@ -223,6 +225,7 @@ class GradientPaintContext implements PaintContext {
      * @param x,y,w,h The area in device space for which colors are
      * generated.
      */
+    @Override
     public Raster getRaster(int x, int y, int w, int h) {
         double rowrel = (x - x1) * dx + (y - y1) * dy;
 

@@ -109,6 +109,7 @@ public class QName implements Serializable {
             // use a privileged block as reading a system property
             String valueUseCompatibleSerialVersionUID = (String) AccessController.doPrivileged(
                     new PrivilegedAction() {
+                        @Override
                         public Object run() {
                             return System.getProperty("com.sun.xml.namespace.QName.useCompatibleSerialVersionUID");
                         }
@@ -355,6 +356,7 @@ public class QName implements Serializable {
      * @return <code>true</code> if the given <code>Object</code> is
      * equal to this <code>QName</code> else <code>false</code>
      */
+    @Override
     public final boolean equals(Object objectToTest) {
         if (objectToTest == this) {
             return true;
@@ -383,6 +385,7 @@ public class QName implements Serializable {
      *
      * @return hash code for this <code>QName</code> <code>Object</code>
      */
+    @Override
     public final int hashCode() {
         return namespaceURI.hashCode() ^ localPart.hashCode();
     }
@@ -411,6 +414,7 @@ public class QName implements Serializable {
      *
      *  @return <code>String</code> representation of this <code>QName</code>
      */
+    @Override
     public String toString() {
         if (namespaceURI.equals(XMLConstants.NULL_NS_URI)) {
             return localPart;

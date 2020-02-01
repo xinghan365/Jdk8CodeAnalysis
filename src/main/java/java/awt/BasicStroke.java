@@ -295,6 +295,7 @@ public class BasicStroke implements Stroke {
      * @param s the <code>Shape</code> boundary be stroked
      * @return the <code>Shape</code> of the stroked outline.
      */
+    @Override
     public Shape createStrokedShape(Shape s) {
         sun.java2d.pipe.RenderingEngine re =
             sun.java2d.pipe.RenderingEngine.getInstance();
@@ -378,6 +379,7 @@ public class BasicStroke implements Stroke {
      * Returns the hashcode for this stroke.
      * @return      a hash code for this stroke.
      */
+    @Override
     public int hashCode() {
         int hash = Float.floatToIntBits(width);
         hash = hash * 31 + join;
@@ -407,6 +409,7 @@ public class BasicStroke implements Stroke {
     *            dash phase are the same for both objects;
     *            <code>false</code> otherwise.
     */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof BasicStroke)) {
             return false;

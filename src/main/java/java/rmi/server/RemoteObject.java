@@ -114,6 +114,7 @@ public abstract class RemoteObject implements Remote, java.io.Serializable {
      *
      * @see             java.util.Hashtable
      */
+    @Override
     public int hashCode() {
         return (ref == null) ? super.hashCode() : ref.remoteHashCode();
     }
@@ -131,6 +132,7 @@ public abstract class RemoteObject implements Remote, java.io.Serializable {
      * @return  true if these Objects are equal; false otherwise.
      * @see             java.util.Hashtable
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof RemoteObject) {
             if (ref == null) {
@@ -154,6 +156,7 @@ public abstract class RemoteObject implements Remote, java.io.Serializable {
     /**
      * Returns a String that represents the value of this remote object.
      */
+    @Override
     public String toString() {
         String classname = Util.getUnqualifiedName(getClass());
         return (ref == null) ? classname :

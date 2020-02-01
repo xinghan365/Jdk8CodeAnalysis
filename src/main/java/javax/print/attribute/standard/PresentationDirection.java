@@ -145,6 +145,7 @@ public final class PresentationDirection extends EnumSyntax
     /**
      * Returns the string table for class PresentationDirection.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -152,6 +153,7 @@ public final class PresentationDirection extends EnumSyntax
     /**
      * Returns the enumeration value table for class PresentationDirection.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -166,6 +168,7 @@ public final class PresentationDirection extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PresentationDirection.class;
     }
@@ -179,6 +182,7 @@ public final class PresentationDirection extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "presentation-direction";
     }

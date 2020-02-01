@@ -171,6 +171,7 @@ public class Label extends Component implements Accessible {
      * Construct a name for this component.  Called by getName() when the
      * name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (Label.class) {
             return base + nameCounter++;
@@ -182,10 +183,12 @@ public class Label extends Component implements Accessible {
      * modify the appearance of the label without changing its
      * functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createLabel(this);
+            }
             super.addNotify();
         }
     }
@@ -271,6 +274,7 @@ public class Label extends Component implements Accessible {
      *
      * @return     the parameter string of this label
      */
+    @Override
     protected String paramString() {
         String align = "";
         switch (alignment) {
@@ -302,6 +306,7 @@ public class Label extends Component implements Accessible {
      *         AccessibleContext of this Label
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTLabel();
@@ -333,6 +338,7 @@ public class Label extends Component implements Accessible {
          * object does not have a name
          * @see AccessibleContext#setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -351,6 +357,7 @@ public class Label extends Component implements Accessible {
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.LABEL;
         }

@@ -316,12 +316,14 @@ public class X509CRLSelector implements CRLSelector {
         while (i.hasNext()) {
             Object nameObject = i.next();
             if (!(nameObject instanceof byte []) &&
-                !(nameObject instanceof String))
+                !(nameObject instanceof String)) {
                 throw new IOException("name not byte array or String");
-            if (nameObject instanceof byte [])
+            }
+            if (nameObject instanceof byte []) {
                 namesCopy.add(((byte []) nameObject).clone());
-            else
+            } else {
                 namesCopy.add(nameObject);
+            }
         }
         return(namesCopy);
     }
@@ -419,10 +421,11 @@ public class X509CRLSelector implements CRLSelector {
      * @see #getDateAndTime
      */
     public void setDateAndTime(Date dateAndTime) {
-        if (dateAndTime == null)
+        if (dateAndTime == null) {
             this.dateAndTime = null;
-        else
+        } else {
             this.dateAndTime = new Date(dateAndTime.getTime());
+        }
         this.skew = 0;
     }
 
@@ -540,8 +543,9 @@ public class X509CRLSelector implements CRLSelector {
      * @see #setDateAndTime
      */
     public Date getDateAndTime() {
-        if (dateAndTime == null)
+        if (dateAndTime == null) {
             return null;
+        }
         return (Date) dateAndTime.clone();
     }
 
@@ -565,23 +569,29 @@ public class X509CRLSelector implements CRLSelector {
      * @return a {@code String} describing the contents of the
      *         {@code X509CRLSelector}.
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("X509CRLSelector: [\n");
         if (issuerNames != null) {
             sb.append("  IssuerNames:\n");
             Iterator<Object> i = issuerNames.iterator();
-            while (i.hasNext())
+            while (i.hasNext()) {
                 sb.append("    " + i.next() + "\n");
+            }
         }
-        if (minCRL != null)
+        if (minCRL != null) {
             sb.append("  minCRLNumber: " + minCRL + "\n");
-        if (maxCRL != null)
+        }
+        if (maxCRL != null) {
             sb.append("  maxCRLNumber: " + maxCRL + "\n");
-        if (dateAndTime != null)
+        }
+        if (dateAndTime != null) {
             sb.append("  dateAndTime: " + dateAndTime + "\n");
-        if (certChecking != null)
+        }
+        if (certChecking != null) {
             sb.append("  Certificate being checked: " + certChecking + "\n");
+        }
         sb.append("]");
         return sb.toString();
     }
@@ -593,6 +603,7 @@ public class X509CRLSelector implements CRLSelector {
      * @return {@code true} if the {@code CRL} should be selected,
      *         {@code false} otherwise
      */
+    @Override
     public boolean match(CRL crl) {
         if (!(crl instanceof X509CRL)) {
             return false;
@@ -700,6 +711,7 @@ public class X509CRLSelector implements CRLSelector {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         try {
             X509CRLSelector copy = (X509CRLSelector)super.clone();

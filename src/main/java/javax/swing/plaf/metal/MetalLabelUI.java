@@ -77,6 +77,7 @@ public class MetalLabelUI extends BasicLabelUI
      * @see #paint
      * @see #paintEnabledText
      */
+    @Override
     protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY)
     {
         int mnemIndex = l.getDisplayedMnemonicIndex();

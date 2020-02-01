@@ -56,6 +56,7 @@ public class RTFEditorKit extends StyledEditorKit {
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
         return "text/rtf";
     }
@@ -73,6 +74,7 @@ public class RTFEditorKit extends StyledEditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void read(InputStream in, Document doc, int pos) throws IOException, BadLocationException {
 
         if (doc instanceof StyledDocument) {
@@ -100,6 +102,7 @@ public class RTFEditorKit extends StyledEditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void write(OutputStream out, Document doc, int pos, int len)
         throws IOException, BadLocationException {
 
@@ -120,6 +123,7 @@ public class RTFEditorKit extends StyledEditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void read(Reader in, Document doc, int pos)
         throws IOException, BadLocationException {
 
@@ -146,6 +150,7 @@ public class RTFEditorKit extends StyledEditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void write(Writer out, Document doc, int pos, int len)
         throws IOException, BadLocationException {
 

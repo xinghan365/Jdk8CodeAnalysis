@@ -301,6 +301,7 @@ public abstract class ResolutionSyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this resolution
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
 
         return(object != null &&
@@ -314,6 +315,7 @@ public abstract class ResolutionSyntax implements Serializable, Cloneable {
     /**
      * Returns a hash code value for this resolution attribute.
      */
+    @Override
     public int hashCode() {
         return(((crossFeedResolution & 0x0000FFFF)) |
                ((feedResolution      & 0x0000FFFF) << 16));
@@ -325,6 +327,7 @@ public abstract class ResolutionSyntax implements Serializable, Cloneable {
      * cross feed direction resolution and <I>F</I> is the feed direction
      * resolution. The values are reported in the internal units of dphi.
      */
+    @Override
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append(crossFeedResolution);

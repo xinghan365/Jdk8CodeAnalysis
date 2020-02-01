@@ -35,6 +35,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
         private static PaintCallback instance = new PaintCallback();
 
         private PaintCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             comp.paint(cg);
         }
@@ -46,6 +47,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
         private static PrintCallback instance = new PrintCallback();
 
         private PrintCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             comp.print(cg);
         }
@@ -57,6 +59,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
         private static PaintAllCallback instance = new PaintAllCallback();
 
         private PaintAllCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             comp.paintAll(cg);
         }
@@ -68,6 +71,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
         private static PrintAllCallback instance = new PrintAllCallback();
 
         private PrintAllCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             comp.printAll(cg);
         }
@@ -79,6 +83,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
         private static PeerPaintCallback instance = new PeerPaintCallback();
 
         private PeerPaintCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             comp.validate();
             if (comp.peer instanceof LightweightPeer) {
@@ -95,6 +100,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
         private static PeerPrintCallback instance = new PeerPrintCallback();
 
         private PeerPrintCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             comp.validate();
             if (comp.peer instanceof LightweightPeer) {
@@ -114,6 +120,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
             new PaintHeavyweightComponentsCallback();
 
         private PaintHeavyweightComponentsCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             if (comp.peer instanceof LightweightPeer) {
                 comp.paintHeavyweightComponents(cg);
@@ -132,6 +139,7 @@ abstract class GraphicsCallback extends SunGraphicsCallback {
             new PrintHeavyweightComponentsCallback();
 
         private PrintHeavyweightComponentsCallback() {}
+        @Override
         public void run(Component comp, Graphics cg) {
             if (comp.peer instanceof LightweightPeer) {
                 comp.printHeavyweightComponents(cg);

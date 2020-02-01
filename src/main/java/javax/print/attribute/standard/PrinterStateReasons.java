@@ -144,8 +144,9 @@ public final class PrinterStateReasons
      */
     public PrinterStateReasons(Map<PrinterStateReason,Severity> map) {
         this();
-        for (Map.Entry<PrinterStateReason,Severity> e : map.entrySet())
+        for (Map.Entry<PrinterStateReason,Severity> e : map.entrySet()) {
             put(e.getKey(), e.getValue());
+        }
     }
 
     /**
@@ -173,6 +174,7 @@ public final class PrinterStateReasons
      *     Severity}.
      * @since 1.5
      */
+    @Override
     public Severity put(PrinterStateReason reason, Severity severity) {
         if (reason == null) {
             throw new NullPointerException("reason is null");
@@ -193,6 +195,7 @@ public final class PrinterStateReasons
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterStateReasons.class;
     }
@@ -206,6 +209,7 @@ public final class PrinterStateReasons
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-state-reasons";
     }
@@ -249,6 +253,7 @@ public final class PrinterStateReasons
             myEntrySet = entrySet;
         }
 
+        @Override
         public int size() {
             int result = 0;
             Iterator iter = iterator();
@@ -259,6 +264,7 @@ public final class PrinterStateReasons
             return result;
         }
 
+        @Override
         public Iterator iterator() {
             return new PrinterStateReasonSetIterator(mySeverity,
                                                      myEntrySet.iterator());
@@ -287,10 +293,12 @@ public final class PrinterStateReasons
             }
         }
 
+        @Override
         public boolean hasNext() {
             return myEntry != null;
         }
 
+        @Override
         public Object next() {
             if (myEntry == null) {
                 throw new NoSuchElementException();
@@ -300,6 +308,7 @@ public final class PrinterStateReasons
             return result;
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

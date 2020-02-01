@@ -203,20 +203,23 @@ public class JLayeredPane extends JComponent implements Accessible {
                         (layer = (Integer)((JComponent)c).
                                      getClientProperty(LAYER_PROPERTY)) != null))
                 {
-                    if(layer != null && layer.equals(FRAME_CONTENT_LAYER))
+                    if(layer != null && layer.equals(FRAME_CONTENT_LAYER)) {
                         continue;
+                    }
                     layeredComponentFound = true;
                     break;
                 }
             }
         }
 
-        if(layeredComponentFound)
+        if(layeredComponentFound) {
             optimizedDrawingPossible = false;
-        else
+        } else {
             optimizedDrawingPossible = true;
+        }
     }
 
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         int layer;
         int pos;
@@ -224,8 +227,9 @@ public class JLayeredPane extends JComponent implements Accessible {
         if(constraints instanceof Integer) {
             layer = ((Integer)constraints).intValue();
             setLayer(comp, layer);
-        } else
+        } else {
             layer = getLayer(comp);
+        }
 
         pos = insertIndexForLayer(layer, index);
         super.addImpl(comp, constraints, pos);
@@ -241,6 +245,7 @@ public class JLayeredPane extends JComponent implements Accessible {
      * @param index  an int specifying the component to remove
      * @see #getIndexOf
      */
+    @Override
     public void remove(int index) {
         Component c = getComponent(index);
         super.remove(index);
@@ -255,6 +260,7 @@ public class JLayeredPane extends JComponent implements Accessible {
      *
      * @since 1.5
      */
+    @Override
     public void removeAll() {
         Component[] children = getComponents();
         Hashtable<Component, Integer> cToL = getComponentToLayer();
@@ -274,6 +280,7 @@ public class JLayeredPane extends JComponent implements Accessible {
      * @return false if components can overlap, else true
      * @see JComponent#isOptimizedDrawingEnabled
      */
+    @Override
     public boolean isOptimizedDrawingEnabled() {
         return optimizedDrawingPossible;
     }
@@ -308,8 +315,9 @@ public class JLayeredPane extends JComponent implements Accessible {
       */
     public static int getLayer(JComponent c) {
         Integer i;
-        if((i = (Integer)c.getClientProperty(LAYER_PROPERTY)) != null)
+        if((i = (Integer)c.getClientProperty(LAYER_PROPERTY)) != null) {
             return i.intValue();
+        }
         return DEFAULT_LAYER.intValue();
     }
 
@@ -326,11 +334,14 @@ public class JLayeredPane extends JComponent implements Accessible {
       * @see JRootPane
       */
     public static JLayeredPane getLayeredPaneAbove(Component c) {
-        if(c == null) return null;
+        if(c == null) {
+            return null;
+        }
 
         Component parent = c.getParent();
-        while(parent != null && !(parent instanceof JLayeredPane))
+        while(parent != null && !(parent instanceof JLayeredPane)) {
             parent = parent.getParent();
+        }
         return (JLayeredPane)parent;
     }
 
@@ -366,10 +377,11 @@ public class JLayeredPane extends JComponent implements Accessible {
         }
 
         /// MAKE SURE THIS AND putLayer(JComponent c, int layer) are SYNCED
-        if(c instanceof JComponent)
+        if(c instanceof JComponent) {
             ((JComponent)c).putClientProperty(LAYER_PROPERTY, layerObj);
-        else
+        } else {
             getComponentToLayer().put(c, layerObj);
+        }
 
         if(c.getParent() == null || c.getParent() != this) {
             repaint(c.getBounds());
@@ -390,13 +402,15 @@ public class JLayeredPane extends JComponent implements Accessible {
      */
     public int getLayer(Component c) {
         Integer i;
-        if(c instanceof JComponent)
+        if(c instanceof JComponent) {
             i = (Integer)((JComponent)c).getClientProperty(LAYER_PROPERTY);
-        else
+        } else {
             i = getComponentToLayer().get(c);
+        }
 
-        if(i == null)
+        if(i == null) {
             return DEFAULT_LAYER.intValue();
+        }
         return i.intValue();
     }
 
@@ -414,8 +428,9 @@ public class JLayeredPane extends JComponent implements Accessible {
 
         count = getComponentCount();
         for(i = 0; i < count; i++) {
-            if(c == getComponent(i))
+            if(c == getComponent(i)) {
                 return i;
+            }
         }
         return -1;
     }
@@ -475,16 +490,18 @@ public class JLayeredPane extends JComponent implements Accessible {
         getComponentCount();
         startLocation = getIndexOf(c);
 
-        if(startLocation == -1)
+        if(startLocation == -1) {
             return -1;
+        }
 
         startLayer = getLayer(c);
         for(i = startLocation - 1; i >= 0; i--) {
             curLayer = getLayer(getComponent(i));
-            if(curLayer == startLayer)
+            if(curLayer == startLayer) {
                 pos++;
-            else
+            } else {
                 return pos;
+            }
         }
         return pos;
     }
@@ -496,8 +513,9 @@ public class JLayeredPane extends JComponent implements Accessible {
       *         pane, or zero if there are no children
       */
     public int highestLayer() {
-        if(getComponentCount() > 0)
+        if(getComponentCount() > 0) {
             return getLayer(getComponent(0));
+        }
         return 0;
     }
 
@@ -509,8 +527,9 @@ public class JLayeredPane extends JComponent implements Accessible {
       */
     public int lowestLayer() {
         int count = getComponentCount();
-        if(count > 0)
+        if(count > 0) {
             return getLayer(getComponent(count-1));
+        }
         return 0;
     }
 
@@ -569,12 +588,14 @@ public class JLayeredPane extends JComponent implements Accessible {
      *
      * @param g  the Graphics context within which to paint
      */
+    @Override
     public void paint(Graphics g) {
         if(isOpaque()) {
             Rectangle r = g.getClipBounds();
             Color c = getBackground();
-            if(c == null)
+            if(c == null) {
                 c = Color.lightGray;
+            }
             g.setColor(c);
             if (r != null) {
                 g.fillRect(r.x, r.y, r.width, r.height);
@@ -596,8 +617,9 @@ public class JLayeredPane extends JComponent implements Accessible {
      * @return the Hashtable used to map components to their layers
      */
     protected Hashtable<Component,Integer> getComponentToLayer() {
-        if(componentToLayer == null)
+        if(componentToLayer == null) {
             componentToLayer = new Hashtable<Component,Integer>(4);
+        }
         return componentToLayer;
     }
 
@@ -694,24 +716,29 @@ public class JLayeredPane extends JComponent implements Accessible {
         // layer requested is lower than any current layer
         // [ ASSERT(layer < lowestLayer()) ]
         // put it on the bottom of the stack
-        if (layerStart == -1 && layerEnd == -1)
+        if (layerStart == -1 && layerEnd == -1) {
             return count;
+        }
 
         // In the case of a single layer entry handle the degenerative cases
-        if (layerStart != -1 && layerEnd == -1)
+        if (layerStart != -1 && layerEnd == -1) {
             layerEnd = count;
+        }
 
-        if (layerEnd != -1 && layerStart == -1)
+        if (layerEnd != -1 && layerStart == -1) {
             layerStart = layerEnd;
+        }
 
         // If we are adding to the bottom, return the last element
-        if (position == -1)
+        if (position == -1) {
             return layerEnd;
+        }
 
         // Otherwise make sure the requested position falls in the
         // proper range
-        if (position > -1 && layerStart + position <= layerEnd)
+        if (position > -1 && layerStart + position <= layerEnd) {
             return layerStart + position;
+        }
 
         // Otherwise return the end of the layer
         return layerEnd;
@@ -726,6 +753,7 @@ public class JLayeredPane extends JComponent implements Accessible {
      *
      * @return  a string representation of this JLayeredPane.
      */
+    @Override
     protected String paramString() {
         String optimizedDrawingPossibleString = (optimizedDrawingPossible ?
                                                  "true" : "false");
@@ -747,6 +775,7 @@ public class JLayeredPane extends JComponent implements Accessible {
      * @return an AccessibleJLayeredPane that serves as the
      *         AccessibleContext of this JLayeredPane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJLayeredPane();
@@ -779,6 +808,7 @@ public class JLayeredPane extends JComponent implements Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.LAYERED_PANE;
         }

@@ -301,6 +301,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      * @return the updated attribute set
      * @see MutableAttributeSet#addAttribute
      */
+    @Override
     public synchronized AttributeSet addAttribute(AttributeSet old, Object name, Object value) {
         if ((old.getAttributeCount() + 1) <= getCompressionThreshold()) {
             // build a search key and find/create an immutable and unique
@@ -329,6 +330,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      * @return the updated attribute set
      * @see MutableAttributeSet#addAttribute
      */
+    @Override
     public synchronized AttributeSet addAttributes(AttributeSet old, AttributeSet attr) {
         if ((old.getAttributeCount() + attr.getAttributeCount()) <= getCompressionThreshold()) {
             // build a search key and find/create an immutable and unique
@@ -357,6 +359,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      * @return the updated attribute set
      * @see MutableAttributeSet#removeAttribute
      */
+    @Override
     public synchronized AttributeSet removeAttribute(AttributeSet old, Object name) {
         if ((old.getAttributeCount() - 1) <= getCompressionThreshold()) {
             // build a search key and find/create an immutable and unique
@@ -385,6 +388,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      * @return the updated attribute set
      * @see MutableAttributeSet#removeAttributes
      */
+    @Override
     public synchronized AttributeSet removeAttributes(AttributeSet old, Enumeration<?> names) {
         if (old.getAttributeCount() <= getCompressionThreshold()) {
             // build a search key and find/create an immutable and unique
@@ -413,6 +417,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      * @return the updated attribute set
      * @see MutableAttributeSet#removeAttributes
      */
+    @Override
     public synchronized AttributeSet removeAttributes(AttributeSet old, AttributeSet attrs) {
         if (old.getAttributeCount() <= getCompressionThreshold()) {
             // build a search key and find/create an immutable and unique
@@ -433,6 +438,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      *
      * @return the set
      */
+    @Override
     public AttributeSet getEmptySet() {
         return SimpleAttributeSet.EMPTY;
     }
@@ -450,6 +456,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      *
      * @param a the set to reclaim
      */
+    @Override
     public void reclaim(AttributeSet a) {
         if (SwingUtilities.isEventDispatchThread()) {
             attributesPool.size(); // force WeakHashMap to expunge stale entries
@@ -543,6 +550,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
      *
      * @return the string
      */
+    @Override
     public String toString() {
         removeUnusedSets();
         String s = "";
@@ -810,6 +818,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
         /**
          * Returns a string showing the key/value pairs
          */
+        @Override
         public String toString() {
             String s = "{";
             Object[] tbl = attributes;
@@ -829,6 +838,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * Returns a hashcode for this set of attributes.
          * @return     a hashcode value for this set of attributes.
          */
+        @Override
         public int hashCode() {
             int code = 0;
             Object[] tbl = attributes;
@@ -846,6 +856,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return    <code>true</code> if the objects are equal;
          *            <code>false</code> otherwise.
          */
+        @Override
         public boolean equals(Object obj) {
             if (obj instanceof AttributeSet) {
                 AttributeSet attrs = (AttributeSet) obj;
@@ -861,6 +872,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          *
          * @return the set of attributes
          */
+        @Override
         public Object clone() {
             return this;
         }
@@ -873,6 +885,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the number of attributes
          * @see AttributeSet#getAttributeCount
          */
+        @Override
         public int getAttributeCount() {
             return attributes.length / 2;
         }
@@ -884,6 +897,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the attribute is defined
          * @see AttributeSet#isDefined
          */
+        @Override
         public boolean isDefined(Object key) {
             Object[] a = attributes;
             int n = a.length;
@@ -902,6 +916,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the same
          * @see AttributeSet#isEqual
          */
+        @Override
         public boolean isEqual(AttributeSet attr) {
             if (attr instanceof SmallAttributeSet) {
                 return attr == this;
@@ -916,6 +931,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the copy
          * @see AttributeSet#copyAttributes
          */
+        @Override
         public AttributeSet copyAttributes() {
             return this;
         }
@@ -927,12 +943,14 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the attribute value
          * @see AttributeSet#getAttribute
          */
+        @Override
         public Object getAttribute(Object key) {
             Object value = getLocalAttribute(key);
             if (value == null) {
                 AttributeSet parent = getResolveParent();
-                if (parent != null)
+                if (parent != null) {
                     value = parent.getAttribute(key);
+                }
             }
             return value;
         }
@@ -943,6 +961,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the attribute names
          * @see AttributeSet#getAttributeNames
          */
+        @Override
         public Enumeration<?> getAttributeNames() {
             return new KeyEnumeration(attributes);
         }
@@ -955,6 +974,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the name/value is defined
          * @see AttributeSet#containsAttribute
          */
+        @Override
         public boolean containsAttribute(Object name, Object value) {
             return value.equals(getAttribute(name));
         }
@@ -967,6 +987,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the element contains all the attributes
          * @see AttributeSet#containsAttributes
          */
+        @Override
         public boolean containsAttributes(AttributeSet attrs) {
             boolean result = true;
 
@@ -986,6 +1007,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the attributes from the parent
          * @see AttributeSet#getResolveParent
          */
+        @Override
         public AttributeSet getResolveParent() {
             return resolveParent;
         }
@@ -1014,6 +1036,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          *          <code>false</code> otherwise.
          * @since   JDK1.0
          */
+        @Override
         public boolean hasMoreElements() {
             return i < attr.length;
         }
@@ -1025,6 +1048,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @exception  NoSuchElementException  if no more elements exist.
          * @since      JDK1.0
          */
+        @Override
         public Object nextElement() {
             if (i < attr.length) {
                 Object o = attr[i];
@@ -1203,6 +1227,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * Returns a hashcode for this font.
          * @return     a hashcode value for this font.
          */
+        @Override
         public int hashCode() {
             int fhash = (family != null) ? family.hashCode() : 0;
             return fhash ^ style ^ size;
@@ -1217,6 +1242,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return    <code>true</code> if the objects are equal;
          *            <code>false</code> otherwise.
          */
+        @Override
         public boolean equals(Object obj) {
             if (obj instanceof FontKey) {
                 FontKey font = (FontKey)obj;
@@ -1285,6 +1311,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          *
          * @return the string
          */
+        @Override
         public String toString() {
             return "NamedStyle:" + getName() + " " + attributes;
         }
@@ -1295,6 +1322,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          *
          * @return the name
          */
+        @Override
         public String getName() {
             if (isDefined(StyleConstants.NameAttribute)) {
                 return getAttribute(StyleConstants.NameAttribute).toString();
@@ -1318,6 +1346,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          *
          * @param l the change listener
          */
+        @Override
         public void addChangeListener(ChangeListener l) {
             listenerList.add(ChangeListener.class, l);
         }
@@ -1327,6 +1356,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          *
          * @param l the change listener
          */
+        @Override
         public void removeChangeListener(ChangeListener l) {
             listenerList.remove(ChangeListener.class, l);
         }
@@ -1361,8 +1391,9 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
             for (int i = listeners.length-2; i>=0; i-=2) {
                 if (listeners[i]==ChangeListener.class) {
                     // Lazily create the event:
-                    if (changeEvent == null)
+                    if (changeEvent == null) {
                         changeEvent = new ChangeEvent(this);
+                    }
                     ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
                 }
             }
@@ -1390,6 +1421,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the number of attributes &gt;= 0
          * @see AttributeSet#getAttributeCount
          */
+        @Override
         public int getAttributeCount() {
             return attributes.getAttributeCount();
         }
@@ -1401,6 +1433,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the attribute is defined
          * @see AttributeSet#isDefined
          */
+        @Override
         public boolean isDefined(Object attrName) {
             return attributes.isDefined(attrName);
         }
@@ -1412,6 +1445,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the same
          * @see AttributeSet#isEqual
          */
+        @Override
         public boolean isEqual(AttributeSet attr) {
             return attributes.isEqual(attr);
         }
@@ -1422,6 +1456,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the copy
          * @see AttributeSet#copyAttributes
          */
+        @Override
         public AttributeSet copyAttributes() {
             NamedStyle a = new NamedStyle();
             a.attributes = attributes.copyAttributes();
@@ -1435,6 +1470,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the attribute value
          * @see AttributeSet#getAttribute
          */
+        @Override
         public Object getAttribute(Object attrName) {
             return attributes.getAttribute(attrName);
         }
@@ -1445,6 +1481,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the attribute names as an enumeration
          * @see AttributeSet#getAttributeNames
          */
+        @Override
         public Enumeration<?> getAttributeNames() {
             return attributes.getAttributeNames();
         }
@@ -1457,6 +1494,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the name/value is defined
          * @see AttributeSet#containsAttribute
          */
+        @Override
         public boolean containsAttribute(Object name, Object value) {
             return attributes.containsAttribute(name, value);
         }
@@ -1469,6 +1507,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return true if the element contains all the attributes
          * @see AttributeSet#containsAttributes
          */
+        @Override
         public boolean containsAttributes(AttributeSet attrs) {
             return attributes.containsAttributes(attrs);
         }
@@ -1481,6 +1520,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @return the attributes from the parent
          * @see AttributeSet#getResolveParent
          */
+        @Override
         public AttributeSet getResolveParent() {
             return attributes.getResolveParent();
         }
@@ -1496,6 +1536,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @param value the attribute value
          * @see MutableAttributeSet#addAttribute
          */
+        @Override
         public void addAttribute(Object name, Object value) {
             StyleContext context = StyleContext.this;
             attributes = context.addAttribute(attributes, name, value);
@@ -1508,6 +1549,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @param attr the attributes to add
          * @see MutableAttributeSet#addAttribute
          */
+        @Override
         public void addAttributes(AttributeSet attr) {
             StyleContext context = StyleContext.this;
             attributes = context.addAttributes(attributes, attr);
@@ -1520,6 +1562,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @param name the non-null attribute name
          * @see MutableAttributeSet#removeAttribute
          */
+        @Override
         public void removeAttribute(Object name) {
             StyleContext context = StyleContext.this;
             attributes = context.removeAttribute(attributes, name);
@@ -1532,6 +1575,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @param names the attribute names
          * @see MutableAttributeSet#removeAttributes
          */
+        @Override
         public void removeAttributes(Enumeration<?> names) {
             StyleContext context = StyleContext.this;
             attributes = context.removeAttributes(attributes, names);
@@ -1544,6 +1588,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @param attrs the attributes
          * @see MutableAttributeSet#removeAttributes
          */
+        @Override
         public void removeAttributes(AttributeSet attrs) {
             StyleContext context = StyleContext.this;
             if (attrs == this) {
@@ -1560,6 +1605,7 @@ public class StyleContext implements Serializable, AbstractDocument.AttributeCon
          * @param parent the parent, null if none
          * @see MutableAttributeSet#setResolveParent
          */
+        @Override
         public void setResolveParent(AttributeSet parent) {
             if (parent != null) {
                 addAttribute(StyleConstants.ResolveAttribute, parent);

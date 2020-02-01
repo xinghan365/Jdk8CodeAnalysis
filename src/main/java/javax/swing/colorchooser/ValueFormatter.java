@@ -117,6 +117,7 @@ final class ValueFormatter extends AbstractFormatter implements FocusListener, R
         return this.filter;
     }
 
+    @Override
     public void focusGained(FocusEvent event) {
         Object source = event.getSource();
         if (source instanceof JFormattedTextField) {
@@ -125,9 +126,11 @@ final class ValueFormatter extends AbstractFormatter implements FocusListener, R
         }
     }
 
+    @Override
     public void focusLost(FocusEvent event) {
     }
 
+    @Override
     public void run() {
         if (this.text != null) {
             this.text.selectAll();

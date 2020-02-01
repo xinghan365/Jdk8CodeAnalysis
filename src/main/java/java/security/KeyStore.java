@@ -355,6 +355,7 @@ public class KeyStore {
          * @exception DestroyFailedException if this method was unable
          *      to clear the password
          */
+        @Override
         public synchronized void destroy() throws DestroyFailedException {
             destroyed = true;
             if (password != null) {
@@ -367,6 +368,7 @@ public class KeyStore {
          *
          * @return true if the password has been cleared, false otherwise
          */
+        @Override
         public synchronized boolean isDestroyed() {
             return destroyed;
         }
@@ -615,6 +617,7 @@ public class KeyStore {
          * Returns a string representation of this PrivateKeyEntry.
          * @return a string representation of this PrivateKeyEntry.
          */
+        @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("Private key entry and certificate chain with "
@@ -706,6 +709,7 @@ public class KeyStore {
          * Returns a string representation of this SecretKeyEntry.
          * @return a string representation of this SecretKeyEntry.
          */
+        @Override
         public String toString() {
             return "Secret key entry with algorithm " + sKey.getAlgorithm();
         }
@@ -790,6 +794,7 @@ public class KeyStore {
          * Returns a string representation of this TrustedCertificateEntry.
          * @return a string representation of this TrustedCertificateEntry.
          */
+        @Override
         public String toString() {
             return "Trusted certificate entry:\r\n" + cert.toString();
         }
@@ -890,8 +895,9 @@ public class KeyStore {
     public static KeyStore getInstance(String type, String provider)
         throws KeyStoreException, NoSuchProviderException
     {
-        if (provider == null || provider.length() == 0)
+        if (provider == null || provider.length() == 0) {
             throw new IllegalArgumentException("missing provider");
+        }
         try {
             Object[] objs = Security.getImpl(type, "KeyStore", provider);
             return new KeyStore((KeyStoreSpi)objs[0], (Provider)objs[1], type);
@@ -931,8 +937,9 @@ public class KeyStore {
     public static KeyStore getInstance(String type, Provider provider)
         throws KeyStoreException
     {
-        if (provider == null)
+        if (provider == null) {
             throw new IllegalArgumentException("missing provider");
+        }
         try {
             Object[] objs = Security.getImpl(type, "KeyStore", provider);
             return new KeyStore((KeyStoreSpi)objs[0], (Provider)objs[1], type);
@@ -963,6 +970,7 @@ public class KeyStore {
     public final static String getDefaultType() {
         String kstype;
         kstype = AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
             public String run() {
                 return Security.getProperty(KEYSTORE_TYPE);
             }
@@ -1677,11 +1685,13 @@ public class KeyStore {
             return new Builder() {
                 private volatile boolean getCalled;
 
+                @Override
                 public KeyStore getKeyStore() {
                     getCalled = true;
                     return keyStore;
                 }
 
+                @Override
                 public ProtectionParameter getProtectionParameter(String alias)
                 {
                     if (alias == null) {
@@ -1782,6 +1792,7 @@ public class KeyStore {
                 this.context = context;
             }
 
+            @Override
             public synchronized KeyStore getKeyStore() throws KeyStoreException
             {
                 if (keyStore != null) {
@@ -1794,6 +1805,7 @@ public class KeyStore {
                 }
                 PrivilegedExceptionAction<KeyStore> action =
                         new PrivilegedExceptionAction<KeyStore>() {
+                    @Override
                     public KeyStore run() throws Exception {
                         if (protection instanceof CallbackHandlerProtection == false) {
                             return run0();
@@ -1864,6 +1876,7 @@ public class KeyStore {
                 }
             }
 
+            @Override
             public synchronized ProtectionParameter
                         getProtectionParameter(String alias) {
                 if (alias == null) {
@@ -1917,6 +1930,7 @@ public class KeyStore {
                 private final PrivilegedExceptionAction<KeyStore> action
                         = new PrivilegedExceptionAction<KeyStore>() {
 
+                    @Override
                     public KeyStore run() throws Exception {
                         KeyStore ks;
                         if (provider == null) {
@@ -1953,6 +1967,7 @@ public class KeyStore {
                     }
                 };
 
+                @Override
                 public synchronized KeyStore getKeyStore()
                         throws KeyStoreException {
                     if (oldException != null) {
@@ -1969,6 +1984,7 @@ public class KeyStore {
                     }
                 }
 
+                @Override
                 public ProtectionParameter getProtectionParameter(String alias)
                 {
                     if (alias == null) {
@@ -1993,6 +2009,7 @@ public class KeyStore {
             this.protection = protection;
         }
 
+        @Override
         public ProtectionParameter getProtectionParameter() {
             return protection;
         }

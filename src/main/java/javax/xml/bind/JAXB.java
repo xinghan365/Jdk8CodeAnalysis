@@ -131,8 +131,9 @@ public final class JAXB {
         WeakReference<Cache> c = cache;
         if(c!=null) {
             Cache d = c.get();
-            if(d!=null && d.type==type)
+            if(d!=null && d.type==type) {
                 return d.context;
+            }
         }
 
         // overwrite the cache
@@ -272,8 +273,9 @@ public final class JAXB {
      * See {@link #unmarshal} for the conversion rules.
      */
     private static Source toSource(Object xml) throws IOException {
-        if(xml==null)
+        if(xml==null) {
             throw new IllegalArgumentException("no XML is given");
+        }
 
         if (xml instanceof String) {
             try {
@@ -586,8 +588,9 @@ public final class JAXB {
      * See {@link #_marshal(Object,Object)} for the conversion rules.
      */
     private static Result toResult(Object xml) throws IOException {
-        if(xml==null)
+        if(xml==null) {
             throw new IllegalArgumentException("no XML is given");
+        }
 
         if (xml instanceof String) {
             try {

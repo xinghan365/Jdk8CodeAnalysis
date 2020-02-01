@@ -232,6 +232,7 @@ class MetalTitlePane extends JComponent {
     /**
      * Returns the <code>JRootPane</code> this was created for.
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -243,6 +244,7 @@ class MetalTitlePane extends JComponent {
         return getRootPane().getWindowDecorationStyle();
     }
 
+    @Override
     public void addNotify() {
         super.addNotify();
 
@@ -262,6 +264,7 @@ class MetalTitlePane extends JComponent {
         }
     }
 
+    @Override
     public void removeNotify() {
         super.removeNotify();
 
@@ -681,6 +684,7 @@ class MetalTitlePane extends JComponent {
     /**
      * Renders the TitlePane.
      */
+    @Override
     public void paintComponent(Graphics g)  {
         // As state isn't bound, we need a convenience place to check
         // if it has changed. Changing the state typically changes the
@@ -787,6 +791,7 @@ class MetalTitlePane extends JComponent {
                                       getLocale()));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             close();
         }
@@ -802,6 +807,7 @@ class MetalTitlePane extends JComponent {
                                       getLocale()));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             iconify();
         }
@@ -817,6 +823,7 @@ class MetalTitlePane extends JComponent {
                   ("MetalTitlePane.restoreTitle", getLocale()));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             restore();
         }
@@ -832,6 +839,7 @@ class MetalTitlePane extends JComponent {
                                       getLocale()));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             maximize();
         }
@@ -844,6 +852,7 @@ class MetalTitlePane extends JComponent {
      * <code>JRootPane</code>.
      */
     private class SystemMenuBar extends JMenuBar {
+        @Override
         public void paint(Graphics g) {
             if (isOpaque()) {
                 g.setColor(getBackground());
@@ -860,9 +869,11 @@ class MetalTitlePane extends JComponent {
                 }
             }
         }
+        @Override
         public Dimension getMinimumSize() {
             return getPreferredSize();
         }
+        @Override
         public Dimension getPreferredSize() {
             Dimension size = super.getPreferredSize();
 
@@ -872,13 +883,17 @@ class MetalTitlePane extends JComponent {
     }
 
     private class TitlePaneLayout implements LayoutManager {
+        @Override
         public void addLayoutComponent(String name, Component c) {}
+        @Override
         public void removeLayoutComponent(Component c) {}
+        @Override
         public Dimension preferredLayoutSize(Container c)  {
             int height = computeHeight();
             return new Dimension(height, height);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             return preferredLayoutSize(c);
         }
@@ -896,6 +911,7 @@ class MetalTitlePane extends JComponent {
             return finalHeight;
         }
 
+        @Override
         public void layoutContainer(Container c) {
             boolean leftToRight = (window == null) ?
                 getRootPane().getComponentOrientation().isLeftToRight() :
@@ -935,7 +951,9 @@ class MetalTitlePane extends JComponent {
                 closeButton.setBounds(x, y, buttonWidth, buttonHeight);
             }
 
-            if( !leftToRight ) x += buttonWidth;
+            if( !leftToRight ) {
+                x += buttonWidth;
+            }
 
             if (getWindowDecorationStyle() == JRootPane.FRAME) {
                 if (Toolkit.getDefaultToolkit().isFrameStateSupported(
@@ -970,6 +988,7 @@ class MetalTitlePane extends JComponent {
      * state as the state of the Window changes.
      */
     private class PropertyChangeHandler implements PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent pce) {
             String name = pce.getPropertyName();
 
@@ -1029,10 +1048,12 @@ class MetalTitlePane extends JComponent {
      * WindowListener installed on the Window, updates the state as necessary.
      */
     private class WindowHandler extends WindowAdapter {
+        @Override
         public void windowActivated(WindowEvent ev) {
             setActive(true);
         }
 
+        @Override
         public void windowDeactivated(WindowEvent ev) {
             setActive(false);
         }

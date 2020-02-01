@@ -145,6 +145,7 @@ public final class JobStateReasons
      *     instance of class {@link JobStateReason JobStateReason}.
      * @since 1.5
      */
+    @Override
     public boolean add(JobStateReason o) {
         if (o == null) {
             throw new NullPointerException();
@@ -161,6 +162,7 @@ public final class JobStateReasons
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return JobStateReasons.class;
     }
@@ -174,6 +176,7 @@ public final class JobStateReasons
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "job-state-reasons";
     }

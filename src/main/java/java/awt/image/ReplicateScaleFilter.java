@@ -120,6 +120,7 @@ public class ReplicateScaleFilter extends ImageFilter {
      * this method directly since that operation could interfere
      * with the filtering operation.
      */
+    @Override
     public void setProperties(Hashtable<?,?> props) {
         Hashtable<Object,Object> p = (Hashtable<Object,Object>)props.clone();
         String key = "rescale";
@@ -144,6 +145,7 @@ public class ReplicateScaleFilter extends ImageFilter {
      * with the filtering operation.
      * @see ImageConsumer
      */
+    @Override
     public void setDimensions(int w, int h) {
         srcWidth = w;
         srcHeight = h;
@@ -183,6 +185,7 @@ public class ReplicateScaleFilter extends ImageFilter {
      * this method directly since that operation could interfere
      * with the filtering operation.
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
                           int scansize) {
@@ -224,6 +227,7 @@ public class ReplicateScaleFilter extends ImageFilter {
      * this method directly since that operation could interfere
      * with the filtering operation.
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
                           int scansize) {

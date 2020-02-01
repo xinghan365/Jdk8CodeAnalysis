@@ -70,6 +70,7 @@ public class JMXProviderException extends IOException {
         this.cause = cause;
     }
 
+    @Override
     public Throwable getCause() {
         return cause;
     }

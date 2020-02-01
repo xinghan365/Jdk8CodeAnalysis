@@ -150,6 +150,7 @@ public class PropertyChangeEvent extends EventObject {
      *
      * @since 1.7
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(getClass().getName());
         sb.append("[propertyName=").append(getPropertyName());

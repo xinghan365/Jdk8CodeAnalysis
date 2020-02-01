@@ -325,6 +325,7 @@ public class InputMethodEvent extends AWTEvent {
      * Consumes this event so that it will not be processed
      * in the default manner by the source which originated it.
      */
+    @Override
     public void consume() {
         consumed = true;
     }
@@ -333,6 +334,7 @@ public class InputMethodEvent extends AWTEvent {
      * Returns whether or not this event has been consumed.
      * @see #consume
      */
+    @Override
     public boolean isConsumed() {
         return consumed;
     }
@@ -357,6 +359,7 @@ public class InputMethodEvent extends AWTEvent {
      *
      * @return a string identifying the event and its attributes
      */
+    @Override
     public String paramString() {
         String typeStr;
         switch(id) {

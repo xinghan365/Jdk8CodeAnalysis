@@ -365,6 +365,7 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
      *
      * @since 1.2
      */
+    @Override
     public void initialize(int keysize, SecureRandom random) {
         // This does nothing, because either
         // 1. the implementation object returned by getInstance() is an
@@ -434,6 +435,7 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
      *
      * @since 1.2
      */
+    @Override
     public void initialize(AlgorithmParameterSpec params,
                            SecureRandom random)
         throws InvalidAlgorithmParameterException
@@ -484,6 +486,7 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
      *
      * @return the generated key pair
      */
+    @Override
     public KeyPair generateKeyPair() {
         // This does nothing (except returning null), because either:
         //
@@ -627,6 +630,7 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
             }
         }
 
+        @Override
         void disableFailover() {
             serviceIterator = null;
             initType = 0;
@@ -635,6 +639,7 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
         }
 
         // engine method
+        @Override
         public void initialize(int keysize, SecureRandom random) {
             if (serviceIterator == null) {
                 spi.initialize(keysize, random);
@@ -661,8 +666,9 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
         }
 
         // engine method
+        @Override
         public void initialize(AlgorithmParameterSpec params,
-                SecureRandom random) throws InvalidAlgorithmParameterException {
+                               SecureRandom random) throws InvalidAlgorithmParameterException {
             if (serviceIterator == null) {
                 spi.initialize(params, random);
                 return;
@@ -692,6 +698,7 @@ public abstract class KeyPairGenerator extends KeyPairGeneratorSpi {
         }
 
         // engine method
+        @Override
         public KeyPair generateKeyPair() {
             if (serviceIterator == null) {
                 return spi.generateKeyPair();

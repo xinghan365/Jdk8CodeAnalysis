@@ -156,9 +156,11 @@ public class TreeSelectionEvent extends EventObject
      * @see #getPaths
      */
     public boolean isAddedPath(TreePath path) {
-        for(int counter = paths.length - 1; counter >= 0; counter--)
-            if(paths[counter].equals(path))
+        for(int counter = paths.length - 1; counter >= 0; counter--) {
+            if(paths[counter].equals(path)) {
                 return areNew[counter];
+            }
+        }
         throw new IllegalArgumentException("path is not a path identified by the TreeSelectionEvent");
     }
 

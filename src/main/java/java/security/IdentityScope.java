@@ -75,6 +75,7 @@ class IdentityScope extends Identity {
 
         String classname = AccessController.doPrivileged(
                                 new PrivilegedAction<String>() {
+            @Override
             public String run() {
                 return Security.getProperty("system.scope");
             }
@@ -243,6 +244,7 @@ class IdentityScope extends Identity {
      *
      * @return a string representation of this identity scope.
      */
+    @Override
     public String toString() {
         return super.toString() + "[" + size() + "]";
     }

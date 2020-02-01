@@ -203,6 +203,7 @@ class DirectFloatBufferRS
 
     }
 
+    @Override
     public FloatBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectFloatBufferRS
         return new DirectFloatBufferRS(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public FloatBuffer duplicate() {
         return new DirectFloatBufferRS(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectFloatBufferRS
                                               0);
     }
 
+    @Override
     public FloatBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectFloatBufferRS
 
 
 
+    @Override
     public FloatBuffer put(float x) {
 
 
@@ -301,6 +305,7 @@ class DirectFloatBufferRS
 
     }
 
+    @Override
     public FloatBuffer put(int i, float x) {
 
 
@@ -310,6 +315,7 @@ class DirectFloatBufferRS
 
     }
 
+    @Override
     public FloatBuffer put(FloatBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectFloatBufferRS
 
     }
 
+    @Override
     public FloatBuffer put(float[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectFloatBufferRS
 
     }
 
+    @Override
     public FloatBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectFloatBufferRS
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -455,6 +465,7 @@ class DirectFloatBufferRS
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ((ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN)

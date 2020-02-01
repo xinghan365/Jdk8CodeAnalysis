@@ -292,6 +292,7 @@ public interface AttributeSet {
      * @return  <tt>true</tt> if the specified object is equal to this
      *       attribute   set.
      */
+    @Override
     public boolean equals(Object object);
 
     /**
@@ -305,6 +306,7 @@ public interface AttributeSet {
      *
      * @return  The hash code value for this attribute set.
      */
+    @Override
     public int hashCode();
 
 }

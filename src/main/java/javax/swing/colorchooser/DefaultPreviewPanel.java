@@ -73,6 +73,7 @@ class DefaultPreviewPanel extends JPanel {
                                    JColorChooser.class, this);
     }
 
+    @Override
     public Dimension getPreferredSize() {
         JComponent host = getColorChooser();
         if (host == null) {
@@ -89,9 +90,11 @@ class DefaultPreviewPanel extends JPanel {
         return new Dimension( x,y );
     }
 
+    @Override
     public void paintComponent(Graphics g) {
-        if (oldColor == null)
+        if (oldColor == null) {
             oldColor = getForeground();
+        }
 
         g.setColor(getBackground());
         g.fillRect(0,0,getWidth(),getHeight());

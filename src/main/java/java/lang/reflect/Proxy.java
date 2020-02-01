@@ -730,6 +730,7 @@ public class Proxy implements java.io.Serializable {
             final InvocationHandler ih = h;
             if (!Modifier.isPublic(cl.getModifiers())) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         cons.setAccessible(true);
                         return null;

@@ -94,6 +94,7 @@ public class PageFormat implements Cloneable
      * contents as this <code>PageFormat</code>.
      * @return a copy of this <code>PageFormat</code>.
      */
+    @Override
     public Object clone() {
         PageFormat newPage;
 

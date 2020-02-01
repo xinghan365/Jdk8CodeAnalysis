@@ -132,8 +132,9 @@ public class CompositeDataInvocationHandler implements InvocationHandler {
     */
     CompositeDataInvocationHandler(CompositeData compositeData,
                                    MXBeanLookup lookup) {
-        if (compositeData == null)
+        if (compositeData == null) {
             throw new IllegalArgumentException("compositeData");
+        }
         this.compositeData = compositeData;
         this.lookup = lookup;
     }
@@ -149,20 +150,21 @@ public class CompositeDataInvocationHandler implements InvocationHandler {
         return compositeData;
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {
         final String methodName = method.getName();
 
         // Handle the methods from java.lang.Object
         if (method.getDeclaringClass() == Object.class) {
-            if (methodName.equals("toString") && args == null)
+            if (methodName.equals("toString") && args == null) {
                 return "Proxy[" + compositeData + "]";
-            else if (methodName.equals("hashCode") && args == null)
+            } else if (methodName.equals("hashCode") && args == null) {
                 return compositeData.hashCode() + 0x43444948;
-            else if (methodName.equals("equals") && args.length == 1
-                && method.getParameterTypes()[0] == Object.class)
+            } else if (methodName.equals("equals") && args.length == 1
+                && method.getParameterTypes()[0] == Object.class) {
                 return equals(proxy, args[0]);
-            else {
+            } else {
                 /* Either someone is calling invoke by hand, or
                    it is a non-final method from Object overriden
                    by the generated Proxy.  At the time of writing,
@@ -181,13 +183,13 @@ public class CompositeDataInvocationHandler implements InvocationHandler {
                                                method.getName());
         }
         Object openValue;
-        if (compositeData.containsKey(propertyName))
+        if (compositeData.containsKey(propertyName)) {
             openValue = compositeData.get(propertyName);
-        else {
+        } else {
             String decap = DefaultMXBeanMappingFactory.decapitalize(propertyName);
-            if (compositeData.containsKey(decap))
+            if (compositeData.containsKey(decap)) {
                 openValue = compositeData.get(decap);
-            else {
+            } else {
                 final String msg =
                     "No CompositeData item " + propertyName +
                     (decap.equals(propertyName) ? "" : " or " + decap) +
@@ -225,16 +227,19 @@ public class CompositeDataInvocationHandler implements InvocationHandler {
      * otherObject.hashCode() is computed.
      */
     private boolean equals(Object proxy, Object other) {
-        if (other == null)
+        if (other == null) {
             return false;
+        }
 
         final Class<?> proxyClass = proxy.getClass();
         final Class<?> otherClass = other.getClass();
-        if (proxyClass != otherClass)
+        if (proxyClass != otherClass) {
             return false;
+        }
         InvocationHandler otherih = Proxy.getInvocationHandler(other);
-        if (!(otherih instanceof CompositeDataInvocationHandler))
+        if (!(otherih instanceof CompositeDataInvocationHandler)) {
             return false;
+        }
         CompositeDataInvocationHandler othercdih =
             (CompositeDataInvocationHandler) otherih;
         return compositeData.equals(othercdih.compositeData);

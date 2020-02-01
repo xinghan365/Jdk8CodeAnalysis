@@ -92,6 +92,7 @@ class MatchQueryExp extends QueryEval implements QueryExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public boolean apply(ObjectName name) throws
         BadStringOperationException,
         BadBinaryOpValueExpException,
@@ -108,6 +109,7 @@ class MatchQueryExp extends QueryEval implements QueryExp {
     /**
      * Returns the string representing the object
      */
+    @Override
     public String toString()  {
         return exp + " like " + new StringValueExp(pattern);
     }
@@ -128,11 +130,13 @@ class MatchQueryExp extends QueryEval implements QueryExp {
         while (pi < plen) { // While still string
             c = p.charAt(pi++);
             if (c == '?') {
-                if (++si > slen)
+                if (++si > slen) {
                     return false;
+                }
             } else if (c == '[') { // Start of choice
-                if (si >= slen)
+                if (si >= slen) {
                     return false;
+                }
                 boolean wantit = true;
                 boolean seenit = false;
                 if (p.charAt(pi) == '!') {
@@ -160,17 +164,20 @@ class MatchQueryExp extends QueryEval implements QueryExp {
                 ++pi;
                 ++si;
             } else if (c == '*') { // Wildcard
-                if (pi >= plen)
+                if (pi >= plen) {
                     return true;
+                }
                 do {
-                    if (wildmatch(s.substring(si), p.substring(pi)))
+                    if (wildmatch(s.substring(si), p.substring(pi))) {
                         return true;
+                    }
                 } while (++si < slen);
                 return false;
             } else if (c == '\\') {
                 if (pi >= plen || si >= slen ||
-                    p.charAt(pi++) != s.charAt(si++))
+                    p.charAt(pi++) != s.charAt(si++)) {
                     return false;
+                }
             } else {
                 if (si >= slen || c != s.charAt(si++)) {
                     return false;

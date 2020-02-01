@@ -380,6 +380,7 @@ public class BasicTableUI extends TableUI
             }
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String key = getName();
             JTable table = (JTable)e.getSource();
@@ -659,6 +660,7 @@ public class BasicTableUI extends TableUI
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             String key = getName();
 
@@ -742,14 +744,17 @@ public class BasicTableUI extends TableUI
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void keyPressed(KeyEvent e) {
             getHandler().keyPressed(e);
         }
 
+        @Override
         public void keyReleased(KeyEvent e) {
             getHandler().keyReleased(e);
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {
             getHandler().keyTyped(e);
         }
@@ -768,10 +773,12 @@ public class BasicTableUI extends TableUI
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void focusGained(FocusEvent e) {
             getHandler().focusGained(e);
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             getHandler().focusLost(e);
         }
@@ -790,30 +797,37 @@ public class BasicTableUI extends TableUI
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void mouseClicked(MouseEvent e) {
             getHandler().mouseClicked(e);
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             getHandler().mousePressed(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             getHandler().mouseReleased(e);
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             getHandler().mouseEntered(e);
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             getHandler().mouseExited(e);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             getHandler().mouseMoved(e);
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             getHandler().mouseDragged(e);
         }
@@ -836,10 +850,12 @@ public class BasicTableUI extends TableUI
             table.repaint(dirtyRect);
         }
 
+        @Override
         public void focusGained(FocusEvent e) {
             repaintLeadCell();
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             repaintLeadCell();
         }
@@ -924,6 +940,7 @@ public class BasicTableUI extends TableUI
         // May not be editorComponent.
         private Component dispatchComponent;
 
+        @Override
         public void mouseClicked(MouseEvent e) {}
 
         private void setDispatchComponent(MouseEvent e) {
@@ -1002,6 +1019,7 @@ public class BasicTableUI extends TableUI
             return table.isCellSelected(pressedRow, pressedCol);
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, table)) {
                 return;
@@ -1118,6 +1136,7 @@ public class BasicTableUI extends TableUI
             }
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             if (timer != null) {
                 timer.stop();
@@ -1125,6 +1144,7 @@ public class BasicTableUI extends TableUI
             }
         }
 
+        @Override
         public void actionPerformed(ActionEvent ae) {
             table.editCellAt(pressedRow, pressedCol, null);
             Component editorComponent = table.getEditorComponent();
@@ -1147,6 +1167,7 @@ public class BasicTableUI extends TableUI
             timer.start();
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, table)) {
                 return;
@@ -1202,12 +1223,16 @@ public class BasicTableUI extends TableUI
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {}
 
+        @Override
         public void mouseExited(MouseEvent e) {}
 
+        @Override
         public void mouseMoved(MouseEvent e) {}
 
+        @Override
         public void dragStarting(MouseEvent me) {
             dragStarted = true;
 
@@ -1221,6 +1246,7 @@ public class BasicTableUI extends TableUI
             pressedEvent = null;
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, table)) {
                 return;
@@ -1256,6 +1282,7 @@ public class BasicTableUI extends TableUI
 
 
         // PropertyChangeListener
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             String changeName = event.getPropertyName();
 
@@ -1380,6 +1407,7 @@ public class BasicTableUI extends TableUI
 
 //  Installation
 
+    @Override
     public void installUI(JComponent c) {
         table = (JTable)c;
 
@@ -1606,6 +1634,7 @@ public class BasicTableUI extends TableUI
 
 //  Uninstallation
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults();
         uninstallListeners();
@@ -1652,6 +1681,7 @@ public class BasicTableUI extends TableUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         UIDefaults lafDefaults = UIManager.getLookAndFeelDefaults();
@@ -1677,6 +1707,7 @@ public class BasicTableUI extends TableUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -1708,6 +1739,7 @@ public class BasicTableUI extends TableUI
      * row height times the number of rows.
      * The minimum width is the sum of the minimum widths of each column.
      */
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         long width = 0;
         Enumeration enumeration = table.getColumnModel().getColumns();
@@ -1723,6 +1755,7 @@ public class BasicTableUI extends TableUI
      * row height times the number of rows.
      * The preferred width is the sum of the preferred widths of each column.
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         long width = 0;
         Enumeration enumeration = table.getColumnModel().getColumns();
@@ -1738,6 +1771,7 @@ public class BasicTableUI extends TableUI
      * row heighttimes the number of rows.
      * The maximum width is the sum of the maximum widths of each column.
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         long width = 0;
         Enumeration enumeration = table.getColumnModel().getColumns();
@@ -1755,6 +1789,7 @@ public class BasicTableUI extends TableUI
     /** Paint a representation of the <code>table</code> instance
      * that was set in installUI().
      */
+    @Override
     public void paint(Graphics g, JComponent c) {
         Rectangle clip = g.getClipBounds();
 
@@ -2145,6 +2180,7 @@ public class BasicTableUI extends TableUI
          * @return  The representation of the data to be transfered.
          *
          */
+        @Override
         protected Transferable createTransferable(JComponent c) {
             if (c instanceof JTable) {
                 JTable table = (JTable) c;
@@ -2209,6 +2245,7 @@ public class BasicTableUI extends TableUI
             return null;
         }
 
+        @Override
         public int getSourceActions(JComponent c) {
             return COPY;
         }

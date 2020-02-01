@@ -346,10 +346,13 @@ public class SynthToolBarUI extends BasicToolBarUI
 
 
     class SynthToolBarLayoutManager implements LayoutManager {
+        @Override
         public void addLayoutComponent(String name, Component comp) {}
 
+        @Override
         public void removeLayoutComponent(Component comp) {}
 
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             JToolBar tb = (JToolBar)parent;
             Insets insets = tb.getInsets();
@@ -388,6 +391,7 @@ public class SynthToolBarUI extends BasicToolBarUI
             return dim;
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             JToolBar tb = (JToolBar)parent;
             Insets insets = tb.getInsets();
@@ -426,6 +430,7 @@ public class SynthToolBarUI extends BasicToolBarUI
             return dim;
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             JToolBar tb = (JToolBar)parent;
             Insets insets = tb.getInsets();
@@ -444,7 +449,9 @@ public class SynthToolBarUI extends BasicToolBarUI
             // and figure out how much space should be allocated to them.
             int glueCount = 0;
             for (int i=0; i<tb.getComponentCount(); i++) {
-                if (isGlue(tb.getComponent(i))) glueCount++;
+                if (isGlue(tb.getComponent(i))) {
+                    glueCount++;
+                }
             }
 
             if (tb.getOrientation() == JToolBar.HORIZONTAL) {
@@ -474,7 +481,9 @@ public class SynthToolBarUI extends BasicToolBarUI
                 if (glueCount > 0) {
                     int minWidth = minimumLayoutSize(parent).width;
                     extraSpacePerGlue = (tb.getWidth() - minWidth) / glueCount;
-                    if (extraSpacePerGlue < 0) extraSpacePerGlue = 0;
+                    if (extraSpacePerGlue < 0) {
+                        extraSpacePerGlue = 0;
+                    }
                 }
 
                 for (int i = 0; i < tb.getComponentCount(); i++) {
@@ -493,7 +502,9 @@ public class SynthToolBarUI extends BasicToolBarUI
                         }
                         //if the component is a "glue" component then add to its
                         //width the extraSpacePerGlue it is due
-                        if (isGlue(c)) d.width += extraSpacePerGlue;
+                        if (isGlue(c)) {
+                            d.width += extraSpacePerGlue;
+                        }
                         c.setBounds(ltr ? x : x - d.width, y, d.width, h);
                         x = ltr ? x + d.width : x - d.width;
                     }
@@ -519,7 +530,9 @@ public class SynthToolBarUI extends BasicToolBarUI
                 if (glueCount > 0) {
                     int minHeight = minimumLayoutSize(parent).height;
                     extraSpacePerGlue = (tb.getHeight() - minHeight) / glueCount;
-                    if (extraSpacePerGlue < 0) extraSpacePerGlue = 0;
+                    if (extraSpacePerGlue < 0) {
+                        extraSpacePerGlue = 0;
+                    }
                 }
 
                 for (int i = 0; i < tb.getComponentCount(); i++) {
@@ -538,7 +551,9 @@ public class SynthToolBarUI extends BasicToolBarUI
                         }
                         //if the component is a "glue" component then add to its
                         //height the extraSpacePerGlue it is due
-                        if (isGlue(c)) d.height += extraSpacePerGlue;
+                        if (isGlue(c)) {
+                            d.height += extraSpacePerGlue;
+                        }
                         c.setBounds(x, y, w, d.height);
                         y += d.height;
                     }

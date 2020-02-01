@@ -79,8 +79,9 @@ public class AppConfigurationEntry {
                 controlFlag != LoginModuleControlFlag.REQUISITE &&
                 controlFlag != LoginModuleControlFlag.SUFFICIENT &&
                 controlFlag != LoginModuleControlFlag.OPTIONAL) ||
-            options == null)
+            options == null) {
             throw new IllegalArgumentException();
+        }
 
         this.loginModuleName = loginModuleName;
         this.controlFlag = controlFlag;
@@ -165,6 +166,7 @@ public class AppConfigurationEntry {
          *
          * @return a String representation of this controlFlag.
          */
+        @Override
         public String toString() {
             return (sun.security.util.ResourcesMgr.getString
                 ("LoginModuleControlFlag.") + controlFlag);

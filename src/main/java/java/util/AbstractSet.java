@@ -82,15 +82,19 @@ public abstract class AbstractSet<E> extends AbstractCollection<E> implements Se
      * @param o object to be compared for equality with this set
      * @return <tt>true</tt> if the specified object is equal to this set
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
+        }
 
-        if (!(o instanceof Set))
+        if (!(o instanceof Set)) {
             return false;
+        }
         Collection<?> c = (Collection<?>) o;
-        if (c.size() != size())
+        if (c.size() != size()) {
             return false;
+        }
         try {
             return containsAll(c);
         } catch (ClassCastException unused)   {
@@ -117,13 +121,15 @@ public abstract class AbstractSet<E> extends AbstractCollection<E> implements Se
      * @see Object#equals(Object)
      * @see Set#equals(Object)
      */
+    @Override
     public int hashCode() {
         int h = 0;
         Iterator<E> i = iterator();
         while (i.hasNext()) {
             E obj = i.next();
-            if (obj != null)
+            if (obj != null) {
                 h += obj.hashCode();
+            }
         }
         return h;
     }
@@ -165,13 +171,15 @@ public abstract class AbstractSet<E> extends AbstractCollection<E> implements Se
      * @see #remove(Object)
      * @see #contains(Object)
      */
+    @Override
     public boolean removeAll(Collection<?> c) {
         Objects.requireNonNull(c);
         boolean modified = false;
 
         if (size() > c.size()) {
-            for (Iterator<?> i = c.iterator(); i.hasNext(); )
+            for (Iterator<?> i = c.iterator(); i.hasNext(); ) {
                 modified |= remove(i.next());
+            }
         } else {
             for (Iterator<?> i = iterator(); i.hasNext(); ) {
                 if (c.contains(i.next())) {

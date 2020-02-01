@@ -98,7 +98,9 @@ public class DefaultListCellRenderer extends JLabel
     private Border getNoFocusBorder() {
         Border border = DefaultLookup.getBorder(this, ui, "List.cellNoFocusBorder");
         if (System.getSecurityManager() != null) {
-            if (border != null) return border;
+            if (border != null) {
+                return border;
+            }
             return SAFE_NO_FOCUS_BORDER;
         } else {
             if (border != null &&
@@ -110,6 +112,7 @@ public class DefaultListCellRenderer extends JLabel
         }
     }
 
+    @Override
     public Component getListCellRendererComponent(
         JList<?> list,
         Object value,

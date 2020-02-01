@@ -3842,6 +3842,7 @@ public class AffineTransform implements Cloneable, java.io.Serializable {
      * <code>Object</code>.
      * @since 1.2
      */
+    @Override
     public String toString() {
         return ("AffineTransform[["
                 + _matround(m00) + ", "
@@ -3869,6 +3870,7 @@ public class AffineTransform implements Cloneable, java.io.Serializable {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -3883,6 +3885,7 @@ public class AffineTransform implements Cloneable, java.io.Serializable {
      * @return      a hash code for this transform.
      * @since 1.2
      */
+    @Override
     public int hashCode() {
         long bits = Double.doubleToLongBits(m00);
         bits = bits * 31 + Double.doubleToLongBits(m01);
@@ -3903,6 +3906,7 @@ public class AffineTransform implements Cloneable, java.io.Serializable {
      * <code>AffineTransform</code> object; <code>false</code> otherwise.
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof AffineTransform)) {
             return false;

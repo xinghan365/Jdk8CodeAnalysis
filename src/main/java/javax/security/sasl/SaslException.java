@@ -90,6 +90,7 @@ public class SaslException extends IOException {
      * Override Throwable.getCause() to ensure deserialized object from
      * JSR 28 would return same value for getCause() (i.e., _exception).
      */
+    @Override
     public Throwable getCause() {
         return _exception;
     }
@@ -98,6 +99,7 @@ public class SaslException extends IOException {
      * Override Throwable.initCause() to match getCause() by updating
      * _exception as well.
      */
+    @Override
     public Throwable initCause(Throwable cause) {
         super.initCause(cause);
         _exception = cause;
@@ -116,6 +118,7 @@ public class SaslException extends IOException {
      * @see java.lang.Throwable#getMessage
      */
     // Override Throwable.toString() to conform to JSR 28
+    @Override
     public String toString() {
         String answer = super.toString();
         if (_exception != null && _exception != this) {

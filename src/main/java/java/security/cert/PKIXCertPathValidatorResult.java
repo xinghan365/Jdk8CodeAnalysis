@@ -76,10 +76,12 @@ public class PKIXCertPathValidatorResult implements CertPathValidatorResult {
     public PKIXCertPathValidatorResult(TrustAnchor trustAnchor,
         PolicyNode policyTree, PublicKey subjectPublicKey)
     {
-        if (subjectPublicKey == null)
+        if (subjectPublicKey == null) {
             throw new NullPointerException("subjectPublicKey must be non-null");
-        if (trustAnchor == null)
+        }
+        if (trustAnchor == null) {
             throw new NullPointerException("trustAnchor must be non-null");
+        }
         this.trustAnchor = trustAnchor;
         this.policyTree = policyTree;
         this.subjectPublicKey = subjectPublicKey;
@@ -131,6 +133,7 @@ public class PKIXCertPathValidatorResult implements CertPathValidatorResult {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -147,6 +150,7 @@ public class PKIXCertPathValidatorResult implements CertPathValidatorResult {
      * @return a {@code String} describing the contents of this
      *         {@code PKIXCertPathValidatorResult}
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("PKIXCertPathValidatorResult: [\n");

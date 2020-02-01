@@ -30,6 +30,44 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
+ *
+ * 集合层次结构中的根界面 。 集合表示一组被称为其元素的对象。 一些集合允许重复元素，而其他集合不允许。
+ * 有些被命令和其他无序。 JDK不提供此接口的任何直接实现：它提供了更具体的子接口的实现，如Set和List 。
+ * 该界面通常用于传递集合，并在需要最大的通用性的情况下对其进行操作。
+ * 包或多重集 （可能包含重复元素的无序集合）应直接实现此接口。
+ *
+ * 所有通用的Collection实现类（通常通过其子接口间接实现88446144404803）应提供两个“标准”构造函数：一个void（无参数）构造函数，
+ * 它创建一个空集合，以及一个构造函数， Collection ，它创建一个与其参数相同的元素的新集合。
+ * 实际上，后一个构造函数允许用户复制任何集合，生成所需实现类型的等效集合。 没有办法强制执行此约定（因为接口不能包含构造函数），
+ * 而是所有Java平台库中的通用Collection实现。
+ *
+ * 包含在该界面中的“破坏性”的方法，即，修改其经营的收集方法，被指定抛出UnsupportedOperationException
+ * 如果此collection不支持该操作。 如果是这样的话，可能会，但不要求这些方法，抛出一个UnsupportedOperationException
+ * 如果调用会对收集没有影响。 例如，如果要添加的集合为空，则可以在不可修改的集合上调用addAll(Collection)方法，
+ * 但不是必须抛出该异常。
+ *
+ * Some collection implementations have restrictions on the elements that they may contain.
+ * 例如，一些实现禁止空元素，有些对它们的元素的类型有限制。 尝试添加不合格元素会引发未经检查的异常，
+ * 通常为NullPointerException或ClassCastException 。 尝试查询不合格元素的存在可能会引发异常，或者可能只是返回false;
+ * 一些实现将展现出前者的行为，一些实现将展现出后者。 更一般来说，尝试对不符合条件的元素进行操作，
+ * 其完成不会导致将不合格元素插入到集合中可能会导致异常，或者可能会成功执行该选项。
+ * 此异常在此接口的规范中标记为“可选”。
+ *
+ * 每个集合决定自己的同步策略。 在没有实现的更强保证的情况下，未定义的行为可能是由于对由另一个线程进行突变的
+ * 集合的任何方法的调用而导致的; 这包括直接调用，将集合传递给可能执行调用的方法，并使用现有的迭代器来检查集合。
+ *
+ * 在集合框架接口的许多方法在来定义equals方法。
+ * 例如，对于在本说明书contains(Object o)方法表示：“返回true当且仅当这个集合包含至少一个元素e使得
+ * (o==null ? e==null : o.equals(e))”。 该规范不应该被解释为意味着具有非空参数调用o Collection.contains
+ * 会导致o.equals(e)被调用任何元素e。
+ * 实现可以自由地实现优化，从而避免equals调用，例如，首先比较两个元素的哈希码。
+ * （ Object.hashCode()规范保证具有不等的哈希码的两个对象不能相等。）更一般地，
+ * 各种Collections Framework接口的实现可以随意使用底层Object方法的指定行为，无论执行者认为合适。
+ *
+ * 执行递归遍历集合的一些集合操作可能会失败，而自引用实例的异常会导致集合直接或间接包含其自身。
+ * 这包括clone() ， equals() ， hashCode()和toString()方法。
+ * 实现可以可选地处理自引用场景，然而大多数当前实现不这样做。
+ *
  * The root interface in the <i>collection hierarchy</i>.  A collection
  * represents a group of objects, known as its <i>elements</i>.  Some
  * collections allow duplicate elements and others do not.  Some are ordered
@@ -186,6 +224,7 @@ public interface Collection<E> extends Iterable<E> {
      *
      * @return an <tt>Iterator</tt> over the elements in this collection
      */
+    @Override
     Iterator<E> iterator();
 
     /**
@@ -488,6 +527,7 @@ public interface Collection<E> extends Iterable<E> {
      * @see Set#equals(Object)
      * @see List#equals(Object)
      */
+    @Override
     boolean equals(Object o);
 
     /**
@@ -505,6 +545,7 @@ public interface Collection<E> extends Iterable<E> {
      * @see Object#hashCode()
      * @see Object#equals(Object)
      */
+    @Override
     int hashCode();
 
     /**

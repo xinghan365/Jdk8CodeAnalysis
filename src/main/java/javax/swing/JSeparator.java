@@ -136,6 +136,7 @@ public class JSeparator extends JComponent implements SwingConstants, Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((SeparatorUI)UIManager.getUI(this));
     }
@@ -148,6 +149,7 @@ public class JSeparator extends JComponent implements SwingConstants, Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -238,6 +240,7 @@ public class JSeparator extends JComponent implements SwingConstants, Accessible
      *
      * @return  a string representation of this <code>JSeparator</code>
      */
+    @Override
     protected String paramString() {
         String orientationString = (orientation == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
@@ -259,6 +262,7 @@ public class JSeparator extends JComponent implements SwingConstants, Accessible
      * @return an AccessibleJSeparator that serves as the
      *         AccessibleContext of this JSeparator
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJSeparator();
@@ -289,6 +293,7 @@ public class JSeparator extends JComponent implements SwingConstants, Accessible
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SEPARATOR;
         }

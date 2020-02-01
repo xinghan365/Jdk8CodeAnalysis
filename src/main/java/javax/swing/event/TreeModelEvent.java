@@ -236,8 +236,9 @@ public class TreeModelEvent extends EventObject {
      *         stored at the node identified by the path
      */
     public Object[] getPath() {
-        if(path != null)
+        if(path != null) {
             return path.getPath();
+        }
         return null;
     }
 
@@ -290,23 +291,27 @@ public class TreeModelEvent extends EventObject {
      *
      * @return a String representation of this object
      */
+    @Override
     public String toString() {
         StringBuffer   retBuffer = new StringBuffer();
 
         retBuffer.append(getClass().getName() + " " +
                          Integer.toString(hashCode()));
-        if(path != null)
+        if(path != null) {
             retBuffer.append(" path " + path);
+        }
         if(childIndices != null) {
             retBuffer.append(" indices [ ");
-            for(int counter = 0; counter < childIndices.length; counter++)
+            for(int counter = 0; counter < childIndices.length; counter++) {
                 retBuffer.append(Integer.toString(childIndices[counter])+ " ");
+            }
             retBuffer.append("]");
         }
         if(children != null) {
             retBuffer.append(" children [ ");
-            for(int counter = 0; counter < children.length; counter++)
+            for(int counter = 0; counter < children.length; counter++) {
                 retBuffer.append(children[counter] + " ");
+            }
             retBuffer.append("]");
         }
         return retBuffer.toString();

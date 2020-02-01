@@ -103,16 +103,19 @@ public abstract class RefAddr implements java.io.Serializable {
       * @see #getContent
       * @see #getType
       */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof RefAddr)) {
             RefAddr target = (RefAddr)obj;
             if (addrType.compareTo(target.addrType) == 0) {
                 Object thisobj = this.getContent();
                 Object thatobj = target.getContent();
-                if (thisobj == thatobj)
+                if (thisobj == thatobj) {
                     return true;
-                if (thisobj != null)
+                }
+                if (thisobj != null) {
                     return thisobj.equals(thatobj);
+                }
             }
         }
         return false;
@@ -126,6 +129,7 @@ public abstract class RefAddr implements java.io.Serializable {
       * @return The hash code of this address as an int.
       * @see java.lang.Object#hashCode
       */
+    @Override
     public int hashCode() {
         return (getContent() == null)
                 ? addrType.hashCode()
@@ -138,6 +142,7 @@ public abstract class RefAddr implements java.io.Serializable {
       * This representation is intended for display only and not to be parsed.
       * @return The non-null string representation of this address.
       */
+    @Override
     public String toString(){
         StringBuffer str = new StringBuffer("Type: " + addrType + "\n");
 

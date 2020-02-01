@@ -83,6 +83,7 @@ class InstanceOfQueryExp extends QueryEval implements QueryExp {
      * @exception BadStringOperationException
      * @exception BadBinaryOpValueExpException
      */
+    @Override
     public boolean apply(ObjectName name)
         throws BadStringOperationException,
         BadBinaryOpValueExpException,
@@ -114,6 +115,7 @@ class InstanceOfQueryExp extends QueryEval implements QueryExp {
      * Returns a string representation of this InstanceOfQueryExp.
      * @return a string representation of this InstanceOfQueryExp.
      */
+    @Override
     public String toString() {
        return "InstanceOf " + classNameValue.toString();
    }

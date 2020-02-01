@@ -229,6 +229,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      *
      * @return a name for this component
      */
+    @Override
     String constructComponentName() {
         synchronized (Checkbox.class) {
             return base + nameCounter++;
@@ -242,10 +243,12 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      * @see     java.awt.Toolkit#createCheckbox(java.awt.Checkbox)
      * @see     java.awt.Component#getToolkit()
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createCheckbox(this);
+            }
             super.addNotify();
         }
     }
@@ -333,6 +336,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      * label or null if the checkbox is not selected.
      * @see ItemSelectable
      */
+    @Override
     public Object[] getSelectedObjects() {
         if (state) {
             Object[] items = new Object[1];
@@ -426,6 +430,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void addItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -448,6 +453,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -506,6 +512,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      * @see #getItemListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ItemListener.class) {
@@ -517,6 +524,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
             if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
@@ -542,6 +550,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      * @see           #processItemEvent
      * @since         JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ItemEvent) {
             processItemEvent((ItemEvent)e);
@@ -590,6 +599,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      *
      * @return    the parameter string of this check box
      */
+    @Override
     protected String paramString() {
         String str = super.paramString();
         String label = this.label;
@@ -663,11 +673,12 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (itemListenerK == key) {
+            addItemListener((ItemListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -692,6 +703,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
      *         AccessibleContext of this Checkbox
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTCheckbox();
@@ -722,6 +734,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * Fire accessible property change events when the state of the
          * toggle button changes.
          */
+        @Override
         public void itemStateChanged(ItemEvent e) {
             Checkbox cb = (Checkbox) e.getSource();
             if (Checkbox.this.accessibleContext != null) {
@@ -745,6 +758,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -757,6 +771,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -768,6 +783,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          *
          * @return the number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 0;  //  To be fully implemented in a future release
         }
@@ -777,6 +793,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          *
          * @param i zero-based index of the actions
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             return null;  //  To be fully implemented in a future release
         }
@@ -787,6 +804,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * @param i zero-based index of actions
          * @return true if the the action was performed; else false.
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             return false;    //  To be fully implemented in a future release
         }
@@ -798,6 +816,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * @return value of the object
          * @see #setCurrentAccessibleValue
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return null;  //  To be fully implemented in a future release
         }
@@ -808,6 +827,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * @return True if the value was set; else False
          * @see #getCurrentAccessibleValue
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             return false;  //  To be fully implemented in a future release
         }
@@ -819,6 +839,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * have a minimum value
          * @see #getMaximumAccessibleValue
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return null;  //  To be fully implemented in a future release
         }
@@ -830,6 +851,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * have a maximum value
          * @see #getMinimumAccessibleValue
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return null;  //  To be fully implemented in a future release
         }
@@ -841,6 +863,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CHECK_BOX;
         }
@@ -852,6 +875,7 @@ public class Checkbox extends Component implements ItemSelectable, Accessible {
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getState()) {

@@ -63,6 +63,7 @@ class DirectByteBuffer
     // ensure that its memory isn't freed before we are done with it.
     private final Object att;
 
+    @Override
     public Object attachment() {
         return att;
     }
@@ -86,6 +87,7 @@ class DirectByteBuffer
             this.capacity = capacity;
         }
 
+        @Override
         public void run() {
             if (address == 0) {
                 // Paranoia
@@ -100,6 +102,7 @@ class DirectByteBuffer
 
     private final Cleaner cleaner;
 
+    @Override
     public Cleaner cleaner() { return cleaner; }
 
 
@@ -203,6 +206,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +217,7 @@ class DirectByteBuffer
         return new DirectByteBuffer(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public ByteBuffer duplicate() {
         return new DirectByteBuffer(this,
                                               this.markValue(),
@@ -222,6 +227,7 @@ class DirectByteBuffer
                                               0);
     }
 
+    @Override
     public ByteBuffer asReadOnlyBuffer() {
 
         return new DirectByteBufferR(this,
@@ -237,6 +243,7 @@ class DirectByteBuffer
 
 
 
+    @Override
     public long address() {
         return address;
     }
@@ -245,10 +252,12 @@ class DirectByteBuffer
         return address + ((long)i << 0);
     }
 
+    @Override
     public byte get() {
         return ((unsafe.getByte(ix(nextGetIndex()))));
     }
 
+    @Override
     public byte get(int i) {
         return ((unsafe.getByte(ix(checkIndex(i)))));
     }
@@ -259,6 +268,7 @@ class DirectByteBuffer
 
 
 
+    @Override
     public ByteBuffer get(byte[] dst, int offset, int length) {
 
         if (((long)length << 0) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
@@ -267,8 +277,9 @@ class DirectByteBuffer
             int lim = limit();
             assert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
-            if (length > rem)
+            if (length > rem) {
                 throw new BufferUnderflowException();
+            }
 
 
 
@@ -292,6 +303,7 @@ class DirectByteBuffer
 
 
 
+    @Override
     public ByteBuffer put(byte x) {
 
         unsafe.putByte(ix(nextPutIndex()), ((x)));
@@ -301,6 +313,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer put(int i, byte x) {
 
         unsafe.putByte(ix(checkIndex(i)), ((x)));
@@ -310,11 +323,13 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer put(ByteBuffer src) {
 
         if (src instanceof DirectByteBuffer) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             DirectByteBuffer sb = (DirectByteBuffer)src;
 
             int spos = sb.position();
@@ -327,8 +342,9 @@ class DirectByteBuffer
             assert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
 
-            if (srem > rem)
+            if (srem > rem) {
                 throw new BufferOverflowException();
+            }
             unsafe.copyMemory(sb.ix(spos), ix(pos), (long)srem << 0);
             sb.position(spos + srem);
             position(pos + srem);
@@ -351,6 +367,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer put(byte[] src, int offset, int length) {
 
         if (((long)length << 0) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
@@ -359,8 +376,9 @@ class DirectByteBuffer
             int lim = limit();
             assert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
-            if (length > rem)
+            if (length > rem) {
                 throw new BufferOverflowException();
+            }
 
 
 
@@ -384,6 +402,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer compact() {
 
         int pos = position();
@@ -401,10 +420,12 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -472,10 +493,12 @@ class DirectByteBuffer
 
 
 
+    @Override
     byte _get(int i) {                          // package-private
         return unsafe.getByte(address + i);
     }
 
+    @Override
     void _put(int i, byte b) {                  // package-private
 
         unsafe.putByte(address + i, b);
@@ -495,10 +518,12 @@ class DirectByteBuffer
         return Bits.getChar(a, bigEndian);
     }
 
+    @Override
     public char getChar() {
         return getChar(ix(nextGetIndex((1 << 1))));
     }
 
+    @Override
     public char getChar(int i) {
         return getChar(ix(checkIndex(i, (1 << 1))));
     }
@@ -519,6 +544,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putChar(char x) {
 
         putChar(ix(nextPutIndex((1 << 1))), x);
@@ -528,6 +554,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putChar(int i, char x) {
 
         putChar(ix(checkIndex(i, (1 << 1))), x);
@@ -537,6 +564,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public CharBuffer asCharBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -586,10 +614,12 @@ class DirectByteBuffer
         return Bits.getShort(a, bigEndian);
     }
 
+    @Override
     public short getShort() {
         return getShort(ix(nextGetIndex((1 << 1))));
     }
 
+    @Override
     public short getShort(int i) {
         return getShort(ix(checkIndex(i, (1 << 1))));
     }
@@ -610,6 +640,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putShort(short x) {
 
         putShort(ix(nextPutIndex((1 << 1))), x);
@@ -619,6 +650,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putShort(int i, short x) {
 
         putShort(ix(checkIndex(i, (1 << 1))), x);
@@ -628,6 +660,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ShortBuffer asShortBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -677,10 +710,12 @@ class DirectByteBuffer
         return Bits.getInt(a, bigEndian);
     }
 
+    @Override
     public int getInt() {
         return getInt(ix(nextGetIndex((1 << 2))));
     }
 
+    @Override
     public int getInt(int i) {
         return getInt(ix(checkIndex(i, (1 << 2))));
     }
@@ -701,6 +736,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putInt(int x) {
 
         putInt(ix(nextPutIndex((1 << 2))), x);
@@ -710,6 +746,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putInt(int i, int x) {
 
         putInt(ix(checkIndex(i, (1 << 2))), x);
@@ -719,6 +756,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public IntBuffer asIntBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -768,10 +806,12 @@ class DirectByteBuffer
         return Bits.getLong(a, bigEndian);
     }
 
+    @Override
     public long getLong() {
         return getLong(ix(nextGetIndex((1 << 3))));
     }
 
+    @Override
     public long getLong(int i) {
         return getLong(ix(checkIndex(i, (1 << 3))));
     }
@@ -792,6 +832,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putLong(long x) {
 
         putLong(ix(nextPutIndex((1 << 3))), x);
@@ -801,6 +842,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putLong(int i, long x) {
 
         putLong(ix(checkIndex(i, (1 << 3))), x);
@@ -810,6 +852,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public LongBuffer asLongBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -859,10 +902,12 @@ class DirectByteBuffer
         return Bits.getFloat(a, bigEndian);
     }
 
+    @Override
     public float getFloat() {
         return getFloat(ix(nextGetIndex((1 << 2))));
     }
 
+    @Override
     public float getFloat(int i) {
         return getFloat(ix(checkIndex(i, (1 << 2))));
     }
@@ -883,6 +928,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putFloat(float x) {
 
         putFloat(ix(nextPutIndex((1 << 2))), x);
@@ -892,6 +938,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putFloat(int i, float x) {
 
         putFloat(ix(checkIndex(i, (1 << 2))), x);
@@ -901,6 +948,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public FloatBuffer asFloatBuffer() {
         int off = this.position();
         int lim = this.limit();
@@ -950,10 +998,12 @@ class DirectByteBuffer
         return Bits.getDouble(a, bigEndian);
     }
 
+    @Override
     public double getDouble() {
         return getDouble(ix(nextGetIndex((1 << 3))));
     }
 
+    @Override
     public double getDouble(int i) {
         return getDouble(ix(checkIndex(i, (1 << 3))));
     }
@@ -974,6 +1024,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putDouble(double x) {
 
         putDouble(ix(nextPutIndex((1 << 3))), x);
@@ -983,6 +1034,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public ByteBuffer putDouble(int i, double x) {
 
         putDouble(ix(checkIndex(i, (1 << 3))), x);
@@ -992,6 +1044,7 @@ class DirectByteBuffer
 
     }
 
+    @Override
     public DoubleBuffer asDoubleBuffer() {
         int off = this.position();
         int lim = this.limit();

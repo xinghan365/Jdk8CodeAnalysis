@@ -168,6 +168,7 @@ public class SerialStruct implements Struct, Serializable, Cloneable {
      *         <code>SerialStruct</code> object represents
      * @throws SerialException if an error occurs
      */
+    @Override
     public String getSQLTypeName() throws SerialException {
         return SQLTypeName;
     }
@@ -182,6 +183,7 @@ public class SerialStruct implements Struct, Serializable, Cloneable {
      *         that this <code>SerialStruct</code> object represents
      * @throws SerialException if an error occurs
      */
+    @Override
     public Object[]  getAttributes() throws SerialException {
         Object[] val = this.attribs;
         return (val == null) ? null : Arrays.copyOf(val, val.length);
@@ -204,6 +206,7 @@ public class SerialStruct implements Struct, Serializable, Cloneable {
      *         represents
      * @throws SerialException if an error occurs
      */
+    @Override
     public Object[] getAttributes(Map<String,Class<?>> map)
         throws SerialException
     {
@@ -269,6 +272,7 @@ public class SerialStruct implements Struct, Serializable, Cloneable {
      *          equivalent to this SerialStruct, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -289,6 +293,7 @@ public class SerialStruct implements Struct, Serializable, Cloneable {
      *
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return ((31 + Arrays.hashCode(attribs)) * 31) * 31
                 + SQLTypeName.hashCode();
@@ -301,6 +306,7 @@ public class SerialStruct implements Struct, Serializable, Cloneable {
      *
      * @return  a clone of this SerialStruct
      */
+    @Override
     public Object clone() {
         try {
             SerialStruct ss = (SerialStruct) super.clone();

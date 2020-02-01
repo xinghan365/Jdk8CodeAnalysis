@@ -166,6 +166,7 @@ public class ProgressMonitor implements Accessible
         }
 
 
+        @Override
         public int getMaxCharactersPerLineCount() {
             return 60;
         }
@@ -175,6 +176,7 @@ public class ProgressMonitor implements Accessible
         // but create a modeless dialog.
         // This is necessary because the Solaris implementation doesn't
         // support Dialog.setModal yet.
+        @Override
         public JDialog createDialog(Component parentComponent, String title) {
             final JDialog dialog;
 
@@ -198,10 +200,12 @@ public class ProgressMonitor implements Accessible
             dialog.addWindowListener(new WindowAdapter() {
                 boolean gotFocus = false;
 
+                @Override
                 public void windowClosing(WindowEvent we) {
                     setValue(cancelOption[0]);
                 }
 
+                @Override
                 public void windowActivated(WindowEvent we) {
                     // Once window gets focus, set initial focus
                     if (!gotFocus) {
@@ -212,6 +216,7 @@ public class ProgressMonitor implements Accessible
             });
 
             addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
                 public void propertyChange(PropertyChangeEvent event) {
                     if(dialog.isVisible() &&
                        event.getSource() == ProgressOptionPane.this &&
@@ -236,6 +241,7 @@ public class ProgressMonitor implements Accessible
          * @return the AccessibleContext for the ProgressOptionPane
          * @since 1.5
          */
+        @Override
         public AccessibleContext getAccessibleContext() {
             return ProgressMonitor.this.getAccessibleContext();
         }
@@ -285,7 +291,9 @@ public class ProgressMonitor implements Accessible
                         myBar.setMinimum(min);
                         myBar.setMaximum(max);
                         myBar.setValue(nv);
-                        if (note != null) noteLabel = new JLabel(note);
+                        if (note != null) {
+                            noteLabel = new JLabel(note);
+                        }
                         pane = new ProgressOptionPane(new Object[] {message,
                                                                     noteLabel,
                                                                     myBar});
@@ -370,7 +378,9 @@ public class ProgressMonitor implements Accessible
      * Returns true if the user hits the Cancel button in the progress dialog.
      */
     public boolean isCanceled() {
-        if (pane == null) return false;
+        if (pane == null) {
+            return false;
+        }
         Object v = pane.getValue();
         return ((v != null) &&
                 (cancelOption.length == 1) &&
@@ -472,6 +482,7 @@ public class ProgressMonitor implements Accessible
      * <code>ProgressMonitor</code>
      * @since 1.5
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleProgressMonitor();
@@ -565,6 +576,7 @@ public class ProgressMonitor implements Accessible
          * @param e  a <code>ChangeEvent</code> object. Must not be null.
          * @throws NullPointerException if the parameter is null.
          */
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (e == null) {
                 return;
@@ -586,6 +598,7 @@ public class ProgressMonitor implements Accessible
          * the event source and the property that has changed. Must not be null.
          * @throws NullPointerException if the parameter is null.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             if (e.getSource() == noteLabel && e.getPropertyName() == "text") {
                 // the note label text changed
@@ -610,6 +623,7 @@ public class ProgressMonitor implements Accessible
          *
          * @see #setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) { // defined in AccessibleContext
                 return accessibleName;
@@ -632,6 +646,7 @@ public class ProgressMonitor implements Accessible
          *
          * @see #setAccessibleDescription
          */
+        @Override
         public String getAccessibleDescription() {
             if (accessibleDescription != null) { // defined in AccessibleContext
                 return accessibleDescription;
@@ -660,6 +675,7 @@ public class ProgressMonitor implements Accessible
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PROGRESS_MONITOR;
         }
@@ -676,6 +692,7 @@ public class ProgressMonitor implements Accessible
          * @see AccessibleState
          * @see #addPropertyChangeListener
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             if (accessibleJOptionPane != null) {
                 // delegate to the AccessibleJOptionPane
@@ -690,6 +707,7 @@ public class ProgressMonitor implements Accessible
          * @return the Accessible parent of this object; null if this
          * object does not have an Accessible parent
          */
+        @Override
         public Accessible getAccessibleParent() {
             return dialog;
         }
@@ -714,6 +732,7 @@ public class ProgressMonitor implements Accessible
          * @see #getAccessibleChildrenCount
          * @see #getAccessibleChild
          */
+        @Override
         public int getAccessibleIndexInParent() {
             if (accessibleJOptionPane != null) {
                 // delegate to the AccessibleJOptionPane
@@ -727,6 +746,7 @@ public class ProgressMonitor implements Accessible
          *
          * @return the number of accessible children of the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             // return the number of children in the JPanel containing
             // the message, note label and progress bar
@@ -747,6 +767,7 @@ public class ProgressMonitor implements Accessible
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             // return a child in the JPanel containing the message, note label
             // and progress bar
@@ -783,6 +804,7 @@ public class ProgressMonitor implements Accessible
          * added to a containment hierarchy such that the locale can be
          * determined from the containing parent.
          */
+        @Override
         public Locale getLocale() throws IllegalComponentStateException {
             if (accessibleJOptionPane != null) {
                 // delegate to the AccessibleJOptionPane
@@ -800,6 +822,7 @@ public class ProgressMonitor implements Accessible
          * @return AccessibleComponent if supported by object; else return null
          * @see AccessibleComponent
          */
+        @Override
         public AccessibleComponent getAccessibleComponent() {
             if (accessibleJOptionPane != null) {
                 // delegate to the AccessibleJOptionPane
@@ -815,6 +838,7 @@ public class ProgressMonitor implements Accessible
          * @return AccessibleValue if supported by object; else return null
          * @see AccessibleValue
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             if (myBar != null) {
                 // delegate to the AccessibleJProgressBar
@@ -830,6 +854,7 @@ public class ProgressMonitor implements Accessible
          * @return AccessibleText if supported by object; else return null
          * @see AccessibleText
          */
+        @Override
         public AccessibleText getAccessibleText() {
             if (getNoteLabelAccessibleText() != null) {
                 return this;
@@ -860,6 +885,7 @@ public class ProgressMonitor implements Accessible
          * @return the zero-based index of the character under Point p; if
          * Point is invalid return -1.
          */
+        @Override
         public int getIndexAtPoint(Point p) {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null && sameWindowAncestor(pane, noteLabel)) {
@@ -884,6 +910,7 @@ public class ProgressMonitor implements Accessible
          * @return the screen coordinates of the character's bounding box,
          * if index is invalid return an empty rectangle.
          */
+        @Override
         public Rectangle getCharacterBounds(int i) {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null && sameWindowAncestor(pane, noteLabel)) {
@@ -915,6 +942,7 @@ public class ProgressMonitor implements Accessible
          *
          * @return the number of characters
          */
+        @Override
         public int getCharCount() {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -930,6 +958,7 @@ public class ProgressMonitor implements Accessible
          * value as the offset (the caret is between two characters).
          * @return the zero-based offset of the caret.
          */
+        @Override
         public int getCaretPosition() {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -945,6 +974,7 @@ public class ProgressMonitor implements Accessible
          * @param index an index within the text
          * @return the letter, word, or sentence
          */
+        @Override
         public String getAtIndex(int part, int index) {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -960,6 +990,7 @@ public class ProgressMonitor implements Accessible
          * @param index an index within the text
          * @return the letter, word, or sentence
          */
+        @Override
         public String getAfterIndex(int part, int index) {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -975,6 +1006,7 @@ public class ProgressMonitor implements Accessible
          * @param index an index within the text
          * @return the letter, word, or sentence
          */
+        @Override
         public String getBeforeIndex(int part, int index) {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -989,6 +1021,7 @@ public class ProgressMonitor implements Accessible
          * @param i the zero-based index into the text
          * @return the AttributeSet of the character
          */
+        @Override
         public AttributeSet getCharacterAttribute(int i) {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -1004,6 +1037,7 @@ public class ProgressMonitor implements Accessible
          *
          * @return the index into the text of the start of the selection
          */
+        @Override
         public int getSelectionStart() {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -1019,6 +1053,7 @@ public class ProgressMonitor implements Accessible
          *
          * @return the index into the text of the end of the selection
          */
+        @Override
         public int getSelectionEnd() {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text
@@ -1032,6 +1067,7 @@ public class ProgressMonitor implements Accessible
          *
          * @return the String portion of the text that is selected
          */
+        @Override
         public String getSelectedText() {
             AccessibleText at = getNoteLabelAccessibleText();
             if (at != null) {   // JLabel contains HTML text

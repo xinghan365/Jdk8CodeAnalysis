@@ -337,6 +337,7 @@ public abstract class PrintServiceLookup {
             try {
                 java.security.AccessController.doPrivileged(
                      new java.security.PrivilegedExceptionAction() {
+                        @Override
                         public Object run() {
                             Iterator<PrintServiceLookup> iterator =
                                 ServiceLoader.load(PrintServiceLookup.class).

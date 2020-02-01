@@ -127,6 +127,7 @@ public abstract class Enum<E extends Enum<E>>
      *
      * @return the name of this enum constant
      */
+    @Override
     public String toString() {
         return name;
     }
@@ -139,6 +140,7 @@ public abstract class Enum<E extends Enum<E>>
      * @return  true if the specified object is equal to this
      *          enum constant.
      */
+    @Override
     public final boolean equals(Object other) {
         return this==other;
     }
@@ -148,6 +150,7 @@ public abstract class Enum<E extends Enum<E>>
      *
      * @return a hash code for this enum constant.
      */
+    @Override
     public final int hashCode() {
         return super.hashCode();
     }
@@ -159,6 +162,7 @@ public abstract class Enum<E extends Enum<E>>
      *
      * @return (never returns)
      */
+    @Override
     protected final Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
@@ -172,12 +176,14 @@ public abstract class Enum<E extends Enum<E>>
      * same enum type.  The natural order implemented by this
      * method is the order in which the constants are declared.
      */
+    @Override
     public final int compareTo(E o) {
         Enum<?> other = (Enum<?>)o;
         Enum<E> self = this;
         if (self.getClass() != other.getClass() && // optimization
-            self.getDeclaringClass() != other.getDeclaringClass())
+            self.getDeclaringClass() != other.getDeclaringClass()) {
             throw new ClassCastException();
+        }
         return self.ordinal - other.ordinal;
     }
 
@@ -230,10 +236,12 @@ public abstract class Enum<E extends Enum<E>>
     public static <T extends Enum<T>> T valueOf(Class<T> enumType,
                                                 String name) {
         T result = enumType.enumConstantDirectory().get(name);
-        if (result != null)
+        if (result != null) {
             return result;
-        if (name == null)
+        }
+        if (name == null) {
             throw new NullPointerException("Name is null");
+        }
         throw new IllegalArgumentException(
             "No enum constant " + enumType.getCanonicalName() + "." + name);
     }
@@ -241,6 +249,7 @@ public abstract class Enum<E extends Enum<E>>
     /**
      * enum classes cannot have finalize methods.
      */
+    @Override
     protected final void finalize() { }
 
     /**

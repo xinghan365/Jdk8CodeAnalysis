@@ -64,12 +64,14 @@ public class BasicToolTipUI extends ToolTipUI
         super();
     }
 
+    @Override
     public void installUI(JComponent c) {
         installDefaults(c);
         installComponents(c);
         installListeners(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         // REMIND: this is NOT getting called
         uninstallDefaults(c);
@@ -122,6 +124,7 @@ public class BasicToolTipUI extends ToolTipUI
         return sharedPropertyChangedListener;
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         Font font = c.getFont();
         FontMetrics metrics = SwingUtilities2.getFontMetrics(c, g, font);
@@ -150,6 +153,7 @@ public class BasicToolTipUI extends ToolTipUI
         }
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Font font = c.getFont();
         FontMetrics fm = c.getFontMetrics(font);
@@ -175,6 +179,7 @@ public class BasicToolTipUI extends ToolTipUI
         return prefSize;
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -184,6 +189,7 @@ public class BasicToolTipUI extends ToolTipUI
         return d;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -230,6 +236,7 @@ public class BasicToolTipUI extends ToolTipUI
 
     private static class PropertyChangeHandler implements
                                  PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String name = e.getPropertyName();
             if (name.equals("tiptext") || "font".equals(name) ||

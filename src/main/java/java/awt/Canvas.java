@@ -84,6 +84,7 @@ public class Canvas extends Component implements Accessible {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Canvas.class) {
             return base + nameCounter++;
@@ -96,10 +97,12 @@ public class Canvas extends Component implements Accessible {
      * @see     java.awt.Toolkit#createCanvas(java.awt.Canvas)
      * @see     java.awt.Component#getToolkit()
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createCanvas(this);
+            }
             super.addNotify();
         }
     }
@@ -118,6 +121,7 @@ public class Canvas extends Component implements Accessible {
      * @see        #update(Graphics)
      * @see        Component#paint(Graphics)
      */
+    @Override
     public void paint(Graphics g) {
         g.clearRect(0, 0, width, height);
     }
@@ -137,11 +141,13 @@ public class Canvas extends Component implements Accessible {
      * @see   #paint(Graphics)
      * @see   Component#update(Graphics)
      */
+    @Override
     public void update(Graphics g) {
         g.clearRect(0, 0, width, height);
         paint(g);
     }
 
+    @Override
     boolean postsOldMouseEvents() {
         return true;
     }
@@ -165,6 +171,7 @@ public class Canvas extends Component implements Accessible {
      * @see #getBufferStrategy
      * @since 1.4
      */
+    @Override
     public void createBufferStrategy(int numBuffers) {
         super.createBufferStrategy(numBuffers);
     }
@@ -189,8 +196,9 @@ public class Canvas extends Component implements Accessible {
      * @see #getBufferStrategy
      * @since 1.4
      */
+    @Override
     public void createBufferStrategy(int numBuffers,
-        BufferCapabilities caps) throws AWTException {
+                                     BufferCapabilities caps) throws AWTException {
         super.createBufferStrategy(numBuffers, caps);
     }
 
@@ -203,6 +211,7 @@ public class Canvas extends Component implements Accessible {
      * @see #createBufferStrategy
      * @since 1.4
      */
+    @Override
     public BufferStrategy getBufferStrategy() {
         return super.getBufferStrategy();
     }
@@ -222,6 +231,7 @@ public class Canvas extends Component implements Accessible {
      *         AccessibleContext of this Canvas
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTCanvas();
@@ -246,6 +256,7 @@ public class Canvas extends Component implements Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CANVAS;
         }

@@ -162,6 +162,7 @@ class Autoscroller implements ActionListener {
      * ActionListener method. Invoked when the Timer fires. This will scroll
      * if necessary.
      */
+    @Override
     public void actionPerformed(ActionEvent x) {
         JComponent component = Autoscroller.component;
 

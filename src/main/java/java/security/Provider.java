@@ -174,6 +174,7 @@ public abstract class Provider extends Properties {
      * @return the string with the name and the version number
      * for this provider.
      */
+    @Override
     public String toString() {
         return name + " version " + version;
     }
@@ -256,9 +257,11 @@ public abstract class Provider extends Properties {
         checkInitialized();
         if (entrySet == null) {
             if (entrySetCallCount++ == 0)  // Initial call
+            {
                 entrySet = Collections.unmodifiableMap(this).entrySet();
-            else
+            } else {
                 return super.entrySet();   // Recursive call
+            }
         }
 
         // This exception will be thrown if the implementation of
@@ -266,8 +269,9 @@ public abstract class Provider extends Properties {
         // no longer calls entrySet() on the backing Map.  (Provider's
         // entrySet implementation depends on this "implementation detail",
         // which is unlikely to change.
-        if (entrySetCallCount != 2)
+        if (entrySetCallCount != 2) {
             throw new RuntimeException("Internal error.");
+        }
 
         return entrySet;
     }
@@ -640,6 +644,7 @@ public abstract class Provider extends Properties {
     }
 
     // let javadoc show doc from superclass
+    @Override
     public String getProperty(String key) {
         checkInitialized();
         return super.getProperty(key);
@@ -872,9 +877,11 @@ public abstract class Provider extends Properties {
             algorithm = algorithm.toUpperCase(ENGLISH);
             this.algorithm = intern ? algorithm.intern() : algorithm;
         }
+        @Override
         public int hashCode() {
             return type.hashCode() + algorithm.hashCode();
         }
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;
@@ -1248,10 +1255,12 @@ public abstract class Provider extends Properties {
             this.lowerString = s.toLowerCase(ENGLISH);
         }
 
+        @Override
         public int hashCode() {
             return lowerString.hashCode();
         }
 
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;
@@ -1263,6 +1272,7 @@ public abstract class Provider extends Properties {
             return lowerString.equals(other.lowerString);
         }
 
+        @Override
         public String toString() {
             return string;
         }
@@ -1832,6 +1842,7 @@ public abstract class Provider extends Properties {
          *
          * @return a String representation of this service.
          */
+        @Override
         public String toString() {
             String aString = aliases.isEmpty()
                 ? "" : "\r\n  aliases: " + aliases.toString();

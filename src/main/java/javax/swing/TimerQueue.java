@@ -101,6 +101,7 @@ class TimerQueue implements Runnable
                     AppContext.getAppContext().getThreadGroup();
                 java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         Thread timerThread = new Thread(threadGroup, TimerQueue.this,
                                                         "TimerQueue");
@@ -166,6 +167,7 @@ class TimerQueue implements Runnable
     }
 
 
+    @Override
     public void run() {
         runningLock.lock();
         try {
@@ -221,6 +223,7 @@ class TimerQueue implements Runnable
     }
 
 
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("TimerQueue (");
@@ -269,6 +272,7 @@ class TimerQueue implements Runnable
         }
 
 
+        @Override
         final public long getDelay(TimeUnit unit) {
             return  unit.convert(time - now(), TimeUnit.NANOSECONDS);
         }
@@ -281,6 +285,7 @@ class TimerQueue implements Runnable
             return timer;
         }
 
+        @Override
         public int compareTo(Delayed other) {
             if (other == this) { // compare zero ONLY if same object
                 return 0;

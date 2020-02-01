@@ -58,8 +58,9 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
         objects = new Vector<E>(items.length);
 
         int i,c;
-        for ( i=0,c=items.length;i<c;i++ )
+        for ( i=0,c=items.length;i<c;i++ ) {
             objects.addElement(items[i]);
+        }
 
         if ( getSize() > 0 ) {
             selectedObject = getElementAt( 0 );
@@ -86,6 +87,7 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
      *
      * @param anObject The combo box value or null for no selection.
      */
+    @Override
     public void setSelectedItem(Object anObject) {
         if ((selectedObject != null && !selectedObject.equals( anObject )) ||
             selectedObject == null && anObject != null) {
@@ -95,21 +97,25 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     }
 
     // implements javax.swing.ComboBoxModel
+    @Override
     public Object getSelectedItem() {
         return selectedObject;
     }
 
     // implements javax.swing.ListModel
+    @Override
     public int getSize() {
         return objects.size();
     }
 
     // implements javax.swing.ListModel
+    @Override
     public E getElementAt(int index) {
-        if ( index >= 0 && index < objects.size() )
+        if ( index >= 0 && index < objects.size() ) {
             return objects.elementAt(index);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -124,6 +130,7 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     }
 
     // implements javax.swing.MutableComboBoxModel
+    @Override
     public void addElement(E anObject) {
         objects.addElement(anObject);
         fireIntervalAdded(this,objects.size()-1, objects.size()-1);
@@ -133,12 +140,14 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     }
 
     // implements javax.swing.MutableComboBoxModel
-    public void insertElementAt(E anObject,int index) {
+    @Override
+    public void insertElementAt(E anObject, int index) {
         objects.insertElementAt(anObject,index);
         fireIntervalAdded(this, index, index);
     }
 
     // implements javax.swing.MutableComboBoxModel
+    @Override
     public void removeElementAt(int index) {
         if ( getElementAt( index ) == selectedObject ) {
             if ( index == 0 ) {
@@ -155,6 +164,7 @@ public class DefaultComboBoxModel<E> extends AbstractListModel<E> implements Mut
     }
 
     // implements javax.swing.MutableComboBoxModel
+    @Override
     public void removeElement(Object anObject) {
         int index = objects.indexOf(anObject);
         if ( index != -1 ) {

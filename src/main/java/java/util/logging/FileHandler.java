@@ -507,7 +507,9 @@ public class FileHandler extends StreamHandler {
                     }
                 }
 
-                if (channel == null) continue; // try the next name;
+                if (channel == null) {
+                    continue; // try the next name;
+                }
                 lockFileChannel = channel;
 
                 boolean available;

@@ -107,6 +107,7 @@ public class SimpleScriptContext  implements ScriptContext {
      * @throws NullPointerException if the value of scope is <code>ENGINE_SCOPE</code> and
      * the specified <code>Bindings</code> is null.
      */
+    @Override
     public void setBindings(Bindings bindings, int scope) {
 
         switch (scope) {
@@ -139,6 +140,7 @@ public class SimpleScriptContext  implements ScriptContext {
      * @throws NullPointerException if the name is null.
      * @throws IllegalArgumentException if the name is empty.
      */
+    @Override
     public Object getAttribute(String name) {
         checkName(name);
         if (engineScope.containsKey(name)) {
@@ -162,6 +164,7 @@ public class SimpleScriptContext  implements ScriptContext {
      *         if the name is empty or if the value of scope is invalid.
      * @throws NullPointerException if the name is null.
      */
+    @Override
     public Object getAttribute(String name, int scope) {
         checkName(name);
         switch (scope) {
@@ -191,6 +194,7 @@ public class SimpleScriptContext  implements ScriptContext {
      *         if the name is empty or if the scope is invalid.
      * @throws NullPointerException if the name is null.
      */
+    @Override
     public Object removeAttribute(String name, int scope) {
         checkName(name);
         switch (scope) {
@@ -223,6 +227,7 @@ public class SimpleScriptContext  implements ScriptContext {
      *         if the name is empty or if the scope is invalid.
      * @throws NullPointerException if the name is null.
      */
+    @Override
     public void setAttribute(String name, Object value, int scope) {
         checkName(name);
         switch (scope) {
@@ -243,31 +248,37 @@ public class SimpleScriptContext  implements ScriptContext {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Writer getWriter() {
         return writer;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Reader getReader() {
         return reader;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setReader(Reader reader) {
         this.reader = reader;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setWriter(Writer writer) {
         this.writer = writer;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Writer getErrorWriter() {
         return errorWriter;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setErrorWriter(Writer writer) {
         this.errorWriter = writer;
     }
@@ -281,6 +292,7 @@ public class SimpleScriptContext  implements ScriptContext {
      * @throws NullPointerException if name is null.
      * @throws IllegalArgumentException if name is empty.
      */
+    @Override
     public int getAttributesScope(String name) {
         checkName(name);
         if (engineScope.containsKey(name)) {
@@ -301,6 +313,7 @@ public class SimpleScriptContext  implements ScriptContext {
      * @return The value of either the  <code>engineScope</code> or <code>globalScope</code> field.
      * @throws IllegalArgumentException if the value of scope is invalid.
      */
+    @Override
     public Bindings getBindings(int scope) {
         if (scope == ENGINE_SCOPE) {
             return engineScope;
@@ -312,6 +325,7 @@ public class SimpleScriptContext  implements ScriptContext {
     }
 
     /** {@inheritDoc} */
+    @Override
     public List<Integer> getScopes() {
         return scopes;
     }

@@ -161,11 +161,13 @@ public abstract class AbstractLayoutCache implements RowMapper {
      * @param newLSM  the new <code>TreeSelectionModel</code>
      */
     public void setSelectionModel(TreeSelectionModel newLSM) {
-        if(treeSelectionModel != null)
+        if(treeSelectionModel != null) {
             treeSelectionModel.setRowMapper(null);
+        }
         treeSelectionModel = newLSM;
-        if(treeSelectionModel != null)
+        if(treeSelectionModel != null) {
             treeSelectionModel.setRowMapper(this);
+        }
     }
 
     /**
@@ -190,8 +192,9 @@ public abstract class AbstractLayoutCache implements RowMapper {
             Rectangle     bounds = getBounds(getPathForRow(rowCount - 1),
                                              null);
 
-            if(bounds != null)
+            if(bounds != null) {
                 return bounds.y + bounds.height;
+            }
         }
         return 0;
     }
@@ -239,8 +242,9 @@ public abstract class AbstractLayoutCache implements RowMapper {
                         return width;
                     }
                 }
-                else
+                else {
                     width = 0;
+                }
                 while (pBounds != null && paths.hasMoreElements()) {
                     pBounds = getBounds((TreePath)paths.nextElement(),
                                         pBounds);
@@ -449,15 +453,18 @@ public abstract class AbstractLayoutCache implements RowMapper {
      *          <code>TreePath</code> is displayed; if <code>paths</code>
      *          is <code>null</code>, <code>null</code> is returned
      */
+    @Override
     public int[] getRowsForPaths(TreePath[] paths) {
-        if(paths == null)
+        if(paths == null) {
             return null;
+        }
 
         int               numPaths = paths.length;
         int[]             rows = new int[numPaths];
 
-        for(int counter = 0; counter < numPaths; counter++)
+        for(int counter = 0; counter < numPaths; counter++) {
             rows[counter] = getRowForPath(paths[counter]);
+        }
         return rows;
     }
 

@@ -63,8 +63,9 @@ public final class Channels {
     private Channels() { }              // No instantiation
 
     private static void checkNotNull(Object o, String name) {
-        if (o == null)
+        if (o == null) {
             throw new NullPointerException("\"" + name + "\" is null!");
+        }
     }
 
     /**
@@ -76,8 +77,9 @@ public final class Channels {
     {
         while (bb.remaining() > 0) {
             int n = ch.write(bb);
-            if (n <= 0)
+            if (n <= 0) {
                 throw new RuntimeException("no bytes written");
+            }
         }
     }
 
@@ -93,8 +95,9 @@ public final class Channels {
         if (ch instanceof SelectableChannel) {
             SelectableChannel sc = (SelectableChannel)ch;
             synchronized (sc.blockingLock()) {
-                if (!sc.isBlocking())
+                if (!sc.isBlocking()) {
                     throw new IllegalBlockingModeException();
+                }
                 writeFullyImpl(ch, bb);
             }
         } else {
@@ -148,13 +151,16 @@ public final class Channels {
                 private byte[] bs = null;       // Invoker's previous array
                 private byte[] b1 = null;
 
+                @Override
                 public synchronized void write(int b) throws IOException {
-                   if (b1 == null)
-                        b1 = new byte[1];
+                   if (b1 == null) {
+                       b1 = new byte[1];
+                   }
                     b1[0] = (byte)b;
                     this.write(b1);
                 }
 
+                @Override
                 public synchronized void write(byte[] bs, int off, int len)
                     throws IOException
                 {
@@ -174,6 +180,7 @@ public final class Channels {
                     Channels.writeFully(ch, bb);
                 }
 
+                @Override
                 public void close() throws IOException {
                     ch.close();
                 }
@@ -206,11 +213,13 @@ public final class Channels {
 
             @Override
             public synchronized int read() throws IOException {
-                if (b1 == null)
+                if (b1 == null) {
                     b1 = new byte[1];
+                }
                 int n = this.read(b1);
-                if (n == 1)
+                if (n == 1) {
                     return b1[0] & 0xff;
+                }
                 return -1;
             }
 
@@ -221,8 +230,9 @@ public final class Channels {
                 if ((off < 0) || (off > bs.length) || (len < 0) ||
                     ((off + len) > bs.length) || ((off + len) < 0)) {
                     throw new IndexOutOfBoundsException();
-                } else if (len == 0)
+                } else if (len == 0) {
                     return 0;
+                }
 
                 ByteBuffer bb = ((this.bs == bs)
                                  ? this.bb
@@ -244,8 +254,9 @@ public final class Channels {
                         }
                     }
                 } finally {
-                    if (interrupted)
+                    if (interrupted) {
                         Thread.currentThread().interrupt();
+                    }
                 }
             }
 
@@ -280,8 +291,9 @@ public final class Channels {
 
             @Override
             public synchronized void write(int b) throws IOException {
-               if (b1 == null)
-                    b1 = new byte[1];
+               if (b1 == null) {
+                   b1 = new byte[1];
+               }
                 b1[0] = (byte)b;
                 this.write(b1);
             }
@@ -316,8 +328,9 @@ public final class Channels {
                         }
                     }
                 } finally {
-                    if (interrupted)
+                    if (interrupted) {
                         Thread.currentThread().interrupt();
+                    }
                 }
             }
 
@@ -368,6 +381,7 @@ public final class Channels {
             this.in = in;
         }
 
+        @Override
         public int read(ByteBuffer dst) throws IOException {
             int len = dst.remaining();
             int totalRead = 0;
@@ -376,29 +390,34 @@ public final class Channels {
                 while (totalRead < len) {
                     int bytesToRead = Math.min((len - totalRead),
                                                TRANSFER_SIZE);
-                    if (buf.length < bytesToRead)
+                    if (buf.length < bytesToRead) {
                         buf = new byte[bytesToRead];
-                    if ((totalRead > 0) && !(in.available() > 0))
+                    }
+                    if ((totalRead > 0) && !(in.available() > 0)) {
                         break; // block at most once
+                    }
                     try {
                         begin();
                         bytesRead = in.read(buf, 0, bytesToRead);
                     } finally {
                         end(bytesRead > 0);
                     }
-                    if (bytesRead < 0)
+                    if (bytesRead < 0) {
                         break;
-                    else
+                    } else {
                         totalRead += bytesRead;
+                    }
                     dst.put(buf, 0, bytesRead);
                 }
-                if ((bytesRead < 0) && (totalRead == 0))
+                if ((bytesRead < 0) && (totalRead == 0)) {
                     return -1;
+                }
 
                 return totalRead;
             }
         }
 
+        @Override
         protected void implCloseChannel() throws IOException {
             in.close();
             open = false;
@@ -443,6 +462,7 @@ public final class Channels {
             this.out = out;
         }
 
+        @Override
         public int write(ByteBuffer src) throws IOException {
             int len = src.remaining();
             int totalWritten = 0;
@@ -450,8 +470,9 @@ public final class Channels {
                 while (totalWritten < len) {
                     int bytesToWrite = Math.min((len - totalWritten),
                                                 TRANSFER_SIZE);
-                    if (buf.length < bytesToWrite)
+                    if (buf.length < bytesToWrite) {
                         buf = new byte[bytesToWrite];
+                    }
                     src.get(buf, 0, bytesToWrite);
                     try {
                         begin();
@@ -465,6 +486,7 @@ public final class Channels {
             }
         }
 
+        @Override
         protected void implCloseChannel() throws IOException {
             out.close();
             open = false;

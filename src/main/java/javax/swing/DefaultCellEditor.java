@@ -86,10 +86,12 @@ public class DefaultCellEditor extends AbstractCellEditor
         editorComponent = textField;
         this.clickCountToStart = 2;
         delegate = new EditorDelegate() {
+            @Override
             public void setValue(Object value) {
                 textField.setText((value != null) ? value.toString() : "");
             }
 
+            @Override
             public Object getCellEditorValue() {
                 return textField.getText();
             }
@@ -105,6 +107,7 @@ public class DefaultCellEditor extends AbstractCellEditor
     public DefaultCellEditor(final JCheckBox checkBox) {
         editorComponent = checkBox;
         delegate = new EditorDelegate() {
+            @Override
             public void setValue(Object value) {
                 boolean selected = false;
                 if (value instanceof Boolean) {
@@ -116,6 +119,7 @@ public class DefaultCellEditor extends AbstractCellEditor
                 checkBox.setSelected(selected);
             }
 
+            @Override
             public Object getCellEditorValue() {
                 return Boolean.valueOf(checkBox.isSelected());
             }
@@ -134,14 +138,17 @@ public class DefaultCellEditor extends AbstractCellEditor
         editorComponent = comboBox;
         comboBox.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
         delegate = new EditorDelegate() {
+            @Override
             public void setValue(Object value) {
                 comboBox.setSelectedItem(value);
             }
 
+            @Override
             public Object getCellEditorValue() {
                 return comboBox.getSelectedItem();
             }
 
+            @Override
             public boolean shouldSelectCell(EventObject anEvent) {
                 if (anEvent instanceof MouseEvent) {
                     MouseEvent e = (MouseEvent)anEvent;
@@ -149,6 +156,7 @@ public class DefaultCellEditor extends AbstractCellEditor
                 }
                 return true;
             }
+            @Override
             public boolean stopCellEditing() {
                 if (comboBox.isEditable()) {
                     // Commit edited value.
@@ -202,6 +210,7 @@ public class DefaultCellEditor extends AbstractCellEditor
      * the <code>delegate</code>.
      * @see EditorDelegate#getCellEditorValue
      */
+    @Override
     public Object getCellEditorValue() {
         return delegate.getCellEditorValue();
     }
@@ -211,6 +220,7 @@ public class DefaultCellEditor extends AbstractCellEditor
      * the <code>delegate</code>.
      * @see EditorDelegate#isCellEditable(EventObject)
      */
+    @Override
     public boolean isCellEditable(EventObject anEvent) {
         return delegate.isCellEditable(anEvent);
     }
@@ -220,6 +230,7 @@ public class DefaultCellEditor extends AbstractCellEditor
      * the <code>delegate</code>.
      * @see EditorDelegate#shouldSelectCell(EventObject)
      */
+    @Override
     public boolean shouldSelectCell(EventObject anEvent) {
         return delegate.shouldSelectCell(anEvent);
     }
@@ -229,6 +240,7 @@ public class DefaultCellEditor extends AbstractCellEditor
      * the <code>delegate</code>.
      * @see EditorDelegate#stopCellEditing
      */
+    @Override
     public boolean stopCellEditing() {
         return delegate.stopCellEditing();
     }
@@ -238,6 +250,7 @@ public class DefaultCellEditor extends AbstractCellEditor
      * the <code>delegate</code>.
      * @see EditorDelegate#cancelCellEditing
      */
+    @Override
     public void cancelCellEditing() {
         delegate.cancelCellEditing();
     }
@@ -247,6 +260,7 @@ public class DefaultCellEditor extends AbstractCellEditor
 //
 
     /** Implements the <code>TreeCellEditor</code> interface. */
+    @Override
     public Component getTreeCellEditorComponent(JTree tree, Object value,
                                                 boolean isSelected,
                                                 boolean expanded,
@@ -262,6 +276,7 @@ public class DefaultCellEditor extends AbstractCellEditor
 //  Implementing the CellEditor Interface
 //
     /** Implements the <code>TableCellEditor</code> interface. */
+    @Override
     public Component getTableCellEditorComponent(JTable table, Object value,
                                                  boolean isSelected,
                                                  int row, int column) {
@@ -381,6 +396,7 @@ public class DefaultCellEditor extends AbstractCellEditor
         * @param e the action event
         * @see #stopCellEditing
         */
+        @Override
         public void actionPerformed(ActionEvent e) {
             DefaultCellEditor.this.stopCellEditing();
         }
@@ -390,6 +406,7 @@ public class DefaultCellEditor extends AbstractCellEditor
         * @param e the action event
         * @see #stopCellEditing
         */
+        @Override
         public void itemStateChanged(ItemEvent e) {
             DefaultCellEditor.this.stopCellEditing();
         }

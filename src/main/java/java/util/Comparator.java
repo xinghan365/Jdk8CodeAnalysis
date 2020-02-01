@@ -171,6 +171,7 @@ public interface Comparator<T> {
      * @see Object#equals(Object)
      * @see Object#hashCode()
      */
+    @Override
     boolean equals(Object obj);
 
     /**

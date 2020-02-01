@@ -60,6 +60,7 @@ public class Statement {
     private static Object[] emptyArray = new Object[]{};
 
     static ExceptionListener defaultExceptionListener = new ExceptionListener() {
+        @Override
         public void exceptionThrown(Exception e) {
             System.err.println(e);
             // e.printStackTrace();
@@ -181,6 +182,7 @@ public class Statement {
         try {
             return AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Object>() {
+                        @Override
                         public Object run() throws Exception {
                             return invokeInternal();
                         }
@@ -332,6 +334,7 @@ public class Statement {
     /**
      * Prints the value of this statement using a Java-style syntax.
      */
+    @Override
     public String toString() {
         // Respect a subclass's implementation here.
         Object target = getTarget();

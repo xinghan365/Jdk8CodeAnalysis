@@ -391,6 +391,7 @@ public abstract class Selector implements Closeable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     public abstract void close() throws IOException;
 
 }

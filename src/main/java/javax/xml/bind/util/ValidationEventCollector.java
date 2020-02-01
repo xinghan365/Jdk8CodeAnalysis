@@ -81,7 +81,8 @@ public class ValidationEventCollector implements ValidationEventHandler
         return !events.isEmpty();
     }
 
-    public boolean handleEvent( ValidationEvent event ) {
+    @Override
+    public boolean handleEvent(ValidationEvent event ) {
         events.add(event);
 
         boolean retVal = true;

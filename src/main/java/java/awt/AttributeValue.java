@@ -47,9 +47,11 @@ abstract class AttributeValue {
     }
     // This hashCode is used by the sun.awt implementation as an array
     // index.
+    @Override
     public int hashCode() {
         return value;
     }
+    @Override
     public String toString() {
         return names[value];
     }

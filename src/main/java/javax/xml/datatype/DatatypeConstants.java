@@ -194,6 +194,7 @@ public final class DatatypeConstants {
                  * @return
                  *      a non-null valid String constant.
                  */
+                @Override
                 public String toString() { return str; }
 
                 /**

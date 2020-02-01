@@ -107,10 +107,12 @@ public abstract class AbstractInterruptibleChannel
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     public final void close() throws IOException {
         synchronized (closeLock) {
-            if (!open)
+            if (!open) {
                 return;
+            }
             open = false;
             implCloseChannel();
         }
@@ -134,6 +136,7 @@ public abstract class AbstractInterruptibleChannel
      */
     protected abstract void implCloseChannel() throws IOException;
 
+    @Override
     public final boolean isOpen() {
         return open;
     }
@@ -155,10 +158,12 @@ public abstract class AbstractInterruptibleChannel
     protected final void begin() {
         if (interruptor == null) {
             interruptor = new Interruptible() {
+                    @Override
                     public void interrupt(Thread target) {
                         synchronized (closeLock) {
-                            if (!open)
+                            if (!open) {
                                 return;
+                            }
                             open = false;
                             interrupted = target;
                             try {
@@ -169,8 +174,9 @@ public abstract class AbstractInterruptibleChannel
         }
         blockedOn(interruptor);
         Thread me = Thread.currentThread();
-        if (me.isInterrupted())
+        if (me.isInterrupted()) {
             interruptor.interrupt(me);
+        }
     }
 
     /**
@@ -201,8 +207,9 @@ public abstract class AbstractInterruptibleChannel
             interrupted = null;
             throw new ClosedByInterruptException();
         }
-        if (!completed && !open)
+        if (!completed && !open) {
             throw new AsynchronousCloseException();
+        }
     }
 
 

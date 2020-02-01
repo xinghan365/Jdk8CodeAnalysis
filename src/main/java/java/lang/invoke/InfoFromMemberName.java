@@ -88,6 +88,7 @@ class InfoFromMemberName implements MethodHandleInfo {
             throw new IllegalArgumentException("cannot reflect signature polymorphic method");
         }
         Member mem = AccessController.doPrivileged(new PrivilegedAction<Member>() {
+                @Override
                 public Member run() {
                     try {
                         return reflectUnchecked();
@@ -111,20 +112,23 @@ class InfoFromMemberName implements MethodHandleInfo {
         Class<?> defc = getDeclaringClass();
         boolean isPublic = Modifier.isPublic(getModifiers());
         if (MethodHandleNatives.refKindIsMethod(refKind)) {
-            if (isPublic)
+            if (isPublic) {
                 return defc.getMethod(getName(), getMethodType().parameterArray());
-            else
+            } else {
                 return defc.getDeclaredMethod(getName(), getMethodType().parameterArray());
+            }
         } else if (MethodHandleNatives.refKindIsConstructor(refKind)) {
-            if (isPublic)
+            if (isPublic) {
                 return defc.getConstructor(getMethodType().parameterArray());
-            else
+            } else {
                 return defc.getDeclaredConstructor(getMethodType().parameterArray());
+            }
         } else if (MethodHandleNatives.refKindIsField(refKind)) {
-            if (isPublic)
+            if (isPublic) {
                 return defc.getField(getName());
-            else
+            } else {
                 return defc.getDeclaredField(getName());
+            }
         } else {
             throw new IllegalArgumentException("referenceKind="+refKind);
         }

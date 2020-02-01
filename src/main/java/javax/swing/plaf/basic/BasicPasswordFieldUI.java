@@ -59,6 +59,7 @@ public class BasicPasswordFieldUI extends BasicTextFieldUI {
      *
      * @return the name ("PasswordField")
      */
+    @Override
     protected String getPropertyPrefix() {
         return "PasswordField";
     }
@@ -68,6 +69,7 @@ public class BasicPasswordFieldUI extends BasicTextFieldUI {
      * Installs the necessary properties on the JPasswordField.
      * @since 1.6
      */
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         String prefix = getPropertyPrefix();
@@ -83,6 +85,7 @@ public class BasicPasswordFieldUI extends BasicTextFieldUI {
      * @param elem the element
      * @return the view
      */
+    @Override
     public View create(Element elem) {
         return new PasswordView(elem);
     }
@@ -93,6 +96,7 @@ public class BasicPasswordFieldUI extends BasicTextFieldUI {
      * and for triple mouse click (see bug 4231444).
      */
 
+    @Override
     ActionMap createActionMap() {
         ActionMap map = super.createActionMap();
         if (map.get(DefaultEditorKit.selectWordAction) != null) {

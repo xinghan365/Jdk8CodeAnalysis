@@ -38,6 +38,7 @@ class WindowsPreferencesFactory implements PreferencesFactory  {
     /**
      * Returns WindowsPreferences.userRoot
      */
+    @Override
     public Preferences userRoot() {
         return WindowsPreferences.getUserRoot();
     }
@@ -45,6 +46,7 @@ class WindowsPreferencesFactory implements PreferencesFactory  {
     /**
      * Returns WindowsPreferences.systemRoot
      */
+    @Override
     public Preferences systemRoot() {
         return WindowsPreferences.getSystemRoot();
     }

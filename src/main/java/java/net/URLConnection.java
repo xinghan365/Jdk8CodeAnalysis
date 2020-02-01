@@ -310,6 +310,7 @@ public abstract class URLConnection {
 
         return new FileNameMap() {
             private FileNameMap map = fileNameMap;
+            @Override
             public String getContentTypeFor(String fileName) {
                 return map.getContentTypeFor(fileName);
             }
@@ -333,7 +334,9 @@ public abstract class URLConnection {
      */
     public static void setFileNameMap(FileNameMap map) {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkSetFactory();
+        if (sm != null) {
+            sm.checkSetFactory();
+        }
         fileNameMap = map;
     }
 
@@ -483,8 +486,9 @@ public abstract class URLConnection {
      */
     public int getContentLength() {
         long l = getContentLengthLong();
-        if (l > Integer.MAX_VALUE)
+        if (l > Integer.MAX_VALUE) {
             return -1;
+        }
         return (int) l;
     }
 
@@ -848,6 +852,7 @@ public abstract class URLConnection {
      *
      * @return  a string representation of this {@code URLConnection}.
      */
+    @Override
     public String toString() {
         return this.getClass().getName() + ":" + url;
     }
@@ -866,8 +871,9 @@ public abstract class URLConnection {
      * @see #getDoInput()
      */
     public void setDoInput(boolean doinput) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
         doInput = doinput;
     }
 
@@ -896,8 +902,9 @@ public abstract class URLConnection {
      * @see #getDoOutput()
      */
     public void setDoOutput(boolean dooutput) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
         doOutput = dooutput;
     }
 
@@ -922,8 +929,9 @@ public abstract class URLConnection {
      * @see     #getAllowUserInteraction()
      */
     public void setAllowUserInteraction(boolean allowuserinteraction) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
         allowUserInteraction = allowuserinteraction;
     }
 
@@ -985,8 +993,9 @@ public abstract class URLConnection {
      * @see #getUseCaches()
      */
     public void setUseCaches(boolean usecaches) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
         useCaches = usecaches;
     }
 
@@ -1011,8 +1020,9 @@ public abstract class URLConnection {
      * @see     #getIfModifiedSince()
      */
     public void setIfModifiedSince(long ifmodifiedsince) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
         ifModifiedSince = ifmodifiedsince;
     }
 
@@ -1070,13 +1080,16 @@ public abstract class URLConnection {
      * @see #getRequestProperty(java.lang.String)
      */
     public void setRequestProperty(String key, String value) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
-        if (key == null)
+        }
+        if (key == null) {
             throw new NullPointerException ("key is null");
+        }
 
-        if (requests == null)
+        if (requests == null) {
             requests = new MessageHeader();
+        }
 
         requests.set(key, value);
     }
@@ -1095,13 +1108,16 @@ public abstract class URLConnection {
      * @since 1.4
      */
     public void addRequestProperty(String key, String value) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
-        if (key == null)
+        }
+        if (key == null) {
             throw new NullPointerException ("key is null");
+        }
 
-        if (requests == null)
+        if (requests == null) {
             requests = new MessageHeader();
+        }
 
         requests.add(key, value);
     }
@@ -1118,11 +1134,13 @@ public abstract class URLConnection {
      * @see #setRequestProperty(java.lang.String, java.lang.String)
      */
     public String getRequestProperty(String key) {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
 
-        if (requests == null)
+        if (requests == null) {
             return null;
+        }
 
         return requests.findValue(key);
     }
@@ -1140,11 +1158,13 @@ public abstract class URLConnection {
      * @since 1.4
      */
     public Map<String,List<String>> getRequestProperties() {
-        if (connected)
+        if (connected) {
             throw new IllegalStateException("Already connected");
+        }
 
-        if (requests == null)
+        if (requests == null) {
             return Collections.emptyMap();
+        }
 
         return requests.getHeaders(null);
     }
@@ -1237,17 +1257,20 @@ public abstract class URLConnection {
     {
         String contentType = stripOffParameters(getContentType());
         ContentHandler handler = null;
-        if (contentType == null)
+        if (contentType == null) {
             throw new UnknownServiceException("no content-type");
+        }
         try {
             handler = handlers.get(contentType);
-            if (handler != null)
+            if (handler != null) {
                 return handler;
+            }
         } catch(Exception e) {
         }
 
-        if (factory != null)
+        if (factory != null) {
             handler = factory.createContentHandler(contentType);
+        }
         if (handler == null) {
             try {
                 handler = lookupContentHandlerClassFor(contentType);
@@ -1267,14 +1290,16 @@ public abstract class URLConnection {
      */
     private String stripOffParameters(String contentType)
     {
-        if (contentType == null)
+        if (contentType == null) {
             return null;
+        }
         int index = contentType.indexOf(';');
 
-        if (index > 0)
+        if (index > 0) {
             return contentType.substring(0, index);
-        else
+        } else {
             return contentType;
+        }
     }
 
     private static final String contentClassPrefix = "sun.net.www.content";
@@ -1409,8 +1434,9 @@ public abstract class URLConnection {
     static public String guessContentTypeFromStream(InputStream is)
                         throws IOException {
         // If we can't read ahead safely, just give up on guessing
-        if (!is.markSupported())
+        if (!is.markSupported()) {
             return null;
+        }
 
         is.mark(16);
         int c1 = is.read();
@@ -1777,6 +1803,7 @@ public abstract class URLConnection {
 class UnknownContentHandler extends ContentHandler {
     static final ContentHandler INSTANCE = new UnknownContentHandler();
 
+    @Override
     public Object getContent(URLConnection uc) throws IOException {
         return uc.getInputStream();
     }

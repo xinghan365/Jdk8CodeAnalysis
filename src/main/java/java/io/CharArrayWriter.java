@@ -75,6 +75,7 @@ class CharArrayWriter extends Writer {
     /**
      * Writes a character to the buffer.
      */
+    @Override
     public void write(int c) {
         synchronized (lock) {
             int newcount = count + 1;
@@ -92,6 +93,7 @@ class CharArrayWriter extends Writer {
      * @param off       the start offset in the data
      * @param len       the number of chars that are written
      */
+    @Override
     public void write(char c[], int off, int len) {
         if ((off < 0) || (off > c.length) || (len < 0) ||
             ((off + len) > c.length) || ((off + len) < 0)) {
@@ -115,6 +117,7 @@ class CharArrayWriter extends Writer {
      * @param  off  Offset from which to start reading characters
      * @param  len  Number of characters to be written
      */
+    @Override
     public void write(String str, int off, int len) {
         synchronized (lock) {
             int newcount = count + len;
@@ -162,6 +165,7 @@ class CharArrayWriter extends Writer {
      *
      * @since  1.5
      */
+    @Override
     public CharArrayWriter append(CharSequence csq) {
         String s = (csq == null ? "null" : csq.toString());
         write(s, 0, s.length());
@@ -200,6 +204,7 @@ class CharArrayWriter extends Writer {
      *
      * @since  1.5
      */
+    @Override
     public CharArrayWriter append(CharSequence csq, int start, int end) {
         String s = (csq == null ? "null" : csq).subSequence(start, end).toString();
         write(s, 0, s.length());
@@ -222,6 +227,7 @@ class CharArrayWriter extends Writer {
      *
      * @since 1.5
      */
+    @Override
     public CharArrayWriter append(char c) {
         write(c);
         return this;
@@ -259,6 +265,7 @@ class CharArrayWriter extends Writer {
      * Converts input data to a string.
      * @return the string.
      */
+    @Override
     public String toString() {
         synchronized (lock) {
             return new String(buf, 0, count);
@@ -268,6 +275,7 @@ class CharArrayWriter extends Writer {
     /**
      * Flush the stream.
      */
+    @Override
     public void flush() { }
 
     /**
@@ -275,6 +283,7 @@ class CharArrayWriter extends Writer {
      * contents might still be required. Note: Invoking this method in this class
      * will have no effect.
      */
+    @Override
     public void close() { }
 
 }

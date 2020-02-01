@@ -166,6 +166,7 @@ public abstract class EnumControl extends Control {
      * Provides a string representation of the control.
      * @return a string description
      */
+    @Override
     public String toString() {
         return new String(getType() + " with current value: " + getValue());
     }

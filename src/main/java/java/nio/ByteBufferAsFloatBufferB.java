@@ -69,6 +69,7 @@ class ByteBufferAsFloatBufferB                  // package-private
 
     }
 
+    @Override
     public FloatBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsFloatBufferB                  // package-private
         return new ByteBufferAsFloatBufferB(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public FloatBuffer duplicate() {
         return new ByteBufferAsFloatBufferB(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsFloatBufferB                  // package-private
                                                     offset);
     }
 
+    @Override
     public FloatBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsFloatBufferRB(bb,
@@ -107,10 +110,12 @@ class ByteBufferAsFloatBufferB                  // package-private
         return (i << 2) + offset;
     }
 
+    @Override
     public float get() {
         return Bits.getFloatB(bb, ix(nextGetIndex()));
     }
 
+    @Override
     public float get(int i) {
         return Bits.getFloatB(bb, ix(checkIndex(i)));
     }
@@ -123,6 +128,7 @@ class ByteBufferAsFloatBufferB                  // package-private
 
 
 
+    @Override
     public FloatBuffer put(float x) {
 
         Bits.putFloatB(bb, ix(nextPutIndex()), x);
@@ -132,6 +138,7 @@ class ByteBufferAsFloatBufferB                  // package-private
 
     }
 
+    @Override
     public FloatBuffer put(int i, float x) {
 
         Bits.putFloatB(bb, ix(checkIndex(i)), x);
@@ -141,6 +148,7 @@ class ByteBufferAsFloatBufferB                  // package-private
 
     }
 
+    @Override
     public FloatBuffer compact() {
 
         int pos = position();
@@ -163,10 +171,12 @@ class ByteBufferAsFloatBufferB                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -213,6 +223,7 @@ class ByteBufferAsFloatBufferB                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;

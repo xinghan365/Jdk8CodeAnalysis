@@ -53,6 +53,7 @@ public class PopupMenu extends Menu {
     static {
         AWTAccessor.setPopupMenuAccessor(
             new AWTAccessor.PopupMenuAccessor() {
+                @Override
                 public boolean isTrayIconPopup(PopupMenu popupMenu) {
                     return popupMenu.isTrayIconPopup;
                 }
@@ -90,6 +91,7 @@ public class PopupMenu extends Menu {
     /**
      * {@inheritDoc}
      */
+    @Override
     public MenuContainer getParent() {
         if (isTrayIconPopup) {
             return null;
@@ -101,6 +103,7 @@ public class PopupMenu extends Menu {
      * Constructs a name for this <code>MenuComponent</code>.
      * Called by <code>getName</code> when the name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (PopupMenu.class) {
             return base + nameCounter++;
@@ -112,6 +115,7 @@ public class PopupMenu extends Menu {
      * The peer allows us to change the appearance of the popup menu without
      * changing any of the popup menu's functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
             // If our parent is not a Component, then this PopupMenu is
@@ -120,8 +124,9 @@ public class PopupMenu extends Menu {
                 super.addNotify();
             }
             else {
-                if (peer == null)
+                if (peer == null) {
                     peer = Toolkit.getDefaultToolkit().createPopupMenu(this);
+                }
                 int nitems = getItemCount();
                 for (int i = 0 ; i < nitems ; i++) {
                     MenuItem mi = getItem(i);
@@ -203,6 +208,7 @@ public class PopupMenu extends Menu {
      *                <code>PopupMenu</code>
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTPopupMenu();
@@ -232,6 +238,7 @@ public class PopupMenu extends Menu {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.POPUP_MENU;
         }

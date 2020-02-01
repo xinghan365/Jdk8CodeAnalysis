@@ -60,6 +60,7 @@ public class InlineView extends LabelView {
      * @since 1.5
      * @see View#insertUpdate
      */
+    @Override
     public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.insertUpdate(e, a, f);
     }
@@ -76,6 +77,7 @@ public class InlineView extends LabelView {
      * @since 1.5
      * @see View#removeUpdate
      */
+    @Override
     public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.removeUpdate(e, a, f);
     }
@@ -89,6 +91,7 @@ public class InlineView extends LabelView {
      * @param f the factory to use to rebuild if the view has children
      * @see View#changedUpdate
      */
+    @Override
     public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.changedUpdate(e, a, f);
         StyleSheet sheet = getStyleSheet();
@@ -101,6 +104,7 @@ public class InlineView extends LabelView {
      * implemented to multiplex the attributes specified in the
      * model with a StyleSheet.
      */
+    @Override
     public AttributeSet getAttributes() {
         return attr;
     }
@@ -143,6 +147,7 @@ public class InlineView extends LabelView {
      * @see javax.swing.text.View#ExcellentBreakWeight
      * @see javax.swing.text.View#ForcedBreakWeight
      */
+    @Override
     public int getBreakWeight(int axis, float pos, float len) {
         if (nowrap) {
             return BadBreakWeight;
@@ -175,6 +180,7 @@ public class InlineView extends LabelView {
      * @since 1.5
      * @see javax.swing.text.View#breakView
      */
+    @Override
     public View breakView(int axis, int offset, float pos, float len) {
         return super.breakView(axis, offset, pos, len);
     }
@@ -183,6 +189,7 @@ public class InlineView extends LabelView {
     /**
      * Set the cached properties from the attributes.
      */
+    @Override
     protected void setPropertiesFromAttributes() {
         super.setPropertiesFromAttributes();
         AttributeSet a = getAttributes();

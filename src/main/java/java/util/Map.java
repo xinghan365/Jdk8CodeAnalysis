@@ -435,6 +435,7 @@ public interface Map<K,V> {
          * @return <tt>true</tt> if the specified object is equal to this map
          *         entry
          */
+        @Override
         boolean equals(Object o);
 
         /**
@@ -453,6 +454,7 @@ public interface Map<K,V> {
          * @see Object#equals(Object)
          * @see #equals(Object)
          */
+        @Override
         int hashCode();
 
         /**
@@ -542,6 +544,7 @@ public interface Map<K,V> {
      * @param o object to be compared for equality with this map
      * @return <tt>true</tt> if the specified object is equal to this map
      */
+    @Override
     boolean equals(Object o);
 
     /**
@@ -557,6 +560,7 @@ public interface Map<K,V> {
      * @see Object#equals(Object)
      * @see #equals(Object)
      */
+    @Override
     int hashCode();
 
     // Defaultable methods

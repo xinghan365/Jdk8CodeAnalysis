@@ -77,6 +77,7 @@ public class MetalCheckBoxUI extends MetalRadioButtonUI {
         return checkboxUI;
     }
 
+    @Override
     public String getPropertyPrefix() {
         return propertyPrefix;
     }
@@ -84,6 +85,7 @@ public class MetalCheckBoxUI extends MetalRadioButtonUI {
     // ********************************
     //          Defaults
     // ********************************
+    @Override
     public void installDefaults(AbstractButton b) {
         super.installDefaults(b);
         if(!defaults_initialized) {
@@ -92,6 +94,7 @@ public class MetalCheckBoxUI extends MetalRadioButtonUI {
         }
     }
 
+    @Override
     protected void uninstallDefaults(AbstractButton b) {
         super.uninstallDefaults(b);
         defaults_initialized = false;

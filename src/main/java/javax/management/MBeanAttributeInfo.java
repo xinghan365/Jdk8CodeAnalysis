@@ -59,8 +59,9 @@ public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
         try {
             GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
             String form = AccessController.doPrivileged(act);
-            if ("1.0".equals(form))
+            if ("1.0".equals(form)) {
                 uid = 7043855487133450673L;
+            }
         } catch (Exception e) {
             // OK: exception means no compat with 1.0, too bad
         }
@@ -201,6 +202,7 @@ public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
      * <p>Since this class is immutable, cloning is chiefly of
      * interest to subclasses.</p>
      */
+     @Override
      public Object clone () {
          try {
              return super.clone() ;
@@ -246,17 +248,20 @@ public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
         return is;
     }
 
+    @Override
     public String toString() {
         String access;
         if (isReadable()) {
-            if (isWritable())
+            if (isWritable()) {
                 access = "read/write";
-            else
+            } else {
                 access = "read-only";
-        } else if (isWritable())
+            }
+        } else if (isWritable()) {
             access = "write-only";
-        else
+        } else {
             access = "no-access";
+        }
 
         return
             getClass().getName() + "[" +
@@ -280,11 +285,14 @@ public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
      * #isWritable()}, and {@link #isIs()} values are equal (not
      * necessarily identical) to those of this MBeanAttributeInfo.
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof MBeanAttributeInfo))
+        }
+        if (!(o instanceof MBeanAttributeInfo)) {
             return false;
+        }
         MBeanAttributeInfo p = (MBeanAttributeInfo) o;
         return (Objects.equals(p.getName(), getName()) &&
                 Objects.equals(p.getType(), getType()) &&
@@ -301,6 +309,7 @@ public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
        wrong should be less than the penalty we would pay if it were
        right and we needlessly hashed in the description and parameter
        array.  */
+    @Override
     public int hashCode() {
         return Objects.hash(getName(), getType());
     }
@@ -335,9 +344,9 @@ public class MBeanAttributeInfo extends MBeanFeatureInfo implements Cloneable {
             if (params.length != 1) {
                 throw new IntrospectionException("bad setter arg count");
             }
-            if (type == null)
+            if (type == null) {
                 type = params[0];
-            else if (type != params[0]) {
+            } else if (type != params[0]) {
                 throw new IntrospectionException("type mismatch between " +
                                                  "getter and setter");
             }

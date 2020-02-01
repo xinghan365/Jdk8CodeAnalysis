@@ -121,6 +121,7 @@ public class DOMSource implements Source {
      *
      * @param systemID Base URL for this DOM tree.
      */
+    @Override
     public void setSystemId(String systemID) {
         this.systemID = systemID;
     }
@@ -131,6 +132,7 @@ public class DOMSource implements Source {
      *
      * @return Base URL for this DOM tree.
      */
+    @Override
     public String getSystemId() {
         return this.systemID;
     }

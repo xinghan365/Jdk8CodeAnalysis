@@ -34,6 +34,7 @@ import javax.swing.plaf.ComponentUI;
  * @author Scott Violet
  */
 class SynthDefaultLookup extends DefaultLookup {
+    @Override
     public Object getDefault(JComponent c, ComponentUI ui, String key) {
         if (!(ui instanceof SynthUI)) {
             Object value = super.getDefault(c, ui, key);

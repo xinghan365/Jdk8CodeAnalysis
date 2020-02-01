@@ -209,7 +209,9 @@ public class ScriptEngineManager  {
      * @throws NullPointerException if shortName is null.
      */
     public ScriptEngine getEngineByName(String shortName) {
-        if (shortName == null) throw new NullPointerException();
+        if (shortName == null) {
+            throw new NullPointerException();
+        }
         //look for registered name first
         Object obj;
         if (null != (obj = nameAssociations.get(shortName))) {
@@ -219,7 +221,9 @@ public class ScriptEngineManager  {
                 engine.setBindings(getBindings(), ScriptContext.GLOBAL_SCOPE);
                 return engine;
             } catch (Exception exp) {
-                if (DEBUG) exp.printStackTrace();
+                if (DEBUG) {
+                    exp.printStackTrace();
+                }
             }
         }
 
@@ -228,7 +232,9 @@ public class ScriptEngineManager  {
             try {
                 names = spi.getNames();
             } catch (Exception exp) {
-                if (DEBUG) exp.printStackTrace();
+                if (DEBUG) {
+                    exp.printStackTrace();
+                }
             }
 
             if (names != null) {
@@ -239,7 +245,9 @@ public class ScriptEngineManager  {
                             engine.setBindings(getBindings(), ScriptContext.GLOBAL_SCOPE);
                             return engine;
                         } catch (Exception exp) {
-                            if (DEBUG) exp.printStackTrace();
+                            if (DEBUG) {
+                                exp.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -260,7 +268,9 @@ public class ScriptEngineManager  {
      * @throws NullPointerException if extension is null.
      */
     public ScriptEngine getEngineByExtension(String extension) {
-        if (extension == null) throw new NullPointerException();
+        if (extension == null) {
+            throw new NullPointerException();
+        }
         //look for registered extension first
         Object obj;
         if (null != (obj = extensionAssociations.get(extension))) {
@@ -270,7 +280,9 @@ public class ScriptEngineManager  {
                 engine.setBindings(getBindings(), ScriptContext.GLOBAL_SCOPE);
                 return engine;
             } catch (Exception exp) {
-                if (DEBUG) exp.printStackTrace();
+                if (DEBUG) {
+                    exp.printStackTrace();
+                }
             }
         }
 
@@ -279,9 +291,13 @@ public class ScriptEngineManager  {
             try {
                 exts = spi.getExtensions();
             } catch (Exception exp) {
-                if (DEBUG) exp.printStackTrace();
+                if (DEBUG) {
+                    exp.printStackTrace();
+                }
             }
-            if (exts == null) continue;
+            if (exts == null) {
+                continue;
+            }
             for (String ext : exts) {
                 if (extension.equals(ext)) {
                     try {
@@ -289,7 +305,9 @@ public class ScriptEngineManager  {
                         engine.setBindings(getBindings(), ScriptContext.GLOBAL_SCOPE);
                         return engine;
                     } catch (Exception exp) {
-                        if (DEBUG) exp.printStackTrace();
+                        if (DEBUG) {
+                            exp.printStackTrace();
+                        }
                     }
                 }
             }
@@ -308,7 +326,9 @@ public class ScriptEngineManager  {
      * @throws NullPointerException if mimeType is null.
      */
     public ScriptEngine getEngineByMimeType(String mimeType) {
-        if (mimeType == null) throw new NullPointerException();
+        if (mimeType == null) {
+            throw new NullPointerException();
+        }
         //look for registered types first
         Object obj;
         if (null != (obj = mimeTypeAssociations.get(mimeType))) {
@@ -318,7 +338,9 @@ public class ScriptEngineManager  {
                 engine.setBindings(getBindings(), ScriptContext.GLOBAL_SCOPE);
                 return engine;
             } catch (Exception exp) {
-                if (DEBUG) exp.printStackTrace();
+                if (DEBUG) {
+                    exp.printStackTrace();
+                }
             }
         }
 
@@ -327,9 +349,13 @@ public class ScriptEngineManager  {
             try {
                 types = spi.getMimeTypes();
             } catch (Exception exp) {
-                if (DEBUG) exp.printStackTrace();
+                if (DEBUG) {
+                    exp.printStackTrace();
+                }
             }
-            if (types == null) continue;
+            if (types == null) {
+                continue;
+            }
             for (String type : types) {
                 if (mimeType.equals(type)) {
                     try {
@@ -337,7 +363,9 @@ public class ScriptEngineManager  {
                         engine.setBindings(getBindings(), ScriptContext.GLOBAL_SCOPE);
                         return engine;
                     } catch (Exception exp) {
-                        if (DEBUG) exp.printStackTrace();
+                        if (DEBUG) {
+                            exp.printStackTrace();
+                        }
                     }
                 }
             }
@@ -366,7 +394,9 @@ public class ScriptEngineManager  {
      * @throws NullPointerException if any of the parameters is null.
      */
     public void registerEngineName(String name, ScriptEngineFactory factory) {
-        if (name == null || factory == null) throw new NullPointerException();
+        if (name == null || factory == null) {
+            throw new NullPointerException();
+        }
         nameAssociations.put(name, factory);
     }
 
@@ -381,7 +411,9 @@ public class ScriptEngineManager  {
      * @throws NullPointerException if any of the parameters is null.
      */
     public void registerEngineMimeType(String type, ScriptEngineFactory factory) {
-        if (type == null || factory == null) throw new NullPointerException();
+        if (type == null || factory == null) {
+            throw new NullPointerException();
+        }
         mimeTypeAssociations.put(type, factory);
     }
 
@@ -395,7 +427,9 @@ public class ScriptEngineManager  {
      * @throws NullPointerException if any of the parameters is null.
      */
     public void registerEngineExtension(String extension, ScriptEngineFactory factory) {
-        if (extension == null || factory == null) throw new NullPointerException();
+        if (extension == null || factory == null) {
+            throw new NullPointerException();
+        }
         extensionAssociations.put(extension, factory);
     }
 

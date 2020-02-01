@@ -124,6 +124,7 @@ public abstract class AbstractDocument implements Document, Serializable {
             // determine default setting for i18n support
             String o = java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<String>() {
+                    @Override
                     public String run() {
                         return System.getProperty(I18NProperty);
                     }
@@ -413,6 +414,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *
      * @param r the renderer to execute
      */
+    @Override
     public void render(Runnable r) {
         readLock();
         try {
@@ -429,6 +431,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @return the length &gt;= 0
      * @see Document#getLength
      */
+    @Override
     public int getLength() {
         return data.length() - 1;
     }
@@ -439,6 +442,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param listener the <code>DocumentListener</code> to add
      * @see Document#addDocumentListener
      */
+    @Override
     public void addDocumentListener(DocumentListener listener) {
         listenerList.add(DocumentListener.class, listener);
     }
@@ -449,6 +453,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param listener the <code>DocumentListener</code> to remove
      * @see Document#removeDocumentListener
      */
+    @Override
     public void removeDocumentListener(DocumentListener listener) {
         listenerList.remove(DocumentListener.class, listener);
     }
@@ -478,6 +483,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param listener the <code>UndoableEditListener</code> to add
      * @see Document#addUndoableEditListener
      */
+    @Override
     public void addUndoableEditListener(UndoableEditListener listener) {
         listenerList.add(UndoableEditListener.class, listener);
     }
@@ -488,6 +494,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param listener the <code>UndoableEditListener</code> to remove
      * @see Document#removeDocumentListener
      */
+    @Override
     public void removeUndoableEditListener(UndoableEditListener listener) {
         listenerList.remove(UndoableEditListener.class, listener);
     }
@@ -520,6 +527,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @return the value of this property or <code>null</code>
      * @see #getDocumentProperties
      */
+    @Override
     public final Object getProperty(Object key) {
         return getDocumentProperties().get(key);
     }
@@ -538,6 +546,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param value the property value
      * @see #getDocumentProperties
      */
+    @Override
     public final void putProperty(Object key, Object value) {
         if (value != null) {
             getDocumentProperties().put(key, value);
@@ -578,6 +587,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *   position within the document
      * @see Document#remove
      */
+    @Override
     public void remove(int offs, int len) throws BadLocationException {
         DocumentFilter filter = getDocumentFilter();
 
@@ -692,6 +702,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *   position within the document
      * @see Document#insertString
      */
+    @Override
     public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
         if ((str == null) || (str.length() == 0)) {
             return;
@@ -763,6 +774,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *   that is not a valid position within the document
      * @see Document#getText
      */
+    @Override
     public String getText(int offset, int length) throws BadLocationException {
         if (length < 0) {
             throw new BadLocationException("Length must be positive", length);
@@ -803,6 +815,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @exception BadLocationException  the range given includes a position
      *   that is not a valid position within the document
      */
+    @Override
     public void getText(int offset, int length, Segment txt) throws BadLocationException {
         if (length < 0) {
             throw new BadLocationException("Length must be positive", length);
@@ -825,6 +838,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *   represent a valid location in the associated document
      * @see Document#createPosition
      */
+    @Override
     public synchronized Position createPosition(int offs) throws BadLocationException {
         return data.createPosition(offs);
     }
@@ -836,6 +850,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *
      * @return the position
      */
+    @Override
     public final Position getStartPosition() {
         Position p;
         try {
@@ -853,6 +868,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *
      * @return the position
      */
+    @Override
     public final Position getEndPosition() {
         Position p;
         try {
@@ -870,6 +886,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      *
      * @return the root element
      */
+    @Override
     public Element[] getRootElements() {
         Element[] elems = new Element[2];
         elems[0] = getDefaultRootElement();
@@ -885,6 +902,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @return the root element
      * @see Document#getDefaultRootElement
      */
+    @Override
     public abstract Element getDefaultRootElement();
 
     // ---- local methods -----------------------------------------
@@ -961,8 +979,9 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param attr the attributes for the change
      */
     protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
-        if( getProperty(I18NProperty).equals( Boolean.TRUE ) )
+        if( getProperty(I18NProperty).equals( Boolean.TRUE ) ) {
             updateBidi( chng );
+        }
 
         // Check if a multi byte is encountered in the inserted text.
         if (chng.type == DocumentEvent.EventType.INSERT &&
@@ -1007,8 +1026,9 @@ public abstract class AbstractDocument implements Document, Serializable {
      * @param chng a description of the change
      */
     protected void postRemoveUpdate(DefaultDocumentEvent chng) {
-        if( getProperty(I18NProperty).equals( Boolean.TRUE ) )
+        if( getProperty(I18NProperty).equals( Boolean.TRUE ) ) {
             updateBidi( chng );
+        }
     }
 
 
@@ -1077,8 +1097,9 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         int firstSpanEnd = 0;
-        while((firstSpanEnd<levels.length) && (levels[firstSpanEnd]==levels[0]))
+        while((firstSpanEnd<levels.length) && (levels[firstSpanEnd]==levels[0])) {
             firstSpanEnd++;
+        }
 
 
         // Calculate the last span of characters in the affected range with
@@ -1108,8 +1129,9 @@ public abstract class AbstractDocument implements Document, Serializable {
 
         int lastSpanStart = levels.length;
         while( (lastSpanStart>firstSpanEnd)
-               && (levels[lastSpanStart-1]==levels[levels.length-1]) )
+               && (levels[lastSpanStart-1]==levels[levels.length-1]) ) {
             lastSpanStart--;
+        }
 
 
         // If the first and last spans are contiguous and have the same level,
@@ -1128,7 +1150,9 @@ public abstract class AbstractDocument implements Document, Serializable {
             for( int i=firstSpanEnd; i<lastSpanStart; ) {
                 //System.out.println("executed line 872");
                 int j;
-                for( j=i;  (j<levels.length) && (levels[j] == levels[i]); j++ );
+                for( j=i;  (j<levels.length) && (levels[j] == levels[i]); j++ ) {
+                    ;
+                }
                 newElements.addElement(new BidiElement(bidiRoot, firstPStart+i,
                                                        firstPStart+j,
                                                        (int)levels[i]));
@@ -1141,8 +1165,9 @@ public abstract class AbstractDocument implements Document, Serializable {
                                                    levels[levels.length-1]));
         }
 
-        if( newNextElem != null )
+        if( newNextElem != null ) {
             newElements.addElement( newNextElem );
+        }
 
 
         // Calculate the set of existing bidi elements which must be
@@ -1228,8 +1253,9 @@ public abstract class AbstractDocument implements Document, Serializable {
         }
 
         // REMIND(bcb) remove this code when debugging is done.
-        if( levelsEnd != levels.length )
+        if( levelsEnd != levels.length ) {
             throw new Error("levelsEnd assertion failed.");
+        }
 
         return levels;
     }
@@ -1448,6 +1474,7 @@ public abstract class AbstractDocument implements Document, Serializable {
         // is created by the subclass and at this point will be null. We
         // thus use registerValidation.
         s.registerValidation(new ObjectInputValidation() {
+            @Override
             public void validateObject() {
                 try {
                     writeLock();
@@ -1849,6 +1876,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the number of attributes &gt;= 0
          * @see AttributeSet#getAttributeCount
          */
+        @Override
         public int getAttributeCount() {
             return attributes.getAttributeCount();
         }
@@ -1860,6 +1888,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return true if the attribute is defined
          * @see AttributeSet#isDefined
          */
+        @Override
         public boolean isDefined(Object attrName) {
             return attributes.isDefined(attrName);
         }
@@ -1871,6 +1900,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return true if the same
          * @see AttributeSet#isEqual
          */
+        @Override
         public boolean isEqual(AttributeSet attr) {
             return attributes.isEqual(attr);
         }
@@ -1881,6 +1911,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the copy
          * @see AttributeSet#copyAttributes
          */
+        @Override
         public AttributeSet copyAttributes() {
             return attributes.copyAttributes();
         }
@@ -1892,6 +1923,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the attribute value
          * @see AttributeSet#getAttribute
          */
+        @Override
         public Object getAttribute(Object attrName) {
             Object value = attributes.getAttribute(attrName);
             if (value == null) {
@@ -1912,6 +1944,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the attribute names as an enumeration
          * @see AttributeSet#getAttributeNames
          */
+        @Override
         public Enumeration<?> getAttributeNames() {
             return attributes.getAttributeNames();
         }
@@ -1924,6 +1957,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return true if the name/value is defined
          * @see AttributeSet#containsAttribute
          */
+        @Override
         public boolean containsAttribute(Object name, Object value) {
             return attributes.containsAttribute(name, value);
         }
@@ -1936,6 +1970,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return true if the element contains all the attributes
          * @see AttributeSet#containsAttributes
          */
+        @Override
         public boolean containsAttributes(AttributeSet attrs) {
             return attributes.containsAttributes(attrs);
         }
@@ -1948,6 +1983,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the attributes from the parent, <code>null</code> if none
          * @see AttributeSet#getResolveParent
          */
+        @Override
         public AttributeSet getResolveParent() {
             AttributeSet a = attributes.getResolveParent();
             if ((a == null) && (parent != null)) {
@@ -1967,6 +2003,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param value the attribute value
          * @see MutableAttributeSet#addAttribute
          */
+        @Override
         public void addAttribute(Object name, Object value) {
             checkForIllegalCast();
             AttributeContext context = getAttributeContext();
@@ -1979,6 +2016,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param attr the attributes to add
          * @see MutableAttributeSet#addAttribute
          */
+        @Override
         public void addAttributes(AttributeSet attr) {
             checkForIllegalCast();
             AttributeContext context = getAttributeContext();
@@ -1991,6 +2029,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param name the non-null attribute name
          * @see MutableAttributeSet#removeAttribute
          */
+        @Override
         public void removeAttribute(Object name) {
             checkForIllegalCast();
             AttributeContext context = getAttributeContext();
@@ -2003,6 +2042,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param names the attribute names
          * @see MutableAttributeSet#removeAttributes
          */
+        @Override
         public void removeAttributes(Enumeration<?> names) {
             checkForIllegalCast();
             AttributeContext context = getAttributeContext();
@@ -2015,6 +2055,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param attrs the attributes
          * @see MutableAttributeSet#removeAttributes
          */
+        @Override
         public void removeAttributes(AttributeSet attrs) {
             checkForIllegalCast();
             AttributeContext context = getAttributeContext();
@@ -2031,6 +2072,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param parent the parent, null if none
          * @see MutableAttributeSet#setResolveParent
          */
+        @Override
         public void setResolveParent(AttributeSet parent) {
             checkForIllegalCast();
             AttributeContext context = getAttributeContext();
@@ -2058,6 +2100,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the model
          */
+        @Override
         public Document getDocument() {
             return AbstractDocument.this;
         }
@@ -2067,6 +2110,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the parent
          */
+        @Override
         public Element getParentElement() {
             return parent;
         }
@@ -2076,6 +2120,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the attribute set
          */
+        @Override
         public AttributeSet getAttributes() {
             return this;
         }
@@ -2085,6 +2130,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the name, null if none
          */
+        @Override
         public String getName() {
             if (attributes.isDefined(ElementNameAttribute)) {
                 return (String) attributes.getAttribute(ElementNameAttribute);
@@ -2097,6 +2143,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the offset &gt;= 0
          */
+        @Override
         public abstract int getStartOffset();
 
         /**
@@ -2104,6 +2151,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the offset &gt;= 0
          */
+        @Override
         public abstract int getEndOffset();
 
         /**
@@ -2112,6 +2160,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param index the child index, &gt;= 0 &amp;&amp; &lt; getElementCount()
          * @return the child element
          */
+        @Override
         public abstract Element getElement(int index);
 
         /**
@@ -2119,6 +2168,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the number of children &gt;= 0
          */
+        @Override
         public abstract int getElementCount();
 
         /**
@@ -2127,6 +2177,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param offset the offset &gt;= 0
          * @return the element index &gt;= 0
          */
+        @Override
         public abstract int getElementIndex(int offset);
 
         /**
@@ -2134,6 +2185,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return true if a leaf
          */
+        @Override
         public abstract boolean isLeaf();
 
         // --- TreeNode methods -------------------------------------
@@ -2142,6 +2194,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Returns the child <code>TreeNode</code> at index
          * <code>childIndex</code>.
          */
+        @Override
         public TreeNode getChildAt(int childIndex) {
             return (TreeNode)getElement(childIndex);
         }
@@ -2152,6 +2205,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the number of children <code>TreeNodews</code>'s
          * receiver contains
          */
+        @Override
         public int getChildCount() {
             return getElementCount();
         }
@@ -2160,6 +2214,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Returns the parent <code>TreeNode</code> of the receiver.
          * @return the parent <code>TreeNode</code> of the receiver
          */
+        @Override
         public TreeNode getParent() {
             return (TreeNode)getParentElement();
         }
@@ -2172,10 +2227,13 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the index of <code>node</code> in the receiver's
          * children, or -1 if absent
          */
+        @Override
         public int getIndex(TreeNode node) {
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
-                if(getChildAt(counter) == node)
+            for(int counter = getChildCount() - 1; counter >= 0; counter--) {
+                if(getChildAt(counter) == node) {
                     return counter;
+                }
+            }
             return -1;
         }
 
@@ -2183,6 +2241,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Returns true if the receiver allows children.
          * @return true if the receiver allows children, otherwise false
          */
+        @Override
         public abstract boolean getAllowsChildren();
 
 
@@ -2191,6 +2250,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * <code>Enumeration</code>.
          * @return the children of the receiver as an <code>Enumeration</code>
          */
+        @Override
         public abstract Enumeration children();
 
 
@@ -2298,6 +2358,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the string
          */
+        @Override
         public String toString() {
             return "BranchElement(" + getName() + ") " + getStartOffset() + "," +
                 getEndOffset() + "\n";
@@ -2310,6 +2371,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the element name
          */
+        @Override
         public String getName() {
             String nm = super.getName();
             if (nm == null) {
@@ -2323,6 +2385,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the offset &gt;= 0
          */
+        @Override
         public int getStartOffset() {
             return children[0].getStartOffset();
         }
@@ -2333,6 +2396,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the offset &gt;= 0
          */
+        @Override
         public int getEndOffset() {
             Element child =
                 (nchildren > 0) ? children[nchildren - 1] : children[0];
@@ -2345,6 +2409,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param index the child index, &gt;= 0 &amp;&amp; &lt; getElementCount()
          * @return the child element, null if none
          */
+        @Override
         public Element getElement(int index) {
             if (index < nchildren) {
                 return children[index];
@@ -2357,6 +2422,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the number of children &gt;= 0
          */
+        @Override
         public int getElementCount()  {
             return nchildren;
         }
@@ -2367,6 +2433,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param offset the offset &gt;= 0
          * @return the element index &gt;= 0
          */
+        @Override
         public int getElementIndex(int offset) {
             int index;
             int lower = 0;
@@ -2432,6 +2499,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return true if a leaf
          */
+        @Override
         public boolean isLeaf() {
             return false;
         }
@@ -2443,6 +2511,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Returns true if the receiver allows children.
          * @return true if the receiver allows children, otherwise false
          */
+        @Override
         public boolean getAllowsChildren() {
             return true;
         }
@@ -2453,14 +2522,17 @@ public abstract class AbstractDocument implements Document, Serializable {
          * <code>Enumeration</code>.
          * @return the children of the receiver
          */
+        @Override
         public Enumeration children() {
-            if(nchildren == 0)
+            if(nchildren == 0) {
                 return null;
+            }
 
             Vector<AbstractElement> tempVector = new Vector<AbstractElement>(nchildren);
 
-            for(int counter = 0; counter < nchildren; counter++)
+            for(int counter = 0; counter < nchildren; counter++) {
                 tempVector.addElement(children[counter]);
+            }
             return tempVector.elements();
         }
 
@@ -2515,6 +2587,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the string
          */
+        @Override
         public String toString() {
             return "LeafElement(" + getName() + ") " + p0 + "," + p1 + "\n";
         }
@@ -2526,6 +2599,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the offset &gt;= 0
          */
+        @Override
         public int getStartOffset() {
             return p0.getOffset();
         }
@@ -2535,6 +2609,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the offset &gt;= 0
          */
+        @Override
         public int getEndOffset() {
             return p1.getOffset();
         }
@@ -2544,6 +2619,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the name
          */
+        @Override
         public String getName() {
             String nm = super.getName();
             if (nm == null) {
@@ -2558,6 +2634,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param pos the offset &gt;= 0
          * @return the element index &gt;= 0
          */
+        @Override
         public int getElementIndex(int pos) {
             return -1;
         }
@@ -2568,6 +2645,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param index the child index, &gt;= 0 &amp;&amp; &lt; getElementCount()
          * @return the child element
          */
+        @Override
         public Element getElement(int index) {
             return null;
         }
@@ -2577,6 +2655,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the number of children &gt;= 0
          */
+        @Override
         public int getElementCount()  {
             return 0;
         }
@@ -2586,6 +2665,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return true if a leaf
          */
+        @Override
         public boolean isLeaf() {
             return true;
         }
@@ -2596,6 +2676,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Returns true if the receiver allows children.
          * @return true if the receiver allows children, otherwise false
          */
+        @Override
         public boolean getAllowsChildren() {
             return false;
         }
@@ -2606,6 +2687,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * <code>Enumeration</code>.
          * @return the children of the receiver
          */
+        @Override
         public Enumeration children() {
             return null;
         }
@@ -2657,6 +2739,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Gets the name of the element.
          * @return the name
          */
+        @Override
         public String getName() {
             return "bidi root";
         }
@@ -2681,6 +2764,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * Gets the name of the element.
          * @return the name
          */
+        @Override
         public String getName() {
             return BidiElementName;
         }
@@ -2727,6 +2811,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return a string
          */
+        @Override
         public String toString() {
             return edits.toString();
         }
@@ -2742,6 +2827,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param anEdit a document edit record
          * @return true if the edit was added
          */
+        @Override
         public boolean addEdit(UndoableEdit anEdit) {
             // if the number of changes gets too great, start using
             // a hashtable for to locate the change for a given element.
@@ -2771,6 +2857,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @exception CannotRedoException if the change cannot be redone
          */
+        @Override
         public void redo() throws CannotRedoException {
             writeLock();
             try {
@@ -2795,6 +2882,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @exception CannotUndoException if the change cannot be undone
          */
+        @Override
         public void undo() throws CannotUndoException {
             writeLock();
             try {
@@ -2821,6 +2909,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return whether the event is significant for edit undo purposes
          */
+        @Override
         public boolean isSignificant() {
             return true;
         }
@@ -2832,12 +2921,15 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the description
          */
+        @Override
         public String getPresentationName() {
             DocumentEvent.EventType type = getType();
-            if(type == DocumentEvent.EventType.INSERT)
+            if(type == DocumentEvent.EventType.INSERT) {
                 return UIManager.getString("AbstractDocument.additionText");
-            if(type == DocumentEvent.EventType.REMOVE)
+            }
+            if(type == DocumentEvent.EventType.REMOVE) {
                 return UIManager.getString("AbstractDocument.deletionText");
+            }
             return UIManager.getString("AbstractDocument.styleChangeText");
         }
 
@@ -2848,6 +2940,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the description
          */
+        @Override
         public String getUndoPresentationName() {
             return UIManager.getString("AbstractDocument.undoText") + " " +
                 getPresentationName();
@@ -2860,6 +2953,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the description
          */
+        @Override
         public String getRedoPresentationName() {
             return UIManager.getString("AbstractDocument.redoText") + " " +
                 getPresentationName();
@@ -2873,6 +2967,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the event type as a DocumentEvent.EventType
          * @see DocumentEvent#getType
          */
+        @Override
         public DocumentEvent.EventType getType() {
             return type;
         }
@@ -2883,6 +2978,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the offset &gt;= 0
          * @see DocumentEvent#getOffset
          */
+        @Override
         public int getOffset() {
             return offset;
         }
@@ -2893,6 +2989,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the length &gt;= 0
          * @see DocumentEvent#getLength
          */
+        @Override
         public int getLength() {
             return length;
         }
@@ -2903,6 +3000,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @return the document
          * @see DocumentEvent#getDocument
          */
+        @Override
         public Document getDocument() {
             return AbstractDocument.this;
         }
@@ -2913,6 +3011,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          * @param elem the element
          * @return the changes
          */
+        @Override
         public DocumentEvent.ElementChange getChange(Element elem) {
             if (changeLookup != null) {
                 return changeLookup.get(elem);
@@ -2970,22 +3069,27 @@ public abstract class AbstractDocument implements Document, Serializable {
 
         // DocumentEvent methods delegated to DefaultDocumentEvent source
         // except getType() which depends on operation (Undo or Redo).
+        @Override
         public int getOffset() {
             return src.getOffset();
         }
 
+        @Override
         public int getLength() {
             return src.getLength();
         }
 
+        @Override
         public Document getDocument() {
             return src.getDocument();
         }
 
+        @Override
         public DocumentEvent.EventType getType() {
             return type;
         }
 
+        @Override
         public DocumentEvent.ElementChange getChange(Element elem) {
             return src.getChange(elem);
         }
@@ -3020,6 +3124,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the element
          */
+        @Override
         public Element getElement() {
             return e;
         }
@@ -3029,6 +3134,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the index &gt;= 0
          */
+        @Override
         public int getIndex() {
             return index;
         }
@@ -3038,6 +3144,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the list
          */
+        @Override
         public Element[] getChildrenRemoved() {
             return removed;
         }
@@ -3047,6 +3154,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @return the list
          */
+        @Override
         public Element[] getChildrenAdded() {
             return added;
         }
@@ -3056,6 +3164,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @exception CannotRedoException if the change cannot be redone
          */
+        @Override
         public void redo() throws CannotRedoException {
             super.redo();
 
@@ -3073,6 +3182,7 @@ public abstract class AbstractDocument implements Document, Serializable {
          *
          * @exception CannotUndoException if the change cannot be undone
          */
+        @Override
         public void undo() throws CannotUndoException {
             super.undo();
             // PENDING(prinz) need MutableElement interface, canUndo() should check
@@ -3092,21 +3202,25 @@ public abstract class AbstractDocument implements Document, Serializable {
 
 
     private class DefaultFilterBypass extends DocumentFilter.FilterBypass {
+        @Override
         public Document getDocument() {
             return AbstractDocument.this;
         }
 
+        @Override
         public void remove(int offset, int length) throws
             BadLocationException {
             handleRemove(offset, length);
         }
 
+        @Override
         public void insertString(int offset, String string,
                                  AttributeSet attr) throws
                                         BadLocationException {
             handleInsertString(offset, string, attr);
         }
 
+        @Override
         public void replace(int offset, int length, String text,
                             AttributeSet attrs) throws BadLocationException {
             handleRemove(offset, length);

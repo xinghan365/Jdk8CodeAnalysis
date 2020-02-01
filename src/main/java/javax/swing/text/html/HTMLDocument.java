@@ -427,6 +427,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @exception BadLocationException  if the given position does not
      *   represent a valid location in the associated document.
      */
+    @Override
     protected void insert(int offset, ElementSpec[] data) throws BadLocationException {
         super.insert(offset, data);
     }
@@ -440,6 +441,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @param chng a description of the document change
      * @param attr the attributes
      */
+    @Override
     protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
         if(attr == null) {
             attr = contentAttributeSet;
@@ -465,6 +467,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      *
      * @param data  the new contents of the document
      */
+    @Override
     protected void create(ElementSpec[] data) {
         super.create(data);
     }
@@ -482,6 +485,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @param s the attributes
      * @param replace whether to replace existing attributes, or merge them
      */
+    @Override
     public void setParagraphAttributes(int offset, int length, AttributeSet s,
                                        boolean replace) {
         try {
@@ -561,6 +565,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @param p1 the end of the range (must be at least p0)
      * @return the new element
      */
+    @Override
     protected Element createLeafElement(Element parent, AttributeSet a, int p0, int p1) {
         return new RunElement(parent, a, p0, p1);
     }
@@ -574,6 +579,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @param a the attributes
      * @return the element
      */
+    @Override
     protected Element createBranchElement(Element parent, AttributeSet a) {
         return new BlockElement(parent, a);
     }
@@ -584,6 +590,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      *
      * @return the element base
      */
+    @Override
     protected AbstractElement createDefaultRoot() {
         // grabs a write-lock for this initialization and
         // abandon it during initialization so in normal
@@ -1734,6 +1741,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @param e the event
      * @see EventListenerList
      */
+    @Override
     protected void fireChangedUpdate(DocumentEvent e) {
         super.fireChangedUpdate(e);
     }
@@ -1747,6 +1755,7 @@ public class HTMLDocument extends DefaultStyledDocument {
      * @param e the event
      * @see EventListenerList
      */
+    @Override
     protected void fireUndoableEditUpdate(UndoableEditEvent e) {
         super.fireUndoableEditUpdate(e);
     }
@@ -1924,6 +1933,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * @return the <code>AttributeSet</code> for this tag,
          *              or <code>null</code> if none can be found
          */
+        @Override
         public AttributeSet getAttributes() {
             Element elem = pos.current();
             if (elem != null) {
@@ -1943,6 +1953,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          *
          * @return the start of the range, or -1 if it can't be found
          */
+        @Override
         public int getStartOffset() {
             Element elem = pos.current();
             if (elem != null) {
@@ -1957,6 +1968,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          *
          * @return the end of the range
          */
+        @Override
         public int getEndOffset() {
             return endOffset;
         }
@@ -1965,6 +1977,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * Moves the iterator forward to the next occurrence
          * of the tag it represents.
          */
+        @Override
         public void next() {
             for (nextLeaf(pos); isValid(); nextLeaf(pos)) {
                 Element elem = pos.current();
@@ -1988,6 +2001,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * @return the <code>HTML.Tag</code> that this iterator represents.
          * @see javax.swing.text.html.HTML.Tag
          */
+        @Override
         public HTML.Tag getTag() {
             return tag;
         }
@@ -1997,6 +2011,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * @return true if current position is not <code>null</code>,
          *              otherwise returns false
          */
+        @Override
         public boolean isValid() {
             return (pos.current() != null);
         }
@@ -2531,6 +2546,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * Since this is currently loading synchronously, the entire
          * set of changes are pushed in at this point.
          */
+        @Override
         public void flush() throws BadLocationException {
             if (emptyDocument && !insertAfterImplied) {
                 if (HTMLDocument.this.getLength() > 0 ||
@@ -2549,6 +2565,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * Called by the parser to indicate a block of text was
          * encountered.
          */
+        @Override
         public void handleText(char[] data, int pos) {
             if (receivedEndHTML || (midInsert && !inBody)) {
                 return;
@@ -2599,6 +2616,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * Callback from the parser.  Route to the appropriate
          * handler for the tag.
          */
+        @Override
         public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
             if (receivedEndHTML) {
                 return;
@@ -2634,6 +2652,7 @@ public class HTMLDocument extends DefaultStyledDocument {
             }
         }
 
+        @Override
         public void handleComment(char[] data, int pos) {
             if (receivedEndHTML) {
                 addExternalComment(new String(data));
@@ -2685,6 +2704,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * Callback from the parser.  Route to the appropriate
          * handler for the tag.
          */
+        @Override
         public void handleEndTag(HTML.Tag t, int pos) {
             if (receivedEndHTML || (midInsert && !inBody)) {
                 return;
@@ -2708,6 +2728,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * Callback from the parser.  Route to the appropriate
          * handler for the tag.
          */
+        @Override
         public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
             if (receivedEndHTML || (midInsert && !inBody)) {
                 return;
@@ -2743,6 +2764,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          *
          * @since 1.3
          */
+        @Override
         public void handleEndOfLineString(String eol) {
             if (emptyDocument && eol != null) {
                 putProperty(DefaultEditorKit.EndOfLineStringProperty,
@@ -2796,10 +2818,12 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class BlockAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 blockOpen(t, attr);
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 blockClose(t);
             }
@@ -2811,6 +2835,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * as there was already a public class named FormAction.
          */
         private class FormTagAction extends BlockAction {
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 super.start(t, attr);
                 // initialize a ButtonGroupsMap when
@@ -2822,6 +2847,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 radioButtonGroupsMap = new HashMap<String, ButtonGroup>();
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 super.end(t);
                 // reset the button group to null since
@@ -2833,11 +2859,13 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class ParagraphAction extends BlockAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 super.start(t, a);
                 inParagraph = true;
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 super.end(t);
                 inParagraph = false;
@@ -2846,6 +2874,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class SpecialAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 addSpecialElement(t, a);
             }
@@ -2854,6 +2883,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class IsindexAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 blockOpen(HTML.Tag.IMPLIED, new SimpleAttributeSet());
                 addSpecialElement(t, a);
@@ -2865,10 +2895,12 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class HiddenAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 addSpecialElement(t, a);
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 if (!isEmpty(t)) {
                     MutableAttributeSet a = new SimpleAttributeSet();
@@ -2893,6 +2925,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          */
         class MetaAction extends HiddenAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 Object equiv = a.getAttribute(HTML.Attribute.HTTPEQUIV);
                 if (equiv != null) {
@@ -2912,6 +2945,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 super.start(t, a);
             }
 
+            @Override
             boolean isEmpty(HTML.Tag t) {
                 return true;
             }
@@ -2926,6 +2960,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          */
         class HeadAction extends BlockAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 inHead = true;
                 // This check of the insertTag is put in to avoid considering
@@ -2939,6 +2974,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 inHead = inStyle = false;
                 // See if there is a StyleSheet to link to.
@@ -3025,6 +3061,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          */
         class LinkAction extends HiddenAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 String rel = (String)a.getAttribute(HTML.Attribute.REL);
                 if (rel != null) {
@@ -3044,11 +3081,13 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class MapAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 lastMap = new Map((String)a.getAttribute(HTML.Attribute.NAME));
                 addMap(lastMap);
             }
 
+            @Override
             public void end(HTML.Tag t) {
             }
         }
@@ -3056,12 +3095,14 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class AreaAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 if (lastMap != null) {
                     lastMap.addArea(a.copyAttributes());
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
             }
         }
@@ -3069,6 +3110,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class StyleAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 if (inHead) {
                     if (styles == null) {
@@ -3080,6 +3122,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 inStyle = false;
             }
@@ -3092,6 +3135,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class PreAction extends BlockAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 inPre = true;
                 blockOpen(t, attr);
@@ -3099,6 +3143,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 blockOpen(HTML.Tag.IMPLIED, attr);
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 blockClose(HTML.Tag.IMPLIED);
                 // set inPre to false after closing, so that if a newline
@@ -3110,6 +3155,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         public class CharacterAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 pushCharacterStyle();
                 if (!foundInsertTag) {
@@ -3136,6 +3182,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 popCharacterStyle();
             }
@@ -3148,6 +3195,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          */
         class ConvertAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 pushCharacterStyle();
                 if (!foundInsertTag) {
@@ -3216,6 +3264,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 popCharacterStyle();
             }
@@ -3224,12 +3273,14 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class AnchorAction extends CharacterAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 // set flag to catch empty anchors
                 emptyAnchor = true;
                 super.start(t, attr);
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 if (emptyAnchor) {
                     // if the anchor was empty it was probably a
@@ -3245,16 +3296,19 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class TitleAction extends HiddenAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 inTitle = true;
                 super.start(t, attr);
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 inTitle = false;
                 super.end(t);
             }
 
+            @Override
             boolean isEmpty(HTML.Tag t) {
                 return false;
             }
@@ -3263,6 +3317,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class BaseAction extends TagAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 String href = (String) attr.getAttribute(HTML.Attribute.HREF);
                 if (href != null) {
@@ -3279,6 +3334,7 @@ public class HTMLDocument extends DefaultStyledDocument {
 
         class ObjectAction extends SpecialAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet a) {
                 if (t == HTML.Tag.PARAM) {
                     addParameter(a);
@@ -3287,6 +3343,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 if (t != HTML.Tag.PARAM) {
                     super.end(t);
@@ -3355,6 +3412,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          */
         public class FormAction extends SpecialAction {
 
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 if (t == HTML.Tag.INPUT) {
                     String type = (String)
@@ -3417,6 +3475,7 @@ public class HTMLDocument extends DefaultStyledDocument {
                 }
             }
 
+            @Override
             public void end(HTML.Tag t) {
                 if (t == HTML.Tag.OPTION) {
                     option = null;
@@ -4116,6 +4175,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          *
          * @return the name, null if none
          */
+        @Override
         public String getName() {
             Object o = getAttribute(StyleConstants.NameAttribute);
             if (o != null) {
@@ -4131,6 +4191,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * @return null, there are none
          * @see AttributeSet#getResolveParent
          */
+        @Override
         public AttributeSet getResolveParent() {
             return null;
         }
@@ -4159,6 +4220,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          *
          * @return the name, null if none
          */
+        @Override
         public String getName() {
             Object o = getAttribute(StyleConstants.NameAttribute);
             if (o != null) {
@@ -4174,6 +4236,7 @@ public class HTMLDocument extends DefaultStyledDocument {
          * @return null, there are none
          * @see AttributeSet#getResolveParent
          */
+        @Override
         public AttributeSet getResolveParent() {
             return null;
         }
@@ -4191,6 +4254,7 @@ public class HTMLDocument extends DefaultStyledDocument {
             this.maxLength = maxLength;
         }
 
+        @Override
         public void insertString(int offset, String str, AttributeSet a)
             throws BadLocationException {
             if (str != null && str.length() + getLength() <= maxLength) {

@@ -192,8 +192,9 @@ public class OpenMBeanOperationInfoSupport
     //
     private static MBeanParameterInfo[]
             arrayCopyCast(OpenMBeanParameterInfo[] src) {
-        if (src == null)
+        if (src == null) {
             return null;
+        }
 
         MBeanParameterInfo[] dst = new MBeanParameterInfo[src.length];
         System.arraycopy(src, 0, dst, 0, src.length);
@@ -206,8 +207,9 @@ public class OpenMBeanOperationInfoSupport
     //
     private static OpenMBeanParameterInfo[]
             arrayCopyCast(MBeanParameterInfo[] src) {
-        if (src == null)
+        if (src == null) {
             return null;
+        }
 
         OpenMBeanParameterInfo[] dst = new OpenMBeanParameterInfo[src.length];
         System.arraycopy(src, 0, dst, 0, src.length);
@@ -226,6 +228,7 @@ public class OpenMBeanOperationInfoSupport
      * operation described by this {@code OpenMBeanOperationInfo}
      * instance.
      */
+    @Override
     public OpenType<?> getReturnOpenType() {
 
         return returnOpenType;
@@ -264,6 +267,7 @@ public class OpenMBeanOperationInfoSupport
      * @return {@code true} if the specified object is equal to this
      * {@code OpenMBeanOperationInfoSupport} instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         // if obj is null, return false
@@ -341,6 +345,7 @@ public class OpenMBeanOperationInfoSupport
      * @return the hash code value for this {@code
      * OpenMBeanOperationInfoSupport} instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done
@@ -378,6 +383,7 @@ public class OpenMBeanOperationInfoSupport
      * @return a string representation of this {@code
      * OpenMBeanOperationInfoSupport} instance
      */
+    @Override
     public String toString() {
 
         // Calculate the hash code value if it has not yet been done
@@ -420,8 +426,9 @@ public class OpenMBeanOperationInfoSupport
             return new OpenMBeanOperationInfoSupport(
                     name, description, arrayCopyCast(getSignature()),
                     returnOpenType, getImpact());
-        } else
+        } else {
             return this;
+        }
     }
 
 }

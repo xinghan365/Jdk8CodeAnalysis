@@ -259,6 +259,7 @@ public class SynthSplitPaneUI extends BasicSplitPaneUI
     @Override
     protected Component createDefaultNonContinuousLayoutDivider() {
         return new Canvas() {
+            @Override
             public void paint(Graphics g) {
                 paintDragDivider(g, 0, 0, getWidth(), getHeight());
             }

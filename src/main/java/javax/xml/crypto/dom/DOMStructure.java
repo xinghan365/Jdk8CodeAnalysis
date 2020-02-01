@@ -78,6 +78,7 @@ public class DOMStructure implements XMLStructure {
     /**
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public boolean isFeatureSupported(String feature) {
         if (feature == null) {
             throw new NullPointerException();

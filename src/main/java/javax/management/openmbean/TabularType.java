@@ -222,12 +222,14 @@ public class TabularType extends OpenType<TabularData> {
      * @return <code>true</code> if <var>obj</var> is a value for this
      * tabular type, <code>false</code> otherwise.
      */
+    @Override
     public boolean isValue(Object obj) {
 
         // if obj is null or not a TabularData, return false
         //
-        if (!(obj instanceof TabularData))
+        if (!(obj instanceof TabularData)) {
             return false;
+        }
 
         // if obj is not a TabularData, return false
         //
@@ -238,12 +240,14 @@ public class TabularType extends OpenType<TabularData> {
 
     @Override
     boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof TabularType))
+        if (!(ot instanceof TabularType)) {
             return false;
+        }
         TabularType tt = (TabularType) ot;
         if (!getTypeName().equals(tt.getTypeName()) ||
-                !getIndexNames().equals(tt.getIndexNames()))
+                !getIndexNames().equals(tt.getIndexNames())) {
             return false;
+        }
         return getRowType().isAssignableFrom(tt.getRowType());
     }
 
@@ -265,6 +269,7 @@ public class TabularType extends OpenType<TabularData> {
      *
      * @return  <code>true</code> if the specified object is equal to this <code>TabularType</code> instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         // if obj is null, return false
@@ -321,6 +326,7 @@ public class TabularType extends OpenType<TabularData> {
      *
      * @return  the hash code value for this <code>TabularType</code> instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
@@ -329,8 +335,9 @@ public class TabularType extends OpenType<TabularData> {
             int value = 0;
             value += this.getTypeName().hashCode();
             value += this.rowType.hashCode();
-            for (String index : indexNames)
+            for (String index : indexNames) {
                 value += index.hashCode();
+            }
             myHashCode = Integer.valueOf(value);
         }
 
@@ -351,6 +358,7 @@ public class TabularType extends OpenType<TabularData> {
      *
      * @return  a string representation of this <code>TabularType</code> instance
      */
+    @Override
     public String toString() {
 
         // Calculate the string representation if it has not yet been done (ie 1st call to toString())

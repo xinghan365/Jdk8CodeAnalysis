@@ -91,8 +91,9 @@ public class Proxy {
      * incompatible
      */
     public Proxy(Type type, SocketAddress sa) {
-        if ((type == Type.DIRECT) || !(sa instanceof InetSocketAddress))
+        if ((type == Type.DIRECT) || !(sa instanceof InetSocketAddress)) {
             throw new IllegalArgumentException("type " + type + " is not compatible with address " + sa);
+        }
         this.type = type;
         this.sa = sa;
     }
@@ -125,9 +126,11 @@ public class Proxy {
      *
      * @return  a string representation of this object.
      */
+    @Override
     public String toString() {
-        if (type() == Type.DIRECT)
+        if (type() == Type.DIRECT) {
             return "DIRECT";
+        }
         return type() + " @ " + address();
     }
 
@@ -145,15 +148,18 @@ public class Proxy {
      *          {@code false} otherwise.
      * @see java.net.InetSocketAddress#equals(java.lang.Object)
      */
+    @Override
     public final boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Proxy))
+        if (obj == null || !(obj instanceof Proxy)) {
             return false;
+        }
         Proxy p = (Proxy) obj;
         if (p.type() == type()) {
             if (address() == null) {
                 return (p.address() == null);
-            } else
+            } else {
                 return address().equals(p.address());
+            }
         }
         return false;
     }
@@ -163,9 +169,11 @@ public class Proxy {
      *
      * @return  a hash code value for this Proxy.
      */
+    @Override
     public final int hashCode() {
-        if (address() == null)
+        if (address() == null) {
             return type().hashCode();
+        }
         return type().hashCode() + address().hashCode();
     }
 }

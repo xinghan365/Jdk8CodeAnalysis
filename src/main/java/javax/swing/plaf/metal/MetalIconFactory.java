@@ -265,6 +265,7 @@ public class MetalIconFactory implements Serializable {
 
     // File Chooser Detail View code
     private static class FileChooserDetailViewIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -299,10 +300,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 18;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }
@@ -310,6 +313,7 @@ public class MetalIconFactory implements Serializable {
 
     // File Chooser Home Folder code
     private static class FileChooserHomeFolderIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -348,10 +352,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 18;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }
@@ -359,6 +365,7 @@ public class MetalIconFactory implements Serializable {
 
     // File Chooser List View code
     private static class FileChooserListViewIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -409,10 +416,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 18;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }
@@ -420,6 +429,7 @@ public class MetalIconFactory implements Serializable {
 
     // File Chooser New Folder code
     private static class FileChooserNewFolderIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -449,10 +459,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 18;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }
@@ -460,6 +472,7 @@ public class MetalIconFactory implements Serializable {
 
     // File Chooser Up Folder code
     private static class FileChooserUpFolderIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -496,10 +509,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 18;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }
@@ -513,6 +528,7 @@ public class MetalIconFactory implements Serializable {
     public static class PaletteCloseIcon implements Icon, UIResource, Serializable{
         int iconSize = 7;
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JButton parentButton = (JButton)c;
             ButtonModel buttonModel = parentButton.getModel();
@@ -544,10 +560,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return iconSize;
         }
 
+        @Override
         public int getIconHeight() {
             return iconSize;
         }
@@ -561,6 +579,7 @@ public class MetalIconFactory implements Serializable {
             iconSize = size;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JButton parentButton = (JButton)c;
             ButtonModel buttonModel = parentButton.getModel();
@@ -651,10 +670,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return iconSize;
         }
 
+        @Override
         public int getIconHeight() {
             return iconSize;
         }
@@ -668,6 +689,7 @@ public class MetalIconFactory implements Serializable {
             iconSize = size;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JButton parentButton = (JButton)c;
             ButtonModel buttonModel = parentButton.getModel();
@@ -768,10 +790,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return iconSize;
         }
 
+        @Override
         public int getIconHeight() {
             return iconSize;
         }
@@ -779,6 +803,7 @@ public class MetalIconFactory implements Serializable {
 
     // Code for the default icons that goes in the upper left corner
     private static class InternalFrameDefaultMenuIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
 
             Color windowBodyColor = MetalLookAndFeel.getWindowBackground();
@@ -818,10 +843,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public int getIconHeight() {
             return 16;
         }
@@ -835,6 +862,7 @@ public class MetalIconFactory implements Serializable {
             iconSize = size;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JButton parentButton = (JButton)c;
             ButtonModel buttonModel = parentButton.getModel();
@@ -928,10 +956,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return iconSize;
         }
 
+        @Override
         public int getIconHeight() {
             return iconSize;
         }
@@ -945,6 +975,7 @@ public class MetalIconFactory implements Serializable {
             iconSize = size;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JButton parentButton = (JButton)c;
             ButtonModel buttonModel = parentButton.getModel();
@@ -1033,10 +1064,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return iconSize;
         }
 
+        @Override
         public int getIconHeight() {
             return iconSize;
         }
@@ -1087,6 +1120,7 @@ public class MetalIconFactory implements Serializable {
             }
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (MetalLookAndFeel.usingOcean()) {
                 paintOceanIcon(c, g, x, y);
@@ -1122,10 +1156,12 @@ public class MetalIconFactory implements Serializable {
             g.drawLine( x+(controlSize-4), y+4, x+5, y+(controlSize-5) );
         }
 
+        @Override
         public int getIconWidth() {
             return getControlSize();
         }
 
+        @Override
         public int getIconHeight() {
             return getControlSize();
         }
@@ -1221,6 +1257,7 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (MetalLookAndFeel.usingOcean()) {
                 paintOceanIcon(c, g, x, y);
@@ -1302,10 +1339,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 13;
         }
 
+        @Override
         public int getIconHeight() {
             return 13;
         }
@@ -1313,6 +1352,7 @@ public class MetalIconFactory implements Serializable {
 
     // Tree Computer Icon code
     private static class TreeComputerIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -1346,10 +1386,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public int getIconHeight() {
             return 16;
         }
@@ -1357,6 +1399,7 @@ public class MetalIconFactory implements Serializable {
 
     // Tree HardDrive Icon code
     private static class TreeHardDriveIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -1430,10 +1473,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public int getIconHeight() {
             return 16;
         }
@@ -1441,6 +1486,7 @@ public class MetalIconFactory implements Serializable {
 
     // Tree FloppyDrive Icon code
     private static class TreeFloppyDriveIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -1475,10 +1521,12 @@ public class MetalIconFactory implements Serializable {
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public int getIconHeight() {
             return 16;
         }
@@ -1558,6 +1606,7 @@ public class MetalIconFactory implements Serializable {
 
         ImageCacher imageCacher;
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             GraphicsConfiguration gc = c.getGraphicsConfiguration();
             if (imageCacher == null) {
@@ -1620,7 +1669,9 @@ public class MetalIconFactory implements Serializable {
         public int getShift() { return 0; }
         public int getAdditionalHeight() { return 0; }
 
+        @Override
         public int getIconWidth() { return folderIcon16Size.width; }
+        @Override
         public int getIconHeight() { return folderIcon16Size.height + getAdditionalHeight(); }
     }
 
@@ -1637,7 +1688,9 @@ public class MetalIconFactory implements Serializable {
      * Please see {@link java.beans.XMLEncoder}.
      */
     public static class TreeFolderIcon extends FolderIcon16 {
+        @Override
         public int getShift() { return -1; }
+        @Override
         public int getAdditionalHeight() { return 2; }
     }
 
@@ -1659,6 +1712,7 @@ public class MetalIconFactory implements Serializable {
 
         ImageCacher imageCacher;
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             GraphicsConfiguration gc = c.getGraphicsConfiguration();
             if (imageCacher == null) {
@@ -1716,13 +1770,17 @@ public class MetalIconFactory implements Serializable {
         public int getShift() { return 0; }
         public int getAdditionalHeight() { return 0; }
 
+        @Override
         public int getIconWidth() { return fileIcon16Size.width; }
+        @Override
         public int getIconHeight() { return fileIcon16Size.height + getAdditionalHeight(); }
     }
 
 
     public static class TreeLeafIcon extends FileIcon16 {
+        @Override
         public int getShift() { return 2; }
+        @Override
         public int getAdditionalHeight() { return 4; }
     }
 
@@ -1755,6 +1813,7 @@ public class MetalIconFactory implements Serializable {
 
         transient boolean cachedOrientation = true;
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
 
             GraphicsConfiguration gc = c.getGraphicsConfiguration();
@@ -1867,7 +1926,9 @@ public class MetalIconFactory implements Serializable {
             g.drawLine( xoff + 9, 8, xoff + 9, 8 );
         }
 
+        @Override
         public int getIconWidth() { return treeControlSize.width; }
+        @Override
         public int getIconHeight() { return treeControlSize.height; }
     }
 
@@ -1881,7 +1942,8 @@ public class MetalIconFactory implements Serializable {
 
     private static class MenuArrowIcon implements Icon, UIResource, Serializable
     {
-        public void paintIcon( Component c, Graphics g, int x, int y )
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y )
         {
             JMenuItem b = (JMenuItem) c;
             ButtonModel model = b.getModel();
@@ -1918,20 +1980,25 @@ public class MetalIconFactory implements Serializable {
             g.translate( -x, -y );
         }
 
+        @Override
         public int getIconWidth() { return menuArrowIconSize.width; }
 
+        @Override
         public int getIconHeight() { return menuArrowIconSize.height; }
 
     } // End class MenuArrowIcon
 
     private static class MenuItemArrowIcon implements Icon, UIResource, Serializable
     {
-        public void paintIcon( Component c, Graphics g, int x, int y )
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y )
         {
         }
 
+        @Override
         public int getIconWidth() { return menuArrowIconSize.width; }
 
+        @Override
         public int getIconHeight() { return menuArrowIconSize.height; }
 
     } // End class MenuItemArrowIcon
@@ -1998,7 +2065,8 @@ public class MetalIconFactory implements Serializable {
             g.translate( -x, -y );
         }
 
-        public void paintIcon( Component c, Graphics g, int x, int y )
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y )
         {
             if (MetalLookAndFeel.usingOcean()) {
                 paintOceanIcon(c, g, x, y);
@@ -2078,8 +2146,10 @@ public class MetalIconFactory implements Serializable {
             g.translate( -x, -y );
         }
 
+        @Override
         public int getIconWidth() { return menuCheckIconSize.width; }
 
+        @Override
         public int getIconHeight() { return menuCheckIconSize.height; }
 
     }  // End class CheckBoxMenuItemIcon
@@ -2150,7 +2220,8 @@ public class MetalIconFactory implements Serializable {
             g.translate( -x, -y );
         }
 
-        public void paintIcon( Component c, Graphics g, int x, int y )
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y )
         {
             if (MetalLookAndFeel.usingOcean()) {
                 paintOceanIcon(c, g, x, y);
@@ -2250,8 +2321,10 @@ public class MetalIconFactory implements Serializable {
             g.translate( -x, -y );
         }
 
+        @Override
         public int getIconWidth() { return menuCheckIconSize.width; }
 
+        @Override
         public int getIconHeight() { return menuCheckIconSize.height; }
 
     }  // End class RadioButtonMenuItemIcon
@@ -2271,7 +2344,8 @@ private static class VerticalSliderThumbIcon implements Icon, Serializable, UIRe
                                 MetalLookAndFeel.getPrimaryControlShadow() );
     }
 
-    public void paintIcon( Component c, Graphics g, int x, int y ) {
+    @Override
+    public void paintIcon(Component c, Graphics g, int x, int y ) {
         boolean leftToRight = MetalUtils.isLeftToRight(c);
 
         g.translate( x, y );
@@ -2356,10 +2430,12 @@ private static class VerticalSliderThumbIcon implements Icon, Serializable, UIRe
         g.translate( -x, -y );
     }
 
+    @Override
     public int getIconWidth() {
         return 16;
     }
 
+    @Override
     public int getIconHeight() {
         return 15;
     }
@@ -2380,7 +2456,8 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
                                 MetalLookAndFeel.getPrimaryControlShadow() );
     }
 
-    public void paintIcon( Component c, Graphics g, int x, int y ) {
+    @Override
+    public void paintIcon(Component c, Graphics g, int x, int y ) {
         g.translate( x, y );
 
         // Draw the frame
@@ -2435,10 +2512,12 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
         g.translate( -x, -y );
     }
 
+    @Override
     public int getIconWidth() {
         return 15;
     }
 
+    @Override
     public int getIconHeight() {
         return 16;
     }
@@ -2462,6 +2541,7 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
             super(3);
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (!(g instanceof Graphics2D)) {
                 return;
@@ -2471,6 +2551,7 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
                   MetalLookAndFeel.getCurrentTheme());
         }
 
+        @Override
         protected void paintToImage(Component c, Image image, Graphics g2,
                                     int w, int h, Object[] args) {
             Graphics2D g = (Graphics2D)g2;
@@ -2543,14 +2624,17 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
             }
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public int getIconHeight() {
             return 15;
         }
 
+        @Override
         protected Image createImage(Component c, int w, int h,
                                     GraphicsConfiguration config,
                                     Object[] args) {
@@ -2577,6 +2661,7 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
             super(3);
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (!(g instanceof Graphics2D)) {
                 return;
@@ -2587,6 +2672,7 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
         }
 
 
+        @Override
         protected Image createImage(Component c, int w, int h,
                                     GraphicsConfiguration config,
                                     Object[] args) {
@@ -2597,6 +2683,7 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
                                 w, h, Transparency.BITMASK);
         }
 
+        @Override
         protected void paintToImage(Component c, Image image, Graphics g2,
                                     int w, int h, Object[] args) {
             Graphics2D g = (Graphics2D)g2;
@@ -2646,10 +2733,12 @@ private static class HorizontalSliderThumbIcon implements Icon, Serializable, UI
             }
         }
 
+        @Override
         public int getIconWidth() {
             return 15;
         }
 
+        @Override
         public int getIconHeight() {
             return 16;
         }

@@ -375,6 +375,7 @@ public class JRootPane extends JComponent implements Accessible {
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public void setDoubleBuffered(boolean aFlag) {
         if (isDoubleBuffered() != aFlag) {
             super.setDoubleBuffered(aFlag);
@@ -480,6 +481,7 @@ public class JRootPane extends JComponent implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((RootPaneUI)UIManager.getUI(this));
     }
@@ -494,6 +496,7 @@ public class JRootPane extends JComponent implements Accessible {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -525,6 +528,7 @@ public class JRootPane extends JComponent implements Accessible {
              * Although the reference BorderLayout also does this, some VMs
              * throw an IllegalArgumentException.
              */
+            @Override
             public void addLayoutComponent(Component comp, Object constraints) {
                 if (constraints == null) {
                     constraints = BorderLayout.CENTER;
@@ -564,12 +568,14 @@ public class JRootPane extends JComponent implements Accessible {
      * @param menu the <code>JMenuBar</code> to add
      */
     public void setJMenuBar(JMenuBar menu) {
-        if(menuBar != null && menuBar.getParent() == layeredPane)
+        if(menuBar != null && menuBar.getParent() == layeredPane) {
             layeredPane.remove(menuBar);
+        }
         menuBar = menu;
 
-        if(menuBar != null)
+        if(menuBar != null) {
             layeredPane.add(menuBar, JLayeredPane.FRAME_CONTENT_LAYER);
+        }
     }
 
     /**
@@ -580,12 +586,14 @@ public class JRootPane extends JComponent implements Accessible {
      */
     @Deprecated
     public void setMenuBar(JMenuBar menu){
-        if(menuBar != null && menuBar.getParent() == layeredPane)
+        if(menuBar != null && menuBar.getParent() == layeredPane) {
             layeredPane.remove(menuBar);
+        }
         menuBar = menu;
 
-        if(menuBar != null)
+        if(menuBar != null) {
             layeredPane.add(menuBar, JLayeredPane.FRAME_CONTENT_LAYER);
+        }
     }
 
     /**
@@ -617,10 +625,12 @@ public class JRootPane extends JComponent implements Accessible {
      *            exception) if the content pane parameter is <code>null</code>
      */
     public void setContentPane(Container content) {
-        if(content == null)
+        if(content == null) {
             throw new IllegalComponentStateException("contentPane cannot be set to null.");
-        if(contentPane != null && contentPane.getParent() == layeredPane)
+        }
+        if(contentPane != null && contentPane.getParent() == layeredPane) {
             layeredPane.remove(contentPane);
+        }
         contentPane = content;
 
         layeredPane.add(contentPane, JLayeredPane.FRAME_CONTENT_LAYER);
@@ -644,10 +654,12 @@ public class JRootPane extends JComponent implements Accessible {
      *            exception) if the layered pane parameter is <code>null</code>
      */
     public void setLayeredPane(JLayeredPane layered) {
-        if(layered == null)
+        if(layered == null) {
             throw new IllegalComponentStateException("layeredPane cannot be set to null.");
-        if(layeredPane != null && layeredPane.getParent() == this)
+        }
+        if(layeredPane != null && layeredPane.getParent() == this) {
             this.remove(layeredPane);
+        }
         layeredPane = layered;
 
         this.add(layeredPane, -1);
@@ -746,6 +758,7 @@ public class JRootPane extends JComponent implements Accessible {
      *
      * @return true if this component's children don't overlap
      */
+    @Override
     public boolean isOptimizedDrawingEnabled() {
         return !glassPane.isVisible();
     }
@@ -753,6 +766,7 @@ public class JRootPane extends JComponent implements Accessible {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addNotify() {
         super.addNotify();
         enableEvents(AWTEvent.KEY_EVENT_MASK);
@@ -761,6 +775,7 @@ public class JRootPane extends JComponent implements Accessible {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeNotify() {
         super.removeNotify();
     }
@@ -847,6 +862,7 @@ public class JRootPane extends JComponent implements Accessible {
         public void setOwner(JButton owner) {
             this.owner = owner;
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (owner != null && SwingUtilities.getRootPane(owner) == root) {
                 ButtonModel model = owner.getModel();
@@ -858,6 +874,7 @@ public class JRootPane extends JComponent implements Accessible {
                 }
             }
         }
+        @Override
         public boolean isEnabled() {
             return owner.getModel().isEnabled();
         }
@@ -872,6 +889,7 @@ public class JRootPane extends JComponent implements Accessible {
      * @param constraints the constraints to be respected
      * @param index the index
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         super.addImpl(comp, constraints, index);
 
@@ -912,6 +930,7 @@ public class JRootPane extends JComponent implements Accessible {
          * is being used
          * @return a Dimension object containing the layout's preferred size
          */
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension rd, mbd;
             Insets i = getInsets();
@@ -937,6 +956,7 @@ public class JRootPane extends JComponent implements Accessible {
          * is being used
          * @return a Dimension object containing the layout's minimum size
          */
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension rd, mbd;
             Insets i = getInsets();
@@ -961,6 +981,7 @@ public class JRootPane extends JComponent implements Accessible {
          * is being used
          * @return a Dimension object containing the layout's maximum size
          */
+        @Override
         public Dimension maximumLayoutSize(Container target) {
             Dimension rd, mbd;
             Insets i = getInsets();
@@ -987,6 +1008,7 @@ public class JRootPane extends JComponent implements Accessible {
          * @param parent the Container for which this layout manager
          * is being used
          */
+        @Override
         public void layoutContainer(Container parent) {
             Rectangle b = parent.getBounds();
             Insets i = getInsets();
@@ -1012,11 +1034,17 @@ public class JRootPane extends JComponent implements Accessible {
             }
         }
 
+        @Override
         public void addLayoutComponent(String name, Component comp) {}
+        @Override
         public void removeLayoutComponent(Component comp) {}
+        @Override
         public void addLayoutComponent(Component comp, Object constraints) {}
+        @Override
         public float getLayoutAlignmentX(Container target) { return 0.0f; }
+        @Override
         public float getLayoutAlignmentY(Container target) { return 0.0f; }
+        @Override
         public void invalidateLayout(Container target) {}
     }
 
@@ -1029,6 +1057,7 @@ public class JRootPane extends JComponent implements Accessible {
      *
      * @return  a string representation of this <code>JRootPane</code>.
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -1047,6 +1076,7 @@ public class JRootPane extends JComponent implements Accessible {
      * @return an <code>AccessibleJRootPane</code> that serves as the
      *         <code>AccessibleContext</code> of this <code>JRootPane</code>
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJRootPane();
@@ -1076,6 +1106,7 @@ public class JRootPane extends JComponent implements Accessible {
          * @return an instance of AccessibleRole describing the role of
          * the object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.ROOT_PANE;
         }
@@ -1085,6 +1116,7 @@ public class JRootPane extends JComponent implements Accessible {
          *
          * @return the number of accessible children of the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return super.getAccessibleChildrenCount();
         }
@@ -1099,6 +1131,7 @@ public class JRootPane extends JComponent implements Accessible {
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             return super.getAccessibleChild(i);
         }

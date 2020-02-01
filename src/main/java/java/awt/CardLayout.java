@@ -199,6 +199,7 @@ public class CardLayout implements LayoutManager2,
      * @see       java.awt.CardLayout#show(java.awt.Container, java.lang.String)
      * @exception  IllegalArgumentException  if the constraint is not a string.
      */
+    @Override
     public void addLayoutComponent(Component comp, Object constraints) {
       synchronized (comp.getTreeLock()) {
           if (constraints == null){
@@ -216,6 +217,7 @@ public class CardLayout implements LayoutManager2,
      * @deprecated   replaced by
      *      <code>addLayoutComponent(Component, Object)</code>.
      */
+    @Override
     @Deprecated
     public void addLayoutComponent(String name, Component comp) {
         synchronized (comp.getTreeLock()) {
@@ -239,6 +241,7 @@ public class CardLayout implements LayoutManager2,
      * @see     java.awt.Container#remove(java.awt.Component)
      * @see     java.awt.Container#removeAll()
      */
+    @Override
     public void removeLayoutComponent(Component comp) {
         synchronized (comp.getTreeLock()) {
             for (int i = 0; i < vector.size(); i++) {
@@ -269,6 +272,7 @@ public class CardLayout implements LayoutManager2,
      * @see     java.awt.Container#getPreferredSize
      * @see     java.awt.CardLayout#minimumLayoutSize
      */
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
@@ -299,6 +303,7 @@ public class CardLayout implements LayoutManager2,
      * @see       java.awt.Container#doLayout
      * @see       java.awt.CardLayout#preferredLayoutSize
      */
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
@@ -329,6 +334,7 @@ public class CardLayout implements LayoutManager2,
      * @see #minimumLayoutSize
      * @see #preferredLayoutSize
      */
+    @Override
     public Dimension maximumLayoutSize(Container target) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
@@ -340,6 +346,7 @@ public class CardLayout implements LayoutManager2,
      * where 0 represents alignment along the origin, 1 is aligned
      * the furthest away from the origin, 0.5 is centered, etc.
      */
+    @Override
     public float getLayoutAlignmentX(Container parent) {
         return 0.5f;
     }
@@ -351,6 +358,7 @@ public class CardLayout implements LayoutManager2,
      * where 0 represents alignment along the origin, 1 is aligned
      * the furthest away from the origin, 0.5 is centered, etc.
      */
+    @Override
     public float getLayoutAlignmentY(Container parent) {
         return 0.5f;
     }
@@ -359,6 +367,7 @@ public class CardLayout implements LayoutManager2,
      * Invalidates the layout, indicating that if the layout manager
      * has cached information it should be discarded.
      */
+    @Override
     public void invalidateLayout(Container target) {
     }
 
@@ -372,6 +381,7 @@ public class CardLayout implements LayoutManager2,
      * @param     parent the parent container in which to do the layout
      * @see       java.awt.Container#doLayout
      */
+    @Override
     public void layoutContainer(Container parent) {
         synchronized (parent.getTreeLock()) {
             Insets insets = parent.getInsets();
@@ -553,6 +563,7 @@ public class CardLayout implements LayoutManager2,
      * Returns a string representation of the state of this card layout.
      * @return    a string representation of this card layout.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
     }

@@ -88,8 +88,9 @@ public class CharArrayReader extends Reader {
 
     /** Checks to make sure that the stream has not been closed */
     private void ensureOpen() throws IOException {
-        if (buf == null)
+        if (buf == null) {
             throw new IOException("Stream closed");
+        }
     }
 
     /**
@@ -97,13 +98,15 @@ public class CharArrayReader extends Reader {
      *
      * @exception   IOException  If an I/O error occurs
      */
+    @Override
     public int read() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (pos >= count)
+            if (pos >= count) {
                 return -1;
-            else
+            } else {
                 return buf[pos++];
+            }
         }
     }
 
@@ -117,6 +120,7 @@ public class CharArrayReader extends Reader {
      *
      * @exception   IOException  If an I/O error occurs
      */
+    @Override
     public int read(char b[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -156,6 +160,7 @@ public class CharArrayReader extends Reader {
      * @return       The number of characters actually skipped
      * @exception  IOException If the stream is closed, or an I/O error occurs
      */
+    @Override
     public long skip(long n) throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -178,6 +183,7 @@ public class CharArrayReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public boolean ready() throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -188,6 +194,7 @@ public class CharArrayReader extends Reader {
     /**
      * Tells whether this stream supports the mark() operation, which it does.
      */
+    @Override
     public boolean markSupported() {
         return true;
     }
@@ -204,6 +211,7 @@ public class CharArrayReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void mark(int readAheadLimit) throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -217,6 +225,7 @@ public class CharArrayReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void reset() throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -230,6 +239,7 @@ public class CharArrayReader extends Reader {
      * mark(), reset(), or skip() invocations will throw an IOException.
      * Closing a previously closed stream has no effect.
      */
+    @Override
     public void close() {
         buf = null;
     }

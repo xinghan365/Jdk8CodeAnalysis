@@ -104,6 +104,7 @@ public class CompoundBorder extends AbstractBorder {
      * @param width the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Insets  nextInsets;
         int px, py, pw, ph;
@@ -122,8 +123,9 @@ public class CompoundBorder extends AbstractBorder {
             pw = pw - nextInsets.right - nextInsets.left;
             ph = ph - nextInsets.bottom - nextInsets.top;
         }
-        if(insideBorder != null)
+        if(insideBorder != null) {
             insideBorder.paintBorder(c, g, px, py, pw, ph);
+        }
 
     }
 
@@ -132,6 +134,7 @@ public class CompoundBorder extends AbstractBorder {
      * @param c the component for which this border insets value applies
      * @param insets the object to be reinitialized
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         Insets  nextInsets;
 

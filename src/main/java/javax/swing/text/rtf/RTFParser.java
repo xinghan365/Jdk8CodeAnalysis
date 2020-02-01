@@ -113,6 +113,7 @@ abstract class RTFParser extends AbstractFilter
 
   // TODO: Handle wrapup at end of file correctly.
 
+  @Override
   public void writeSpecial(int b)
     throws IOException
   {
@@ -125,6 +126,7 @@ abstract class RTFParser extends AbstractFilter
         }
     }
 
+  @Override
   public void write(String s)
     throws IOException
   {
@@ -136,18 +138,21 @@ abstract class RTFParser extends AbstractFilter
         index ++;
       }
 
-      if(index >= length)
-        return;
+      if(index >= length) {
+          return;
+      }
 
       s = s.substring(index);
     }
 
-    if (currentCharacters.length() > 0)
-      currentCharacters.append(s);
-    else
-      handleText(s);
+    if (currentCharacters.length() > 0) {
+        currentCharacters.append(s);
+    } else {
+        handleText(s);
+    }
   }
 
+  @Override
   public void write(char ch)
     throws IOException
   {
@@ -170,8 +175,9 @@ abstract class RTFParser extends AbstractFilter
             handleText(currentCharacters.toString());
             currentCharacters = new StringBuffer();
           }
-          if (level == 0)
-            throw new IOException("Too many close-groups in RTF text");
+          if (level == 0) {
+              throw new IOException("Too many close-groups in RTF text");
+          }
           endgroup();
           level --;
         } else if(ch == '\\') {
@@ -216,14 +222,16 @@ abstract class RTFParser extends AbstractFilter
             currentCharacters.append(ch);
           } else {
             ok = handleKeyword(pendingKeyword);
-            if (!ok)
-              warning("Unknown keyword: " + pendingKeyword);
+            if (!ok) {
+                warning("Unknown keyword: " + pendingKeyword);
+            }
             pendingKeyword = null;
             state = S_text;
 
             // Non-space delimiters get included in the text
-            if (!Character.isWhitespace(ch))
-              write(ch);
+            if (!Character.isWhitespace(ch)) {
+                write(ch);
+            }
           }
         }
         break;
@@ -237,10 +245,11 @@ abstract class RTFParser extends AbstractFilter
             pendingKeyword = null;
             state = S_inblob;
             binaryBytesLeft = parameter;
-            if (binaryBytesLeft > Integer.MAX_VALUE)
+            if (binaryBytesLeft > Integer.MAX_VALUE) {
                 binaryBuf = new ByteArrayOutputStream(Integer.MAX_VALUE);
-            else
+            } else {
                 binaryBuf = new ByteArrayOutputStream((int)binaryBytesLeft);
+            }
             savedSpecials = specialsTable;
             specialsTable = allSpecialsTable;
             break;
@@ -248,22 +257,24 @@ abstract class RTFParser extends AbstractFilter
 
           int parameter = Integer.parseInt(currentCharacters.toString());
           ok = handleKeyword(pendingKeyword, parameter);
-          if (!ok)
-            warning("Unknown keyword: " + pendingKeyword +
-                    " (param " + currentCharacters + ")");
+          if (!ok) {
+              warning("Unknown keyword: " + pendingKeyword +
+                      " (param " + currentCharacters + ")");
+          }
           pendingKeyword = null;
           currentCharacters = new StringBuffer();
           state = S_text;
 
           // Delimiters here are interpreted as text too
-          if (!Character.isWhitespace(ch))
-            write(ch);
+          if (!Character.isWhitespace(ch)) {
+              write(ch);
+          }
         }
         break;
       case S_aftertick:
-        if (Character.digit(ch, 16) == -1)
-          state = S_text;
-        else {
+        if (Character.digit(ch, 16) == -1) {
+            state = S_text;
+        } else {
           pendingCharacter = Character.digit(ch, 16);
           state = S_aftertickc;
         }
@@ -274,8 +285,9 @@ abstract class RTFParser extends AbstractFilter
         {
           pendingCharacter = pendingCharacter * 16 + Character.digit(ch, 16);
           ch = translationTable[pendingCharacter];
-          if (ch != 0)
+          if (ch != 0) {
               handleText(ch);
+          }
         }
         break;
       case S_inblob:
@@ -295,6 +307,7 @@ abstract class RTFParser extends AbstractFilter
    *  Subclasses which override this method should call this
    *  method <em>before</em> flushing
    *  any of their own buffers. */
+  @Override
   public void flush()
     throws IOException
   {
@@ -308,6 +321,7 @@ abstract class RTFParser extends AbstractFilter
 
   /** Closes the parser. Currently, this simply does a <code>flush()</code>,
    *  followed by some minimal consistency checks. */
+  @Override
   public void close()
     throws IOException
   {

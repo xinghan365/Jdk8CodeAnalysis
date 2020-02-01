@@ -229,6 +229,7 @@ public class ZoneView extends BoxView {
      *
      * @param f the view factory
      */
+    @Override
     protected void loadChildren(ViewFactory f) {
         // build the first zone.
         Document doc = getDocument();
@@ -246,6 +247,7 @@ public class ZoneView extends BoxView {
      * @return  index of the view representing the given position, or
      *   -1 if no view represents that position
      */
+    @Override
     protected int getViewIndexAtPosition(int pos) {
         // PENDING(prinz) this could be done as a binary
         // search, and probably should be.
@@ -327,6 +329,7 @@ public class ZoneView extends BoxView {
      * associated element.  This is reimplemented to do nothing
      * and return false.
      */
+    @Override
     protected boolean updateChildren(DocumentEvent.ElementChange ec,
                                      DocumentEvent e, ViewFactory f) {
         return false;
@@ -344,6 +347,7 @@ public class ZoneView extends BoxView {
      * @param f the factory to use to rebuild if the view has children
      * @see View#insertUpdate
      */
+    @Override
     public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         handleInsert(changes.getOffset(), changes.getLength());
         super.insertUpdate(changes, a, f);
@@ -361,6 +365,7 @@ public class ZoneView extends BoxView {
      * @param f the factory to use to rebuild if the view has children
      * @see View#removeUpdate
      */
+    @Override
     public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         handleRemove(changes.getOffset(), changes.getLength());
         super.removeUpdate(changes, a, f);
@@ -432,6 +437,7 @@ public class ZoneView extends BoxView {
          * setEstimatedMajorSpan(true) followed by setSpan for
          * the major axis with the estimated span.
          */
+        @Override
         protected void loadChildren(ViewFactory f) {
             // mark the major span as estimated
             setEstimatedMajorSpan(true);
@@ -468,6 +474,7 @@ public class ZoneView extends BoxView {
          * best estimate and a calculated span for no children
          * is undesirable.
          */
+        @Override
         protected void flushRequirementChanges() {
             if (isLoaded()) {
                 super.flushRequirementChanges();
@@ -486,6 +493,7 @@ public class ZoneView extends BoxView {
          *   -1 if no view represents that position
          * @since 1.3
          */
+        @Override
         public int getViewIndex(int pos, Position.Bias b) {
             boolean isBackward = (b == Position.Bias.Backward);
             pos = (isBackward) ? Math.max(0, pos - 1) : pos;
@@ -495,6 +503,7 @@ public class ZoneView extends BoxView {
             return index1 - index0;
         }
 
+        @Override
         protected boolean updateChildren(DocumentEvent.ElementChange ec,
                                          DocumentEvent e, ViewFactory f) {
             // the structure of this element changed.
@@ -525,6 +534,7 @@ public class ZoneView extends BoxView {
          * isn't directly responsible for an element so it returns
          * the outer classes attributes.
          */
+        @Override
         public AttributeSet getAttributes() {
             return ZoneView.this.getAttributes();
         }
@@ -538,6 +548,7 @@ public class ZoneView extends BoxView {
          * @param a the allocated region to render into
          * @see View#paint
          */
+        @Override
         public void paint(Graphics g, Shape a) {
             load();
             super.paint(g, a);
@@ -556,6 +567,7 @@ public class ZoneView extends BoxView {
          *  given point in the view >= 0
          * @see View#viewToModel
          */
+        @Override
         public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
             load();
             return super.viewToModel(x, y, a, bias);
@@ -575,6 +587,7 @@ public class ZoneView extends BoxView {
          *   valid location in the associated document
          * @see View#modelToView
          */
+        @Override
         public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
             load();
             return super.modelToView(pos, a, b);
@@ -585,6 +598,7 @@ public class ZoneView extends BoxView {
          *
          * @see View#getStartOffset
          */
+        @Override
         public int getStartOffset() {
             return start.getOffset();
         }
@@ -592,6 +606,7 @@ public class ZoneView extends BoxView {
         /**
          * End of the zones range.
          */
+        @Override
         public int getEndOffset() {
             return end.getOffset();
         }
@@ -607,6 +622,7 @@ public class ZoneView extends BoxView {
          * @param f the factory to use to rebuild if the view has children
          * @see View#insertUpdate
          */
+        @Override
         public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
             if (isLoaded()) {
                 super.insertUpdate(e, a, f);
@@ -624,6 +640,7 @@ public class ZoneView extends BoxView {
          * @param f the factory to use to rebuild if the view has children
          * @see View#removeUpdate
          */
+        @Override
         public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
             if (isLoaded()) {
                 super.removeUpdate(e, a, f);
@@ -641,6 +658,7 @@ public class ZoneView extends BoxView {
          * @param f the factory to use to rebuild if the view has children
          * @see View#removeUpdate
          */
+        @Override
         public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
             if (isLoaded()) {
                 super.changedUpdate(e, a, f);

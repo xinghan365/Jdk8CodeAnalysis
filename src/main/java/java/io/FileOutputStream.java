@@ -286,6 +286,7 @@ class FileOutputStream extends OutputStream
      * @param      b   the byte to be written.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void write(int b) throws IOException {
         write(b, append);
     }
@@ -309,6 +310,7 @@ class FileOutputStream extends OutputStream
      * @param      b   the data.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void write(byte b[]) throws IOException {
         writeBytes(b, 0, b.length, append);
     }
@@ -322,6 +324,7 @@ class FileOutputStream extends OutputStream
      * @param      len   the number of bytes to write.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void write(byte b[], int off, int len) throws IOException {
         writeBytes(b, off, len, append);
     }
@@ -339,6 +342,7 @@ class FileOutputStream extends OutputStream
      * @revised 1.4
      * @spec JSR-51
      */
+    @Override
     public void close() throws IOException {
         synchronized (closeLock) {
             if (closed) {
@@ -352,6 +356,7 @@ class FileOutputStream extends OutputStream
         }
 
         fd.closeAll(new Closeable() {
+            @Override
             public void close() throws IOException {
                close0();
            }
@@ -409,6 +414,7 @@ class FileOutputStream extends OutputStream
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FileInputStream#close()
      */
+    @Override
     protected void finalize() throws IOException {
         if (fd != null) {
             if (fd == FileDescriptor.out || fd == FileDescriptor.err) {

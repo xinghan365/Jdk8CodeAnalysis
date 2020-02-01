@@ -100,6 +100,7 @@ public class DateFormatter extends InternationalFormatter {
      * Returns true, as DateFormatterFilter will support
      * incrementing/decrementing of the value.
      */
+    @Override
     boolean getSupportsIncrement() {
         return true;
     }
@@ -107,6 +108,7 @@ public class DateFormatter extends InternationalFormatter {
     /**
      * Returns the field that will be adjusted by adjustValue.
      */
+    @Override
     Object getAdjustField(int start, Map attributes) {
         Iterator attrs = attributes.keySet().iterator();
 
@@ -126,6 +128,7 @@ public class DateFormatter extends InternationalFormatter {
      * Adjusts the Date if FieldPosition identifies a known calendar
      * field.
      */
+    @Override
     Object adjustValue(Object value, Map attributes, Object key,
                            int direction) throws
                       BadLocationException, ParseException {

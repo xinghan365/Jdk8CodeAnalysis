@@ -38,6 +38,7 @@ final class GetPropertyAction implements PrivilegedAction<String> {
         this.propertyName = propertyName;
     }
 
+    @Override
     public String run() {
         return System.getProperty(propertyName);
     }

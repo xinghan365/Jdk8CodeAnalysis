@@ -109,17 +109,22 @@ public class ObjectInstance implements Serializable   {
      *
      * @return  True if the two object instances are equal, otherwise false.
      */
+    @Override
     public boolean equals(Object object)  {
         if (!(object instanceof ObjectInstance)) {
             return false;
         }
         ObjectInstance val = (ObjectInstance) object;
-        if (! name.equals(val.getObjectName())) return false;
-        if (className == null)
+        if (! name.equals(val.getObjectName())) {
+            return false;
+        }
+        if (className == null) {
             return (val.getClassName() == null);
+        }
         return className.equals(val.getClassName());
     }
 
+    @Override
     public int hashCode() {
         final int classHash = ((className==null)?0:className.hashCode());
         return name.hashCode() ^ classHash;
@@ -148,6 +153,7 @@ public class ObjectInstance implements Serializable   {
      * is not specified, but users can expect that two ObjectInstances return the same
      * string if and only if they are equal.
      */
+    @Override
     public String toString() {
         return getClassName() + "[" + getObjectName() + "]";
     }

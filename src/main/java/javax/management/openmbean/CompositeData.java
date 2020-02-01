@@ -135,6 +135,7 @@ public interface CompositeData {
      * @return  <code>true</code> if the specified object is equal to this
      * <code>CompositeData</code> instance.
      */
+    @Override
     public boolean equals(Object obj) ;
 
     /**
@@ -158,6 +159,7 @@ public interface CompositeData {
      *
      * @return the hash code value for this <code>CompositeData</code> instance
      */
+    @Override
     public int hashCode() ;
 
     /**
@@ -169,6 +171,7 @@ public interface CompositeData {
      *
      * @return  a string representation of this <code>CompositeData</code> instance
      */
+    @Override
     public String toString() ;
 
 }

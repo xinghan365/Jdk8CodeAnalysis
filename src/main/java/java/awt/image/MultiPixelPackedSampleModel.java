@@ -180,6 +180,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * @throws IllegalArgumentException if <code>w</code> or
      *         <code>h</code> is not greater than 0
      */
+    @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
       SampleModel sampleModel =
             new MultiPixelPackedSampleModel(dataType, w, h, pixelBitStride);
@@ -195,6 +196,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * @return a <code>DataBuffer</code> with the same data type and
      * size as this <code>MultiPixelPackedSampleModel</code>.
      */
+    @Override
     public DataBuffer createDataBuffer() {
         DataBuffer dataBuffer = null;
 
@@ -220,6 +222,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * one.
      * @return the number of data elements.
      */
+    @Override
     public int getNumDataElements() {
         return 1;
     }
@@ -228,6 +231,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * Returns the number of bits per sample for all bands.
      * @return the number of bits per sample.
      */
+    @Override
     public int[] getSampleSize() {
         int sampleSize[] = {pixelBitStride};
         return sampleSize;
@@ -238,6 +242,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * @param band the specified band
      * @return the number of bits per sample for the specified band.
      */
+    @Override
     public int getSampleSize(int band) {
         return pixelBitStride;
     }
@@ -302,13 +307,15 @@ public class MultiPixelPackedSampleModel extends SampleModel
      *  or DataBuffer.TYPE_INT.
      *  @return the transfertype.
      */
+    @Override
     public int getTransferType() {
-        if (pixelBitStride > 16)
+        if (pixelBitStride > 16) {
             return DataBuffer.TYPE_INT;
-        else if (pixelBitStride > 8)
+        } else if (pixelBitStride > 8) {
             return DataBuffer.TYPE_USHORT;
-        else
+        } else {
             return DataBuffer.TYPE_BYTE;
+        }
     }
 
     /**
@@ -326,11 +333,13 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * @throws IllegalArgumentException if <code>w</code> or
      *         <code>h</code> is not greater than 0
      */
+    @Override
     public SampleModel createSubsetSampleModel(int bands[]) {
         if (bands != null) {
-           if (bands.length != 1)
-            throw new RasterFormatException("MultiPixelPackedSampleModel has "
-                                            + "only one band.");
+           if (bands.length != 1) {
+               throw new RasterFormatException("MultiPixelPackedSampleModel has "
+                                               + "only one band.");
+           }
         }
         SampleModel sm = createCompatibleSampleModel(width, height);
         return sm;
@@ -352,6 +361,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      *          coordinates are not in bounds.
      * @see #setSample(int, int, int, int, DataBuffer)
      */
+    @Override
     public int getSample(int x, int y, int b, DataBuffer data) {
         // 'b' must be 0
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height) ||
@@ -381,6 +391,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * not in bounds.
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b, int s,
                           DataBuffer data) {
         // 'b' must be 0
@@ -449,6 +460,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * not large enough to hold the pixel data
      * @see #setDataElements(int, int, Object, DataBuffer)
      */
+    @Override
     public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -467,10 +479,11 @@ public class MultiPixelPackedSampleModel extends SampleModel
 
             byte[] bdata;
 
-            if (obj == null)
+            if (obj == null) {
                 bdata = new byte[1];
-            else
+            } else {
                 bdata = (byte[])obj;
+            }
 
             element = data.getElem(y*scanlineStride +
                                     bitnum/dataElementSize);
@@ -483,10 +496,11 @@ public class MultiPixelPackedSampleModel extends SampleModel
 
             short[] sdata;
 
-            if (obj == null)
+            if (obj == null) {
                 sdata = new short[1];
-            else
+            } else {
                 sdata = (short[])obj;
+            }
 
             element = data.getElem(y*scanlineStride +
                                    bitnum/dataElementSize);
@@ -499,10 +513,11 @@ public class MultiPixelPackedSampleModel extends SampleModel
 
             int[] idata;
 
-            if (obj == null)
+            if (obj == null) {
                 idata = new int[1];
-            else
+            } else {
                 idata = (int[])obj;
+            }
 
             element = data.getElem(y*scanlineStride +
                                    bitnum/dataElementSize);
@@ -530,6 +545,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      *  are not in bounds
      * @see #setPixel(int, int, int[], DataBuffer)
      */
+    @Override
     public int[] getPixel(int x, int y, int iArray[], DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -589,6 +605,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * @param data the <code>DataBuffer</code> containing the image data
      * @see #getDataElements(int, int, Object, DataBuffer)
      */
+    @Override
     public void setDataElements(int x, int y, Object obj, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -639,6 +656,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
      * @param data the <code>DataBuffer</code> containing the image data
      * @see #getPixel(int, int, int[], DataBuffer)
      */
+    @Override
     public void setPixel(int x, int y, int[] iArray, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -654,6 +672,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
         data.setElem(index,element);
     }
 
+    @Override
     public boolean equals(Object o) {
         if ((o == null) || !(o instanceof MultiPixelPackedSampleModel)) {
             return false;
@@ -673,6 +692,7 @@ public class MultiPixelPackedSampleModel extends SampleModel
     }
 
     // If we implement equals() we must also implement hashCode
+    @Override
     public int hashCode() {
         int hash = 0;
         hash = width;

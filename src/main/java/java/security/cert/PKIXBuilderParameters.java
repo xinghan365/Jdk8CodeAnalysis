@@ -188,6 +188,7 @@ public class PKIXBuilderParameters extends PKIXParameters {
      *
      * @return a formatted string describing the parameters
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("[\n");

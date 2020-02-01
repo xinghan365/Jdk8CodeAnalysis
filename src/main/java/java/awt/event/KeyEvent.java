@@ -917,21 +917,25 @@ public class KeyEvent extends InputEvent {
 
         AWTAccessor.setKeyEventAccessor(
             new AWTAccessor.KeyEventAccessor() {
+                @Override
                 public void setRawCode(KeyEvent ev, long rawCode) {
                     ev.rawCode = rawCode;
                 }
 
+                @Override
                 public void setPrimaryLevelUnicode(KeyEvent ev,
                                                    long primaryLevelUnicode) {
                     ev.primaryLevelUnicode = primaryLevelUnicode;
                 }
 
+                @Override
                 public void setExtendedKeyCode(KeyEvent ev,
                                                long extendedKeyCode) {
                     ev.extendedKeyCode = extendedKeyCode;
                 }
 
-                public Component getOriginalSource( KeyEvent ev ) {
+                @Override
+                public Component getOriginalSource(KeyEvent ev ) {
                     return ev.originalSource;
                 }
             });
@@ -1514,6 +1518,7 @@ public class KeyEvent extends InputEvent {
      *
      * @return a string identifying the event and its attributes
      */
+    @Override
     public String paramString() {
         StringBuilder str = new StringBuilder(100);
 

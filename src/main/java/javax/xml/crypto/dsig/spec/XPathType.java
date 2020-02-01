@@ -84,6 +84,7 @@ public class XPathType {
          *
          * @return the string form of the operation
          */
+        @Override
         public String toString() {
             return operation;
         }

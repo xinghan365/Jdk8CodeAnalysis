@@ -75,8 +75,9 @@ public class TextOutputCallback implements Callback, java.io.Serializable {
     public TextOutputCallback(int messageType, String message) {
         if ((messageType != INFORMATION &&
                 messageType != WARNING && messageType != ERROR) ||
-            message == null || message.length() == 0)
+            message == null || message.length() == 0) {
             throw new IllegalArgumentException();
+        }
 
         this.messageType = messageType;
         this.message = message;

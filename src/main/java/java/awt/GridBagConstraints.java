@@ -646,6 +646,7 @@ public class GridBagConstraints implements Cloneable, java.io.Serializable {
      * Creates a copy of this grid bag constraint.
      * @return     a copy of this grid bag constraint
      */
+    @Override
     public Object clone () {
         try {
             GridBagConstraints c = (GridBagConstraints)super.clone();

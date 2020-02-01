@@ -71,6 +71,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      *  being removed from a parent it was previously added
      *  to
      */
+    @Override
     public void setParent(View parent) {
         super.setParent(parent);
         if (parent != null) {
@@ -83,6 +84,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      * implemented to multiplex the attributes specified in the
      * model with a StyleSheet.
      */
+    @Override
     public AttributeSet getAttributes() {
         if (attr == null) {
             StyleSheet sheet = getStyleSheet();
@@ -96,6 +98,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      * the values found in StyleConstants (i.e. which are used
      * by the superclass).  Since
      */
+    @Override
     protected void setPropertiesFromAttributes() {
         StyleSheet sheet = getStyleSheet();
         attr = sheet.getViewAttributes(this);
@@ -152,6 +155,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      * @return      the new or adjusted {@code SizeRequirements} object
      * @throws IllegalArgumentException  if the {@code axis} parameter is invalid
      */
+    @Override
     protected SizeRequirements calculateMinorAxisRequirements(
                                                 int axis, SizeRequirements r) {
         r = super.calculateMinorAxisRequirements(axis, r);
@@ -179,6 +183,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      *
      * @return true if the paragraph should be displayed
      */
+    @Override
     public boolean isVisible() {
 
         int n = getLayoutViewCount() - 1;
@@ -218,6 +223,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      * @param a the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         if (a == null) {
             return;
@@ -246,6 +252,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      *           the parent may choose to resize or break the view
      * @see javax.swing.text.ParagraphView#getPreferredSpan
      */
+    @Override
     public float getPreferredSpan(int axis) {
         if (!isVisible()) {
             return 0;
@@ -263,6 +270,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      * @return  the minimum span the view can be rendered into
      * @see javax.swing.text.ParagraphView#getMinimumSpan
      */
+    @Override
     public float getMinimumSpan(int axis) {
         if (!isVisible()) {
             return 0;
@@ -280,6 +288,7 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
      * @return  the maximum span the view can be rendered into
      * @see javax.swing.text.ParagraphView#getMaximumSpan
      */
+    @Override
     public float getMaximumSpan(int axis) {
         if (!isVisible()) {
             return 0;

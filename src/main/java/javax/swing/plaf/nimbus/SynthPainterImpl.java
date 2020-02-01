@@ -123,7 +123,9 @@ class SynthPainterImpl extends SynthPainter {
         Component c = ctx.getComponent();
         boolean ltr = c.getComponentOrientation().isLeftToRight();
         // Don't RTL flip JSpliders as they handle it internaly
-        if (ctx.getComponent() instanceof JSlider) ltr = true;
+        if (ctx.getComponent() instanceof JSlider) {
+            ltr = true;
+        }
 
         if (orientation == SwingConstants.VERTICAL && ltr) {
             AffineTransform transform = new AffineTransform();
@@ -201,6 +203,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintArrowButtonBackground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h) {
@@ -227,6 +230,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintArrowButtonBorder(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h) {
@@ -249,6 +253,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param direction One of SwingConstants.NORTH, SwingConstants.SOUTH
      *                  SwingConstants.EAST or SwingConstants.WEST
      */
+    @Override
     public void paintArrowButtonForeground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h,
@@ -315,6 +320,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintButtonBackground(SynthContext context,
                                       Graphics g, int x, int y,
                                       int w, int h) {
@@ -332,6 +338,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintButtonBorder(SynthContext context,
                                   Graphics g, int x, int y,
                                   int w, int h) {
@@ -349,6 +356,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintCheckBoxMenuItemBackground(SynthContext context,
                                                 Graphics g, int x, int y,
                                                 int w, int h) {
@@ -366,6 +374,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintCheckBoxMenuItemBorder(SynthContext context,
                                             Graphics g, int x, int y,
                                             int w, int h) {
@@ -383,6 +392,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintCheckBoxBackground(SynthContext context,
                                         Graphics g, int x, int y,
                                         int w, int h) {
@@ -400,6 +410,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintCheckBoxBorder(SynthContext context,
                                     Graphics g, int x, int y,
                                     int w, int h) {
@@ -417,6 +428,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintColorChooserBackground(SynthContext context,
                                             Graphics g, int x, int y,
                                             int w, int h) {
@@ -434,6 +446,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintColorChooserBorder(SynthContext context,
                                         Graphics g, int x, int y,
                                         int w, int h) {
@@ -451,6 +464,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintComboBoxBackground(SynthContext context,
                                         Graphics g, int x, int y,
                                         int w, int h) {
@@ -476,9 +490,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintComboBoxBorder(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -493,9 +508,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintDesktopIconBackground(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -510,9 +526,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintDesktopIconBorder(SynthContext context,
-                                           Graphics g, int x, int y,
-                                           int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -527,6 +544,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintDesktopPaneBackground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h) {
@@ -544,6 +562,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintDesktopPaneBorder(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h) {
@@ -561,6 +580,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintEditorPaneBackground(SynthContext context,
                                           Graphics g, int x, int y,
                                           int w, int h) {
@@ -578,6 +598,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintEditorPaneBorder(SynthContext context,
                                       Graphics g, int x, int y,
                                       int w, int h) {
@@ -595,9 +616,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintFileChooserBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -612,9 +634,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintFileChooserBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -629,9 +652,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintFormattedTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                                  Graphics g, int x, int y,
+                                                  int w, int h) {
         if (context.getComponent().getComponentOrientation().isLeftToRight()){
             paintBackground(context, g, x, y, w, h, null);
         } else {
@@ -654,9 +678,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintFormattedTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                              Graphics g, int x, int y,
+                                              int w, int h) {
         if (context.getComponent().getComponentOrientation().isLeftToRight()){
             paintBorder(context, g, x, y, w, h, null);
         } else {
@@ -679,9 +704,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintInternalFrameTitlePaneBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                                      Graphics g, int x, int y,
+                                                      int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -696,9 +722,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintInternalFrameTitlePaneBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                                  Graphics g, int x, int y,
+                                                  int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -713,9 +740,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintInternalFrameBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -730,9 +758,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintInternalFrameBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -747,6 +776,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintLabelBackground(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
@@ -764,6 +794,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintLabelBorder(SynthContext context,
                                  Graphics g, int x, int y,
                                  int w, int h) {
@@ -781,9 +812,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintListBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -798,9 +830,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintListBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                Graphics g, int x, int y,
+                                int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -815,9 +848,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintMenuBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -832,9 +866,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintMenuBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -849,9 +884,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -866,9 +902,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -883,9 +920,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -900,9 +938,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                Graphics g, int x, int y,
+                                int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -917,9 +956,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintOptionPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -934,9 +974,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintOptionPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -951,6 +992,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintPanelBackground(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
@@ -968,6 +1010,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintPanelBorder(SynthContext context,
                                  Graphics g, int x, int y,
                                  int w, int h) {
@@ -985,9 +1028,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintPasswordFieldBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1002,9 +1046,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintPasswordFieldBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1019,9 +1064,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintPopupMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1036,9 +1082,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintPopupMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1053,9 +1100,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1074,9 +1122,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JProgressBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                           Graphics g, int x, int y,
+                                           int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1091,9 +1140,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1112,9 +1162,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JProgressBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                       Graphics g, int x, int y,
+                                       int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1132,9 +1183,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param orientation one of <code>JProgressBar.HORIZONTAL</code> or
      *                    <code>JProgressBar.VERTICAL</code>
      */
+    @Override
     public void paintProgressBarForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                           Graphics g, int x, int y,
+                                           int w, int h, int orientation) {
         paintForeground(context, g, x, y, w, h, orientation);
     }
 
@@ -1149,9 +1201,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintRadioButtonMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                   Graphics g, int x, int y,
+                                                   int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1166,9 +1219,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintRadioButtonMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                               Graphics g, int x, int y,
+                                               int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1183,9 +1237,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintRadioButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1200,9 +1255,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintRadioButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1217,9 +1273,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintRootPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1234,9 +1291,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintRootPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1251,9 +1309,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1273,9 +1332,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JScrollBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                         Graphics g, int x, int y,
+                                         int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1290,9 +1350,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1312,9 +1373,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JScrollBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                     Graphics g, int x, int y,
+                                     int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1334,9 +1396,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JScrollBar.HORIZONTAL</code> or
      *                    <code>JScrollBar.VERTICAL</code>
      */
+    @Override
     public void paintScrollBarThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                              Graphics g, int x, int y,
+                                              int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1356,9 +1419,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JScrollBar.HORIZONTAL</code> or
      *                    <code>JScrollBar.VERTICAL</code>
      */
+    @Override
     public void paintScrollBarThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                          Graphics g, int x, int y,
+                                          int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1374,9 +1438,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                              Graphics g, int x, int y,
+                                              int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1397,9 +1462,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JScrollBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                              Graphics g, int x, int y,
+                                              int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1415,9 +1481,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1438,9 +1505,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JScrollBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                          Graphics g, int x, int y,
+                                          int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1455,9 +1523,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintScrollPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1472,9 +1541,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintScrollPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1489,9 +1559,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1510,9 +1581,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSeparator.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                         Graphics g, int x, int y,
+                                         int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1527,9 +1599,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1548,9 +1621,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSeparator.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                     Graphics g, int x, int y,
+                                     int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1567,9 +1641,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param orientation One of <code>JSeparator.HORIZONTAL</code> or
      *                           <code>JSeparator.VERTICAL</code>
      */
+    @Override
     public void paintSeparatorForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                         Graphics g, int x, int y,
+                                         int w, int h, int orientation) {
         paintForeground(context, g, x, y, w, h, orientation);
     }
 
@@ -1584,9 +1659,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1605,9 +1681,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                      Graphics g, int x, int y,
+                                      int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1622,9 +1699,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                  Graphics g, int x, int y,
+                                  int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1643,9 +1721,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                  Graphics g, int x, int y,
+                                  int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1662,9 +1741,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param orientation One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      */
+    @Override
     public void paintSliderThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                           Graphics g, int x, int y,
+                                           int w, int h, int orientation) {
         if (context.getComponent().getClientProperty(
                 "Slider.paintThumbArrowShape") == Boolean.TRUE){
             if (orientation == JSlider.HORIZONTAL){
@@ -1691,9 +1771,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param orientation One of <code>JSlider.HORIZONTAL</code> or
      *                           <code>JSlider.VERTICAL</code>
      */
+    @Override
     public void paintSliderThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                       Graphics g, int x, int y,
+                                       int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1708,9 +1789,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1729,9 +1811,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                           Graphics g, int x, int y,
+                                           int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -1746,9 +1829,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1767,9 +1851,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSlider.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                       Graphics g, int x, int y,
+                                       int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -1784,9 +1869,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSpinnerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1801,9 +1887,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSpinnerBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1818,9 +1905,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                Graphics g, int x, int y,
+                                                int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1839,9 +1927,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JSplitPane.VERTICAL_SPLIT</code>
      * @since 1.6
      */
+    @Override
     public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                                Graphics g, int x, int y,
+                                                int w, int h, int orientation) {
        if (orientation == JSplitPane.HORIZONTAL_SPLIT) {
             AffineTransform transform = new AffineTransform();
             transform.scale(-1, 1);
@@ -1865,9 +1954,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
      *                           <code>JSplitPane.VERTICAL_SPLIT</code>
      */
+    @Override
     public void paintSplitPaneDividerForeground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                                Graphics g, int x, int y,
+                                                int w, int h, int orientation) {
         paintForeground(context, g, x, y, w, h, null);
     }
 
@@ -1885,9 +1975,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param orientation One of <code>JSplitPane.HORIZONTAL_SPLIT</code> or
      *                           <code>JSplitPane.VERTICAL_SPLIT</code>
      */
+    @Override
     public void paintSplitPaneDragDivider(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                          Graphics g, int x, int y,
+                                          int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1902,9 +1993,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSplitPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1919,9 +2011,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintSplitPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1936,9 +2029,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTabbedPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1953,9 +2047,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTabbedPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -1970,9 +2065,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                 Graphics g, int x, int y,
+                                                 int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -1994,9 +2090,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JTabbedPane.RIGHT</code>
      * @since 1.6
      */
+    @Override
     public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                                 Graphics g, int x, int y,
+                                                 int w, int h, int orientation) {
         if (orientation == JTabbedPane.LEFT) {
             AffineTransform transform = new AffineTransform();
             transform.scale(-1, 1);
@@ -2029,9 +2126,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2052,9 +2150,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JTabbedPane.RIGHT</code>
      * @since 1.6
      */
+    @Override
     public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                             Graphics g, int x, int y,
+                                             int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2070,9 +2169,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param h Height of the area to paint to
      * @param tabIndex Index of tab being painted.
      */
+    @Override
     public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex) {
+                                             int x, int y, int w, int h,
+                                             int tabIndex) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2094,9 +2194,10 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JTabbedPane.RIGHT</code>
      * @since 1.6
      */
+    @Override
     public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex, int orientation) {
+                                             int x, int y, int w, int h,
+                                             int tabIndex, int orientation) {
         if (orientation == JTabbedPane.LEFT) {
             AffineTransform transform = new AffineTransform();
             transform.scale(-1, 1);
@@ -2130,6 +2231,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param h Height of the area to paint to
      * @param tabIndex Index of tab being painted.
      */
+    @Override
     public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
                                          int x, int y, int w, int h,
                                          int tabIndex) {
@@ -2154,6 +2256,7 @@ class SynthPainterImpl extends SynthPainter {
      *                    <code>JTabbedPane.RIGHT</code>
      * @since 1.6
      */
+    @Override
     public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
                                          int x, int y, int w, int h,
                                          int tabIndex, int orientation) {
@@ -2172,9 +2275,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTabbedPaneContentBackground(SynthContext context,
-                                         Graphics g, int x, int y, int w,
-                                         int h) {
+                                                 Graphics g, int x, int y, int w,
+                                                 int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2190,8 +2294,9 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTabbedPaneContentBorder(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h) {
+                                             int x, int y, int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2206,9 +2311,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTableHeaderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2223,9 +2329,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTableHeaderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2240,6 +2347,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTableBackground(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
@@ -2257,6 +2365,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTableBorder(SynthContext context,
                                  Graphics g, int x, int y,
                                  int w, int h) {
@@ -2274,9 +2383,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTextAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2291,9 +2401,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTextAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2308,9 +2419,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTextPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2325,9 +2437,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTextPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2342,9 +2455,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         if (context.getComponent().getComponentOrientation().isLeftToRight()){
             paintBackground(context, g, x, y, w, h, null);
         } else {
@@ -2367,9 +2481,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         if (context.getComponent().getComponentOrientation().isLeftToRight()){
             paintBorder(context, g, x, y, w, h, null);
         } else {
@@ -2392,9 +2507,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToggleButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                            Graphics g, int x, int y,
+                                            int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2409,9 +2525,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToggleButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2426,9 +2543,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2447,9 +2565,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JToolBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                       Graphics g, int x, int y,
+                                       int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -2464,9 +2583,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2485,9 +2605,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JToolBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                   Graphics g, int x, int y,
+                                   int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -2502,9 +2623,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                              Graphics g, int x, int y,
+                                              int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2523,9 +2645,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JToolBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                              Graphics g, int x, int y,
+                                              int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -2540,9 +2663,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2561,9 +2685,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JToolBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                          Graphics g, int x, int y,
+                                          int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -2579,9 +2704,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                 Graphics g, int x, int y,
+                                                 int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2601,9 +2727,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JToolBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                                 Graphics g, int x, int y,
+                                                 int w, int h, int orientation) {
         paintBackground(context, g, x, y, w, h, orientation);
     }
 
@@ -2619,9 +2746,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2641,9 +2769,10 @@ class SynthPainterImpl extends SynthPainter {
      *                           <code>JToolBar.VERTICAL</code>
      * @since 1.6
      */
+    @Override
     public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                             Graphics g, int x, int y,
+                                             int w, int h, int orientation) {
         paintBorder(context, g, x, y, w, h, orientation);
     }
 
@@ -2658,9 +2787,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolTipBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2675,9 +2805,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintToolTipBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2692,9 +2823,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTreeBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2709,9 +2841,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTreeBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                Graphics g, int x, int y,
+                                int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2726,9 +2859,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTreeCellBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2743,9 +2877,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTreeCellBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 
@@ -2760,6 +2895,7 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintTreeCellFocus(SynthContext context,
                                    Graphics g, int x, int y,
                                    int w, int h) {
@@ -2777,9 +2913,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintViewportBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paintBackground(context, g, x, y, w, h, null);
     }
 
@@ -2794,9 +2931,10 @@ class SynthPainterImpl extends SynthPainter {
      * @param w Width of the area to paint to
      * @param h Height of the area to paint to
      */
+    @Override
     public void paintViewportBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paintBorder(context, g, x, y, w, h, null);
     }
 }

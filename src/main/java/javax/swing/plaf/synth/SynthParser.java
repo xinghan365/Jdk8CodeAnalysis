@@ -1132,6 +1132,7 @@ class SynthParser extends DefaultHandler {
     // the element name.
     //
 
+    @Override
     public InputSource resolveEntity(String publicId, String systemId)
                               throws IOException, SAXException {
         if (isForwarding()) {
@@ -1140,12 +1141,14 @@ class SynthParser extends DefaultHandler {
         return null;
     }
 
+    @Override
     public void notationDecl(String name, String publicId, String systemId) throws SAXException {
         if (isForwarding()) {
             getHandler().notationDecl(name, publicId, systemId);
         }
     }
 
+    @Override
     public void unparsedEntityDecl(String name, String publicId,
                                    String systemId, String notationName) throws SAXException {
         if (isForwarding()) {
@@ -1154,24 +1157,28 @@ class SynthParser extends DefaultHandler {
         }
     }
 
+    @Override
     public void setDocumentLocator(Locator locator) {
         if (isForwarding()) {
             getHandler().setDocumentLocator(locator);
         }
     }
 
+    @Override
     public void startDocument() throws SAXException {
         if (isForwarding()) {
             getHandler().startDocument();
         }
     }
 
+    @Override
     public void endDocument() throws SAXException {
         if (isForwarding()) {
             getHandler().endDocument();
         }
     }
 
+    @Override
     public void startElement(String uri, String local, String name, Attributes attributes)
                      throws SAXException {
         name = name.intern();
@@ -1228,6 +1235,7 @@ class SynthParser extends DefaultHandler {
         }
     }
 
+    @Override
     public void endElement(String uri, String local, String name) throws SAXException {
         if (isForwarding()) {
             getHandler().endElement(uri, local, name);
@@ -1250,6 +1258,7 @@ class SynthParser extends DefaultHandler {
         }
     }
 
+    @Override
     public void characters(char ch[], int start, int length)
                            throws SAXException {
         if (isForwarding()) {
@@ -1257,6 +1266,7 @@ class SynthParser extends DefaultHandler {
         }
     }
 
+    @Override
     public void ignorableWhitespace (char ch[], int start, int length)
         throws SAXException {
         if (isForwarding()) {
@@ -1264,6 +1274,7 @@ class SynthParser extends DefaultHandler {
         }
     }
 
+    @Override
     public void processingInstruction(String target, String data)
                                      throws SAXException {
         if (isForwarding()) {
@@ -1271,12 +1282,14 @@ class SynthParser extends DefaultHandler {
         }
     }
 
+    @Override
     public void warning(SAXParseException e) throws SAXException {
         if (isForwarding()) {
             getHandler().warning(e);
         }
     }
 
+    @Override
     public void error(SAXParseException e) throws SAXException {
         if (isForwarding()) {
             getHandler().error(e);
@@ -1284,6 +1297,7 @@ class SynthParser extends DefaultHandler {
     }
 
 
+    @Override
     public void fatalError(SAXParseException e) throws SAXException {
         if (isForwarding()) {
             getHandler().fatalError(e);
@@ -1303,12 +1317,14 @@ class SynthParser extends DefaultHandler {
             this.location = location;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (getImage() != null) {
                 super.paintIcon(c, g, x, y);
             }
         }
 
+        @Override
         public int getIconWidth() {
             if (getImage() != null) {
                 return super.getIconWidth();
@@ -1316,6 +1332,7 @@ class SynthParser extends DefaultHandler {
             return 0;
         }
 
+        @Override
         public int getIconHeight() {
             if (getImage() != null) {
                 return super.getIconHeight();
@@ -1323,6 +1340,7 @@ class SynthParser extends DefaultHandler {
             return 0;
         }
 
+        @Override
         public Image getImage() {
             if (location != null) {
                 setImage(Toolkit.getDefaultToolkit().getImage(location));

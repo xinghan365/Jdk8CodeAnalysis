@@ -218,6 +218,7 @@ public class RelationTypeSupport implements RelationType {
      *
      * @return the relation type name.
      */
+    @Override
     public String getRelationTypeName() {
         return typeName;
     }
@@ -225,6 +226,7 @@ public class RelationTypeSupport implements RelationType {
     /**
      * Returns the list of role definitions (ArrayList of RoleInfo objects).
      */
+    @Override
     public List<RoleInfo> getRoleInfos() {
         return new ArrayList<RoleInfo>(roleName2InfoMap.values());
     }
@@ -242,6 +244,7 @@ public class RelationTypeSupport implements RelationType {
      * @exception RoleInfoNotFoundException  if no role info with that name in
      * relation type.
      */
+    @Override
     public RoleInfo getRoleInfo(String roleInfoName)
         throws IllegalArgumentException,
                RoleInfoNotFoundException {

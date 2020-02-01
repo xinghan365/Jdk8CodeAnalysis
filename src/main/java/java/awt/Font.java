@@ -224,18 +224,22 @@ import static sun.font.EAttribute.*;
 public class Font implements java.io.Serializable
 {
     private static class FontAccessImpl extends FontAccess {
+        @Override
         public Font2D getFont2D(Font font) {
             return font.getFont2D();
         }
 
+        @Override
         public void setFont2D(Font font, Font2DHandle handle) {
             font.font2DHandle = handle;
         }
 
+        @Override
         public void setCreatedFont(Font font) {
             font.createdFont = true;
         }
 
+        @Override
         public boolean isCreatedFont(Font font) {
             return font.createdFont;
         }
@@ -653,15 +657,23 @@ public class Font implements java.io.Serializable
             String newName = null;
             if (oldName != null) {
                 newName = values.getFamily();
-                if (oldName.equals(newName)) newName = null;
+                if (oldName.equals(newName)) {
+                    newName = null;
+                }
             }
             int newStyle = 0;
             if (oldStyle == -1) {
                 newStyle = -1;
             } else {
-                if (values.getWeight() >= 2f)   newStyle  = BOLD;
-                if (values.getPosture() >= .2f) newStyle |= ITALIC;
-                if (oldStyle == newStyle)       newStyle  = -1;
+                if (values.getWeight() >= 2f) {
+                    newStyle  = BOLD;
+                }
+                if (values.getPosture() >= .2f) {
+                    newStyle |= ITALIC;
+                }
+                if (oldStyle == newStyle) {
+                    newStyle  = -1;
+                }
             }
             if (handle.font2D instanceof CompositeFont) {
                 if (newStyle != -1 || newName != null) {
@@ -758,8 +770,12 @@ public class Font implements java.io.Serializable
         this.name = values.getFamily();
         this.pointSize = values.getSize();
         this.size = (int)(values.getSize() + 0.5);
-        if (values.getWeight() >= 2f) this.style |= BOLD; // not == 2f
-        if (values.getPosture() >= .2f) this.style |= ITALIC; // not  == .2f
+        if (values.getWeight() >= 2f) {
+            this.style |= BOLD; // not == 2f
+        }
+        if (values.getPosture() >= .2f) {
+            this.style |= ITALIC; // not  == .2f
+        }
 
         this.nonIdentityTx = values.anyNonDefault(EXTRA_MASK);
         this.hasLayoutAttributes =  values.anyNonDefault(LAYOUT_MASK);
@@ -908,6 +924,7 @@ public class Font implements java.io.Serializable
         try {
             final File tFile = AccessController.doPrivileged(
                 new PrivilegedExceptionAction<File>() {
+                    @Override
                     public File run() throws IOException {
                         return Files.createTempFile("+~JF", ".tmp").toFile();
                     }
@@ -922,6 +939,7 @@ public class Font implements java.io.Serializable
                 final OutputStream outStream =
                     AccessController.doPrivileged(
                         new PrivilegedExceptionAction<OutputStream>() {
+                            @Override
                             public OutputStream run() throws IOException {
                                 return new FileOutputStream(tFile);
                             }
@@ -978,6 +996,7 @@ public class Font implements java.io.Serializable
                     }
                     AccessController.doPrivileged(
                         new PrivilegedExceptionAction<Void>() {
+                            @Override
                             public Void run() {
                                 tFile.delete();
                                 return null;
@@ -1597,6 +1616,7 @@ public class Font implements java.io.Serializable
      * @return     a hashcode value for this <code>Font</code>.
      * @since      JDK1.0
      */
+    @Override
     public int hashCode() {
         if (hash == 0) {
             hash = name.hashCode() ^ style ^ size;
@@ -1624,6 +1644,7 @@ public class Font implements java.io.Serializable
      *          <code>false</code> otherwise.
      * @since JDK1.0
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -1671,6 +1692,7 @@ public class Font implements java.io.Serializable
      */
     // NOTE: This method may be called by privileged threads.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    @Override
     public String toString() {
         String  strStyle;
 

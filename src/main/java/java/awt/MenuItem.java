@@ -79,22 +79,27 @@ public class MenuItem extends MenuComponent implements Accessible {
 
         AWTAccessor.setMenuItemAccessor(
             new AWTAccessor.MenuItemAccessor() {
+                @Override
                 public boolean isEnabled(MenuItem item) {
                     return item.enabled;
                 }
 
+                @Override
                 public String getLabel(MenuItem item) {
                     return item.label;
                 }
 
+                @Override
                 public MenuShortcut getShortcut(MenuItem item) {
                     return item.shortcut;
                 }
 
+                @Override
                 public String getActionCommandImpl(MenuItem item) {
                     return item.getActionCommandImpl();
                 }
 
+                @Override
                 public boolean isItemEnabled(MenuItem item) {
                     return item.isItemEnabled();
                 }
@@ -220,6 +225,7 @@ public class MenuItem extends MenuComponent implements Accessible {
      * Construct a name for this MenuComponent.  Called by getName() when
      * the name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (MenuItem.class) {
             return base + nameCounter++;
@@ -232,8 +238,9 @@ public class MenuItem extends MenuComponent implements Accessible {
      */
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = Toolkit.getDefaultToolkit().createMenuItem(this);
+            }
         }
     }
 
@@ -623,6 +630,7 @@ public class MenuItem extends MenuComponent implements Accessible {
      * @see         java.awt.MenuItem#processActionEvent
      * @since       JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ActionEvent) {
             processActionEvent((ActionEvent)e);
@@ -630,6 +638,7 @@ public class MenuItem extends MenuComponent implements Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == ActionEvent.ACTION_PERFORMED) {
             if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
@@ -679,6 +688,7 @@ public class MenuItem extends MenuComponent implements Accessible {
      *
      * @return the parameter string of this menu item
      */
+    @Override
     public String paramString() {
         String str = ",label=" + label;
         if (shortcut != null) {
@@ -748,11 +758,12 @@ public class MenuItem extends MenuComponent implements Accessible {
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (actionListenerK == key)
-          addActionListener((ActionListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (actionListenerK == key) {
+            addActionListener((ActionListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -776,6 +787,7 @@ public class MenuItem extends MenuComponent implements Accessible {
      *         AccessibleContext of this MenuItem
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTMenuItem();
@@ -808,6 +820,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          * @return the localized name of the object -- can be null if this
          * object does not have a name
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -826,6 +839,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.MENU_ITEM;
         }
@@ -838,6 +852,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -850,6 +865,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -860,6 +876,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @return 1, the number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 1;
         }
@@ -869,6 +886,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @param i zero-based index of the actions
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             if (i == 0) {
                 // [[[PENDING:  WDW -- need to provide a localized string]]]
@@ -884,6 +902,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          * @param i zero-based index of actions
          * @return true if the action was performed; otherwise false.
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             if (i == 0) {
                 // Simulate a button click
@@ -906,6 +925,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          * this is selected.
          * @see javax.swing.AbstractButton#isSelected()
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(0);
         }
@@ -915,6 +935,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             return false;
         }
@@ -924,6 +945,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @return An Integer of 0.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(0);
         }
@@ -933,6 +955,7 @@ public class MenuItem extends MenuComponent implements Accessible {
          *
          * @return An Integer of 0.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.valueOf(0);
         }

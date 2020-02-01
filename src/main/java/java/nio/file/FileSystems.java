@@ -94,6 +94,7 @@ public final class FileSystems {
             // load default provider
             FileSystemProvider provider = AccessController
                 .doPrivileged(new PrivilegedAction<FileSystemProvider>() {
+                    @Override
                     public FileSystemProvider run() {
                         return getDefaultProvider();
                     }
@@ -121,8 +122,9 @@ public final class FileSystems {
                         provider = (FileSystemProvider)ctor.newInstance(provider);
 
                         // must be "file"
-                        if (!provider.getScheme().equals("file"))
+                        if (!provider.getScheme().equals("file")) {
                             throw new Error("Default provider must use scheme 'file'");
+                        }
 
                     } catch (Exception x) {
                         throw new Error(x);
@@ -380,8 +382,9 @@ public final class FileSystems {
                                            ClassLoader loader)
         throws IOException
     {
-        if (path == null)
+        if (path == null) {
             throw new NullPointerException();
+        }
         Map<String,?> env = Collections.emptyMap();
 
         // check installed providers

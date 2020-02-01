@@ -58,6 +58,7 @@ public interface AnnotationValue {
      *
      * @return a string representation of this value
      */
+    @Override
     String toString();
 
     /**

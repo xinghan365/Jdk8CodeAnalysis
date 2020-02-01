@@ -69,6 +69,7 @@ public class ImageCapabilities implements Cloneable {
     /**
      * @return a copy of this ImageCapabilities object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();

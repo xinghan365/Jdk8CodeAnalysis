@@ -73,8 +73,9 @@ public class ModificationItem implements java.io.Serializable {
         case DirContext.ADD_ATTRIBUTE:
         case DirContext.REPLACE_ATTRIBUTE:
         case DirContext.REMOVE_ATTRIBUTE:
-            if (attr == null)
+            if (attr == null) {
                 throw new IllegalArgumentException("Must specify non-null attribute for modification");
+            }
 
             this.mod_op = mod_op;
             this.attr = attr;
@@ -112,6 +113,7 @@ public class ModificationItem implements java.io.Serializable {
       *
       * @return The non-null string representation of this modification item.
       */
+    @Override
     public String toString() {
         switch (mod_op) {
         case DirContext.ADD_ATTRIBUTE:

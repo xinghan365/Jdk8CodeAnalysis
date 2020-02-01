@@ -85,8 +85,9 @@ public abstract class BasicPermission extends Permission
      * initialize a BasicPermission object. Common to all constructors.
      */
     private void init(String name) {
-        if (name == null)
+        if (name == null) {
             throw new NullPointerException("name can't be null");
+        }
 
         int len = name.length();
 
@@ -165,9 +166,11 @@ public abstract class BasicPermission extends Permission
      * @return true if the passed permission is equal to or
      * implied by this permission, false otherwise.
      */
+    @Override
     public boolean implies(Permission p) {
-        if ((p == null) || (p.getClass() != getClass()))
+        if ((p == null) || (p.getClass() != getClass())) {
             return false;
+        }
 
         BasicPermission that = (BasicPermission) p;
 
@@ -200,12 +203,15 @@ public abstract class BasicPermission extends Permission
      * @return true if <i>obj</i>'s class is the same as this object's class
      *  and has the same name as this BasicPermission object, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if ((obj == null) || (obj.getClass() != getClass()))
+        if ((obj == null) || (obj.getClass() != getClass())) {
             return false;
+        }
 
         BasicPermission bp = (BasicPermission) obj;
 
@@ -221,6 +227,7 @@ public abstract class BasicPermission extends Permission
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return this.getName().hashCode();
     }
@@ -232,6 +239,7 @@ public abstract class BasicPermission extends Permission
      *
      * @return the empty string "".
      */
+    @Override
     public String getActions() {
         return "";
     }
@@ -248,6 +256,7 @@ public abstract class BasicPermission extends Permission
      * @return a new PermissionCollection object suitable for
      * storing BasicPermissions.
      */
+    @Override
     public PermissionCollection newPermissionCollection() {
         return new BasicPermissionCollection(this.getClass());
     }
@@ -352,12 +361,15 @@ final class BasicPermissionCollection
      * @exception SecurityException - if this BasicPermissionCollection object
      *                                has been marked readonly
      */
+    @Override
     public void add(Permission permission) {
-        if (! (permission instanceof BasicPermission))
+        if (! (permission instanceof BasicPermission)) {
             throw new IllegalArgumentException("invalid permission: "+
                                                permission);
-        if (isReadOnly())
+        }
+        if (isReadOnly()) {
             throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        }
 
         BasicPermission bp = (BasicPermission) permission;
 
@@ -368,9 +380,10 @@ final class BasicPermissionCollection
             // adding first permission
             permClass = bp.getClass();
         } else {
-            if (bp.getClass() != permClass)
+            if (bp.getClass() != permClass) {
                 throw new IllegalArgumentException("invalid permission: " +
                                                 permission);
+            }
         }
 
         synchronized (this) {
@@ -379,8 +392,9 @@ final class BasicPermissionCollection
 
         // No sync on all_allowed; staleness OK
         if (!all_allowed) {
-            if (bp.getCanonicalName().equals("*"))
+            if (bp.getCanonicalName().equals("*")) {
                 all_allowed = true;
+            }
         }
     }
 
@@ -393,19 +407,23 @@ final class BasicPermissionCollection
      * @return true if "permission" is a proper subset of a permission in
      * the set, false if not.
      */
+    @Override
     public boolean implies(Permission permission) {
-        if (! (permission instanceof BasicPermission))
+        if (! (permission instanceof BasicPermission)) {
             return false;
+        }
 
         BasicPermission bp = (BasicPermission) permission;
 
         // random subclasses of BasicPermission do not imply each other
-        if (bp.getClass() != permClass)
+        if (bp.getClass() != permClass) {
             return false;
+        }
 
         // short circuit if the "*" Permission was added
-        if (all_allowed)
+        if (all_allowed) {
             return true;
+        }
 
         // strategy:
         // Check for full match first. Then work our way up the
@@ -456,6 +474,7 @@ final class BasicPermissionCollection
      *
      * @return an enumeration of all the BasicPermission objects.
      */
+    @Override
     public Enumeration<Permission> elements() {
         // Convert Iterator of Map values into an Enumeration
         synchronized (this) {

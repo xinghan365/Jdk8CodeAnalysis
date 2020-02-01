@@ -146,15 +146,17 @@ public class Binding extends NameClassPair {
       *
       * @return A possibly null string containing class name of object bound.
       */
+    @Override
     public String getClassName() {
         String cname = super.getClassName();
         if (cname != null) {
             return cname;
         }
-        if (boundObj != null)
+        if (boundObj != null) {
             return boundObj.getClass().getName();
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -188,6 +190,7 @@ public class Binding extends NameClassPair {
       * @return The non-null string representation of this binding.
       */
 
+    @Override
     public String toString() {
         return super.toString() + ":" + getObject();
     }

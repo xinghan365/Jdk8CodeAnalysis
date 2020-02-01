@@ -143,8 +143,9 @@ public final class Constructor<T> extends Executable {
         // which implicitly requires that new java.lang.reflect
         // objects be fabricated for each reflective call on Class
         // objects.)
-        if (this.root != null)
+        if (this.root != null) {
             throw new IllegalArgumentException("Can not copy a non-root Constructor");
+        }
 
         Constructor<T> res = new Constructor<>(clazz,
                                                parameterTypes,
@@ -203,8 +204,9 @@ public final class Constructor<T> extends Executable {
     public TypeVariable<Constructor<T>>[] getTypeParameters() {
       if (getSignature() != null) {
         return (TypeVariable<Constructor<T>>[])getGenericInfo().getTypeParameters();
-      } else
+      } else {
           return (TypeVariable<Constructor<T>>[])new TypeVariable[0];
+      }
     }
 
 
@@ -220,6 +222,7 @@ public final class Constructor<T> extends Executable {
      * {@inheritDoc}
      * @since 1.8
      */
+    @Override
     public int getParameterCount() { return parameterTypes.length; }
 
     /**
@@ -261,6 +264,7 @@ public final class Constructor<T> extends Executable {
      * the same if they were declared by the same class and have the
      * same formal parameter types.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof Constructor) {
             Constructor<?> other = (Constructor<?>)obj;
@@ -276,6 +280,7 @@ public final class Constructor<T> extends Executable {
      * the same as the hashcode for the underlying constructor's
      * declaring class name.
      */
+    @Override
     public int hashCode() {
         return getDeclaringClass().getName().hashCode();
     }
@@ -298,6 +303,7 @@ public final class Constructor<T> extends Executable {
      * @return a string describing this {@code Constructor}
      * @jls 8.8.3. Constructor Modifiers
      */
+    @Override
     public String toString() {
         return sharedToString(Modifier.constructorModifiers(),
                               false,
@@ -413,8 +419,9 @@ public final class Constructor<T> extends Executable {
                 checkAccess(caller, clazz, null, modifiers);
             }
         }
-        if ((clazz.getModifiers() & Modifier.ENUM) != 0)
+        if ((clazz.getModifiers() & Modifier.ENUM) != 0) {
             throw new IllegalArgumentException("Cannot reflectively create enum objects");
+        }
         ConstructorAccessor ca = constructorAccessor;   // read volatile
         if (ca == null) {
             ca = acquireConstructorAccessor();
@@ -452,7 +459,9 @@ public final class Constructor<T> extends Executable {
         // First check to see if one has been created yet, and take it
         // if so.
         ConstructorAccessor tmp = null;
-        if (root != null) tmp = root.getConstructorAccessor();
+        if (root != null) {
+            tmp = root.getConstructorAccessor();
+        }
         if (tmp != null) {
             constructorAccessor = tmp;
         } else {
@@ -502,6 +511,7 @@ public final class Constructor<T> extends Executable {
      * @throws NullPointerException  {@inheritDoc}
      * @since 1.5
      */
+    @Override
     public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
         return super.getAnnotation(annotationClass);
     }
@@ -510,6 +520,7 @@ public final class Constructor<T> extends Executable {
      * {@inheritDoc}
      * @since 1.5
      */
+    @Override
     public Annotation[] getDeclaredAnnotations()  {
         return super.getDeclaredAnnotations();
     }
@@ -528,9 +539,9 @@ public final class Constructor<T> extends Executable {
         Class<?> declaringClass = getDeclaringClass();
         if (declaringClass.isEnum() ||
             declaringClass.isAnonymousClass() ||
-            declaringClass.isLocalClass() )
+            declaringClass.isLocalClass() ) {
             return ; // Can't do reliable parameter counting
-        else {
+        } else {
             if (!declaringClass.isMemberClass() || // top-level
                 // Check for the enclosing instance parameter for
                 // non-static member classes
@@ -558,8 +569,9 @@ public final class Constructor<T> extends Executable {
      */
     @Override
     public AnnotatedType getAnnotatedReceiverType() {
-        if (getDeclaringClass().getEnclosingClass() == null)
+        if (getDeclaringClass().getEnclosingClass() == null) {
             return super.getAnnotatedReceiverType();
+        }
 
         return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
                 sun.misc.SharedSecrets.getJavaLangAccess().

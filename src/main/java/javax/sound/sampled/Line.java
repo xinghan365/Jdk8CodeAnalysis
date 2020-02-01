@@ -138,6 +138,7 @@ public interface Line extends AutoCloseable {
      * @see #isOpen
      * @see LineEvent
      */
+    @Override
     public void close();
 
 
@@ -337,6 +338,7 @@ public interface Line extends AutoCloseable {
          * Obtains a textual description of the line info.
          * @return a string description
          */
+        @Override
         public String toString() {
 
             String fullPackagePath = "javax.sound.sampled.";

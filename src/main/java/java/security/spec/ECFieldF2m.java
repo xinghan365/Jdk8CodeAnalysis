@@ -164,6 +164,7 @@ public class ECFieldF2m implements ECField {
      * for this characteristic 2 finite field.
      * @return the field size in bits.
      */
+    @Override
     public int getFieldSize() {
         return m;
     }
@@ -215,8 +216,11 @@ public class ECFieldF2m implements ECField {
      * of ECFieldF2m and both {@code m} and the reduction
      * polynomial match, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this == obj) {
+            return true;
+        }
         if (obj instanceof ECFieldF2m) {
             // no need to compare rp here since ks and rp
             // should be equivalent
@@ -231,6 +235,7 @@ public class ECFieldF2m implements ECField {
      * finite field.
      * @return a hash code value.
      */
+    @Override
     public int hashCode() {
         int value = m << 5;
         value += (rp==null? 0:rp.hashCode());

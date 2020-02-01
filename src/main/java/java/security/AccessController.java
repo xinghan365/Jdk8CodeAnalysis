@@ -604,6 +604,7 @@ public final class AccessController {
     private static ProtectionDomain getCallerPD(final Class <?> caller) {
         ProtectionDomain callerPd = doPrivileged
             (new PrivilegedAction<ProtectionDomain>() {
+            @Override
             public ProtectionDomain run() {
                 return caller.getProtectionDomain();
             }

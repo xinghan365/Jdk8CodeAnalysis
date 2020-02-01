@@ -97,6 +97,7 @@ public class MediaName extends Media implements Attribute {
      * Returns the string table for class MediaTray.
      * @return the String table.
      */
+    @Override
     protected String[] getStringTable()
     {
         return (String[])myStringTable.clone();
@@ -106,6 +107,7 @@ public class MediaName extends Media implements Attribute {
      * Returns the enumeration value table for class MediaTray.
      * @return the enumeration value table.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return (EnumSyntax[])myEnumValueTable.clone();
     }

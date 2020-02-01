@@ -964,6 +964,7 @@ public final class PageAttributes implements Cloneable {
      * @return  the newly created copy. It is safe to cast this Object into
      *          a PageAttributes.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -1329,6 +1330,7 @@ public final class PageAttributes implements Cloneable {
      * @return  whether obj is equal to this PageAttribute according to the
      *          above criteria.
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof PageAttributes)) {
             return false;
@@ -1351,6 +1353,7 @@ public final class PageAttributes implements Cloneable {
      *
      * @return  the hash code.
      */
+    @Override
     public int hashCode() {
         return (color.hashCode() << 31 ^
                 media.hashCode() << 24 ^
@@ -1367,6 +1370,7 @@ public final class PageAttributes implements Cloneable {
      *
      * @return  the string representation.
      */
+    @Override
     public String toString() {
         // int[] printerResolution = getPrinterResolution();
         return "color=" + getColor() + ",media=" + getMedia() +

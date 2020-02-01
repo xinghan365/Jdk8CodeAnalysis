@@ -113,6 +113,7 @@ abstract public class HttpURLConnection extends URLConnection {
      * @return  the key for the {@code n}<sup>th</sup> header field,
      *          or {@code null} if the key does not exist.
      */
+    @Override
     public String getHeaderFieldKey (int n) {
         return null;
     }
@@ -265,6 +266,7 @@ abstract public class HttpURLConnection extends URLConnection {
      *          or {@code null} if the value does not exist.
      * @see     java.net.HttpURLConnection#getHeaderFieldKey(int)
      */
+    @Override
     public String getHeaderField(int n) {
         return null;
     }
@@ -489,10 +491,11 @@ abstract public class HttpURLConnection extends URLConnection {
         String statusLine = getHeaderField(0);
         if (statusLine == null) {
             if (exc != null) {
-                if (exc instanceof RuntimeException)
+                if (exc instanceof RuntimeException) {
                     throw (RuntimeException)exc;
-                else
+                } else {
                     throw (IOException)exc;
+                }
             }
             return -1;
         }
@@ -516,8 +519,9 @@ abstract public class HttpURLConnection extends URLConnection {
 
                 // deviation from RFC 2616 - don't reject status line
                 // if SP Reason-Phrase is not included.
-                if (phrasePos < 0)
+                if (phrasePos < 0) {
                     phrasePos = statusLine.length();
+                }
 
                 try {
                     responseCode = Integer.parseInt
@@ -547,6 +551,7 @@ abstract public class HttpURLConnection extends URLConnection {
         return responseMessage;
     }
 
+    @Override
     @SuppressWarnings("deprecation")
     public long getHeaderFieldDate(String name, long Default) {
         String dateString = getHeaderField(name);
@@ -587,6 +592,7 @@ abstract public class HttpURLConnection extends URLConnection {
      *         permission necessary to connect to the destination
      *         host and port.
      */
+    @Override
     public Permission getPermission() throws IOException {
         int port = url.getPort();
         port = port < 0 ? 80 : port;

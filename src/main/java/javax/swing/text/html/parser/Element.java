@@ -140,6 +140,7 @@ class Element implements DTDConstants, Serializable {
     /**
      * Convert to a string.
      */
+    @Override
     public String toString() {
         return name;
     }

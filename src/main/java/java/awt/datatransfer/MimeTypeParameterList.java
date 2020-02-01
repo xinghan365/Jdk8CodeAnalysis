@@ -56,6 +56,7 @@ class MimeTypeParameterList implements Cloneable {
         parse(rawdata);
     }
 
+    @Override
     public int hashCode() {
         int code = Integer.MAX_VALUE/45; // "random" value for empty lists
         String paramName = null;
@@ -75,6 +76,7 @@ class MimeTypeParameterList implements Cloneable {
      * the same set of parameter names and associated values. The
      * order of the parameters is not considered.
      */
+    @Override
     public boolean equals(Object thatObject) {
         //System.out.println("MimeTypeParameterList.equals("+this+","+thatObject+")");
         if (!(thatObject instanceof MimeTypeParameterList)) {
@@ -275,6 +277,7 @@ class MimeTypeParameterList implements Cloneable {
         return parameters.keys();
     }
 
+    @Override
     public String toString() {
         // Heuristic: 8 characters per field
         StringBuilder buffer = new StringBuilder(parameters.size() * 16);
@@ -297,6 +300,7 @@ class MimeTypeParameterList implements Cloneable {
      * @return a clone of this object
      */
 
+     @Override
      public Object clone() {
          MimeTypeParameterList newObj = null;
          try {

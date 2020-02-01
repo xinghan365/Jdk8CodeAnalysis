@@ -75,6 +75,7 @@ public final class Parameter implements AnnotatedElement {
      * @param obj The object to compare.
      * @return Whether or not this is equal to the argument.
      */
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof Parameter) {
             Parameter other = (Parameter)obj;
@@ -90,6 +91,7 @@ public final class Parameter implements AnnotatedElement {
      *
      * @return A hash code based on the executable's hash code.
      */
+    @Override
     public int hashCode() {
         return executable.hashCode() ^ index;
     }
@@ -120,6 +122,7 @@ public final class Parameter implements AnnotatedElement {
      * @return A string representation of the parameter and associated
      * information.
      */
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         final Type type = getParameterizedType();
@@ -127,13 +130,15 @@ public final class Parameter implements AnnotatedElement {
 
         sb.append(Modifier.toString(getModifiers()));
 
-        if(0 != modifiers)
+        if(0 != modifiers) {
             sb.append(' ');
+        }
 
-        if(isVarArgs())
+        if(isVarArgs()) {
             sb.append(typename.replaceFirst("\\[\\]$", "..."));
-        else
+        } else {
             sb.append(typename);
+        }
 
         sb.append(' ');
         sb.append(getName());
@@ -176,10 +181,11 @@ public final class Parameter implements AnnotatedElement {
         // Note: empty strings as paramete names are now outlawed.
         // The .equals("") is for compatibility with current JVM
         // behavior.  It may be removed at some point.
-        if(name == null || name.equals(""))
+        if(name == null || name.equals("")) {
             return "arg" + index;
-        else
+        } else {
             return name;
+        }
     }
 
     // Package-private accessor to the real name field.
@@ -282,6 +288,7 @@ public final class Parameter implements AnnotatedElement {
      * {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
         Objects.requireNonNull(annotationClass);
         return annotationClass.cast(declaredAnnotations().get(annotationClass));
@@ -301,6 +308,7 @@ public final class Parameter implements AnnotatedElement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Annotation[] getDeclaredAnnotations() {
         return executable.getParameterAnnotations()[index];
     }
@@ -308,6 +316,7 @@ public final class Parameter implements AnnotatedElement {
     /**
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
         // Only annotations on classes are inherited, for all other
         // objects getDeclaredAnnotation is the same as
@@ -329,6 +338,7 @@ public final class Parameter implements AnnotatedElement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Annotation[] getAnnotations() {
         return getDeclaredAnnotations();
     }
@@ -340,8 +350,9 @@ public final class Parameter implements AnnotatedElement {
             declaredAnnotations =
                 new HashMap<Class<? extends Annotation>, Annotation>();
             Annotation[] ann = getDeclaredAnnotations();
-            for(int i = 0; i < ann.length; i++)
+            for(int i = 0; i < ann.length; i++) {
                 declaredAnnotations.put(ann[i].annotationType(), ann[i]);
+            }
         }
         return declaredAnnotations;
    }

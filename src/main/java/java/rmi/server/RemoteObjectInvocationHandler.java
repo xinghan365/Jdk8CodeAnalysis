@@ -159,6 +159,7 @@ public class RemoteObjectInvocationHandler
      * @throws  Throwable the exception to throw from the method invocation
      * on the proxy instance
      **/
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args)
         throws Throwable
     {
@@ -299,8 +300,10 @@ public class RemoteObjectInvocationHandler
     {
         MethodToHash_Maps() {}
 
+        @Override
         protected Map<Method,Long> computeValue(Class<?> remoteClass) {
             return new WeakHashMap<Method,Long>() {
+                @Override
                 public synchronized Long get(Object key) {
                     Long hash = super.get(key);
                     if (hash == null) {

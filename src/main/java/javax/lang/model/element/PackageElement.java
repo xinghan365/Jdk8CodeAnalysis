@@ -47,6 +47,7 @@ public interface PackageElement extends Element, QualifiedNameable {
      * empty name if this is an unnamed package
      * @jls 6.7 Fully Qualified Names and Canonical Names
      */
+    @Override
     Name getQualifiedName();
 
     /**

@@ -73,6 +73,7 @@ class FilterOutputStream extends OutputStream {
      * @param      b   the <code>byte</code>.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void write(int b) throws IOException {
         out.write(b);
     }
@@ -93,6 +94,7 @@ class FilterOutputStream extends OutputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#write(byte[], int, int)
      */
+    @Override
     public void write(byte b[]) throws IOException {
         write(b, 0, b.length);
     }
@@ -117,9 +119,11 @@ class FilterOutputStream extends OutputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#write(int)
      */
+    @Override
     public void write(byte b[], int off, int len) throws IOException {
-        if ((off | len | (b.length - (len + off)) | (off + len)) < 0)
+        if ((off | len | (b.length - (len + off)) | (off + len)) < 0) {
             throw new IndexOutOfBoundsException();
+        }
 
         for (int i = 0 ; i < len ; i++) {
             write(b[off + i]);
@@ -136,6 +140,7 @@ class FilterOutputStream extends OutputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public void flush() throws IOException {
         out.flush();
     }
@@ -152,6 +157,7 @@ class FilterOutputStream extends OutputStream {
      * @see        java.io.FilterOutputStream#flush()
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     @SuppressWarnings("try")
     public void close() throws IOException {
         try (OutputStream ostream = out) {

@@ -52,8 +52,9 @@ class SwingPaintEventDispatcher extends sun.awt.PaintEventDispatcher {
                                  new GetBooleanAction("swing.nativeErase"));
     }
 
+    @Override
     public PaintEvent createPaintEvent(Component component, int x, int y,
-                                         int w, int h) {
+                                       int w, int h) {
         if (component instanceof RootPaneContainer) {
             AppContext appContext = SunToolkit.targetToAppContext(component);
             RepaintManager rm = RepaintManager.currentManager(appContext);
@@ -78,10 +79,12 @@ class SwingPaintEventDispatcher extends sun.awt.PaintEventDispatcher {
         return super.createPaintEvent(component, x, y, w, h);
     }
 
+    @Override
     public boolean shouldDoNativeBackgroundErase(Component c) {
         return ERASE_BACKGROUND || !(c instanceof RootPaneContainer);
     }
 
+    @Override
     public boolean queueSurfaceDataReplacing(Component c, Runnable r) {
         if (c instanceof RootPaneContainer) {
             AppContext appContext = SunToolkit.targetToAppContext(c);

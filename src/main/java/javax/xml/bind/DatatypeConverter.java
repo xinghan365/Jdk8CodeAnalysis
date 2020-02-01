@@ -130,8 +130,9 @@ final public class DatatypeConverter {
                 Messages.format( Messages.CONVERTER_MUST_NOT_BE_NULL ) );
         } else if( theConverter == null ) {
             SecurityManager sm = System.getSecurityManager();
-            if (sm != null)
+            if (sm != null) {
                 sm.checkPermission(SET_DATATYPE_CONVERTER_PERMISSION);
+            }
             theConverter = converter;
         }
     }
@@ -150,7 +151,9 @@ final public class DatatypeConverter {
      *     A String value represented by the string argument.
      */
     public static String parseString( String lexicalXSDString ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseString( lexicalXSDString );
     }
 
@@ -165,7 +168,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDInteger</code> is not a valid string representation of a {@link java.math.BigInteger} value.
      */
     public static java.math.BigInteger parseInteger( String lexicalXSDInteger ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseInteger( lexicalXSDInteger );
     }
 
@@ -180,7 +185,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDInt</code> is not a valid string representation of an <code>int</code> value.
      */
     public static int parseInt( String lexicalXSDInt ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseInt( lexicalXSDInt );
     }
 
@@ -195,7 +202,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDLong</code> is not a valid string representation of a <code>long</code> value.
      */
     public static long parseLong( String lexicalXSDLong ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseLong( lexicalXSDLong );
     }
 
@@ -210,7 +219,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDShort</code> is not a valid string representation of a <code>short</code> value.
      */
     public static short parseShort( String lexicalXSDShort ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseShort( lexicalXSDShort );
     }
 
@@ -225,7 +236,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDDecimal</code> is not a valid string representation of {@link java.math.BigDecimal}.
      */
     public static java.math.BigDecimal parseDecimal( String lexicalXSDDecimal ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseDecimal( lexicalXSDDecimal );
     }
 
@@ -240,7 +253,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDFloat</code> is not a valid string representation of a <code>float</code> value.
      */
     public static float parseFloat( String lexicalXSDFloat ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseFloat( lexicalXSDFloat );
     }
 
@@ -255,7 +270,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException <code>lexicalXSDDouble</code> is not a valid string representation of a <code>double</code> value.
      */
     public static double parseDouble( String lexicalXSDDouble ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseDouble( lexicalXSDDouble );
     }
 
@@ -270,7 +287,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:boolean.
      */
     public static boolean parseBoolean( String lexicalXSDBoolean ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseBoolean( lexicalXSDBoolean );
     }
 
@@ -285,7 +304,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:byte.
      */
     public static byte parseByte( String lexicalXSDByte ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseByte( lexicalXSDByte );
     }
 
@@ -308,7 +329,9 @@ final public class DatatypeConverter {
      */
     public static javax.xml.namespace.QName parseQName( String lexicalXSDQName,
                                                     NamespaceContext nsc) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseQName( lexicalXSDQName, nsc );
     }
 
@@ -323,7 +346,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:dateTime.
      */
     public static java.util.Calendar parseDateTime( String lexicalXSDDateTime ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseDateTime( lexicalXSDDateTime );
     }
 
@@ -338,7 +363,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:base64Binary
      */
     public static byte[] parseBase64Binary( String lexicalXSDBase64Binary ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseBase64Binary( lexicalXSDBase64Binary );
     }
 
@@ -353,7 +380,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:hexBinary.
      */
    public static byte[] parseHexBinary( String lexicalXSDHexBinary ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseHexBinary( lexicalXSDHexBinary );
     }
 
@@ -368,7 +397,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException if string parameter can not be parsed into a <tt>long</tt> value.
      */
     public static long parseUnsignedInt( String lexicalXSDUnsignedInt ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseUnsignedInt( lexicalXSDUnsignedInt );
     }
 
@@ -383,7 +414,9 @@ final public class DatatypeConverter {
      * @throws NumberFormatException if string parameter can not be parsed into an <tt>int</tt> value.
      */
     public static int   parseUnsignedShort( String lexicalXSDUnsignedShort ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseUnsignedShort( lexicalXSDUnsignedShort );
     }
 
@@ -398,7 +431,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:Time.
      */
     public static java.util.Calendar parseTime( String lexicalXSDTime ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseTime( lexicalXSDTime );
     }
     /**
@@ -412,7 +447,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if string parameter does not conform to lexical value space defined in XML Schema Part 2: Datatypes for xsd:Date.
      */
     public static java.util.Calendar parseDate( String lexicalXSDDate ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseDate( lexicalXSDDate );
     }
 
@@ -428,7 +465,9 @@ final public class DatatypeConverter {
      *     simple type.
      */
     public static String parseAnySimpleType( String lexicalXSDAnySimpleType ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.parseAnySimpleType( lexicalXSDAnySimpleType );
     }
     /**
@@ -443,7 +482,9 @@ final public class DatatypeConverter {
      // representation for given Java datatypes.
 
     public static String printString( String val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printString( val );
     }
 
@@ -457,7 +498,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException <tt>val</tt> is null.
      */
     public static String printInteger( java.math.BigInteger val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printInteger( val );
     }
 
@@ -470,7 +513,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:int
      */
     public static String printInt( int val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printInt( val );
     }
 
@@ -483,7 +528,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:long
      */
     public static String printLong( long val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printLong( val );
     }
 
@@ -496,7 +543,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:short
      */
     public static String printShort( short val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printShort( val );
     }
 
@@ -510,7 +559,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException <tt>val</tt> is null.
      */
     public static String printDecimal( java.math.BigDecimal val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printDecimal( val );
     }
 
@@ -523,7 +574,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:float
      */
     public static String printFloat( float val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printFloat( val );
     }
 
@@ -536,7 +589,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:double
      */
     public static String printDouble( double val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printDouble( val );
     }
 
@@ -549,7 +604,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:boolean
      */
     public static String printBoolean( boolean val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printBoolean( val );
     }
 
@@ -562,7 +619,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:byte
      */
     public static String printByte( byte val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printByte( val );
     }
 
@@ -580,7 +639,9 @@ final public class DatatypeConverter {
      */
     public static String printQName( javax.xml.namespace.QName val,
                                      NamespaceContext nsc ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printQName( val, nsc );
     }
 
@@ -594,7 +655,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if <tt>val</tt> is null.
      */
     public static String printDateTime( java.util.Calendar val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printDateTime( val );
     }
 
@@ -608,7 +671,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if <tt>val</tt> is null.
      */
     public static String printBase64Binary( byte[] val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printBase64Binary( val );
     }
 
@@ -622,7 +687,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if <tt>val</tt> is null.
      */
     public static String printHexBinary( byte[] val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printHexBinary( val );
     }
 
@@ -635,7 +702,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:unsignedInt
      */
     public static String printUnsignedInt( long val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printUnsignedInt( val );
     }
 
@@ -648,7 +717,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:unsignedShort
      */
     public static String printUnsignedShort( int val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printUnsignedShort( val );
     }
 
@@ -662,7 +733,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if <tt>val</tt> is null.
      */
     public static String printTime( java.util.Calendar val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printTime( val );
     }
 
@@ -676,7 +749,9 @@ final public class DatatypeConverter {
      * @throws IllegalArgumentException if <tt>val</tt> is null.
      */
     public static String printDate( java.util.Calendar val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printDate( val );
     }
 
@@ -689,7 +764,9 @@ final public class DatatypeConverter {
      *     A string containing a lexical representation of xsd:AnySimpleType
      */
     public static String printAnySimpleType( String val ) {
-        if (theConverter == null) initConverter();
+        if (theConverter == null) {
+            initConverter();
+        }
         return theConverter.printAnySimpleType( val );
     }
 }

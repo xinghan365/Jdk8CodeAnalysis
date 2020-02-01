@@ -48,6 +48,7 @@ public interface Principal {
      * @return true if the principal passed in is the same as that
      * encapsulated by this principal, and false otherwise.
      */
+    @Override
     public boolean equals(Object another);
 
     /**
@@ -55,6 +56,7 @@ public interface Principal {
      *
      * @return a string representation of this principal.
      */
+    @Override
     public String toString();
 
     /**
@@ -62,6 +64,7 @@ public interface Principal {
      *
      * @return a hashcode for this principal.
      */
+    @Override
     public int hashCode();
 
     /**
@@ -87,8 +90,9 @@ public interface Principal {
      * @since 1.8
      */
     public default boolean implies(Subject subject) {
-        if (subject == null)
+        if (subject == null) {
             return false;
+        }
         return subject.getPrincipals().contains(this);
     }
 }

@@ -101,6 +101,7 @@ public class BasicMenuItemUI extends MenuItemUI
         return new BasicMenuItemUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
         menuItem = (JMenuItem) c;
 
@@ -247,6 +248,7 @@ public class BasicMenuItemUI extends MenuItemUI
                                            getPropertyPrefix() + ".actionMap");
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         menuItem = (JMenuItem)c;
         uninstallDefaults();
@@ -261,12 +263,15 @@ public class BasicMenuItemUI extends MenuItemUI
     protected void uninstallDefaults() {
         LookAndFeel.uninstallBorder(menuItem);
         LookAndFeel.installProperty(menuItem, "borderPainted", oldBorderPainted);
-        if (menuItem.getMargin() instanceof UIResource)
+        if (menuItem.getMargin() instanceof UIResource) {
             menuItem.setMargin(null);
-        if (arrowIcon instanceof UIResource)
+        }
+        if (arrowIcon instanceof UIResource) {
             arrowIcon = null;
-        if (checkIcon instanceof UIResource)
+        }
+        if (checkIcon instanceof UIResource) {
             checkIcon = null;
+        }
     }
 
     /**
@@ -362,6 +367,7 @@ public class BasicMenuItemUI extends MenuItemUI
         }
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = null;
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -372,6 +378,7 @@ public class BasicMenuItemUI extends MenuItemUI
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return getPreferredMenuItemSize(c,
                                         checkIcon,
@@ -379,6 +386,7 @@ public class BasicMenuItemUI extends MenuItemUI
                                         defaultTextIconGap);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = null;
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -476,10 +484,12 @@ public class BasicMenuItemUI extends MenuItemUI
      * components by default) to just call paint().
      *
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         paint(g, c);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         paintMenuItem(g, c, checkIcon, arrowIcon,
                       selectionBackground, selectionForeground,
@@ -715,8 +725,9 @@ public class BasicMenuItemUI extends MenuItemUI
         MenuElement oldPath[] = m.getSelectedPath();
         MenuElement newPath[];
         int i = oldPath.length;
-        if (i == 0)
+        if (i == 0) {
             return new MenuElement[0];
+        }
         Component parent = menuItem.getParent();
         if (oldPath[i-1].getComponent() == parent) {
             // The parent popup menu is the last so far
@@ -732,8 +743,9 @@ public class BasicMenuItemUI extends MenuItemUI
             // then copy up to that and add yourself...
             int j;
             for (j = oldPath.length-1; j >= 0; j--) {
-                if (oldPath[j].getComponent() == parent)
+                if (oldPath[j].getComponent() == parent) {
                     break;
+                }
             }
             newPath = new MenuElement[j+2];
             System.arraycopy(oldPath, 0, newPath, 0, j+1);
@@ -753,20 +765,23 @@ public class BasicMenuItemUI extends MenuItemUI
         System.out.println("Path is(");
         int i, j;
         for(i=0,j=path.length; i<j ;i++){
-            for (int k=0; k<=i; k++)
+            for (int k=0; k<=i; k++) {
                 System.out.print("  ");
+            }
             MenuElement me = path[i];
-            if(me instanceof JMenuItem)
+            if(me instanceof JMenuItem) {
                 System.out.println(((JMenuItem)me).getText() + ", ");
-            else if (me == null)
+            } else if (me == null) {
                 System.out.println("NULL , ");
-            else
+            } else {
                 System.out.println("" + me + ", ");
+            }
         }
         System.out.println(")");
 
-        if (dumpStack == true)
+        if (dumpStack == true) {
             Thread.dumpStack();
+        }
     }
     protected class MouseInputHandler implements MouseInputListener {
         // NOTE: This class exists only for backward compatibility. All
@@ -774,24 +789,31 @@ public class BasicMenuItemUI extends MenuItemUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             getHandler().mouseClicked(e);
         }
+        @Override
         public void mousePressed(MouseEvent e) {
             getHandler().mousePressed(e);
         }
+        @Override
         public void mouseReleased(MouseEvent e) {
             getHandler().mouseReleased(e);
         }
+        @Override
         public void mouseEntered(MouseEvent e) {
             getHandler().mouseEntered(e);
         }
+        @Override
         public void mouseExited(MouseEvent e) {
             getHandler().mouseExited(e);
         }
+        @Override
         public void mouseDragged(MouseEvent e) {
             getHandler().mouseDragged(e);
         }
+        @Override
         public void mouseMoved(MouseEvent e) {
             getHandler().mouseMoved(e);
         }
@@ -805,6 +827,7 @@ public class BasicMenuItemUI extends MenuItemUI
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JMenuItem mi = (JMenuItem)e.getSource();
             MenuSelectionManager.defaultManager().clearSelectedPath();
@@ -871,9 +894,12 @@ public class BasicMenuItemUI extends MenuItemUI
         //
         // MouseInputListener
         //
+        @Override
         public void mouseClicked(MouseEvent e) {}
+        @Override
         public void mousePressed(MouseEvent e) {
         }
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (!menuItem.isEnabled()) {
                 return;
@@ -888,6 +914,7 @@ public class BasicMenuItemUI extends MenuItemUI
                 manager.processMouseEvent(e);
             }
         }
+        @Override
         public void mouseEntered(MouseEvent e) {
             MenuSelectionManager manager = MenuSelectionManager.defaultManager();
             int modifiers = e.getModifiers();
@@ -899,6 +926,7 @@ public class BasicMenuItemUI extends MenuItemUI
             manager.setSelectedPath(getPath());
              }
         }
+        @Override
         public void mouseExited(MouseEvent e) {
             MenuSelectionManager manager = MenuSelectionManager.defaultManager();
 
@@ -913,33 +941,40 @@ public class BasicMenuItemUI extends MenuItemUI
                 if (path.length > 1 && path[path.length-1] == menuItem) {
                     MenuElement newPath[] = new MenuElement[path.length-1];
                     int i,c;
-                    for(i=0,c=path.length-1;i<c;i++)
+                    for(i=0,c=path.length-1;i<c;i++) {
                         newPath[i] = path[i];
+                    }
                     manager.setSelectedPath(newPath);
                 }
                 }
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             MenuSelectionManager.defaultManager().processMouseEvent(e);
         }
+        @Override
         public void mouseMoved(MouseEvent e) {
         }
 
         //
         // MenuDragListener
         //
+        @Override
         public void menuDragMouseEntered(MenuDragMouseEvent e) {
             MenuSelectionManager manager = e.getMenuSelectionManager();
             MenuElement path[] = e.getPath();
             manager.setSelectedPath(path);
         }
+        @Override
         public void menuDragMouseDragged(MenuDragMouseEvent e) {
             MenuSelectionManager manager = e.getMenuSelectionManager();
             MenuElement path[] = e.getPath();
             manager.setSelectedPath(path);
         }
+        @Override
         public void menuDragMouseExited(MenuDragMouseEvent e) {}
+        @Override
         public void menuDragMouseReleased(MenuDragMouseEvent e) {
             if (!menuItem.isEnabled()) {
                 return;
@@ -959,6 +994,7 @@ public class BasicMenuItemUI extends MenuItemUI
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String name = e.getPropertyName();
 

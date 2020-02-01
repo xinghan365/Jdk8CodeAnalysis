@@ -78,6 +78,7 @@ public interface Annotation {
      * @return true if the specified object represents an annotation
      *     that is logically equivalent to this one, otherwise false
      */
+    @Override
     boolean equals(Object obj);
 
     /**
@@ -114,6 +115,7 @@ public interface Annotation {
      *
      * @return the hash code of this annotation
      */
+    @Override
     int hashCode();
 
     /**
@@ -126,6 +128,7 @@ public interface Annotation {
      *
      * @return a string representation of this annotation
      */
+    @Override
     String toString();
 
     /**

@@ -253,11 +253,13 @@ public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
      * configured according to this factory's SSL socket configuration
      * parameters.</p>
      */
+    @Override
     public ServerSocket createServerSocket(int port) throws IOException {
         final SSLSocketFactory sslSocketFactory =
                 context == null ?
                     getDefaultSSLSocketFactory() : context.getSocketFactory();
         return new ServerSocket(port) {
+            @Override
             public Socket accept() throws IOException {
                 Socket socket = super.accept();
                 SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(
@@ -287,11 +289,17 @@ public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
      * {@link #hashCode()}) if it adds instance state that affects
      * equality.</p>
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!(obj instanceof SslRMIServerSocketFactory))
+        if (obj == null) {
             return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof SslRMIServerSocketFactory)) {
+            return false;
+        }
         SslRMIServerSocketFactory that = (SslRMIServerSocketFactory) obj;
         return (getClass().equals(that.getClass()) && checkParameters(that));
     }
@@ -299,36 +307,42 @@ public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
     private boolean checkParameters(SslRMIServerSocketFactory that) {
         // SSL context
         //
-        if (context == null ? that.context != null : !context.equals(that.context))
+        if (context == null ? that.context != null : !context.equals(that.context)) {
             return false;
+        }
 
         // needClientAuth flag
         //
-        if (needClientAuth != that.needClientAuth)
+        if (needClientAuth != that.needClientAuth) {
             return false;
+        }
 
         // enabledCipherSuites
         //
         if ((enabledCipherSuites == null && that.enabledCipherSuites != null) ||
-                (enabledCipherSuites != null && that.enabledCipherSuites == null))
+                (enabledCipherSuites != null && that.enabledCipherSuites == null)) {
             return false;
+        }
         if (enabledCipherSuites != null && that.enabledCipherSuites != null) {
             List<String> thatEnabledCipherSuitesList =
                     Arrays.asList(that.enabledCipherSuites);
-            if (!enabledCipherSuitesList.equals(thatEnabledCipherSuitesList))
+            if (!enabledCipherSuitesList.equals(thatEnabledCipherSuitesList)) {
                 return false;
+            }
         }
 
         // enabledProtocols
         //
         if ((enabledProtocols == null && that.enabledProtocols != null) ||
-                (enabledProtocols != null && that.enabledProtocols == null))
+                (enabledProtocols != null && that.enabledProtocols == null)) {
             return false;
+        }
         if (enabledProtocols != null && that.enabledProtocols != null) {
             List<String> thatEnabledProtocolsList =
                     Arrays.asList(that.enabledProtocols);
-            if (!enabledProtocolsList.equals(thatEnabledProtocolsList))
+            if (!enabledProtocolsList.equals(thatEnabledProtocolsList)) {
                 return false;
+            }
         }
 
         return true;
@@ -341,6 +355,7 @@ public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
      * @return a hash code value for this
      * <code>SslRMIServerSocketFactory</code>.
      */
+    @Override
     public int hashCode() {
         return getClass().hashCode() +
                 (context == null ? 0 : context.hashCode()) +
@@ -363,9 +378,10 @@ public class SslRMIServerSocketFactory implements RMIServerSocketFactory {
     private static SSLSocketFactory defaultSSLSocketFactory = null;
 
     private static synchronized SSLSocketFactory getDefaultSSLSocketFactory() {
-        if (defaultSSLSocketFactory == null)
+        if (defaultSSLSocketFactory == null) {
             defaultSSLSocketFactory =
                     (SSLSocketFactory) SSLSocketFactory.getDefault();
+        }
         return defaultSSLSocketFactory;
     }
 

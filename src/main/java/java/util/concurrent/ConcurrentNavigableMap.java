@@ -57,6 +57,7 @@ public interface ConcurrentNavigableMap<K,V>
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     ConcurrentNavigableMap<K,V> subMap(K fromKey, boolean fromInclusive,
                                        K toKey,   boolean toInclusive);
 
@@ -65,6 +66,7 @@ public interface ConcurrentNavigableMap<K,V>
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     ConcurrentNavigableMap<K,V> headMap(K toKey, boolean inclusive);
 
     /**
@@ -72,6 +74,7 @@ public interface ConcurrentNavigableMap<K,V>
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     ConcurrentNavigableMap<K,V> tailMap(K fromKey, boolean inclusive);
 
     /**
@@ -79,6 +82,7 @@ public interface ConcurrentNavigableMap<K,V>
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     ConcurrentNavigableMap<K,V> subMap(K fromKey, K toKey);
 
     /**
@@ -86,6 +90,7 @@ public interface ConcurrentNavigableMap<K,V>
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     ConcurrentNavigableMap<K,V> headMap(K toKey);
 
     /**
@@ -93,6 +98,7 @@ public interface ConcurrentNavigableMap<K,V>
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     ConcurrentNavigableMap<K,V> tailMap(K fromKey);
 
     /**
@@ -107,6 +113,7 @@ public interface ConcurrentNavigableMap<K,V>
      *
      * @return a reverse order view of this map
      */
+    @Override
     ConcurrentNavigableMap<K,V> descendingMap();
 
     /**
@@ -125,6 +132,7 @@ public interface ConcurrentNavigableMap<K,V>
      *
      * @return a navigable set view of the keys in this map
      */
+    @Override
     public NavigableSet<K> navigableKeySet();
 
     /**
@@ -145,6 +153,7 @@ public interface ConcurrentNavigableMap<K,V>
      *
      * @return a navigable set view of the keys in this map
      */
+    @Override
     NavigableSet<K> keySet();
 
     /**
@@ -163,5 +172,6 @@ public interface ConcurrentNavigableMap<K,V>
      *
      * @return a reverse order navigable set view of the keys in this map
      */
+    @Override
     public NavigableSet<K> descendingKeySet();
 }

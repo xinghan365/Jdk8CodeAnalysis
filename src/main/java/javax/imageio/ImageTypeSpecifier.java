@@ -327,6 +327,7 @@ public class ImageTypeSpecifier {
                                                 bandOffsets);
         }
 
+        @Override
         public boolean equals(Object o) {
             if ((o == null) ||
                 !(o instanceof ImageTypeSpecifier.Interleaved)) {
@@ -353,6 +354,7 @@ public class ImageTypeSpecifier {
             return true;
         }
 
+        @Override
         public int hashCode() {
             return (super.hashCode() +
                     (4 * bandOffsets.length) +
@@ -471,6 +473,7 @@ public class ImageTypeSpecifier {
                                                      bandOffsets);
         }
 
+        @Override
         public boolean equals(Object o) {
             if ((o == null) ||
                 !(o instanceof ImageTypeSpecifier.Banded)) {
@@ -504,6 +507,7 @@ public class ImageTypeSpecifier {
             return true;
         }
 
+        @Override
         public int hashCode() {
             return (super.hashCode() +
                     (3 * bandOffsets.length) +
@@ -1094,6 +1098,7 @@ public class ImageTypeSpecifier {
      * @return <code>true</code> if the given object is an equivalent
      * <code>ImageTypeSpecifier</code>.
      */
+    @Override
     public boolean equals(Object o) {
         if ((o == null) || !(o instanceof ImageTypeSpecifier)) {
             return false;
@@ -1109,6 +1114,7 @@ public class ImageTypeSpecifier {
      *
      * @return a hash code for this ImageTypeSpecifier
      */
+    @Override
     public int hashCode() {
         return (9 * colorModel.hashCode()) + (14 * sampleModel.hashCode());
     }

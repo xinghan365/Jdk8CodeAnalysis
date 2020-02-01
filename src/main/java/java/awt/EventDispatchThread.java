@@ -77,9 +77,11 @@ class EventDispatchThread extends Thread {
         doDispatch = false;
     }
 
+    @Override
     public void run() {
         try {
             pumpEvents(new Conditional() {
+                @Override
                 public boolean evaluate() {
                     return true;
                 }
@@ -239,6 +241,7 @@ class EventDispatchThread extends Thread {
         public HierarchyEventFilter(Component modalComponent) {
             this.modalComponent = modalComponent;
         }
+        @Override
         public FilterAction acceptEvent(AWTEvent event) {
             if (modalComponent != null) {
                 int eventID = event.getID();

@@ -122,21 +122,26 @@ class MimeType implements Serializable, Cloneable {
         public ParameterMapEntry(int theIndex) {
             myIndex = theIndex;
         }
+        @Override
         public Object getKey(){
             return myPieces[myIndex];
         }
+        @Override
         public Object getValue(){
             return myPieces[myIndex+1];
         }
+        @Override
         public Object setValue (Object value) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public boolean equals(Object o) {
             return (o != null &&
                     o instanceof Map.Entry &&
                     getKey().equals (((Map.Entry) o).getKey()) &&
                     getValue().equals(((Map.Entry) o).getValue()));
         }
+        @Override
         public int hashCode() {
             return getKey().hashCode() ^ getValue().hashCode();
         }
@@ -147,9 +152,11 @@ class MimeType implements Serializable, Cloneable {
      */
     private class ParameterMapEntrySetIterator implements Iterator {
         private int myIndex = 2;
+        @Override
         public boolean hasNext() {
             return myIndex < myPieces.length;
         }
+        @Override
         public Object next() {
             if (hasNext()) {
                 ParameterMapEntry result = new ParameterMapEntry (myIndex);
@@ -159,6 +166,7 @@ class MimeType implements Serializable, Cloneable {
                 throw new NoSuchElementException();
             }
         }
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -168,9 +176,11 @@ class MimeType implements Serializable, Cloneable {
      * Parameter map entry set.
      */
     private class ParameterMapEntrySet extends AbstractSet {
+        @Override
         public Iterator iterator() {
             return new ParameterMapEntrySetIterator();
         }
+        @Override
         public int size() {
             return (myPieces.length - 2) / 2;
         }
@@ -180,6 +190,7 @@ class MimeType implements Serializable, Cloneable {
      * Parameter map.
      */
     private class ParameterMap extends AbstractMap {
+        @Override
         public Set entrySet() {
             if (myEntrySet == null) {
                 myEntrySet = new ParameterMapEntrySet();
@@ -247,6 +258,7 @@ class MimeType implements Serializable, Cloneable {
      * @return  MIME type string based on the canonical form. Each parameter
      *          value is enclosed in quotes.
      */
+    @Override
     public String toString() {
         return getStringValue();
     }
@@ -254,6 +266,7 @@ class MimeType implements Serializable, Cloneable {
     /**
      * Returns a hash code for this MIME type object.
      */
+    @Override
     public int hashCode() {
         return getStringValue().hashCode();
     }
@@ -274,6 +287,7 @@ class MimeType implements Serializable, Cloneable {
      * @return  True if this MIME type object equals <CODE>obj</CODE>, false
      *          otherwise.
      */
+    @Override
     public boolean equals (Object obj) {
         return(obj != null &&
                obj instanceof MimeType &&

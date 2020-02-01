@@ -98,6 +98,7 @@ public interface Name
      *
      * @see Comparable#compareTo(Object)
      */
+    @Override
     public int compareTo(Object obj);
 
     /**

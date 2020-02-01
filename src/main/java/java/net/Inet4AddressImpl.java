@@ -31,12 +31,16 @@ import java.io.IOException;
  * @since 1.4
  */
 class Inet4AddressImpl implements InetAddressImpl {
+    @Override
     public native String getLocalHostName() throws UnknownHostException;
+    @Override
     public native InetAddress[]
         lookupAllHostAddr(String hostname) throws UnknownHostException;
+    @Override
     public native String getHostByAddr(byte[] addr) throws UnknownHostException;
     private native boolean isReachable0(byte[] addr, int timeout, byte[] ifaddr, int ttl) throws IOException;
 
+    @Override
     public synchronized InetAddress anyLocalAddress() {
         if (anyLocalAddress == null) {
             anyLocalAddress = new Inet4Address(); // {0x00,0x00,0x00,0x00}
@@ -45,6 +49,7 @@ class Inet4AddressImpl implements InetAddressImpl {
         return anyLocalAddress;
     }
 
+    @Override
     public synchronized InetAddress loopbackAddress() {
         if (loopbackAddress == null) {
             byte[] loopback = {0x7f,0x00,0x00,0x01};
@@ -53,6 +58,7 @@ class Inet4AddressImpl implements InetAddressImpl {
         return loopbackAddress;
     }
 
+  @Override
   public boolean isReachable(InetAddress addr, int timeout, NetworkInterface netif, int ttl) throws IOException {
       byte[] ifaddr = null;
       if (netif != null) {
@@ -62,10 +68,12 @@ class Inet4AddressImpl implements InetAddressImpl {
           java.util.Enumeration<InetAddress> it = netif.getInetAddresses();
           InetAddress inetaddr = null;
           while (!(inetaddr instanceof Inet4Address) &&
-                 it.hasMoreElements())
+                 it.hasMoreElements()) {
               inetaddr = it.nextElement();
-          if (inetaddr instanceof Inet4Address)
+          }
+          if (inetaddr instanceof Inet4Address) {
               ifaddr = inetaddr.getAddress();
+          }
       }
       return isReachable0(addr.getAddress(), timeout, ifaddr, ttl);
   }

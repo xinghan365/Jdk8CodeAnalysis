@@ -131,6 +131,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
         setFocusCycleRoot(true);
 
         setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+            @Override
             public Component getDefaultComponent(Container c) {
                 JInternalFrame jifArray[] = getAllFrames();
                 Component comp = null;
@@ -239,6 +240,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((DesktopPaneUI)UIManager.getUI(this));
     }
@@ -251,6 +253,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -369,6 +372,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
             this.zOrder = zOrder;
         }
 
+        @Override
         public int compareTo(ComponentPosition o) {
             int delta = o.layer - layer;
             if (delta == 0) {
@@ -480,6 +484,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         super.addImpl(comp, constraints, index);
         if (componentOrderCheckingEnabled) {
@@ -494,6 +499,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public void remove(int index) {
         if (componentOrderCheckingEnabled) {
             Component comp = getComponent(index);
@@ -509,6 +515,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public void removeAll() {
         if (componentOrderCheckingEnabled) {
             int count = getComponentCount();
@@ -528,6 +535,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public void setComponentZOrder(Component comp, int index) {
         super.setComponentZOrder(comp, index);
         if (componentOrderCheckingEnabled) {
@@ -553,6 +561,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
         }
     }
 
+    @Override
     void setUIProperty(String propertyName, Object value) {
         if (propertyName == "dragMode") {
             if (!dragModeSet) {
@@ -573,6 +582,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      *
      * @return  a string representation of this <code>JDesktopPane</code>
      */
+    @Override
     protected String paramString() {
         String desktopManagerString = (desktopManager != null ?
                                        desktopManager.toString() : "");
@@ -595,6 +605,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
      * @return an <code>AccessibleJDesktopPane</code> that serves as the
      *         <code>AccessibleContext</code> of this <code>JDesktopPane</code>
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJDesktopPane();
@@ -626,6 +637,7 @@ public class JDesktopPane extends JLayeredPane implements Accessible
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.DESKTOP_PANE;
         }

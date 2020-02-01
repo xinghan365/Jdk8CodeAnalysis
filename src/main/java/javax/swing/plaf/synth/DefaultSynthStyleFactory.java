@@ -99,6 +99,7 @@ class DefaultSynthStyleFactory extends SynthStyleFactory {
      * @param c Component asking for
      * @param id ID of the Component
      */
+    @Override
     public synchronized SynthStyle getStyle(JComponent c, Region id) {
         BakedArrayList matches = _tmpList;
 

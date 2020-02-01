@@ -97,9 +97,12 @@ public abstract class Permission implements Guard, java.io.Serializable {
      * @see SecurityManager#checkPermission
      *
      */
+    @Override
     public void checkGuard(Object object) throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(this);
+        if (sm != null) {
+            sm.checkPermission(this);
+        }
     }
 
     /**
@@ -132,6 +135,7 @@ public abstract class Permission implements Guard, java.io.Serializable {
      * @return true if both Permission objects are equivalent.
      */
 
+    @Override
     public abstract boolean equals(Object obj);
 
     /**
@@ -155,6 +159,7 @@ public abstract class Permission implements Guard, java.io.Serializable {
      * @return a hash code value for this object.
      */
 
+    @Override
     public abstract int hashCode();
 
     /**
@@ -219,6 +224,7 @@ public abstract class Permission implements Guard, java.io.Serializable {
      *
      * @return information about this Permission.
      */
+    @Override
     public String toString() {
         String actions = getActions();
         if ((actions == null) || (actions.length() == 0)) { // OPTIONAL

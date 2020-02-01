@@ -69,6 +69,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
 
     }
 
+    @Override
     public DoubleBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
         return new ByteBufferAsDoubleBufferB(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public DoubleBuffer duplicate() {
         return new ByteBufferAsDoubleBufferB(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
                                                     offset);
     }
 
+    @Override
     public DoubleBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsDoubleBufferRB(bb,
@@ -107,10 +110,12 @@ class ByteBufferAsDoubleBufferB                  // package-private
         return (i << 3) + offset;
     }
 
+    @Override
     public double get() {
         return Bits.getDoubleB(bb, ix(nextGetIndex()));
     }
 
+    @Override
     public double get(int i) {
         return Bits.getDoubleB(bb, ix(checkIndex(i)));
     }
@@ -123,6 +128,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
 
 
 
+    @Override
     public DoubleBuffer put(double x) {
 
         Bits.putDoubleB(bb, ix(nextPutIndex()), x);
@@ -132,6 +138,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
 
     }
 
+    @Override
     public DoubleBuffer put(int i, double x) {
 
         Bits.putDoubleB(bb, ix(checkIndex(i)), x);
@@ -141,6 +148,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
 
     }
 
+    @Override
     public DoubleBuffer compact() {
 
         int pos = position();
@@ -163,10 +171,12 @@ class ByteBufferAsDoubleBufferB                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -213,6 +223,7 @@ class ByteBufferAsDoubleBufferB                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;

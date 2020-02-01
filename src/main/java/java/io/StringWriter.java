@@ -73,6 +73,7 @@ public class StringWriter extends Writer {
     /**
      * Write a single character.
      */
+    @Override
     public void write(int c) {
         buf.append((char) c);
     }
@@ -84,6 +85,7 @@ public class StringWriter extends Writer {
      * @param  off   Offset from which to start writing characters
      * @param  len   Number of characters to write
      */
+    @Override
     public void write(char cbuf[], int off, int len) {
         if ((off < 0) || (off > cbuf.length) || (len < 0) ||
             ((off + len) > cbuf.length) || ((off + len) < 0)) {
@@ -97,6 +99,7 @@ public class StringWriter extends Writer {
     /**
      * Write a string.
      */
+    @Override
     public void write(String str) {
         buf.append(str);
     }
@@ -108,6 +111,7 @@ public class StringWriter extends Writer {
      * @param  off  Offset from which to start writing characters
      * @param  len  Number of characters to write
      */
+    @Override
     public void write(String str, int off, int len)  {
         buf.append(str.substring(off, off + len));
     }
@@ -136,11 +140,13 @@ public class StringWriter extends Writer {
      *
      * @since  1.5
      */
+    @Override
     public StringWriter append(CharSequence csq) {
-        if (csq == null)
+        if (csq == null) {
             write("null");
-        else
+        } else {
             write(csq.toString());
+        }
         return this;
     }
 
@@ -176,6 +182,7 @@ public class StringWriter extends Writer {
      *
      * @since  1.5
      */
+    @Override
     public StringWriter append(CharSequence csq, int start, int end) {
         CharSequence cs = (csq == null ? "null" : csq);
         write(cs.subSequence(start, end).toString());
@@ -198,6 +205,7 @@ public class StringWriter extends Writer {
      *
      * @since 1.5
      */
+    @Override
     public StringWriter append(char c) {
         write(c);
         return this;
@@ -206,6 +214,7 @@ public class StringWriter extends Writer {
     /**
      * Return the buffer's current value as a string.
      */
+    @Override
     public String toString() {
         return buf.toString();
     }
@@ -222,6 +231,7 @@ public class StringWriter extends Writer {
     /**
      * Flush the stream.
      */
+    @Override
     public void flush() {
     }
 
@@ -230,6 +240,7 @@ public class StringWriter extends Writer {
      * class can be called after the stream has been closed without generating
      * an <tt>IOException</tt>.
      */
+    @Override
     public void close() throws IOException {
     }
 

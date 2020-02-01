@@ -153,6 +153,7 @@ public class StreamResult implements Result {
      *
      * @param systemId The system identifier as a URI string.
      */
+    @Override
     public void setSystemId(String systemId) {
         this.systemId = systemId;
     }
@@ -176,6 +177,7 @@ public class StreamResult implements Result {
      * @return The system identifier that was set with setSystemId, or null
      * if setSystemId was not called.
      */
+    @Override
     public String getSystemId() {
         return systemId;
     }

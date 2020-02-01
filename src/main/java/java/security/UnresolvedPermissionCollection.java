@@ -71,11 +71,13 @@ implements java.io.Serializable
      * @param permission the Permission object to add.
      */
 
+    @Override
     public void add(Permission permission)
     {
-        if (! (permission instanceof UnresolvedPermission))
+        if (! (permission instanceof UnresolvedPermission)) {
             throw new IllegalArgumentException("invalid permission: "+
                                                permission);
+        }
         UnresolvedPermission up = (UnresolvedPermission) permission;
 
         List<UnresolvedPermission> v;
@@ -105,6 +107,7 @@ implements java.io.Serializable
      * always returns false for unresolved permissions
      *
      */
+    @Override
     public boolean implies(Permission permission)
     {
         return false;
@@ -117,6 +120,7 @@ implements java.io.Serializable
      * @return an enumeration of all the UnresolvedPermission objects.
      */
 
+    @Override
     public Enumeration<Permission> elements() {
         List<Permission> results =
             new ArrayList<>(); // where results are stored

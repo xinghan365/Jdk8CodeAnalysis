@@ -68,14 +68,17 @@ public class IconUIResource implements Icon, UIResource, Serializable
         this.delegate = delegate;
     }
 
+    @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         delegate.paintIcon(c, g, x, y);
     }
 
+    @Override
     public int getIconWidth() {
         return delegate.getIconWidth();
     }
 
+    @Override
     public int getIconHeight() {
         return delegate.getIconHeight();
     }

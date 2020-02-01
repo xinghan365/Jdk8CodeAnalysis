@@ -61,6 +61,7 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
     public BasicButtonListener(AbstractButton b) {
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
         if(prop == AbstractButton.MNEMONIC_CHANGED_PROPERTY) {
@@ -154,11 +155,13 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
         }
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         b.repaint();
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         if (b instanceof JButton && ((JButton)b).isDefaultCapable()) {
@@ -178,6 +181,7 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
         b.repaint();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         JRootPane root = b.getRootPane();
@@ -200,16 +204,20 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
         b.repaint();
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 
 
+    @Override
     public void mouseDragged(MouseEvent e) {
     }
 
+    @Override
     public void mouseClicked(MouseEvent e) {
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
        if (SwingUtilities.isLeftMouseButton(e) ) {
           AbstractButton b = (AbstractButton) e.getSource();
@@ -240,6 +248,7 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
        }
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             // Support for multiClickThreshhold
@@ -254,16 +263,19 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
         }
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
         if (b.isRolloverEnabled() && !SwingUtilities.isLeftMouseButton(e)) {
             model.setRollover(true);
         }
-        if (model.isPressed())
-                model.setArmed(true);
+        if (model.isPressed()) {
+            model.setArmed(true);
+        }
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
         AbstractButton b = (AbstractButton) e.getSource();
         ButtonModel model = b.getModel();
@@ -287,6 +299,7 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
             super(name);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             AbstractButton b = (AbstractButton)e.getSource();
             String key = getName();
@@ -305,6 +318,7 @@ public class BasicButtonListener implements MouseListener, MouseMotionListener,
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if(sender != null && (sender instanceof AbstractButton) &&
                       !((AbstractButton)sender).getModel().isEnabled()) {

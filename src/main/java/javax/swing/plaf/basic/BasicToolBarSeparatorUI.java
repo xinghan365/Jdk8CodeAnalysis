@@ -51,7 +51,8 @@ public class BasicToolBarSeparatorUI extends BasicSeparatorUI
         return new BasicToolBarSeparatorUI();
     }
 
-    protected void installDefaults( JSeparator s )
+    @Override
+    protected void installDefaults(JSeparator s )
     {
         Dimension size = ( (JToolBar.Separator)s ).getSeparatorSize();
 
@@ -68,11 +69,13 @@ public class BasicToolBarSeparatorUI extends BasicSeparatorUI
         }
     }
 
-    public void paint( Graphics g, JComponent c )
+    @Override
+    public void paint(Graphics g, JComponent c )
     {
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    @Override
+    public Dimension getPreferredSize(JComponent c )
     {
         Dimension size = ( (JToolBar.Separator)c ).getSeparatorSize();
 

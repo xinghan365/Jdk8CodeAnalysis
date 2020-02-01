@@ -134,6 +134,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
       * Installs the receiver as the L&amp;F for the passed in
       * <code>JOptionPane</code>.
       */
+    @Override
     public void installUI(JComponent c) {
         optionPane = (JOptionPane)c;
         installDefaults();
@@ -147,6 +148,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
       * Removes the receiver from the L&amp;F controller of the passed in split
       * pane.
       */
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallComponents();
         optionPane.setLayout(null);
@@ -261,6 +263,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
      * the <code>LayoutManager</code> for the <code>JOptionPane</code>, and
      * <code>getMinimumOptionPaneSize</code>.
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         if (c == optionPane) {
             Dimension            ourMin = getMinimumOptionPaneSize();
@@ -269,10 +272,11 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             if (lm != null) {
                 Dimension         lmSize = lm.preferredLayoutSize(c);
 
-                if (ourMin != null)
+                if (ourMin != null) {
                     return new Dimension
                         (Math.max(lmSize.width, ourMin.width),
                          Math.max(lmSize.height, ourMin.height));
+                }
                 return lmSize;
             }
             return ourMin;
@@ -395,6 +399,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                 // break up newlines
                 if (nl == 0) {
                     JPanel breakPanel = new JPanel() {
+                        @Override
                         public Dimension getPreferredSize() {
                             Font       f = getFont();
 
@@ -471,8 +476,9 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                         list.setName("OptionPane.list");
                         list.setVisibleRowCount(10);
                         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                        if(inputValue != null)
+                        if(inputValue != null) {
                             list.setSelectedValue(inputValue, true);
+                        }
                         list.addMouseListener(getHandler());
                         toAdd = sp;
                         inputComponent = list;
@@ -538,8 +544,9 @@ public class BasicOptionPaneUI extends OptionPaneUI {
     protected Icon getIcon() {
         Icon      mIcon = (optionPane == null ? null : optionPane.getIcon());
 
-        if(mIcon == null && optionPane != null)
+        if(mIcon == null && optionPane != null) {
             mIcon = getIconForType(optionPane.getMessageType());
+        }
         return mIcon;
     }
 
@@ -547,8 +554,9 @@ public class BasicOptionPaneUI extends OptionPaneUI {
      * Returns the icon to use for the passed in type.
      */
     protected Icon getIconForType(int messageType) {
-        if(messageType < 0 || messageType > 3)
+        if(messageType < 0 || messageType > 3) {
             return null;
+        }
         String propertyName = null;
         switch(messageType) {
         case 0:
@@ -584,12 +592,14 @@ public class BasicOptionPaneUI extends OptionPaneUI {
     protected void burstStringInto(Container c, String d, int maxll) {
         // Primitive line wrapping
         int len = d.length();
-        if (len <= 0)
+        if (len <= 0) {
             return;
+        }
         if (len > maxll) {
             int p = d.lastIndexOf(' ', maxll);
-            if (p <= 0)
+            if (p <= 0) {
                 p = d.indexOf(' ', maxll);
+            }
             if (p > 0 && p < len) {
                 burstStringInto(c, d.substring(0, p), maxll);
                 burstStringInto(c, d.substring(p + 1), maxll);
@@ -667,10 +677,11 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                     if (button instanceof ButtonFactory) {
                         aButton = ((ButtonFactory)button).createButton();
                     }
-                    else if (button instanceof Icon)
+                    else if (button instanceof Icon) {
                         aButton = new JButton((Icon)button);
-                    else
+                    } else {
                         aButton = new JButton(button.toString());
+                    }
 
                     aButton.setName("OptionPane.button");
                     aButton.setMultiClickThreshhold(DefaultLookup.getInt(
@@ -697,6 +708,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                     if (initialFocusComponent instanceof JButton) {
                         JButton defaultB = (JButton)initialFocusComponent;
                         defaultB.addHierarchyListener(new HierarchyListener() {
+                            @Override
                             public void hierarchyChanged(HierarchyEvent e) {
                                 if ((e.getChangeFlags() &
                                         HierarchyEvent.PARENT_CHANGED) != 0) {
@@ -849,8 +861,9 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             }
             else if(iv != null) {
                 for(int counter = options.length - 1; counter >= 0; counter--){
-                    if(options[counter].equals(iv))
+                    if(options[counter].equals(iv)) {
                         return counter;
+                    }
                 }
             }
         }
@@ -880,12 +893,14 @@ public class BasicOptionPaneUI extends OptionPaneUI {
      * If inputComponent is non-null, the focus is requested on that,
      * otherwise request focus on the default value
      */
+    @Override
     public void selectInitialValue(JOptionPane op) {
-        if (inputComponent != null)
+        if (inputComponent != null) {
             inputComponent.requestFocus();
-        else {
-            if (initialFocusComponent != null)
+        } else {
+            if (initialFocusComponent != null) {
                 initialFocusComponent.requestFocus();
+            }
 
             if (initialFocusComponent instanceof JButton) {
                 JRootPane root = SwingUtilities.getRootPane(initialFocusComponent);
@@ -900,6 +915,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
      * Returns true if in the last call to validateComponent the message
      * or buttons contained a subclass of Component.
      */
+    @Override
     public boolean containsCustomComponents(JOptionPane op) {
         return hasCustomComponents;
     }
@@ -986,9 +1002,11 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             return SwingConstants.LEFT;
         }
 
+        @Override
         public void addLayoutComponent(String string, Component comp) {
         }
 
+        @Override
         public void layoutContainer(Container container) {
             Component[]      children = container.getComponents();
 
@@ -1065,6 +1083,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             }
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             if(c != null) {
                 Component[]       children = c.getComponents();
@@ -1105,10 +1124,12 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             return new Dimension(0, 0);
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container c) {
             return minimumLayoutSize(c);
         }
 
+        @Override
         public void removeLayoutComponent(Component c) { }
     }
 
@@ -1124,6 +1145,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
          * OPTIONS_PROPERTY or INITIAL_VALUE_PROPERTY,
          * validateComponent is invoked.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);
         }
@@ -1169,6 +1191,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             this.buttonIndex = buttonIndex;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (optionPane != null) {
                 int optionType = optionPane.getOptionType();
@@ -1210,6 +1233,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
         //
         // ActionListener
         //
+        @Override
         public void actionPerformed(ActionEvent e) {
             optionPane.setInputValue(((JTextField)e.getSource()).getText());
         }
@@ -1218,18 +1242,23 @@ public class BasicOptionPaneUI extends OptionPaneUI {
         //
         // MouseListener
         //
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 JList     list = (JList)e.getSource();
@@ -1243,6 +1272,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             if(e.getSource() == optionPane) {
                 // Option Pane Auditory Cue Activation
@@ -1354,6 +1384,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             this.strokes = strokes;
         }
 
+        @Override
         protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
                                             int condition, boolean pressed) {
             boolean processed = super.processKeyBinding(ks, e, condition,
@@ -1387,6 +1418,7 @@ public class BasicOptionPaneUI extends OptionPaneUI {
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (getName() == CLOSE) {
                 JOptionPane optionPane = (JOptionPane)e.getSource();
@@ -1440,12 +1472,14 @@ public class BasicOptionPaneUI extends OptionPaneUI {
                 this.minimumWidth = minimumWidth;
             }
 
+            @Override
             public Dimension getMinimumSize() {
                 Dimension min = super.getMinimumSize();
                 min.width = Math.max(min.width, minimumWidth);
                 return min;
             }
 
+            @Override
             public Dimension getPreferredSize() {
                 Dimension pref = super.getPreferredSize();
                 pref.width = Math.max(pref.width, minimumWidth);

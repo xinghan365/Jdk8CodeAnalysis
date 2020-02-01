@@ -285,6 +285,7 @@ public class DefaultFormatterFactory extends JFormattedTextField.AbstractFormatt
      * @return JFormattedTextField.AbstractFormatter to handle
      *         formatting duties.
      */
+    @Override
     public JFormattedTextField.AbstractFormatter getFormatter(
                      JFormattedTextField source) {
         JFormattedTextField.AbstractFormatter format = null;

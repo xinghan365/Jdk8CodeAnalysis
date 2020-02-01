@@ -94,6 +94,7 @@ class HeapDoubleBufferR
 
     }
 
+    @Override
     public DoubleBuffer slice() {
         return new HeapDoubleBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapDoubleBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public DoubleBuffer duplicate() {
         return new HeapDoubleBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapDoubleBufferR
                                         offset);
     }
 
+    @Override
     public DoubleBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapDoubleBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public DoubleBuffer put(double x) {
 
 
@@ -173,6 +178,7 @@ class HeapDoubleBufferR
 
     }
 
+    @Override
     public DoubleBuffer put(int i, double x) {
 
 
@@ -182,6 +188,7 @@ class HeapDoubleBufferR
 
     }
 
+    @Override
     public DoubleBuffer put(double[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapDoubleBufferR
 
     }
 
+    @Override
     public DoubleBuffer put(DoubleBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapDoubleBufferR
 
     }
 
+    @Override
     public DoubleBuffer compact() {
 
 
@@ -592,6 +601,7 @@ class HeapDoubleBufferR
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

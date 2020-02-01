@@ -143,6 +143,7 @@ public class JButton extends AbstractButton implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ButtonUI)UIManager.getUI(this));
     }
@@ -159,6 +160,7 @@ public class JButton extends AbstractButton implements Accessible {
      *        expert: true
      *   description: A string that specifies the name of the L&amp;F class.
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -228,6 +230,7 @@ public class JButton extends AbstractButton implements Accessible {
      * default button to <code>null</code> to ensure the
      * <code>RootPane</code> doesn't hold onto an invalid button reference.
      */
+    @Override
     public void removeNotify() {
         JRootPane root = SwingUtilities.getRootPane(this);
         if (root != null && root.getDefaultButton() == this) {
@@ -261,6 +264,7 @@ public class JButton extends AbstractButton implements Accessible {
      *
      * @return  a string representation of this <code>JButton</code>
      */
+    @Override
     protected String paramString() {
         String defaultCapableString = (defaultCapable ? "true" : "false");
 
@@ -286,6 +290,7 @@ public class JButton extends AbstractButton implements Accessible {
      *       expert: true
      *  description: The AccessibleContext associated with this Button.
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJButton();
@@ -318,6 +323,7 @@ public class JButton extends AbstractButton implements Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PUSH_BUTTON;
         }

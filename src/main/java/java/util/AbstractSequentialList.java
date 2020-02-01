@@ -83,6 +83,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public E get(int index) {
         try {
             return listIterator(index).next();
@@ -110,6 +111,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      * @throws IllegalArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
+    @Override
     public E set(int index, E element) {
         try {
             ListIterator<E> e = listIterator(index);
@@ -141,6 +143,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      * @throws IllegalArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
+    @Override
     public void add(int index, E element) {
         try {
             listIterator(index).add(element);
@@ -166,6 +169,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
+    @Override
     public E remove(int index) {
         try {
             ListIterator<E> e = listIterator(index);
@@ -209,6 +213,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      * @throws IllegalArgumentException      {@inheritDoc}
      * @throws IndexOutOfBoundsException     {@inheritDoc}
      */
+    @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         try {
             boolean modified = false;
@@ -235,6 +240,7 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      *
      * @return an iterator over the elements in this list (in proper sequence)
      */
+    @Override
     public Iterator<E> iterator() {
         return listIterator();
     }
@@ -249,5 +255,6 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
      *         sequence)
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public abstract ListIterator<E> listIterator(int index);
 }

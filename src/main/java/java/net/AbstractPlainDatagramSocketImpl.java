@@ -63,6 +63,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
     static {
         java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     System.loadLibrary("net");
                     return null;
@@ -73,6 +74,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
     /**
      * Creates a datagram socket
      */
+    @Override
     protected synchronized void create() throws SocketException {
         ResourceManager.beforeUdpCreate();
         fd = new FileDescriptor();
@@ -88,6 +90,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
     /**
      * Binds a datagram socket to a local port.
      */
+    @Override
     protected synchronized void bind(int lport, InetAddress laddr)
         throws SocketException {
         bind0(lport, laddr);
@@ -101,6 +104,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * destination address to send the packet to.
      * @param p the packet to be sent.
      */
+    @Override
     protected abstract void send(DatagramPacket p) throws IOException;
 
     /**
@@ -110,6 +114,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * @param address the remote InetAddress to connect to
      * @param port the remote port number
      */
+    @Override
     protected void connect(InetAddress address, int port) throws SocketException {
         connect0(address, port);
         connectedAddress = address;
@@ -121,6 +126,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * Disconnects a previously connected socket. Does nothing if the socket was
      * not connected already.
      */
+    @Override
     protected void disconnect() {
         disconnect0(connectedAddress.holder().getFamily());
         connected = false;
@@ -132,12 +138,15 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * Peek at the packet to see who it is from.
      * @param i the address to populate with the sender address
      */
+    @Override
     protected abstract int peek(InetAddress i) throws IOException;
+    @Override
     protected abstract int peekData(DatagramPacket p) throws IOException;
     /**
      * Receive the datagram packet.
      * @param p the packet to receive into
      */
+    @Override
     protected synchronized void receive(DatagramPacket p)
         throws IOException {
         receive0(p);
@@ -150,23 +159,27 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * Set the TTL (time-to-live) option.
      * @param ttl TTL to be set.
      */
+    @Override
     protected abstract void setTimeToLive(int ttl) throws IOException;
 
     /**
      * Get the TTL (time-to-live) option.
      */
+    @Override
     protected abstract int getTimeToLive() throws IOException;
 
     /**
      * Set the TTL (time-to-live) option.
      * @param ttl TTL to be set.
      */
+    @Override
     @Deprecated
     protected abstract void setTTL(byte ttl) throws IOException;
 
     /**
      * Get the TTL (time-to-live) option.
      */
+    @Override
     @Deprecated
     protected abstract byte getTTL() throws IOException;
 
@@ -174,6 +187,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * Join the multicast group.
      * @param inetaddr multicast address to join.
      */
+    @Override
     protected void join(InetAddress inetaddr) throws IOException {
         join(inetaddr, null);
     }
@@ -182,6 +196,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * Leave the multicast group.
      * @param inetaddr multicast address to leave.
      */
+    @Override
     protected void leave(InetAddress inetaddr) throws IOException {
         leave(inetaddr, null);
     }
@@ -195,10 +210,12 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * @since 1.4
      */
 
+    @Override
     protected void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf)
         throws IOException {
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
+        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress)) {
             throw new IllegalArgumentException("Unsupported address type");
+        }
         join(((InetSocketAddress)mcastaddr).getAddress(), netIf);
     }
 
@@ -213,10 +230,12 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      *          SocketAddress subclass not supported by this socket
      * @since 1.4
      */
+    @Override
     protected void leaveGroup(SocketAddress mcastaddr, NetworkInterface netIf)
         throws IOException {
-        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress))
+        if (mcastaddr == null || !(mcastaddr instanceof InetSocketAddress)) {
             throw new IllegalArgumentException("Unsupported address type");
+        }
         leave(((InetSocketAddress)mcastaddr).getAddress(), netIf);
     }
 
@@ -226,6 +245,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
     /**
      * Close the socket.
      */
+    @Override
     protected void close() {
         if (fd != null) {
             datagramSocketClose();
@@ -238,6 +258,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
         return (fd == null) ? true : false;
     }
 
+    @Override
     protected void finalize() {
         close();
     }
@@ -247,6 +268,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * here, o must be a Boolean
      */
 
+     @Override
      public void setOption(int optID, Object o) throws SocketException {
          if (isClosed()) {
              throw new SocketException("Socket Closed");
@@ -261,8 +283,9 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
                  throw new SocketException("bad argument for SO_TIMEOUT");
              }
              int tmp = ((Integer) o).intValue();
-             if (tmp < 0)
+             if (tmp < 0) {
                  throw new IllegalArgumentException("timeout < 0");
+             }
              timeout = tmp;
              return;
          case IP_TOS:
@@ -292,16 +315,19 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
              }
              break;
          case IP_MULTICAST_IF:
-             if (o == null || !(o instanceof InetAddress))
+             if (o == null || !(o instanceof InetAddress)) {
                  throw new SocketException("bad argument for IP_MULTICAST_IF");
+             }
              break;
          case IP_MULTICAST_IF2:
-             if (o == null || !(o instanceof NetworkInterface))
+             if (o == null || !(o instanceof NetworkInterface)) {
                  throw new SocketException("bad argument for IP_MULTICAST_IF2");
+             }
              break;
          case IP_MULTICAST_LOOP:
-             if (o == null || !(o instanceof Boolean))
+             if (o == null || !(o instanceof Boolean)) {
                  throw new SocketException("bad argument for IP_MULTICAST_LOOP");
+             }
              break;
          default:
              throw new SocketException("invalid option: " + optID);
@@ -313,6 +339,7 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
      * get option's state - set or not
      */
 
+    @Override
     public Object getOption(int optID) throws SocketException {
         if (isClosed()) {
             throw new SocketException("Socket Closed");
@@ -363,5 +390,6 @@ abstract class AbstractPlainDatagramSocketImpl extends DatagramSocketImpl
         return connectDisabled;
     }
 
+    @Override
     abstract int dataAvailable();
 }

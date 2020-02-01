@@ -221,9 +221,10 @@ public class IdentityHashMap<K,V>
      * @throws IllegalArgumentException if <tt>expectedMaxSize</tt> is negative
      */
     public IdentityHashMap(int expectedMaxSize) {
-        if (expectedMaxSize < 0)
+        if (expectedMaxSize < 0) {
             throw new IllegalArgumentException("expectedMaxSize is negative: "
                                                + expectedMaxSize);
+        }
         init(capacity(expectedMaxSize));
     }
 
@@ -273,6 +274,7 @@ public class IdentityHashMap<K,V>
      *
      * @return the number of key-value mappings in this map
      */
+    @Override
     public int size() {
         return size;
     }
@@ -284,6 +286,7 @@ public class IdentityHashMap<K,V>
      * @return <tt>true</tt> if this identity hash map contains no key-value
      *         mappings
      */
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
@@ -321,6 +324,7 @@ public class IdentityHashMap<K,V>
      *
      * @see #put(Object, Object)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public V get(Object key) {
         Object k = maskNull(key);
@@ -329,10 +333,12 @@ public class IdentityHashMap<K,V>
         int i = hash(k, len);
         while (true) {
             Object item = tab[i];
-            if (item == k)
+            if (item == k) {
                 return (V) tab[i + 1];
-            if (item == null)
+            }
+            if (item == null) {
                 return null;
+            }
             i = nextKeyIndex(i, len);
         }
     }
@@ -346,6 +352,7 @@ public class IdentityHashMap<K,V>
      *          in this map
      * @see     #containsValue(Object)
      */
+    @Override
     public boolean containsKey(Object key) {
         Object k = maskNull(key);
         Object[] tab = table;
@@ -353,10 +360,12 @@ public class IdentityHashMap<K,V>
         int i = hash(k, len);
         while (true) {
             Object item = tab[i];
-            if (item == k)
+            if (item == k) {
                 return true;
-            if (item == null)
+            }
+            if (item == null) {
                 return false;
+            }
             i = nextKeyIndex(i, len);
         }
     }
@@ -370,11 +379,14 @@ public class IdentityHashMap<K,V>
      *         specified object reference
      * @see     #containsKey(Object)
      */
+    @Override
     public boolean containsValue(Object value) {
         Object[] tab = table;
-        for (int i = 1; i < tab.length; i += 2)
-            if (tab[i] == value && tab[i - 1] != null)
+        for (int i = 1; i < tab.length; i += 2) {
+            if (tab[i] == value && tab[i - 1] != null) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -394,10 +406,12 @@ public class IdentityHashMap<K,V>
         int i = hash(k, len);
         while (true) {
             Object item = tab[i];
-            if (item == k)
+            if (item == k) {
                 return tab[i + 1] == value;
-            if (item == null)
+            }
+            if (item == null) {
                 return false;
+            }
             i = nextKeyIndex(i, len);
         }
     }
@@ -417,6 +431,7 @@ public class IdentityHashMap<K,V>
      * @see     #get(Object)
      * @see     #containsKey(Object)
      */
+    @Override
     public V put(K key, V value) {
         final Object k = maskNull(key);
 
@@ -438,8 +453,9 @@ public class IdentityHashMap<K,V>
             final int s = size + 1;
             // Use optimized form of 3 * s.
             // Next capacity is len, 2 * current capacity.
-            if (s + (s << 1) > len && resize(len))
+            if (s + (s << 1) > len && resize(len)) {
                 continue retryAfterResize;
+            }
 
             modCount++;
             tab[i] = k;
@@ -462,12 +478,14 @@ public class IdentityHashMap<K,V>
         Object[] oldTable = table;
         int oldLength = oldTable.length;
         if (oldLength == 2 * MAXIMUM_CAPACITY) { // can't expand any further
-            if (size == MAXIMUM_CAPACITY - 1)
+            if (size == MAXIMUM_CAPACITY - 1) {
                 throw new IllegalStateException("Capacity exhausted.");
+            }
             return false;
         }
-        if (oldLength >= newLength)
+        if (oldLength >= newLength) {
             return false;
+        }
 
         Object[] newTable = new Object[newLength];
 
@@ -478,8 +496,9 @@ public class IdentityHashMap<K,V>
                 oldTable[j] = null;
                 oldTable[j+1] = null;
                 int i = hash(key, newLength);
-                while (newTable[i] != null)
+                while (newTable[i] != null) {
                     i = nextKeyIndex(i, newLength);
+                }
                 newTable[i] = key;
                 newTable[i + 1] = value;
             }
@@ -496,15 +515,19 @@ public class IdentityHashMap<K,V>
      * @param m mappings to be stored in this map
      * @throws NullPointerException if the specified map is null
      */
+    @Override
     public void putAll(Map<? extends K, ? extends V> m) {
         int n = m.size();
-        if (n == 0)
+        if (n == 0) {
             return;
-        if (n > size)
+        }
+        if (n > size) {
             resize(capacity(n)); // conservatively pre-expand
+        }
 
-        for (Entry<? extends K, ? extends V> e : m.entrySet())
+        for (Entry<? extends K, ? extends V> e : m.entrySet()) {
             put(e.getKey(), e.getValue());
+        }
     }
 
     /**
@@ -516,6 +539,7 @@ public class IdentityHashMap<K,V>
      *         (A <tt>null</tt> return can also indicate that the map
      *         previously associated <tt>null</tt> with <tt>key</tt>.)
      */
+    @Override
     public V remove(Object key) {
         Object k = maskNull(key);
         Object[] tab = table;
@@ -534,8 +558,9 @@ public class IdentityHashMap<K,V>
                 closeDeletion(i);
                 return oldValue;
             }
-            if (item == null)
+            if (item == null) {
                 return null;
+            }
             i = nextKeyIndex(i, len);
         }
     }
@@ -557,8 +582,9 @@ public class IdentityHashMap<K,V>
         while (true) {
             Object item = tab[i];
             if (item == k) {
-                if (tab[i + 1] != value)
+                if (tab[i + 1] != value) {
                     return false;
+                }
                 modCount++;
                 size--;
                 tab[i] = null;
@@ -566,8 +592,9 @@ public class IdentityHashMap<K,V>
                 closeDeletion(i);
                 return true;
             }
-            if (item == null)
+            if (item == null) {
                 return false;
+            }
             i = nextKeyIndex(i, len);
         }
     }
@@ -612,11 +639,13 @@ public class IdentityHashMap<K,V>
      * Removes all of the mappings from this map.
      * The map will be empty after this call returns.
      */
+    @Override
     public void clear() {
         modCount++;
         Object[] tab = table;
-        for (int i = 0; i < tab.length; i++)
+        for (int i = 0; i < tab.length; i++) {
             tab[i] = null;
+        }
         size = 0;
     }
 
@@ -637,19 +666,22 @@ public class IdentityHashMap<K,V>
      * @return <tt>true</tt> if the specified object is equal to this map
      * @see Object#equals(Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
         } else if (o instanceof IdentityHashMap) {
             IdentityHashMap<?,?> m = (IdentityHashMap<?,?>) o;
-            if (m.size() != size)
+            if (m.size() != size) {
                 return false;
+            }
 
             Object[] tab = m.table;
             for (int i = 0; i < tab.length; i+=2) {
                 Object k = tab[i];
-                if (k != null && !containsMapping(k, tab[i + 1]))
+                if (k != null && !containsMapping(k, tab[i + 1])) {
                     return false;
+                }
             }
             return true;
         } else if (o instanceof Map) {
@@ -679,6 +711,7 @@ public class IdentityHashMap<K,V>
      * @see Object#equals(Object)
      * @see #equals(Object)
      */
+    @Override
     public int hashCode() {
         int result = 0;
         Object[] tab = table;
@@ -699,6 +732,7 @@ public class IdentityHashMap<K,V>
      *
      * @return a shallow copy of this map
      */
+    @Override
     public Object clone() {
         try {
             IdentityHashMap<?,?> m = (IdentityHashMap<?,?>) super.clone();
@@ -717,6 +751,7 @@ public class IdentityHashMap<K,V>
         boolean indexValid; // To avoid unnecessary next computation
         Object[] traversalTable = table; // reference to main table or copy
 
+        @Override
         public boolean hasNext() {
             Object[] tab = traversalTable;
             for (int i = index; i < tab.length; i+=2) {
@@ -731,10 +766,12 @@ public class IdentityHashMap<K,V>
         }
 
         protected int nextIndex() {
-            if (modCount != expectedModCount)
+            if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
-            if (!indexValid && !hasNext())
+            }
+            if (!indexValid && !hasNext()) {
                 throw new NoSuchElementException();
+            }
 
             indexValid = false;
             lastReturnedIndex = index;
@@ -742,11 +779,14 @@ public class IdentityHashMap<K,V>
             return lastReturnedIndex;
         }
 
+        @Override
         public void remove() {
-            if (lastReturnedIndex == -1)
+            if (lastReturnedIndex == -1) {
                 throw new IllegalStateException();
-            if (modCount != expectedModCount)
+            }
+            if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
+            }
 
             expectedModCount = ++modCount;
             int deletedSlot = lastReturnedIndex;
@@ -821,6 +861,7 @@ public class IdentityHashMap<K,V>
     }
 
     private class KeyIterator extends IdentityHashMapIterator<K> {
+        @Override
         @SuppressWarnings("unchecked")
         public K next() {
             return (K) unmaskNull(traversalTable[nextIndex()]);
@@ -828,6 +869,7 @@ public class IdentityHashMap<K,V>
     }
 
     private class ValueIterator extends IdentityHashMapIterator<V> {
+        @Override
         @SuppressWarnings("unchecked")
         public V next() {
             return (V) traversalTable[nextIndex() + 1];
@@ -839,11 +881,13 @@ public class IdentityHashMap<K,V>
     {
         private Entry lastReturnedEntry;
 
+        @Override
         public Map.Entry<K,V> next() {
             lastReturnedEntry = new Entry(nextIndex());
             return lastReturnedEntry;
         }
 
+        @Override
         public void remove() {
             lastReturnedIndex =
                 ((null == lastReturnedEntry) ? -1 : lastReturnedEntry.index);
@@ -859,59 +903,71 @@ public class IdentityHashMap<K,V>
                 this.index = index;
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public K getKey() {
                 checkIndexForEntryUse();
                 return (K) unmaskNull(traversalTable[index]);
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public V getValue() {
                 checkIndexForEntryUse();
                 return (V) traversalTable[index+1];
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public V setValue(V value) {
                 checkIndexForEntryUse();
                 V oldValue = (V) traversalTable[index+1];
                 traversalTable[index+1] = value;
                 // if shadowing, force into main table
-                if (traversalTable != IdentityHashMap.this.table)
+                if (traversalTable != IdentityHashMap.this.table) {
                     put((K) traversalTable[index], value);
+                }
                 return oldValue;
             }
 
+            @Override
             public boolean equals(Object o) {
-                if (index < 0)
+                if (index < 0) {
                     return super.equals(o);
+                }
 
-                if (!(o instanceof Map.Entry))
+                if (!(o instanceof Map.Entry)) {
                     return false;
+                }
                 Map.Entry<?,?> e = (Map.Entry<?,?>)o;
                 return (e.getKey() == unmaskNull(traversalTable[index]) &&
                        e.getValue() == traversalTable[index+1]);
             }
 
+            @Override
             public int hashCode() {
-                if (lastReturnedIndex < 0)
+                if (lastReturnedIndex < 0) {
                     return super.hashCode();
+                }
 
                 return (System.identityHashCode(unmaskNull(traversalTable[index])) ^
                        System.identityHashCode(traversalTable[index+1]));
             }
 
+            @Override
             public String toString() {
-                if (index < 0)
+                if (index < 0) {
                     return super.toString();
+                }
 
                 return (unmaskNull(traversalTable[index]) + "="
                         + traversalTable[index+1]);
             }
 
             private void checkIndexForEntryUse() {
-                if (index < 0)
+                if (index < 0) {
                     throw new IllegalStateException("Entry was removed");
+                }
             }
         }
     }
@@ -963,6 +1019,7 @@ public class IdentityHashMap<K,V>
      * @see Object#equals(Object)
      * @see System#identityHashCode(Object)
      */
+    @Override
     public Set<K> keySet() {
         Set<K> ks = keySet;
         if (ks == null) {
@@ -973,15 +1030,19 @@ public class IdentityHashMap<K,V>
     }
 
     private class KeySet extends AbstractSet<K> {
+        @Override
         public Iterator<K> iterator() {
             return new KeyIterator();
         }
+        @Override
         public int size() {
             return size;
         }
+        @Override
         public boolean contains(Object o) {
             return containsKey(o);
         }
+        @Override
         public boolean remove(Object o) {
             int oldSize = size;
             IdentityHashMap.this.remove(o);
@@ -992,6 +1053,7 @@ public class IdentityHashMap<K,V>
          * the former contains an optimization that results in incorrect
          * behavior when c is a smaller "normal" (non-identity-based) Set.
          */
+        @Override
         public boolean removeAll(Collection<?> c) {
             Objects.requireNonNull(c);
             boolean modified = false;
@@ -1003,24 +1065,30 @@ public class IdentityHashMap<K,V>
             }
             return modified;
         }
+        @Override
         public void clear() {
             IdentityHashMap.this.clear();
         }
+        @Override
         public int hashCode() {
             int result = 0;
-            for (K key : this)
+            for (K key : this) {
                 result += System.identityHashCode(key);
+            }
             return result;
         }
+        @Override
         public Object[] toArray() {
             return toArray(new Object[0]);
         }
+        @Override
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             int expectedModCount = modCount;
             int size = size();
-            if (a.length < size)
+            if (a.length < size) {
                 a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
+            }
             Object[] tab = table;
             int ti = 0;
             for (int si = 0; si < tab.length; si += 2) {
@@ -1044,6 +1112,7 @@ public class IdentityHashMap<K,V>
             return a;
         }
 
+        @Override
         public Spliterator<K> spliterator() {
             return new KeySpliterator<>(IdentityHashMap.this, 0, -1, 0, 0);
         }
@@ -1069,6 +1138,7 @@ public class IdentityHashMap<K,V>
      * behavior of its <tt>contains</tt>, <tt>remove</tt> and
      * <tt>containsAll</tt> methods.</b>
      */
+    @Override
     public Collection<V> values() {
         Collection<V> vs = values;
         if (vs == null) {
@@ -1079,15 +1149,19 @@ public class IdentityHashMap<K,V>
     }
 
     private class Values extends AbstractCollection<V> {
+        @Override
         public Iterator<V> iterator() {
             return new ValueIterator();
         }
+        @Override
         public int size() {
             return size;
         }
+        @Override
         public boolean contains(Object o) {
             return containsValue(o);
         }
+        @Override
         public boolean remove(Object o) {
             for (Iterator<V> i = iterator(); i.hasNext(); ) {
                 if (i.next() == o) {
@@ -1097,18 +1171,22 @@ public class IdentityHashMap<K,V>
             }
             return false;
         }
+        @Override
         public void clear() {
             IdentityHashMap.this.clear();
         }
+        @Override
         public Object[] toArray() {
             return toArray(new Object[0]);
         }
+        @Override
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             int expectedModCount = modCount;
             int size = size();
-            if (a.length < size)
+            if (a.length < size) {
                 a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
+            }
             Object[] tab = table;
             int ti = 0;
             for (int si = 0; si < tab.length; si += 2) {
@@ -1131,6 +1209,7 @@ public class IdentityHashMap<K,V>
             return a;
         }
 
+        @Override
         public Spliterator<V> spliterator() {
             return new ValueSpliterator<>(IdentityHashMap.this, 0, -1, 0, 0);
         }
@@ -1174,33 +1253,42 @@ public class IdentityHashMap<K,V>
      *
      * @return a set view of the identity-mappings contained in this map
      */
+    @Override
     public Set<Map.Entry<K,V>> entrySet() {
         Set<Map.Entry<K,V>> es = entrySet;
-        if (es != null)
+        if (es != null) {
             return es;
-        else
+        } else {
             return entrySet = new EntrySet();
+        }
     }
 
     private class EntrySet extends AbstractSet<Map.Entry<K,V>> {
+        @Override
         public Iterator<Map.Entry<K,V>> iterator() {
             return new EntryIterator();
         }
+        @Override
         public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
+            if (!(o instanceof Map.Entry)) {
                 return false;
+            }
             Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
             return containsMapping(entry.getKey(), entry.getValue());
         }
+        @Override
         public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
+            if (!(o instanceof Map.Entry)) {
                 return false;
+            }
             Map.Entry<?,?> entry = (Map.Entry<?,?>)o;
             return removeMapping(entry.getKey(), entry.getValue());
         }
+        @Override
         public int size() {
             return size;
         }
+        @Override
         public void clear() {
             IdentityHashMap.this.clear();
         }
@@ -1209,6 +1297,7 @@ public class IdentityHashMap<K,V>
          * the former contains an optimization that results in incorrect
          * behavior when c is a smaller "normal" (non-identity-based) Set.
          */
+        @Override
         public boolean removeAll(Collection<?> c) {
             Objects.requireNonNull(c);
             boolean modified = false;
@@ -1221,16 +1310,19 @@ public class IdentityHashMap<K,V>
             return modified;
         }
 
+        @Override
         public Object[] toArray() {
             return toArray(new Object[0]);
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             int expectedModCount = modCount;
             int size = size();
-            if (a.length < size)
+            if (a.length < size) {
                 a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);
+            }
             Object[] tab = table;
             int ti = 0;
             for (int si = 0; si < tab.length; si += 2) {
@@ -1254,6 +1346,7 @@ public class IdentityHashMap<K,V>
             return a;
         }
 
+        @Override
         public Spliterator<Map.Entry<K,V>> spliterator() {
             return new EntrySpliterator<>(IdentityHashMap.this, 0, -1, 0, 0);
         }
@@ -1302,9 +1395,10 @@ public class IdentityHashMap<K,V>
 
         // Read in size (number of Mappings)
         int size = s.readInt();
-        if (size < 0)
+        if (size < 0) {
             throw new java.io.StreamCorruptedException
                 ("Illegal mappings count: " + size);
+        }
         int cap = capacity(size);
         SharedSecrets.getJavaOISAccess().checkArray(s, Object[].class, cap);
         init(cap);
@@ -1333,8 +1427,9 @@ public class IdentityHashMap<K,V>
 
         Object item;
         while ( (item = tab[i]) != null) {
-            if (item == k)
+            if (item == k) {
                 throw new java.io.StreamCorruptedException();
+            }
             i = nextKeyIndex(i, len);
         }
         tab[i] = k;
@@ -1423,6 +1518,7 @@ public class IdentityHashMap<K,V>
             super(map, origin, fence, est, expectedModCount);
         }
 
+        @Override
         public KeySpliterator<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = ((lo + hi) >>> 1) & ~1;
             return (lo >= mid) ? null :
@@ -1430,28 +1526,34 @@ public class IdentityHashMap<K,V>
                                         expectedModCount);
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public void forEachRemaining(Consumer<? super K> action) {
-            if (action == null)
+            if (action == null) {
                 throw new NullPointerException();
+            }
             int i, hi, mc; Object key;
             IdentityHashMap<K,V> m; Object[] a;
             if ((m = map) != null && (a = m.table) != null &&
                 (i = index) >= 0 && (index = hi = getFence()) <= a.length) {
                 for (; i < hi; i += 2) {
-                    if ((key = a[i]) != null)
+                    if ((key = a[i]) != null) {
                         action.accept((K)unmaskNull(key));
+                    }
                 }
-                if (m.modCount == expectedModCount)
+                if (m.modCount == expectedModCount) {
                     return;
+                }
             }
             throw new ConcurrentModificationException();
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public boolean tryAdvance(Consumer<? super K> action) {
-            if (action == null)
+            if (action == null) {
                 throw new NullPointerException();
+            }
             Object[] a = map.table;
             int hi = getFence();
             while (index < hi) {
@@ -1459,14 +1561,16 @@ public class IdentityHashMap<K,V>
                 index += 2;
                 if (key != null) {
                     action.accept((K)unmaskNull(key));
-                    if (map.modCount != expectedModCount)
+                    if (map.modCount != expectedModCount) {
                         throw new ConcurrentModificationException();
+                    }
                     return true;
                 }
             }
             return false;
         }
 
+        @Override
         public int characteristics() {
             return (fence < 0 || est == map.size ? SIZED : 0) | Spliterator.DISTINCT;
         }
@@ -1480,6 +1584,7 @@ public class IdentityHashMap<K,V>
             super(m, origin, fence, est, expectedModCount);
         }
 
+        @Override
         public ValueSpliterator<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = ((lo + hi) >>> 1) & ~1;
             return (lo >= mid) ? null :
@@ -1487,9 +1592,11 @@ public class IdentityHashMap<K,V>
                                           expectedModCount);
         }
 
+        @Override
         public void forEachRemaining(Consumer<? super V> action) {
-            if (action == null)
+            if (action == null) {
                 throw new NullPointerException();
+            }
             int i, hi, mc;
             IdentityHashMap<K,V> m; Object[] a;
             if ((m = map) != null && (a = m.table) != null &&
@@ -1500,15 +1607,18 @@ public class IdentityHashMap<K,V>
                         action.accept(v);
                     }
                 }
-                if (m.modCount == expectedModCount)
+                if (m.modCount == expectedModCount) {
                     return;
+                }
             }
             throw new ConcurrentModificationException();
         }
 
+        @Override
         public boolean tryAdvance(Consumer<? super V> action) {
-            if (action == null)
+            if (action == null) {
                 throw new NullPointerException();
+            }
             Object[] a = map.table;
             int hi = getFence();
             while (index < hi) {
@@ -1517,14 +1627,16 @@ public class IdentityHashMap<K,V>
                 index += 2;
                 if (key != null) {
                     action.accept(v);
-                    if (map.modCount != expectedModCount)
+                    if (map.modCount != expectedModCount) {
                         throw new ConcurrentModificationException();
+                    }
                     return true;
                 }
             }
             return false;
         }
 
+        @Override
         public int characteristics() {
             return (fence < 0 || est == map.size ? SIZED : 0);
         }
@@ -1539,6 +1651,7 @@ public class IdentityHashMap<K,V>
             super(m, origin, fence, est, expectedModCount);
         }
 
+        @Override
         public EntrySpliterator<K,V> trySplit() {
             int hi = getFence(), lo = index, mid = ((lo + hi) >>> 1) & ~1;
             return (lo >= mid) ? null :
@@ -1546,9 +1659,11 @@ public class IdentityHashMap<K,V>
                                           expectedModCount);
         }
 
+        @Override
         public void forEachRemaining(Consumer<? super Map.Entry<K, V>> action) {
-            if (action == null)
+            if (action == null) {
                 throw new NullPointerException();
+            }
             int i, hi, mc;
             IdentityHashMap<K,V> m; Object[] a;
             if ((m = map) != null && (a = m.table) != null &&
@@ -1564,15 +1679,18 @@ public class IdentityHashMap<K,V>
 
                     }
                 }
-                if (m.modCount == expectedModCount)
+                if (m.modCount == expectedModCount) {
                     return;
+                }
             }
             throw new ConcurrentModificationException();
         }
 
+        @Override
         public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null)
+            if (action == null) {
                 throw new NullPointerException();
+            }
             Object[] a = map.table;
             int hi = getFence();
             while (index < hi) {
@@ -1584,14 +1702,16 @@ public class IdentityHashMap<K,V>
                         (K)unmaskNull(key);
                     action.accept
                         (new AbstractMap.SimpleImmutableEntry<K,V>(k, v));
-                    if (map.modCount != expectedModCount)
+                    if (map.modCount != expectedModCount) {
                         throw new ConcurrentModificationException();
+                    }
                     return true;
                 }
             }
             return false;
         }
 
+        @Override
         public int characteristics() {
             return (fence < 0 || est == map.size ? SIZED : 0) | Spliterator.DISTINCT;
         }

@@ -47,6 +47,7 @@ public class PrintEvent extends java.util.EventObject {
     /**
      * @return a message describing the event
      */
+    @Override
     public String toString() {
         return ("PrintEvent on " + getSource().toString());
     }

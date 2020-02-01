@@ -89,6 +89,7 @@ public interface RetrievalMethod extends URIReference, XMLStructure {
      * @return the URI of the referenced <code>KeyInfo</code> information in
      *    RFC 2396 format (never <code>null</code>)
      */
+    @Override
     String getURI();
 
    /**

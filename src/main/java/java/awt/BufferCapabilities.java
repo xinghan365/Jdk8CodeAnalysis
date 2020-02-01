@@ -132,6 +132,7 @@ public class BufferCapabilities implements Cloneable {
     /**
      * @return a copy of this BufferCapabilities object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();

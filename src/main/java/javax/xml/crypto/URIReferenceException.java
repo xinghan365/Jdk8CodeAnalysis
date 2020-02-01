@@ -151,6 +151,7 @@ public class URIReferenceException extends Exception {
      * @return the cause of this {@code URIReferenceException} or
      *    {@code null} if the cause is nonexistent or unknown.
      */
+    @Override
     public Throwable getCause() {
         return cause;
     }
@@ -159,6 +160,7 @@ public class URIReferenceException extends Exception {
      * Prints this {@code URIReferenceException}, its backtrace and
      * the cause's backtrace to the standard error stream.
      */
+    @Override
     public void printStackTrace() {
         super.printStackTrace();
         //XXX print backtrace of cause
@@ -170,6 +172,7 @@ public class URIReferenceException extends Exception {
      *
      * @param s {@code PrintStream} to use for output
      */
+    @Override
     public void printStackTrace(PrintStream s) {
         super.printStackTrace(s);
         //XXX print backtrace of cause
@@ -181,6 +184,7 @@ public class URIReferenceException extends Exception {
      *
      * @param s {@code PrintWriter} to use for output
      */
+    @Override
     public void printStackTrace(PrintWriter s) {
         super.printStackTrace(s);
         //XXX print backtrace of cause

@@ -241,6 +241,7 @@ public class JInternalFrame extends JComponent implements
 
     private static class FocusPropertyChangeListener implements
         PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             if (e.getPropertyName() == "permanentFocusOwner") {
                 updateLastFocusOwner((Component)e.getNewValue());
@@ -400,6 +401,7 @@ public class JInternalFrame extends JComponent implements
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((InternalFrameUI)UIManager.getUI(this));
         invalidate();
@@ -436,6 +438,7 @@ public class JInternalFrame extends JComponent implements
      * @beaninfo
      *     description: UIClassID
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -495,6 +498,7 @@ public class JInternalFrame extends JComponent implements
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         if(isRootPaneCheckingEnabled()) {
             getContentPane().add(comp, constraints, index);
@@ -514,6 +518,7 @@ public class JInternalFrame extends JComponent implements
      * @see #add
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void remove(Component comp) {
         int oldCount = getComponentCount();
         super.remove(comp);
@@ -533,6 +538,7 @@ public class JInternalFrame extends JComponent implements
      * @param manager the <code>LayoutManager</code>
      * @see #setRootPaneCheckingEnabled
      */
+    @Override
     public void setLayout(LayoutManager manager) {
         if(isRootPaneCheckingEnabled()) {
             getContentPane().setLayout(manager);
@@ -610,6 +616,7 @@ public class JInternalFrame extends JComponent implements
      * Returns the content pane for this internal frame.
      * @return the content pane
      */
+    @Override
     public Container getContentPane() {
         return getRootPane().getContentPane();
     }
@@ -630,6 +637,7 @@ public class JInternalFrame extends JComponent implements
      *     description: The client area of the internal frame where child
      *                  components are normally inserted.
      */
+    @Override
     public void setContentPane(Container c) {
         Container oldValue = getContentPane();
         getRootPane().setContentPane(c);
@@ -643,6 +651,7 @@ public class JInternalFrame extends JComponent implements
      * @see RootPaneContainer#setLayeredPane
      * @see RootPaneContainer#getLayeredPane
      */
+    @Override
     public JLayeredPane getLayeredPane() {
         return getRootPane().getLayeredPane();
     }
@@ -661,6 +670,7 @@ public class JInternalFrame extends JComponent implements
      *     bound: true
      *     description: The pane which holds the various desktop layers.
      */
+    @Override
     public void setLayeredPane(JLayeredPane layered) {
         JLayeredPane oldValue = getLayeredPane();
         getRootPane().setLayeredPane(layered);
@@ -673,6 +683,7 @@ public class JInternalFrame extends JComponent implements
      * @return the glass pane
      * @see RootPaneContainer#setGlassPane
      */
+    @Override
     public Component getGlassPane() {
         return getRootPane().getGlassPane();
     }
@@ -688,6 +699,7 @@ public class JInternalFrame extends JComponent implements
      *     hidden: true
      *     description: A transparent pane used for menu rendering.
      */
+    @Override
     public void setGlassPane(Component glass) {
         Component oldValue = getGlassPane();
         getRootPane().setGlassPane(glass);
@@ -700,6 +712,7 @@ public class JInternalFrame extends JComponent implements
      * @return the <code>rootPane</code> property
      * @see RootPaneContainer#getRootPane
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -947,10 +960,11 @@ public class JInternalFrame extends JComponent implements
         fireVetoableChange(IS_ICON_PROPERTY, oldValue, newValue);
         isIcon = b;
         firePropertyChange(IS_ICON_PROPERTY, oldValue, newValue);
-        if (b)
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ICONIFIED);
-        else
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED);
+        if (b) {
+            fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ICONIFIED);
+        } else {
+            fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED);
+        }
     }
 
     /**
@@ -1117,10 +1131,11 @@ public class JInternalFrame extends JComponent implements
 
         isSelected = selected;
         firePropertyChange(IS_SELECTED_PROPERTY, oldValue, newValue);
-        if (isSelected)
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ACTIVATED);
-        else
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED);
+        if (isSelected) {
+            fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ACTIVATED);
+        } else {
+            fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED);
+        }
         repaint();
     }
 
@@ -1219,6 +1234,7 @@ public class JInternalFrame extends JComponent implements
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public void setCursor(Cursor cursor) {
         if (cursor == null) {
             lastCursor = null;
@@ -1258,8 +1274,9 @@ public class JInternalFrame extends JComponent implements
         } else {
              // Try to do the right thing
              JLayeredPane.putLayer(this, layer.intValue());
-             if(getParent() != null)
+             if(getParent() != null) {
                  getParent().repaint(getX(), getY(), getWidth(), getHeight());
+             }
         }
     }
 
@@ -1308,14 +1325,16 @@ public class JInternalFrame extends JComponent implements
 
         // Search upward for desktop
         p = getParent();
-        while(p != null && !(p instanceof JDesktopPane))
+        while(p != null && !(p instanceof JDesktopPane)) {
             p = p.getParent();
+        }
 
         if(p == null) {
            // search its icon parent for desktop
            p = getDesktopIcon().getParent();
-           while(p != null && !(p instanceof JDesktopPane))
-                p = p.getParent();
+           while(p != null && !(p instanceof JDesktopPane)) {
+               p = p.getParent();
+           }
         }
 
         return (JDesktopPane)p;
@@ -1490,6 +1509,7 @@ public class JInternalFrame extends JComponent implements
      * @param width  an integer giving the component's new width in pixels
      * @param height an integer giving the component's new height in pixels
      */
+    @Override
     public void reshape(int x, int y, int width, int height) {
         super.reshape(x, y, width, height);
         validate();
@@ -1616,10 +1636,11 @@ public class JInternalFrame extends JComponent implements
             break;
           case HIDE_ON_CLOSE:
             setVisible(false);
-            if (isSelected())
+            if (isSelected()) {
                 try {
                     setSelected(false);
                 } catch (PropertyVetoException pve) {}
+            }
 
             /* should this activate the next frame? that's really
                desktopmanager's policy... */
@@ -1731,6 +1752,7 @@ public class JInternalFrame extends JComponent implements
      * @see InternalFrameEvent#INTERNAL_FRAME_OPENED
      * @see #setVisible
      */
+    @Override
     public void show() {
         // bug 4312922
         if (isVisible()) {
@@ -1762,6 +1784,7 @@ public class JInternalFrame extends JComponent implements
         }
     }
 
+    @Override
     public void hide() {
         if (isIcon()) {
             getDesktopIcon().setVisible(false);
@@ -1838,6 +1861,7 @@ public class JInternalFrame extends JComponent implements
      * @see java.awt.Container#getFocusTraversalPolicy
      * @since 1.4
      */
+    @Override
     public final void setFocusCycleRoot(boolean focusCycleRoot) {
     }
 
@@ -1851,6 +1875,7 @@ public class JInternalFrame extends JComponent implements
      * @see java.awt.Container#getFocusTraversalPolicy
      * @since 1.4
      */
+    @Override
     public final boolean isFocusCycleRoot() {
         return true;
     }
@@ -1864,6 +1889,7 @@ public class JInternalFrame extends JComponent implements
      * @see java.awt.Container#isFocusCycleRoot()
      * @since 1.4
      */
+    @Override
     public final Container getFocusCycleRootAncestor() {
         return null;
     }
@@ -1905,6 +1931,7 @@ public class JInternalFrame extends JComponent implements
     /* Called from the JComponent's EnableSerializationFocusListener to
      * do any Swing-specific pre-serialization configuration.
      */
+    @Override
     void compWriteObjectNotify() {
       // need to disable rootpane checking for InternalFrame: 4172083
       boolean old = isRootPaneCheckingEnabled();
@@ -1927,6 +1954,7 @@ public class JInternalFrame extends JComponent implements
      *
      * @return  a string representation of this <code>JInternalFrame</code>
      */
+    @Override
     protected String paramString() {
         String rootPaneString = (rootPane != null ?
                                  rootPane.toString() : "");
@@ -1954,7 +1982,9 @@ public class JInternalFrame extends JComponent implements
             defaultCloseOperationString = "DISPOSE_ON_CLOSE";
         } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
             defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else defaultCloseOperationString = "";
+        } else {
+            defaultCloseOperationString = "";
+        }
 
         return super.paramString() +
         ",closable=" + closableString +
@@ -1983,6 +2013,7 @@ public class JInternalFrame extends JComponent implements
      * Overridden to allow optimized painting when the
      * internal frame is being dragged.
      */
+    @Override
     protected void paintComponent(Graphics g) {
       if (isDragging) {
         //         System.out.println("ouch");
@@ -2011,6 +2042,7 @@ public class JInternalFrame extends JComponent implements
      *         <code>JInternalFrame</code>
      * @see AccessibleJInternalFrame
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJInternalFrame();
@@ -2043,6 +2075,7 @@ public class JInternalFrame extends JComponent implements
          * object does not have a name
          * @see #setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             String name = accessibleName;
 
@@ -2062,6 +2095,7 @@ public class JInternalFrame extends JComponent implements
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.INTERNAL_FRAME;
         }
@@ -2074,6 +2108,7 @@ public class JInternalFrame extends JComponent implements
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -2089,6 +2124,7 @@ public class JInternalFrame extends JComponent implements
          * @return value of the object -- can be <code>null</code> if this object does not
          * have a value
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(getLayer());
         }
@@ -2098,6 +2134,7 @@ public class JInternalFrame extends JComponent implements
          *
          * @return <code>true</code> if the value was set
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // TIGER - 4422535
             if (n == null) {
@@ -2113,6 +2150,7 @@ public class JInternalFrame extends JComponent implements
          * @return Minimum value of the object; <code>null</code> if this object does not
          * have a minimum value
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.MIN_VALUE;
         }
@@ -2123,6 +2161,7 @@ public class JInternalFrame extends JComponent implements
          * @return Maximum value of the object; <code>null</code> if this object does not
          * have a maximum value
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.MAX_VALUE;
         }
@@ -2216,8 +2255,9 @@ public class JInternalFrame extends JComponent implements
          *           icon's internal frame, or <code>null</code> if none found
          */
         public JDesktopPane getDesktopPane() {
-            if(getInternalFrame() != null)
+            if(getInternalFrame() != null) {
                 return getInternalFrame().getDesktopPane();
+            }
             return null;
         }
 
@@ -2229,6 +2269,7 @@ public class JInternalFrame extends JComponent implements
          *
          * @see JComponent#updateUI
          */
+        @Override
         public void updateUI() {
             boolean hadUI = (ui != null);
             setUI((DesktopIconUI)UIManager.getUI(this));
@@ -2270,6 +2311,7 @@ public class JInternalFrame extends JComponent implements
          * @see JComponent#getUIClassID
          * @see UIDefaults#getUI
          */
+        @Override
         public String getUIClassID() {
             return "DesktopIconUI";
         }
@@ -2300,6 +2342,7 @@ public class JInternalFrame extends JComponent implements
          * @return an AccessibleJDesktopIcon that serves as the
          *         AccessibleContext of this JDesktopIcon
          */
+        @Override
         public AccessibleContext getAccessibleContext() {
             if (accessibleContext == null) {
                 accessibleContext = new AccessibleJDesktopIcon();
@@ -2332,6 +2375,7 @@ public class JInternalFrame extends JComponent implements
              * object
              * @see AccessibleRole
              */
+            @Override
             public AccessibleRole getAccessibleRole() {
                 return AccessibleRole.DESKTOP_ICON;
             }
@@ -2344,6 +2388,7 @@ public class JInternalFrame extends JComponent implements
              *
              * @return this object
              */
+            @Override
             public AccessibleValue getAccessibleValue() {
                 return this;
             }
@@ -2358,6 +2403,7 @@ public class JInternalFrame extends JComponent implements
              * @return value of the object -- can be <code>null</code> if this object does not
              * have a value
              */
+            @Override
             public Number getCurrentAccessibleValue() {
                 AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
                 AccessibleValue v = a.getAccessibleValue();
@@ -2373,6 +2419,7 @@ public class JInternalFrame extends JComponent implements
              *
              * @return <code>true</code> if the value was set
              */
+            @Override
             public boolean setCurrentAccessibleValue(Number n) {
                 // TIGER - 4422535
                 if (n == null) {
@@ -2393,6 +2440,7 @@ public class JInternalFrame extends JComponent implements
              * @return minimum value of the object; <code>null</code> if this object does not
              * have a minimum value
              */
+            @Override
             public Number getMinimumAccessibleValue() {
                 AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
                 if (a instanceof AccessibleValue) {
@@ -2408,6 +2456,7 @@ public class JInternalFrame extends JComponent implements
              * @return maximum value of the object; <code>null</code> if this object does not
              * have a maximum value
              */
+            @Override
             public Number getMaximumAccessibleValue() {
                 AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
                 if (a instanceof AccessibleValue) {

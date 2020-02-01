@@ -352,6 +352,7 @@ public class SynthSpinnerUI extends BasicSpinnerUI
         private Component previousButton = null;
         private Component editor = null;
 
+        @Override
         public void addLayoutComponent(String name, Component c) {
             if ("Next".equals(name)) {
                 nextButton = c;
@@ -364,6 +365,7 @@ public class SynthSpinnerUI extends BasicSpinnerUI
             }
         }
 
+        @Override
         public void removeLayoutComponent(Component c) {
             if (c == nextButton) {
                 nextButton = null;
@@ -380,6 +382,7 @@ public class SynthSpinnerUI extends BasicSpinnerUI
             return (c == null) ? new Dimension(0, 0) : c.getPreferredSize();
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension nextD = preferredSize(nextButton);
             Dimension previousD = preferredSize(previousButton);
@@ -397,6 +400,7 @@ public class SynthSpinnerUI extends BasicSpinnerUI
             return size;
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             return preferredLayoutSize(parent);
         }
@@ -407,6 +411,7 @@ public class SynthSpinnerUI extends BasicSpinnerUI
             }
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             Insets insets = parent.getInsets();
             int availWidth = parent.getWidth() - (insets.left + insets.right);

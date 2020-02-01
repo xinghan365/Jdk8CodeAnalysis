@@ -495,6 +495,7 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this
      *          set-of-integer attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         if (object != null && object instanceof SetOfIntegerSyntax) {
             int[][] myMembers = this.members;
@@ -522,6 +523,7 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
      * code is the sum of the lower and upper bounds of the ranges in the
      * canonical array form, or 0 for an empty set.
      */
+    @Override
     public int hashCode() {
         int result = 0;
         int n = members.length;
@@ -539,6 +541,7 @@ public abstract class SetOfIntegerSyntax implements Serializable, Cloneable {
      * the lower bound equals the upper bound or
      * <CODE>"<I>i</I>-<I>j</I>"</CODE> otherwise.
      */
+    @Override
     public String toString() {
         StringBuffer result = new StringBuffer();
         int n = members.length;

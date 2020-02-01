@@ -47,6 +47,7 @@ class BRView extends InlineView {
      *
      * @return View.ForcedBreakWeight
      */
+    @Override
     public int getBreakWeight(int axis, float pos, float len) {
         if (axis == X_AXIS) {
             return ForcedBreakWeight;

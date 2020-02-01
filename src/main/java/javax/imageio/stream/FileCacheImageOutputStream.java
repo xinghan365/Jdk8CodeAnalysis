@@ -84,17 +84,19 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
             throw new IllegalArgumentException("Not a directory!");
         }
         this.stream = stream;
-        if (cacheDir == null)
+        if (cacheDir == null) {
             this.cacheFile = Files.createTempFile("imageio", ".tmp").toFile();
-        else
+        } else {
             this.cacheFile = Files.createTempFile(cacheDir.toPath(), "imageio", ".tmp")
                                   .toFile();
+        }
         this.cache = new RandomAccessFile(cacheFile, "rw");
 
         this.closeAction = StreamCloser.createCloseAction(this);
         StreamCloser.addToQueue(closeAction);
     }
 
+    @Override
     public int read() throws IOException {
         checkClosed();
         bitOffset = 0;
@@ -105,6 +107,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
         return val;
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         checkClosed();
 
@@ -129,6 +132,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
         return nbytes;
     }
 
+    @Override
     public void write(int b) throws IOException {
         flushBits(); // this will call checkClosed() for us
         cache.write(b);
@@ -136,6 +140,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
         maxStreamPos = Math.max(maxStreamPos, streamPos);
     }
 
+    @Override
     public void write(byte[] b, int off, int len) throws IOException {
         flushBits(); // this will call checkClosed() for us
         cache.write(b, off, len);
@@ -143,6 +148,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
         maxStreamPos = Math.max(maxStreamPos, streamPos);
     }
 
+    @Override
     public long length() {
         try {
             checkClosed();
@@ -163,6 +169,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
      * than the flushed position.
      * @exception IOException if any other I/O error occurs.
      */
+    @Override
     public void seek(long pos) throws IOException {
         checkClosed();
 
@@ -186,6 +193,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
      * @see #isCachedMemory
      * @see #isCachedFile
      */
+    @Override
     public boolean isCached() {
         return true;
     }
@@ -199,6 +207,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
      * @see #isCached
      * @see #isCachedMemory
      */
+    @Override
     public boolean isCachedFile() {
         return true;
     }
@@ -213,6 +222,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
      * @see #isCached
      * @see #isCachedFile
      */
+    @Override
     public boolean isCachedMemory() {
         return false;
     }
@@ -225,6 +235,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
      *
      * @exception IOException if an error occurs.
      */
+    @Override
     public void close() throws IOException {
         maxStreamPos = cache.length();
 
@@ -240,6 +251,7 @@ public class FileCacheImageOutputStream extends ImageOutputStreamImpl {
         StreamCloser.removeFromQueue(closeAction);
     }
 
+    @Override
     public void flushBefore(long pos) throws IOException {
         long oFlushedPos = flushedPos;
         super.flushBefore(pos); // this will call checkClosed() for us

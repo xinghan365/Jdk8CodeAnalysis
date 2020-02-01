@@ -197,6 +197,7 @@ public interface JMXConnector extends Closeable {
      * cleanly.  If this exception is thrown, it is not known whether
      * the server end of the connection has been cleanly closed.
      */
+    @Override
     public void close() throws IOException;
 
     /**

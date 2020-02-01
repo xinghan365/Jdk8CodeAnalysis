@@ -802,8 +802,9 @@ public class TableColumn extends Object implements Serializable {
      */
     protected TableCellRenderer createDefaultHeaderRenderer() {
         DefaultTableCellRenderer label = new DefaultTableCellRenderer() {
+            @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
-                         boolean isSelected, boolean hasFocus, int row, int column) {
+                                                           boolean isSelected, boolean hasFocus, int row, int column) {
                 if (table != null) {
                     JTableHeader header = table.getTableHeader();
                     if (header != null) {

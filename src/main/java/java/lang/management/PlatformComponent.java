@@ -68,6 +68,7 @@ enum PlatformComponent {
         "java.lang", "ClassLoading", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<ClassLoadingMXBean>() {
+            @Override
             public List<ClassLoadingMXBean> getMXBeans() {
                 return Collections.singletonList(ManagementFactoryHelper.getClassLoadingMXBean());
             }
@@ -81,6 +82,7 @@ enum PlatformComponent {
         "java.lang", "Compilation", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<CompilationMXBean>() {
+            @Override
             public List<CompilationMXBean> getMXBeans() {
                 CompilationMXBean m = ManagementFactoryHelper.getCompilationMXBean();
                 if (m == null) {
@@ -99,6 +101,7 @@ enum PlatformComponent {
         "java.lang", "Memory", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<MemoryMXBean>() {
+            @Override
             public List<MemoryMXBean> getMXBeans() {
                 return Collections.singletonList(ManagementFactoryHelper.getMemoryMXBean());
             }
@@ -112,6 +115,7 @@ enum PlatformComponent {
         "java.lang", "GarbageCollector", keyProperties("name"),
         false, // zero or more instances
         new MXBeanFetcher<GarbageCollectorMXBean>() {
+            @Override
             public List<GarbageCollectorMXBean> getMXBeans() {
                 return ManagementFactoryHelper.
                            getGarbageCollectorMXBeans();
@@ -126,6 +130,7 @@ enum PlatformComponent {
         "java.lang", "MemoryManager", keyProperties("name"),
         false, // zero or more instances
         new MXBeanFetcher<MemoryManagerMXBean>() {
+            @Override
             public List<MemoryManagerMXBean> getMXBeans() {
                 return ManagementFactoryHelper.getMemoryManagerMXBeans();
             }
@@ -140,6 +145,7 @@ enum PlatformComponent {
         "java.lang", "MemoryPool", keyProperties("name"),
         false, // zero or more instances
         new MXBeanFetcher<MemoryPoolMXBean>() {
+            @Override
             public List<MemoryPoolMXBean> getMXBeans() {
                 return ManagementFactoryHelper.getMemoryPoolMXBeans();
             }
@@ -153,6 +159,7 @@ enum PlatformComponent {
         "java.lang", "OperatingSystem", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<OperatingSystemMXBean>() {
+            @Override
             public List<OperatingSystemMXBean> getMXBeans() {
                 return Collections.singletonList(ManagementFactoryHelper.getOperatingSystemMXBean());
             }
@@ -166,6 +173,7 @@ enum PlatformComponent {
         "java.lang", "Runtime", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<RuntimeMXBean>() {
+            @Override
             public List<RuntimeMXBean> getMXBeans() {
                 return Collections.singletonList(ManagementFactoryHelper.getRuntimeMXBean());
             }
@@ -179,6 +187,7 @@ enum PlatformComponent {
         "java.lang", "Threading", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<ThreadMXBean>() {
+            @Override
             public List<ThreadMXBean> getMXBeans() {
                 return Collections.singletonList(ManagementFactoryHelper.getThreadMXBean());
             }
@@ -193,6 +202,7 @@ enum PlatformComponent {
         "java.util.logging", "Logging", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<PlatformLoggingMXBean>() {
+            @Override
             public List<PlatformLoggingMXBean> getMXBeans() {
                 PlatformLoggingMXBean m = ManagementFactoryHelper.getPlatformLoggingMXBean();
                 if (m == null) {
@@ -211,6 +221,7 @@ enum PlatformComponent {
         "java.nio", "BufferPool", keyProperties("name"),
         false, // zero or more instances
         new MXBeanFetcher<BufferPoolMXBean>() {
+            @Override
             public List<BufferPoolMXBean> getMXBeans() {
                 return ManagementFactoryHelper.getBufferPoolMXBeans();
             }
@@ -227,6 +238,7 @@ enum PlatformComponent {
         "java.lang", "GarbageCollector", keyProperties("name"),
         false, // zero or more instances
         new MXBeanFetcher<com.sun.management.GarbageCollectorMXBean>() {
+            @Override
             public List<com.sun.management.GarbageCollectorMXBean> getMXBeans() {
                 return getGcMXBeanList(com.sun.management.GarbageCollectorMXBean.class);
             }
@@ -241,6 +253,7 @@ enum PlatformComponent {
         "java.lang", "OperatingSystem", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<com.sun.management.OperatingSystemMXBean>() {
+            @Override
             public List<com.sun.management.OperatingSystemMXBean> getMXBeans() {
                 return getOSMXBeanList(com.sun.management.OperatingSystemMXBean.class);
             }
@@ -254,6 +267,7 @@ enum PlatformComponent {
         "java.lang", "OperatingSystem", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<UnixOperatingSystemMXBean>() {
+            @Override
             public List<UnixOperatingSystemMXBean> getMXBeans() {
                 return getOSMXBeanList(com.sun.management.UnixOperatingSystemMXBean.class);
             }
@@ -267,6 +281,7 @@ enum PlatformComponent {
         "com.sun.management", "HotSpotDiagnostic", defaultKeyProperties(),
         true, // singleton
         new MXBeanFetcher<HotSpotDiagnosticMXBean>() {
+            @Override
             public List<HotSpotDiagnosticMXBean> getMXBeans() {
                 return Collections.singletonList(ManagementFactoryHelper.getDiagnosticMXBean());
             }
@@ -379,9 +394,10 @@ enum PlatformComponent {
 
     <T extends PlatformManagedObject> T getSingletonMXBean(Class<T> mxbeanInterface)
     {
-        if (!singleton)
+        if (!singleton) {
             throw new IllegalArgumentException(mxbeanInterfaceName +
                 " can have zero or more than one instances");
+        }
 
         List<T> list = getMXBeans(mxbeanInterface);
         assert list.size() == 1;
@@ -392,9 +408,10 @@ enum PlatformComponent {
             T getSingletonMXBean(MBeanServerConnection mbs, Class<T> mxbeanInterface)
         throws java.io.IOException
     {
-        if (!singleton)
+        if (!singleton) {
             throw new IllegalArgumentException(mxbeanInterfaceName +
                 " can have zero or more than one instances");
+        }
 
         // ObjectName of a singleton MXBean contains only domain and type
         assert keyProperties.size() == 1;
@@ -459,8 +476,9 @@ enum PlatformComponent {
         ensureInitialized();
         String cn = mxbeanInterface.getName();
         PlatformComponent pc = enumMap.get(cn);
-        if (pc != null && pc.getMXBeanInterface() == mxbeanInterface)
+        if (pc != null && pc.getMXBeanInterface() == mxbeanInterface) {
             return pc;
+        }
         return null;
     }
 

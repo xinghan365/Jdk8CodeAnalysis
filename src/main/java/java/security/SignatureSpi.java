@@ -380,6 +380,7 @@ public abstract class SignatureSpi {
      * @exception CloneNotSupportedException if this is called
      * on an implementation that does not support {@code Cloneable}.
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         if (this instanceof Cloneable) {
             return super.clone();

@@ -120,8 +120,9 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         super.installListeners(button);
 
         // Only for JRadioButton
-        if (!(button instanceof JRadioButton))
+        if (!(button instanceof JRadioButton)) {
             return;
+        }
 
         keyListener = createKeyListener();
         button.addKeyListener(keyListener);
@@ -151,8 +152,9 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         super.uninstallListeners(button);
 
         // Only for JRadioButton
-        if (!(button instanceof JRadioButton))
+        if (!(button instanceof JRadioButton)) {
             return;
+        }
 
         // Unmap actions from the arrow keys
         button.getActionMap().remove("Previous");
@@ -377,8 +379,9 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         Object eventSrc = event.getSource();
 
         // Check whether the source is JRadioButton, it so, whether it is visible
-        if (!isValidRadioButtonObj(eventSrc))
+        if (!isValidRadioButtonObj(eventSrc)) {
             return;
+        }
 
         ButtonGroupInfo btnGroupInfo = new ButtonGroupInfo((JRadioButton)eventSrc);
         btnGroupInfo.selectNewButton(next);
@@ -391,6 +394,7 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
             super("Previous");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
            BasicRadioButtonUI.this.selectRadioButton(e, false);
         }
@@ -402,6 +406,7 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
             super("Next");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             BasicRadioButtonUI.this.selectRadioButton(e, true);
         }
@@ -455,43 +460,49 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         }
 
         boolean getButtonGroupInfo() {
-            if (activeBtn == null)
+            if (activeBtn == null) {
                 return false;
+            }
 
             btnsInGroup.clear();
 
             // Get the button model from the source.
             ButtonModel model = activeBtn.getModel();
-            if (!(model instanceof DefaultButtonModel))
+            if (!(model instanceof DefaultButtonModel)) {
                 return false;
+            }
 
             // If the button model is DefaultButtonModel, and use it, otherwise return.
             DefaultButtonModel bm = (DefaultButtonModel) model;
 
             // get the ButtonGroup of the button from the button model
             ButtonGroup group = bm.getGroup();
-            if (group == null)
+            if (group == null) {
                 return false;
+            }
 
             // Get all the buttons in the group
             Enumeration<AbstractButton> e = group.getElements();
-            if (e == null)
+            if (e == null) {
                 return false;
+            }
 
             while (e.hasMoreElements()) {
                 AbstractButton curElement = e.nextElement();
-                if (!isValidRadioButtonObj(curElement))
+                if (!isValidRadioButtonObj(curElement)) {
                     continue;
+                }
 
                 btnsInGroup.add((JRadioButton) curElement);
 
                 // If firstBtn is not set yet, curElement is that first button
-                if (null == firstBtn)
+                if (null == firstBtn) {
                     firstBtn = (JRadioButton) curElement;
+                }
 
-                if (activeBtn == curElement)
+                if (activeBtn == curElement) {
                     srcFound = true;
-                else if (!srcFound) {
+                } else if (!srcFound) {
                     // The source has not been yet found and the current element
                     // is the last previousBtn
                     previousBtn = (JRadioButton) curElement;
@@ -515,8 +526,9 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
           * @param next, indicate if it's arrow up/left or down/right
           */
         void selectNewButton(boolean next) {
-            if (!getButtonGroupInfo())
+            if (!getButtonGroupInfo()) {
                 return;
+            }
 
             if (srcFound) {
                 JRadioButton newSelectedBtn = null;
@@ -552,8 +564,9 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
                     lastBtn = activeBtn;
                     firstBtn = activeBtn;
                 }
-                else
+                else {
                     return;
+                }
             }
 
             // Update the component we will use as base to transfer
@@ -585,6 +598,7 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
         // This listener checks if the key event is a KeyEvent.VK_TAB
         // or shift + KeyEvent.VK_TAB event on a radio button, consume the event
         // if so and move the focus to next/previous component
+        @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_TAB) {
                  // Get the source of the event.
@@ -599,9 +613,11 @@ public class BasicRadioButtonUI extends BasicToggleButtonUI
             }
         }
 
+        @Override
         public void keyReleased(KeyEvent e) {
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {
         }
     }

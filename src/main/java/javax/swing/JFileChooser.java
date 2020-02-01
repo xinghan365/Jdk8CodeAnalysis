@@ -748,6 +748,7 @@ public class JFileChooser extends JComponent implements Accessible {
         }
         dialog = createDialog(parent);
         dialog.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 returnValue = CANCEL_OPTION;
             }
@@ -1799,6 +1800,7 @@ public class JFileChooser extends JComponent implements Accessible {
         public WeakPCL(JFileChooser jfc) {
             jfcRef = new WeakReference<JFileChooser>(jfc);
         }
+        @Override
         public void propertyChange(PropertyChangeEvent ev) {
             assert ev.getPropertyName().equals(SHOW_HIDDEN_PROP);
             JFileChooser jfc = jfcRef.get();
@@ -1824,6 +1826,7 @@ public class JFileChooser extends JComponent implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         if (isAcceptAllFileFilterUsed()) {
             removeChoosableFileFilter(getAcceptAllFileFilter());
@@ -1851,6 +1854,7 @@ public class JFileChooser extends JComponent implements Accessible {
      *        expert: true
      *   description: A string that specifies the name of the L&amp;F class.
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -1921,6 +1925,7 @@ public class JFileChooser extends JComponent implements Accessible {
      *
      * @return  a string representation of this <code>JFileChooser</code>
      */
+    @Override
     protected String paramString() {
         String approveButtonTextString = (approveButtonText != null ?
                                           approveButtonText: "");
@@ -1933,7 +1938,9 @@ public class JFileChooser extends JComponent implements Accessible {
             dialogTypeString = "SAVE_DIALOG";
         } else if (dialogType == CUSTOM_DIALOG) {
             dialogTypeString = "CUSTOM_DIALOG";
-        } else dialogTypeString = "";
+        } else {
+            dialogTypeString = "";
+        }
         String returnValueString;
         if (returnValue == CANCEL_OPTION) {
             returnValueString = "CANCEL_OPTION";
@@ -1941,7 +1948,9 @@ public class JFileChooser extends JComponent implements Accessible {
             returnValueString = "APPROVE_OPTION";
         } else if (returnValue == ERROR_OPTION) {
             returnValueString = "ERROR_OPTION";
-        } else returnValueString = "";
+        } else {
+            returnValueString = "";
+        }
         String useFileHidingString = (useFileHiding ?
                                     "true" : "false");
         String fileSelectionModeString;
@@ -1951,7 +1960,9 @@ public class JFileChooser extends JComponent implements Accessible {
             fileSelectionModeString = "DIRECTORIES_ONLY";
         } else if (fileSelectionMode == FILES_AND_DIRECTORIES) {
             fileSelectionModeString = "FILES_AND_DIRECTORIES";
-        } else fileSelectionModeString = "";
+        } else {
+            fileSelectionModeString = "";
+        }
         String currentDirectoryString = (currentDirectory != null ?
                                          currentDirectory.toString() : "");
         String selectedFileString = (selectedFile != null ?
@@ -1983,6 +1994,7 @@ public class JFileChooser extends JComponent implements Accessible {
      * @return an AccessibleJFileChooser that serves as the
      *         AccessibleContext of this JFileChooser
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJFileChooser();
@@ -2005,6 +2017,7 @@ public class JFileChooser extends JComponent implements Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.FILE_CHOOSER;
         }

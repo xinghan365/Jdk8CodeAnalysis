@@ -59,6 +59,7 @@ public class MetalScrollPaneUI extends BasicScrollPaneUI
         return new MetalScrollPaneUI();
     }
 
+    @Override
     public void installUI(JComponent c) {
 
         super.installUI(c);
@@ -67,6 +68,7 @@ public class MetalScrollPaneUI extends BasicScrollPaneUI
         updateScrollbarsFreeStanding();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
 
@@ -81,6 +83,7 @@ public class MetalScrollPaneUI extends BasicScrollPaneUI
         }
     }
 
+    @Override
     public void installListeners(JScrollPane scrollPane) {
         super.installListeners(scrollPane);
         scrollBarSwapListener = createScrollBarSwapListener();
@@ -90,6 +93,7 @@ public class MetalScrollPaneUI extends BasicScrollPaneUI
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void uninstallListeners(JComponent c) {
         super.uninstallListeners(c);
         c.removePropertyChangeListener(scrollBarSwapListener);
@@ -137,6 +141,7 @@ public class MetalScrollPaneUI extends BasicScrollPaneUI
 
     protected PropertyChangeListener createScrollBarSwapListener() {
         return new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent e) {
                   String propertyName = e.getPropertyName();
                   if (propertyName.equals("verticalScrollBar") ||

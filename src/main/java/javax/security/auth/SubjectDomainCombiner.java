@@ -159,8 +159,9 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
      * @return a new array consisting of the updated ProtectionDomains,
      *          or {@code null}.
      */
+    @Override
     public ProtectionDomain[] combine(ProtectionDomain[] currentDomains,
-                                ProtectionDomain[] assignedDomains) {
+                                      ProtectionDomain[] assignedDomains) {
         if (debug != null) {
             if (subject == null) {
                 debug.println("null subject");
@@ -168,6 +169,7 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
                 final Subject s = subject;
                 AccessController.doPrivileged
                     (new java.security.PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         debug.println(s.toString());
                         return null;
@@ -312,6 +314,7 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
         if (!allowCaching) {
             java.security.AccessController.doPrivileged
                 (new PrivilegedAction<Void>() {
+                    @Override
                     @SuppressWarnings("deprecation")
                     public Void run() {
                         // Call refresh only caching is disallowed
@@ -384,6 +387,7 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
                         PermissionCollection newPerms =
                             java.security.AccessController.doPrivileged
                             (new PrivilegedAction<PermissionCollection>() {
+                            @Override
                             @SuppressWarnings("deprecation")
                             public PermissionCollection run() {
                                 return
@@ -400,17 +404,19 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
                                 Permission newPerm = e.nextElement();
                                 if (!perms.implies(newPerm)) {
                                     perms.add(newPerm);
-                                    if (debug != null)
+                                    if (debug != null) {
                                         debug.println (
                                             "Adding perm " + newPerm + "\n");
+                                    }
                                 }
                             }
                         }
                         subjectPd = new ProtectionDomain
                             (finalCs, perms, pd.getClassLoader(), principals);
                     }
-                    if (allowCaching)
+                    if (allowCaching) {
                         cachedPDs.putValue(pd, subjectPd);
+                    }
                 }
                 newDomains[i] = subjectPd;
             }
@@ -449,8 +455,9 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
     }
 
     private static ProtectionDomain[] optimize(ProtectionDomain[] domains) {
-        if (domains == null || domains.length == 0)
+        if (domains == null || domains.length == 0) {
             return null;
+        }
 
         ProtectionDomain[] optimized = new ProtectionDomain[domains.length];
         ProtectionDomain pd;
@@ -490,6 +497,7 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
     private static boolean cachePolicy() {
         String s = AccessController.doPrivileged
             (new PrivilegedAction<String>() {
+            @Override
             public String run() {
                 return Security.getProperty("cache.auth.policy");
             }
@@ -539,6 +547,7 @@ public class SubjectDomainCombiner implements java.security.DomainCombiner {
             return "null";
         }
         return AccessController.doPrivileged(new PrivilegedAction<String>() {
+            @Override
             public String run() {
                 return pd.toString();
             }

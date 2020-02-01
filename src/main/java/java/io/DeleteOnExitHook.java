@@ -45,6 +45,7 @@ class DeleteOnExitHook {
             .registerShutdownHook(2 /* Shutdown hook invocation order */,
                 true /* register even if shutdown in progress */,
                 new Runnable() {
+                    @Override
                     public void run() {
                        runHooks();
                     }

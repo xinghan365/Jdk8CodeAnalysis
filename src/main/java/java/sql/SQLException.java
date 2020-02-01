@@ -311,6 +311,7 @@ public class SQLException extends java.lang.Exception
      *
      * @since 1.6
      */
+    @Override
     public Iterator<Throwable> iterator() {
 
        return new Iterator<Throwable>() {
@@ -319,12 +320,15 @@ public class SQLException extends java.lang.Exception
            SQLException nextException = firstException.getNextException();
            Throwable cause = firstException.getCause();
 
+           @Override
            public boolean hasNext() {
-               if(firstException != null || nextException != null || cause != null)
+               if(firstException != null || nextException != null || cause != null) {
                    return true;
+               }
                return false;
            }
 
+           @Override
            public Throwable next() {
                Throwable throwable = null;
                if(firstException != null){
@@ -340,11 +344,13 @@ public class SQLException extends java.lang.Exception
                    cause = nextException.getCause();
                    nextException = nextException.getNextException();
                }
-               else
+               else {
                    throw new NoSuchElementException();
+               }
                return throwable;
            }
 
+           @Override
            public void remove() {
                throw new UnsupportedOperationException();
            }

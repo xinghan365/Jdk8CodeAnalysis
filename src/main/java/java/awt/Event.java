@@ -873,6 +873,7 @@ public class Event implements java.io.Serializable {
      * @see       java.awt.Event#paramString
      * @since     JDK1.1
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[" + paramString() + "]";
     }

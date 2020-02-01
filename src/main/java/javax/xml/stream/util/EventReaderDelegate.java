@@ -83,51 +83,60 @@ public class EventReaderDelegate implements XMLEventReader {
     return reader;
   }
 
+  @Override
   public XMLEvent nextEvent()
     throws XMLStreamException
   {
     return reader.nextEvent();
   }
 
+  @Override
   public Object next() {
     return reader.next();
   }
 
+  @Override
   public boolean hasNext()
   {
     return reader.hasNext();
   }
 
+  @Override
   public XMLEvent peek()
     throws XMLStreamException
   {
     return reader.peek();
   }
 
+  @Override
   public void close()
     throws XMLStreamException
   {
     reader.close();
   }
 
+  @Override
   public String getElementText()
     throws XMLStreamException
   {
     return reader.getElementText();
   }
 
+  @Override
   public XMLEvent nextTag()
     throws XMLStreamException
   {
     return reader.nextTag();
   }
 
+  @Override
   public Object getProperty(java.lang.String name)
     throws java.lang.IllegalArgumentException
   {
     return reader.getProperty(name);
   }
 
+  @Override
   public void remove() {
     reader.remove();
   }

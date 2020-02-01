@@ -120,6 +120,7 @@ public class DigestInputStream extends FilterInputStream {
      *
      * @see MessageDigest#update(byte)
      */
+    @Override
     public int read() throws IOException {
         int ch = in.read();
         if (on && ch != -1) {
@@ -157,6 +158,7 @@ public class DigestInputStream extends FilterInputStream {
      *
      * @see MessageDigest#update(byte[], int, int)
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int result = in.read(b, off, len);
         if (on && result != -1) {
@@ -182,6 +184,7 @@ public class DigestInputStream extends FilterInputStream {
      * Prints a string representation of this digest input stream and
      * its associated message digest object.
      */
+     @Override
      public String toString() {
          return "[Digest Input Stream] " + digest.toString();
      }

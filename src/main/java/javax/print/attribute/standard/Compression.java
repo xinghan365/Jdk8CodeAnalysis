@@ -93,6 +93,7 @@ public class Compression extends EnumSyntax implements DocAttribute {
     /**
      * Returns the string table for class Compression.
      */
+    @Override
     protected String[] getStringTable() {
         return (String[])myStringTable.clone();
     }
@@ -100,6 +101,7 @@ public class Compression extends EnumSyntax implements DocAttribute {
     /**
      * Returns the enumeration value table for class Compression.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return (EnumSyntax[])myEnumValueTable.clone();
     }
@@ -114,6 +116,7 @@ public class Compression extends EnumSyntax implements DocAttribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return Compression.class;
     }
@@ -127,6 +130,7 @@ public class Compression extends EnumSyntax implements DocAttribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "compression";
     }

@@ -203,6 +203,7 @@ class DirectCharBufferRS
 
     }
 
+    @Override
     public CharBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectCharBufferRS
         return new DirectCharBufferRS(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public CharBuffer duplicate() {
         return new DirectCharBufferRS(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectCharBufferRS
                                               0);
     }
 
+    @Override
     public CharBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectCharBufferRS
 
 
 
+    @Override
     public CharBuffer put(char x) {
 
 
@@ -301,6 +305,7 @@ class DirectCharBufferRS
 
     }
 
+    @Override
     public CharBuffer put(int i, char x) {
 
 
@@ -310,6 +315,7 @@ class DirectCharBufferRS
 
     }
 
+    @Override
     public CharBuffer put(CharBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectCharBufferRS
 
     }
 
+    @Override
     public CharBuffer put(char[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectCharBufferRS
 
     }
 
+    @Override
     public CharBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectCharBufferRS
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -412,9 +422,11 @@ class DirectCharBufferRS
 
 
 
+    @Override
     public String toString(int start, int end) {
-        if ((end > limit()) || (start > end))
+        if ((end > limit()) || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         try {
             int len = end - start;
             char[] ca = new char[len];
@@ -432,6 +444,7 @@ class DirectCharBufferRS
 
     // --- Methods to support CharSequence ---
 
+    @Override
     public CharBuffer subSequence(int start, int end) {
         int pos = position();
         int lim = limit();
@@ -439,8 +452,9 @@ class DirectCharBufferRS
         pos = (pos <= lim ? pos : lim);
         int len = lim - pos;
 
-        if ((start < 0) || (end > len) || (start > end))
+        if ((start < 0) || (end > len) || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         return new DirectCharBufferRS(this,
                                             -1,
                                             pos + start,
@@ -455,6 +469,7 @@ class DirectCharBufferRS
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ((ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN)

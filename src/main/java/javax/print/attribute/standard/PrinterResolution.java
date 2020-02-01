@@ -117,6 +117,7 @@ public final class PrinterResolution    extends ResolutionSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this printer
      *          resolution attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof PrinterResolution);
@@ -131,6 +132,7 @@ public final class PrinterResolution    extends ResolutionSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterResolution.class;
                 }
@@ -144,6 +146,7 @@ public final class PrinterResolution    extends ResolutionSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-resolution";
     }

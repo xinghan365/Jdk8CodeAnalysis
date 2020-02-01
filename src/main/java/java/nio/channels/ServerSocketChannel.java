@@ -118,6 +118,7 @@ public abstract class ServerSocketChannel
      *
      * @return  The valid-operation set
      */
+    @Override
     public final int validOps() {
         return SelectionKey.OP_ACCEPT;
     }
@@ -151,6 +152,7 @@ public abstract class ServerSocketChannel
      *
      * @since 1.7
      */
+    @Override
     public final ServerSocketChannel bind(SocketAddress local)
         throws IOException
     {
@@ -206,6 +208,7 @@ public abstract class ServerSocketChannel
      *
      * @since 1.7
      */
+    @Override
     public abstract <T> ServerSocketChannel setOption(SocketOption<T> name, T value)
         throws IOException;
 

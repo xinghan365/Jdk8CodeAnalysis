@@ -182,8 +182,9 @@ class FactoryFinder {
         }
 
         // If not found and fallback should not be tried, return a null result.
-        if (!tryFallback)
+        if (!tryFallback) {
             return null;
+        }
 
         // We didn't find the class through the usual means so try the default
         // (built in) factory if specified.
@@ -213,15 +214,17 @@ class FactoryFinder {
                 }
             }
 
-            if (classLoader == null)
+            if (classLoader == null) {
                 return Class.forName(className);
-            else
+            } else {
                 return classLoader.loadClass(className);
+            }
         } catch (SecurityException se) {
             // (only) default implementation can be loaded
             // using bootstrap class loader:
-            if (isDefaultImplementation(className))
+            if (isDefaultImplementation(className)) {
                 return Class.forName(className);
+            }
 
             throw se;
         }

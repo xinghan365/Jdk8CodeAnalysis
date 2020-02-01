@@ -44,6 +44,7 @@ class SecuritySupport  {
     ClassLoader getContextClassLoader() {
         return (ClassLoader)
                 AccessController.doPrivileged(new PrivilegedAction() {
+            @Override
             public Object run() {
                 ClassLoader cl = null;
                 try {
@@ -57,6 +58,7 @@ class SecuritySupport  {
     String getSystemProperty(final String propName) {
         return (String)
             AccessController.doPrivileged(new PrivilegedAction() {
+                @Override
                 public Object run() {
                     return System.getProperty(propName);
                 }
@@ -69,6 +71,7 @@ class SecuritySupport  {
         try {
             return (FileInputStream)
                 AccessController.doPrivileged(new PrivilegedExceptionAction() {
+                    @Override
                     public Object run() throws FileNotFoundException {
                         return new FileInputStream(file);
                     }
@@ -84,6 +87,7 @@ class SecuritySupport  {
         try {
             return (InputStream)
                 AccessController.doPrivileged(new PrivilegedExceptionAction() {
+                    @Override
                     public Object run() throws IOException {
                         return url.openStream();
                     }
@@ -98,6 +102,7 @@ class SecuritySupport  {
     {
         return (URL)
             AccessController.doPrivileged(new PrivilegedAction() {
+                @Override
                 public Object run() {
                     URL url;
                     if (cl == null) {
@@ -116,6 +121,7 @@ class SecuritySupport  {
         try{
         return (Enumeration)
             AccessController.doPrivileged(new PrivilegedExceptionAction() {
+                @Override
                 public Object run() throws IOException{
                     Enumeration enumeration;
                     if (cl == null) {
@@ -136,6 +142,7 @@ class SecuritySupport  {
     {
         return (InputStream)
             AccessController.doPrivileged(new PrivilegedAction() {
+                @Override
                 public Object run() {
                     InputStream ris;
                     if (cl == null) {
@@ -151,6 +158,7 @@ class SecuritySupport  {
     boolean doesFileExist(final File f) {
     return ((Boolean)
             AccessController.doPrivileged(new PrivilegedAction() {
+                @Override
                 public Object run() {
                     return new Boolean(f.exists());
                 }

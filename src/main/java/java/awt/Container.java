@@ -284,6 +284,7 @@ public class Container extends Component {
      */
     public Container() {
     }
+    @Override
     @SuppressWarnings({"unchecked","rawtypes"})
     void initializeFocusTraversalKeys() {
         focusTraversalKeys = new Set[4];
@@ -1169,6 +1170,7 @@ public class Container extends Component {
      * the same GraphicsDevice as this Container.  If not, throws an
      * IllegalArgumentException.
      */
+    @Override
     void checkGD(String stringID) {
         for (Component comp : component) {
             if (comp != null) {
@@ -1326,6 +1328,7 @@ public class Container extends Component {
     }
 
     // Should only be called while holding tree lock
+    @Override
     int numListening(long mask) {
         int superListening = super.numListening(mask);
 
@@ -1374,8 +1377,9 @@ public class Container extends Component {
             }
         }
 
-        if (num == 0)
+        if (num == 0) {
             return;
+        }
 
         if ((mask & AWTEvent.HIERARCHY_EVENT_MASK) != 0) {
             listeningChildren += num;
@@ -1389,8 +1393,9 @@ public class Container extends Component {
 
     // Should only be called while holding tree lock
     void adjustDescendants(int num) {
-        if (num == 0)
+        if (num == 0) {
             return;
+        }
 
         descendantsCount += num;
         adjustDecendantsOnParent(num);
@@ -1404,6 +1409,7 @@ public class Container extends Component {
     }
 
     // Should only be called while holding tree lock
+    @Override
     int countHierarchyMembers() {
         if (log.isLoggable(PlatformLogger.Level.FINE)) {
             // Verify descendantsCount is correct
@@ -1434,8 +1440,9 @@ public class Container extends Component {
         }
     }
 
+    @Override
     final int createHierarchyEvents(int id, Component changed,
-        Container changedParent, long changeFlags, boolean enabledOnToolkit)
+                                    Container changedParent, long changeFlags, boolean enabledOnToolkit)
     {
         checkTreeLock();
         int listeners = getListenersCount(id, enabledOnToolkit);
@@ -1498,6 +1505,7 @@ public class Container extends Component {
      * @see #validate
      * @since JDK1.1
      */
+    @Override
     public void doLayout() {
         layout();
     }
@@ -1506,6 +1514,7 @@ public class Container extends Component {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>doLayout()</code>.
      */
+    @Override
     @Deprecated
     public void layout() {
         LayoutManager layoutMgr = this.layoutMgr;
@@ -1617,6 +1626,7 @@ public class Container extends Component {
      * @see javax.swing.JComponent#revalidate()
      * @see #validateTree
      */
+    @Override
     public void validate() {
         boolean updateCur = false;
         synchronized (getTreeLock()) {
@@ -1746,6 +1756,7 @@ public class Container extends Component {
      * @see #invalidate
      * @since JDK1.0
      */
+    @Override
     public void setFont(Font f) {
         boolean shouldinvalidate = false;
 
@@ -1779,6 +1790,7 @@ public class Container extends Component {
      * @see       LayoutManager#preferredLayoutSize(Container)
      * @see       Component#getPreferredSize
      */
+    @Override
     public Dimension getPreferredSize() {
         return preferredSize();
     }
@@ -1787,6 +1799,7 @@ public class Container extends Component {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getPreferredSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension preferredSize() {
         /* Avoid grabbing the lock if a reasonable cached size value
@@ -1831,6 +1844,7 @@ public class Container extends Component {
      * @see       Component#getMinimumSize
      * @since     JDK1.1
      */
+    @Override
     public Dimension getMinimumSize() {
         return minimumSize();
     }
@@ -1839,6 +1853,7 @@ public class Container extends Component {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getMinimumSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension minimumSize() {
         /* Avoid grabbing the lock if a reasonable cached size value
@@ -1883,6 +1898,7 @@ public class Container extends Component {
      * @see       LayoutManager2#maximumLayoutSize(Container)
      * @see       Component#getMaximumSize
      */
+    @Override
     public Dimension getMaximumSize() {
         /* Avoid grabbing the lock if a reasonable cached size value
          * is available.
@@ -1914,6 +1930,7 @@ public class Container extends Component {
      * where 0 represents alignment along the origin, 1 is aligned
      * the furthest away from the origin, 0.5 is centered, etc.
      */
+    @Override
     public float getAlignmentX() {
         float xAlign;
         if (layoutMgr instanceof LayoutManager2) {
@@ -1934,6 +1951,7 @@ public class Container extends Component {
      * where 0 represents alignment along the origin, 1 is aligned
      * the furthest away from the origin, 0.5 is centered, etc.
      */
+    @Override
     public float getAlignmentY() {
         float yAlign;
         if (layoutMgr instanceof LayoutManager2) {
@@ -1958,6 +1976,7 @@ public class Container extends Component {
      * @param g the specified Graphics window
      * @see   Component#update(Graphics)
      */
+    @Override
     public void paint(Graphics g) {
         if (isShowing()) {
             synchronized (getObjectLock()) {
@@ -1990,6 +2009,7 @@ public class Container extends Component {
      * @param g the specified Graphics window
      * @see   Component#update(Graphics)
      */
+    @Override
     public void update(Graphics g) {
         if (isShowing()) {
             if (! (peer instanceof LightweightPeer)) {
@@ -2010,6 +2030,7 @@ public class Container extends Component {
      * @param g the specified Graphics window
      * @see   Component#update(Graphics)
      */
+    @Override
     public void print(Graphics g) {
         if (isShowing()) {
             Thread t = Thread.currentThread();
@@ -2054,6 +2075,7 @@ public class Container extends Component {
      * @see       Component#printAll
      * @see       #printComponents
      */
+    @Override
     void lightweightPaint(Graphics g) {
         super.lightweightPaint(g);
         paintHeavyweightComponents(g);
@@ -2062,6 +2084,7 @@ public class Container extends Component {
     /**
      * Prints all the heavyweight subcomponents.
      */
+    @Override
     void paintHeavyweightComponents(Graphics g) {
         if (isShowing()) {
             GraphicsCallback.PaintHeavyweightComponentsCallback.getInstance().
@@ -2090,6 +2113,7 @@ public class Container extends Component {
      * @see       Component#printAll
      * @see       #printComponents
      */
+    @Override
     void lightweightPrint(Graphics g) {
         super.lightweightPrint(g);
         printHeavyweightComponents(g);
@@ -2098,6 +2122,7 @@ public class Container extends Component {
     /**
      * Prints all the heavyweight subcomponents.
      */
+    @Override
     void printHeavyweightComponents(Graphics g) {
         if (isShowing()) {
             GraphicsCallback.PrintHeavyweightComponentsCallback.getInstance().
@@ -2195,6 +2220,7 @@ public class Container extends Component {
      *
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ContainerListener.class) {
@@ -2206,6 +2232,7 @@ public class Container extends Component {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         int id = e.getID();
 
@@ -2231,6 +2258,7 @@ public class Container extends Component {
      *
      * @param e the event
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ContainerEvent) {
             processContainerEvent((ContainerEvent)e);
@@ -2279,6 +2307,7 @@ public class Container extends Component {
      * may not be enabled for this Container.
      * @param e the event
      */
+    @Override
     void dispatchEventImpl(AWTEvent e) {
         if ((dispatcher != null) && dispatcher.dispatchEvent(e)) {
             // event was sent to a lightweight component.  The
@@ -2456,6 +2485,7 @@ public class Container extends Component {
 
         private MouseEventTargetFilter() {}
 
+        @Override
         public boolean accept(final Component comp) {
             return (comp.eventMask & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0
                 || (comp.eventMask & AWTEvent.MOUSE_EVENT_MASK) != 0
@@ -2471,6 +2501,7 @@ public class Container extends Component {
 
         private DropTargetEventTargetFilter() {}
 
+        @Override
         public boolean accept(final Component comp) {
             DropTarget dt = comp.getDropTarget();
             return dt != null && dt.isActive();
@@ -2507,6 +2538,7 @@ public class Container extends Component {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>dispatchEvent(AWTEvent e)</code>
      */
+    @Override
     @Deprecated
     public void deliverEvent(Event e) {
         Component comp = getComponentAt(e.x, e.y);
@@ -2536,6 +2568,7 @@ public class Container extends Component {
      * @see Component#contains
      * @since JDK1.1
      */
+    @Override
     public Component getComponentAt(int x, int y) {
         return locate(x, y);
     }
@@ -2544,6 +2577,7 @@ public class Container extends Component {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getComponentAt(int, int)</code>.
      */
+    @Override
     @Deprecated
     public Component locate(int x, int y) {
         if (!contains(x, y)) {
@@ -2578,6 +2612,7 @@ public class Container extends Component {
      * @see        Component#contains
      * @since      JDK1.1
      */
+    @Override
     public Component getComponentAt(Point p) {
         return getComponentAt(p.x, p.y);
     }
@@ -2607,6 +2642,7 @@ public class Container extends Component {
         }
         PointerInfo pi = java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<PointerInfo>() {
+                @Override
                 public PointerInfo run() {
                     return MouseInfo.getPointerInfo();
                 }
@@ -2621,6 +2657,7 @@ public class Container extends Component {
         }
     }
 
+    @Override
     boolean isSameOrAncestorOf(Component comp, boolean allowChildren) {
         return this == comp || (allowChildren && isParentOf(comp));
     }
@@ -2756,6 +2793,7 @@ public class Container extends Component {
      * @see Component#isDisplayable
      * @see #removeNotify
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
             // addNotify() on the children may cause proxy event enabling
@@ -2787,6 +2825,7 @@ public class Container extends Component {
      * @see Component#isDisplayable
      * @see #addNotify
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             // We shouldn't use iterator because of the Swing menu
@@ -2893,11 +2932,13 @@ public class Container extends Component {
         }
 
         Runnable pumpEventsForHierarchy = new Runnable() {
+            @Override
             public void run() {
                 EventDispatchThread dispatchThread =
                     (EventDispatchThread)Thread.currentThread();
                 dispatchThread.pumpEventsForHierarchy(
                         new Conditional() {
+                        @Override
                         public boolean evaluate() {
                         return ((windowClosingException == null) && (nativeContainer.modalComp != null)) ;
                         }
@@ -2968,6 +3009,7 @@ public class Container extends Component {
     }
 
     final static class WakingRunnable implements Runnable {
+        @Override
         public void run() {
         }
     }
@@ -2983,6 +3025,7 @@ public class Container extends Component {
      *
      * @return    the parameter string of this container
      */
+    @Override
     protected String paramString() {
         String str = super.paramString();
         LayoutManager layoutMgr = this.layoutMgr;
@@ -3007,6 +3050,7 @@ public class Container extends Component {
      * @see      Component#list(java.io.PrintStream, int)
      * @since    JDK1.0
      */
+    @Override
     public void list(PrintStream out, int indent) {
         super.list(out, indent);
         synchronized(getTreeLock()) {
@@ -3034,6 +3078,7 @@ public class Container extends Component {
      * @see      Component#list(java.io.PrintWriter, int)
      * @since    JDK1.1
      */
+    @Override
     public void list(PrintWriter out, int indent) {
         super.list(out, indent);
         synchronized(getTreeLock()) {
@@ -3126,6 +3171,7 @@ public class Container extends Component {
      * @beaninfo
      *       bound: true
      */
+    @Override
     public void setFocusTraversalKeys(int id,
                                       Set<? extends AWTKeyStroke> keystrokes)
     {
@@ -3167,6 +3213,7 @@ public class Container extends Component {
      *         KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
      * @since 1.4
      */
+    @Override
     public Set<AWTKeyStroke> getFocusTraversalKeys(int id) {
         if (id < 0 || id >= KeyboardFocusManager.TRAVERSAL_KEY_LENGTH) {
             throw new IllegalArgumentException("invalid focus traversal key identifier");
@@ -3197,6 +3244,7 @@ public class Container extends Component {
      *        KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
      * @since 1.4
      */
+    @Override
     public boolean areFocusTraversalKeysSet(int id) {
         if (id < 0 || id >= KeyboardFocusManager.TRAVERSAL_KEY_LENGTH) {
             throw new IllegalArgumentException("invalid focus traversal key identifier");
@@ -3221,6 +3269,7 @@ public class Container extends Component {
      * @see #isFocusCycleRoot()
      * @since 1.4
      */
+    @Override
     public boolean isFocusCycleRoot(Container container) {
         if (isFocusCycleRoot() && container == this) {
             return true;
@@ -3257,6 +3306,7 @@ public class Container extends Component {
         return root;
     }
 
+    @Override
     final boolean containsFocus() {
         final Component focusOwner = KeyboardFocusManager.
             getCurrentKeyboardFocusManager().getFocusOwner();
@@ -3278,6 +3328,7 @@ public class Container extends Component {
         }
     }
 
+    @Override
     void clearMostRecentFocusOwnerOnHide() {
         boolean reset = false;
         Window window = null;
@@ -3303,6 +3354,7 @@ public class Container extends Component {
         }
     }
 
+    @Override
     void clearCurrentFocusCycleRootOnHide() {
         KeyboardFocusManager kfm =
             KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -3313,6 +3365,7 @@ public class Container extends Component {
         }
     }
 
+    @Override
     final Container getTraversalRoot() {
         if (isFocusCycleRoot()) {
             return findTraversalRoot();
@@ -3536,6 +3589,7 @@ public class Container extends Component {
         }
     }
 
+    @Override
     boolean postsOldMouseEvents() {
         return true;
     }
@@ -3555,6 +3609,7 @@ public class Container extends Component {
      * @see #invalidate
      * @since 1.4
      */
+    @Override
     public void applyComponentOrientation(ComponentOrientation o) {
         super.applyComponentOrientation(o);
         synchronized (getTreeLock()) {
@@ -3598,6 +3653,7 @@ public class Container extends Component {
      * @see Component#removePropertyChangeListener
      * @see #addPropertyChangeListener(java.lang.String,java.beans.PropertyChangeListener)
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         super.addPropertyChangeListener(listener);
     }
@@ -3638,6 +3694,7 @@ public class Container extends Component {
      * @see #addPropertyChangeListener(java.beans.PropertyChangeListener)
      * @see Component#removePropertyChangeListener
      */
+    @Override
     public void addPropertyChangeListener(String propertyName,
                                           PropertyChangeListener listener) {
         super.addPropertyChangeListener(propertyName, listener);
@@ -3810,6 +3867,7 @@ public class Container extends Component {
          *
          * @return the number of accessible children in the object
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return Container.this.getAccessibleChildrenCount();
         }
@@ -3820,6 +3878,7 @@ public class Container extends Component {
          * @param i zero-based index of child
          * @return the nth <code>Accessible</code> child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             return Container.this.getAccessibleChild(i);
         }
@@ -3834,6 +3893,7 @@ public class Container extends Component {
          * @return the <code>Accessible</code>, if it exists,
          *    at the specified location; else <code>null</code>
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             return Container.this.getAccessibleAt(p);
         }
@@ -3853,6 +3913,7 @@ public class Container extends Component {
          */
         protected class AccessibleContainerHandler
             implements ContainerListener {
+            @Override
             public void componentAdded(ContainerEvent e) {
                 Component c = e.getChild();
                 if (c != null && c instanceof Accessible) {
@@ -3861,6 +3922,7 @@ public class Container extends Component {
                         null, ((Accessible) c).getAccessibleContext());
                 }
             }
+            @Override
             public void componentRemoved(ContainerEvent e) {
                 Component c = e.getChild();
                 if (c != null && c instanceof Accessible) {
@@ -3876,6 +3938,7 @@ public class Container extends Component {
          *
          * @param listener  the PropertyChangeListener to be added
          */
+        @Override
         public void addPropertyChangeListener(PropertyChangeListener listener) {
             if (accessibleContainerHandler == null) {
                 accessibleContainerHandler = new AccessibleContainerHandler();
@@ -3893,6 +3956,7 @@ public class Container extends Component {
          *
          * @param listener the PropertyChangeListener to be removed
          */
+        @Override
         public void removePropertyChangeListener(PropertyChangeListener listener) {
             if (--propertyListenersCount == 0) {
                 Container.this.removeContainerListener(accessibleContainerHandler);
@@ -4702,6 +4766,7 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
         //System.out.println("Adding AWTEventListener");
         java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     nativeContainer.getToolkit().addAWTEventListener(
                         LightweightDispatcher.this,
@@ -4717,6 +4782,7 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
         //System.out.println("Removing AWTEventListener");
         java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     nativeContainer.getToolkit().removeAWTEventListener(LightweightDispatcher.this);
                     return null;
@@ -4730,6 +4796,7 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
      * Listen for drag events posted in other hw components so we can
      * track enter/exit regardless of where a drag originated
      */
+    @Override
     public void eventDispatched(AWTEvent e) {
         boolean isForeignDrag = (e instanceof MouseEvent) &&
                                 !(e instanceof SunDropTargetEvent) &&
@@ -4788,6 +4855,7 @@ class LightweightDispatcher implements java.io.Serializable, AWTEventListener {
             if (AppContext.getAppContext() != nativeContainer.appContext) {
                 final MouseEvent mouseEvent = me;
                 Runnable r = new Runnable() {
+                        @Override
                         public void run() {
                             if (!nativeContainer.isShowing() ) {
                                 return;

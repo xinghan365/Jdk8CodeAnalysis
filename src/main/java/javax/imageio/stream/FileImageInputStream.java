@@ -101,6 +101,7 @@ public class FileImageInputStream extends ImageInputStreamImpl {
         }
     }
 
+    @Override
     public int read() throws IOException {
         checkClosed();
         bitOffset = 0;
@@ -111,6 +112,7 @@ public class FileImageInputStream extends ImageInputStreamImpl {
         return val;
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         checkClosed();
         bitOffset = 0;
@@ -128,6 +130,7 @@ public class FileImageInputStream extends ImageInputStreamImpl {
      * @return the file length as a <code>long</code>, or
      * <code>-1</code>.
      */
+    @Override
     public long length() {
         try {
             checkClosed();
@@ -137,6 +140,7 @@ public class FileImageInputStream extends ImageInputStreamImpl {
         }
     }
 
+    @Override
     public void seek(long pos) throws IOException {
         checkClosed();
         if (pos < flushedPos) {
@@ -147,6 +151,7 @@ public class FileImageInputStream extends ImageInputStreamImpl {
         streamPos = raf.getFilePointer();
     }
 
+    @Override
     public void close() throws IOException {
         super.close();
         disposerRecord.dispose(); // this closes the RandomAccessFile
@@ -156,6 +161,7 @@ public class FileImageInputStream extends ImageInputStreamImpl {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void finalize() throws Throwable {
         // Empty finalizer: for performance reasons we instead use the
         // Disposer mechanism for ensuring that the underlying

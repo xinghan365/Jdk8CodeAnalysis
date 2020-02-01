@@ -94,6 +94,7 @@ class HeapLongBuffer
 
     }
 
+    @Override
     public LongBuffer slice() {
         return new HeapLongBuffer(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapLongBuffer
                                         this.position() + offset);
     }
 
+    @Override
     public LongBuffer duplicate() {
         return new HeapLongBuffer(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapLongBuffer
                                         offset);
     }
 
+    @Override
     public LongBuffer asReadOnlyBuffer() {
 
         return new HeapLongBufferR(hb,
@@ -131,10 +134,12 @@ class HeapLongBuffer
         return i + offset;
     }
 
+    @Override
     public long get() {
         return hb[ix(nextGetIndex())];
     }
 
+    @Override
     public long get(int i) {
         return hb[ix(checkIndex(i))];
     }
@@ -145,25 +150,30 @@ class HeapLongBuffer
 
 
 
+    @Override
     public LongBuffer get(long[] dst, int offset, int length) {
         checkBounds(offset, length, dst.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferUnderflowException();
+        }
         System.arraycopy(hb, ix(position()), dst, offset, length);
         position(position() + length);
         return this;
     }
 
+    @Override
     public boolean isDirect() {
         return false;
     }
 
 
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public LongBuffer put(long x) {
 
         hb[ix(nextPutIndex())] = x;
@@ -173,6 +183,7 @@ class HeapLongBuffer
 
     }
 
+    @Override
     public LongBuffer put(int i, long x) {
 
         hb[ix(checkIndex(i))] = x;
@@ -182,11 +193,13 @@ class HeapLongBuffer
 
     }
 
+    @Override
     public LongBuffer put(long[] src, int offset, int length) {
 
         checkBounds(offset, length, src.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferOverflowException();
+        }
         System.arraycopy(src, offset, hb, ix(position()), length);
         position(position() + length);
         return this;
@@ -195,23 +208,27 @@ class HeapLongBuffer
 
     }
 
+    @Override
     public LongBuffer put(LongBuffer src) {
 
         if (src instanceof HeapLongBuffer) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             HeapLongBuffer sb = (HeapLongBuffer)src;
             int n = sb.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             System.arraycopy(sb.hb, sb.ix(sb.position()),
                              hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
             int n = src.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             src.get(hb, ix(position()), n);
             position(position() + n);
         } else {
@@ -223,6 +240,7 @@ class HeapLongBuffer
 
     }
 
+    @Override
     public LongBuffer compact() {
 
         System.arraycopy(hb, ix(position()), hb, ix(0), remaining());
@@ -592,6 +610,7 @@ class HeapLongBuffer
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

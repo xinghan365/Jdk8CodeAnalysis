@@ -131,6 +131,7 @@ public class SystemTray {
     static {
         AWTAccessor.setSystemTrayAccessor(
             new AWTAccessor.SystemTrayAccessor() {
+                @Override
                 public void firePropertyChange(SystemTray tray,
                                                String propertyName,
                                                Object oldValue,

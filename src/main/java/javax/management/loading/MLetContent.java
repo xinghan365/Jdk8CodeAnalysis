@@ -118,8 +118,9 @@ public class MLetContent {
                 }
             }
         }
-        if (baseURL == null)
+        if (baseURL == null) {
             baseURL = documentURL;
+        }
 
     }
 

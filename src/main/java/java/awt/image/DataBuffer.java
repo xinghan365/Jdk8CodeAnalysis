@@ -517,22 +517,27 @@ public abstract class DataBuffer {
 
     static {
         SunWritableRaster.setDataStealer(new SunWritableRaster.DataStealer() {
+            @Override
             public byte[] getData(DataBufferByte dbb, int bank) {
                 return dbb.bankdata[bank];
             }
 
+            @Override
             public short[] getData(DataBufferUShort dbus, int bank) {
                 return dbus.bankdata[bank];
             }
 
+            @Override
             public int[] getData(DataBufferInt dbi, int bank) {
                 return dbi.bankdata[bank];
             }
 
+            @Override
             public StateTrackableDelegate getTrackable(DataBuffer db) {
                 return db.theTrackable;
             }
 
+            @Override
             public void setTrackable(DataBuffer db,
                                      StateTrackableDelegate trackable)
             {

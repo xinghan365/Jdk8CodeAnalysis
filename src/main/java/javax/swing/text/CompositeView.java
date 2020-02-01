@@ -132,6 +132,7 @@ public abstract class CompositeView extends View {
      *
      * @param parent the parent of the view, <code>null</code> if none
      */
+    @Override
     public void setParent(View parent) {
         super.setParent(parent);
         if ((parent != null) && (nchildren == 0)) {
@@ -146,6 +147,7 @@ public abstract class CompositeView extends View {
      * @return the number of views &gt;= 0
      * @see #getView
      */
+    @Override
     public int getViewCount() {
         return nchildren;
     }
@@ -156,6 +158,7 @@ public abstract class CompositeView extends View {
      * @param n the number of the desired view, &gt;= 0 &amp;&amp; &lt; getViewCount()
      * @return the view at index <code>n</code>
      */
+    @Override
     public View getView(int n) {
         return children[n];
     }
@@ -176,6 +179,7 @@ public abstract class CompositeView extends View {
      *  <code>null</code>
      *   to indicate no children are being added (useful to remove)
      */
+    @Override
     public void replace(int offset, int length, View[] views) {
         // make sure an array exists
         if (views == null) {
@@ -227,6 +231,7 @@ public abstract class CompositeView extends View {
      * @param a  the allocation to this view
      * @return the allocation to the child
      */
+    @Override
     public Shape getChildAllocation(int index, Shape a) {
         Rectangle alloc = getInsideAllocation(a);
         childAllocation(index, alloc);
@@ -246,6 +251,7 @@ public abstract class CompositeView extends View {
      *   not represent a valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         boolean isBackward = (b == Position.Bias.Backward);
         int testPos = (isBackward) ? Math.max(0, pos - 1) : pos;
@@ -297,6 +303,7 @@ public abstract class CompositeView extends View {
      * @exception IllegalArgumentException for an invalid bias argument
      * @see View#viewToModel
      */
+    @Override
     public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a) throws BadLocationException {
         if (p0 == getStartOffset() && p1 == getEndOffset()) {
             return a;
@@ -387,6 +394,7 @@ public abstract class CompositeView extends View {
      *  given point in the view &gt;= 0
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
         Rectangle alloc = getInsideAllocation(a);
         if (isBefore((int) x, (int) y, alloc)) {
@@ -460,6 +468,7 @@ public abstract class CompositeView extends View {
      *                                 position within the document
      * @exception IllegalArgumentException if <code>direction</code> is invalid
      */
+    @Override
     public int getNextVisualPositionFrom(int pos, Position.Bias b, Shape a,
                                          int direction, Position.Bias[] biasRet)
       throws BadLocationException {
@@ -497,6 +506,7 @@ public abstract class CompositeView extends View {
      *   -1 if no view represents that position
      * @since 1.3
      */
+    @Override
     public int getViewIndex(int pos, Position.Bias b) {
         if(b == Position.Bias.Backward) {
             pos -= 1;

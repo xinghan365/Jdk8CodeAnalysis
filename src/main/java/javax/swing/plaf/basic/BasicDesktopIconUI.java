@@ -62,6 +62,7 @@ public class BasicDesktopIconUI extends DesktopIconUI {
     public BasicDesktopIconUI() {
     }
 
+    @Override
     public void installUI(JComponent c)   {
         desktopIcon = (JInternalFrame.JDesktopIcon)c;
         frame = desktopIcon.getInternalFrame();
@@ -84,6 +85,7 @@ public class BasicDesktopIconUI extends DesktopIconUI {
         JLayeredPane.putLayer(desktopIcon, JLayeredPane.getLayer(frame));
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults();
         uninstallComponents();
@@ -145,10 +147,12 @@ public class BasicDesktopIconUI extends DesktopIconUI {
         return new MouseInputHandler();
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return desktopIcon.getLayout().preferredLayoutSize(desktopIcon);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension dim = new Dimension(iconPane.getMinimumSize());
         Border border = frame.getBorder();
@@ -166,6 +170,7 @@ public class BasicDesktopIconUI extends DesktopIconUI {
      *
      * @see #getMinimumSize
      */
+    @Override
     public Dimension getMaximumSize(JComponent c){
         return iconPane.getMaximumSize();
     }
@@ -173,8 +178,9 @@ public class BasicDesktopIconUI extends DesktopIconUI {
     public Insets getInsets(JComponent c) {
         JInternalFrame iframe = desktopIcon.getInternalFrame();
         Border border = iframe.getBorder();
-        if(border != null)
+        if(border != null) {
             return border.getBorderInsets(iframe);
+        }
 
         return new Insets(0,0,0,0);
     }
@@ -197,6 +203,7 @@ public class BasicDesktopIconUI extends DesktopIconUI {
         int __x, __y;
         Rectangle startingBounds;
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             _x = 0;
             _y = 0;
@@ -212,6 +219,7 @@ public class BasicDesktopIconUI extends DesktopIconUI {
 
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             Point p = SwingUtilities.convertPoint((Component)e.getSource(),
                         e.getX(), e.getY(), null);
@@ -240,8 +248,10 @@ public class BasicDesktopIconUI extends DesktopIconUI {
 
         }
 
+         @Override
          public void mouseMoved(MouseEvent e) {}
 
+         @Override
          public void mouseDragged(MouseEvent e) {
             Point p;
             int newX, newY, newW, newH;
@@ -264,14 +274,18 @@ public class BasicDesktopIconUI extends DesktopIconUI {
                 newX = startingBounds.x - (_x - p.x);
                 newY = startingBounds.y - (_y - p.y);
                 // Make sure we stay in-bounds
-                if(newX + i.left <= -__x)
+                if(newX + i.left <= -__x) {
                     newX = -__x - i.left;
-                if(newY + i.top <= -__y)
+                }
+                if(newY + i.top <= -__y) {
                     newY = -__y - i.top;
-                if(newX + __x + i.right > pWidth)
+                }
+                if(newX + __x + i.right > pWidth) {
                     newX = pWidth - __x - i.right;
-                if(newY + __y + i.bottom > pHeight)
+                }
+                if(newY + __y + i.bottom > pHeight) {
                     newY =  pHeight - __y - i.bottom;
+                }
 
                 JDesktopPane d;
                 if((d = desktopIcon.getDesktopPane()) != null) {

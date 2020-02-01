@@ -55,12 +55,14 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
     public MetalDesktopIconUI() {
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         LookAndFeel.installColorsAndFont(desktopIcon, "DesktopIcon.background", "DesktopIcon.foreground", "DesktopIcon.font");
         width = UIManager.getInt("DesktopIcon.width");
     }
 
+    @Override
     protected void installComponents() {
         frame = desktopIcon.getInternalFrame();
         Icon icon = frame.getFrameIcon();
@@ -68,6 +70,7 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
 
         button = new JButton (title, icon);
         button.addActionListener( new ActionListener() {
+                                  @Override
                                   public void actionPerformed(ActionEvent e) {
              deiconize(); }} );
         button.setFont(desktopIcon.getFont());
@@ -88,6 +91,7 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
         desktopIcon.add(label, BorderLayout.WEST);
     }
 
+    @Override
     protected void uninstallComponents() {
         desktopIcon.setLayout(null);
         desktopIcon.remove(label);
@@ -96,12 +100,14 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
         frame = null;
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
         desktopIcon.getInternalFrame().addPropertyChangeListener(
                 titleListener = new TitleListener());
     }
 
+    @Override
     protected void uninstallListeners() {
         desktopIcon.getInternalFrame().removePropertyChangeListener(
                 titleListener);
@@ -110,12 +116,14 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
     }
 
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         // Metal desktop icons can not be resized.  Their dimensions should
         // always be the minimum size.  See getMinimumSize(JComponent c).
         return getMinimumSize(c);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         // For the metal desktop icon we will use the layout maanger to
         // determine the correct height of the component, but we want to keep
@@ -124,6 +132,7 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
                 desktopIcon.getLayout().minimumLayoutSize(desktopIcon).height);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // Metal desktop icons can not be resized.  Their dimensions should
         // always be the minimum size.  See getMinimumSize(JComponent c).
@@ -131,6 +140,7 @@ public class MetalDesktopIconUI extends BasicDesktopIconUI
     }
 
     class TitleListener implements PropertyChangeListener {
+        @Override
         public void propertyChange (PropertyChangeEvent e) {
           if (e.getPropertyName().equals("title")) {
             button.setText((String)e.getNewValue());

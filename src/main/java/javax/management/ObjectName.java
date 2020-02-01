@@ -417,8 +417,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
         throws MalformedObjectNameException {
 
         // The name cannot be null
-        if (name == null)
+        if (name == null) {
             throw new NullPointerException("name cannot be null");
+        }
 
         // Test if the name is empty
         if (name.length() == 0) {
@@ -459,10 +460,12 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                     // from the ObjectName. This allows us to provide a more
                     // accurate exception message.
                     int i = ++index;
-                    while ((i < len) && (name_chars[i++] != ':'))
-                        if (i == len)
+                    while ((i < len) && (name_chars[i++] != ':')) {
+                        if (i == len) {
                             throw new MalformedObjectNameException(
-                                "Domain part must be specified");
+                                    "Domain part must be specified");
+                        }
+                    }
                     break;
                 case '\n' :
                     throw new MalformedObjectNameException(
@@ -479,9 +482,10 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
         }
 
         // check for non-empty properties
-        if (index == len)
+        if (index == len) {
             throw new MalformedObjectNameException(
                                          "Key properties cannot be empty");
+        }
 
         // we have got the domain part, begins building of _canonicalName
         System.arraycopy(name_chars, 0, canonical_chars, 0, _domain_length);
@@ -508,17 +512,17 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
 
             // case of pattern properties
             if (c == '*') {
-                if (_property_list_pattern)
+                if (_property_list_pattern) {
                     throw new MalformedObjectNameException(
                               "Cannot have several '*' characters in pattern " +
                               "property list");
-                else {
+                } else {
                     _property_list_pattern = true;
-                    if ((++index < len ) && (name_chars[index] != ','))
+                    if ((++index < len ) && (name_chars[index] != ',')) {
                         throw new MalformedObjectNameException(
                                   "Invalid character found after '*': end of " +
                                   "name or ',' expected");
-                    else if (index == len) {
+                    } else if (index == len) {
                         if (property_index == 0) {
                             // empty properties case
                             _kp_array = _Empty_property_array;
@@ -537,9 +541,10 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
             // standard property case, key part
             in_index = index;
             key_index = in_index;
-            if (name_chars[in_index] == '=')
+            if (name_chars[in_index] == '=') {
                 throw new MalformedObjectNameException("Invalid key (empty)");
-            while ((in_index < len) && ((c1 = name_chars[in_index++]) != '='))
+            }
+            while ((in_index < len) && ((c1 = name_chars[in_index++]) != '=')) {
                 switch (c1) {
                     // '=' considered to introduce value part
                     case  '*' :
@@ -552,9 +557,11 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                                   "Invalid character '" + ichar +
                                   "' in key part of property");
                 }
-            if (name_chars[in_index - 1] != '=')
+            }
+            if (name_chars[in_index - 1] != '=') {
                 throw new MalformedObjectNameException(
                                              "Unterminated key property part");
+            }
             value_index = in_index; // in_index pointing after '=' char
             key_length = value_index - key_index - 1; // found end of key
 
@@ -568,9 +575,10 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                        ((c1 = name_chars[in_index]) != '\"')) {
                     // the case of an escaped character
                     if (c1 == '\\') {
-                        if (++in_index == len)
+                        if (++in_index == len) {
                             throw new MalformedObjectNameException(
                                                "Unterminated quoted value");
+                        }
                         switch (c1 = name_chars[in_index]) {
                             case '\\' :
                             case '\"' :
@@ -595,45 +603,52 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                         }
                     }
                 }
-                if (in_index == len)
+                if (in_index == len) {
                     throw new MalformedObjectNameException(
                                                  "Unterminated quoted value");
-                else value_length = ++in_index - value_index;
+                } else {
+                    value_length = ++in_index - value_index;
+                }
             } else {
                 // the case of standard value part
                 quoted_value = false;
-                while ((in_index < len) && ((c1 = name_chars[in_index]) != ','))
-                switch (c1) {
-                    // ',' considered to be the value separator
-                    case '*' :
-                    case '?' :
-                        value_pattern = true;
-                        in_index++;
-                        break;
-                    case '=' :
-                    case ':' :
-                    case '"' :
-                    case '\n' :
-                        final String ichar = ((c1=='\n')?"\\n":""+c1);
-                        throw new MalformedObjectNameException(
-                                                 "Invalid character '" + ichar +
-                                                 "' in value part of property");
-                    default :
-                        in_index++;
-                        break;
+                while ((in_index < len) && ((c1 = name_chars[in_index]) != ',')) {
+                    switch (c1) {
+                        // ',' considered to be the value separator
+                        case '*' :
+                        case '?' :
+                            value_pattern = true;
+                            in_index++;
+                            break;
+                        case '=' :
+                        case ':' :
+                        case '"' :
+                        case '\n' :
+                            final String ichar = ((c1=='\n')?"\\n":""+c1);
+                            throw new MalformedObjectNameException(
+                                                     "Invalid character '" + ichar +
+                                                     "' in value part of property");
+                        default :
+                            in_index++;
+                            break;
+                    }
                 }
                 value_length = in_index - value_index;
             }
 
             // Parsed property, checks the end of name
             if (in_index == len - 1) {
-                if (quoted_value)
+                if (quoted_value) {
                     throw new MalformedObjectNameException(
                                              "Invalid ending character `" +
                                              name_chars[in_index] + "'");
-                else throw new MalformedObjectNameException(
-                                                  "Invalid ending comma");
-            } else in_index++;
+                } else {
+                    throw new MalformedObjectNameException(
+                                                      "Invalid ending comma");
+                }
+            } else {
+                in_index++;
+            }
 
             // we got the key and value part, prepare a property for this
             if (!value_pattern) {
@@ -677,21 +692,25 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
         throws MalformedObjectNameException {
 
         // The domain cannot be null
-        if (domain == null)
+        if (domain == null) {
             throw new NullPointerException("domain cannot be null");
+        }
 
         // The key property list cannot be null
-        if (props == null)
+        if (props == null) {
             throw new NullPointerException("key property list cannot be null");
+        }
 
         // The key property list cannot be empty
-        if (props.isEmpty())
+        if (props.isEmpty()) {
             throw new MalformedObjectNameException(
                                          "key property list cannot be empty");
+        }
 
         // checks domain validity
-        if (!isDomain(domain))
+        if (!isDomain(domain)) {
             throw new MalformedObjectNameException("Invalid domain: " + domain);
+        }
 
         // init canonicalname
         final StringBuilder sb = new StringBuilder();
@@ -708,8 +727,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
         int key_index;
         int i = 0;
         for (Map.Entry<String,String> entry : props.entrySet()) {
-            if (sb.length() > 0)
+            if (sb.length() > 0) {
                 sb.append(",");
+            }
             String key = entry.getKey();
             String value;
             try {
@@ -760,9 +780,11 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                              Map<String,Property> keys_map, String key_name)
         throws MalformedObjectNameException {
 
-        if (keys_map.containsKey(key_name)) throw new
-                MalformedObjectNameException("key `" +
-                                         key_name +"' already defined");
+        if (keys_map.containsKey(key_name)) {
+            throw new
+                    MalformedObjectNameException("key `" +
+                                             key_name +"' already defined");
+        }
 
         // if no more space for property arrays, have to increase it
         if (index == _kp_array.length) {
@@ -798,8 +820,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
 
             // now assigns _ca_array to the sorted list of keys
             // (there cannot be two identical keys in an objectname.
-            for (int i = 0; i < nb_props; i++)
+            for (int i = 0; i < nb_props; i++) {
                 _ca_array[i] = keys_map.get(keys[i]);
+            }
 
             // now we build the canonical name and set begin indexes of
             // properties to reflect canonical form
@@ -823,8 +846,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
 
         // terminate canonicalname with '*' in case of pattern
         if (_property_list_pattern) {
-            if (_kp_array != _Empty_property_array)
+            if (_kp_array != _Empty_property_array) {
                 canonical_chars[prop_index++] = ',';
+            }
             canonical_chars[prop_index++] = '*';
         }
 
@@ -864,8 +888,11 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                 endKey = next-1;
                 break;
             default:
-                if (next < len) continue;
-                else endKey=next;
+                if (next < len) {
+                    continue;
+                } else {
+                    endKey=next;
+                }
             }
             break;
         }
@@ -898,14 +925,18 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
 
         if (q == '"') {
             // quoted value
-            if (++next == len) throw new
-                MalformedObjectNameException("Invalid quote");
+            if (++next == len) {
+                throw new
+                    MalformedObjectNameException("Invalid quote");
+            }
             while (next < len) {
                 char last = s[next];
                 if (last == '\\') {
-                    if (++next == len) throw new
-                        MalformedObjectNameException(
-                           "Invalid unterminated quoted character sequence");
+                    if (++next == len) {
+                        throw new
+                            MalformedObjectNameException(
+                               "Invalid unterminated quoted character sequence");
+                    }
                     last = s[next];
                     switch (last) {
                         case '\\' :
@@ -918,9 +949,11 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                             // quote is the last character, it does not
                             // qualify as a valid termination quote.
                             //
-                            if (next+1 == len) throw new
-                                MalformedObjectNameException(
-                                                 "Missing termination quote");
+                            if (next+1 == len) {
+                                throw new
+                                    MalformedObjectNameException(
+                                                     "Missing termination quote");
+                            }
                             break;
                         default:
                             throw new
@@ -948,13 +981,17 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                 // We have already handled the case were the last
                 // character is an escaped quote earlier.
                 //
-                if ((next >= len) && (last != '\"')) throw new
-                    MalformedObjectNameException("Missing termination quote");
+                if ((next >= len) && (last != '\"')) {
+                    throw new
+                        MalformedObjectNameException("Missing termination quote");
+                }
             }
             endValue = next;
             if (next < len) {
-                if (s[next++] != ',') throw new
-                    MalformedObjectNameException("Invalid quote");
+                if (s[next++] != ',') {
+                    throw new
+                        MalformedObjectNameException("Invalid quote");
+                }
             }
         } else {
             // Non quoted value.
@@ -964,8 +1001,11 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                     case '*':
                     case '?':
                         value_pattern = true;
-                        if (next < len) continue;
-                        else endValue=next;
+                        if (next < len) {
+                            continue;
+                        } else {
+                            endValue=next;
+                        }
                         break;
                     case '=':
                     case ':':
@@ -978,8 +1018,11 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                         endValue = next-1;
                         break;
                     default:
-                        if (next < len) continue;
-                        else endValue=next;
+                        if (next < len) {
+                            continue;
+                        } else {
+                            endValue=next;
+                        }
                 }
                 break;
             }
@@ -995,20 +1038,25 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
     private static boolean checkValue(String val)
         throws MalformedObjectNameException {
 
-        if (val == null) throw new
-            NullPointerException("Invalid value (null)");
+        if (val == null) {
+            throw new
+                NullPointerException("Invalid value (null)");
+        }
 
         final int len = val.length();
-        if (len == 0)
+        if (len == 0) {
             return false;
+        }
 
         final char[] s = val.toCharArray();
         final int[] result = parseValue(s,0);
         final int endValue = result[0];
         final boolean value_pattern = result[1] == 1;
-        if (endValue < len) throw new
-            MalformedObjectNameException("Invalid character in value: `" +
-                                         s[endValue] + "'");
+        if (endValue < len) {
+            throw new
+                MalformedObjectNameException("Invalid character in value: `" +
+                                             s[endValue] + "'");
+        }
         return value_pattern;
     }
 
@@ -1018,17 +1066,23 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
     private static void checkKey(String key)
         throws MalformedObjectNameException {
 
-        if (key == null) throw new
-            NullPointerException("Invalid key (null)");
+        if (key == null) {
+            throw new
+                NullPointerException("Invalid key (null)");
+        }
 
         final int len = key.length();
-        if (len == 0) throw new
-            MalformedObjectNameException("Invalid key (empty)");
+        if (len == 0) {
+            throw new
+                MalformedObjectNameException("Invalid key (empty)");
+        }
         final char[] k=key.toCharArray();
         final int endKey = parseKey(k,0);
-        if (endKey < len) throw new
-            MalformedObjectNameException("Invalid character in value: `" +
-                                         k[endKey] + "'");
+        if (endKey < len) {
+            throw new
+                MalformedObjectNameException("Invalid character in value: `" +
+                                             k[endKey] + "'");
+        }
     }
 
 
@@ -1040,7 +1094,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      * Check if domain is a valid domain.  Set _domain_pattern if appropriate.
      */
     private boolean isDomain(String domain) {
-        if (domain == null) return true;
+        if (domain == null) {
+            return true;
+        }
         final int len = domain.length();
         int next = 0;
         while (next < len) {
@@ -1362,8 +1418,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      *
      */
     public static ObjectName getInstance(ObjectName name) {
-        if (name.getClass().equals(ObjectName.class))
+        if (name.getClass().equals(ObjectName.class)) {
             return name;
+        }
         return Util.newObjectName(name.getSerializedNameString());
     }
 
@@ -1516,13 +1573,15 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      * @since 1.6
      */
     public boolean isPropertyValuePattern(String property) {
-        if (property == null)
+        if (property == null) {
             throw new NullPointerException("key property can't be null");
+        }
         for (int i = 0; i < _ca_array.length; i++) {
             Property prop = _ca_array[i];
             String key = prop.getKeyString(_canonicalName);
-            if (key.equals(property))
+            if (key.equals(property)) {
                 return (prop instanceof PatternProperty);
+            }
         }
         throw new IllegalArgumentException("key property not found");
     }
@@ -1636,7 +1695,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      */
     public String getKeyPropertyListString()  {
         // BEWARE : we rebuild the propertyliststring at each call !!
-        if (_kp_array.length == 0) return "";
+        if (_kp_array.length == 0) {
+            return "";
+        }
 
         // the size of the string is the canonical one minus domain
         // part and pattern part
@@ -1701,7 +1762,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      */
     private int writeKeyPropertyListString(char[] canonicalChars,
                                            char[] data, int offset)  {
-        if (_kp_array.length == 0) return offset;
+        if (_kp_array.length == 0) {
+            return offset;
+        }
 
         final char[] dest_chars = data;
         final char[] value = canonicalChars;
@@ -1715,7 +1778,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
             System.arraycopy(value, prop._key_index, dest_chars, index,
                              prop_len);
             index += prop_len;
-            if (i < last ) dest_chars[index++] = ',';
+            if (i < last ) {
+                dest_chars[index++] = ',';
+            }
         }
         return index;
     }
@@ -1734,10 +1799,14 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      * independent of whether the ObjectName is a pattern.
      */
     public String getCanonicalKeyPropertyListString()  {
-        if (_ca_array.length == 0) return "";
+        if (_ca_array.length == 0) {
+            return "";
+        }
 
         int len = _canonicalName.length();
-        if (_property_list_pattern) len -= 2;
+        if (_property_list_pattern) {
+            len -= 2;
+        }
         return _canonicalName.substring(_domain_length +1, len);
     }
     // Category : Getter methods <===================================
@@ -1773,16 +1842,22 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
     public boolean equals(Object object)  {
 
         // same object case
-        if (this == object) return true;
+        if (this == object) {
+            return true;
+        }
 
         // object is not an object name case
-        if (!(object instanceof ObjectName)) return false;
+        if (!(object instanceof ObjectName)) {
+            return false;
+        }
 
         // equality when canonical names are the same
         // (because usage of intern())
         ObjectName on = (ObjectName) object;
         String on_string = on._canonicalName;
-        if (_canonicalName == on_string) return true;  // ES: OK
+        if (_canonicalName == on_string) {
+            return true;  // ES: OK
+        }
 
         // Because we are sharing canonical form between object names,
         // we have finished the comparison at this stage ==> unequal
@@ -1875,13 +1950,15 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
     public static String unquote(String q) {
         final StringBuilder buf = new StringBuilder();
         final int len = q.length();
-        if (len < 2 || q.charAt(0) != '"' || q.charAt(len - 1) != '"')
+        if (len < 2 || q.charAt(0) != '"' || q.charAt(len - 1) != '"') {
             throw new IllegalArgumentException("Argument not quoted");
+        }
         for (int i = 1; i < len - 1; i++) {
             char c = q.charAt(i);
             if (c == '\\') {
-                if (i == len - 2)
+                if (i == len - 2) {
                     throw new IllegalArgumentException("Trailing backslash");
+                }
                 c = q.charAt(++i);
                 switch (c) {
                 case 'n':
@@ -1940,20 +2017,25 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      * @exception NullPointerException if <code>name</code> is null.
      *
      */
+    @Override
     public boolean apply(ObjectName name) {
 
-        if (name == null) throw new NullPointerException();
+        if (name == null) {
+            throw new NullPointerException();
+        }
 
         if (name._domain_pattern ||
             name._property_list_pattern ||
-            name._property_value_pattern)
+            name._property_value_pattern) {
             return false;
+        }
 
         // No pattern
         if (!_domain_pattern &&
             !_property_list_pattern &&
-            !_property_value_pattern)
+            !_property_value_pattern) {
             return _canonicalName.equals(name._canonicalName);
+        }
 
         return matchDomains(name) && matchKeys(name);
     }
@@ -1974,8 +2056,9 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
         //
         if (_property_value_pattern &&
             !_property_list_pattern &&
-            (name._ca_array.length != _ca_array.length))
-                return false;
+            (name._ca_array.length != _ca_array.length)) {
+            return false;
+        }
 
         // If key property value pattern or key property list pattern,
         // then every property inside pattern should exist in name
@@ -1993,18 +2076,23 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
                 final String   v = nameProps.get(k);
                 // Did we find a value for this key ?
                 //
-                if (v == null) return false;
+                if (v == null) {
+                    return false;
+                }
                 // If this property is ok (same key, same value), go to next
                 //
                 if (_property_value_pattern && (p instanceof PatternProperty)) {
                     // wildmatch key property values
                     // p is the property pattern, v is the string
-                    if (Util.wildmatch(v,p.getValueString(cn)))
+                    if (Util.wildmatch(v,p.getValueString(cn))) {
                         continue;
-                    else
+                    } else {
                         return false;
+                    }
                 }
-                if (v.equals(p.getValueString(cn))) continue;
+                if (v.equals(p.getValueString(cn))) {
+                    continue;
+                }
                 return false;
             }
             return true;
@@ -2021,6 +2109,7 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
        because ObjectName is not relative to an MBeanServer and does
        not contain a subquery.
     */
+    @Override
     public void setMBeanServer(MBeanServer mbs) { }
 
     // Category : QueryExp Interface <=========================
@@ -2070,16 +2159,20 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
      *
      * @since 1.6
      */
+    @Override
     public int compareTo(ObjectName name) {
         // Quick optimization:
         //
-        if (name == this) return 0;
+        if (name == this) {
+            return 0;
+        }
 
         // (1) Compare domains
         //
         int domainValue = this.getDomain().compareTo(name.getDomain());
-        if (domainValue != 0)
+        if (domainValue != 0) {
             return domainValue;
+        }
 
         // (2) Compare "type=" keys
         //
@@ -2091,13 +2184,16 @@ public class ObjectName implements Comparable<ObjectName>, QueryExp {
         //
         String thisTypeKey = this.getKeyProperty("type");
         String anotherTypeKey = name.getKeyProperty("type");
-        if (thisTypeKey == null)
+        if (thisTypeKey == null) {
             thisTypeKey = "";
-        if (anotherTypeKey == null)
+        }
+        if (anotherTypeKey == null) {
             anotherTypeKey = "";
+        }
         int typeKeyValue = thisTypeKey.compareTo(anotherTypeKey);
-        if (typeKeyValue != 0)
+        if (typeKeyValue != 0) {
             return typeKeyValue;
+        }
 
         // (3) Compare canonical names
         //

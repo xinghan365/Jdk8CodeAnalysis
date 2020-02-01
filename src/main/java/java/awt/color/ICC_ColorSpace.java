@@ -168,6 +168,7 @@ public class ICC_ColorSpace extends ColorSpace {
      * @throws ArrayIndexOutOfBoundsException if array length is not
      * at least the number of components in this ColorSpace.
      */
+    @Override
     public float[]    toRGB (float[] colorvalue) {
 
         if (this2srgb == null) {
@@ -220,6 +221,7 @@ public class ICC_ColorSpace extends ColorSpace {
      * @throws ArrayIndexOutOfBoundsException if array length is not
      * at least 3.
      */
+    @Override
     public float[]    fromRGB(float[] rgbvalue) {
 
         if (srgb2this == null) {
@@ -355,6 +357,7 @@ public class ICC_ColorSpace extends ColorSpace {
      * @throws ArrayIndexOutOfBoundsException if array length is not
      * at least the number of components in this ColorSpace.
      */
+    @Override
     public float[]    toCIEXYZ(float[] colorvalue) {
 
         if (this2xyz == null) {
@@ -499,6 +502,7 @@ public class ICC_ColorSpace extends ColorSpace {
      * @throws ArrayIndexOutOfBoundsException if array length is not
      * at least 3.
      */
+    @Override
     public float[]    fromCIEXYZ(float[] colorvalue) {
 
         if (xyz2this == null) {
@@ -555,6 +559,7 @@ public class ICC_ColorSpace extends ColorSpace {
      *         greater than numComponents - 1.
      * @since 1.4
      */
+    @Override
     public float getMinValue(int component) {
         if ((component < 0) || (component > this.getNumComponents() - 1)) {
             throw new IllegalArgumentException(
@@ -580,6 +585,7 @@ public class ICC_ColorSpace extends ColorSpace {
      *         greater than numComponents - 1.
      * @since 1.4
      */
+    @Override
     public float getMaxValue(int component) {
         if ((component < 0) || (component > this.getNumComponents() - 1)) {
             throw new IllegalArgumentException(

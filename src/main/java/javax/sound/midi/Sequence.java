@@ -141,17 +141,19 @@ public class Sequence {
      */
     public Sequence(float divisionType, int resolution) throws InvalidMidiDataException {
 
-        if (divisionType == PPQ)
+        if (divisionType == PPQ) {
             this.divisionType = PPQ;
-        else if (divisionType == SMPTE_24)
+        } else if (divisionType == SMPTE_24) {
             this.divisionType = SMPTE_24;
-        else if (divisionType == SMPTE_25)
+        } else if (divisionType == SMPTE_25) {
             this.divisionType = SMPTE_25;
-        else if (divisionType == SMPTE_30DROP)
+        } else if (divisionType == SMPTE_30DROP) {
             this.divisionType = SMPTE_30DROP;
-        else if (divisionType == SMPTE_30)
+        } else if (divisionType == SMPTE_30) {
             this.divisionType = SMPTE_30;
-        else throw new InvalidMidiDataException("Unsupported division type: " + divisionType);
+        } else {
+            throw new InvalidMidiDataException("Unsupported division type: " + divisionType);
+        }
 
         this.resolution = resolution;
     }
@@ -187,17 +189,19 @@ public class Sequence {
      */
     public Sequence(float divisionType, int resolution, int numTracks) throws InvalidMidiDataException {
 
-        if (divisionType == PPQ)
+        if (divisionType == PPQ) {
             this.divisionType = PPQ;
-        else if (divisionType == SMPTE_24)
+        } else if (divisionType == SMPTE_24) {
             this.divisionType = SMPTE_24;
-        else if (divisionType == SMPTE_25)
+        } else if (divisionType == SMPTE_25) {
             this.divisionType = SMPTE_25;
-        else if (divisionType == SMPTE_30DROP)
+        } else if (divisionType == SMPTE_30DROP) {
             this.divisionType = SMPTE_30DROP;
-        else if (divisionType == SMPTE_30)
+        } else if (divisionType == SMPTE_30) {
             this.divisionType = SMPTE_30;
-        else throw new InvalidMidiDataException("Unsupported division type: " + divisionType);
+        } else {
+            throw new InvalidMidiDataException("Unsupported division type: " + divisionType);
+        }
 
         this.resolution = resolution;
 

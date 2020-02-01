@@ -94,6 +94,7 @@ class HeapIntBufferR
 
     }
 
+    @Override
     public IntBuffer slice() {
         return new HeapIntBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapIntBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public IntBuffer duplicate() {
         return new HeapIntBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapIntBufferR
                                         offset);
     }
 
+    @Override
     public IntBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapIntBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public IntBuffer put(int x) {
 
 
@@ -173,6 +178,7 @@ class HeapIntBufferR
 
     }
 
+    @Override
     public IntBuffer put(int i, int x) {
 
 
@@ -182,6 +188,7 @@ class HeapIntBufferR
 
     }
 
+    @Override
     public IntBuffer put(int[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapIntBufferR
 
     }
 
+    @Override
     public IntBuffer put(IntBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapIntBufferR
 
     }
 
+    @Override
     public IntBuffer compact() {
 
 
@@ -592,6 +601,7 @@ class HeapIntBufferR
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

@@ -153,6 +153,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      *         <code>dst</code>
      * @throws ImagingOpException if <code>src</code> cannot be filtered
      */
+    @Override
     public final BufferedImage filter (BufferedImage src, BufferedImage dst) {
         if (src == null) {
             throw new NullPointerException("src image is null");
@@ -232,6 +233,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      * @throws IllegalArgumentException if <code>src</code> equals
      *         <code>dst</code>
      */
+    @Override
     public final WritableRaster filter (Raster src, WritableRaster dst) {
         if (dst == null) {
             dst = createCompatibleDestRaster(src);
@@ -260,6 +262,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      * @return a destination <code>BufferedImage</code> with the correct
      *         size and number of bands.
      */
+    @Override
     public BufferedImage createCompatibleDestImage(BufferedImage src,
                                                    ColorModel destCM) {
         BufferedImage image;
@@ -302,6 +305,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      * Creates a zeroed destination Raster with the correct size and number
      * of bands, given this source.
      */
+    @Override
     public WritableRaster createCompatibleDestRaster(Raster src) {
         return src.createCompatibleWritableRaster();
     }
@@ -311,6 +315,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      * this is not a geometric operation, the bounding box does not
      * change.
      */
+    @Override
     public final Rectangle2D getBounds2D(BufferedImage src) {
         return getBounds2D(src.getRaster());
     }
@@ -320,6 +325,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      * this is not a geometric operation, the bounding box does not
      * change.
      */
+    @Override
     public final Rectangle2D getBounds2D(Raster src) {
         return src.getBounds();
     }
@@ -330,6 +336,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
      * be used to hold the return value.  Since this is not a geometric
      * operation, the srcPt will equal the dstPt.
      */
+    @Override
     public final Point2D getPoint2D(Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
             dstPt = new Point2D.Float();
@@ -342,6 +349,7 @@ public class ConvolveOp implements BufferedImageOp, RasterOp {
     /**
      * Returns the rendering hints for this op.
      */
+    @Override
     public final RenderingHints getRenderingHints() {
         return hints;
     }

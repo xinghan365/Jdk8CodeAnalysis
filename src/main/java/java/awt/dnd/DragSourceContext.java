@@ -310,14 +310,19 @@ public class DragSourceContext
      */
 
     public synchronized void addDragSourceListener(DragSourceListener dsl) throws TooManyListenersException {
-        if (dsl == null) return;
+        if (dsl == null) {
+            return;
+        }
 
-        if (equals(dsl)) throw new IllegalArgumentException("DragSourceContext may not be its own listener");
+        if (equals(dsl)) {
+            throw new IllegalArgumentException("DragSourceContext may not be its own listener");
+        }
 
-        if (listener != null)
+        if (listener != null) {
             throw new TooManyListenersException();
-        else
+        } else {
             listener = dsl;
+        }
     }
 
     /**
@@ -332,8 +337,9 @@ public class DragSourceContext
     public synchronized void removeDragSourceListener(DragSourceListener dsl) {
         if (listener != null && listener.equals(dsl)) {
             listener = null;
-        } else
+        } else {
             throw new IllegalArgumentException();
+        }
     }
 
     /**
@@ -342,7 +348,9 @@ public class DragSourceContext
      */
 
     public void transferablesFlavorsChanged() {
-        if (peer != null) peer.transferablesFlavorsChanged();
+        if (peer != null) {
+            peer.transferablesFlavorsChanged();
+        }
     }
 
     /**
@@ -354,6 +362,7 @@ public class DragSourceContext
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragEnter(DragSourceDragEvent dsde) {
         DragSourceListener dsl = listener;
         if (dsl != null) {
@@ -373,6 +382,7 @@ public class DragSourceContext
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragOver(DragSourceDragEvent dsde) {
         DragSourceListener dsl = listener;
         if (dsl != null) {
@@ -392,6 +402,7 @@ public class DragSourceContext
      *
      * @param dse the <code>DragSourceEvent</code>
      */
+    @Override
     public void dragExit(DragSourceEvent dse) {
         DragSourceListener dsl = listener;
         if (dsl != null) {
@@ -411,6 +422,7 @@ public class DragSourceContext
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dropActionChanged(DragSourceDragEvent dsde) {
         DragSourceListener dsl = listener;
         if (dsl != null) {
@@ -430,6 +442,7 @@ public class DragSourceContext
      *
      * @param dsde the <code>DragSourceDropEvent</code>
      */
+    @Override
     public void dragDropEnd(DragSourceDropEvent dsde) {
         DragSourceListener dsl = listener;
         if (dsl != null) {
@@ -448,6 +461,7 @@ public class DragSourceContext
      * @param dsde the <code>DragSourceDragEvent</code>
      * @since 1.4
      */
+    @Override
     public void dragMouseMoved(DragSourceDragEvent dsde) {
         getDragSource().processDragMouseMoved(dsde);
     }
@@ -495,19 +509,21 @@ public class DragSourceContext
                 int    ra = sourceAct & targetAct;
 
                 if (ra == DnDConstants.ACTION_NONE) { // no drop possible
-                    if ((sourceAct & DnDConstants.ACTION_LINK) == DnDConstants.ACTION_LINK)
+                    if ((sourceAct & DnDConstants.ACTION_LINK) == DnDConstants.ACTION_LINK) {
                         c = DragSource.DefaultLinkNoDrop;
-                    else if ((sourceAct & DnDConstants.ACTION_MOVE) == DnDConstants.ACTION_MOVE)
+                    } else if ((sourceAct & DnDConstants.ACTION_MOVE) == DnDConstants.ACTION_MOVE) {
                         c = DragSource.DefaultMoveNoDrop;
-                    else
+                    } else {
                         c = DragSource.DefaultCopyNoDrop;
+                    }
                 } else { // drop possible
-                    if ((ra & DnDConstants.ACTION_LINK) == DnDConstants.ACTION_LINK)
+                    if ((ra & DnDConstants.ACTION_LINK) == DnDConstants.ACTION_LINK) {
                         c = DragSource.DefaultLinkDrop;
-                    else if ((ra & DnDConstants.ACTION_MOVE) == DnDConstants.ACTION_MOVE)
+                    } else if ((ra & DnDConstants.ACTION_MOVE) == DnDConstants.ACTION_MOVE) {
                         c = DragSource.DefaultMoveDrop;
-                    else
+                    } else {
                         c = DragSource.DefaultCopyDrop;
+                    }
                 }
         }
 
@@ -517,7 +533,9 @@ public class DragSourceContext
     private void setCursorImpl(Cursor c) {
         if (cursor == null || !cursor.equals(c)) {
             cursor = c;
-            if (peer != null) peer.setCursor(cursor);
+            if (peer != null) {
+                peer.setCursor(cursor);
+            }
         }
     }
 
@@ -600,13 +618,16 @@ public class DragSourceContext
         if (transferable == null) {
             if (emptyTransferable == null) {
                 emptyTransferable = new Transferable() {
+                        @Override
                         public DataFlavor[] getTransferDataFlavors() {
                             return new DataFlavor[0];
                         }
+                        @Override
                         public boolean isDataFlavorSupported(DataFlavor flavor)
                         {
                             return false;
                         }
+                        @Override
                         public Object getTransferData(DataFlavor flavor)
                             throws UnsupportedFlavorException
                         {

@@ -206,10 +206,12 @@ public abstract class Spring {
     /*pp*/ static abstract class AbstractSpring extends Spring {
         protected int size = UNSET;
 
+        @Override
         public int getValue() {
             return size != UNSET ? size : getPreferredValue();
         }
 
+        @Override
         public final void setValue(int size) {
             if (this.size == size) {
                 return;
@@ -245,18 +247,22 @@ public abstract class Spring {
             this.max = max;
         }
 
+         @Override
          public String toString() {
              return "StaticSpring [" + min + ", " + pref + ", " + max + "]";
          }
 
+         @Override
          public int getMinimumValue() {
             return min;
         }
 
+        @Override
         public int getPreferredValue() {
             return pref;
         }
 
+        @Override
         public int getMaximumValue() {
             return max;
         }
@@ -272,29 +278,36 @@ public abstract class Spring {
 // Note the use of max value rather than minimum value here.
 // See the opening preamble on arithmetic with springs.
 
+        @Override
         public int getMinimumValue() {
             return -s.getMaximumValue();
         }
 
+        @Override
         public int getPreferredValue() {
             return -s.getPreferredValue();
         }
 
+        @Override
         public int getMaximumValue() {
             return -s.getMinimumValue();
         }
 
+        @Override
         public int getValue() {
             return -s.getValue();
         }
 
+        @Override
         public void setValue(int size) {
             // No need to check for UNSET as
             // Integer.MIN_VALUE == -Integer.MIN_VALUE.
             s.setValue(-size);
         }
 
-        /*pp*/ boolean isCyclic(SpringLayout l) {
+        /*pp*/
+        @Override
+        boolean isCyclic(SpringLayout l) {
             return s.isCyclic(l);
         }
     }
@@ -308,22 +321,27 @@ public abstract class Spring {
             this.factor = factor;
         }
 
+        @Override
         public int getMinimumValue() {
             return Math.round((factor < 0 ? s.getMaximumValue() : s.getMinimumValue()) * factor);
         }
 
+        @Override
         public int getPreferredValue() {
             return Math.round(s.getPreferredValue() * factor);
         }
 
+        @Override
         public int getMaximumValue() {
             return Math.round((factor < 0 ? s.getMinimumValue() : s.getMaximumValue()) * factor);
         }
 
+        @Override
         public int getValue() {
             return Math.round(s.getValue() * factor);
         }
 
+        @Override
         public void setValue(int value) {
             if (value == UNSET) {
                 s.setValue(UNSET);
@@ -332,7 +350,9 @@ public abstract class Spring {
             }
         }
 
-        /*pp*/ boolean isCyclic(SpringLayout l) {
+        /*pp*/
+        @Override
+        boolean isCyclic(SpringLayout l) {
             return s.isCyclic(l);
         }
     }
@@ -344,14 +364,17 @@ public abstract class Spring {
             this.c = c;
         }
 
+        @Override
         public int getMinimumValue() {
             return c.getMinimumSize().width;
         }
 
+        @Override
         public int getPreferredValue() {
             return c.getPreferredSize().width;
         }
 
+        @Override
         public int getMaximumValue() {
             // We will be doing arithmetic with the results of this call,
             // so if a returned value is Integer.MAX_VALUE we will get
@@ -367,14 +390,17 @@ public abstract class Spring {
             this.c = c;
         }
 
+        @Override
         public int getMinimumValue() {
             return c.getMinimumSize().height;
         }
 
+        @Override
         public int getPreferredValue() {
             return c.getPreferredSize().height;
         }
 
+        @Override
         public int getMaximumValue() {
             return Math.min(Short.MAX_VALUE, c.getMaximumSize().height);
         }
@@ -391,22 +417,27 @@ public abstract class Spring {
 
        protected abstract int inv(int i);
 
+       @Override
        public int getMinimumValue() {
            return map(s.getMinimumValue());
        }
 
+       @Override
        public int getPreferredValue() {
            return map(s.getPreferredValue());
        }
 
+       @Override
        public int getMaximumValue() {
            return Math.min(Short.MAX_VALUE, map(s.getMaximumValue()));
        }
 
+       @Override
        public int getValue() {
            return map(s.getValue());
        }
 
+       @Override
        public void setValue(int value) {
            if (value == UNSET) {
                s.setValue(UNSET);
@@ -415,7 +446,9 @@ public abstract class Spring {
            }
        }
 
-       /*pp*/ boolean isCyclic(SpringLayout l) {
+       /*pp*/
+       @Override
+       boolean isCyclic(SpringLayout l) {
            return s.isCyclic(l);
        }
    }
@@ -432,10 +465,12 @@ public abstract class Spring {
             this.s2 = s2;
         }
 
+        @Override
         public String toString() {
             return "CompoundSpring of " + s1 + " and " + s2;
         }
 
+        @Override
         protected void clear() {
             super.clear();
             min = pref = max = UNSET;
@@ -445,6 +480,7 @@ public abstract class Spring {
 
         protected abstract int op(int x, int y);
 
+        @Override
         public int getMinimumValue() {
             if (min == UNSET) {
                 min = op(s1.getMinimumValue(), s2.getMinimumValue());
@@ -452,6 +488,7 @@ public abstract class Spring {
             return min;
         }
 
+        @Override
         public int getPreferredValue() {
             if (pref == UNSET) {
                 pref = op(s1.getPreferredValue(), s2.getPreferredValue());
@@ -459,6 +496,7 @@ public abstract class Spring {
             return pref;
         }
 
+        @Override
         public int getMaximumValue() {
             if (max == UNSET) {
                 max = op(s1.getMaximumValue(), s2.getMaximumValue());
@@ -466,6 +504,7 @@ public abstract class Spring {
             return max;
         }
 
+        @Override
         public int getValue() {
             if (size == UNSET) {
                 size = op(s1.getValue(), s2.getValue());
@@ -473,7 +512,9 @@ public abstract class Spring {
             return size;
         }
 
-        /*pp*/ boolean isCyclic(SpringLayout l) {
+        /*pp*/
+        @Override
+        boolean isCyclic(SpringLayout l) {
             return l.isCyclic(s1) || l.isCyclic(s2);
         }
     };
@@ -483,10 +524,12 @@ public abstract class Spring {
              super(s1, s2);
          }
 
+         @Override
          protected int op(int x, int y) {
              return x + y;
          }
 
+         @Override
          protected void setNonClearValue(int size) {
              super.setNonClearValue(size);
              s1.setStrain(this.getStrain());
@@ -500,10 +543,12 @@ public abstract class Spring {
             super(s1, s2);
         }
 
+        @Override
         protected int op(int x, int y) {
             return Math.max(x, y);
         }
 
+        @Override
         protected void setNonClearValue(int size) {
             super.setNonClearValue(size);
             s1.setValue(size);

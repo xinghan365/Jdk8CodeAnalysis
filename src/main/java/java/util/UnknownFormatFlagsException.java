@@ -47,8 +47,9 @@ public class UnknownFormatFlagsException extends IllegalFormatException {
      *         The set of format flags which contain an unknown flag
      */
     public UnknownFormatFlagsException(String f) {
-        if (f == null)
+        if (f == null) {
             throw new NullPointerException();
+        }
         this.flags = f;
     }
 
@@ -62,6 +63,7 @@ public class UnknownFormatFlagsException extends IllegalFormatException {
     }
 
     // javadoc inherited from Throwable.java
+    @Override
     public String getMessage() {
         return "Flags = " + flags;
     }

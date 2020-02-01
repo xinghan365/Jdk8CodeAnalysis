@@ -88,6 +88,7 @@ public final class DateTimeAtCreation   extends DateTimeSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this date-time
      *          at creation attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return(super.equals (object) &&
                object instanceof DateTimeAtCreation);
@@ -103,6 +104,7 @@ public final class DateTimeAtCreation   extends DateTimeSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return DateTimeAtCreation.class;
     }
@@ -116,6 +118,7 @@ public final class DateTimeAtCreation   extends DateTimeSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "date-time-at-creation";
     }

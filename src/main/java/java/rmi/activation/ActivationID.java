@@ -132,6 +132,7 @@ public class ActivationID implements Serializable {
                 activator.activate(this, force);
             return AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Remote>() {
+                    @Override
                     public Remote run() throws IOException, ClassNotFoundException {
                         return mobj.get();
                     }
@@ -154,6 +155,7 @@ public class ActivationID implements Serializable {
      * @see java.util.Hashtable
      * @since 1.2
      */
+    @Override
     public int hashCode() {
         return uid.hashCode();
     }
@@ -170,6 +172,7 @@ public class ActivationID implements Serializable {
      * @see             java.util.Hashtable
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof ActivationID) {
             ActivationID id = (ActivationID) obj;

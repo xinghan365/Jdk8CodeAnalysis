@@ -182,6 +182,7 @@ class DeflaterOutputStream extends FilterOutputStream {
      * @param b the byte to be written
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void write(int b) throws IOException {
         byte[] buf = new byte[1];
         buf[0] = (byte)(b & 0xff);
@@ -196,6 +197,7 @@ class DeflaterOutputStream extends FilterOutputStream {
      * @param len the length of the data
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void write(byte[] b, int off, int len) throws IOException {
         if (def.finished()) {
             throw new IOException("write beyond end of stream");
@@ -233,11 +235,13 @@ class DeflaterOutputStream extends FilterOutputStream {
      * underlying stream.
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void close() throws IOException {
         if (!closed) {
             finish();
-            if (usesDefaultDeflater)
+            if (usesDefaultDeflater) {
                 def.end();
+            }
             out.close();
             closed = true;
         }
@@ -269,14 +273,16 @@ class DeflaterOutputStream extends FilterOutputStream {
      *
      * @since 1.7
      */
+    @Override
     public void flush() throws IOException {
         if (syncFlush && !def.finished()) {
             int len = 0;
             while ((len = def.deflate(buf, 0, buf.length, Deflater.SYNC_FLUSH)) > 0)
             {
                 out.write(buf, 0, len);
-                if (len < buf.length)
+                if (len < buf.length) {
                     break;
+                }
             }
         }
         out.flush();

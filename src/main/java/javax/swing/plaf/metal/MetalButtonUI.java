@@ -76,10 +76,12 @@ public class MetalButtonUI extends BasicButtonUI {
     // ********************************
     //          Install
     // ********************************
+    @Override
     public void installDefaults(AbstractButton b) {
         super.installDefaults(b);
     }
 
+    @Override
     public void uninstallDefaults(AbstractButton b) {
         super.uninstallDefaults(b);
     }
@@ -87,6 +89,7 @@ public class MetalButtonUI extends BasicButtonUI {
     // ********************************
     //         Create Listeners
     // ********************************
+    @Override
     protected BasicButtonListener createButtonListener(AbstractButton b) {
         return super.createButtonListener(b);
     }
@@ -126,6 +129,7 @@ public class MetalButtonUI extends BasicButtonUI {
      * @see javax.swing.plaf.ComponentUI#paint
      * @since 1.5
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         AbstractButton button = (AbstractButton)c;
         if ((c.getBackground() instanceof UIResource) &&
@@ -150,6 +154,7 @@ public class MetalButtonUI extends BasicButtonUI {
         super.update(g, c);
     }
 
+    @Override
     protected void paintButtonPressed(Graphics g, AbstractButton b) {
         if ( b.isContentAreaFilled() ) {
             Dimension size = b.getSize();
@@ -158,6 +163,7 @@ public class MetalButtonUI extends BasicButtonUI {
         }
     }
 
+    @Override
     protected void paintFocus(Graphics g, AbstractButton b,
                               Rectangle viewRect, Rectangle textRect, Rectangle iconRect){
 
@@ -186,6 +192,7 @@ public class MetalButtonUI extends BasicButtonUI {
     }
 
 
+    @Override
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton b = (AbstractButton) c;
         ButtonModel model = b.getModel();

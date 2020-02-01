@@ -82,6 +82,7 @@ public class Option implements Serializable {
     /**
      * String representation is the label.
      */
+    @Override
     public String toString() {
         return label;
     }

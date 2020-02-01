@@ -226,6 +226,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     /**
      * Starts the counter monitor.
      */
+    @Override
     public synchronized void start() {
         if (isActive()) {
             MONITOR_LOGGER.logp(Level.FINER, CounterMonitor.class.getName(),
@@ -248,6 +249,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     /**
      * Stops the counter monitor.
      */
+    @Override
     public synchronized void stop() {
         doStop();
     }
@@ -297,11 +299,13 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * @return The threshold value of the specified object.
      *
      */
+    @Override
     public synchronized Number getThreshold(ObjectName object) {
         final CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
-        if (o == null)
+        if (o == null) {
             return null;
+        }
 
         // If the counter that is monitored rolls over when it reaches a
         // maximum value, then the modulus value needs to be set to that
@@ -328,6 +332,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * @see #setInitThreshold
      *
      */
+    @Override
     public synchronized Number getInitThreshold() {
         return initThreshold;
     }
@@ -346,6 +351,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * @see #getInitThreshold
      *
      */
+    @Override
     public synchronized void setInitThreshold(Number value)
         throws IllegalArgumentException {
 
@@ -356,8 +362,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
             throw new IllegalArgumentException("Negative threshold");
         }
 
-        if (initThreshold.equals(value))
+        if (initThreshold.equals(value)) {
             return;
+        }
         initThreshold = value;
 
         // Reset values.
@@ -382,6 +389,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * @deprecated As of JMX 1.2, replaced by
      * {@link #getDerivedGauge(ObjectName)}
      */
+    @Override
     @Deprecated
     public synchronized Number getDerivedGauge() {
         if (observedObjects.isEmpty()) {
@@ -400,6 +408,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      * @deprecated As of JMX 1.2, replaced by
      * {@link #getDerivedGaugeTimeStamp(ObjectName)}
      */
+    @Override
     @Deprecated
     public synchronized long getDerivedGaugeTimeStamp() {
         if (observedObjects.isEmpty()) {
@@ -419,6 +428,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @deprecated As of JMX 1.2, replaced by {@link #getThreshold(ObjectName)}
      */
+    @Override
     @Deprecated
     public synchronized Number getThreshold() {
         return getThreshold(getObservedObject());
@@ -436,6 +446,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @deprecated As of JMX 1.2, replaced by {@link #setInitThreshold}
      */
+    @Override
     @Deprecated
     public synchronized void setThreshold(Number value)
         throws IllegalArgumentException {
@@ -449,6 +460,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #setOffset
      */
+    @Override
     public synchronized Number getOffset() {
         return offset;
     }
@@ -463,6 +475,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #getOffset
      */
+    @Override
     public synchronized void setOffset(Number value)
         throws IllegalArgumentException {
 
@@ -473,8 +486,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
             throw new IllegalArgumentException("Negative offset");
         }
 
-        if (offset.equals(value))
+        if (offset.equals(value)) {
             return;
+        }
         offset = value;
 
         int index = 0;
@@ -490,6 +504,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @return The modulus value.
      */
+    @Override
     public synchronized Number getModulus() {
         return modulus;
     }
@@ -504,6 +519,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #getModulus
      */
+    @Override
     public synchronized void setModulus(Number value)
         throws IllegalArgumentException {
 
@@ -514,8 +530,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
             throw new IllegalArgumentException("Negative modulus");
         }
 
-        if (modulus.equals(value))
+        if (modulus.equals(value)) {
             return;
+        }
         modulus = value;
 
         // Reset values.
@@ -538,6 +555,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #setNotify
      */
+    @Override
     public synchronized boolean getNotify() {
         return notify;
     }
@@ -550,9 +568,11 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #getNotify
      */
+    @Override
     public synchronized void setNotify(boolean value) {
-        if (notify == value)
+        if (notify == value) {
             return;
+        }
         notify = value;
     }
 
@@ -564,6 +584,7 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #setDifferenceMode
      */
+    @Override
     public synchronized boolean getDifferenceMode() {
         return differenceMode;
     }
@@ -575,9 +596,11 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
      *
      * @see #getDifferenceMode
      */
+    @Override
     public synchronized void setDifferenceMode(boolean value) {
-        if (differenceMode == value)
+        if (differenceMode == value) {
             return;
+        }
         differenceMode = value;
 
         // Reset values.
@@ -809,8 +832,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
 
         long derived =
             scanCounter.longValue() - o.getPreviousScanCounter().longValue();
-        if (mod != null)
+        if (mod != null) {
             derived += modulus.longValue();
+        }
 
         switch (o.getType()) {
         case INTEGER: o.setDerivedGauge(Integer.valueOf((int) derived)); break;
@@ -860,8 +884,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
                                                Comparable<?> value) {
         final CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
-        if (o == null)
+        if (o == null) {
             return false;
+        }
 
         // Check that the observed attribute is of type "Integer".
         //
@@ -886,8 +911,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
                                                   Comparable<?> value) {
         final CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
-        if (o == null)
+        if (o == null) {
             return null;
+        }
 
         // Check if counter has wrapped around.
         //
@@ -916,8 +942,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
     synchronized void onErrorNotification(MonitorNotification notification) {
         final CounterMonitorObservedObject o = (CounterMonitorObservedObject)
             getObservedObject(notification.getObservedObject());
-        if (o == null)
+        if (o == null) {
             return;
+        }
 
         // Reset values.
         //
@@ -933,8 +960,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
                                                Comparable<?> value) {
         final CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
-        if (o == null)
+        if (o == null) {
             return null;
+        }
 
         // Notify the listeners and update the threshold if
         // the updated derived gauge value is valid.
@@ -970,8 +998,9 @@ public class CounterMonitor extends Monitor implements CounterMonitorMBean {
                                               Comparable<?> value) {
         final CounterMonitorObservedObject o =
             (CounterMonitorObservedObject) getObservedObject(object);
-        if (o == null)
+        if (o == null) {
             return false;
+        }
 
         Class<? extends Number> c = classForType(o.getType());
         return (c.isInstance(o.getThreshold()) &&

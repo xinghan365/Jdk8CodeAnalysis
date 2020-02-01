@@ -684,6 +684,7 @@ public abstract class XMLGregorianCalendar
      * returns {@link DatatypeConstants#EQUAL},
      * otherwise <code>false</code>.
      */
+    @Override
     public boolean equals(Object obj) {
 
         if (obj == null || !(obj instanceof XMLGregorianCalendar)) {
@@ -697,6 +698,7 @@ public abstract class XMLGregorianCalendar
      *
      * @return hash code of this object.
      */
+    @Override
     public int hashCode() {
 
         // Following two dates compare to EQUALS since in different timezones.
@@ -861,6 +863,7 @@ public abstract class XMLGregorianCalendar
      *
      * @see #toXMLFormat()
          */
+    @Override
     public String toString() {
 
         return toXMLFormat();
@@ -1058,5 +1061,6 @@ public abstract class XMLGregorianCalendar
      *
      * @return copy of this <code>Object</code>
      */
+   @Override
    public abstract Object clone();
 }

@@ -485,6 +485,7 @@ final class TextLine {
     }
 
     private static Function fgPosAdvF = new Function() {
+        @Override
         float computeFunction(TextLine line,
                               int componentIndex,
                               int indexInArray) {
@@ -497,6 +498,7 @@ final class TextLine {
 
     private static Function fgAdvanceF = new Function() {
 
+        @Override
         float computeFunction(TextLine line,
                               int componentIndex,
                               int indexInArray) {
@@ -508,6 +510,7 @@ final class TextLine {
 
     private static Function fgXPositionF = new Function() {
 
+        @Override
         float computeFunction(TextLine line,
                               int componentIndex,
                               int indexInArray) {
@@ -520,6 +523,7 @@ final class TextLine {
 
     private static Function fgYPositionF = new Function() {
 
+        @Override
         float computeFunction(TextLine line,
                               int componentIndex,
                               int indexInArray) {
@@ -880,11 +884,13 @@ final class TextLine {
         return dstShape;
     }
 
+    @Override
     public int hashCode() {
         return (fComponents.length << 16) ^
                     (fComponents[0].hashCode() << 3) ^ (fCharsLimit-fCharsStart);
     }
 
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
 
@@ -1270,8 +1276,9 @@ final class TextLine {
         if (baselineOffsets[baseline] != 0) {
             float base = baselineOffsets[baseline];
             float[] temp = new float[baselineOffsets.length];
-            for (int i = 0; i < temp.length; i++)
+            for (int i = 0; i < temp.length; i++) {
                 temp[i] = baselineOffsets[i] - base;
+            }
             baselineOffsets = temp;
         }
         return baselineOffsets;

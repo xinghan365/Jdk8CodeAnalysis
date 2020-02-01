@@ -606,6 +606,7 @@ public class DateFormatSymbols implements Serializable, Cloneable {
     /**
      * Overrides Cloneable
      */
+    @Override
     public Object clone()
     {
         try
@@ -644,10 +645,15 @@ public class DateFormatSymbols implements Serializable, Cloneable {
     /**
      * Override equals
      */
+    @Override
     public boolean equals(Object obj)
     {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         DateFormatSymbols that = (DateFormatSymbols) obj;
         return (Arrays.equals(eras, that.eras)
                 && Arrays.equals(months, that.months)

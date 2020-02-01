@@ -122,10 +122,12 @@ public class CompositeDataSupport
             String[] itemNames, Object[] itemValues)
             throws OpenDataException {
 
-        if (itemNames == null || itemValues == null)
+        if (itemNames == null || itemValues == null) {
             throw new IllegalArgumentException("Null itemNames or itemValues");
-        if (itemNames.length == 0 || itemValues.length == 0)
+        }
+        if (itemNames.length == 0 || itemValues.length == 0) {
             throw new IllegalArgumentException("Empty itemNames or itemValues");
+        }
         if (itemNames.length != itemValues.length) {
             throw new IllegalArgumentException(
                     "Different lengths: itemNames[" + itemNames.length +
@@ -135,10 +137,12 @@ public class CompositeDataSupport
         SortedMap<String, Object> map = new TreeMap<String, Object>();
         for (int i = 0; i < itemNames.length; i++) {
             String name = itemNames[i];
-            if (name == null || name.equals(""))
+            if (name == null || name.equals("")) {
                 throw new IllegalArgumentException("Null or empty item name");
-            if (map.containsKey(name))
+            }
+            if (map.containsKey(name)) {
                 throw new OpenDataException("Duplicate item name " + name);
+            }
             map.put(itemNames[i], itemValues[i]);
         }
 
@@ -177,13 +181,15 @@ public class CompositeDataSupport
     }
 
     private static SortedMap<String, Object> makeMap(Map<String, ?> items) {
-        if (items == null || items.isEmpty())
+        if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Null or empty items map");
+        }
 
         SortedMap<String, Object> map = new TreeMap<String, Object>();
         for (Object key : items.keySet()) {
-            if (key == null || key.equals(""))
+            if (key == null || key.equals("")) {
                 throw new IllegalArgumentException("Null or empty item name");
+            }
             if (!(key instanceof String)) {
                 throw new ArrayStoreException("Item name is not string: " + key);
                 // This can happen because of erasure.  The particular
@@ -247,6 +253,7 @@ public class CompositeDataSupport
     /**
      * Returns the <i>composite type </i> of this <i>composite data</i> instance.
      */
+    @Override
     public CompositeType getCompositeType() {
 
         return compositeType;
@@ -260,6 +267,7 @@ public class CompositeDataSupport
      * @throws InvalidKeyException  if <tt>key</tt> is not an existing item name for
      * this <tt>CompositeData</tt> instance.
      */
+    @Override
     public Object get(String key) {
 
         if ( (key == null) || (key.trim().equals("")) ) {
@@ -281,6 +289,7 @@ public class CompositeDataSupport
      * @throws InvalidKeyException  if an element in <tt>keys</tt> is not an existing
      * item name for this <tt>CompositeData</tt> instance.
      */
+    @Override
     public Object[] getAll(String[] keys) {
 
         if ( (keys == null) || (keys.length == 0) ) {
@@ -298,6 +307,7 @@ public class CompositeDataSupport
      * an item whose name is <tt>key</tt>.
      * If <tt>key</tt> is a null or empty String, this method simply returns false.
      */
+    @Override
     public boolean containsKey(String key) {
 
         if ( (key == null) || (key.trim().equals("")) ) {
@@ -311,6 +321,7 @@ public class CompositeDataSupport
      * contains an item
      * whose value is <tt>value</tt>.
      */
+    @Override
     public boolean containsValue(Object value) {
 
         return contents.containsValue(value);
@@ -323,6 +334,7 @@ public class CompositeDataSupport
      * lexicographic order of the corresponding
      * item names.
      */
+    @Override
     public Collection<?> values() {
 
         return Collections.unmodifiableCollection(contents.values());
@@ -381,17 +393,20 @@ public class CompositeDataSupport
             Object e1 = entry.getValue();
             Object e2 = other.get(entry.getKey());
 
-            if (e1 == e2)
+            if (e1 == e2) {
                 continue;
-            if (e1 == null)
+            }
+            if (e1 == null) {
                 return false;
+            }
 
             boolean eq = e1.getClass().isArray() ?
                 Arrays.deepEquals(new Object[] {e1}, new Object[] {e2}) :
                 e1.equals(e2);
 
-            if (!eq)
+            if (!eq) {
                 return false;
+            }
         }
 
         // All tests for equality were successful
@@ -425,26 +440,27 @@ public class CompositeDataSupport
         int hashcode = compositeType.hashCode();
 
         for (Object o : contents.values()) {
-            if (o instanceof Object[])
+            if (o instanceof Object[]) {
                 hashcode += Arrays.deepHashCode((Object[]) o);
-            else if (o instanceof byte[])
+            } else if (o instanceof byte[]) {
                 hashcode += Arrays.hashCode((byte[]) o);
-            else if (o instanceof short[])
+            } else if (o instanceof short[]) {
                 hashcode += Arrays.hashCode((short[]) o);
-            else if (o instanceof int[])
+            } else if (o instanceof int[]) {
                 hashcode += Arrays.hashCode((int[]) o);
-            else if (o instanceof long[])
+            } else if (o instanceof long[]) {
                 hashcode += Arrays.hashCode((long[]) o);
-            else if (o instanceof char[])
+            } else if (o instanceof char[]) {
                 hashcode += Arrays.hashCode((char[]) o);
-            else if (o instanceof float[])
+            } else if (o instanceof float[]) {
                 hashcode += Arrays.hashCode((float[]) o);
-            else if (o instanceof double[])
+            } else if (o instanceof double[]) {
                 hashcode += Arrays.hashCode((double[]) o);
-            else if (o instanceof boolean[])
+            } else if (o instanceof boolean[]) {
                 hashcode += Arrays.hashCode((boolean[]) o);
-            else if (o != null)
+            } else if (o != null) {
                 hashcode += o.hashCode();
+            }
         }
 
         return hashcode;

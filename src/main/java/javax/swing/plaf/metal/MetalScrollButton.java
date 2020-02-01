@@ -74,7 +74,8 @@ public class MetalScrollButton extends BasicArrowButton
             isFreeStanding = freeStanding;
         }
 
-        public void paint( Graphics g )
+        @Override
+        public void paint(Graphics g )
         {
             boolean leftToRight = MetalUtils.isLeftToRight(this);
             boolean isEnabled = getParent().isEnabled();
@@ -306,6 +307,7 @@ public class MetalScrollButton extends BasicArrowButton
             }
         }
 
+        @Override
         public Dimension getPreferredSize()
         {
             if ( getDirection() == NORTH )
@@ -330,11 +332,13 @@ public class MetalScrollButton extends BasicArrowButton
             }
         }
 
+        @Override
         public Dimension getMinimumSize()
         {
             return getPreferredSize();
         }
 
+        @Override
         public Dimension getMaximumSize()
         {
             return new Dimension( Integer.MAX_VALUE, Integer.MAX_VALUE );

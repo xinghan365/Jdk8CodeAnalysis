@@ -118,6 +118,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setActionCommand(String actionCommand) {
         this.actionCommand = actionCommand;
     }
@@ -125,6 +126,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getActionCommand() {
         return actionCommand;
     }
@@ -132,6 +134,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isArmed() {
         return (stateMask & ARMED) != 0;
     }
@@ -139,6 +142,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSelected() {
         return (stateMask & SELECTED) != 0;
     }
@@ -146,6 +150,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isEnabled() {
         return (stateMask & ENABLED) != 0;
     }
@@ -153,6 +158,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isPressed() {
         return (stateMask & PRESSED) != 0;
     }
@@ -160,6 +166,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isRollover() {
         return (stateMask & ROLLOVER) != 0;
     }
@@ -167,6 +174,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setArmed(boolean b) {
         if(isMenuItem() &&
                 UIManager.getBoolean("MenuItem.disabledAreNavigable")) {
@@ -191,6 +199,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setEnabled(boolean b) {
         if(isEnabled() == b) {
             return;
@@ -212,6 +221,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSelected(boolean b) {
         if (this.isSelected() == b) {
             return;
@@ -237,6 +247,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setPressed(boolean b) {
         if((isPressed() == b) || !isEnabled()) {
             return;
@@ -269,6 +280,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setRollover(boolean b) {
         if((isRollover() == b) || !isEnabled()) {
             return;
@@ -286,6 +298,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setMnemonic(int key) {
         mnemonic = key;
         fireStateChanged();
@@ -294,6 +307,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getMnemonic() {
         return mnemonic;
     }
@@ -301,6 +315,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -308,6 +323,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
@@ -344,8 +360,9 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
@@ -354,6 +371,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addActionListener(ActionListener l) {
         listenerList.add(ActionListener.class, l);
     }
@@ -361,6 +379,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeActionListener(ActionListener l) {
         listenerList.remove(ActionListener.class, l);
     }
@@ -407,6 +426,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addItemListener(ItemListener l) {
         listenerList.add(ItemListener.class, l);
     }
@@ -414,6 +434,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeItemListener(ItemListener l) {
         listenerList.remove(ItemListener.class, l);
     }
@@ -499,6 +520,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     }
 
     /** Overridden to return <code>null</code>. */
+    @Override
     public Object[] getSelectedObjects() {
         return null;
     }
@@ -506,6 +528,7 @@ public class DefaultButtonModel implements ButtonModel, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setGroup(ButtonGroup group) {
         this.group = group;
     }

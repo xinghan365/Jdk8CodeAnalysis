@@ -237,6 +237,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
+    @Override
     public int getElem(int i) {
         return (int)(data[i+offset]);
     }
@@ -252,6 +253,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #setElem(int, int)
      * @see #setElem(int, int, int)
      */
+    @Override
     public int getElem(int bank, int i) {
         return (int)(bankdata[bank][i+offsets[bank]]);
     }
@@ -265,6 +267,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
+    @Override
     public void setElem(int i, int val) {
         data[i+offset] = (double)val;
         theTrackable.markDirty();
@@ -280,6 +283,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #getElem(int)
      * @see #getElem(int, int)
      */
+    @Override
     public void setElem(int bank, int i, int val) {
         bankdata[bank][i+offsets[bank]] = (double)val;
         theTrackable.markDirty();
@@ -295,6 +299,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #setElemFloat(int, float)
      * @see #setElemFloat(int, int, float)
      */
+    @Override
     public float getElemFloat(int i) {
         return (float)data[i+offset];
     }
@@ -310,6 +315,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #setElemFloat(int, float)
      * @see #setElemFloat(int, int, float)
      */
+    @Override
     public float getElemFloat(int bank, int i) {
         return (float)bankdata[bank][i+offsets[bank]];
     }
@@ -323,6 +329,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #getElemFloat(int)
      * @see #getElemFloat(int, int)
      */
+    @Override
     public void setElemFloat(int i, float val) {
         data[i+offset] = (double)val;
         theTrackable.markDirty();
@@ -338,6 +345,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #getElemFloat(int)
      * @see #getElemFloat(int, int)
      */
+    @Override
     public void setElemFloat(int bank, int i, float val) {
         bankdata[bank][i+offsets[bank]] = (double)val;
         theTrackable.markDirty();
@@ -353,6 +361,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
+    @Override
     public double getElemDouble(int i) {
         return data[i+offset];
     }
@@ -368,6 +377,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #setElemDouble(int, double)
      * @see #setElemDouble(int, int, double)
      */
+    @Override
     public double getElemDouble(int bank, int i) {
         return bankdata[bank][i+offsets[bank]];
     }
@@ -381,6 +391,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
+    @Override
     public void setElemDouble(int i, double val) {
         data[i+offset] = val;
         theTrackable.markDirty();
@@ -396,6 +407,7 @@ public final class DataBufferDouble extends DataBuffer {
      * @see #getElemDouble(int)
      * @see #getElemDouble(int, int)
      */
+    @Override
     public void setElemDouble(int bank, int i, double val) {
         bankdata[bank][i+offsets[bank]] = val;
         theTrackable.markDirty();

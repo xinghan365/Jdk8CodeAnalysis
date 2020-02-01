@@ -102,6 +102,7 @@ public abstract class StartTlsResponse implements ExtendedResponse {
      *
      * @return The object identifier string, "1.3.6.1.4.1.1466.20037".
      */
+    @Override
     public String getID() {
         return OID;
     }
@@ -113,6 +114,7 @@ public abstract class StartTlsResponse implements ExtendedResponse {
      *
      * @return The null value.
      */
+    @Override
     public byte[] getEncodedValue() {
         return null;
     }

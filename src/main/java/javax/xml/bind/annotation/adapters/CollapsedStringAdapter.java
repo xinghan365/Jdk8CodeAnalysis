@@ -43,8 +43,11 @@ public class CollapsedStringAdapter extends XmlAdapter<String,String> {
      * given as the parameter, then truncate any
      * sequnce of tab, CR, LF, and SP by a single whitespace character ' '.
      */
+    @Override
     public String unmarshal(String text) {
-        if(text==null)  return null;        // be defensive
+        if(text==null) {
+            return null;        // be defensive
+        }
 
         int len = text.length();
 
@@ -53,13 +56,16 @@ public class CollapsedStringAdapter extends XmlAdapter<String,String> {
         // never see it.
         int s=0;
         while(s<len) {
-            if(isWhiteSpace(text.charAt(s)))
+            if(isWhiteSpace(text.charAt(s))) {
                 break;
+            }
             s++;
         }
         if(s==len)
             // the input happens to be already collapsed.
+        {
             return text;
+        }
 
         // we now know that the input contains spaces.
         // let's sit down and do the collapsing normally.
@@ -67,8 +73,9 @@ public class CollapsedStringAdapter extends XmlAdapter<String,String> {
         StringBuilder result = new StringBuilder(len /*allocate enough size to avoid re-allocation*/ );
 
         if(s!=0) {
-            for( int i=0; i<s; i++ )
+            for( int i=0; i<s; i++ ) {
                 result.append(text.charAt(i));
+            }
             result.append(' ');
         }
 
@@ -76,20 +83,23 @@ public class CollapsedStringAdapter extends XmlAdapter<String,String> {
         for (int i = s+1; i < len; i++) {
             char ch = text.charAt(i);
             boolean b = isWhiteSpace(ch);
-            if (inStripMode && b)
+            if (inStripMode && b) {
                 continue; // skip this character
+            }
 
             inStripMode = b;
-            if (inStripMode)
+            if (inStripMode) {
                 result.append(' ');
-            else
+            } else {
                 result.append(ch);
+            }
         }
 
         // remove trailing whitespaces
         len = result.length();
-        if (len > 0 && result.charAt(len - 1) == ' ')
+        if (len > 0 && result.charAt(len - 1) == ' ') {
             result.setLength(len - 1);
+        }
         // whitespaces are already collapsed,
         // so all we have to do is to remove the last one character
         // if it's a whitespace.
@@ -102,6 +112,7 @@ public class CollapsedStringAdapter extends XmlAdapter<String,String> {
      *
      * Just return the same string given as the parameter.
      */
+    @Override
     public String marshal(String s) {
         return s;
     }
@@ -111,7 +122,9 @@ public class CollapsedStringAdapter extends XmlAdapter<String,String> {
     protected static boolean isWhiteSpace(char ch) {
         // most of the characters are non-control characters.
         // so check that first to quickly return false for most of the cases.
-        if( ch>0x20 )   return false;
+        if( ch>0x20 ) {
+            return false;
+        }
 
         // other than we have to do four comparisons.
         return ch == 0x9 || ch == 0xA || ch == 0xD || ch == 0x20;

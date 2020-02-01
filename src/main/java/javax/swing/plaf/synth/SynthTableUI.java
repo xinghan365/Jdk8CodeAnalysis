@@ -714,6 +714,7 @@ public class SynthTableUI extends BasicTableUI
             setName("Table.cellRenderer");
         }
 
+        @Override
         public Component getTableCellRendererComponent(
                             JTable table, Object value, boolean isSelected,
                             boolean hasFocus, int row, int column) {
@@ -738,6 +739,7 @@ public class SynthTableUI extends BasicTableUI
             return c;
         }
 
+        @Override
         public boolean isOpaque() {
             return isRowSelected ? true : super.isOpaque();
         }
@@ -748,14 +750,17 @@ public class SynthTableUI extends BasicTableUI
         private Object dateFormat;
         private boolean opaque;
 
+        @Override
         public void setOpaque(boolean isOpaque) {
             opaque = isOpaque;
         }
 
+        @Override
         public boolean isOpaque() {
             return opaque;
         }
 
+        @Override
         public String getName() {
             String name = super.getName();
             if (name == null) {
@@ -764,12 +769,14 @@ public class SynthTableUI extends BasicTableUI
             return name;
         }
 
+        @Override
         public void setBorder(Border b) {
             if (useUIBorder || b instanceof SynthBorder) {
                 super.setBorder(b);
             }
         }
 
+        @Override
         public Component getTableCellRendererComponent(
                   JTable table, Object value, boolean isSelected,
                   boolean hasFocus, int row, int column) {
@@ -822,6 +829,7 @@ public class SynthTableUI extends BasicTableUI
             }
         }
 
+        @Override
         public void paint(Graphics g) {
             super.paint(g);
             SynthLookAndFeel.resetSelectedUI();

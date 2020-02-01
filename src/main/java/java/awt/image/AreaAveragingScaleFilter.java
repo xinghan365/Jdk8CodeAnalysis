@@ -89,6 +89,7 @@ public class AreaAveragingScaleFilter extends ReplicateScaleFilter {
      * with the filtering operation.
      * @see ImageConsumer#setHints
      */
+    @Override
     public void setHints(int hints) {
         passthrough = ((hints & neededHints) != neededHints);
         super.setHints(hints);
@@ -243,6 +244,7 @@ public class AreaAveragingScaleFilter extends ReplicateScaleFilter {
      * with the filtering operation.
      * @see ReplicateScaleFilter
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
                           int scansize) {
@@ -269,6 +271,7 @@ public class AreaAveragingScaleFilter extends ReplicateScaleFilter {
      * with the filtering operation.
      * @see ReplicateScaleFilter
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
                           int scansize) {

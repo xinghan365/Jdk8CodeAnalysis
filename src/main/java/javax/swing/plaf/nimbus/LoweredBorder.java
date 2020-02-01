@@ -83,8 +83,9 @@ class LoweredBorder extends AbstractRegionPainter implements Border {
      *               painting the foreground, this value may differ from
      *               c.getHeight().
      */
+    @Override
     protected void doPaint(Graphics2D g, JComponent c, int width, int height,
-            Object[] extendedCacheKeys) {
+                           Object[] extendedCacheKeys) {
         Color color = (c == null) ? Color.BLACK : c.getBackground();
         BufferedImage img1 = new BufferedImage(IMG_SIZE,IMG_SIZE,
                     BufferedImage.TYPE_INT_ARGB);
@@ -138,6 +139,7 @@ class LoweredBorder extends AbstractRegionPainter implements Border {
      *
      * @return a PaintContext associated with this paint operation.
      */
+    @Override
     protected PaintContext getPaintContext() {
         return PAINT_CONTEXT;
     }
@@ -150,6 +152,7 @@ class LoweredBorder extends AbstractRegionPainter implements Border {
      *
      * @param c the component for which this border insets value applies
      */
+    @Override
     public Insets getBorderInsets(Component c) {
         return (Insets) INSETS.clone();
     }
@@ -158,6 +161,7 @@ class LoweredBorder extends AbstractRegionPainter implements Border {
      * Returns whether or not the border is opaque.  If the border is opaque, it
      * is responsible for filling in it's own background when painting.
      */
+    @Override
     public boolean isBorderOpaque() {
         return false;
     }
@@ -173,6 +177,7 @@ class LoweredBorder extends AbstractRegionPainter implements Border {
      * @param width  the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width,
                             int height) {
         JComponent comp = (c instanceof JComponent)?(JComponent)c:null;

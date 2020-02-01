@@ -133,6 +133,7 @@ public final class TextHitInfo {
      * @return the hash code of this <code>TextHitInfo</code>, which is
      * also the <code>charIndex</code> of this <code>TextHitInfo</code>.
      */
+    @Override
     public int hashCode() {
         return charIndex;
     }
@@ -144,6 +145,7 @@ public final class TextHitInfo {
      * @return <code>true</code> if the specified <code>Object</code>
      * equals this <code>TextHitInfo</code>; <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         return (obj instanceof TextHitInfo) && equals((TextHitInfo)obj);
     }
@@ -169,6 +171,7 @@ public final class TextHitInfo {
      * @return a <code>String</code> representing this
      * <code>TextHitInfo</code>.
      */
+    @Override
     public String toString() {
         return "TextHitInfo[" + charIndex + (isLeadingEdge ? "L" : "T")+"]";
     }

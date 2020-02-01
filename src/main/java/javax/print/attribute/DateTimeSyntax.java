@@ -119,6 +119,7 @@ public abstract class DateTimeSyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this date-time
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (object != null &&
                 object instanceof DateTimeSyntax &&
@@ -129,6 +130,7 @@ public abstract class DateTimeSyntax implements Serializable, Cloneable {
      * Returns a hash code value for this date-time attribute. The hashcode is
      * that of this attribute's <code>java.util.Date</code> value.
      */
+    @Override
     public int hashCode() {
         return value.hashCode();
     }
@@ -139,6 +141,7 @@ public abstract class DateTimeSyntax implements Serializable, Cloneable {
      * <code>java.util.Date</code>  value
      * converted to a string.
      */
+    @Override
     public String toString() {
         return "" + value;
     }

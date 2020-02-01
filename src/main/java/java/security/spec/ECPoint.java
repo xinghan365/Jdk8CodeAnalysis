@@ -93,9 +93,14 @@ public class ECPoint {
      * @return true if {@code obj} is an instance of
      * ECPoint and the affine coordinates match, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (this == POINT_INFINITY) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (this == POINT_INFINITY) {
+            return false;
+        }
         if (obj instanceof ECPoint) {
             return ((x.equals(((ECPoint)obj).x)) &&
                     (y.equals(((ECPoint)obj).y)));
@@ -107,8 +112,11 @@ public class ECPoint {
      * Returns a hash code value for this elliptic curve point.
      * @return a hash code value.
      */
+    @Override
     public int hashCode() {
-        if (this == POINT_INFINITY) return 0;
+        if (this == POINT_INFINITY) {
+            return 0;
+        }
         return x.hashCode() << 5 + y.hashCode();
     }
 }

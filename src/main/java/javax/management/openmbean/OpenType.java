@@ -194,8 +194,9 @@ public abstract class OpenType<T> implements Serializable {
     }
 
     private void checkClassNameOverride() throws SecurityException {
-        if (this.getClass().getClassLoader() == null)
+        if (this.getClass().getClassLoader() == null) {
             return;  // We trust bootstrap classes.
+        }
         if (overridesGetClassName(this.getClass())) {
             final GetPropertyAction getExtendOpenTypes =
                 new GetPropertyAction("jmx.extend.open.types");
@@ -208,6 +209,7 @@ public abstract class OpenType<T> implements Serializable {
 
     private static boolean overridesGetClassName(final Class<?> c) {
         return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+            @Override
             public Boolean run() {
                 try {
                     return (c.getMethod("getClassName").getDeclaringClass() !=
@@ -268,9 +270,10 @@ public abstract class OpenType<T> implements Serializable {
     /* Return argValue.trim() provided argValue is neither null nor empty;
        otherwise throw IllegalArgumentException.  */
     private static String valid(String argName, String argValue) {
-        if (argValue == null || (argValue = argValue.trim()).equals(""))
+        if (argValue == null || (argValue = argValue.trim()).equals("")) {
             throw new IllegalArgumentException("Argument " + argName +
                                                " cannot be null or empty");
+        }
         return argValue;
     }
 
@@ -377,8 +380,10 @@ public abstract class OpenType<T> implements Serializable {
      *
      * @return true if this object and <code>obj</code> are equal.
      */
+    @Override
     public abstract boolean equals(Object obj) ;
 
+    @Override
     public abstract int hashCode() ;
 
     /**
@@ -386,6 +391,7 @@ public abstract class OpenType<T> implements Serializable {
      *
      * @return the string representation.
      */
+    @Override
     public abstract String toString() ;
 
     /**

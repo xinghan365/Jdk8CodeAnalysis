@@ -551,9 +551,13 @@ public final class NumericShaper implements java.io.Serializable {
     // warning, synchronize access to this as it modifies state
     private static int getContextKey(char c) {
         if (c < contexts[ctCache]) {
-            while (ctCache > 0 && c < contexts[ctCache]) --ctCache;
+            while (ctCache > 0 && c < contexts[ctCache]) {
+                --ctCache;
+            }
         } else if (c >= contexts[ctCache + 1]) {
-            while (ctCache < ctCacheLimit && c >= contexts[ctCache + 1]) ++ctCache;
+            while (ctCache < ctCacheLimit && c >= contexts[ctCache + 1]) {
+                ++ctCache;
+            }
         }
 
         // if we're not in a known range, then return EUROPEAN as the range key
@@ -1078,6 +1082,7 @@ public final class NumericShaper implements java.io.Serializable {
             // sort rangeArray for binary search
             Arrays.sort(rangeArray,
                         new Comparator<Range>() {
+                            @Override
                             public int compare(Range s1, Range s2) {
                                 return s1.base > s2.base ? 1 : s1.base == s2.base ? 0 : -1;
                             }
@@ -1342,6 +1347,7 @@ public final class NumericShaper implements java.io.Serializable {
      * @return this shaper's hash code.
      * @see java.lang.Object#hashCode
      */
+    @Override
     public int hashCode() {
         int hash = mask;
         if (rangeSet != null) {
@@ -1372,6 +1378,7 @@ public final class NumericShaper implements java.io.Serializable {
      *         <code>false</code> otherwise.
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (o != null) {
             try {
@@ -1405,6 +1412,7 @@ public final class NumericShaper implements java.io.Serializable {
      * is used for debugging purposes only.
      * @return a <code>String</code> describing this shaper.
      */
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder(super.toString());
 

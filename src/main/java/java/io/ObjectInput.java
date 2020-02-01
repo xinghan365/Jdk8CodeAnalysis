@@ -103,5 +103,6 @@ public interface ObjectInput extends DataInput, AutoCloseable {
      * the stream.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void close() throws IOException;
 }

@@ -223,10 +223,11 @@ public class JMXConnectorServerFactory {
             } catch (JMXProviderException e) {
                 throw e;
             } catch (Exception e) {
-                if (logger.traceOn())
+                if (logger.traceOn()) {
                     logger.trace("getConnectorAsService",
                                  "URL[" + url +
                                  "] Service provider exception: " + e);
+                }
                 if (!(e instanceof MalformedURLException)) {
                     if (exception == null) {
                         if (e instanceof IOException) {
@@ -240,10 +241,11 @@ public class JMXConnectorServerFactory {
                 continue;
             }
         }
-        if (exception == null)
+        if (exception == null) {
             return null;
-        else
+        } else {
             throw exception;
+        }
     }
 
     /**
@@ -289,9 +291,9 @@ public class JMXConnectorServerFactory {
                               MBeanServer mbeanServer)
             throws IOException {
         Map<String, Object> envcopy;
-        if (environment == null)
+        if (environment == null) {
             envcopy = new HashMap<String, Object>();
-        else {
+        } else {
             EnvHelp.checkAttributes(environment);
             envcopy = new HashMap<String, Object>(environment);
         }
@@ -323,8 +325,9 @@ public class JMXConnectorServerFactory {
                                                     serviceURL,
                                                     envcopy,
                                                     mbeanServer);
-                    if (connection != null)
+                    if (connection != null) {
                         return connection;
+                    }
                 } catch (JMXProviderException e) {
                     throw e;
                 } catch (IOException e) {

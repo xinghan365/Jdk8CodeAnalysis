@@ -83,6 +83,7 @@ public class MBeanException extends JMException   {
      *
      * @return the wrapped exception.
      */
+    @Override
     public Throwable getCause() {
         return exception;
     }

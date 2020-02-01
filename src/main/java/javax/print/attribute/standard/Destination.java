@@ -90,6 +90,7 @@ public final class Destination extends URISyntax
      * @return  True if <CODE>object</CODE> is equivalent to this destination
      *         attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) &&
                 object instanceof Destination);
@@ -104,6 +105,7 @@ public final class Destination extends URISyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return Destination.class;
     }
@@ -116,6 +118,7 @@ public final class Destination extends URISyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "spool-data-destination";
     }

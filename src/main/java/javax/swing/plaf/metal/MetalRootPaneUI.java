@@ -150,6 +150,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
      *
      * @param c the JRootPane to install state onto
      */
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         root = (JRootPane)c;
@@ -171,6 +172,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
      *
      * @param c the JRootPane to uninstall state from
      */
+    @Override
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
         uninstallClientDecorations(root);
@@ -395,6 +397,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
      * @param e A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         super.propertyChange(e);
 
@@ -440,6 +443,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
          * @param the Container for which this layout manager is being used
          * @return a Dimension object containing the layout's preferred size
          */
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension cpd, mbd, tpd;
             int cpWidth = 0;
@@ -492,6 +496,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
          * @param the Container for which this layout manager is being used
          * @return a Dimension object containing the layout's minimum size
          */
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension cpd, mbd, tpd;
             int cpWidth = 0;
@@ -543,6 +548,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
          * @param the Container for which this layout manager is being used
          * @return a Dimension object containing the layout's maximum size
          */
+        @Override
         public Dimension maximumLayoutSize(Container target) {
             Dimension cpd, mbd, tpd;
             int cpWidth = Integer.MAX_VALUE;
@@ -606,6 +612,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
          *
          * @param the Container for which this layout manager is being used
          */
+        @Override
         public void layoutContainer(Container parent) {
             JRootPane root = (JRootPane) parent;
             Rectangle b = root.getBounds();
@@ -647,11 +654,17 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             }
         }
 
+        @Override
         public void addLayoutComponent(String name, Component comp) {}
+        @Override
         public void removeLayoutComponent(Component comp) {}
+        @Override
         public void addLayoutComponent(Component comp, Object constraints) {}
+        @Override
         public float getLayoutAlignmentX(Container target) { return 0.0f; }
+        @Override
         public float getLayoutAlignmentY(Container target) { return 0.0f; }
+        @Override
         public void invalidateLayout(Container target) {}
     }
 
@@ -706,6 +719,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
          */
         private int dragHeight;
 
+        @Override
         public void mousePressed(MouseEvent ev) {
             JRootPane rootPane = getRootPane();
 
@@ -756,6 +770,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             }
         }
 
+        @Override
         public void mouseReleased(MouseEvent ev) {
             if (dragCursor != 0 && window != null && !window.isValid()) {
                 // Some Window systems validate as you resize, others won't,
@@ -767,6 +782,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             dragCursor = 0;
         }
 
+        @Override
         public void mouseMoved(MouseEvent ev) {
             JRootPane root = getRootPane();
 
@@ -822,6 +838,7 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             }
         }
 
+        @Override
         public void mouseDragged(MouseEvent ev) {
             Window w = (Window)ev.getSource();
             Point pt = ev.getPoint();
@@ -890,17 +907,20 @@ public class MetalRootPaneUI extends BasicRootPaneUI
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent ev) {
             Window w = (Window)ev.getSource();
             lastCursor = w.getCursor();
             mouseMoved(ev);
         }
 
+        @Override
         public void mouseExited(MouseEvent ev) {
             Window w = (Window)ev.getSource();
             w.setCursor(lastCursor);
         }
 
+        @Override
         public void mouseClicked(MouseEvent ev) {
             Window w = (Window)ev.getSource();
             Frame f = null;

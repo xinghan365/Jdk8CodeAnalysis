@@ -220,11 +220,13 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      *
      * @since  1.5
      */
+    @Override
     public Writer append(CharSequence csq) throws IOException {
-        if (csq == null)
+        if (csq == null) {
             write("null");
-        else
+        } else {
             write(csq.toString());
+        }
         return this;
     }
 
@@ -264,6 +266,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      *
      * @since  1.5
      */
+    @Override
     public Writer append(CharSequence csq, int start, int end) throws IOException {
         CharSequence cs = (csq == null ? "null" : csq);
         write(cs.subSequence(start, end).toString());
@@ -289,6 +292,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      *
      * @since 1.5
      */
+    @Override
     public Writer append(char c) throws IOException {
         write(c);
         return this;
@@ -310,6 +314,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     abstract public void flush() throws IOException;
 
     /**
@@ -320,6 +325,7 @@ public abstract class Writer implements Appendable, Closeable, Flushable {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     abstract public void close() throws IOException;
 
 }

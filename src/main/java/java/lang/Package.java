@@ -235,26 +235,30 @@ public class Package implements java.lang.reflect.AnnotatedElement {
         int [] si = new int[sa.length];
         for (int i = 0; i < sa.length; i++) {
             si[i] = Integer.parseInt(sa[i]);
-            if (si[i] < 0)
+            if (si[i] < 0) {
                 throw NumberFormatException.forInputString("" + si[i]);
+            }
         }
 
         String [] da = desired.split("\\.", -1);
         int [] di = new int[da.length];
         for (int i = 0; i < da.length; i++) {
             di[i] = Integer.parseInt(da[i]);
-            if (di[i] < 0)
+            if (di[i] < 0) {
                 throw NumberFormatException.forInputString("" + di[i]);
+            }
         }
 
         int len = Math.max(di.length, si.length);
         for (int i = 0; i < len; i++) {
             int d = (i < di.length ? di[i] : 0);
             int s = (i < si.length ? si[i] : 0);
-            if (s < d)
+            if (s < d) {
                 return false;
-            if (s > d)
+            }
+            if (s > d) {
                 return true;
+            }
         }
         return true;
     }
@@ -344,6 +348,7 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * Return the hash code computed from the package name.
      * @return the hash code computed from the package name.
      */
+    @Override
     public int hashCode(){
         return pkgName.hashCode();
     }
@@ -355,17 +360,20 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * If the package version is defined it is appended.
      * @return the string representation of the package.
      */
+    @Override
     public String toString() {
         String spec = specTitle;
         String ver =  specVersion;
-        if (spec != null && spec.length() > 0)
+        if (spec != null && spec.length() > 0) {
             spec = ", " + spec;
-        else
+        } else {
             spec = "";
-        if (ver != null && ver.length() > 0)
+        }
+        if (ver != null && ver.length() > 0) {
             ver = ", version " + ver;
-        else
+        } else {
             ver = "";
+        }
         return "package " + pkgName + spec + ver;
     }
 
@@ -386,6 +394,7 @@ public class Package implements java.lang.reflect.AnnotatedElement {
      * @throws NullPointerException {@inheritDoc}
      * @since 1.5
      */
+    @Override
     public <A extends Annotation> A getAnnotation(Class<A> annotationClass) {
         return getPackageInfo().getAnnotation(annotationClass);
     }
@@ -412,6 +421,7 @@ public class Package implements java.lang.reflect.AnnotatedElement {
     /**
      * @since 1.5
      */
+    @Override
     public Annotation[] getAnnotations() {
         return getPackageInfo().getAnnotations();
     }
@@ -437,6 +447,7 @@ public class Package implements java.lang.reflect.AnnotatedElement {
     /**
      * @since 1.5
      */
+    @Override
     public Annotation[] getDeclaredAnnotations()  {
         return getPackageInfo().getDeclaredAnnotations();
     }
@@ -568,6 +579,7 @@ public class Package implements java.lang.reflect.AnnotatedElement {
                                                final String fn)
     {
         return AccessController.doPrivileged(new PrivilegedAction<Package>() {
+            @Override
             public Package run() {
                 String name = iname;
                 // Get the cached code source url for the file name

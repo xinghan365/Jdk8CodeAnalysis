@@ -239,6 +239,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Construct a name for this component.  Called by
      * <code>getName</code> when the name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (List.class) {
             return base + nameCounter++;
@@ -249,10 +250,12 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Creates the peer for the list.  The peer allows us to modify the
      * list's appearance without changing its functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createList(this);
+            }
             super.addNotify();
         }
     }
@@ -261,6 +264,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Removes the peer for this list.  The peer allows us to modify the
      * list's appearance without changing its functionality.
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             ListPeer peer = (ListPeer)this.peer;
@@ -536,6 +540,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see #getSelectedItems
      * @see ItemSelectable
      */
+    @Override
     public Object[] getSelectedObjects() {
         return getSelectedItems();
     }
@@ -779,6 +784,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see        java.awt.Component#getPreferredSize
      * @since      JDK1.1
      */
+    @Override
     public Dimension getPreferredSize() {
         return preferredSize();
     }
@@ -787,6 +793,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getPreferredSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension preferredSize() {
         synchronized (getTreeLock()) {
@@ -830,6 +837,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see          java.awt.Component#getMinimumSize()
      * @since        JDK1.1
      */
+    @Override
     public Dimension getMinimumSize() {
         return minimumSize();
     }
@@ -838,6 +846,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getMinimumSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension minimumSize() {
         synchronized (getTreeLock()) {
@@ -863,6 +872,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void addItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -886,6 +896,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see             java.awt.event.ItemListener
      * @since           JDK1.1
      */
+    @Override
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -1011,6 +1022,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see #getItemListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ActionListener.class) {
@@ -1024,6 +1036,7 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         switch(e.id) {
           case ActionEvent.ACTION_PERFORMED:
@@ -1063,6 +1076,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * @see          #processItemEvent
      * @since        JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ItemEvent) {
             processItemEvent((ItemEvent)e);
@@ -1141,6 +1155,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * scrolling list. This string is useful for debugging.
      * @return    the parameter string of this scrolling list
      */
+    @Override
     protected String paramString() {
         return super.paramString() + ",selected=" + getSelectedItem();
     }
@@ -1242,14 +1257,14 @@ public class List extends Component implements ItemSelectable, Accessible {
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
-
-        else if (actionListenerK == key)
-          addActionListener((ActionListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (itemListenerK == key) {
+            addItemListener((ItemListener)(s.readObject()));
+        } else if (actionListenerK == key) {
+            addActionListener((ActionListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -1269,6 +1284,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      *         <code>AccessibleContext</code> of this <code>List</code>
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTList();
@@ -1296,9 +1312,11 @@ public class List extends Component implements ItemSelectable, Accessible {
             List.this.addItemListener(this);
         }
 
+        @Override
         public void actionPerformed(ActionEvent event)  {
         }
 
+        @Override
         public void itemStateChanged(ItemEvent event)  {
         }
 
@@ -1309,6 +1327,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (List.this.isMultipleMode())  {
@@ -1324,6 +1343,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.LIST;
         }
@@ -1334,6 +1354,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          *
          * @return the Accessible at the specified location, if it exists
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             return null; // fredxFIXME Not implemented yet
         }
@@ -1345,6 +1366,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          *
          * @return the number of accessible children in the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return List.this.getItemCount();
         }
@@ -1355,6 +1377,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          * @param i zero-based index of child
          * @return the nth Accessible child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             synchronized(List.this)  {
                 if (i >= List.this.getItemCount()) {
@@ -1373,6 +1396,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleSelection getAccessibleSelection() {
             return this;
         }
@@ -1385,6 +1409,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          *
          * @return the number of items currently selected.
          */
+         @Override
          public int getAccessibleSelectionCount() {
              return List.this.getSelectedIndexes().length;
          }
@@ -1398,6 +1423,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          * @param i the zero-based index of selected items
          * @return an Accessible containing the selected item
          */
+         @Override
          public Accessible getAccessibleSelection(int i) {
              synchronized(List.this)  {
                  int len = getAccessibleSelectionCount();
@@ -1416,6 +1442,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          * object.
          * @see AccessibleContext#getAccessibleChild
          */
+        @Override
         public boolean isAccessibleChildSelected(int i) {
             return List.this.isIndexSelected(i);
         }
@@ -1429,6 +1456,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          *
          * @param i the zero-based index of selectable items
          */
+         @Override
          public void addAccessibleSelection(int i) {
              List.this.select(i);
          }
@@ -1440,6 +1468,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          *
          * @param i the zero-based index of selectable items
          */
+         @Override
          public void removeAccessibleSelection(int i) {
              List.this.deselect(i);
          }
@@ -1448,11 +1477,13 @@ public class List extends Component implements ItemSelectable, Accessible {
          * Clears the selection in the object, so that nothing in the
          * object is selected.
          */
+         @Override
          public void clearAccessibleSelection() {
              synchronized(List.this)  {
                  int selectedIndexes[] = List.this.getSelectedIndexes();
-                 if (selectedIndexes == null)
+                 if (selectedIndexes == null) {
                      return;
+                 }
                  for (int i = selectedIndexes.length - 1; i >= 0; i--) {
                      List.this.deselect(selectedIndexes[i]);
                  }
@@ -1463,6 +1494,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          * Causes every selected item in the object to be selected
          * if the object supports multiple selections.
          */
+         @Override
          public void selectAllAccessibleSelection() {
              synchronized(List.this)  {
                  for (int i = List.this.getItemCount() - 1; i >= 0; i--) {
@@ -1507,6 +1539,7 @@ public class List extends Component implements ItemSelectable, Accessible {
            *
            * @return this object
            */
+            @Override
             public AccessibleContext getAccessibleContext() {
                 return this;
             }
@@ -1522,6 +1555,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * the object
              * @see AccessibleRole
              */
+            @Override
             public AccessibleRole getAccessibleRole() {
                 return AccessibleRole.LIST_ITEM;
             }
@@ -1539,6 +1573,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see AccessibleState
              * @see #addPropertyChangeListener
              */
+            @Override
             public AccessibleStateSet getAccessibleStateSet() {
                 AccessibleStateSet states = super.getAccessibleStateSet();
                 if (parent.isIndexSelected(indexInParent)) {
@@ -1559,6 +1594,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * been added to a containment hierarchy such that the locale can
              * be determined from the containing parent.
              */
+            @Override
             public Locale getLocale() {
                 return parent.getLocale();
             }
@@ -1573,6 +1609,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see #getAccessibleChildrenCount
              * @see #getAccessibleChild
              */
+            @Override
             public int getAccessibleIndexInParent() {
                 return indexInParent;
             }
@@ -1582,6 +1619,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              *
              * @return the number of accessible children of the object.
              */
+            @Override
             public int getAccessibleChildrenCount() {
                 return 0;       // list elements can't have children
             }
@@ -1596,6 +1634,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @return the Accessible child of the object
              * @see #getAccessibleChildrenCount
              */
+            @Override
             public Accessible getAccessibleChild(int i) {
                 return null;    // list elements can't have children
             }
@@ -1612,6 +1651,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * otherwise, null
              * @see #setBackground
              */
+            @Override
             public Color getBackground() {
                 return parent.getBackground();
             }
@@ -1622,6 +1662,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param c the new Color for the background
              * @see #setBackground
              */
+            @Override
             public void setBackground(Color c) {
                 parent.setBackground(c);
             }
@@ -1633,6 +1674,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * otherwise, null
              * @see #setForeground
              */
+            @Override
             public Color getForeground() {
                 return parent.getForeground();
             }
@@ -1643,6 +1685,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param c the new Color for the foreground
              * @see #getForeground
              */
+            @Override
             public void setForeground(Color c) {
                 parent.setForeground(c);
             }
@@ -1653,6 +1696,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @return the Cursor, if supported, of the object; otherwise, null
              * @see #setCursor
              */
+            @Override
             public Cursor getCursor() {
                 return parent.getCursor();
             }
@@ -1666,6 +1710,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param cursor the new Cursor for the object
              * @see #getCursor
              */
+            @Override
             public void setCursor(Cursor cursor) {
                 parent.setCursor(cursor);
             }
@@ -1676,6 +1721,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @return the Font,if supported, for the object; otherwise, null
              * @see #setFont
              */
+            @Override
             public Font getFont() {
                 return parent.getFont();
             }
@@ -1686,6 +1732,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param f the new Font for the object
              * @see #getFont
              */
+            @Override
             public void setFont(Font f) {
                 parent.setFont(f);
             }
@@ -1697,6 +1744,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @return the FontMetrics, if supported, the object; otherwise, null
              * @see #getFont
              */
+            @Override
             public FontMetrics getFontMetrics(Font f) {
                 return parent.getFontMetrics(f);
             }
@@ -1712,6 +1760,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see AccessibleState#ENABLED
              * @see AccessibleStateSet
              */
+            @Override
             public boolean isEnabled() {
                 return parent.isEnabled();
             }
@@ -1722,6 +1771,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param b if true, enables this object; otherwise, disables it
              * @see #isEnabled
              */
+            @Override
             public void setEnabled(boolean b) {
                 parent.setEnabled(b);
             }
@@ -1741,6 +1791,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see AccessibleState#VISIBLE
              * @see AccessibleStateSet
              */
+            @Override
             public boolean isVisible() {
                 // [[[FIXME]]] needs to work like isShowing() below
                 return false;
@@ -1753,6 +1804,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param b if true, shows this object; otherwise, hides it
              * @see #isVisible
              */
+            @Override
             public void setVisible(boolean b) {
                 // [[[FIXME]]] should scroll to item to make it show!
                 parent.setVisible(b);
@@ -1768,6 +1820,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              *
              * @return true if object is showing; otherwise, false
              */
+            @Override
             public boolean isShowing() {
                 // [[[FIXME]]] only if it's showing!!!
                 return false;
@@ -1784,6 +1837,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @return true if object contains Point; otherwise false
              * @see #getBounds
              */
+            @Override
             public boolean contains(Point p) {
                 // [[[FIXME]]] - only if p is within the list element!!!
                 return false;
@@ -1798,6 +1852,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see #getBounds
              * @see #getLocation
              */
+            @Override
             public Point getLocationOnScreen() {
                 // [[[FIXME]]] sigh
                 return null;
@@ -1814,6 +1869,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see #getBounds
              * @see #getLocationOnScreen
              */
+            @Override
             public Point getLocation() {
                 // [[[FIXME]]]
                 return null;
@@ -1824,6 +1880,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param p the new position for the top-left corner
              * @see #getLocation
              */
+            @Override
             public void setLocation(Point p) {
                 // [[[FIXME]]] maybe - can simply return as no-op
             }
@@ -1837,6 +1894,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * this object is not on the screen.
              * @see #contains
              */
+            @Override
             public Rectangle getBounds() {
                 // [[[FIXME]]]
                 return null;
@@ -1850,6 +1908,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param r rectangle indicating this component's bounds
              * @see #getBounds
              */
+            @Override
             public void setBounds(Rectangle r) {
                 // no-op; not supported
             }
@@ -1864,6 +1923,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * component; null if this object is not on the screen
              * @see #setSize
              */
+            @Override
             public Dimension getSize() {
                 // [[[FIXME]]]
                 return null;
@@ -1875,6 +1935,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param d - The dimension specifying the new size of the object.
              * @see #getSize
              */
+            @Override
             public void setSize(Dimension d) {
                 // not supported; no-op
             }
@@ -1888,6 +1949,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @return the <code>Accessible</code>, if it exists,
              *     at the specified location; otherwise <code>null</code>
              */
+            @Override
             public Accessible getAccessibleAt(Point p) {
                 return null;    // object cannot have children!
             }
@@ -1904,6 +1966,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see AccessibleState#FOCUSED
              * @see AccessibleStateSet
              */
+            @Override
             public boolean isFocusTraversable() {
                 return false;   // list element cannot receive focus!
             }
@@ -1914,6 +1977,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * to take focus.
              * @see #isFocusTraversable
              */
+            @Override
             public void requestFocus() {
                 // nothing to do; a no-op
             }
@@ -1925,6 +1989,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param l the focus listener
              * @see #removeFocusListener
              */
+            @Override
             public void addFocusListener(FocusListener l) {
                 // nothing to do; a no-op
             }
@@ -1936,6 +2001,7 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @param l the focus listener
              * @see #addFocusListener
              */
+            @Override
             public void removeFocusListener(FocusListener l) {
                 // nothing to do; a no-op
             }

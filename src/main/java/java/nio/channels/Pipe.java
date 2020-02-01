@@ -79,6 +79,7 @@ public abstract class Pipe {
          *
          * @return  The valid-operation set
          */
+        @Override
         public final int validOps() {
             return SelectionKey.OP_READ;
         }
@@ -113,6 +114,7 @@ public abstract class Pipe {
          *
          * @return  The valid-operation set
          */
+        @Override
         public final int validOps() {
             return SelectionKey.OP_WRITE;
         }

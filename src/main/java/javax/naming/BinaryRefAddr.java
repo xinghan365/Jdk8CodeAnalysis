@@ -108,6 +108,7 @@ public class BinaryRefAddr extends RefAddr {
       *
       * @return The non-null buffer containing this address's contents.
       */
+    @Override
     public Object getContent() {
         return buf;
     }
@@ -120,18 +121,23 @@ public class BinaryRefAddr extends RefAddr {
       * @param obj      The possibly null object to check.
       * @return true if the object is equal; false otherwise.
       */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof BinaryRefAddr)) {
             BinaryRefAddr target = (BinaryRefAddr)obj;
             if (addrType.compareTo(target.addrType) == 0) {
-                if (buf == null && target.buf == null)
+                if (buf == null && target.buf == null) {
                     return true;
+                }
                 if (buf == null || target.buf == null ||
-                    buf.length != target.buf.length)
+                    buf.length != target.buf.length) {
                     return false;
-                for (int i = 0; i < buf.length; i++)
-                    if (buf[i] != target.buf[i])
+                }
+                for (int i = 0; i < buf.length; i++) {
+                    if (buf[i] != target.buf[i]) {
                         return false;
+                    }
+                }
                 return true;
             }
         }
@@ -147,6 +153,7 @@ public class BinaryRefAddr extends RefAddr {
       *
       * @return The hash code of this address as an int.
       */
+    @Override
     public int hashCode() {
         int hash = addrType.hashCode();
         for (int i = 0; i < buf.length; i++) {
@@ -164,6 +171,7 @@ public class BinaryRefAddr extends RefAddr {
       * meant to be interpreted programmatically.
       * @return The non-null string representation of this address.
       */
+    @Override
     public String toString(){
         StringBuffer str = new StringBuffer("Address Type: " + addrType + "\n");
 
@@ -171,8 +179,9 @@ public class BinaryRefAddr extends RefAddr {
         for (int i = 0; i<buf.length && i < 32; i++) {
             str.append(Integer.toHexString(buf[i]) +" ");
         }
-        if (buf.length >= 32)
+        if (buf.length >= 32) {
             str.append(" ...\n");
+        }
         return (str.toString());
     }
 

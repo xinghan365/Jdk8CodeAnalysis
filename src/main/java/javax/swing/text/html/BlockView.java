@@ -68,6 +68,7 @@ public class BlockView extends BoxView  {
      *  being removed from a parent it was previously added
      *  to
      */
+    @Override
     public void setParent(View parent) {
         super.setParent(parent);
         if (parent != null) {
@@ -82,6 +83,7 @@ public class BlockView extends BoxView  {
      * CSS width or height attribute is specified and applicable to
      * the axis.
      */
+    @Override
     protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
         if (r == null) {
             r = new SizeRequirements();
@@ -112,6 +114,7 @@ public class BlockView extends BoxView  {
      * CSS width or height attribute is specified and applicable to
      * the axis.
      */
+    @Override
     protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
         if (r == null) {
             r = new SizeRequirements();
@@ -232,6 +235,7 @@ public class BlockView extends BoxView  {
      * @param spans the span of each child view; this is a return
      *  value and is filled in by the implementation of this method
      */
+    @Override
     protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
         int n = getViewCount();
         Object key = (axis == X_AXIS) ? CSS.Attribute.WIDTH : CSS.Attribute.HEIGHT;
@@ -276,6 +280,7 @@ public class BlockView extends BoxView  {
      * @param allocation the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape allocation) {
         Rectangle a = (Rectangle) allocation;
         painter.paint(g, a.x, a.y, a.width, a.height, this);
@@ -287,6 +292,7 @@ public class BlockView extends BoxView  {
      * implemented to multiplex the attributes specified in the
      * model with a StyleSheet.
      */
+    @Override
     public AttributeSet getAttributes() {
         if (attr == null) {
             StyleSheet sheet = getStyleSheet();
@@ -302,6 +308,7 @@ public class BlockView extends BoxView  {
      * @return the weight
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public int getResizeWeight(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -319,6 +326,7 @@ public class BlockView extends BoxView  {
      * @param axis may be either X_AXIS or Y_AXIS
      * @return the alignment
      */
+    @Override
     public float getAlignment(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -337,6 +345,7 @@ public class BlockView extends BoxView  {
         }
     }
 
+    @Override
     public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         super.changedUpdate(changes, a, f);
         int pos = changes.getOffset();
@@ -358,6 +367,7 @@ public class BlockView extends BoxView  {
      *           the parent may choose to resize or break the view
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getPreferredSpan(int axis) {
         return super.getPreferredSpan(axis);
     }
@@ -374,6 +384,7 @@ public class BlockView extends BoxView  {
      *           the parent may choose to resize or break the view
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getMinimumSpan(int axis) {
         return super.getMinimumSpan(axis);
     }
@@ -390,6 +401,7 @@ public class BlockView extends BoxView  {
      *           the parent may choose to resize or break the view
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getMaximumSpan(int axis) {
         return super.getMaximumSpan(axis);
     }

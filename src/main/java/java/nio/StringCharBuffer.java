@@ -36,11 +36,13 @@ class StringCharBuffer                                  // package-private
     StringCharBuffer(CharSequence s, int start, int end) { // package-private
         super(-1, start, end, s.length());
         int n = s.length();
-        if ((start < 0) || (start > n) || (end < start) || (end > n))
+        if ((start < 0) || (start > n) || (end < start) || (end > n)) {
             throw new IndexOutOfBoundsException();
+        }
         str = s;
     }
 
+    @Override
     public CharBuffer slice() {
         return new StringCharBuffer(str,
                                     -1,
@@ -60,49 +62,60 @@ class StringCharBuffer                                  // package-private
         str = s;
     }
 
+    @Override
     public CharBuffer duplicate() {
         return new StringCharBuffer(str, markValue(),
                                     position(), limit(), capacity(), offset);
     }
 
+    @Override
     public CharBuffer asReadOnlyBuffer() {
         return duplicate();
     }
 
+    @Override
     public final char get() {
         return str.charAt(nextGetIndex() + offset);
     }
 
+    @Override
     public final char get(int index) {
         return str.charAt(checkIndex(index) + offset);
     }
 
+    @Override
     char getUnchecked(int index) {
         return str.charAt(index + offset);
     }
 
     // ## Override bulk get methods for better performance
 
+    @Override
     public final CharBuffer put(char c) {
         throw new ReadOnlyBufferException();
     }
 
+    @Override
     public final CharBuffer put(int index, char c) {
         throw new ReadOnlyBufferException();
     }
 
+    @Override
     public final CharBuffer compact() {
         throw new ReadOnlyBufferException();
     }
 
+    @Override
     public final boolean isReadOnly() {
         return true;
     }
 
+    @Override
     final String toString(int start, int end) {
         return str.toString().substring(start + offset, end + offset);
     }
 
+    @Override
     public final CharBuffer subSequence(int start, int end) {
         try {
             int pos = position();
@@ -117,10 +130,12 @@ class StringCharBuffer                                  // package-private
         }
     }
 
+    @Override
     public boolean isDirect() {
         return false;
     }
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

@@ -99,6 +99,7 @@ public class Paper implements Cloneable {
      * as this <code>Paper</code>.
      * @return a copy of this <code>Paper</code>.
      */
+    @Override
     public Object clone() {
 
         Paper newPaper;

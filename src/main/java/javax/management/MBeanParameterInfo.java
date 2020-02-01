@@ -93,6 +93,7 @@ public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
      * <p>Since this class is immutable, cloning is chiefly of
      * interest to subclasses.</p>
      */
+     @Override
      public Object clone () {
          try {
              return super.clone() ;
@@ -111,6 +112,7 @@ public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
         return type;
     }
 
+    @Override
     public String toString() {
         return
             getClass().getName() + "[" +
@@ -132,11 +134,14 @@ public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
      * #getDescription()} values are equal (not necessarily identical)
      * to those of this MBeanParameterInfo.
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof MBeanParameterInfo))
+        }
+        if (!(o instanceof MBeanParameterInfo)) {
             return false;
+        }
         MBeanParameterInfo p = (MBeanParameterInfo) o;
         return (Objects.equals(p.getName(), getName()) &&
                 Objects.equals(p.getType(), getType()) &&
@@ -144,6 +149,7 @@ public class MBeanParameterInfo extends MBeanFeatureInfo implements Cloneable {
                 Objects.equals(p.getDescriptor(), getDescriptor()));
     }
 
+    @Override
     public int hashCode() {
         return Objects.hash(getName(), getType());
     }

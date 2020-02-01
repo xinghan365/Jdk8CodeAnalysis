@@ -311,6 +311,7 @@ class DTD implements DTDConstants {
      * Returns a string representation of this DTD.
      * @return the string representation of this DTD
      */
+    @Override
     public String toString() {
         return name;
     }
@@ -336,8 +337,9 @@ class DTD implements DTDConstants {
     public static DTD getDTD(String name) throws IOException {
         name = name.toLowerCase();
         DTD dtd = getDtdHash().get(name);
-        if (dtd == null)
-          dtd = new DTD(name);
+        if (dtd == null) {
+            dtd = new DTD(name);
+        }
 
         return dtd;
     }

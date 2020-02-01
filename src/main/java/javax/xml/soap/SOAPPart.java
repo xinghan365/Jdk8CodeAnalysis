@@ -87,8 +87,9 @@ public abstract class SOAPPart implements org.w3c.dom.Document, Node {
      */
     public String getContentId() {
         String[] values = getMimeHeader("Content-Id");
-        if (values != null && values.length > 0)
+        if (values != null && values.length > 0) {
             return values[0];
+        }
         return null;
     }
 
@@ -101,8 +102,9 @@ public abstract class SOAPPart implements org.w3c.dom.Document, Node {
      */
     public String getContentLocation() {
         String[] values = getMimeHeader("Content-Location");
-        if (values != null && values.length > 0)
+        if (values != null && values.length > 0) {
             return values[0];
+        }
         return null;
     }
 

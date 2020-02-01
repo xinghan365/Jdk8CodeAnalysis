@@ -93,6 +93,7 @@ public final class JobMediaSheetsSupported extends SetOfIntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this job media
      *          sheets supported attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof JobMediaSheetsSupported);
@@ -108,6 +109,7 @@ public final class JobMediaSheetsSupported extends SetOfIntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return JobMediaSheetsSupported.class;
     }
@@ -121,6 +123,7 @@ public final class JobMediaSheetsSupported extends SetOfIntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "job-media-sheets-supported";
     }

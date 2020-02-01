@@ -64,16 +64,19 @@ public class SimpleJavaFileObject implements JavaFileObject {
         // null checks
         uri.getClass();
         kind.getClass();
-        if (uri.getPath() == null)
+        if (uri.getPath() == null) {
             throw new IllegalArgumentException("URI must have a path: " + uri);
+        }
         this.uri = uri;
         this.kind = kind;
     }
 
+    @Override
     public URI toUri() {
         return uri;
     }
 
+    @Override
     public String getName() {
         return toUri().getPath();
     }
@@ -84,6 +87,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * behavior as long as the contract of {@link FileObject} is
      * obeyed.
      */
+    @Override
     public InputStream openInputStream() throws IOException {
         throw new UnsupportedOperationException();
     }
@@ -94,6 +98,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * behavior as long as the contract of {@link FileObject} is
      * obeyed.
      */
+    @Override
     public OutputStream openOutputStream() throws IOException {
         throw new UnsupportedOperationException();
     }
@@ -109,14 +114,17 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public Reader openReader(boolean ignoreEncodingErrors) throws IOException {
         CharSequence charContent = getCharContent(ignoreEncodingErrors);
-        if (charContent == null)
+        if (charContent == null) {
             throw new UnsupportedOperationException();
+        }
         if (charContent instanceof CharBuffer) {
             CharBuffer buffer = (CharBuffer)charContent;
-            if (buffer.hasArray())
+            if (buffer.hasArray()) {
                 return new CharArrayReader(buffer.array());
+            }
         }
         return new StringReader(charContent.toString());
     }
@@ -127,6 +135,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * behavior as long as the contract of {@link FileObject} is
      * obeyed.
      */
+    @Override
     public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
         throw new UnsupportedOperationException();
     }
@@ -141,6 +150,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public Writer openWriter() throws IOException {
         return new OutputStreamWriter(openOutputStream());
     }
@@ -152,6 +162,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      *
      * @return {@code 0L}
      */
+    @Override
     public long getLastModified() {
         return 0L;
     }
@@ -163,6 +174,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      *
      * @return {@code false}
      */
+    @Override
     public boolean delete() {
         return false;
     }
@@ -170,6 +182,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
     /**
      * @return {@code this.kind}
      */
+    @Override
     public Kind getKind() {
         return kind;
     }
@@ -188,6 +201,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * <p>Subclasses can change this behavior as long as the contract
      * of {@link JavaFileObject} is obeyed.
      */
+    @Override
     public boolean isNameCompatible(String simpleName, Kind kind) {
         String baseName = simpleName + kind.extension;
         return kind.equals(getKind())
@@ -200,6 +214,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * change this behavior as long as the contract of
      * {@link JavaFileObject} is obeyed.
      */
+    @Override
     public NestingKind getNestingKind() { return null; }
 
     /**
@@ -207,6 +222,7 @@ public class SimpleJavaFileObject implements JavaFileObject {
      * change this behavior as long as the contract of
      * {@link JavaFileObject} is obeyed.
      */
+    @Override
     public Modifier getAccessLevel()  { return null; }
 
     @Override

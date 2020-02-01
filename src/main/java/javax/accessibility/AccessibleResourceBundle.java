@@ -43,6 +43,7 @@ public class AccessibleResourceBundle extends ListResourceBundle {
      * Returns the mapping between the programmatic keys and the
      * localized display strings.
      */
+    @Override
     public Object[][] getContents() {
         // The table holding the mapping between the programmatic keys
         // and the display strings for the en_US locale.

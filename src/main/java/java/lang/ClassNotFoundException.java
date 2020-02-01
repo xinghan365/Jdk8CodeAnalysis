@@ -119,6 +119,7 @@ public class ClassNotFoundException extends ReflectiveOperationException {
      * @return  the cause of this exception.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return ex;
     }

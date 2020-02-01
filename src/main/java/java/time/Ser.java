@@ -241,6 +241,7 @@ final class Ser implements Externalizable {
      *
      * @param in  the data to read, not null
      */
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         type = in.readByte();
         object = readInternal(type, in);

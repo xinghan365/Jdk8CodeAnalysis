@@ -308,6 +308,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * Installs the UI.
      */
+    @Override
     public void installUI(JComponent c) {
         splitPane = (JSplitPane) c;
         dividerLocationIsSet = false;
@@ -329,7 +330,9 @@ public class BasicSplitPaneUI extends SplitPaneUI
                                   "SplitPane.foreground");
         LookAndFeel.installProperty(splitPane, "opaque", Boolean.TRUE);
 
-        if (divider == null) divider = createDefaultDivider();
+        if (divider == null) {
+            divider = createDefaultDivider();
+        }
         divider.setBasicSplitPaneUI(this);
 
         Border    b = divider.getBorder();
@@ -424,6 +427,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * Uninstalls the UI.
      */
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions();
         uninstallListeners();
@@ -693,6 +697,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * contained in.  May potentially reset the layout manager and cause a
          * <code>validate</code> to be sent.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);
         }
@@ -711,10 +716,12 @@ public class BasicSplitPaneUI extends SplitPaneUI
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void focusGained(FocusEvent ev) {
             getHandler().focusGained(ev);
         }
 
+        @Override
         public void focusLost(FocusEvent ev) {
             getHandler().focusLost(ev);
         }
@@ -730,6 +737,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      */
     public class KeyboardUpLeftHandler implements ActionListener
     {
+        @Override
         public void actionPerformed(ActionEvent ev) {
             if (dividerKeyboardResize) {
                 splitPane.setDividerLocation(Math.max(0,getDividerLocation
@@ -747,6 +755,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      */
     public class KeyboardDownRightHandler implements ActionListener
     {
+        @Override
         public void actionPerformed(ActionEvent ev) {
             if (dividerKeyboardResize) {
                 splitPane.setDividerLocation(getDividerLocation(splitPane) +
@@ -765,6 +774,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      */
     public class KeyboardHomeHandler implements ActionListener
     {
+        @Override
         public void actionPerformed(ActionEvent ev) {
             if (dividerKeyboardResize) {
                 splitPane.setDividerLocation(0);
@@ -782,6 +792,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      */
     public class KeyboardEndHandler implements ActionListener
     {
+        @Override
         public void actionPerformed(ActionEvent ev) {
             if (dividerKeyboardResize) {
                 Insets   insets = splitPane.getInsets();
@@ -810,6 +821,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      */
     public class KeyboardResizeToggleHandler implements ActionListener
     {
+        @Override
         public void actionPerformed(ActionEvent ev) {
             if (!dividerKeyboardResize) {
                 splitPane.requestFocus();
@@ -831,6 +843,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      */
     protected Component createDefaultNonContinuousLayoutDivider() {
         return new Canvas() {
+            @Override
             public void paint(Graphics g) {
                 if(!isContinuousLayout() && getLastDragLocation() != -1) {
                     Dimension      size = splitPane.getSize();
@@ -882,10 +895,12 @@ public class BasicSplitPaneUI extends SplitPaneUI
             int                   lastLocation = splitPane.
                                               getDividerLocation();
 
-            if(leftC != null)
+            if(leftC != null) {
                 splitPane.setLeftComponent(null);
-            if(rightC != null)
+            }
+            if(rightC != null) {
                 splitPane.setRightComponent(null);
+            }
             splitPane.remove(divider);
             splitPane.add(nonContinuousLayoutDivider, BasicSplitPaneUI.
                           NON_CONTINUOUS_DIVIDER,
@@ -931,6 +946,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * Messaged to reset the preferred sizes.
      */
+    @Override
     public void resetToPreferredSizes(JSplitPane jc) {
         if(splitPane != null) {
             layoutManager.resetToPreferredSizes();
@@ -943,6 +959,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * Sets the location of the divider to location.
      */
+    @Override
     public void setDividerLocation(JSplitPane jc, int location) {
         if (!ignoreDividerLocationChange) {
             dividerLocationIsSet = true;
@@ -972,9 +989,11 @@ public class BasicSplitPaneUI extends SplitPaneUI
      * Returns the location of the divider, which may differ from what
      * the splitpane thinks the location of the divider is.
      */
+    @Override
     public int getDividerLocation(JSplitPane jc) {
-        if(orientation == JSplitPane.HORIZONTAL_SPLIT)
+        if(orientation == JSplitPane.HORIZONTAL_SPLIT) {
             return divider.getLocation().x;
+        }
         return divider.getLocation().y;
     }
 
@@ -982,6 +1001,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * Gets the minimum location of the divider.
      */
+    @Override
     public int getMinimumDividerLocation(JSplitPane jc) {
         int       minLoc = 0;
         Component leftC = splitPane.getLeftComponent();
@@ -1009,6 +1029,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * Gets the maximum location of the divider.
      */
+    @Override
     public int getMaximumDividerLocation(JSplitPane jc) {
         Dimension splitPaneSize = splitPane.getSize();
         int       maxLoc = 0;
@@ -1042,6 +1063,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
      * Called when the specified split pane has finished painting
      * its children.
      */
+    @Override
     public void finishedPaintingChildren(JSplitPane sp, Graphics g) {
         if(sp == splitPane && getLastDragLocation() != -1 &&
            !isContinuousLayout() && !draggingHW) {
@@ -1062,6 +1084,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
     /**
      * {@inheritDoc}
      */
+    @Override
     public void paint(Graphics g, JComponent jc) {
         if (!painted && splitPane.getDividerLocation()<0) {
             ignoreDividerLocationChange = true;
@@ -1075,9 +1098,11 @@ public class BasicSplitPaneUI extends SplitPaneUI
      * Returns the preferred size for the passed in component,
      * This is passed off to the current layout manager.
      */
+    @Override
     public Dimension getPreferredSize(JComponent jc) {
-        if(splitPane != null)
+        if(splitPane != null) {
             return layoutManager.preferredLayoutSize(splitPane);
+        }
         return new Dimension(0, 0);
     }
 
@@ -1086,9 +1111,11 @@ public class BasicSplitPaneUI extends SplitPaneUI
      * Returns the minimum size for the passed in component,
      * This is passed off to the current layout manager.
      */
+    @Override
     public Dimension getMinimumSize(JComponent jc) {
-        if(splitPane != null)
+        if(splitPane != null) {
             return layoutManager.minimumLayoutSize(splitPane);
+        }
         return new Dimension(0, 0);
     }
 
@@ -1097,9 +1124,11 @@ public class BasicSplitPaneUI extends SplitPaneUI
      * Returns the maximum size for the passed in component,
      * This is passed off to the current layout manager.
      */
+    @Override
     public Dimension getMaximumSize(JComponent jc) {
-        if(splitPane != null)
+        if(splitPane != null) {
             return layoutManager.maximumLayoutSize(splitPane);
+        }
         return new Dimension(0, 0);
     }
 
@@ -1302,6 +1331,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
         /**
          * Does the actual layout.
          */
+        @Override
         public void layoutContainer(Container container) {
             Dimension   containerSize = container.getSize();
 
@@ -1405,6 +1435,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * JSplitPane.LEFT, RIGHT, TOP, BOTTOM, or null (for the
          * divider).
          */
+        @Override
         public void addLayoutComponent(String place, Component component) {
             boolean isValid = true;
 
@@ -1423,15 +1454,17 @@ public class BasicSplitPaneUI extends SplitPaneUI
                     components[1] = component;
                     sizes[1] = 0;
                 } else if(!place.equals(
-                                    BasicSplitPaneUI.NON_CONTINUOUS_DIVIDER))
+                                    BasicSplitPaneUI.NON_CONTINUOUS_DIVIDER)) {
                     isValid = false;
+                }
             } else {
                 isValid = false;
             }
-            if(!isValid)
+            if(!isValid) {
                 throw new IllegalArgumentException("cannot add to layout: " +
                     "unknown constraint: " +
                     place);
+            }
             doReset = true;
         }
 
@@ -1441,6 +1474,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * The width is the sum of all the children's min widths and
          * the height is the largest of the children's minimum heights.
          */
+        @Override
         public Dimension minimumLayoutSize(Container container) {
             int         minPrimary = 0;
             int         minSecondary = 0;
@@ -1452,8 +1486,9 @@ public class BasicSplitPaneUI extends SplitPaneUI
                     int         secSize = getSizeForSecondaryAxis(minSize);
 
                     minPrimary += getSizeForPrimaryAxis(minSize);
-                    if(secSize > minSecondary)
+                    if(secSize > minSecondary) {
                         minSecondary = secSize;
+                    }
                 }
             }
             if(insets != null) {
@@ -1474,6 +1509,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * The width is the sum of all the preferred widths of the children and
          * the height is the largest preferred height of the children.
          */
+        @Override
         public Dimension preferredLayoutSize(Container container) {
             int         prePrimary = 0;
             int         preSecondary = 0;
@@ -1486,8 +1522,9 @@ public class BasicSplitPaneUI extends SplitPaneUI
                     int         secSize = getSizeForSecondaryAxis(preSize);
 
                     prePrimary += getSizeForPrimaryAxis(preSize);
-                    if(secSize > preSecondary)
+                    if(secSize > preSecondary) {
                         preSecondary = secSize;
+                    }
                 }
             }
             if(insets != null) {
@@ -1506,6 +1543,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
         /**
          * Removes the specified component from our knowledge.
          */
+        @Override
         public void removeLayoutComponent(Component component) {
             for(int counter = 0; counter < 3; counter++) {
                 if(components[counter] == component) {
@@ -1528,6 +1566,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * @param comp the component to be added
          * @param constraints  where/how the component is added to the layout.
          */
+        @Override
         public void addLayoutComponent(Component comp, Object constraints) {
             if ((constraints == null) || (constraints instanceof String)) {
                 addLayoutComponent((String)constraints, comp);
@@ -1546,6 +1585,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * where 0 represents alignment along the origin, 1 is aligned
          * the furthest away from the origin, 0.5 is centered, etc.
          */
+        @Override
         public float getLayoutAlignmentX(Container target) {
             return 0.0f;
         }
@@ -1558,6 +1598,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * where 0 represents alignment along the origin, 1 is aligned
          * the furthest away from the origin, 0.5 is centered, etc.
          */
+        @Override
         public float getLayoutAlignmentY(Container target) {
             return 0.0f;
         }
@@ -1568,6 +1609,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * size of one of the views JSplitPane.resetToPreferredSizes should
          * be messaged.
          */
+        @Override
         public void invalidateLayout(Container c) {
         }
 
@@ -1576,6 +1618,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * Returns the maximum layout size, which is Integer.MAX_VALUE
          * in both directions.
          */
+        @Override
         public Dimension maximumLayoutSize(Container target) {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
@@ -1651,8 +1694,9 @@ public class BasicSplitPaneUI extends SplitPaneUI
          */
         protected int getAvailableSize(Dimension containerSize,
                                        Insets insets) {
-            if(insets == null)
+            if(insets == null) {
                 return getSizeForPrimaryAxis(containerSize);
+            }
             return (getSizeForPrimaryAxis(containerSize) -
                     (getSizeForPrimaryAxis(insets, true) +
                      getSizeForPrimaryAxis(insets, false)));
@@ -1664,8 +1708,9 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * 0 is returned.
          */
         protected int getInitialLocation(Insets insets) {
-            if(insets != null)
+            if(insets != null) {
                 return getSizeForPrimaryAxis(insets, true);
+            }
             return 0;
         }
 
@@ -2035,6 +2080,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
          * contained in.  May potentially reset the layout manager and cause a
          * <code>validate</code> to be sent.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             if(e.getSource() == splitPane) {
                 String changeName = e.getPropertyName();
@@ -2068,11 +2114,13 @@ public class BasicSplitPaneUI extends SplitPaneUI
         //
         // FocusListener
         //
+        @Override
         public void focusGained(FocusEvent ev) {
             dividerKeyboardResize = true;
             splitPane.repaint();
         }
 
+        @Override
         public void focusLost(FocusEvent ev) {
             dividerKeyboardResize = false;
             splitPane.repaint();
@@ -2094,6 +2142,7 @@ public class BasicSplitPaneUI extends SplitPaneUI
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent ev) {
             JSplitPane splitPane = (JSplitPane)ev.getSource();
             BasicSplitPaneUI ui = (BasicSplitPaneUI)BasicLookAndFeel.

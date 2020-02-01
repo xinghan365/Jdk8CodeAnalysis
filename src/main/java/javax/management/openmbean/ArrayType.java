@@ -176,8 +176,9 @@ public class ArrayType<T> extends OpenType<T> {
      **/
     static String getPrimitiveTypeKey(String elementClassName) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (elementClassName.equals(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]))
+            if (elementClassName.equals(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX])) {
                 return (String)typeDescr[PRIMITIVE_TYPE_KEY_INDEX];
+            }
         }
         return null;
     }
@@ -194,8 +195,9 @@ public class ArrayType<T> extends OpenType<T> {
      **/
     static String getPrimitiveTypeName(String elementClassName) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (elementClassName.equals(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX]))
+            if (elementClassName.equals(typeDescr[PRIMITIVE_WRAPPER_NAME_INDEX])) {
                 return (String)typeDescr[PRIMITIVE_TYPE_NAME_INDEX];
+            }
         }
         return null;
     }
@@ -213,8 +215,9 @@ public class ArrayType<T> extends OpenType<T> {
      **/
     static SimpleType<?> getPrimitiveOpenType(String primitiveTypeName) {
         for (Object[] typeDescr : PRIMITIVE_ARRAY_TYPES) {
-            if (primitiveTypeName.equals(typeDescr[PRIMITIVE_TYPE_NAME_INDEX]))
+            if (primitiveTypeName.equals(typeDescr[PRIMITIVE_TYPE_NAME_INDEX])) {
                 return (SimpleType<?>)typeDescr[PRIMITIVE_OPEN_TYPE_INDEX];
+            }
         }
         return null;
     }
@@ -425,9 +428,10 @@ public class ArrayType<T> extends OpenType<T> {
                 // but for compatibility reasons we throw an OpenDataException.
                 // (used to be thrown by OpenType() constructor).
                 //
-                if (key == null)
+                if (key == null) {
                     throw new OpenDataException("Element type is not primitive: "
                             + elementClassName);
+                }
                 result.append(key);
             } else {
                 result.append("L");
@@ -470,9 +474,10 @@ public class ArrayType<T> extends OpenType<T> {
             // but for compatibility reasons we throw an OpenDataException.
             // (used to be thrown by OpenType() constructor).
             //
-            if (primitiveType == null)
+            if (primitiveType == null) {
                 throw new OpenDataException("Element is not a primitive type: "+
                         elementClassName);
+            }
             result.append(primitiveType);
         } else {
             result.append(elementClassName);
@@ -543,6 +548,7 @@ public class ArrayType<T> extends OpenType<T> {
      * @return <code>true</code> if <var>obj</var> is a value for this
      * <code>ArrayType</code> instance.
      */
+    @Override
     public boolean isValue(Object obj) {
 
         // if obj is null, return false
@@ -637,8 +643,9 @@ public class ArrayType<T> extends OpenType<T> {
 
     @Override
     boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof ArrayType<?>))
+        if (!(ot instanceof ArrayType<?>)) {
             return false;
+        }
         ArrayType<?> at = (ArrayType<?>) ot;
         return (at.getDimension() == getDimension() &&
                 at.isPrimitiveArray() == isPrimitiveArray() &&
@@ -665,6 +672,7 @@ public class ArrayType<T> extends OpenType<T> {
      * @return <code>true</code> if the specified object is equal to
      *         this <code>ArrayType</code> instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         // if obj is null, return false
@@ -675,8 +683,9 @@ public class ArrayType<T> extends OpenType<T> {
 
         // if obj is not an ArrayType, return false
         //
-        if (!(obj instanceof ArrayType<?>))
+        if (!(obj instanceof ArrayType<?>)) {
             return false;
+        }
         ArrayType<?> other = (ArrayType<?>) obj;
 
         // if other's dimension is different than this instance's, return false
@@ -717,6 +726,7 @@ public class ArrayType<T> extends OpenType<T> {
      *
      * @return  the hash code value for this <code>ArrayType</code> instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
@@ -749,6 +759,7 @@ public class ArrayType<T> extends OpenType<T> {
      *
      * @return a string representation of this <code>ArrayType</code> instance
      */
+    @Override
     public String toString() {
 
         // Calculate the string representation if it has not yet been done (ie 1st call to toString())
@@ -881,8 +892,9 @@ public class ArrayType<T> extends OpenType<T> {
         try {
             @SuppressWarnings("rawtypes")
             ArrayType at = new ArrayType(simpleType, true);
-            if (n > 1)
+            if (n > 1) {
                 at = new ArrayType<T>(n - 1, at);
+            }
             return at;
         } catch (OpenDataException e) {
             throw new IllegalArgumentException(e); // should not happen

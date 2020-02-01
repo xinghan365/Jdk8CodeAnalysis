@@ -458,6 +458,7 @@ public class SynthScrollBarUI extends BasicScrollBarUI
     //
     // PropertyChangeListener
     //
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         String propertyName = e.getPropertyName();
 

@@ -80,6 +80,7 @@ public final class PagesPerMinute extends IntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this pages per
      *          minute attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof PagesPerMinute);
@@ -94,6 +95,7 @@ public final class PagesPerMinute extends IntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PagesPerMinute.class;
     }
@@ -107,6 +109,7 @@ public final class PagesPerMinute extends IntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "pages-per-minute";
     }

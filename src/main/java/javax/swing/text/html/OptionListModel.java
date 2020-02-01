@@ -62,14 +62,19 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
 
     protected boolean leadAnchorNotificationEnabled = true;
 
+    @Override
     public int getMinSelectionIndex() { return isSelectionEmpty() ? -1 : minIndex; }
 
+    @Override
     public int getMaxSelectionIndex() { return maxIndex; }
 
+    @Override
     public boolean getValueIsAdjusting() { return isAdjusting; }
 
+    @Override
     public int getSelectionMode() { return selectionMode; }
 
+    @Override
     public void setSelectionMode(int selectionMode) {
         switch (selectionMode) {
         case SINGLE_SELECTION:
@@ -82,18 +87,22 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
         }
     }
 
+    @Override
     public boolean isSelectedIndex(int index) {
         return ((index < minIndex) || (index > maxIndex)) ? false : value.get(index);
     }
 
+    @Override
     public boolean isSelectionEmpty() {
         return (minIndex > maxIndex);
     }
 
+    @Override
     public void addListSelectionListener(ListSelectionListener l) {
         listenerList.add(ListSelectionListener.class, l);
     }
 
+    @Override
     public void removeListSelectionListener(ListSelectionListener l) {
         listenerList.remove(ListSelectionListener.class, l);
     }
@@ -326,10 +335,12 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
         changeSelection(clearMin, clearMax, setMin, setMax, true);
     }
 
+    @Override
     public void clearSelection() {
         removeSelectionInterval(minIndex, maxIndex);
     }
 
+    @Override
     public void setSelectionInterval(int index0, int index1) {
         if (index0 == -1 || index1 == -1) {
             return;
@@ -348,6 +359,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
         changeSelection(clearMin, clearMax, setMin, setMax);
     }
 
+    @Override
     public void addSelectionInterval(int index0, int index1)
     {
         if (index0 == -1 || index1 == -1) {
@@ -369,6 +381,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
     }
 
 
+    @Override
     public void removeSelectionInterval(int index0, int index1)
     {
         if (index0 == -1 || index1 == -1) {
@@ -400,6 +413,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
      * called to sync the selection model with a corresponding change
      * in the data model.
      */
+    @Override
     public void insertIndexInterval(int index, int length, boolean before)
     {
         /* The first new index will appear at insMinIndex and the last
@@ -431,6 +445,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
      * model width a corresponding change in the data model.  Note
      * that (as always) index0 can be greater than index1.
      */
+    @Override
     public void removeIndexInterval(int index0, int index1)
     {
         int rmMinIndex = Math.min(index0, index1);
@@ -446,6 +461,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
     }
 
 
+    @Override
     public void setValueIsAdjusting(boolean isAdjusting) {
         if (isAdjusting != this.isAdjusting) {
             this.isAdjusting = isAdjusting;
@@ -454,6 +470,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
     }
 
 
+    @Override
     public String toString() {
         String s =  ((getValueIsAdjusting()) ? "~" : "=") + value.toString();
         return getClass().getName() + " " + Integer.toString(hashCode()) + " " + s;
@@ -468,6 +485,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
      *    both (a) implement the <code>Cloneable</code> interface
      *    and (b) define a <code>clone</code> method
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         OptionListModel clone = (OptionListModel)super.clone();
         clone.value = (BitSet)value.clone();
@@ -475,10 +493,12 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
         return clone;
     }
 
+    @Override
     public int getAnchorSelectionIndex() {
         return anchorIndex;
     }
 
+    @Override
     public int getLeadSelectionIndex() {
         return leadIndex;
     }
@@ -489,6 +509,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
      * @see #getAnchorSelectionIndex
      * @see #setLeadSelectionIndex
      */
+    @Override
     public void setAnchorSelectionIndex(int anchorIndex) {
         this.anchorIndex = anchorIndex;
     }
@@ -520,6 +541,7 @@ class OptionListModel<E> extends DefaultListModel<E> implements ListSelectionMod
      * @see #getLeadSelectionIndex
      * @see #setAnchorSelectionIndex
      */
+    @Override
     public void setLeadSelectionIndex(int leadIndex) {
         int anchorIndex = this.anchorIndex;
         if (getSelectionMode() == SINGLE_SELECTION) {

@@ -345,6 +345,7 @@ public abstract class FileChannel
      * read.  Otherwise this method behaves exactly as specified in the {@link
      * ReadableByteChannel} interface. </p>
      */
+    @Override
     public abstract int read(ByteBuffer dst) throws IOException;
 
     /**
@@ -356,6 +357,7 @@ public abstract class FileChannel
      * read.  Otherwise this method behaves exactly as specified in the {@link
      * ScatteringByteChannel} interface.  </p>
      */
+    @Override
     public abstract long read(ByteBuffer[] dsts, int offset, int length)
         throws IOException;
 
@@ -367,6 +369,7 @@ public abstract class FileChannel
      * read.  Otherwise this method behaves exactly as specified in the {@link
      * ScatteringByteChannel} interface.  </p>
      */
+    @Override
     public final long read(ByteBuffer[] dsts) throws IOException {
         return read(dsts, 0, dsts.length);
     }
@@ -382,6 +385,7 @@ public abstract class FileChannel
      * behaves exactly as specified by the {@link WritableByteChannel}
      * interface. </p>
      */
+    @Override
     public abstract int write(ByteBuffer src) throws IOException;
 
     /**
@@ -396,6 +400,7 @@ public abstract class FileChannel
      * behaves exactly as specified in the {@link GatheringByteChannel}
      * interface.  </p>
      */
+    @Override
     public abstract long write(ByteBuffer[] srcs, int offset, int length)
         throws IOException;
 
@@ -410,6 +415,7 @@ public abstract class FileChannel
      * behaves exactly as specified in the {@link GatheringByteChannel}
      * interface.  </p>
      */
+    @Override
     public final long write(ByteBuffer[] srcs) throws IOException {
         return write(srcs, 0, srcs.length);
     }
@@ -430,6 +436,7 @@ public abstract class FileChannel
      * @throws  IOException
      *          If some other I/O error occurs
      */
+    @Override
     public abstract long position() throws IOException;
 
     /**
@@ -458,6 +465,7 @@ public abstract class FileChannel
      * @throws  IOException
      *          If some other I/O error occurs
      */
+    @Override
     public abstract FileChannel position(long newPosition) throws IOException;
 
     /**
@@ -472,6 +480,7 @@ public abstract class FileChannel
      * @throws  IOException
      *          If some other I/O error occurs
      */
+    @Override
     public abstract long size() throws IOException;
 
     /**
@@ -501,6 +510,7 @@ public abstract class FileChannel
      * @throws  IOException
      *          If some other I/O error occurs
      */
+    @Override
     public abstract FileChannel truncate(long size) throws IOException;
 
     /**
@@ -818,6 +828,7 @@ public abstract class FileChannel
          *
          * @return  A descriptive string
          */
+        @Override
         public String toString() {
             return name;
         }

@@ -205,6 +205,7 @@ public abstract class ColorModel implements Transparency{
         if (!loaded) {
             java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         System.loadLibrary("awt");
                         return null;
@@ -493,6 +494,7 @@ public abstract class ColorModel implements Transparency{
      * @see Transparency#BITMASK
      * @see Transparency#TRANSLUCENT
      */
+    @Override
     public int getTransparency() {
         return transparency;
     }
@@ -1449,6 +1451,7 @@ public abstract class ColorModel implements Transparency{
      * is an instance of <code>ColorModel</code> and equals this
      * <code>ColorModel</code>; <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof ColorModel)) {
             return false;
@@ -1487,6 +1490,7 @@ public abstract class ColorModel implements Transparency{
      *
      * @return    a hash code for this ColorModel.
      */
+    @Override
     public int hashCode() {
 
         int result = 0;
@@ -1630,6 +1634,7 @@ public abstract class ColorModel implements Transparency{
      * <code>ColorModel</code> once this <code>ColorModel</code> is no
      * longer referenced.
      */
+    @Override
     public void finalize() {
     }
 
@@ -1669,6 +1674,7 @@ public abstract class ColorModel implements Transparency{
      * @return a <code>String</code> representing the contents of this
      * <code>ColorModel</code> object.
      */
+    @Override
     public String toString() {
        return new String("ColorModel: #pixelBits = "+pixel_bits
                          + " numComponents = "+numComponents

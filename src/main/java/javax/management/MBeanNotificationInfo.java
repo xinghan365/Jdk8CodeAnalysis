@@ -133,6 +133,7 @@ public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable
      * implemented by <tt>Object.clone()</tt>.
      * No deeper cloning of any internal field is made.
      */
+     @Override
      public Object clone () {
          try {
              return super.clone() ;
@@ -151,19 +152,22 @@ public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable
      * effect on this MBeanNotificationInfo.
      */
     public String[] getNotifTypes() {
-        if (types.length == 0)
+        if (types.length == 0) {
             return NO_TYPES;
-        else
+        } else {
             return types.clone();
+        }
     }
 
     private String[] fastGetNotifTypes() {
-        if (arrayGettersSafe)
+        if (arrayGettersSafe) {
             return types;
-        else
+        } else {
             return getNotifTypes();
+        }
     }
 
+    @Override
     public String toString() {
         return
             getClass().getName() + "[" +
@@ -188,11 +192,14 @@ public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable
      * elements are equal.  They are not equal if they have the same
      * elements but in a different order.
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof MBeanNotificationInfo))
+        }
+        if (!(o instanceof MBeanNotificationInfo)) {
             return false;
+        }
         MBeanNotificationInfo p = (MBeanNotificationInfo) o;
         return (Objects.equals(p.getName(), getName()) &&
                 Objects.equals(p.getDescription(), getDescription()) &&
@@ -200,10 +207,12 @@ public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable
                 Arrays.equals(p.fastGetNotifTypes(), fastGetNotifTypes()));
     }
 
+    @Override
     public int hashCode() {
         int hash = getName().hashCode();
-        for (int i = 0; i < types.length; i++)
+        for (int i = 0; i < types.length; i++) {
             hash ^= types[i].hashCode();
+        }
         return hash;
     }
 

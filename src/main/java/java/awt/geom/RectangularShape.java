@@ -308,6 +308,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean contains(Point2D p) {
         return contains(p.getX(), p.getY());
     }
@@ -316,6 +317,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean intersects(Rectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
@@ -324,6 +326,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean contains(Rectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
@@ -332,6 +335,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public Rectangle getBounds() {
         double width = getWidth();
         double height = getHeight();
@@ -374,6 +378,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      *          the <code>Shape</code> object's flattened geometry.
      * @since 1.2
      */
+    @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return new FlatteningPathIterator(getPathIterator(at), flatness);
     }
@@ -386,6 +391,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();

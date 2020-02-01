@@ -544,9 +544,11 @@ public class Sasl {
         Set<Object> facs = getFactories("SaslClientFactory");
         final Iterator<Object> iter = facs.iterator();
         return new Enumeration<SaslClientFactory>() {
+            @Override
             public boolean hasMoreElements() {
                 return iter.hasNext();
             }
+            @Override
             public SaslClientFactory nextElement() {
                 return (SaslClientFactory)iter.next();
             }
@@ -565,9 +567,11 @@ public class Sasl {
         Set<Object> facs = getFactories("SaslServerFactory");
         final Iterator<Object> iter = facs.iterator();
         return new Enumeration<SaslServerFactory>() {
+            @Override
             public boolean hasMoreElements() {
                 return iter.hasNext();
             }
+            @Override
             public SaslServerFactory nextElement() {
                 return (SaslServerFactory)iter.next();
             }

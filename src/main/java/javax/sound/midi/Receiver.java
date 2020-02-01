@@ -70,5 +70,6 @@ public interface Receiver extends AutoCloseable {
      *
      * @see javax.sound.midi.MidiSystem#getReceiver
      */
+    @Override
     public void close();
 }

@@ -305,7 +305,9 @@ class FactoryFinder {
             }
         }
         catch (Exception ex) {
-            if (debug) ex.printStackTrace();
+            if (debug) {
+                ex.printStackTrace();
+            }
         }
 
         if (type.getName().equals(factoryId)) {

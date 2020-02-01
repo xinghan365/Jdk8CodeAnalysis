@@ -143,7 +143,9 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
     @Override
     public final void paint(Graphics2D g, JComponent c, int w, int h) {
         //don't render if the width/height are too small
-        if (w <= 0 || h <=0) return;
+        if (w <= 0 || h <=0) {
+            return;
+        }
 
         Object[] extendedCacheKeys = getExtendedCacheKeys(c);
         ctx = getPaintContext();
@@ -714,7 +716,9 @@ public abstract class AbstractRegionPainter implements Painter<JComponent> {
             }
         } while (buffer.contentsLost() && renderCounter++ < 3);
         // check if we failed
-        if (renderCounter == 3) return null;
+        if (renderCounter == 3) {
+            return null;
+        }
         // return image
         return buffer;
     }

@@ -51,6 +51,7 @@ final class LayoutComparator implements Comparator<Component>, java.io.Serializa
         leftToRight = orientation.isLeftToRight();
     }
 
+    @Override
     public int compare(Component a, Component b) {
         if (a == b) {
             return 0;

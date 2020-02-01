@@ -121,10 +121,12 @@ implements Serializable
      * @see PermissionCollection#isReadOnly()
      */
 
+    @Override
     public void add(Permission permission) {
-        if (isReadOnly())
+        if (isReadOnly()) {
             throw new SecurityException(
               "attempt to add a Permission to a readonly Permissions object");
+        }
 
         PermissionCollection pc;
 
@@ -170,6 +172,7 @@ implements Serializable
      * belongs to, false if not.
      */
 
+    @Override
     public boolean implies(Permission permission) {
         // No sync; staleness -> skip optimization, which is OK
         if (allPermission != null) {
@@ -195,6 +198,7 @@ implements Serializable
      * @return an enumeration of all the Permissions.
      */
 
+    @Override
     public Enumeration<Permission> elements() {
         // go through each Permissions in the hash table
         // and call their elements() function.
@@ -255,8 +259,9 @@ implements Serializable
 
                 // still no PermissionCollection?
                 // We'll give them a PermissionsHash.
-                if (pc == null)
+                if (pc == null) {
                     pc = new PermissionsHash();
+                }
             }
 
             if (pc != null) {
@@ -283,15 +288,17 @@ implements Serializable
         (UnresolvedPermissionCollection) permsMap.get(UnresolvedPermission.class);
 
         // we have no unresolved permissions if uc is null
-        if (uc == null)
+        if (uc == null) {
             return null;
+        }
 
         List<UnresolvedPermission> unresolvedPerms =
                                         uc.getUnresolvedPermissions(p);
 
         // we have no unresolved permissions of this type if unresolvedPerms is null
-        if (unresolvedPerms == null)
+        if (unresolvedPerms == null) {
             return null;
+        }
 
         java.security.cert.Certificate certs[] = null;
 
@@ -322,8 +329,9 @@ implements Serializable
                 if (perm != null) {
                     if (pc == null) {
                         pc = p.newPermissionCollection();
-                        if (pc == null)
+                        if (pc == null) {
                             pc = new PermissionsHash();
+                        }
                     }
                     pc.add(perm);
                 }
@@ -417,17 +425,20 @@ final class PermissionsEnumerator implements Enumeration<Permission> {
     }
 
     // No need to synchronize; caller should sync on object as required
+    @Override
     public boolean hasMoreElements() {
         // if we enter with permissionimpl null, we know
         // there are no more left.
 
-        if (permset == null)
+        if (permset == null) {
             return  false;
+        }
 
         // try to see if there are any left in the current one
 
-        if (permset.hasMoreElements())
+        if (permset.hasMoreElements()) {
             return true;
+        }
 
         // get the next one that has something in it...
         permset = getNextEnumWithMore();
@@ -437,6 +448,7 @@ final class PermissionsEnumerator implements Enumeration<Permission> {
     }
 
     // No need to synchronize; caller should sync on object as required
+    @Override
     public Permission nextElement() {
 
         // hasMoreElements will update permset to the next permset
@@ -454,8 +466,9 @@ final class PermissionsEnumerator implements Enumeration<Permission> {
         while (perms.hasNext()) {
             PermissionCollection pc = perms.next();
             Enumeration<Permission> next =pc.elements();
-            if (next.hasMoreElements())
+            if (next.hasMoreElements()) {
                 return next;
+            }
         }
         return null;
 
@@ -497,6 +510,7 @@ implements Serializable
      * @param permission the Permission object to add.
      */
 
+    @Override
     public void add(Permission permission) {
         synchronized (this) {
             permsMap.put(permission, permission);
@@ -513,6 +527,7 @@ implements Serializable
      * the set, false if not.
      */
 
+    @Override
     public boolean implies(Permission permission) {
         // attempt a fast lookup and implies. If that fails
         // then enumerate through all the permissions.
@@ -522,8 +537,9 @@ implements Serializable
             // If permission is found, then p.equals(permission)
             if (p == null) {
                 for (Permission p_ : permsMap.values()) {
-                    if (p_.implies(permission))
+                    if (p_.implies(permission)) {
                         return true;
+                    }
                 }
                 return false;
             } else {
@@ -538,6 +554,7 @@ implements Serializable
      * @return an enumeration of all the Permissions.
      */
 
+    @Override
     public Enumeration<Permission> elements() {
         // Convert Iterator of Map values into an Enumeration
         synchronized (this) {

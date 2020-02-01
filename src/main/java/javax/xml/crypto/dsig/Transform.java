@@ -106,6 +106,7 @@ public interface Transform extends XMLStructure, AlgorithmMethod {
      * @return the algorithm-specific input parameters (may be <code>null</code>
      *    if not specified)
      */
+    @Override
     AlgorithmParameterSpec getParameterSpec();
 
     /**

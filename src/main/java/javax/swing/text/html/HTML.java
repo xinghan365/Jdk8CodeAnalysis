@@ -123,6 +123,7 @@ public class HTML {
          *
          * @return the <code>String</code> representation of the tag
          */
+        @Override
         public String toString() {
             return name;
         }
@@ -298,6 +299,7 @@ public class HTML {
          * Returns the hash code which corresponds to the string
          * for this tag.
          */
+        @Override
         public int hashCode() {
             return toString().hashCode();
         }
@@ -312,6 +314,7 @@ public class HTML {
          * @return    <code>true</code> if the objects are equal;
          *            <code>false</code> otherwise
          */
+        @Override
         public boolean equals(Object obj) {
             if (obj instanceof UnknownTag) {
                 return toString().equals(obj.toString());
@@ -358,6 +361,7 @@ public class HTML {
          * Returns the string representation of this attribute.
          * @return the string representation of this attribute
          */
+        @Override
         public String toString() {
             return name;
         }

@@ -159,6 +159,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
             initIDs();
         }
         AWTAccessor.setScrollPaneAdjustableAccessor(new AWTAccessor.ScrollPaneAdjustableAccessor() {
+            @Override
             public void setTypedValue(final ScrollPaneAdjustable adj,
                                       final int v, final int type) {
                 adj.setTypedValue(v, type);
@@ -211,6 +212,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      *            <code>Adjustable.HORIZONTAL</code> or
      *            <code>Adjustable.VERTICAL</code>
      */
+    @Override
     public int getOrientation() {
         return orientation;
     }
@@ -222,10 +224,12 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      *
      * @throws AWTError Always throws an error when called.
      */
+    @Override
     public void setMinimum(int min) {
         throw new AWTError(SCROLLPANE_ONLY);
     }
 
+    @Override
     public int getMinimum() {
         // XXX: This relies on setSpan always being called with 0 for
         // the minimum (which is currently true).
@@ -239,14 +243,17 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      *
      * @throws AWTError Always throws an error when called.
      */
+    @Override
     public void setMaximum(int max) {
         throw new AWTError(SCROLLPANE_ONLY);
     }
 
+    @Override
     public int getMaximum() {
         return maximum;
     }
 
+    @Override
     public synchronized void setUnitIncrement(int u) {
         if (u != unitIncrement) {
             unitIncrement = u;
@@ -257,14 +264,17 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
         }
     }
 
+    @Override
     public int getUnitIncrement() {
         return unitIncrement;
     }
 
+    @Override
     public synchronized void setBlockIncrement(int b) {
         blockIncrement = b;
     }
 
+    @Override
     public int getBlockIncrement() {
         return blockIncrement;
     }
@@ -276,10 +286,12 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      *
      * @throws AWTError Always throws an error when called.
      */
+    @Override
     public void setVisibleAmount(int v) {
         throw new AWTError(SCROLLPANE_ONLY);
     }
 
+    @Override
     public int getVisibleAmount() {
         return visibleAmount;
     }
@@ -323,6 +335,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      *
      * @param v the new value of the scrollbar
      */
+    @Override
     public void setValue(int v) {
         setTypedValue(v, AdjustmentEvent.TRACK);
     }
@@ -355,6 +368,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
         }
     }
 
+    @Override
     public int getValue() {
         return value;
     }
@@ -373,6 +387,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      * @see      java.awt.event.AdjustmentListener
      * @see      java.awt.event.AdjustmentEvent
      */
+    @Override
     public synchronized void addAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
@@ -395,6 +410,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      * @see           java.awt.event.AdjustmentEvent
      * @since         JDK1.1
      */
+    @Override
     public synchronized void removeAdjustmentListener(AdjustmentListener l){
         if (l == null) {
             return;
@@ -427,6 +443,7 @@ public class ScrollPaneAdjustable implements Adjustable, Serializable {
      * Returns a string representation of this scrollbar and its values.
      * @return    a string representation of this scrollbar.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[" + paramString() + "]";
     }

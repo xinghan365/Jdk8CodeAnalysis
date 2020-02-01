@@ -54,13 +54,15 @@ final class RuleBasedCollationKey extends CollationKey {
      * zero if this is greater than target.
      * @see java.text.Collator#compare
      */
+    @Override
     public int compareTo(CollationKey target)
     {
         int result = key.compareTo(((RuleBasedCollationKey)(target)).key);
-        if (result <= Collator.LESS)
+        if (result <= Collator.LESS) {
             return Collator.LESS;
-        else if (result >= Collator.GREATER)
+        } else if (result >= Collator.GREATER) {
             return Collator.GREATER;
+        }
         return Collator.EQUAL;
     }
 
@@ -72,8 +74,11 @@ final class RuleBasedCollationKey extends CollationKey {
      * @param target the RuleBasedCollationKey to compare to.
      * @return Returns true if two objects are equal, false otherwise.
      */
+    @Override
     public boolean equals(Object target) {
-        if (this == target) return true;
+        if (this == target) {
+            return true;
+        }
         if (target == null || !getClass().equals(target.getClass())) {
             return false;
         }
@@ -89,6 +94,7 @@ final class RuleBasedCollationKey extends CollationKey {
      * See the CollatinKey class description for an example.
      * @return the hash value based on the string's collation order.
      */
+    @Override
     public int hashCode() {
         return (key.hashCode());
     }
@@ -99,6 +105,7 @@ final class RuleBasedCollationKey extends CollationKey {
      * for each of those keys to obtain the same result.  Byte arrays are
      * organized most significant byte first.
      */
+    @Override
     public byte[] toByteArray() {
 
         char[] src = key.toCharArray();

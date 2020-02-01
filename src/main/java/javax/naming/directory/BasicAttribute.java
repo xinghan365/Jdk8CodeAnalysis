@@ -91,6 +91,7 @@ public class BasicAttribute implements Attribute {
      */
     protected boolean ordered = false;
 
+    @Override
     @SuppressWarnings("unchecked")
     public Object clone() {
         BasicAttribute attr;
@@ -129,6 +130,7 @@ public class BasicAttribute implements Attribute {
       * @see #hashCode
       * @see #contains
       */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof Attribute)) {
             Attribute target = (Attribute)obj;
@@ -152,8 +154,9 @@ public class BasicAttribute implements Attribute {
                         // order is not relevant; check for existence
                         Enumeration<?> theirs = target.getAll();
                         while (theirs.hasMoreElements()) {
-                            if (find(theirs.nextElement()) < 0)
+                            if (find(theirs.nextElement()) < 0) {
                                 return false;
+                            }
                         }
                     }
                 } catch (NamingException e) {
@@ -179,6 +182,7 @@ public class BasicAttribute implements Attribute {
       * @return an int representing the hash code of this attribute.
       * @see #equals
       */
+    @Override
     public int hashCode() {
         int hash = attrID.hashCode();
         int num = values.size();
@@ -210,6 +214,7 @@ public class BasicAttribute implements Attribute {
       * interpreted programmatically.
       * @return The non-null string representation of this attribute.
       */
+    @Override
     public String toString() {
         StringBuffer answer = new StringBuffer(attrID + ": ");
         if (values.size() == 0) {
@@ -217,8 +222,9 @@ public class BasicAttribute implements Attribute {
         } else {
             boolean start = true;
             for (Enumeration<Object> e = values.elements(); e.hasMoreElements(); ) {
-                if (!start)
+                if (!start) {
                     answer.append(", ");
+                }
                 answer.append(e.nextElement());
                 start = false;
             }
@@ -282,6 +288,7 @@ public class BasicAttribute implements Attribute {
       * A subclass may override this to retrieve the values dynamically
       * from the directory.
       */
+    @Override
     public NamingEnumeration<?> getAll() throws NamingException {
       return new ValuesEnumImpl();
     }
@@ -294,6 +301,7 @@ public class BasicAttribute implements Attribute {
       * A subclass may override this to retrieve the value dynamically
       * from the directory.
       */
+    @Override
     public Object get() throws NamingException {
         if (values.size() == 0) {
             throw new
@@ -303,10 +311,12 @@ public class BasicAttribute implements Attribute {
         }
     }
 
+    @Override
     public int size() {
       return values.size();
     }
 
+    @Override
     public String getID() {
         return attrID;
     }
@@ -321,6 +331,7 @@ public class BasicAttribute implements Attribute {
       * <tt>Object.equals()</tt>.
       * A subclass may use schema information to determine equality.
       */
+    @Override
     public boolean contains(Object attrVal) {
         return (find(attrVal) >= 0);
     }
@@ -332,8 +343,9 @@ public class BasicAttribute implements Attribute {
         if (target == null) {
             int ct = values.size();
             for (int i = 0 ; i < ct ; i++) {
-                if (values.elementAt(i) == null)
+                if (values.elementAt(i) == null) {
                     return i;
+                }
             }
         } else if ((cl=target.getClass()).isArray()) {
             int ct = values.size();
@@ -341,8 +353,9 @@ public class BasicAttribute implements Attribute {
             for (int i = 0 ; i < ct ; i++) {
                 it = values.elementAt(i);
                 if (it != null && cl == it.getClass()
-                    && arrayEquals(target, it))
+                    && arrayEquals(target, it)) {
                     return i;
+                }
             }
         } else {
             return values.indexOf(target, 0);
@@ -374,15 +387,17 @@ public class BasicAttribute implements Attribute {
      */
     private static boolean arrayEquals(Object a1, Object a2) {
         int len;
-        if ((len = Array.getLength(a1)) != Array.getLength(a2))
+        if ((len = Array.getLength(a1)) != Array.getLength(a2)) {
             return false;
+        }
 
         for (int j = 0; j < len; j++) {
             Object i1 = Array.get(a1, j);
             Object i2 = Array.get(a2, j);
             if (i1 == null || i2 == null) {
-                if (i1 != i2)
+                if (i1 != i2) {
                     return false;
+                }
             } else if (!i1.equals(i2)) {
                 return false;
             }
@@ -399,6 +414,7 @@ public class BasicAttribute implements Attribute {
       * <tt>Object.equals()</tt>.
       * A subclass may use schema information to determine equality.
       */
+    @Override
     public boolean add(Object attrVal) {
         if (isOrdered() || (find(attrVal) < 0)) {
             values.addElement(attrVal);
@@ -417,6 +433,7 @@ public class BasicAttribute implements Attribute {
       * <tt>Object.equals()</tt>.
       * A subclass may use schema information to determine equality.
       */
+    @Override
     public boolean remove(Object attrval) {
         // For the Java 2 platform, can just use "return removeElement(attrval);"
         // Need to do the following to handle null case
@@ -429,26 +446,31 @@ public class BasicAttribute implements Attribute {
         return false;
     }
 
+    @Override
     public void clear() {
         values.setSize(0);
     }
 
 //  ---- ordering methods
 
+    @Override
     public boolean isOrdered() {
         return ordered;
     }
 
+    @Override
     public Object get(int ix) throws NamingException {
         return values.elementAt(ix);
     }
 
+    @Override
     public Object remove(int ix) {
         Object answer = values.elementAt(ix);
         values.removeElementAt(ix);
         return answer;
     }
 
+    @Override
     public void add(int ix, Object attrVal) {
         if (!isOrdered() && contains(attrVal)) {
             throw new IllegalStateException(
@@ -457,6 +479,7 @@ public class BasicAttribute implements Attribute {
         values.insertElementAt(attrVal, ix);
     }
 
+    @Override
     public Object set(int ix, Object attrVal) {
         if (!isOrdered() && contains(attrVal)) {
             throw new IllegalStateException(
@@ -476,6 +499,7 @@ public class BasicAttribute implements Attribute {
       * This method by default throws OperationNotSupportedException. A subclass
       * should override this method if it supports schema.
       */
+    @Override
     public DirContext getAttributeSyntaxDefinition() throws NamingException {
             throw new OperationNotSupportedException("attribute syntax");
     }
@@ -486,6 +510,7 @@ public class BasicAttribute implements Attribute {
       * This method by default throws OperationNotSupportedException. A subclass
       * should override this method if it supports schema.
       */
+    @Override
     public DirContext getAttributeDefinition() throws NamingException {
         throw new OperationNotSupportedException("attribute definition");
     }
@@ -529,22 +554,27 @@ public class BasicAttribute implements Attribute {
             list = values.elements();
         }
 
+        @Override
         public boolean hasMoreElements() {
             return list.hasMoreElements();
         }
 
+        @Override
         public Object nextElement() {
             return(list.nextElement());
         }
 
+        @Override
         public Object next() throws NamingException {
             return list.nextElement();
         }
 
+        @Override
         public boolean hasMore() throws NamingException {
             return list.hasMoreElements();
         }
 
+        @Override
         public void close() throws NamingException {
             list = null;
         }

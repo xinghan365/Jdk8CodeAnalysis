@@ -175,6 +175,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *
      * @return the name of this look and feel
      */
+    @Override
     public String getName() {
         return "Metal";
     }
@@ -185,6 +186,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *
      * @return the identifier of this look and feel
      */
+    @Override
     public String getID() {
         return "Metal";
     }
@@ -195,6 +197,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
 
      * @return a short description for the look and feel
      */
+    @Override
     public String getDescription() {
         return "The Java(tm) Look and Feel";
     }
@@ -205,6 +208,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *
      * @return {@code false}
      */
+    @Override
     public boolean isNativeLookAndFeel() {
         return false;
     }
@@ -215,6 +219,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportedLookAndFeel() {
         return true;
     }
@@ -230,6 +235,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      * @see JRootPane#setWindowDecorationStyle
      * @since 1.4
      */
+    @Override
     public boolean getSupportsWindowDecorations() {
         return true;
     }
@@ -252,6 +258,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *
      * @see javax.swing.plaf.basic.BasicLookAndFeel#initClassDefaults
      */
+    @Override
     protected void initClassDefaults(UIDefaults table)
     {
         super.initClassDefaults(table);
@@ -377,6 +384,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      * @param table the {@code UIDefaults} object the values are added to
      * @throws NullPointerException if {@code table} is {@code null}
      */
+    @Override
     protected void initSystemColorDefaults(UIDefaults table)
     {
         MetalTheme theme = getCurrentTheme();
@@ -427,6 +435,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      * @param table the {@code UIDefaults} to add the values to
      * @throws NullPointerException if {@code table} is {@code null}
      */
+    @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults( table );
 
@@ -1569,6 +1578,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      * @see javax.swing.plaf.basic.BasicLookAndFeel#getDefaults()
      * @see MetalTheme#addCustomEntriesToTable(UIDefaults)
      */
+    @Override
     public UIDefaults getDefaults() {
         // PENDING: move this to initialize when API changes are allowed
         METAL_LOOK_AND_FEEL_INITED = true;
@@ -1586,6 +1596,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *
      * @since 1.4
      */
+    @Override
     public void provideErrorFeedback(Component component) {
         super.provideErrorFeedback(component);
     }
@@ -1680,6 +1691,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *         generated.
      * @since 1.5
      */
+    @Override
     public Icon getDisabledIcon(JComponent component, Icon icon) {
         if ((icon instanceof ImageIcon) && MetalLookAndFeel.usingOcean()) {
             return MetalUtils.getOceanDisabledButtonIcon(
@@ -1708,6 +1720,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *         be generated.
      * @since 1.5
      */
+    @Override
     public Icon getDisabledSelectedIcon(JComponent component, Icon icon) {
         if ((icon instanceof ImageIcon) && MetalLookAndFeel.usingOcean()) {
             return MetalUtils.getOceanDisabledButtonIcon(
@@ -2158,6 +2171,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
      *         guidelines
      * @since 1.6
      */
+    @Override
     public LayoutStyle getLayoutStyle() {
         return MetalLayoutStyle.INSTANCE;
     }
@@ -2175,6 +2189,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
             this.type = type;
         }
 
+        @Override
         public Object createValue(UIDefaults table) {
             Object value = null;
             switch (type) {
@@ -2221,6 +2236,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
             tk.addPropertyChangeListener(key, this);
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent pce) {
             LookAndFeel laf = get();
             if (laf == null || laf != UIManager.getLookAndFeel()) {
@@ -2284,6 +2300,7 @@ public class MetalLookAndFeel extends BasicLookAndFeel
             if (!isUpdatePending()) {
                 setUpdatePending(true);
                 Runnable uiUpdater = new Runnable() {
+                        @Override
                         public void run() {
                             updateAllUIs();
                             setUpdatePending(false);

@@ -69,6 +69,7 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         return new MetalTabbedPaneUI();
     }
 
+    @Override
     protected LayoutManager createLayoutManager() {
         if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
             return super.createLayoutManager();
@@ -76,6 +77,7 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         return new TabbedPaneLayout();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
 
@@ -93,9 +95,10 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
 
-    protected void paintTabBorder( Graphics g, int tabPlacement,
-                                   int tabIndex, int x, int y, int w, int h,
-                                   boolean isSelected) {
+    @Override
+    protected void paintTabBorder(Graphics g, int tabPlacement,
+                                  int tabIndex, int x, int y, int w, int h,
+                                  boolean isSelected) {
         int bottom = y + (h-1);
         int right = x + (w-1);
 
@@ -716,7 +719,8 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         g.translate( -x, -y );
     }
 
-    public void update( Graphics g, JComponent c ) {
+    @Override
+    public void update(Graphics g, JComponent c ) {
         if ( c.isOpaque() ) {
             g.setColor( tabAreaBackground );
             g.fillRect( 0, 0, c.getWidth(),c.getHeight() );
@@ -724,8 +728,9 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         paint( g, c );
     }
 
-    protected void paintTabBackground( Graphics g, int tabPlacement,
-                                       int tabIndex, int x, int y, int w, int h, boolean isSelected ) {
+    @Override
+    protected void paintTabBackground(Graphics g, int tabPlacement,
+                                      int tabIndex, int x, int y, int w, int h, boolean isSelected ) {
         int slantWidth = h / 2;
         if ( isSelected ) {
             g.setColor( selectColor );
@@ -778,7 +783,8 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
     /**
      * Overridden to do nothing for the Java L&amp;F.
      */
-    protected int getTabLabelShiftX( int tabPlacement, int tabIndex, boolean isSelected ) {
+    @Override
+    protected int getTabLabelShiftX(int tabPlacement, int tabIndex, boolean isSelected ) {
         return 0;
     }
 
@@ -786,7 +792,8 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
     /**
      * Overridden to do nothing for the Java L&amp;F.
      */
-    protected int getTabLabelShiftY( int tabPlacement, int tabIndex, boolean isSelected ) {
+    @Override
+    protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected ) {
         return 0;
     }
 
@@ -795,11 +802,13 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
      *
      * @since 1.6
      */
+    @Override
     protected int getBaselineOffset() {
         return 0;
     }
 
-    public void paint( Graphics g, JComponent c ) {
+    @Override
+    public void paint(Graphics g, JComponent c ) {
         int tabPlacement = tabPane.getTabPlacement();
 
         Insets insets = c.getInsets(); Dimension size = c.getSize();
@@ -848,6 +857,7 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
 
+    @Override
     protected void paintFocusIndicator(Graphics g, int tabPlacement,
                                        Rectangle[] rects, int tabIndex,
                                        Rectangle iconRect, Rectangle textRect,
@@ -936,9 +946,10 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         }
     }
 
-    protected void paintContentBorderTopEdge( Graphics g, int tabPlacement,
-                                              int selectedIndex,
-                                              int x, int y, int w, int h ) {
+    @Override
+    protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
+                                             int selectedIndex,
+                                             int x, int y, int w, int h ) {
         boolean leftToRight = MetalUtils.isLeftToRight(tabPane);
         int right = x + w - 1;
         Rectangle selRect = selectedIndex < 0? null :
@@ -1008,6 +1019,7 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
                                                 int selectedIndex,
                                                 int x, int y, int w, int h) {
@@ -1056,6 +1068,7 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
                                               int selectedIndex,
                                               int x, int y, int w, int h) {
@@ -1098,6 +1111,7 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         }
     }
 
+    @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
                                                int selectedIndex,
                                                int x, int y, int w, int h) {
@@ -1130,7 +1144,8 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         }
     }
 
-    protected int calculateMaxTabHeight( int tabPlacement ) {
+    @Override
+    protected int calculateMaxTabHeight(int tabPlacement ) {
         FontMetrics metrics = getFontMetrics();
         int height = metrics.getHeight();
         boolean tallerIcons = false;
@@ -1149,7 +1164,8 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
 
-    protected int getTabRunOverlay( int tabPlacement ) {
+    @Override
+    protected int getTabRunOverlay(int tabPlacement ) {
         // Tab runs laid out vertically should overlap
         // at least as much as the largest slant
         if ( tabPlacement == LEFT || tabPlacement == RIGHT ) {
@@ -1165,7 +1181,8 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     // Don't pad last run
-    protected boolean shouldPadTabRun( int tabPlacement, int run ) {
+    @Override
+    protected boolean shouldPadTabRun(int tabPlacement, int run ) {
         return runCount > 1 && run < runCount - 1;
     }
 
@@ -1205,8 +1222,9 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
             MetalTabbedPaneUI.this.super();
         }
 
-        protected void normalizeTabRuns( int tabPlacement, int tabCount,
-                                     int start, int max ) {
+        @Override
+        protected void normalizeTabRuns(int tabPlacement, int tabCount,
+                                        int start, int max ) {
             // Only normalize the runs for top & bottom;  normalizing
             // doesn't look right for Metal's vertical tabs
             // because the last run isn't padded and it looks odd to have
@@ -1218,11 +1236,13 @@ public class MetalTabbedPaneUI extends BasicTabbedPaneUI {
         }
 
         // Don't rotate runs!
-        protected void rotateTabRuns( int tabPlacement, int selectedRun ) {
+        @Override
+        protected void rotateTabRuns(int tabPlacement, int selectedRun ) {
         }
 
         // Don't pad selected tab
-        protected void padSelectedTab( int tabPlacement, int selectedIndex ) {
+        @Override
+        protected void padSelectedTab(int tabPlacement, int selectedIndex ) {
         }
     }
 

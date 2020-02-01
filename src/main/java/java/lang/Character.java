@@ -624,6 +624,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
          * object; since this method is {@code final}, this
          * guarantee holds for all subclasses.
          */
+        @Override
         public final boolean equals(Object obj) {
             return (this == obj);
         }
@@ -635,6 +636,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
          * {@code equals} and {@code hashCode} methods will
          * be consistent in all subclasses.
          */
+        @Override
         public final int hashCode() {
             return super.hashCode();
         }
@@ -642,6 +644,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
         /**
          * Returns the name of this subset.
          */
+        @Override
         public final String toString() {
             return name;
         }
@@ -686,8 +689,9 @@ class Character implements java.io.Serializable, Comparable<Character> {
          */
         private UnicodeBlock(String idName, String... aliases) {
             this(idName);
-            for (String alias : aliases)
+            for (String alias : aliases) {
                 map.put(alias, this);
+            }
         }
 
         /**
@@ -4492,15 +4496,18 @@ class Character implements java.io.Serializable, Comparable<Character> {
          *
          */
         public static UnicodeScript of(int codePoint) {
-            if (!isValidCodePoint(codePoint))
+            if (!isValidCodePoint(codePoint)) {
                 throw new IllegalArgumentException();
+            }
             int type = getType(codePoint);
             // leave SURROGATE and PRIVATE_USE for table lookup
-            if (type == UNASSIGNED)
+            if (type == UNASSIGNED) {
                 return UNKNOWN;
+            }
             int index = Arrays.binarySearch(scriptStarts, codePoint);
-            if (index < 0)
+            if (index < 0) {
                 index = -index - 2;
+            }
             return scripts[index];
         }
 
@@ -4529,8 +4536,9 @@ class Character implements java.io.Serializable, Comparable<Character> {
             scriptName = scriptName.toUpperCase(Locale.ENGLISH);
                                  //.replace(' ', '_'));
             UnicodeScript sc = aliases.get(scriptName);
-            if (sc != null)
+            if (sc != null) {
                 return sc;
+            }
             return valueOf(scriptName);
         }
     }
@@ -4562,8 +4570,9 @@ class Character implements java.io.Serializable, Comparable<Character> {
         static final Character cache[] = new Character[127 + 1];
 
         static {
-            for (int i = 0; i < cache.length; i++)
+            for (int i = 0; i < cache.length; i++) {
                 cache[i] = new Character((char)i);
+            }
         }
     }
 
@@ -4634,6 +4643,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
      * @return  {@code true} if the objects are the same;
      *          {@code false} otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Character) {
             return value == ((Character)obj).charValue();
@@ -4650,6 +4660,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
      *
      * @return  a string representation of this object.
      */
+    @Override
     public String toString() {
         char buf[] = {value};
         return String.valueOf(buf);
@@ -7132,6 +7143,7 @@ class Character implements java.io.Serializable, Comparable<Character> {
      *          locale-dependent.
      * @since   1.2
      */
+    @Override
     public int compareTo(Character anotherCharacter) {
         return compare(this.value, anotherCharacter.value);
     }
@@ -7253,14 +7265,17 @@ class Character implements java.io.Serializable, Comparable<Character> {
             throw new IllegalArgumentException();
         }
         String name = CharacterName.get(codePoint);
-        if (name != null)
+        if (name != null) {
             return name;
-        if (getType(codePoint) == UNASSIGNED)
+        }
+        if (getType(codePoint) == UNASSIGNED) {
             return null;
+        }
         UnicodeBlock block = UnicodeBlock.of(codePoint);
-        if (block != null)
+        if (block != null) {
             return block.toString().replace('_', ' ') + " "
                    + Integer.toHexString(codePoint).toUpperCase(Locale.ENGLISH);
+        }
         // should never come here
         return Integer.toHexString(codePoint).toUpperCase(Locale.ENGLISH);
     }

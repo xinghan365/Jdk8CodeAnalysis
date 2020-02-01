@@ -56,6 +56,7 @@ class SmartGridLayout implements LayoutManager, Serializable {
   }
 
 
+  @Override
   public void layoutContainer(Container c) {
 
     buildLayoutGrid(c);
@@ -109,6 +110,7 @@ class SmartGridLayout implements LayoutManager, Serializable {
 
   }
 
+  @Override
   public Dimension minimumLayoutSize(Container c) {
 
     buildLayoutGrid(c);
@@ -135,13 +137,16 @@ class SmartGridLayout implements LayoutManager, Serializable {
 
   }
 
+  @Override
   public Dimension preferredLayoutSize(Container c) {
       return minimumLayoutSize(c);
   }
 
 
+  @Override
   public void addLayoutComponent(String s, Component c) {}
 
+  @Override
   public void removeLayoutComponent(Component c) {}
 
 

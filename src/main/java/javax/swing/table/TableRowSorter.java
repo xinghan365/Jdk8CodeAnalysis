@@ -213,6 +213,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public Comparator<?> getComparator(int column) {
         Comparator comparator = super.getComparator(column);
         if (comparator != null) {
@@ -233,6 +234,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     protected boolean useToString(int column) {
         Comparator comparator = super.getComparator(column);
         if (comparator != null) {
@@ -253,22 +255,27 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
      * TableModel.
      */
     private class TableRowSorterModelWrapper extends ModelWrapper<M,Integer> {
+        @Override
         public M getModel() {
             return tableModel;
         }
 
+        @Override
         public int getColumnCount() {
             return (tableModel == null) ? 0 : tableModel.getColumnCount();
         }
 
+        @Override
         public int getRowCount() {
             return (tableModel == null) ? 0 : tableModel.getRowCount();
         }
 
+        @Override
         public Object getValueAt(int row, int column) {
             return tableModel.getValueAt(row, column);
         }
 
+        @Override
         public String getStringValueAt(int row, int column) {
             TableStringConverter converter = getStringConverter();
             if (converter != null) {
@@ -293,6 +300,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
             return string;
         }
 
+        @Override
         public Integer getIdentifier(int index) {
             return index;
         }
@@ -300,6 +308,7 @@ public class TableRowSorter<M extends TableModel> extends DefaultRowSorter<M, In
 
 
     private static class ComparableComparator implements Comparator {
+        @Override
         @SuppressWarnings("unchecked")
         public int compare(Object o1, Object o2) {
             return ((Comparable)o1).compareTo(o2);

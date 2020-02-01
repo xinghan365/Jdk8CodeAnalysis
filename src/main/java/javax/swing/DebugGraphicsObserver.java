@@ -44,6 +44,7 @@ class DebugGraphicsObserver implements ImageObserver {
                 (lastInfo & ImageObserver.ABORT) != 0);
     }
 
+    @Override
     public synchronized boolean imageUpdate(Image img, int infoflags,
                                             int x, int y,
                                             int width, int height) {

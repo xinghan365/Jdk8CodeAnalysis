@@ -231,6 +231,7 @@ public class TransformerException extends Exception {
         } else {
             return (String) AccessController.doPrivileged(
                 new PrivilegedAction<String>() {
+                    @Override
                     public String run() {
                         return getLocationString();
                     }

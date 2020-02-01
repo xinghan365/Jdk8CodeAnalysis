@@ -131,6 +131,7 @@ public class BandCombineOp implements  RasterOp {
      * @throws IllegalArgumentException If the number of bands in the
      * source or destination is incompatible with the matrix.
      */
+    @Override
     public WritableRaster filter(Raster src, WritableRaster dst) {
         int nBands = src.getNumBands();
         if (ncols != nBands && ncols != (nBands+1)) {
@@ -219,6 +220,7 @@ public class BandCombineOp implements  RasterOp {
      * @throws IllegalArgumentException If the number of bands in the source
      * is incompatible with the matrix.
      */
+    @Override
     public final Rectangle2D getBounds2D (Raster src) {
         return src.getBounds();
     }
@@ -235,6 +237,7 @@ public class BandCombineOp implements  RasterOp {
      *
      * @return The zeroed destination <CODE>Raster</CODE>.
      */
+    @Override
     public WritableRaster createCompatibleDestRaster (Raster src) {
         int nBands = src.getNumBands();
         if ((ncols != nBands) && (ncols != (nBands+1))) {
@@ -268,6 +271,7 @@ public class BandCombineOp implements  RasterOp {
      * @return The <CODE>Point2D</CODE> in the destination image that
      * corresponds to the specified point in the source image.
      */
+    @Override
     public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
             dstPt = new Point2D.Float();
@@ -283,6 +287,7 @@ public class BandCombineOp implements  RasterOp {
      * @return The <CODE>RenderingHints</CODE> object associated with this
      * operation.  Returns null if no hints have been set.
      */
+    @Override
     public final RenderingHints getRenderingHints() {
         return hints;
     }

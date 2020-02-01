@@ -104,6 +104,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.create</code> to return a DebugGraphics object.
      */
+    @Override
     public Graphics create() {
         DebugGraphics debugGraphics;
 
@@ -118,6 +119,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.create</code> to return a DebugGraphics object.
      */
+    @Override
     public Graphics create(int x, int y, int width, int height) {
         DebugGraphics debugGraphics;
 
@@ -195,6 +197,7 @@ public class DebugGraphics extends Graphics {
 
     /** Sets the Font used for text drawing operations.
       */
+    @Override
     public void setFont(Font aFont) {
         if (debugLog()) {
             info().log(toShortString() + " Setting font: " + aFont);
@@ -205,12 +208,14 @@ public class DebugGraphics extends Graphics {
     /** Returns the Font used for text drawing operations.
       * @see #setFont
       */
+    @Override
     public Font getFont() {
         return graphics.getFont();
     }
 
     /** Sets the color to be used for drawing and filling lines and shapes.
       */
+    @Override
     public void setColor(Color aColor) {
         if (debugLog()) {
             info().log(toShortString() + " Setting color: " + aColor);
@@ -221,6 +226,7 @@ public class DebugGraphics extends Graphics {
     /** Returns the Color used for text drawing operations.
       * @see #setColor
       */
+    @Override
     public Color getColor() {
         return graphics.getColor();
     }
@@ -233,6 +239,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.getFontMetrics</code>.
      */
+    @Override
     public FontMetrics getFontMetrics() {
         return graphics.getFontMetrics();
     }
@@ -240,6 +247,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.getFontMetrics</code>.
      */
+    @Override
     public FontMetrics getFontMetrics(Font f) {
         return graphics.getFontMetrics(f);
     }
@@ -247,6 +255,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.translate</code>.
      */
+    @Override
     public void translate(int x, int y) {
         if (debugLog()) {
             info().log(toShortString() +
@@ -260,6 +269,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.setPaintMode</code>.
      */
+    @Override
     public void setPaintMode() {
         if (debugLog()) {
             info().log(toShortString() + " Setting paint mode");
@@ -270,6 +280,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.setXORMode</code>.
      */
+    @Override
     public void setXORMode(Color aColor) {
         if (debugLog()) {
             info().log(toShortString() + " Setting XOR mode: " + aColor);
@@ -280,6 +291,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.getClipBounds</code>.
      */
+    @Override
     public Rectangle getClipBounds() {
         return graphics.getClipBounds();
     }
@@ -287,6 +299,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.clipRect</code>.
      */
+    @Override
     public void clipRect(int x, int y, int width, int height) {
         graphics.clipRect(x, y, width, height);
         if (debugLog()) {
@@ -299,6 +312,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.setClip</code>.
      */
+    @Override
     public void setClip(int x, int y, int width, int height) {
         graphics.setClip(x, y, width, height);
         if (debugLog()) {
@@ -310,6 +324,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.getClip</code>.
      */
+    @Override
     public Shape getClip() {
         return graphics.getClip();
     }
@@ -317,6 +332,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.setClip</code>.
      */
+    @Override
     public void setClip(Shape clip) {
         graphics.setClip(clip);
         if (debugLog()) {
@@ -328,6 +344,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawRect</code>.
      */
+    @Override
     public void drawRect(int x, int y, int width, int height) {
         DebugGraphicsInfo info = info();
 
@@ -362,6 +379,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.fillRect</code>.
      */
+    @Override
     public void fillRect(int x, int y, int width, int height) {
         DebugGraphicsInfo info = info();
 
@@ -396,6 +414,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.clearRect</code>.
      */
+    @Override
     public void clearRect(int x, int y, int width, int height) {
         DebugGraphicsInfo info = info();
 
@@ -430,6 +449,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawRoundRect</code>.
      */
+    @Override
     public void drawRoundRect(int x, int y, int width, int height,
                               int arcWidth, int arcHeight) {
         DebugGraphicsInfo info = info();
@@ -468,6 +488,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.fillRoundRect</code>.
      */
+    @Override
     public void fillRoundRect(int x, int y, int width, int height,
                               int arcWidth, int arcHeight) {
         DebugGraphicsInfo info = info();
@@ -506,6 +527,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawLine</code>.
      */
+    @Override
     public void drawLine(int x1, int y1, int x2, int y2) {
         DebugGraphicsInfo info = info();
 
@@ -540,6 +562,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.draw3DRect</code>.
      */
+    @Override
     public void draw3DRect(int x, int y, int width, int height,
                            boolean raised) {
         DebugGraphicsInfo info = info();
@@ -575,6 +598,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.fill3DRect</code>.
      */
+    @Override
     public void fill3DRect(int x, int y, int width, int height,
                            boolean raised) {
         DebugGraphicsInfo info = info();
@@ -610,6 +634,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawOval</code>.
      */
+    @Override
     public void drawOval(int x, int y, int width, int height) {
         DebugGraphicsInfo info = info();
 
@@ -643,6 +668,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.fillOval</code>.
      */
+    @Override
     public void fillOval(int x, int y, int width, int height) {
         DebugGraphicsInfo info = info();
 
@@ -676,6 +702,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawArc</code>.
      */
+    @Override
     public void drawArc(int x, int y, int width, int height,
                         int startAngle, int arcAngle) {
         DebugGraphicsInfo info = info();
@@ -713,6 +740,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.fillArc</code>.
      */
+    @Override
     public void fillArc(int x, int y, int width, int height,
                         int startAngle, int arcAngle) {
         DebugGraphicsInfo info = info();
@@ -750,6 +778,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawPolyline</code>.
      */
+    @Override
     public void drawPolyline(int xPoints[], int yPoints[], int nPoints) {
         DebugGraphicsInfo info = info();
 
@@ -785,6 +814,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawPolygon</code>.
      */
+    @Override
     public void drawPolygon(int xPoints[], int yPoints[], int nPoints) {
         DebugGraphicsInfo info = info();
 
@@ -820,6 +850,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.fillPolygon</code>.
      */
+    @Override
     public void fillPolygon(int xPoints[], int yPoints[], int nPoints) {
         DebugGraphicsInfo info = info();
 
@@ -855,6 +886,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawString</code>.
      */
+    @Override
     public void drawString(String aString, int x, int y) {
         DebugGraphicsInfo info = info();
 
@@ -890,6 +922,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawString</code>.
      */
+    @Override
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
         DebugGraphicsInfo info = info();
 
@@ -925,6 +958,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawBytes</code>.
      */
+    @Override
     public void drawBytes(byte data[], int offset, int length, int x, int y) {
         DebugGraphicsInfo info = info();
 
@@ -961,6 +995,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawChars</code>.
      */
+    @Override
     public void drawChars(char data[], int offset, int length, int x, int y) {
         DebugGraphicsInfo info = info();
 
@@ -997,6 +1032,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawImage</code>.
      */
+    @Override
     public boolean drawImage(Image img, int x, int y,
                              ImageObserver observer) {
         DebugGraphicsInfo info = info();
@@ -1041,6 +1077,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawImage</code>.
      */
+    @Override
     public boolean drawImage(Image img, int x, int y, int width, int height,
                              ImageObserver observer) {
         DebugGraphicsInfo info = info();
@@ -1085,6 +1122,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawImage</code>.
      */
+    @Override
     public boolean drawImage(Image img, int x, int y,
                              Color bgcolor,
                              ImageObserver observer) {
@@ -1131,7 +1169,8 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawImage</code>.
      */
-    public boolean drawImage(Image img, int x, int y,int width, int height,
+    @Override
+    public boolean drawImage(Image img, int x, int y, int width, int height,
                              Color bgcolor,
                              ImageObserver observer) {
         DebugGraphicsInfo info = info();
@@ -1178,6 +1217,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawImage</code>.
      */
+    @Override
     public boolean drawImage(Image img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
@@ -1228,6 +1268,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.drawImage</code>.
      */
+    @Override
     public boolean drawImage(Image img,
                              int dx1, int dy1, int dx2, int dy2,
                              int sx1, int sy1, int sx2, int sy2,
@@ -1285,6 +1326,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.copyArea</code>.
      */
+    @Override
     public void copyArea(int x, int y, int width, int height,
                          int destX, int destY) {
         if (debugLog()) {
@@ -1306,6 +1348,7 @@ public class DebugGraphics extends Graphics {
     /**
      * Overrides <code>Graphics.dispose</code>.
      */
+    @Override
     public void dispose() {
         graphics.dispose();
         graphics = null;

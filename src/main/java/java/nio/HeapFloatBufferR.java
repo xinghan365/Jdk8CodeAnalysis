@@ -94,6 +94,7 @@ class HeapFloatBufferR
 
     }
 
+    @Override
     public FloatBuffer slice() {
         return new HeapFloatBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapFloatBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public FloatBuffer duplicate() {
         return new HeapFloatBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapFloatBufferR
                                         offset);
     }
 
+    @Override
     public FloatBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapFloatBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public FloatBuffer put(float x) {
 
 
@@ -173,6 +178,7 @@ class HeapFloatBufferR
 
     }
 
+    @Override
     public FloatBuffer put(int i, float x) {
 
 
@@ -182,6 +188,7 @@ class HeapFloatBufferR
 
     }
 
+    @Override
     public FloatBuffer put(float[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapFloatBufferR
 
     }
 
+    @Override
     public FloatBuffer put(FloatBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapFloatBufferR
 
     }
 
+    @Override
     public FloatBuffer compact() {
 
 
@@ -592,6 +601,7 @@ class HeapFloatBufferR
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

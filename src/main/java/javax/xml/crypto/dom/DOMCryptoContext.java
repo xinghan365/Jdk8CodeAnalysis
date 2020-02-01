@@ -68,8 +68,9 @@ public class DOMCryptoContext implements XMLCryptoContext {
      *
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public String getNamespacePrefix(String namespaceURI,
-        String defaultPrefix) {
+                                     String defaultPrefix) {
         if (namespaceURI == null) {
             throw new NullPointerException("namespaceURI cannot be null");
         }
@@ -83,6 +84,7 @@ public class DOMCryptoContext implements XMLCryptoContext {
      *
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public String putNamespacePrefix(String namespaceURI, String prefix) {
         if (namespaceURI == null) {
             throw new NullPointerException("namespaceURI is null");
@@ -90,14 +92,17 @@ public class DOMCryptoContext implements XMLCryptoContext {
         return nsMap.put(namespaceURI, prefix);
     }
 
+    @Override
     public String getDefaultNamespacePrefix() {
         return defaultPrefix;
     }
 
+    @Override
     public void setDefaultNamespacePrefix(String defaultPrefix) {
         this.defaultPrefix = defaultPrefix;
     }
 
+    @Override
     public String getBaseURI() {
         return baseURI;
     }
@@ -105,6 +110,7 @@ public class DOMCryptoContext implements XMLCryptoContext {
     /**
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     public void setBaseURI(String baseURI) {
         if (baseURI != null) {
             java.net.URI.create(baseURI);
@@ -112,10 +118,12 @@ public class DOMCryptoContext implements XMLCryptoContext {
         this.baseURI = baseURI;
     }
 
+    @Override
     public URIDereferencer getURIDereferencer() {
         return dereferencer;
     }
 
+    @Override
     public void setURIDereferencer(URIDereferencer dereferencer) {
         this.dereferencer = dereferencer;
     }
@@ -126,6 +134,7 @@ public class DOMCryptoContext implements XMLCryptoContext {
      *
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public Object getProperty(String name) {
         if (name == null) {
             throw new NullPointerException("name is null");
@@ -139,6 +148,7 @@ public class DOMCryptoContext implements XMLCryptoContext {
      *
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public Object setProperty(String name, Object value) {
         if (name == null) {
             throw new NullPointerException("name is null");
@@ -146,10 +156,12 @@ public class DOMCryptoContext implements XMLCryptoContext {
         return propMap.put(name, value);
     }
 
+    @Override
     public KeySelector getKeySelector() {
         return ks;
     }
 
+    @Override
     public void setKeySelector(KeySelector ks) {
         this.ks = ks;
     }
@@ -228,6 +240,7 @@ public class DOMCryptoContext implements XMLCryptoContext {
      * This implementation uses an internal {@link HashMap} to get the object
      * that the specified key maps to.
      */
+    @Override
     public Object get(Object key) {
         return objMap.get(key);
     }
@@ -238,6 +251,7 @@ public class DOMCryptoContext implements XMLCryptoContext {
      *
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     public Object put(Object key, Object value) {
         return objMap.put(key, value);
     }

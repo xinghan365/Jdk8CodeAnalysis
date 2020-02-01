@@ -80,6 +80,7 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
     // ********************************
     //        Install Defaults
     // ********************************
+    @Override
     public void installDefaults(AbstractButton b) {
         super.installDefaults(b);
         if(!defaults_initialized) {
@@ -91,6 +92,7 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
         LookAndFeel.installProperty(b, "opaque", Boolean.TRUE);
     }
 
+    @Override
     protected void uninstallDefaults(AbstractButton b) {
         super.uninstallDefaults(b);
         defaults_initialized = false;
@@ -115,6 +117,7 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
     // ********************************
     //        Paint Methods
     // ********************************
+    @Override
     public synchronized void paint(Graphics g, JComponent c) {
 
         AbstractButton b = (AbstractButton) c;
@@ -219,6 +222,7 @@ public class MetalRadioButtonUI extends BasicRadioButtonUI {
         }
     }
 
+    @Override
     protected void paintFocus(Graphics g, Rectangle t, Dimension d){
         g.setColor(getFocusColor());
         g.drawRect(t.x-1, t.y-1, t.width+1, t.height+1);

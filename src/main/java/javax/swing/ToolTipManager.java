@@ -237,8 +237,9 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
     }
 
     void showTipWindow() {
-        if(insideComponent == null || !insideComponent.isShowing())
+        if(insideComponent == null || !insideComponent.isShowing()) {
             return;
+        }
         String mode = UIManager.getString("ToolTipManager.enableToolTipMode");
         if ("activeApplication".equals(mode)) {
             KeyboardFocusManager kfm =
@@ -431,6 +432,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
      *
      *  @param event  the event in question
      */
+    @Override
     public void mouseEntered(MouseEvent event) {
         initiateToolTip(event);
     }
@@ -494,6 +496,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
      *
      *  @param event  the event in question
      */
+    @Override
     public void mouseExited(MouseEvent event) {
         boolean shouldHide = true;
         if (insideComponent == null) {
@@ -565,6 +568,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
      *
      *  @param event  the event in question
      */
+    @Override
     public void mousePressed(MouseEvent event) {
         hideTipWindow();
         enterTimer.stop();
@@ -580,6 +584,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
      *
      *  @param event  the event in question
      */
+    @Override
     public void mouseDragged(MouseEvent event) {
     }
 
@@ -590,6 +595,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
      *
      *  @param event  the event in question
      */
+    @Override
     public void mouseMoved(MouseEvent event) {
         if (tipShowing) {
             checkForTipChange(event);
@@ -656,6 +662,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
     }
 
     protected class insideTimerAction implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             if(insideComponent != null && insideComponent.isShowing()) {
                 // Lazy lookup
@@ -680,12 +687,14 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
     }
 
     protected class outsideTimerAction implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             showImmediately = false;
         }
     }
 
     protected class stillInsideTimerAction implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             hideTipWindow();
             enterTimer.stop();
@@ -704,6 +713,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
    * solely on mouse-entered to initiate the tooltip.
    */
     private class MoveBeforeEnterListener extends MouseMotionAdapter {
+        @Override
         public void mouseMoved(MouseEvent e) {
             initiateToolTip(e);
         }
@@ -718,6 +728,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
 
   private FocusListener createFocusChangeListener(){
     return new FocusAdapter(){
+      @Override
       public void focusLost(FocusEvent evt){
         hideTipWindow();
         insideComponent = null;
@@ -778,10 +789,11 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
   }
 
   private int getHeightAdjust(Rectangle a, Rectangle b){
-    if (b.y >= a.y && (b.y + b.height) <= (a.y + a.height))
-      return 0;
-    else
-      return (((b.y + b.height) - (a.y + a.height)) + 5);
+    if (b.y >= a.y && (b.y + b.height) <= (a.y + a.height)) {
+        return 0;
+    } else {
+        return (((b.y + b.height) - (a.y + a.height)) + 5);
+    }
   }
 
   // Return the number of pixels over the edge we are extending.
@@ -842,6 +854,7 @@ public class ToolTipManager extends MouseAdapter implements MouseMotionListener 
      * Unpost Tip: Esc and Ctrl+F1
      */
     private class AccessibilityKeyListener extends KeyAdapter {
+        @Override
         public void keyPressed(KeyEvent e) {
             if (!e.isConsumed()) {
                 JComponent source = (JComponent) e.getComponent();

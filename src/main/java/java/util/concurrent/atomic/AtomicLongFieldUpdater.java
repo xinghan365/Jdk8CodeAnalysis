@@ -85,10 +85,11 @@ public abstract class AtomicLongFieldUpdater<T> {
     public static <U> AtomicLongFieldUpdater<U> newUpdater(Class<U> tclass,
                                                            String fieldName) {
         Class<?> caller = Reflection.getCallerClass();
-        if (AtomicLong.VM_SUPPORTS_LONG_CAS)
+        if (AtomicLong.VM_SUPPORTS_LONG_CAS) {
             return new CASUpdater<U>(tclass, fieldName, caller);
-        else
+        } else {
             return new LockedUpdater<U>(tclass, fieldName, caller);
+        }
     }
 
     /**
@@ -384,6 +385,7 @@ public abstract class AtomicLongFieldUpdater<T> {
             try {
                 field = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Field>() {
+                        @Override
                         public Field run() throws NoSuchFieldException {
                             return tclass.getDeclaredField(fieldName);
                         }
@@ -403,11 +405,13 @@ public abstract class AtomicLongFieldUpdater<T> {
                 throw new RuntimeException(ex);
             }
 
-            if (field.getType() != long.class)
+            if (field.getType() != long.class) {
                 throw new IllegalArgumentException("Must be long type");
+            }
 
-            if (!Modifier.isVolatile(modifiers))
+            if (!Modifier.isVolatile(modifiers)) {
                 throw new IllegalArgumentException("Must be volatile type");
+            }
 
             // Access to protected field members is restricted to receivers only
             // of the accessing class, or one of its subclasses, and the
@@ -429,8 +433,9 @@ public abstract class AtomicLongFieldUpdater<T> {
          * failure, throws cause.
          */
         private final void accessCheck(T obj) {
-            if (!cclass.isInstance(obj))
+            if (!cclass.isInstance(obj)) {
                 throwAccessCheckException(obj);
+            }
         }
 
         /**
@@ -438,9 +443,9 @@ public abstract class AtomicLongFieldUpdater<T> {
          * protected access, else ClassCastException.
          */
         private final void throwAccessCheckException(T obj) {
-            if (cclass == tclass)
+            if (cclass == tclass) {
                 throw new ClassCastException();
-            else
+            } else {
                 throw new RuntimeException(
                     new IllegalAccessException(
                         "Class " +
@@ -449,59 +454,72 @@ public abstract class AtomicLongFieldUpdater<T> {
                         tclass.getName() +
                         " using an instance of " +
                         obj.getClass().getName()));
+            }
         }
 
+        @Override
         public final boolean compareAndSet(T obj, long expect, long update) {
             accessCheck(obj);
             return U.compareAndSwapLong(obj, offset, expect, update);
         }
 
+        @Override
         public final boolean weakCompareAndSet(T obj, long expect, long update) {
             accessCheck(obj);
             return U.compareAndSwapLong(obj, offset, expect, update);
         }
 
+        @Override
         public final void set(T obj, long newValue) {
             accessCheck(obj);
             U.putLongVolatile(obj, offset, newValue);
         }
 
+        @Override
         public final void lazySet(T obj, long newValue) {
             accessCheck(obj);
             U.putOrderedLong(obj, offset, newValue);
         }
 
+        @Override
         public final long get(T obj) {
             accessCheck(obj);
             return U.getLongVolatile(obj, offset);
         }
 
+        @Override
         public final long getAndSet(T obj, long newValue) {
             accessCheck(obj);
             return U.getAndSetLong(obj, offset, newValue);
         }
 
+        @Override
         public final long getAndAdd(T obj, long delta) {
             accessCheck(obj);
             return U.getAndAddLong(obj, offset, delta);
         }
 
+        @Override
         public final long getAndIncrement(T obj) {
             return getAndAdd(obj, 1);
         }
 
+        @Override
         public final long getAndDecrement(T obj) {
             return getAndAdd(obj, -1);
         }
 
+        @Override
         public final long incrementAndGet(T obj) {
             return getAndAdd(obj, 1) + 1;
         }
 
+        @Override
         public final long decrementAndGet(T obj) {
             return getAndAdd(obj, -1) - 1;
         }
 
+        @Override
         public final long addAndGet(T obj, long delta) {
             return getAndAdd(obj, delta) + delta;
         }
@@ -525,6 +543,7 @@ public abstract class AtomicLongFieldUpdater<T> {
             try {
                 field = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Field>() {
+                        @Override
                         public Field run() throws NoSuchFieldException {
                             return tclass.getDeclaredField(fieldName);
                         }
@@ -544,11 +563,13 @@ public abstract class AtomicLongFieldUpdater<T> {
                 throw new RuntimeException(ex);
             }
 
-            if (field.getType() != long.class)
+            if (field.getType() != long.class) {
                 throw new IllegalArgumentException("Must be long type");
+            }
 
-            if (!Modifier.isVolatile(modifiers))
+            if (!Modifier.isVolatile(modifiers)) {
                 throw new IllegalArgumentException("Must be volatile type");
+            }
 
             // Access to protected field members is restricted to receivers only
             // of the accessing class, or one of its subclasses, and the
@@ -570,8 +591,9 @@ public abstract class AtomicLongFieldUpdater<T> {
          * failure, throws cause.
          */
         private final void accessCheck(T obj) {
-            if (!cclass.isInstance(obj))
+            if (!cclass.isInstance(obj)) {
                 throw accessCheckException(obj);
+            }
         }
 
         /**
@@ -579,9 +601,9 @@ public abstract class AtomicLongFieldUpdater<T> {
          * protected access, else ClassCastException.
          */
         private final RuntimeException accessCheckException(T obj) {
-            if (cclass == tclass)
+            if (cclass == tclass) {
                 return new ClassCastException();
-            else
+            } else {
                 return new RuntimeException(
                     new IllegalAccessException(
                         "Class " +
@@ -590,23 +612,28 @@ public abstract class AtomicLongFieldUpdater<T> {
                         tclass.getName() +
                         " using an instance of " +
                         obj.getClass().getName()));
+            }
         }
 
+        @Override
         public final boolean compareAndSet(T obj, long expect, long update) {
             accessCheck(obj);
             synchronized (this) {
                 long v = U.getLong(obj, offset);
-                if (v != expect)
+                if (v != expect) {
                     return false;
+                }
                 U.putLong(obj, offset, update);
                 return true;
             }
         }
 
+        @Override
         public final boolean weakCompareAndSet(T obj, long expect, long update) {
             return compareAndSet(obj, expect, update);
         }
 
+        @Override
         public final void set(T obj, long newValue) {
             accessCheck(obj);
             synchronized (this) {
@@ -614,10 +641,12 @@ public abstract class AtomicLongFieldUpdater<T> {
             }
         }
 
+        @Override
         public final void lazySet(T obj, long newValue) {
             set(obj, newValue);
         }
 
+        @Override
         public final long get(T obj) {
             accessCheck(obj);
             synchronized (this) {

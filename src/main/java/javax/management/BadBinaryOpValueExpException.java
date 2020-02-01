@@ -68,6 +68,7 @@ public class BadBinaryOpValueExpException extends Exception   {
     /**
      * Returns the string representing the object.
      */
+    @Override
     public String toString()  {
         return "BadBinaryOpValueExpException: " + exp;
     }

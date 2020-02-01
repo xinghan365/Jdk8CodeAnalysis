@@ -50,11 +50,13 @@ public class BasicViewportUI extends ViewportUI {
         return viewportUI;
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         installDefaults(c);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults(c);
         super.uninstallUI(c);

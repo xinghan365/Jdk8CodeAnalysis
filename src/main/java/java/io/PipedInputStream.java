@@ -200,8 +200,9 @@ public class PipedInputStream extends InputStream {
     protected synchronized void receive(int b) throws IOException {
         checkStateForReceive();
         writeSide = Thread.currentThread();
-        if (in == out)
+        if (in == out) {
             awaitSpace();
+        }
         if (in < 0) {
             in = 0;
             out = 0;
@@ -227,8 +228,9 @@ public class PipedInputStream extends InputStream {
         writeSide = Thread.currentThread();
         int bytesToTransfer = len;
         while (bytesToTransfer > 0) {
-            if (in == out)
+            if (in == out) {
                 awaitSpace();
+            }
             int nextTransferAmount = 0;
             if (out < in) {
                 nextTransferAmount = buffer.length - in;
@@ -240,8 +242,9 @@ public class PipedInputStream extends InputStream {
                     nextTransferAmount = out - in;
                 }
             }
-            if (nextTransferAmount > bytesToTransfer)
+            if (nextTransferAmount > bytesToTransfer) {
                 nextTransferAmount = bytesToTransfer;
+            }
             assert(nextTransferAmount > 0);
             System.arraycopy(b, off, buffer, in, nextTransferAmount);
             bytesToTransfer -= nextTransferAmount;
@@ -300,6 +303,7 @@ public class PipedInputStream extends InputStream {
      *           <a href="#BROKEN"> <code>broken</code></a>, closed,
      *           or if an I/O error occurs.
      */
+    @Override
     public synchronized int read()  throws IOException {
         if (!connected) {
             throw new IOException("Pipe not connected");
@@ -364,6 +368,7 @@ public class PipedInputStream extends InputStream {
      *           {@link #connect(java.io.PipedOutputStream) unconnected},
      *           closed, or if an I/O error occurs.
      */
+    @Override
     public synchronized int read(byte b[], int off, int len)  throws IOException {
         if (b == null) {
             throw new NullPointerException();
@@ -423,15 +428,17 @@ public class PipedInputStream extends InputStream {
      * @exception  IOException  if an I/O error occurs.
      * @since   JDK1.0.2
      */
+    @Override
     public synchronized int available() throws IOException {
-        if(in < 0)
+        if(in < 0) {
             return 0;
-        else if(in == out)
+        } else if(in == out) {
             return buffer.length;
-        else if (in > out)
+        } else if (in > out) {
             return in - out;
-        else
+        } else {
             return in + buffer.length - out;
+        }
     }
 
     /**
@@ -440,6 +447,7 @@ public class PipedInputStream extends InputStream {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void close()  throws IOException {
         closedByReader = true;
         synchronized (this) {

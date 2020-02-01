@@ -75,6 +75,7 @@ class SocketInputStream extends FileInputStream
      * @since 1.4
      * @spec JSR-51
      */
+    @Override
     public final FileChannel getChannel() {
         return null;
     }
@@ -123,6 +124,7 @@ class SocketInputStream extends FileInputStream
      *          returned when the end of the stream is reached.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public int read(byte b[]) throws IOException {
         return read(b, 0, b.length);
     }
@@ -137,6 +139,7 @@ class SocketInputStream extends FileInputStream
      *          returned when the end of the stream is reached.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public int read(byte b[], int off, int length) throws IOException {
         return read(b, off, length, impl.getTimeout());
     }
@@ -216,6 +219,7 @@ class SocketInputStream extends FileInputStream
     /**
      * Reads a single byte from the socket.
      */
+    @Override
     public int read() throws IOException {
         if (eof) {
             return -1;
@@ -234,6 +238,7 @@ class SocketInputStream extends FileInputStream
      * @return  the actual number of bytes skipped.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public long skip(long numbytes) throws IOException {
         if (numbytes <= 0) {
             return 0;
@@ -255,6 +260,7 @@ class SocketInputStream extends FileInputStream
      * Returns the number of bytes that can be read without blocking.
      * @return the number of immediately available bytes
      */
+    @Override
     public int available() throws IOException {
         return impl.available();
     }
@@ -263,16 +269,20 @@ class SocketInputStream extends FileInputStream
      * Closes the stream.
      */
     private boolean closing = false;
+    @Override
     public void close() throws IOException {
         // Prevent recursion. See BugId 4484411
-        if (closing)
+        if (closing) {
             return;
+        }
         closing = true;
         if (socket != null) {
-            if (!socket.isClosed())
+            if (!socket.isClosed()) {
                 socket.close();
-        } else
+            }
+        } else {
             impl.close();
+        }
         closing = false;
     }
 
@@ -283,6 +293,7 @@ class SocketInputStream extends FileInputStream
     /**
      * Overrides finalize, the fd is closed by the Socket.
      */
+    @Override
     protected void finalize() {}
 
     /**

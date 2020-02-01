@@ -775,7 +775,9 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *  description: The vertical alignment of the icon and text.
      */
     public void setVerticalAlignment(int alignment) {
-        if (alignment == verticalAlignment) return;
+        if (alignment == verticalAlignment) {
+            return;
+        }
         int oldValue = verticalAlignment;
         verticalAlignment = checkVerticalKey(alignment, "verticalAlignment");
         firePropertyChange(VERTICAL_ALIGNMENT_CHANGED_PROPERTY, oldValue, verticalAlignment);         repaint();
@@ -826,7 +828,9 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *  description: The horizontal alignment of the icon and text.
      */
     public void setHorizontalAlignment(int alignment) {
-        if (alignment == horizontalAlignment) return;
+        if (alignment == horizontalAlignment) {
+            return;
+        }
         int oldValue = horizontalAlignment;
         horizontalAlignment = checkHorizontalKey(alignment,
                                                  "horizontalAlignment");
@@ -867,7 +871,9 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *  description: The vertical position of the text relative to the icon.
      */
     public void setVerticalTextPosition(int textPosition) {
-        if (textPosition == verticalTextPosition) return;
+        if (textPosition == verticalTextPosition) {
+            return;
+        }
         int oldValue = verticalTextPosition;
         verticalTextPosition = checkVerticalKey(textPosition, "verticalTextPosition");
         firePropertyChange(VERTICAL_TEXT_POSITION_CHANGED_PROPERTY, oldValue, verticalTextPosition);
@@ -914,7 +920,9 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *  description: The horizontal position of the text relative to the icon.
      */
     public void setHorizontalTextPosition(int textPosition) {
-        if (textPosition == horizontalTextPosition) return;
+        if (textPosition == horizontalTextPosition) {
+            return;
+        }
         int oldValue = horizontalTextPosition;
         horizontalTextPosition = checkHorizontalKey(textPosition,
                                                     "horizontalTextPosition");
@@ -1029,6 +1037,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *
      * @since 1.6
      */
+    @Override
     public void removeNotify() {
         super.removeNotify();
         if(isRolloverEnabled()) {
@@ -1172,6 +1181,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         setDisplayedMnemonicIndexFromAction(a, false);
     }
 
+    @Override
     void clientPropertyChanged(Object key, Object oldValue,
                                Object newValue) {
         if (key == "hideActionText") {
@@ -1355,6 +1365,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         ButtonActionPropertyChangeListener(AbstractButton b, Action a) {
             super(b, a);
         }
+        @Override
         protected void actionPropertyChanged(AbstractButton button,
                                              Action action,
                                              PropertyChangeEvent e) {
@@ -1413,6 +1424,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * @see #paint
      * @see #setBorder
      */
+    @Override
     protected void paintBorder(Graphics g) {
         if (isBorderPainted()) {
             super.paintBorder(g);
@@ -1592,8 +1604,9 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      */
     public void setMnemonic(char mnemonic) {
         int vk = (int) mnemonic;
-        if(vk >= 'a' && vk <='z')
+        if(vk >= 'a' && vk <='z') {
             vk -= ('a' - 'A');
+        }
         setMnemonic(vk);
     }
 
@@ -1828,6 +1841,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *          "ButtonUI", "javax.swing.plaf.basic.BasicButtonUI", this));
      * </pre>
      */
+    @Override
     public void updateUI() {
     }
 
@@ -1849,6 +1863,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * @exception IllegalArgumentException if adding a window to a container
      * @since 1.5
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         if (!setLayout) {
             setLayout(new OverlayLayout(this));
@@ -1864,6 +1879,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * @param mgr the specified layout manager
      * @since 1.5
      */
+    @Override
     public void setLayout(LayoutManager mgr) {
         setLayout = true;
         super.setLayout(mgr);
@@ -1911,8 +1927,9 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
@@ -1984,6 +2001,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         ButtonChangeListener() {
         }
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
         }
@@ -2084,6 +2102,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * Enables (or disables) the button.
      * @param b  true to enable the button, otherwise false
      */
+    @Override
     public void setEnabled(boolean b) {
         if (!b && model.isRollover()) {
             model.setRollover(false);
@@ -2123,6 +2142,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * Adds an <code>ItemListener</code> to the <code>checkbox</code>.
      * @param l  the <code>ItemListener</code> to be added
      */
+    @Override
     public void addItemListener(ItemListener l) {
         listenerList.add(ItemListener.class, l);
     }
@@ -2131,6 +2151,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * Removes an <code>ItemListener</code> from the button.
      * @param l the <code>ItemListener</code> to be removed
      */
+    @Override
     public void removeItemListener(ItemListener l) {
         listenerList.remove(ItemListener.class, l);
     }
@@ -2154,6 +2175,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * @return an array containing 1 Object: the text of the button,
      *         if the item is selected; otherwise <code>null</code>
      */
+    @Override
     public Object[] getSelectedObjects() {
         if (isSelected() == false) {
             return null;
@@ -2195,6 +2217,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      * @see     java.awt.image.ImageObserver
      * @see     java.awt.Component#imageUpdate(java.awt.Image, int, int, int, int, int)
      */
+    @Override
     public boolean imageUpdate(Image img, int infoflags,
                                int x, int y, int w, int h) {
         Icon iconDisplayed = null;
@@ -2230,6 +2253,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         return super.imageUpdate(img, infoflags, x, y, w, h);
     }
 
+    @Override
     void setUIProperty(String propertyName, Object value) {
         if (propertyName == "borderPainted") {
             if (!borderPaintedSet) {
@@ -2269,6 +2293,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
      *
      * @return  a string representation of this <code>AbstractButton</code>
      */
+    @Override
     protected String paramString() {
         String defaultIconString = ((defaultIcon != null)
                                     && (defaultIcon != this) ?
@@ -2330,6 +2355,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         //
         // ChangeListener
         //
+        @Override
         public void stateChanged(ChangeEvent e) {
             Object source = e.getSource();
 
@@ -2344,6 +2370,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         //
         // ActionListener
         //
+        @Override
         public void actionPerformed(ActionEvent event) {
             fireActionPerformed(event);
         }
@@ -2351,6 +2378,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
         //
         // ItemListener
         //
+        @Override
         public void itemStateChanged(ItemEvent event) {
             fireItemStateChanged(event);
             if (shouldUpdateSelectedStateFromAction()) {
@@ -2397,6 +2425,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *              <code>null</code> if this
          *              object does not have a name
          */
+        @Override
         public String getAccessibleName() {
             String name = accessibleName;
 
@@ -2417,6 +2446,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * or more exist.  Otherwise return null.
          * @since 1.3
          */
+        @Override
         public AccessibleIcon [] getAccessibleIcon() {
             Icon defaultIcon = getIcon();
 
@@ -2437,6 +2467,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
         AccessibleStateSet states = super.getAccessibleStateSet();
             if (getModel().isArmed()) {
@@ -2460,6 +2491,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @see AccessibleRelation
          * @since 1.3
          */
+        @Override
         public AccessibleRelationSet getAccessibleRelationSet() {
 
             // Check where the AccessibleContext's relation
@@ -2501,6 +2533,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return this object
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -2513,6 +2546,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -2524,6 +2558,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return 1, the number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 1;
         }
@@ -2533,6 +2568,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @param i zero-based index of the actions
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             if (i == 0) {
                 return UIManager.getString("AbstractButton.clickText");
@@ -2547,6 +2583,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @param i zero-based index of actions
          * @return true if the the action was performed; else false.
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             if (i == 0) {
                 doClick();
@@ -2563,6 +2600,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * this is selected.
          * @see AbstractButton#isSelected
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             if (isSelected()) {
                 return Integer.valueOf(1);
@@ -2576,6 +2614,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // TIGER - 4422535
             if (n == null) {
@@ -2595,6 +2634,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return an Integer of 0.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(0);
         }
@@ -2604,6 +2644,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return An Integer of 1.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.valueOf(1);
         }
@@ -2611,6 +2652,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
 
         /* AccessibleText ---------- */
 
+        @Override
         public AccessibleText getAccessibleText() {
             View view = (View)AbstractButton.this.getClientProperty("html");
             if (view != null) {
@@ -2635,6 +2677,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * Point is invalid returns -1.
          * @since 1.3
          */
+        @Override
         public int getIndexAtPoint(Point p) {
             View view = (View) AbstractButton.this.getClientProperty("html");
             if (view != null) {
@@ -2667,6 +2710,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * if index is invalid returns an empty rectangle.
          * @since 1.3
          */
+        @Override
         public Rectangle getCharacterBounds(int i) {
             View view = (View) AbstractButton.this.getClientProperty("html");
             if (view != null) {
@@ -2694,6 +2738,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @return the number of characters
          * @since 1.3
          */
+        @Override
         public int getCharCount() {
             View view = (View) AbstractButton.this.getClientProperty("html");
             if (view != null) {
@@ -2714,6 +2759,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @return the zero-based offset of the caret.
          * @since 1.3
          */
+        @Override
         public int getCaretPosition() {
             // There is no caret.
             return -1;
@@ -2729,6 +2775,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *   null for an invalid index or part
          * @since 1.3
          */
+        @Override
         public String getAtIndex(int part, int index) {
             if (index < 0 || index >= getCharCount()) {
                 return null;
@@ -2776,6 +2823,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *  index or part
          * @since 1.3
          */
+        @Override
         public String getAfterIndex(int part, int index) {
             if (index < 0 || index >= getCharCount()) {
                 return null;
@@ -2840,6 +2888,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *  or part
          * @since 1.3
          */
+        @Override
         public String getBeforeIndex(int part, int index) {
             if (index < 0 || index > getCharCount()-1) {
                 return null;
@@ -2897,6 +2946,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @return the AttributeSet of the character
          * @since 1.3
          */
+        @Override
         public AttributeSet getCharacterAttribute(int i) {
             View view = (View) AbstractButton.this.getClientProperty("html");
             if (view != null) {
@@ -2920,6 +2970,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @return the index into the text of the start of the selection
          * @since 1.3
          */
+        @Override
         public int getSelectionStart() {
             // Text cannot be selected.
             return -1;
@@ -2933,6 +2984,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @return the index into the text of the end of the selection
          * @since 1.3
          */
+        @Override
         public int getSelectionEnd() {
             // Text cannot be selected.
             return -1;
@@ -2944,6 +2996,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @return the String portion of the text that is selected
          * @since 1.3
          */
+        @Override
         public String getSelectedText() {
             // Text cannot be selected.
             return null;
@@ -3014,6 +3067,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          *
          * @return the AccessibleExtendedComponent
          */
+        @Override
         AccessibleExtendedComponent getAccessibleExtendedComponent() {
             return this;
         }
@@ -3025,6 +3079,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * otherwise, null
          * @since 1.4
          */
+        @Override
         public String getToolTipText() {
             return AbstractButton.this.getToolTipText();
         }
@@ -3036,6 +3091,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * otherwise, null
          * @since 1.4
          */
+        @Override
         public String getTitledBorderText() {
             return super.getTitledBorderText();
         }
@@ -3048,6 +3104,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
          * @see AccessibleKeyBinding
          * @since 1.4
          */
+        @Override
         public AccessibleKeyBinding getAccessibleKeyBinding() {
             int mnemonic = AbstractButton.this.getMnemonic();
             if (mnemonic == 0) {
@@ -3068,6 +3125,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
              *
              * @return the zero-based number of key bindings for this object
              */
+            @Override
             public int getAccessibleKeyBindingCount() {
                 return 1;
             }
@@ -3097,6 +3155,7 @@ public abstract class AbstractButton extends JComponent implements ItemSelectabl
              * out of bounds
              * @see #getAccessibleKeyBindingCount
              */
+            @Override
             public java.lang.Object getAccessibleKeyBinding(int i) {
                 if (i != 0) {
                     throw new IllegalArgumentException();

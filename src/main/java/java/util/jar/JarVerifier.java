@@ -111,8 +111,9 @@ class JarVerifier {
     public void beginEntry(JarEntry je, ManifestEntryVerifier mev)
         throws IOException
     {
-        if (je == null)
+        if (je == null) {
             return;
+        }
 
         if (debug != null) {
             debug.println("beginEntry "+je.getName());
@@ -170,13 +171,15 @@ class JarVerifier {
 
         // be liberal in what you accept. If the name starts with ./, remove
         // it as we internally canonicalize it with out the ./.
-        if (name.startsWith("./"))
+        if (name.startsWith("./")) {
             name = name.substring(2);
+        }
 
         // be liberal in what you accept. If the name starts with /, remove
         // it as we internally canonicalize it with out the /.
-        if (name.startsWith("/"))
+        if (name.startsWith("/")) {
             name = name.substring(1);
+        }
 
         // only set the jev object for entries that have a signature
         // (either verified or not)
@@ -282,8 +285,9 @@ class JarVerifier {
 
                 String key = uname.substring(0, uname.lastIndexOf("."));
 
-                if (signerCache == null)
+                if (signerCache == null) {
                     signerCache = new ArrayList<>();
+                }
 
                 if (manDig == null) {
                     synchronized(manifestRawBytes) {
@@ -319,16 +323,24 @@ class JarVerifier {
 
             } catch (IOException ioe) {
                 // e.g. sun.security.pkcs.ParsingException
-                if (debug != null) debug.println("processEntry caught: "+ioe);
+                if (debug != null) {
+                    debug.println("processEntry caught: "+ioe);
+                }
                 // ignore and treat as unsigned
             } catch (SignatureException se) {
-                if (debug != null) debug.println("processEntry caught: "+se);
+                if (debug != null) {
+                    debug.println("processEntry caught: "+se);
+                }
                 // ignore and treat as unsigned
             } catch (NoSuchAlgorithmException nsae) {
-                if (debug != null) debug.println("processEntry caught: "+nsae);
+                if (debug != null) {
+                    debug.println("processEntry caught: "+nsae);
+                }
                 // ignore and treat as unsigned
             } catch (CertificateException ce) {
-                if (debug != null) debug.println("processEntry caught: "+ce);
+                if (debug != null) {
+                    debug.println("processEntry caught: "+ce);
+                }
                 // ignore and treat as unsigned
             }
         }
@@ -453,24 +465,28 @@ class JarVerifier {
             this.mev = new ManifestEntryVerifier(man);
             this.jv.beginEntry(je, mev);
             this.numLeft = je.getSize();
-            if (this.numLeft == 0)
+            if (this.numLeft == 0) {
                 this.jv.update(-1, this.mev);
+            }
         }
 
+        @Override
         public int read() throws IOException
         {
             if (numLeft > 0) {
                 int b = is.read();
                 jv.update(b, mev);
                 numLeft--;
-                if (numLeft == 0)
+                if (numLeft == 0) {
                     jv.update(-1, mev);
+                }
                 return b;
             } else {
                 return -1;
             }
         }
 
+        @Override
         public int read(byte b[], int off, int len) throws IOException {
             if ((numLeft > 0) && (numLeft < len)) {
                 len = (int)numLeft;
@@ -480,24 +496,28 @@ class JarVerifier {
                 int n = is.read(b, off, len);
                 jv.update(n, b, off, len, mev);
                 numLeft -= n;
-                if (numLeft == 0)
+                if (numLeft == 0) {
                     jv.update(-1, b, off, len, mev);
+                }
                 return n;
             } else {
                 return -1;
             }
         }
 
+        @Override
         public void close()
             throws IOException
         {
-            if (is != null)
+            if (is != null) {
                 is.close();
+            }
             is = null;
             mev = null;
             jv = null;
         }
 
+        @Override
         public int available() throws IOException {
             return is.available();
         }
@@ -614,6 +634,7 @@ class JarVerifier {
          * No CodeSigner<->Certificate[] conversion is required.
          * We use these assumptions to optimize equality comparisons.
          */
+        @Override
         public boolean equals(Object obj) {
             if (obj == this) {
                 return true;
@@ -701,6 +722,7 @@ class JarVerifier {
 
             String name;
 
+            @Override
             public boolean hasMoreElements() {
                 if (name != null) {
                     return true;
@@ -720,6 +742,7 @@ class JarVerifier {
                 return false;
             }
 
+            @Override
             public String nextElement() {
                 if (hasMoreElements()) {
                     String value = name;
@@ -744,6 +767,7 @@ class JarVerifier {
             Enumeration<String> signers = null;
             JarEntry entry;
 
+            @Override
             public boolean hasMoreElements() {
                 if (entry != null) {
                     return true;
@@ -769,6 +793,7 @@ class JarVerifier {
                 return false;
             }
 
+            @Override
             public JarEntry nextElement() {
                 if (hasMoreElements()) {
                     JarEntry je = entry;
@@ -782,10 +807,12 @@ class JarVerifier {
     }
     private Enumeration<String> emptyEnumeration = new Enumeration<String>() {
 
+        @Override
         public boolean hasMoreElements() {
             return false;
         }
 
+        @Override
         public String nextElement() {
             throw new NoSuchElementException();
         }
@@ -807,6 +834,7 @@ class JarVerifier {
              * Grab entries from ZIP directory but screen out
              * metadata.
              */
+            @Override
             public boolean hasMoreElements() {
                 if (name != null) {
                     return true;
@@ -826,6 +854,7 @@ class JarVerifier {
                 return false;
             }
 
+            @Override
             public String nextElement() {
                 if (hasMoreElements()) {
                     String value = name;

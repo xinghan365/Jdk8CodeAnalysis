@@ -120,17 +120,19 @@ class Bits {                            // package-private
     }
 
     static void putChar(ByteBuffer bb, int bi, char x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putCharB(bb, bi, x);
-        else
+        } else {
             putCharL(bb, bi, x);
+        }
     }
 
     static void putChar(long a, char x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putCharB(a, x);
-        else
+        } else {
             putCharL(a, x);
+        }
     }
 
 
@@ -192,17 +194,19 @@ class Bits {                            // package-private
     }
 
     static void putShort(ByteBuffer bb, int bi, short x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putShortB(bb, bi, x);
-        else
+        } else {
             putShortL(bb, bi, x);
+        }
     }
 
     static void putShort(long a, short x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putShortB(a, x);
-        else
+        } else {
             putShortL(a, x);
+        }
     }
 
 
@@ -285,17 +289,19 @@ class Bits {                            // package-private
     }
 
     static void putInt(ByteBuffer bb, int bi, int x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putIntB(bb, bi, x);
-        else
+        } else {
             putIntL(bb, bi, x);
+        }
     }
 
     static void putInt(long a, int x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putIntB(a, x);
-        else
+        } else {
             putIntL(a, x);
+        }
     }
 
 
@@ -420,17 +426,19 @@ class Bits {                            // package-private
     }
 
     static void putLong(ByteBuffer bb, int bi, long x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putLongB(bb, bi, x);
-        else
+        } else {
             putLongL(bb, bi, x);
+        }
     }
 
     static void putLong(long a, long x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putLongB(a, x);
-        else
+        } else {
             putLongL(a, x);
+        }
     }
 
 
@@ -477,17 +485,19 @@ class Bits {                            // package-private
     }
 
     static void putFloat(ByteBuffer bb, int bi, float x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putFloatB(bb, bi, x);
-        else
+        } else {
             putFloatL(bb, bi, x);
+        }
     }
 
     static void putFloat(long a, float x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putFloatB(a, x);
-        else
+        } else {
             putFloatL(a, x);
+        }
     }
 
 
@@ -534,17 +544,19 @@ class Bits {                            // package-private
     }
 
     static void putDouble(ByteBuffer bb, int bi, double x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putDoubleB(bb, bi, x);
-        else
+        } else {
             putDoubleL(bb, bi, x);
+        }
     }
 
     static void putDouble(long a, double x, boolean bigEndian) {
-        if (bigEndian)
+        if (bigEndian) {
             putDoubleB(a, x);
-        else
+        } else {
             putDoubleL(a, x);
+        }
     }
 
 
@@ -570,8 +582,9 @@ class Bits {                            // package-private
     private static final ByteOrder byteOrder;
 
     static ByteOrder byteOrder() {
-        if (byteOrder == null)
+        if (byteOrder == null) {
             throw new Error("Unknown byte order");
+        }
         return byteOrder;
     }
 
@@ -596,8 +609,9 @@ class Bits {                            // package-private
     private static int pageSize = -1;
 
     static int pageSize() {
-        if (pageSize == -1)
+        if (pageSize == -1) {
             pageSize = unsafe().pageSize();
+        }
         return pageSize;
     }
 
@@ -609,8 +623,9 @@ class Bits {                            // package-private
     private static boolean unalignedKnown = false;
 
     static boolean unaligned() {
-        if (unalignedKnown)
+        if (unalignedKnown) {
             return unaligned;
+        }
         String arch = AccessController.doPrivileged(
             new sun.security.action.GetPropertyAction("os.arch"));
         unaligned = arch.equals("i386") || arch.equals("x86")

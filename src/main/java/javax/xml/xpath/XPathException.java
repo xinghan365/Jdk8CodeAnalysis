@@ -94,6 +94,7 @@ public class XPathException extends Exception {
      *
      * @return Cause of this XPathException.
      */
+    @Override
     public Throwable getCause() {
         return super.getCause();
     }
@@ -143,6 +144,7 @@ public class XPathException extends Exception {
      *
      * @param s Print stack trace to this <code>PrintStream</code>.
      */
+    @Override
     public void printStackTrace(java.io.PrintStream s) {
         if (getCause() != null) {
             getCause().printStackTrace(s);
@@ -155,6 +157,7 @@ public class XPathException extends Exception {
     /**
      * <p>Print stack trace to <code>System.err</code>.</p>
      */
+    @Override
     public void printStackTrace() {
         printStackTrace(System.err);
     }
@@ -164,6 +167,7 @@ public class XPathException extends Exception {
      *
      * @param s Print stack trace to this <code>PrintWriter</code>.
      */
+    @Override
     public void printStackTrace(PrintWriter s) {
 
         if (getCause() != null) {

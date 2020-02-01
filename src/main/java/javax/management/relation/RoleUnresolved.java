@@ -267,6 +267,7 @@ public class RoleUnresolved implements Serializable {
      *
      * @return an independent clone.
      */
+    @Override
     public Object clone() {
         try {
             return new RoleUnresolved(roleName, roleValue, problemType);
@@ -280,6 +281,7 @@ public class RoleUnresolved implements Serializable {
      *
      * @return a description of this RoleUnresolved object.
      */
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("role name: " + roleName);

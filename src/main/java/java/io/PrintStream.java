@@ -75,8 +75,9 @@ public class PrintStream extends FilterOutputStream
      * early during system initialization.
      */
     private static <T> T requireNonNull(T obj, String message) {
-        if (obj == null)
+        if (obj == null) {
             throw new NullPointerException(message);
+        }
         return obj;
     }
 
@@ -321,8 +322,9 @@ public class PrintStream extends FilterOutputStream
 
     /** Check to make sure that the stream has not been closed */
     private void ensureOpen() throws IOException {
-        if (out == null)
+        if (out == null) {
             throw new IOException("Stream closed");
+        }
     }
 
     /**
@@ -331,6 +333,7 @@ public class PrintStream extends FilterOutputStream
      *
      * @see        java.io.OutputStream#flush()
      */
+    @Override
     public void flush() {
         synchronized (this) {
             try {
@@ -351,6 +354,7 @@ public class PrintStream extends FilterOutputStream
      *
      * @see        java.io.OutputStream#close()
      */
+    @Override
     public void close() {
         synchronized (this) {
             if (! closing) {
@@ -388,8 +392,9 @@ public class PrintStream extends FilterOutputStream
      *         <code>setError</code> method has been invoked
      */
     public boolean checkError() {
-        if (out != null)
+        if (out != null) {
             flush();
+        }
         if (out instanceof java.io.PrintStream) {
             PrintStream ps = (PrintStream) out;
             return ps.checkError();
@@ -442,13 +447,15 @@ public class PrintStream extends FilterOutputStream
      * @see #print(char)
      * @see #println(char)
      */
+    @Override
     public void write(int b) {
         try {
             synchronized (this) {
                 ensureOpen();
                 out.write(b);
-                if ((b == '\n') && autoFlush)
+                if ((b == '\n') && autoFlush) {
                     out.flush();
+                }
             }
         }
         catch (InterruptedIOException x) {
@@ -473,13 +480,15 @@ public class PrintStream extends FilterOutputStream
      * @param  off   Offset from which to start taking bytes
      * @param  len   Number of bytes to write
      */
+    @Override
     public void write(byte buf[], int off, int len) {
         try {
             synchronized (this) {
                 ensureOpen();
                 out.write(buf, off, len);
-                if (autoFlush)
+                if (autoFlush) {
                     out.flush();
+                }
             }
         }
         catch (InterruptedIOException x) {
@@ -504,9 +513,11 @@ public class PrintStream extends FilterOutputStream
                 textOut.flushBuffer();
                 charOut.flushBuffer();
                 if (autoFlush) {
-                    for (int i = 0; i < buf.length; i++)
-                        if (buf[i] == '\n')
+                    for (int i = 0; i < buf.length; i++) {
+                        if (buf[i] == '\n') {
                             out.flush();
+                        }
+                    }
                 }
             }
         }
@@ -525,8 +536,9 @@ public class PrintStream extends FilterOutputStream
                 textOut.write(s);
                 textOut.flushBuffer();
                 charOut.flushBuffer();
-                if (autoFlush && (s.indexOf('\n') >= 0))
+                if (autoFlush && (s.indexOf('\n') >= 0)) {
                     out.flush();
+                }
             }
         }
         catch (InterruptedIOException x) {
@@ -544,8 +556,9 @@ public class PrintStream extends FilterOutputStream
                 textOut.newLine();
                 textOut.flushBuffer();
                 charOut.flushBuffer();
-                if (autoFlush)
+                if (autoFlush) {
                     out.flush();
+                }
             }
         }
         catch (InterruptedIOException x) {
@@ -965,8 +978,9 @@ public class PrintStream extends FilterOutputStream
             synchronized (this) {
                 ensureOpen();
                 if ((formatter == null)
-                    || (formatter.locale() != Locale.getDefault()))
+                    || (formatter.locale() != Locale.getDefault())) {
                     formatter = new Formatter((Appendable) this);
+                }
                 formatter.format(Locale.getDefault(), format, args);
             }
         } catch (InterruptedIOException x) {
@@ -1022,8 +1036,9 @@ public class PrintStream extends FilterOutputStream
             synchronized (this) {
                 ensureOpen();
                 if ((formatter == null)
-                    || (formatter.locale() != l))
+                    || (formatter.locale() != l)) {
                     formatter = new Formatter(this, l);
+                }
                 formatter.format(l, format, args);
             }
         } catch (InterruptedIOException x) {
@@ -1058,11 +1073,13 @@ public class PrintStream extends FilterOutputStream
      *
      * @since  1.5
      */
+    @Override
     public PrintStream append(CharSequence csq) {
-        if (csq == null)
+        if (csq == null) {
             print("null");
-        else
+        } else {
             print(csq.toString());
+        }
         return this;
     }
 
@@ -1099,6 +1116,7 @@ public class PrintStream extends FilterOutputStream
      *
      * @since  1.5
      */
+    @Override
     public PrintStream append(CharSequence csq, int start, int end) {
         CharSequence cs = (csq == null ? "null" : csq);
         write(cs.subSequence(start, end).toString());
@@ -1121,6 +1139,7 @@ public class PrintStream extends FilterOutputStream
      *
      * @since  1.5
      */
+    @Override
     public PrintStream append(char c) {
         print(c);
         return this;

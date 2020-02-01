@@ -81,8 +81,9 @@ class JarInputStream extends ZipInputStream {
         // by the dir META-INF/). It skips the META-INF/ and then
         // "consumes" the MANIFEST.MF to initialize the Manifest object.
         JarEntry e = (JarEntry)super.getNextEntry();
-        if (e != null && e.getName().equalsIgnoreCase("META-INF/"))
+        if (e != null && e.getName().equalsIgnoreCase("META-INF/")) {
             e = (JarEntry)super.getNextEntry();
+        }
         first = checkManifest(e);
     }
 
@@ -136,6 +137,7 @@ class JarInputStream extends ZipInputStream {
      * @exception SecurityException if any of the jar file entries
      *         are incorrectly signed.
      */
+    @Override
     public ZipEntry getNextEntry() throws IOException {
         JarEntry e;
         if (first == null) {
@@ -146,8 +148,9 @@ class JarInputStream extends ZipInputStream {
             }
         } else {
             e = first;
-            if (first.getName().equalsIgnoreCase(JarIndex.INDEX_NAME))
+            if (first.getName().equalsIgnoreCase(JarIndex.INDEX_NAME)) {
                 tryManifest = true;
+            }
             first = null;
         }
         if (jv != null && e != null) {
@@ -201,6 +204,7 @@ class JarInputStream extends ZipInputStream {
      * @exception SecurityException if any of the jar file entries
      *         are incorrectly signed.
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int n;
         if (first == null) {
@@ -223,6 +227,7 @@ class JarInputStream extends ZipInputStream {
      * @param name the name of the JAR/ZIP file entry
      * @return the <code>JarEntry</code> object just created
      */
+    @Override
     protected ZipEntry createZipEntry(String name) {
         JarEntry e = new JarEntry(name);
         if (man != null) {

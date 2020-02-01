@@ -339,6 +339,7 @@ public class ObjectOutputStream
      * @throws  IOException Any exception thrown by the underlying
      *          OutputStream.
      */
+    @Override
     public final void writeObject(Object obj) throws IOException {
         if (enableOverride) {
             writeObjectOverride(obj);
@@ -675,6 +676,7 @@ public class ObjectOutputStream
      * @param   val the byte to be written to the stream
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public void write(int val) throws IOException {
         bout.write(val);
     }
@@ -686,6 +688,7 @@ public class ObjectOutputStream
      * @param   buf the data to be written
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public void write(byte[] buf) throws IOException {
         bout.write(buf, 0, buf.length, false);
     }
@@ -698,6 +701,7 @@ public class ObjectOutputStream
      * @param   len the number of bytes that are written
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public void write(byte[] buf, int off, int len) throws IOException {
         if (buf == null) {
             throw new NullPointerException();
@@ -715,6 +719,7 @@ public class ObjectOutputStream
      *
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public void flush() throws IOException {
         bout.flush();
     }
@@ -736,6 +741,7 @@ public class ObjectOutputStream
      *
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public void close() throws IOException {
         flush();
         clear();
@@ -749,6 +755,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeBoolean(boolean val) throws IOException {
         bout.writeBoolean(val);
     }
@@ -760,6 +767,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeByte(int val) throws IOException  {
         bout.writeByte(val);
     }
@@ -771,6 +779,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeShort(int val)  throws IOException {
         bout.writeShort(val);
     }
@@ -782,6 +791,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeChar(int val)  throws IOException {
         bout.writeChar(val);
     }
@@ -793,6 +803,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeInt(int val)  throws IOException {
         bout.writeInt(val);
     }
@@ -804,6 +815,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeLong(long val)  throws IOException {
         bout.writeLong(val);
     }
@@ -815,6 +827,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeFloat(float val) throws IOException {
         bout.writeFloat(val);
     }
@@ -826,6 +839,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeDouble(double val) throws IOException {
         bout.writeDouble(val);
     }
@@ -837,6 +851,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeBytes(String str) throws IOException {
         bout.writeBytes(str);
     }
@@ -848,6 +863,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeChars(String str) throws IOException {
         bout.writeChars(str);
     }
@@ -865,6 +881,7 @@ public class ObjectOutputStream
      * @throws  IOException if I/O errors occur while writing to the underlying
      *          stream
      */
+    @Override
     public void writeUTF(String str) throws IOException {
         bout.writeUTF(str);
     }
@@ -1067,6 +1084,7 @@ public class ObjectOutputStream
     private static boolean auditSubclass(final Class<?> subcl) {
         Boolean result = AccessController.doPrivileged(
             new PrivilegedAction<Boolean>() {
+                @Override
                 public Boolean run() {
                     for (Class<?> cl = subcl;
                          cl != ObjectOutputStream.class;
@@ -1619,43 +1637,53 @@ public class ObjectOutputStream
             objVals = new Object[desc.getNumObjFields()];
         }
 
+        @Override
         public void put(String name, boolean val) {
             Bits.putBoolean(primVals, getFieldOffset(name, Boolean.TYPE), val);
         }
 
+        @Override
         public void put(String name, byte val) {
             primVals[getFieldOffset(name, Byte.TYPE)] = val;
         }
 
+        @Override
         public void put(String name, char val) {
             Bits.putChar(primVals, getFieldOffset(name, Character.TYPE), val);
         }
 
+        @Override
         public void put(String name, short val) {
             Bits.putShort(primVals, getFieldOffset(name, Short.TYPE), val);
         }
 
+        @Override
         public void put(String name, int val) {
             Bits.putInt(primVals, getFieldOffset(name, Integer.TYPE), val);
         }
 
+        @Override
         public void put(String name, float val) {
             Bits.putFloat(primVals, getFieldOffset(name, Float.TYPE), val);
         }
 
+        @Override
         public void put(String name, long val) {
             Bits.putLong(primVals, getFieldOffset(name, Long.TYPE), val);
         }
 
+        @Override
         public void put(String name, double val) {
             Bits.putDouble(primVals, getFieldOffset(name, Double.TYPE), val);
         }
 
+        @Override
         public void put(String name, Object val) {
             objVals[getFieldOffset(name, Object.class)] = val;
         }
 
         // deprecated in ObjectOutputStream.PutField
+        @Override
         public void write(ObjectOutput out) throws IOException {
             /*
              * Applications should *not* use this method to write PutField
@@ -1803,6 +1831,7 @@ public class ObjectOutputStream
          * blocks when in block data mode.
          */
 
+        @Override
         public void write(int b) throws IOException {
             if (pos >= MAX_BLOCK_SIZE) {
                 drain();
@@ -1810,19 +1839,23 @@ public class ObjectOutputStream
             buf[pos++] = (byte) b;
         }
 
+        @Override
         public void write(byte[] b) throws IOException {
             write(b, 0, b.length, false);
         }
 
+        @Override
         public void write(byte[] b, int off, int len) throws IOException {
             write(b, off, len, false);
         }
 
+        @Override
         public void flush() throws IOException {
             drain();
             out.flush();
         }
 
+        @Override
         public void close() throws IOException {
             flush();
             out.close();
@@ -1903,6 +1936,7 @@ public class ObjectOutputStream
          * blocks when in block data mode.
          */
 
+        @Override
         public void writeBoolean(boolean v) throws IOException {
             if (pos >= MAX_BLOCK_SIZE) {
                 drain();
@@ -1910,6 +1944,7 @@ public class ObjectOutputStream
             Bits.putBoolean(buf, pos++, v);
         }
 
+        @Override
         public void writeByte(int v) throws IOException {
             if (pos >= MAX_BLOCK_SIZE) {
                 drain();
@@ -1917,6 +1952,7 @@ public class ObjectOutputStream
             buf[pos++] = (byte) v;
         }
 
+        @Override
         public void writeChar(int v) throws IOException {
             if (pos + 2 <= MAX_BLOCK_SIZE) {
                 Bits.putChar(buf, pos, (char) v);
@@ -1926,6 +1962,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeShort(int v) throws IOException {
             if (pos + 2 <= MAX_BLOCK_SIZE) {
                 Bits.putShort(buf, pos, (short) v);
@@ -1935,6 +1972,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeInt(int v) throws IOException {
             if (pos + 4 <= MAX_BLOCK_SIZE) {
                 Bits.putInt(buf, pos, v);
@@ -1944,6 +1982,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeFloat(float v) throws IOException {
             if (pos + 4 <= MAX_BLOCK_SIZE) {
                 Bits.putFloat(buf, pos, v);
@@ -1953,6 +1992,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeLong(long v) throws IOException {
             if (pos + 8 <= MAX_BLOCK_SIZE) {
                 Bits.putLong(buf, pos, v);
@@ -1962,6 +2002,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeDouble(double v) throws IOException {
             if (pos + 8 <= MAX_BLOCK_SIZE) {
                 Bits.putDouble(buf, pos, v);
@@ -1971,6 +2012,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeBytes(String s) throws IOException {
             int endoff = s.length();
             int cpos = 0;
@@ -1993,6 +2035,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeChars(String s) throws IOException {
             int endoff = s.length();
             for (int off = 0; off < endoff; ) {
@@ -2003,6 +2046,7 @@ public class ObjectOutputStream
             }
         }
 
+        @Override
         public void writeUTF(String s) throws IOException {
             writeUTF(s, getUTFLength(s));
         }
@@ -2460,6 +2504,7 @@ public class ObjectOutputStream
         /**
          * Returns a string representation of this object
          */
+        @Override
         public String toString() {
             StringBuilder buffer = new StringBuilder();
             if (!stack.isEmpty()) {

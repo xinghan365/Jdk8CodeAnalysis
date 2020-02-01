@@ -523,6 +523,7 @@ public class EventSetDescriptor extends FeatureDescriptor {
         inDefaultEventSet = old.inDefaultEventSet;
     }
 
+    @Override
     void appendTo(StringBuilder sb) {
         appendTo(sb, "unicast", this.unicast);
         appendTo(sb, "inDefaultEventSet", this.inDefaultEventSet);

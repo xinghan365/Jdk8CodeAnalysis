@@ -85,6 +85,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         }
     }
 
+    @Override
     public void installUI(JComponent c) {
         popupMenu = (JPopupMenu) c;
 
@@ -95,8 +96,9 @@ public class BasicPopupMenuUI extends PopupMenuUI {
 
     public void installDefaults() {
         if (popupMenu.getLayout() == null ||
-            popupMenu.getLayout() instanceof UIResource)
+            popupMenu.getLayout() instanceof UIResource) {
             popupMenu.setLayout(new DefaultMenuLayout(popupMenu, BoxLayout.Y_AXIS));
+        }
 
         LookAndFeel.installProperty(popupMenu, "opaque", Boolean.TRUE);
         LookAndFeel.installBorder(popupMenu, "PopupMenu.border");
@@ -173,6 +175,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         BasicLookAndFeel.installAudioActionMap(map);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults();
         uninstallListeners();
@@ -206,8 +209,9 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         MenuElement me = null;
 
         for(int i = 0 ; me == null && i < p.length ; i++) {
-            if (p[i] instanceof JPopupMenu)
+            if (p[i] instanceof JPopupMenu) {
                 me = p[i];
+            }
         }
 
         return me;
@@ -219,8 +223,9 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         JPopupMenu popup = null;
 
         for(int i = p.length - 1; popup == null && i >= 0; i--) {
-            if (p[i] instanceof JPopupMenu)
+            if (p[i] instanceof JPopupMenu) {
                 popup = (JPopupMenu)p[i];
+            }
         }
         return popup;
     }
@@ -238,6 +243,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         return list;
     }
 
+    @Override
     public boolean isPopupTrigger(MouseEvent e) {
         return ((e.getID()==MouseEvent.MOUSE_RELEASED)
                 && ((e.getModifiers() & MouseEvent.BUTTON3_MASK)!=0));
@@ -264,12 +270,15 @@ public class BasicPopupMenuUI extends PopupMenuUI {
      * @since 1.4
      */
     private class BasicPopupMenuListener implements PopupMenuListener {
+        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             BasicLookAndFeel.playSound((JPopupMenu)e.getSource(),
                                        "PopupMenu.popupSound");
@@ -283,6 +292,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
     private class BasicMenuKeyListener implements MenuKeyListener {
         MenuElement menuToOpen = null;
 
+        @Override
         public void menuKeyTyped(MenuKeyEvent e) {
             if (menuToOpen != null) {
                 // we have a submenu to open
@@ -304,6 +314,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             menuToOpen = null;
         }
 
+        @Override
         public void menuKeyPressed(MenuKeyEvent e) {
             char keyChar = e.getKeyChar();
 
@@ -374,6 +385,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             }
         }
 
+        @Override
         public void menuKeyReleased(MenuKeyEvent e) {
         }
 
@@ -408,6 +420,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String key = getName();
             if (key == CANCEL) {
@@ -705,11 +718,15 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         MenuElement result;
         if (forward) {
             result = nextEnabledChild(e, fromIndex+1, e.length-1);
-            if (result == null) result = nextEnabledChild(e, 0, fromIndex-1);
+            if (result == null) {
+                result = nextEnabledChild(e, 0, fromIndex-1);
+            }
         } else {
             result = previousEnabledChild(e, fromIndex-1, 0);
-            if (result == null) result = previousEnabledChild(e, e.length-1,
-                                                              fromIndex+1);
+            if (result == null) {
+                result = previousEnabledChild(e, e.length-1,
+                                                                  fromIndex+1);
+            }
         }
         return result;
     }
@@ -752,6 +769,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             final Toolkit tk = Toolkit.getDefaultToolkit();
             java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         tk.addAWTEventListener(MouseGrabber.this,
                                 AWTEvent.MOUSE_EVENT_MASK |
@@ -785,6 +803,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             // The grab should be removed
              java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         tk.removeAWTEventListener(MouseGrabber.this);
                         return null;
@@ -807,6 +826,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             }
         }
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             MenuSelectionManager msm = MenuSelectionManager.defaultManager();
             MenuElement[] p = msm.getSelectedPath();
@@ -822,6 +842,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             lastPathSelected = p;
         }
 
+        @Override
         public void eventDispatched(AWTEvent ev) {
             if(ev instanceof sun.awt.UngrabEvent) {
                 // Popup should be canceled in case of ungrab event
@@ -926,32 +947,43 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             }
         }
 
+        @Override
         public void componentResized(ComponentEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void componentMoved(ComponentEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void componentShown(ComponentEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void componentHidden(ComponentEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void windowClosing(WindowEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void windowClosed(WindowEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void windowIconified(WindowEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void windowDeactivated(WindowEvent e) {
             cancelPopupMenu();
         }
+        @Override
         public void windowOpened(WindowEvent e) {}
+        @Override
         public void windowDeiconified(WindowEvent e) {}
+        @Override
         public void windowActivated(WindowEvent e) {}
     }
 
@@ -1017,6 +1049,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
         }
 
         private FocusListener rootPaneFocusListener = new FocusAdapter() {
+                @Override
                 public void focusGained(FocusEvent ev) {
                     Component opposite = ev.getOppositeComponent();
                     if (opposite != null) {
@@ -1111,6 +1144,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             }
         }
 
+        @Override
         public void stateChanged(ChangeEvent ev) {
             if (!(UIManager.getLookAndFeel() instanceof BasicLookAndFeel)) {
                 uninstall();
@@ -1197,11 +1231,13 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             lastPopup = popup;
         }
 
+        @Override
         public void keyPressed(KeyEvent ev) {
             receivedKeyPressed = true;
             MenuSelectionManager.defaultManager().processKeyEvent(ev);
         }
 
+        @Override
         public void keyReleased(KeyEvent ev) {
             if (receivedKeyPressed) {
                 receivedKeyPressed = false;
@@ -1209,6 +1245,7 @@ public class BasicPopupMenuUI extends PopupMenuUI {
             }
         }
 
+        @Override
         public void keyTyped(KeyEvent ev) {
             if (receivedKeyPressed) {
                 MenuSelectionManager.defaultManager().processKeyEvent(ev);

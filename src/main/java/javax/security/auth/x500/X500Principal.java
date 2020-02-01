@@ -256,8 +256,9 @@ public final class X500Principal implements Principal, java.io.Serializable {
         }
 
         try {
-            if (is.markSupported())
+            if (is.markSupported()) {
                 is.mark(is.available() + 1);
+            }
             DerValue der = new DerValue(is);
             thisX500Name = new X500Name(der.data);
         } catch (Exception e) {
@@ -288,6 +289,7 @@ public final class X500Principal implements Principal, java.io.Serializable {
      *
      * @return the distinguished name of this {@code X500Principal}
      */
+    @Override
     public String getName() {
         return getName(X500Principal.RFC2253);
     }
@@ -442,6 +444,7 @@ public final class X500Principal implements Principal, java.io.Serializable {
      *
      * @return a string representation of this {@code X500Principal}
      */
+    @Override
     public String toString() {
         return thisX500Name.toString();
     }
@@ -464,6 +467,7 @@ public final class X500Principal implements Principal, java.io.Serializable {
      * @return {@code true} if the specified {@code Object} is equal
      *          to this {@code X500Principal}, {@code false} otherwise
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -483,6 +487,7 @@ public final class X500Principal implements Principal, java.io.Serializable {
      *
      * @return a hash code for this {@code X500Principal}
      */
+    @Override
     public int hashCode() {
         return thisX500Name.hashCode();
     }

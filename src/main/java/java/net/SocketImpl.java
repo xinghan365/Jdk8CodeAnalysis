@@ -300,6 +300,7 @@ public abstract class SocketImpl implements SocketOptions {
      *
      * @return  a string representation of this socket.
      */
+    @Override
     public String toString() {
         return "Socket[addr=" + getInetAddress() +
             ",port=" + getPort() + ",localport=" + getLocalPort()  + "]";

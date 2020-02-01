@@ -243,6 +243,7 @@ public class JTabbedPane extends JComponent
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((TabbedPaneUI)UIManager.getUI(this));
     }
@@ -256,6 +257,7 @@ public class JTabbedPane extends JComponent
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -266,6 +268,7 @@ public class JTabbedPane extends JComponent
      * the tabbedpane (instead of the model itself) as the event source.
      */
     protected class ModelListener implements ChangeListener, Serializable {
+        @Override
         public void stateChanged(ChangeEvent e) {
             fireStateChanged();
         }
@@ -411,8 +414,9 @@ public class JTabbedPane extends JComponent
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
@@ -810,6 +814,7 @@ public class JTabbedPane extends JComponent
      * @see #insertTab
      * @see #removeTabAt
      */
+    @Override
     public Component add(Component component) {
         if (!(component instanceof UIResource)) {
             addTab(component.getName(), component);
@@ -830,6 +835,7 @@ public class JTabbedPane extends JComponent
      * @see #insertTab
      * @see #removeTabAt
      */
+    @Override
     public Component add(String title, Component component) {
         if (!(component instanceof UIResource)) {
             addTab(title, component);
@@ -851,6 +857,7 @@ public class JTabbedPane extends JComponent
      * @see #insertTab
      * @see #removeTabAt
      */
+    @Override
     public Component add(Component component, int index) {
         if (!(component instanceof UIResource)) {
             // Container.add() interprets -1 as "append", so convert
@@ -876,6 +883,7 @@ public class JTabbedPane extends JComponent
      * @see #insertTab
      * @see #removeTabAt
      */
+    @Override
     public void add(Component component, Object constraints) {
         if (!(component instanceof UIResource)) {
             if (constraints instanceof String) {
@@ -904,6 +912,7 @@ public class JTabbedPane extends JComponent
      * @see #insertTab
      * @see #removeTabAt
      */
+    @Override
     public void add(Component component, Object constraints, int index) {
         if (!(component instanceof UIResource)) {
 
@@ -1020,6 +1029,7 @@ public class JTabbedPane extends JComponent
      * @see #addTab
      * @see #removeTabAt
      */
+    @Override
     public void remove(Component component) {
         int index = indexOfComponent(component);
         if (index != -1) {
@@ -1047,6 +1057,7 @@ public class JTabbedPane extends JComponent
      * @see #addTab
      * @see #removeTabAt
      */
+    @Override
     public void remove(int index) {
         removeTabAt(index);
     }
@@ -1058,6 +1069,7 @@ public class JTabbedPane extends JComponent
      * @see #addTab
      * @see #removeTabAt
      */
+    @Override
     public void removeAll() {
         setSelectedIndexImpl(-1, true);
 
@@ -1752,6 +1764,7 @@ public class JTabbedPane extends JComponent
      *          cursor is lingering
      * @return the <code>String</code> containing the tooltip text
      */
+    @Override
     public String getToolTipText(MouseEvent event) {
         if (ui != null) {
             int index = ((TabbedPaneUI)ui).tabForCoordinate(this, event.getX(), event.getY());
@@ -1790,6 +1803,7 @@ public class JTabbedPane extends JComponent
      * <code>EnableSerializationFocusListener</code> to
      * do any Swing-specific pre-serialization configuration.
      */
+    @Override
     void compWriteObjectNotify() {
         super.compWriteObjectNotify();
         // If ToolTipText != null, then the tooltip has already been
@@ -1829,6 +1843,7 @@ public class JTabbedPane extends JComponent
      *
      * @return  a string representation of this JTabbedPane.
      */
+    @Override
     protected String paramString() {
         String tabPlacementString;
         if (tabPlacement == TOP) {
@@ -1839,7 +1854,9 @@ public class JTabbedPane extends JComponent
             tabPlacementString = "LEFT";
         } else if (tabPlacement == RIGHT) {
             tabPlacementString = "RIGHT";
-        } else tabPlacementString = "";
+        } else {
+            tabPlacementString = "";
+        }
         String haveRegisteredString = (haveRegistered ?
                                        "true" : "false");
 
@@ -1861,6 +1878,7 @@ public class JTabbedPane extends JComponent
      * @return an AccessibleJTabbedPane that serves as the
      *         AccessibleContext of this JTabbedPane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJTabbedPane();
@@ -1899,6 +1917,7 @@ public class JTabbedPane extends JComponent
          * @return the accessible name of this object, nor {@code null}.
          * @since 1.6
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -1927,6 +1946,7 @@ public class JTabbedPane extends JComponent
             JTabbedPane.this.model.addChangeListener(this);
         }
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             Object o = e.getSource();
             firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
@@ -1939,6 +1959,7 @@ public class JTabbedPane extends JComponent
          * @return an instance of AccessibleRole describing the role of
          *          the object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PAGE_TAB_LIST;
         }
@@ -1948,6 +1969,7 @@ public class JTabbedPane extends JComponent
          *
          * @return the number of accessible children in the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return getTabCount();
         }
@@ -1959,6 +1981,7 @@ public class JTabbedPane extends JComponent
          * @return the Accessible child of the object
          * @exception IllegalArgumentException if index is out of bounds
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             if (i < 0 || i >= getTabCount()) {
                 return null;
@@ -1975,6 +1998,7 @@ public class JTabbedPane extends JComponent
          *
          * @return this object
          */
+        @Override
         public AccessibleSelection getAccessibleSelection() {
            return this;
         }
@@ -1987,6 +2011,7 @@ public class JTabbedPane extends JComponent
          * @return the <code>Accessible</code> at the specified
          *    location, if it exists
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             int tab = ((TabbedPaneUI) ui).tabForCoordinate(JTabbedPane.this,
                                                            p.x, p.y);
@@ -1996,10 +2021,12 @@ public class JTabbedPane extends JComponent
             return getAccessibleChild(tab);
         }
 
+        @Override
         public int getAccessibleSelectionCount() {
             return 1;
         }
 
+        @Override
         public Accessible getAccessibleSelection(int i) {
             int index = getSelectedIndex();
             if (index == -1) {
@@ -2008,22 +2035,27 @@ public class JTabbedPane extends JComponent
             return pages.get(index);
         }
 
+        @Override
         public boolean isAccessibleChildSelected(int i) {
             return (i == getSelectedIndex());
         }
 
+        @Override
         public void addAccessibleSelection(int i) {
            setSelectedIndex(i);
         }
 
+        @Override
         public void removeAccessibleSelection(int i) {
            // can't do
         }
 
+        @Override
         public void clearAccessibleSelection() {
            // can't do
         }
 
+        @Override
         public void selectAllAccessibleSelection() {
            // can't do
         }
@@ -2119,6 +2151,7 @@ public class JTabbedPane extends JComponent
         // Accessibility support
         ////////////////
 
+        @Override
         public AccessibleContext getAccessibleContext() {
             return this;
         }
@@ -2126,6 +2159,7 @@ public class JTabbedPane extends JComponent
 
         // AccessibleContext methods
 
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -2135,6 +2169,7 @@ public class JTabbedPane extends JComponent
             return null;
         }
 
+        @Override
         public String getAccessibleDescription() {
             if (accessibleDescription != null) {
                 return accessibleDescription;
@@ -2144,10 +2179,12 @@ public class JTabbedPane extends JComponent
             return null;
         }
 
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PAGE_TAB;
         }
 
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states;
             states = parent.getAccessibleContext().getAccessibleStateSet();
@@ -2159,10 +2196,12 @@ public class JTabbedPane extends JComponent
             return states;
         }
 
+        @Override
         public int getAccessibleIndexInParent() {
             return parent.indexOfTab(title);
         }
 
+        @Override
         public int getAccessibleChildrenCount() {
             if (component instanceof Accessible) {
                 return 1;
@@ -2171,6 +2210,7 @@ public class JTabbedPane extends JComponent
             }
         }
 
+        @Override
         public Accessible getAccessibleChild(int i) {
             if (component instanceof Accessible) {
                 return (Accessible) component;
@@ -2179,10 +2219,12 @@ public class JTabbedPane extends JComponent
             }
         }
 
+        @Override
         public Locale getLocale() {
             return parent.getLocale();
         }
 
+        @Override
         public AccessibleComponent getAccessibleComponent() {
             return this;
         }
@@ -2190,67 +2232,83 @@ public class JTabbedPane extends JComponent
 
         // AccessibleComponent methods
 
+        @Override
         public Color getBackground() {
             return background != null? background : parent.getBackground();
         }
 
+        @Override
         public void setBackground(Color c) {
             background = c;
         }
 
+        @Override
         public Color getForeground() {
             return foreground != null? foreground : parent.getForeground();
         }
 
+        @Override
         public void setForeground(Color c) {
             foreground = c;
         }
 
+        @Override
         public Cursor getCursor() {
             return parent.getCursor();
         }
 
+        @Override
         public void setCursor(Cursor c) {
             parent.setCursor(c);
         }
 
+        @Override
         public Font getFont() {
             return parent.getFont();
         }
 
+        @Override
         public void setFont(Font f) {
             parent.setFont(f);
         }
 
+        @Override
         public FontMetrics getFontMetrics(Font f) {
             return parent.getFontMetrics(f);
         }
 
+        @Override
         public boolean isEnabled() {
             return enabled;
         }
 
+        @Override
         public void setEnabled(boolean b) {
             enabled = b;
         }
 
+        @Override
         public boolean isVisible() {
             return parent.isVisible();
         }
 
+        @Override
         public void setVisible(boolean b) {
             parent.setVisible(b);
         }
 
+        @Override
         public boolean isShowing() {
             return parent.isShowing();
         }
 
+        @Override
         public boolean contains(Point p) {
             Rectangle r = getBounds();
             return r.contains(p);
         }
 
+        @Override
         public Point getLocationOnScreen() {
              Point parentLocation = parent.getLocationOnScreen();
              Point componentLocation = getLocation();
@@ -2258,33 +2316,40 @@ public class JTabbedPane extends JComponent
              return componentLocation;
         }
 
+        @Override
         public Point getLocation() {
              Rectangle r = getBounds();
              return new Point(r.x, r.y);
         }
 
+        @Override
         public void setLocation(Point p) {
             // do nothing
         }
 
+        @Override
         public Rectangle getBounds() {
             return parent.getUI().getTabBounds(parent,
                                                parent.indexOfTab(title));
         }
 
+        @Override
         public void setBounds(Rectangle r) {
             // do nothing
         }
 
+        @Override
         public Dimension getSize() {
             Rectangle r = getBounds();
             return new Dimension(r.width, r.height);
         }
 
+        @Override
         public void setSize(Dimension d) {
             // do nothing
         }
 
+        @Override
         public Accessible getAccessibleAt(Point p) {
             if (component instanceof Accessible) {
                 return (Accessible) component;
@@ -2293,18 +2358,22 @@ public class JTabbedPane extends JComponent
             }
         }
 
+        @Override
         public boolean isFocusTraversable() {
             return false;
         }
 
+        @Override
         public void requestFocus() {
             // do nothing
         }
 
+        @Override
         public void addFocusListener(FocusListener l) {
             // do nothing
         }
 
+        @Override
         public void removeFocusListener(FocusListener l) {
             // do nothing
         }
@@ -2318,6 +2387,7 @@ public class JTabbedPane extends JComponent
          * one exists and the page is disabled.  Otherwise, null
          * is returned.
          */
+        @Override
         public AccessibleIcon [] getAccessibleIcon() {
             AccessibleIcon accessibleIcon = null;
             if (enabled && icon instanceof ImageIcon) {

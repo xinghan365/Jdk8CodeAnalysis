@@ -56,6 +56,7 @@ class LineView extends ParagraphView {
      * Preformatted lines are not suppressed if they
      * have only whitespace, so they are always visible.
      */
+    @Override
     public boolean isVisible() {
         return true;
     }
@@ -70,6 +71,7 @@ class LineView extends ParagraphView {
      * @return  the minimum span the view can be rendered into
      * @see View#getPreferredSpan
      */
+    @Override
     public float getMinimumSpan(int axis) {
         return getPreferredSpan(axis);
     }
@@ -80,6 +82,7 @@ class LineView extends ParagraphView {
      * @param axis may be either X_AXIS or Y_AXIS
      * @return the weight
      */
+    @Override
     public int getResizeWeight(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -97,6 +100,7 @@ class LineView extends ParagraphView {
      * @param axis may be either X_AXIS or Y_AXIS
      * @return the alignment
      */
+    @Override
     public float getAlignment(int axis) {
         if (axis == View.X_AXIS) {
             return 0;
@@ -119,6 +123,7 @@ class LineView extends ParagraphView {
      *   by paragraph, but used by the superclass).  This
      *   is the height inside of the inset area.
      */
+    @Override
     protected void layout(int width, int height) {
         super.layout(Integer.MAX_VALUE - 1, height);
     }
@@ -148,6 +153,7 @@ class LineView extends ParagraphView {
      * @see TabStop
      * @see LabelView
      */
+    @Override
     public float nextTabStop(float x, int tabOffset) {
         // If the text isn't left justified, offset by 10 pixels!
         if (getTabSet() == null &&

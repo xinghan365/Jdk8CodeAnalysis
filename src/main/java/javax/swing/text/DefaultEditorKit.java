@@ -85,6 +85,7 @@ public class DefaultEditorKit extends EditorKit {
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
         return "text/plain";
     }
@@ -97,6 +98,7 @@ public class DefaultEditorKit extends EditorKit {
      *
      * @return the view factory
      */
+    @Override
     public ViewFactory getViewFactory() {
         return null;
     }
@@ -108,6 +110,7 @@ public class DefaultEditorKit extends EditorKit {
      *
      * @return the command list
      */
+    @Override
     public Action[] getActions() {
         return defaultActions.clone();
     }
@@ -118,6 +121,7 @@ public class DefaultEditorKit extends EditorKit {
      *
      * @return the caret
      */
+    @Override
     public Caret createCaret() {
         return null;
     }
@@ -128,6 +132,7 @@ public class DefaultEditorKit extends EditorKit {
      *
      * @return the model
      */
+    @Override
     public Document createDefaultDocument() {
         return new PlainDocument();
     }
@@ -145,6 +150,7 @@ public class DefaultEditorKit extends EditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void read(InputStream in, Document doc, int pos)
         throws IOException, BadLocationException {
 
@@ -164,6 +170,7 @@ public class DefaultEditorKit extends EditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void write(OutputStream out, Document doc, int pos, int len)
         throws IOException, BadLocationException {
         OutputStreamWriter osw = new OutputStreamWriter(out);
@@ -196,6 +203,7 @@ public class DefaultEditorKit extends EditorKit {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document.
      */
+    @Override
     public void read(Reader in, Document doc, int pos)
         throws IOException, BadLocationException {
 
@@ -306,6 +314,7 @@ public class DefaultEditorKit extends EditorKit {
      * @exception BadLocationException if pos is not within 0 and
      *   the length of the document.
      */
+    @Override
     public void write(Writer out, Document doc, int pos, int len)
         throws IOException, BadLocationException {
 
@@ -863,6 +872,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if ((target != null) && (e != null)) {
@@ -919,6 +929,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if ((target != null) && (e != null)) {
@@ -967,6 +978,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1009,6 +1021,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1041,6 +1054,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             boolean beep = true;
@@ -1093,6 +1107,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             boolean beep = true;
@@ -1147,6 +1162,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             final JTextComponent target = getTextComponent(e);
             if ((target != null) && (e != null)) {
@@ -1222,6 +1238,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1247,6 +1264,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1283,6 +1301,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1319,6 +1338,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1356,6 +1376,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1391,6 +1412,7 @@ public class DefaultEditorKit extends EditorKit {
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             UIManager.getLookAndFeel().provideErrorFeedback(target);
@@ -1415,6 +1437,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1574,6 +1597,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1606,10 +1630,11 @@ public class DefaultEditorKit extends EditorKit {
                     else if(selectedIndex  < 0) {
                         selectedIndex = 0;
                     }
-                    if (select)
+                    if (select) {
                         target.moveCaretPosition(selectedIndex);
-                    else
+                    } else {
                         target.setCaretPosition(selectedIndex);
+                    }
                 }
             }
         }
@@ -1624,6 +1649,7 @@ public class DefaultEditorKit extends EditorKit {
             super("dump-model");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1655,6 +1681,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1741,6 +1768,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1781,6 +1809,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1821,6 +1850,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1880,6 +1910,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1945,6 +1976,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -1985,6 +2017,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2025,6 +2058,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2062,6 +2096,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2094,6 +2129,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2122,6 +2158,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2158,6 +2195,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             start.actionPerformed(e);
             end.actionPerformed(e);
@@ -2187,6 +2225,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             start.actionPerformed(e);
             end.actionPerformed(e);
@@ -2216,6 +2255,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             start.actionPerformed(e);
             end.actionPerformed(e);
@@ -2243,6 +2283,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2269,6 +2310,7 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
@@ -2293,15 +2335,17 @@ public class DefaultEditorKit extends EditorKit {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             if (target != null) {
                 ComponentOrientation last = target.getComponentOrientation();
                 ComponentOrientation next;
-                if( last == ComponentOrientation.RIGHT_TO_LEFT )
+                if( last == ComponentOrientation.RIGHT_TO_LEFT ) {
                     next = ComponentOrientation.LEFT_TO_RIGHT;
-                else
+                } else {
                     next = ComponentOrientation.RIGHT_TO_LEFT;
+                }
                 target.setComponentOrientation(next);
                 target.repaint();
             }

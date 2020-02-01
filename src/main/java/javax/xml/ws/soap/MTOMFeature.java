@@ -103,8 +103,9 @@ public final class MTOMFeature extends WebServiceFeature {
      * @throws WebServiceException if threshold is < 0
      */
     public MTOMFeature(int threshold) {
-        if (threshold < 0)
+        if (threshold < 0) {
             throw new WebServiceException("MTOMFeature.threshold must be >= 0, actual value: "+threshold);
+        }
         this.enabled = true;
         this.threshold = threshold;
     }
@@ -119,8 +120,9 @@ public final class MTOMFeature extends WebServiceFeature {
      * @throws WebServiceException if threshold is < 0
      */
     public MTOMFeature(boolean enabled, int threshold) {
-        if (threshold < 0)
+        if (threshold < 0) {
             throw new WebServiceException("MTOMFeature.threshold must be >= 0, actual value: "+threshold);
+        }
         this.enabled = enabled;
         this.threshold = threshold;
     }
@@ -128,6 +130,7 @@ public final class MTOMFeature extends WebServiceFeature {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getID() {
         return ID;
     }

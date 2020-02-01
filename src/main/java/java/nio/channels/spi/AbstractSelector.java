@@ -104,10 +104,12 @@ public abstract class AbstractSelector
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     public final void close() throws IOException {
         boolean open = selectorOpen.getAndSet(false);
-        if (!open)
+        if (!open) {
             return;
+        }
         implCloseSelector();
     }
 
@@ -129,6 +131,7 @@ public abstract class AbstractSelector
      */
     protected abstract void implCloseSelector() throws IOException;
 
+    @Override
     public final boolean isOpen() {
         return selectorOpen.get();
     }
@@ -138,6 +141,7 @@ public abstract class AbstractSelector
      *
      * @return  The provider that created this channel
      */
+    @Override
     public final SelectorProvider provider() {
         return provider;
     }
@@ -209,14 +213,16 @@ public abstract class AbstractSelector
     protected final void begin() {
         if (interruptor == null) {
             interruptor = new Interruptible() {
+                    @Override
                     public void interrupt(Thread ignore) {
                         AbstractSelector.this.wakeup();
                     }};
         }
         AbstractInterruptibleChannel.blockedOn(interruptor);
         Thread me = Thread.currentThread();
-        if (me.isInterrupted())
+        if (me.isInterrupted()) {
             interruptor.interrupt(me);
+        }
     }
 
     /**

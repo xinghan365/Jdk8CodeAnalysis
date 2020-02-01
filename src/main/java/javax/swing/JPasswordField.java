@@ -149,6 +149,7 @@ public class JPasswordField extends JTextField {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -158,6 +159,7 @@ public class JPasswordField extends JTextField {
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public void updateUI() {
         if(!echoCharSet) {
             echoChar = '*';
@@ -223,6 +225,7 @@ public class JPasswordField extends JTextField {
      * to the system clipboard, and removing the contents from
      * the model, is not acceptable for a password field.
      */
+    @Override
     public void cut() {
         if (getClientProperty("JPasswordField.cutCopyAllowed") != Boolean.TRUE) {
             UIManager.getLookAndFeel().provideErrorFeedback(this);
@@ -239,6 +242,7 @@ public class JPasswordField extends JTextField {
      * to the system clipboard, and leaving the contents from
      * the model, is not acceptable for a password field.
      */
+    @Override
     public void copy() {
         if (getClientProperty("JPasswordField.cutCopyAllowed") != Boolean.TRUE) {
             UIManager.getLookAndFeel().provideErrorFeedback(this);
@@ -258,6 +262,7 @@ public class JPasswordField extends JTextField {
      * replaced by <code>getPassword</code>.
      * @return the text
      */
+    @Override
     @Deprecated
     public String getText() {
         return super.getText();
@@ -276,6 +281,7 @@ public class JPasswordField extends JTextField {
      * @return the text
      * @exception BadLocationException if the offset or length are invalid
      */
+    @Override
     @Deprecated
     public String getText(int offs, int len) throws BadLocationException {
         return super.getText(offs, len);
@@ -340,6 +346,7 @@ public class JPasswordField extends JTextField {
      *
      * @return  a string representation of this <code>JPasswordField</code>
      */
+    @Override
     protected String paramString() {
         return super.paramString() +
         ",echoChar=" + echoChar;
@@ -381,6 +388,7 @@ public class JPasswordField extends JTextField {
      *         <code>AccessibleContext</code> of this
      *         <code>JPasswordField</code>
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJPasswordField();
@@ -412,6 +420,7 @@ public class JPasswordField extends JTextField {
          *   object (AccessibleRole.PASSWORD_TEXT)
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PASSWORD_TEXT;
         }
@@ -429,6 +438,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public AccessibleText getAccessibleText() {
             return this;
         }
@@ -463,6 +473,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public String getAtIndex(int part, int index) {
            String str = null;
             if (part == AccessibleText.CHARACTER) {
@@ -496,6 +507,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public String getAfterIndex(int part, int index) {
             if (part == AccessibleText.CHARACTER) {
                 String str = super.getAfterIndex(part, index);
@@ -523,6 +535,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public String getBeforeIndex(int part, int index) {
             if (part == AccessibleText.CHARACTER) {
                 String str = super.getBeforeIndex(part, index);
@@ -544,6 +557,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public String getTextRange(int startIndex, int endIndex) {
             String str = super.getTextRange(startIndex, endIndex);
             return getEchoString(str);
@@ -570,6 +584,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public AccessibleTextSequence getTextSequenceAt(int part, int index) {
             if (part == AccessibleText.CHARACTER) {
                 AccessibleTextSequence seq = super.getTextSequenceAt(part, index);
@@ -612,6 +627,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public AccessibleTextSequence getTextSequenceAfter(int part, int index) {
             if (part == AccessibleText.CHARACTER) {
                 AccessibleTextSequence seq = super.getTextSequenceAfter(part, index);
@@ -647,6 +663,7 @@ public class JPasswordField extends JTextField {
          *
          * @since 1.6
          */
+        @Override
         public AccessibleTextSequence getTextSequenceBefore(int part, int index) {
             if (part == AccessibleText.CHARACTER) {
                 AccessibleTextSequence seq = super.getTextSequenceBefore(part, index);

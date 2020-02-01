@@ -176,6 +176,7 @@ public abstract class PermissionCollection implements java.io.Serializable {
      *         as described above.
      *
      */
+    @Override
     public String toString() {
         Enumeration<Permission> enum_ = elements();
         StringBuilder sb = new StringBuilder();

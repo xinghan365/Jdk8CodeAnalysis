@@ -161,6 +161,7 @@ public interface Port extends Line {
          * met and the types must be equal.
          * @param info the info object for which the match is queried
          */
+        @Override
         public boolean matches(Line.Info info) {
 
             if (! (super.matches(info)) ) {
@@ -182,6 +183,7 @@ public interface Port extends Line {
         /**
          * Finalizes the equals method
          */
+        @Override
         public final boolean equals(Object obj) {
             return super.equals(obj);
         }
@@ -189,6 +191,7 @@ public interface Port extends Line {
         /**
          * Finalizes the hashCode method
          */
+        @Override
         public final int hashCode() {
             return super.hashCode();
         }
@@ -200,6 +203,7 @@ public interface Port extends Line {
          * of the port.
          * @return  a string that describes the port
          */
+        @Override
         public final String toString() {
             return (name + ((isSource == true) ? " source" : " target") + " port");
         }

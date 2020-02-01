@@ -83,7 +83,8 @@ public class BasicColorChooserUI extends ColorChooserUI
         }
     }
 
-    public void installUI( JComponent c ) {
+    @Override
+    public void installUI(JComponent c ) {
         chooser = (JColorChooser)c;
 
         super.installUI( c );
@@ -119,7 +120,8 @@ public class BasicColorChooserUI extends ColorChooserUI
         chooser.applyComponentOrientation(c.getComponentOrientation());
     }
 
-    public void uninstallUI( JComponent c ) {
+    @Override
+    public void uninstallUI(JComponent c ) {
         chooser.remove(tabbedPane);
         chooser.remove(singlePanel);
         chooser.remove(previewPanelHolder);
@@ -233,26 +235,33 @@ public class BasicColorChooserUI extends ColorChooserUI
         //
         // ChangeListener
         //
+        @Override
         public void stateChanged(ChangeEvent evt) {
             selectionChanged((ColorSelectionModel) evt.getSource());
         }
 
         //
         // MouseListener
+        @Override
         public void mousePressed(MouseEvent evt) {
             if (chooser.getDragEnabled()) {
                 TransferHandler th = chooser.getTransferHandler();
                 th.exportAsDrag(chooser, evt, TransferHandler.COPY);
             }
         }
+        @Override
         public void mouseReleased(MouseEvent evt) {}
+        @Override
         public void mouseClicked(MouseEvent evt) {}
+        @Override
         public void mouseEntered(MouseEvent evt) {}
+        @Override
         public void mouseExited(MouseEvent evt) {}
 
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String prop = evt.getPropertyName();
 
@@ -266,8 +275,9 @@ public class BasicColorChooserUI extends ColorChooserUI
                    Container wrapper = oldPanels[i].getParent();
                     if (wrapper != null) {
                       Container parent = wrapper.getParent();
-                      if (parent != null)
+                      if (parent != null) {
                           parent.remove(wrapper);  // remove from hierarchy
+                      }
                       oldPanels[i].uninstallChooserPanel(chooser); // uninstall
                     }
                 }
@@ -340,6 +350,7 @@ public class BasicColorChooserUI extends ColorChooserUI
      * Instantiate it only within subclasses of {@code BasicColorChooserUI}.
      */
     public class PropertyHandler implements PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);
         }

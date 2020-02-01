@@ -117,6 +117,7 @@ class InflaterInputStream extends FilterInputStream {
      * @return the byte read, or -1 if end of compressed input is reached
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public int read() throws IOException {
         ensureOpen();
         return read(singleByteBuf, 0, 1) == -1 ? -1 : Byte.toUnsignedInt(singleByteBuf[0]);
@@ -138,6 +139,7 @@ class InflaterInputStream extends FilterInputStream {
      * @exception ZipException if a ZIP format error has occurred
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (b == null) {
@@ -175,6 +177,7 @@ class InflaterInputStream extends FilterInputStream {
      * @exception  IOException  if an I/O error occurs.
      *
      */
+    @Override
     public int available() throws IOException {
         ensureOpen();
         if (reachEOF) {
@@ -193,6 +196,7 @@ class InflaterInputStream extends FilterInputStream {
      * @exception IOException if an I/O error has occurred
      * @exception IllegalArgumentException if {@code n < 0}
      */
+    @Override
     public long skip(long n) throws IOException {
         if (n < 0) {
             throw new IllegalArgumentException("negative skip length");
@@ -220,10 +224,12 @@ class InflaterInputStream extends FilterInputStream {
      * with the stream.
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void close() throws IOException {
         if (!closed) {
-            if (usesDefaultInflater)
+            if (usesDefaultInflater) {
                 inf.end();
+            }
             in.close();
             closed = true;
         }
@@ -253,6 +259,7 @@ class InflaterInputStream extends FilterInputStream {
      * @see     java.io.InputStream#mark(int)
      * @see     java.io.InputStream#reset()
      */
+    @Override
     public boolean markSupported() {
         return false;
     }
@@ -267,6 +274,7 @@ class InflaterInputStream extends FilterInputStream {
      *                      the mark position becomes invalid.
      * @see     java.io.InputStream#reset()
      */
+    @Override
     public synchronized void mark(int readlimit) {
     }
 
@@ -282,6 +290,7 @@ class InflaterInputStream extends FilterInputStream {
      * @see     java.io.InputStream#mark(int)
      * @see     java.io.IOException
      */
+    @Override
     public synchronized void reset() throws IOException {
         throw new IOException("mark/reset not supported");
     }

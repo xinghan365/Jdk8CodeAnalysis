@@ -604,6 +604,7 @@ public class IndexColorModel extends ColorModel {
      * @see Transparency#BITMASK
      * @see Transparency#TRANSLUCENT
      */
+    @Override
     public int getTransparency() {
         return transparency;
     }
@@ -615,6 +616,7 @@ public class IndexColorModel extends ColorModel {
      * @return an array containing the number of bits of each color
      *         and alpha component of this <code>IndexColorModel</code>
      */
+    @Override
     public int[] getComponentSize() {
         if (nBits == null) {
             if (supportsAlpha) {
@@ -776,6 +778,7 @@ public class IndexColorModel extends ColorModel {
      * @param pixel the specified pixel
      * @return the value of the red color component for the specified pixel
      */
+    @Override
     final public int getRed(int pixel) {
         return (rgb[pixel & pixel_mask] >> 16) & 0xff;
     }
@@ -791,6 +794,7 @@ public class IndexColorModel extends ColorModel {
      * @param pixel the specified pixel
      * @return the value of the green color component for the specified pixel
      */
+    @Override
     final public int getGreen(int pixel) {
         return (rgb[pixel & pixel_mask] >> 8) & 0xff;
     }
@@ -806,6 +810,7 @@ public class IndexColorModel extends ColorModel {
      * @param pixel the specified pixel
      * @return the value of the blue color component for the specified pixel
      */
+    @Override
     final public int getBlue(int pixel) {
         return rgb[pixel & pixel_mask] & 0xff;
     }
@@ -819,6 +824,7 @@ public class IndexColorModel extends ColorModel {
      * @param pixel the specified pixel
      * @return the value of the alpha component for the specified pixel
      */
+    @Override
     final public int getAlpha(int pixel) {
         return (rgb[pixel & pixel_mask] >> 24) & 0xff;
     }
@@ -834,6 +840,7 @@ public class IndexColorModel extends ColorModel {
      * @return the color and alpha components of the specified pixel
      * @see ColorModel#getRGBdefault
      */
+    @Override
     final public int getRGB(int pixel) {
         return rgb[pixel & pixel_mask];
     }
@@ -875,6 +882,7 @@ public class IndexColorModel extends ColorModel {
      * @see WritableRaster#setDataElements
      * @see SampleModel#setDataElements
      */
+    @Override
     public synchronized Object getDataElements(int rgb, Object pixel) {
         int red = (rgb>>16) & 0xff;
         int green = (rgb>>8) & 0xff;
@@ -919,7 +927,9 @@ public class IndexColorModel extends ColorModel {
                     continue;
                 }
                 d = (this.rgb[i] & 0xff) - gray;
-                if (d < 0) d = -d;
+                if (d < 0) {
+                    d = -d;
+                }
                 if (d < minDist) {
                     pix = i;
                     if (d == 0) {
@@ -1090,6 +1100,7 @@ public class IndexColorModel extends ColorModel {
      * @see ColorModel#hasAlpha
      * @see ColorModel#getNumComponents
      */
+    @Override
     public int[] getComponents(int pixel, int[] components, int offset) {
         if (components == null) {
             components = new int[offset+numComponents];
@@ -1156,6 +1167,7 @@ public class IndexColorModel extends ColorModel {
      * @see ColorModel#hasAlpha
      * @see ColorModel#getNumComponents
      */
+    @Override
     public int[] getComponents(Object pixel, int[] components, int offset) {
         int intpixel;
         switch (transferType) {
@@ -1202,6 +1214,7 @@ public class IndexColorModel extends ColorModel {
      * @throws UnsupportedOperationException if <code>transferType</code>
      *         is invalid
      */
+    @Override
     public int getDataElement(int[] components, int offset) {
         int rgb = (components[offset+0]<<16)
             | (components[offset+1]<<8) | (components[offset+2]);
@@ -1275,6 +1288,7 @@ public class IndexColorModel extends ColorModel {
      * @see WritableRaster#setDataElements
      * @see SampleModel#setDataElements
      */
+    @Override
     public Object getDataElements(int[] components, int offset, Object pixel) {
         int rgb = (components[offset+0]<<16) | (components[offset+1]<<8)
             | (components[offset+2]);
@@ -1306,6 +1320,7 @@ public class IndexColorModel extends ColorModel {
      * @see WritableRaster
      * @see SampleModel
      */
+    @Override
     public WritableRaster createCompatibleWritableRaster(int w, int h) {
         WritableRaster raster;
 
@@ -1339,6 +1354,7 @@ public class IndexColorModel extends ColorModel {
       * with this <code>ColorModel</code>; <code>false</code> otherwise.
       *
       */
+    @Override
     public boolean isCompatibleRaster(Raster raster) {
 
         int size = raster.getSampleModel().getSampleSize(0);
@@ -1358,6 +1374,7 @@ public class IndexColorModel extends ColorModel {
      *         <code>h</code> is not greater than 0
      * @see SampleModel
      */
+    @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
         int[] off = new int[1];
         off[0] = 0;
@@ -1382,6 +1399,7 @@ public class IndexColorModel extends ColorModel {
      * otherwise.
      * @see SampleModel
      */
+    @Override
     public boolean isCompatibleSampleModel(SampleModel sm) {
         // fix 4238629
         if (! (sm instanceof ComponentSampleModel) &&
@@ -1513,6 +1531,7 @@ public class IndexColorModel extends ColorModel {
      * <code>ColorModel</code> once this <code>ColorModel</code> is no
      * longer referenced.
      */
+    @Override
     public void finalize() {
     }
 
@@ -1522,6 +1541,7 @@ public class IndexColorModel extends ColorModel {
      * @return a <code>String</code> representing the contents of this
      * <code>ColorModel</code> object.
      */
+    @Override
     public String toString() {
        return new String("IndexColorModel: #pixelBits = "+pixel_bits
                          + " numComponents = "+numComponents

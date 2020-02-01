@@ -185,6 +185,7 @@ public class TransferHandler implements Serializable {
          *
          * @return a string representation of this drop location
          */
+        @Override
         public String toString() {
             return getClass().getName() + "[dropPoint=" + dropPoint + "]";
         }
@@ -1136,6 +1137,7 @@ public class TransferHandler implements Serializable {
          * for providing the data (from most richly descriptive to least descriptive).
          * @return an array of data flavors in which this data can be transferred
          */
+        @Override
         public DataFlavor[] getTransferDataFlavors() {
             DataFlavor[] flavors = new DataFlavor[1];
             Class<?> propertyType = property.getPropertyType();
@@ -1155,6 +1157,7 @@ public class TransferHandler implements Serializable {
          * @return true if this <code>DataFlavor</code> is supported,
          *   otherwise false
          */
+        @Override
         public boolean isDataFlavorSupported(DataFlavor flavor) {
             Class<?> propertyType = property.getPropertyType();
             if ("application".equals(flavor.getPrimaryType()) &&
@@ -1177,6 +1180,7 @@ public class TransferHandler implements Serializable {
          * @exception UnsupportedFlavorException if the requested data flavor is
          *              not supported.
          */
+        @Override
         public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
             if (! isDataFlavorSupported(flavor)) {
                 throw new UnsupportedFlavorException(flavor);
@@ -1216,6 +1220,7 @@ public class TransferHandler implements Serializable {
             } catch (TooManyListenersException tmle) {}
         }
 
+        @Override
         public void addDropTargetListener(DropTargetListener dtl) throws TooManyListenersException {
             // Since the super class only supports one DropTargetListener,
             // and we add one from the constructor, we always add to the
@@ -1226,6 +1231,7 @@ public class TransferHandler implements Serializable {
             listenerList.add(DropTargetListener.class, dtl);
         }
 
+        @Override
         public void removeDropTargetListener(DropTargetListener dtl) {
             if (listenerList != null) {
                 listenerList.remove(DropTargetListener.class, dtl);
@@ -1234,6 +1240,7 @@ public class TransferHandler implements Serializable {
 
         // --- DropTargetListener methods (multicast) --------------------------
 
+        @Override
         public void dragEnter(DropTargetDragEvent e) {
             super.dragEnter(e);
             if (listenerList != null) {
@@ -1246,6 +1253,7 @@ public class TransferHandler implements Serializable {
             }
         }
 
+        @Override
         public void dragOver(DropTargetDragEvent e) {
             super.dragOver(e);
             if (listenerList != null) {
@@ -1258,6 +1266,7 @@ public class TransferHandler implements Serializable {
             }
         }
 
+        @Override
         public void dragExit(DropTargetEvent e) {
             super.dragExit(e);
             if (listenerList != null) {
@@ -1278,6 +1287,7 @@ public class TransferHandler implements Serializable {
             }
         }
 
+        @Override
         public void drop(DropTargetDropEvent e) {
             super.drop(e);
             if (listenerList != null) {
@@ -1290,6 +1300,7 @@ public class TransferHandler implements Serializable {
             }
         }
 
+        @Override
         public void dropActionChanged(DropTargetDragEvent e) {
             super.dropActionChanged(e);
             if (listenerList != null) {
@@ -1429,6 +1440,7 @@ public class TransferHandler implements Serializable {
          * <P>
          * @param e the <code>ActionEvent</code>
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             updateAutoscrollRegion((JComponent)component);
             if (outer.contains(lastPosition) && !inner.contains(lastPosition)) {
@@ -1479,6 +1491,7 @@ public class TransferHandler implements Serializable {
             setComponentDropLocation(showLocation ? support : null, false);
         }
 
+        @Override
         public void dragEnter(DropTargetDragEvent e) {
             state = null;
             component = e.getDropTargetContext().getComponent();
@@ -1492,6 +1505,7 @@ public class TransferHandler implements Serializable {
             }
         }
 
+        @Override
         public void dragOver(DropTargetDragEvent e) {
             handleDrag(e);
 
@@ -1504,18 +1518,24 @@ public class TransferHandler implements Serializable {
             if (Math.abs(p.x - lastPosition.x) > hysteresis
                     || Math.abs(p.y - lastPosition.y) > hysteresis) {
                 // no autoscroll
-                if (timer.isRunning()) timer.stop();
+                if (timer.isRunning()) {
+                    timer.stop();
+                }
             } else {
-                if (!timer.isRunning()) timer.start();
+                if (!timer.isRunning()) {
+                    timer.start();
+                }
             }
 
             lastPosition = p;
         }
 
+        @Override
         public void dragExit(DropTargetEvent e) {
             cleanup(false);
         }
 
+        @Override
         public void drop(DropTargetDropEvent e) {
             TransferHandler importer =
                 ((HasGetTransferHandler)component).getTransferHandler();
@@ -1554,6 +1574,7 @@ public class TransferHandler implements Serializable {
             }
         }
 
+        @Override
         public void dropActionChanged(DropTargetDragEvent e) {
             /*
              * Work-around for Linux bug where dropActionChanged
@@ -1595,6 +1616,7 @@ public class TransferHandler implements Serializable {
         /**
          * a Drag gesture has been recognized
          */
+        @Override
         public void dragGestureRecognized(DragGestureEvent dge) {
             JComponent c = (JComponent) dge.getComponent();
             TransferHandler th = c.getTransferHandler();
@@ -1623,24 +1645,28 @@ public class TransferHandler implements Serializable {
         /**
          * as the hotspot enters a platform dependent drop site
          */
+        @Override
         public void dragEnter(DragSourceDragEvent dsde) {
         }
 
         /**
          * as the hotspot moves over a platform dependent drop site
          */
+        @Override
         public void dragOver(DragSourceDragEvent dsde) {
         }
 
         /**
          * as the hotspot exits a platform dependent drop site
          */
+        @Override
         public void dragExit(DragSourceEvent dsde) {
         }
 
         /**
          * as the operation completes
          */
+        @Override
         public void dragDropEnd(DragSourceDropEvent dsde) {
             DragSourceContext dsc = dsde.getDragSourceContext();
             JComponent c = (JComponent)dsc.getComponent();
@@ -1652,6 +1678,7 @@ public class TransferHandler implements Serializable {
             c.setAutoscrolls(scrolls);
         }
 
+        @Override
         public void dropActionChanged(DragSourceDragEvent dsde) {
         }
     }
@@ -1672,6 +1699,7 @@ public class TransferHandler implements Serializable {
         /**
          * register this DragGestureRecognizer's Listeners with the Component
          */
+        @Override
         protected void registerListeners() {
         }
 
@@ -1680,6 +1708,7 @@ public class TransferHandler implements Serializable {
          *
          * subclasses must override this method
          */
+        @Override
         protected void unregisterListeners() {
         }
 
@@ -1695,6 +1724,7 @@ public class TransferHandler implements Serializable {
             super(name);
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if (sender instanceof JComponent
                 && ((JComponent)sender).getTransferHandler() == null) {
@@ -1707,10 +1737,12 @@ public class TransferHandler implements Serializable {
         private static final JavaSecurityAccess javaSecurityAccess =
             SharedSecrets.getJavaSecurityAccess();
 
+        @Override
         public void actionPerformed(final ActionEvent e) {
             final Object src = e.getSource();
 
             final PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     actionPerformedImpl(e);
                     return null;
@@ -1726,6 +1758,7 @@ public class TransferHandler implements Serializable {
                 } else {
                     javaSecurityAccess.doIntersectionPrivilege(
                         new PrivilegedAction<Void>() {
+                            @Override
                             public Void run() {
                                 javaSecurityAccess.doIntersectionPrivilege(action, eventAcc);
                                 return null;

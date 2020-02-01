@@ -88,6 +88,7 @@ public abstract class AbstractTypeVisitor6<R, P> implements TypeVisitor<R, P> {
      * @param p  a visitor-specified parameter
      * @return a visitor-specified result
      */
+    @Override
     public final R visit(TypeMirror t, P p) {
         return t.accept(this, p);
     }
@@ -101,6 +102,7 @@ public abstract class AbstractTypeVisitor6<R, P> implements TypeVisitor<R, P> {
      * @param t  the type to visit
      * @return a visitor-specified result
      */
+    @Override
     public final R visit(TypeMirror t) {
         return t.accept(this, null);
     }
@@ -115,6 +117,7 @@ public abstract class AbstractTypeVisitor6<R, P> implements TypeVisitor<R, P> {
      *
      * @since 1.7
      */
+    @Override
     public R visitUnion(UnionType t, P p) {
         return visitUnknown(t, p);
     }
@@ -129,6 +132,7 @@ public abstract class AbstractTypeVisitor6<R, P> implements TypeVisitor<R, P> {
      *
      * @since 1.8
      */
+    @Override
     public R visitIntersection(IntersectionType t, P p) {
         return visitUnknown(t, p);
     }
@@ -146,6 +150,7 @@ public abstract class AbstractTypeVisitor6<R, P> implements TypeVisitor<R, P> {
      * @throws UnknownTypeException
      *  a visitor implementation may optionally throw this exception
      */
+    @Override
     public R visitUnknown(TypeMirror t, P p) {
         throw new UnknownTypeException(t, p);
     }

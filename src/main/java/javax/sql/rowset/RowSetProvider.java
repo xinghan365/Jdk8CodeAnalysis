@@ -217,6 +217,7 @@ public class RowSetProvider {
     static private ClassLoader getContextClassLoader() throws SecurityException {
         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
+            @Override
             public ClassLoader run() {
                 ClassLoader cl = null;
 
@@ -297,6 +298,7 @@ public class RowSetProvider {
         try {
             property = AccessController.doPrivileged(new PrivilegedAction<String>() {
 
+                @Override
                 public String run() {
                     return System.getProperty(propName);
                 }

@@ -133,6 +133,7 @@ public class MinimalHTMLWriter extends AbstractWriter {
      *            location within the document.
      *
      */
+    @Override
     public void write() throws IOException, BadLocationException {
         styleNameMapping = new Hashtable<String, String>();
         writeStartTag("<html>");
@@ -154,6 +155,7 @@ public class MinimalHTMLWriter extends AbstractWriter {
      *
      * @exception IOException on any I/O error
      */
+    @Override
     protected void writeAttributes(AttributeSet attr) throws IOException {
         Enumeration attributeNames = attr.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
@@ -180,6 +182,7 @@ public class MinimalHTMLWriter extends AbstractWriter {
      *
      * @exception IOException on any I/O error
      */
+    @Override
     protected void text(Element elem) throws IOException, BadLocationException {
         String contentStr = getText(elem);
         if ((contentStr.length() > 0) &&

@@ -78,18 +78,21 @@ public class CellRendererPane extends Container implements Accessible
      * Overridden to avoid propagating a invalidate up the tree when the
      * cell renderer child is configured.
      */
+    @Override
     public void invalidate() { }
 
 
     /**
      * Shouldn't be called.
      */
+    @Override
     public void paint(Graphics g) { }
 
 
     /**
      * Shouldn't be called.
      */
+    @Override
     public void update(Graphics g) { }
 
 
@@ -98,6 +101,7 @@ public class CellRendererPane extends Container implements Accessible
      * bother doing anything - stacking order doesn't matter for cell
      * renderer components (CellRendererPane doesn't paint anyway).
      */
+    @Override
     protected void addImpl(Component x, Object constraints, int index) {
         if (x.getParent() == this) {
             return;
@@ -199,6 +203,7 @@ public class CellRendererPane extends Container implements Accessible
      * @return an AccessibleCellRendererPane that serves as the
      *         AccessibleContext of this CellRendererPane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleCellRendererPane();
@@ -220,6 +225,7 @@ public class CellRendererPane extends Container implements Accessible
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

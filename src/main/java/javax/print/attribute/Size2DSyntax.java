@@ -290,6 +290,7 @@ public abstract class Size2DSyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this
      *          two-dimensional size attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return(object != null &&
                object instanceof Size2DSyntax &&
@@ -300,6 +301,7 @@ public abstract class Size2DSyntax implements Serializable, Cloneable {
     /**
      * Returns a hash code value for this two-dimensional size attribute.
      */
+    @Override
     public int hashCode() {
         return (((x & 0x0000FFFF)      ) |
                 ((y & 0x0000FFFF) << 16));
@@ -311,6 +313,7 @@ public abstract class Size2DSyntax implements Serializable, Cloneable {
      * <I>X</I> is the X dimension and <I>Y</I> is the Y dimension.
      * The values are reported in the internal units of micrometers.
      */
+    @Override
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append(x);

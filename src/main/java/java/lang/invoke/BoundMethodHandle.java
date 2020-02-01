@@ -149,8 +149,9 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
 
     /*non-public*/ static SpeciesData speciesData(LambdaForm form) {
         Object c = form.names[0].constraint;
-        if (c instanceof SpeciesData)
+        if (c instanceof SpeciesData) {
             return (SpeciesData) c;
+        }
         // if there is no BMH constraint, then use the null constraint
         return SpeciesData.EMPTY;
     }
@@ -193,7 +194,8 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
     // cloning API
     //
 
-    /*non-public*/ abstract BoundMethodHandle copyWith(MethodType mt, LambdaForm lf);
+    /*non-public*/ @Override
+    abstract BoundMethodHandle copyWith(MethodType mt, LambdaForm lf);
     /*non-public*/ abstract BoundMethodHandle copyWithExtendL(MethodType mt, LambdaForm lf, Object narg);
     /*non-public*/ abstract BoundMethodHandle copyWithExtendI(MethodType mt, LambdaForm lf, int    narg);
     /*non-public*/ abstract BoundMethodHandle copyWithExtendJ(MethodType mt, LambdaForm lf, long   narg);
@@ -309,6 +311,7 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
         public Class<? extends BoundMethodHandle> fieldHolder() {
             return clazz;
         }
+        @Override
         public String toString() {
             return "SpeciesData<"+fieldSignature()+">";
         }
@@ -374,7 +377,9 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
         SpeciesData extendWith(BasicType type) {
             int ord = type.ordinal();
             SpeciesData d = extensions[ord];
-            if (d != null)  return d;
+            if (d != null) {
+                return d;
+            }
             extensions[ord] = d = get(typeChars+type.basicTypeChar());
             return d;
         }
@@ -749,7 +754,9 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
         }
 
         static MethodHandle[] makeGetters(Class<?> cbmhClass, String types, MethodHandle[] mhs) {
-            if (mhs == null)  mhs = new MethodHandle[types.length()];
+            if (mhs == null) {
+                mhs = new MethodHandle[types.length()];
+            }
             for (int i = 0; i < mhs.length; ++i) {
                 mhs[i] = makeGetter(cbmhClass, types, i);
                 assert(mhs[i].internalMemberName().getDeclaringClass() == cbmhClass);
@@ -758,14 +765,20 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
         }
 
         static MethodHandle[] makeCtors(Class<? extends BoundMethodHandle> cbmh, String types, MethodHandle mhs[]) {
-            if (mhs == null)  mhs = new MethodHandle[1];
-            if (types.equals(""))  return mhs;  // hack for empty BMH species
+            if (mhs == null) {
+                mhs = new MethodHandle[1];
+            }
+            if (types.equals("")) {
+                return mhs;  // hack for empty BMH species
+            }
             mhs[0] = makeCbmhCtor(cbmh, types);
             return mhs;
         }
 
         static NamedFunction[] makeNominalGetters(String types, NamedFunction[] nfs, MethodHandle[] getters) {
-            if (nfs == null)  nfs = new NamedFunction[types.length()];
+            if (nfs == null) {
+                nfs = new NamedFunction[types.length()];
+            }
             for (int i = 0; i < nfs.length; ++i) {
                 nfs[i] = new NamedFunction(getters[i]);
             }
@@ -833,7 +846,9 @@ import jdk.internal.org.objectweb.asm.MethodVisitor;
     private static SpeciesData checkCache(int size, String types) {
         int idx = size - 1;
         SpeciesData data = SPECIES_DATA_CACHE[idx];
-        if (data != null)  return data;
+        if (data != null) {
+            return data;
+        }
         SPECIES_DATA_CACHE[idx] = data = getSpeciesData(types);
         return data;
     }

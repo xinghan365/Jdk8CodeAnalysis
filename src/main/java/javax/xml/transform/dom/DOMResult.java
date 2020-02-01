@@ -320,6 +320,7 @@ public class DOMResult implements Result {
      *
      * @param systemId The system identifier as a URI string.
      */
+    @Override
     public void setSystemId(String systemId) {
         this.systemId = systemId;
     }
@@ -335,6 +336,7 @@ public class DOMResult implements Result {
      *
      * @return The system identifier.
      */
+    @Override
     public String getSystemId() {
         return systemId;
     }

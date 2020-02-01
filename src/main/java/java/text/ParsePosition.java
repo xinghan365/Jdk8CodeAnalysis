@@ -121,11 +121,15 @@ public class ParsePosition {
     /**
      * Overrides equals
      */
+    @Override
     public boolean equals(Object obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof ParsePosition))
+        if (obj == null) {
             return false;
+        }
+        if (!(obj instanceof ParsePosition)) {
+            return false;
+        }
         ParsePosition other = (ParsePosition) obj;
         return (index == other.index && errorIndex == other.errorIndex);
     }
@@ -134,6 +138,7 @@ public class ParsePosition {
      * Returns a hash code for this ParsePosition.
      * @return a hash code value for this object
      */
+    @Override
     public int hashCode() {
         return (errorIndex << 16) | index;
     }
@@ -142,6 +147,7 @@ public class ParsePosition {
      * Return a string representation of this ParsePosition.
      * @return  a string representation of this object
      */
+    @Override
     public String toString() {
         return getClass().getName() +
             "[index=" + index +

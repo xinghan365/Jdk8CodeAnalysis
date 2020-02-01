@@ -111,6 +111,7 @@ class HRuleView extends View  {
      * @param a the allocation region for the view
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
                           a.getBounds();
@@ -122,8 +123,9 @@ class HRuleView extends View  {
         }
         int height = alloc.height - (SPACE_ABOVE + SPACE_BELOW +
                                      (int)topMargin + (int)bottomMargin);
-        if (size > 0)
-                height = size;
+        if (size > 0) {
+            height = size;
+        }
 
         // Align the rule horizontally.
         switch (alignment) {
@@ -174,6 +176,7 @@ class HRuleView extends View  {
      * @return the desired span
      * @see View#getPreferredSpan
      */
+    @Override
     public float getPreferredSpan(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -202,6 +205,7 @@ class HRuleView extends View  {
      * @param axis may be either X_AXIS or Y_AXIS
      * @return the weight
      */
+    @Override
     public int getResizeWeight(int axis) {
         if (axis == View.X_AXIS) {
                 return 1;
@@ -227,6 +231,7 @@ class HRuleView extends View  {
      * @return the weight, which should be a value between
      *   ForcedBreakWeight and BadBreakWeight.
      */
+    @Override
     public int getBreakWeight(int axis, float pos, float len) {
         if (axis == X_AXIS) {
             return ForcedBreakWeight;
@@ -234,6 +239,7 @@ class HRuleView extends View  {
         return BadBreakWeight;
     }
 
+    @Override
     public View breakView(int axis, int offset, float pos, float len) {
         return null;
     }
@@ -249,6 +255,7 @@ class HRuleView extends View  {
      * represent a valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         int p0 = getStartOffset();
         int p1 = getEndOffset();
@@ -274,6 +281,7 @@ class HRuleView extends View  {
      *  given point of view
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
         Rectangle alloc = (Rectangle) a;
         if (x < alloc.x + (alloc.width / 2)) {
@@ -289,10 +297,12 @@ class HRuleView extends View  {
      * implemented to multiplex the attributes specified in the
      * model with a StyleSheet.
      */
+    @Override
     public AttributeSet getAttributes() {
         return attr;
     }
 
+    @Override
     public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         super.changedUpdate(changes, a, f);
         int pos = changes.getOffset();

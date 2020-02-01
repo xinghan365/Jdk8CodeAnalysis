@@ -58,6 +58,7 @@ public interface XMLEventReader extends Iterator {
    * Returns true if there are more events and false otherwise.
    * @return true if the event reader has more events, false otherwise
    */
+  @Override
   public boolean hasNext();
 
   /**

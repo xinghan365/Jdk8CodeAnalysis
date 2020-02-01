@@ -91,6 +91,7 @@ enum ClientPropertyKey {
     static {
         AWTAccessor.setClientPropertyKeyAccessor(
             new AWTAccessor.ClientPropertyKeyAccessor() {
+                @Override
                 public Object getJComponent_TRANSFER_HANDLER() {
                     return JComponent_TRANSFER_HANDLER;
                 }

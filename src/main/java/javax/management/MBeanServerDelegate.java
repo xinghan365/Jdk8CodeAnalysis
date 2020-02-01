@@ -78,6 +78,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the identity.
      */
+    @Override
     public synchronized String getMBeanServerId() {
         if (mbeanServerId == null) {
             String localHost;
@@ -99,6 +100,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the specification name.
      */
+    @Override
     public String getSpecificationName() {
         return ServiceName.JMX_SPEC_NAME;
     }
@@ -109,6 +111,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the specification version.
      */
+    @Override
     public String getSpecificationVersion() {
         return ServiceName.JMX_SPEC_VERSION;
     }
@@ -119,6 +122,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the specification vendor.
      */
+    @Override
     public String getSpecificationVendor() {
         return ServiceName.JMX_SPEC_VENDOR;
     }
@@ -128,6 +132,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the implementation name.
      */
+    @Override
     public String getImplementationName() {
         return ServiceName.JMX_IMPL_NAME;
     }
@@ -137,6 +142,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the implementation version.
      */
+    @Override
     public String getImplementationVersion() {
         try {
             return System.getProperty("java.runtime.version");
@@ -150,12 +156,14 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
      *
      * @return the implementation vendor.
      */
+    @Override
     public String getImplementationVendor()  {
         return ServiceName.JMX_IMPL_VENDOR;
     }
 
     // From NotificationEmitter extends NotificationBroacaster
     //
+    @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
         final int len = MBeanServerDelegate.notifsInfo.length;
         final MBeanNotificationInfo[] infos =
@@ -166,6 +174,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
 
     // From NotificationEmitter extends NotificationBroacaster
     //
+    @Override
     public synchronized
         void addNotificationListener(NotificationListener listener,
                                      NotificationFilter filter,
@@ -176,6 +185,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
 
     // From NotificationEmitter extends NotificationBroacaster
     //
+    @Override
     public synchronized
         void removeNotificationListener(NotificationListener listener,
                                         NotificationFilter filter,
@@ -186,6 +196,7 @@ public class MBeanServerDelegate implements MBeanServerDelegateMBean,
 
     // From NotificationEmitter extends NotificationBroacaster
     //
+    @Override
     public synchronized
         void removeNotificationListener(NotificationListener listener)
         throws ListenerNotFoundException {

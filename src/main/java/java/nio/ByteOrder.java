@@ -81,6 +81,7 @@ public final class ByteOrder {
      *
      * @return  The specified string
      */
+    @Override
     public String toString() {
         return name;
     }

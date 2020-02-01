@@ -96,6 +96,7 @@ final class TextFieldPainter extends AbstractRegionPainter {
         }
     }
         
+    @Override
     protected Object[] getExtendedCacheKeys(JComponent c) {
         Object[] extendedCacheKeys = null;
         switch(state) {

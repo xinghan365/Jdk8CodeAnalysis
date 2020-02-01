@@ -195,14 +195,16 @@ class CSSBorder extends AbstractBorder {
 
     /* The javax.swing.border.Border methods.  */
 
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         int[] widths = getWidths();
         insets.set(widths[TOP], widths[LEFT], widths[BOTTOM], widths[RIGHT]);
         return insets;
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g,
-                                        int x, int y, int width, int height) {
+                            int x, int y, int width, int height) {
         if (!(g instanceof Graphics2D)) {
             return;
         }
@@ -270,6 +272,7 @@ class CSSBorder extends AbstractBorder {
      * Painter for the "none" and "hidden" CSS border styles.
      */
     static class NullPainter implements BorderPainter {
+        @Override
         public void paint(Polygon shape, Graphics g, Color color, int side) {
             // Do nothing.
         }
@@ -279,6 +282,7 @@ class CSSBorder extends AbstractBorder {
      * Painter for the "solid" CSS border style.
      */
     static class SolidPainter implements BorderPainter {
+        @Override
         public void paint(Polygon shape, Graphics g, Color color, int side) {
             g.setColor(color);
             g.fillPolygon(shape);
@@ -323,6 +327,7 @@ class CSSBorder extends AbstractBorder {
      * Painter for the "double" CSS border style.
      */
     static class DoublePainter extends StrokePainter {
+        @Override
         public void paint(Polygon shape, Graphics g, Color color, int side) {
             Rectangle r = shape.getBounds();
             int length = Math.max(r.height / 3, 1);
@@ -342,6 +347,7 @@ class CSSBorder extends AbstractBorder {
             this.factor = factor;
         }
 
+        @Override
         public void paint(Polygon shape, Graphics g, Color color, int side) {
             Rectangle r = shape.getBounds();
             int length = r.height * factor;
@@ -380,6 +386,7 @@ class CSSBorder extends AbstractBorder {
             this.type = type;
         }
 
+        @Override
         public void paint(Polygon shape, Graphics g, Color color, int side) {
             Rectangle r = shape.getBounds();
             int length = Math.max(r.height / 2, 1);
@@ -402,6 +409,7 @@ class CSSBorder extends AbstractBorder {
             this.type = type;
         }
 
+        @Override
         public void paint(Polygon shape, Graphics g, Color color, int side) {
             g.setColor(((side + 1) % 4 < 2) == (type == Value.INSET) ?
                                 getShadowColor(color) : getLightColor(color));

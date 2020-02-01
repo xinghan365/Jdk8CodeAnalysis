@@ -207,10 +207,11 @@ public class CannotProceedException extends NamingException {
      * @see #getRemainingNewName
      */
     public void setRemainingNewName(Name newName) {
-        if (newName != null)
+        if (newName != null) {
             this.remainingNewName = (Name)(newName.clone());
-        else
+        } else {
             this.remainingNewName = null;
+        }
     }
 
     /**

@@ -104,6 +104,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *        bound: true
      *  description: The TreeModel that will provide the data.
      */
+    @Override
     public void setModel(TreeModel newModel) {
         super.setModel(newModel);
         rebuild(false);
@@ -120,6 +121,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *  description: Whether or not the root node
      *               from the TreeModel is visible.
      */
+    @Override
     public void setRootVisible(boolean rootVisible) {
         if(isRootVisible() != rootVisible && root != null) {
             if(rootVisible) {
@@ -128,14 +130,17 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
             }
             else if(visibleNodes.size() > 0) {
                 visibleNodes.removeElementAt(0);
-                if(treeSelectionModel != null)
+                if(treeSelectionModel != null) {
                     treeSelectionModel.removeSelectionPath
                         (root.getTreePath());
+                }
             }
-            if(treeSelectionModel != null)
+            if(treeSelectionModel != null) {
                 treeSelectionModel.resetRowSelection();
-            if(getRowCount() > 0)
+            }
+            if(getRowCount() > 0) {
                 getNode(0).setYOrigin(0);
+            }
             updateYLocationsFrom(0);
             visibleNodesChanged();
         }
@@ -152,6 +157,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *        bound: true
      *  description: The height of each cell.
      */
+    @Override
     public void setRowHeight(int rowHeight) {
         if(rowHeight != getRowHeight()) {
             super.setRowHeight(rowHeight);
@@ -164,6 +170,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Sets the renderer that is responsible for drawing nodes in the tree.
      * @param nd the renderer
      */
+    @Override
     public void setNodeDimensions(NodeDimensions nd) {
         super.setNodeDimensions(nd);
         invalidateSizes();
@@ -176,11 +183,12 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * @param path the <code>TreePath</code> of interest
      * @param isExpanded true if the path should be expanded, otherwise false
      */
+    @Override
     public void setExpandedState(TreePath path, boolean isExpanded) {
         if(path != null) {
-            if(isExpanded)
+            if(isExpanded) {
                 ensurePathIsExpanded(path, true);
-            else {
+            } else {
                 TreeStateNode        node = getNodeForPath(path, false, true);
 
                 if(node != null) {
@@ -195,6 +203,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Returns true if the path is expanded, and visible.
      * @return true if the path is expanded and visible, otherwise false
      */
+    @Override
     public boolean getExpandedState(TreePath path) {
         TreeStateNode       node = getNodeForPath(path, true, false);
 
@@ -211,12 +220,14 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
       * @return the bounds of the enclosing rectangle or <code>null</code>
       *    if the node could not be ascertained
       */
+    @Override
     public Rectangle getBounds(TreePath path, Rectangle placeIn) {
         TreeStateNode       node = getNodeForPath(path, true, false);
 
         if(node != null) {
-            if(updateNodeSizes)
+            if(updateNodeSizes) {
                 updateNodeSizes(false);
+            }
             return node.getNodeBounds(placeIn);
         }
         return null;
@@ -230,6 +241,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
       * @return the path for <code>row</code>, or <code>null</code>
       * if <code>row</code> is not visible
       */
+    @Override
     public TreePath getPathForRow(int row) {
         if(row >= 0 && row < getRowCount()) {
             return getNode(row).getTreePath();
@@ -245,14 +257,17 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
       * @param path the <code>TreePath</code> of interest
       * @return the row where the last item in path is visible
       */
+    @Override
     public int getRowForPath(TreePath path) {
-        if(path == null)
+        if(path == null) {
             return -1;
+        }
 
         TreeStateNode    visNode = getNodeForPath(path, true, false);
 
-        if(visNode != null)
+        if(visNode != null) {
             return visNode.getRow();
+        }
         return -1;
     }
 
@@ -260,6 +275,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Returns the number of visible rows.
      * @return the number of visible rows
      */
+    @Override
     public int getRowCount() {
         return visibleNodes.size();
     }
@@ -270,13 +286,15 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param path the <code>TreePath</code> which is now invalid
      */
+    @Override
     public void invalidatePathBounds(TreePath path) {
         TreeStateNode       node = getNodeForPath(path, true, false);
 
         if(node != null) {
             node.markSizeInvalid();
-            if(node.isVisible())
+            if(node.isVisible()) {
                 updateYLocationsFrom(node.getRow());
+            }
         }
     }
 
@@ -284,6 +302,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Returns the preferred height.
      * @return the preferred height
      */
+    @Override
     public int getPreferredHeight() {
         // Get the height
         int           rowCount = getRowCount();
@@ -302,9 +321,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param bounds  the region being queried
      */
+    @Override
     public int getPreferredWidth(Rectangle bounds) {
-        if(updateNodeSizes)
+        if(updateNodeSizes) {
             updateNodeSizes(false);
+        }
 
         return getMaxNodeWidth();
     }
@@ -321,12 +342,15 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
       * @param y  the y-coordinate
       * @return the path to the node that is closest to x, y
       */
+    @Override
     public TreePath getPathClosestTo(int x, int y) {
-        if(getRowCount() == 0)
+        if(getRowCount() == 0) {
             return null;
+        }
 
-        if(updateNodeSizes)
+        if(updateNodeSizes) {
             updateNodeSizes(false);
+        }
 
         int                row = getRowContainingYLocation(y);
 
@@ -342,6 +366,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * @return an <code>Enumerator</code> that increments over the visible
      *     paths
      */
+    @Override
     public Enumeration<TreePath> getVisiblePathsFrom(TreePath path) {
         TreeStateNode       node = getNodeForPath(path, true, false);
 
@@ -355,6 +380,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Returns the number of visible children for <code>path</code>.
      * @return the number of visible children for <code>path</code>
      */
+    @Override
     public int getVisibleChildCount(TreePath path) {
         TreeStateNode         node = getNodeForPath(path, true, false);
 
@@ -365,9 +391,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Informs the <code>TreeState</code> that it needs to recalculate
      * all the sizes it is referencing.
      */
+    @Override
     public void invalidateSizes() {
-        if(root != null)
+        if(root != null) {
             root.deepMarkSizeInvalid();
+        }
         if(!isFixedRowHeight() && visibleNodes.size() > 0) {
             updateNodeSizes(true);
         }
@@ -379,6 +407,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
       * @return true if the value identified by <code>path</code> is
       *    currently expanded
       */
+    @Override
     public boolean isExpanded(TreePath path) {
         if(path != null) {
             TreeStateNode     lastNode = getNodeForPath(path, true, false);
@@ -408,6 +437,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param e the <code>TreeModelEvent</code> of interest
      */
+    @Override
     public void treeNodesChanged(TreeModelEvent e) {
         if(e != null) {
             int               changedIndexs[];
@@ -443,8 +473,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                 if(!isFixedRowHeight()) {
                     int          aRow = changedNode.getRow();
 
-                    if(aRow != -1)
+                    if(aRow != -1) {
                         this.updateYLocationsFrom(aRow);
+                    }
                 }
                 this.visibleNodesChanged();
             }
@@ -461,6 +492,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param e the <code>TreeModelEvent</code> of interest
      */
+    @Override
     public void treeNodesInserted(TreeModelEvent e) {
         if(e != null) {
             int               changedIndexs[];
@@ -495,28 +527,32 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                         // Update the size of the parent.
                         changedParentNode.updatePreferredSize();
                     }
-                    if(treeSelectionModel != null)
+                    if(treeSelectionModel != null) {
                         treeSelectionModel.resetRowSelection();
+                    }
                     /* Update the y origins from the index of the parent
                        to the end of the visible rows. */
                     if(!isFixedRowHeight() && (makeVisible ||
                                                (oldChildCount == 0 &&
                                         changedParentNode.isVisible()))) {
-                        if(changedParentNode == root)
+                        if(changedParentNode == root) {
                             this.updateYLocationsFrom(0);
-                        else
+                        } else {
                             this.updateYLocationsFrom(changedParentNode.
                                                       getRow());
+                        }
                         this.visibleNodesChanged();
                     }
-                    else if(makeVisible)
+                    else if(makeVisible) {
                         this.visibleNodesChanged();
+                    }
                 }
                 else if(treeModel.getChildCount(changedParentNode.getValue())
                         - changedIndexs.length == 0) {
                     changedParentNode.updatePreferredSize();
-                    if(!isFixedRowHeight() && changedParentNode.isVisible())
+                    if(!isFixedRowHeight() && changedParentNode.isVisible()) {
                         updateYLocationsFrom(changedParentNode.getRow());
+                    }
                 }
             }
         }
@@ -535,6 +571,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param e the <code>TreeModelEvent</code> of interest
      */
+    @Override
     public void treeNodesRemoved(TreeModelEvent e) {
         if(e != null) {
             int               changedIndexs[];
@@ -582,8 +619,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                             changedParentNode.collapse(false);
                         }
                     }
-                    if(treeSelectionModel != null)
+                    if(treeSelectionModel != null) {
                         treeSelectionModel.resetRowSelection();
+                    }
                     /* Update the y origins from the index of the parent
                        to the end of the visible rows. */
                     if(!isFixedRowHeight() && (makeInvisible ||
@@ -593,22 +631,26 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                             /* It is possible for first row to have been
                                removed if the root isn't visible, in which
                                case ylocations will be off! */
-                            if(getRowCount() > 0)
+                            if(getRowCount() > 0) {
                                 getNode(0).setYOrigin(0);
+                            }
                             updateYLocationsFrom(0);
                         }
-                        else
+                        else {
                             updateYLocationsFrom(changedParentNode.getRow());
+                        }
                         this.visibleNodesChanged();
                     }
-                    else if(makeInvisible)
+                    else if(makeInvisible) {
                         this.visibleNodesChanged();
+                    }
                 }
                 else if(treeModel.getChildCount(changedParentNode.getValue())
                         == 0) {
                     changedParentNode.updatePreferredSize();
-                    if(!isFixedRowHeight() && changedParentNode.isVisible())
+                    if(!isFixedRowHeight() && changedParentNode.isVisible()) {
                         this.updateYLocationsFrom(changedParentNode.getRow());
+                    }
                 }
             }
         }
@@ -626,6 +668,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      *
      * @param e the <code>TreeModelEvent</code> of interest
      */
+    @Override
     public void treeStructureChanged(TreeModelEvent e) {
         if(e != null)
         {
@@ -657,23 +700,27 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                 if(wasVisible && wasExpanded) {
                     changedNode.collapse(false);
                 }
-                if(wasVisible)
+                if(wasVisible) {
                     visibleNodes.removeElement(changedNode);
+                }
                 changedNode.removeFromParent();
                 createNodeAt(parent, nodeIndex);
                 newNode = (TreeStateNode)parent.getChildAt(nodeIndex);
-                if(wasVisible && wasExpanded)
+                if(wasVisible && wasExpanded) {
                     newNode.expand(false);
+                }
                 newIndex = newNode.getRow();
                 if(!isFixedRowHeight() && wasVisible) {
-                    if(newIndex == 0)
+                    if(newIndex == 0) {
                         updateYLocationsFrom(newIndex);
-                    else
+                    } else {
                         updateYLocationsFrom(newIndex - 1);
+                    }
                     this.visibleNodesChanged();
                 }
-                else if(wasVisible)
+                else if(wasVisible) {
                     this.visibleNodesChanged();
+                }
             }
         }
     }
@@ -714,8 +761,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
      * Rectangle will be created and returned.
      */
     private Rectangle getBounds(int row, Rectangle placeIn) {
-        if(updateNodeSizes)
+        if(updateNodeSizes) {
             updateNodeSizes(false);
+        }
 
         if(row >= 0 && row < getRowCount()) {
             return getNode(row).getNodeBounds(placeIn);
@@ -737,17 +785,19 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
             addMapping(root);
             root.updatePreferredSize(0);
             visibleNodes.removeAllElements();
-            if (isRootVisible())
+            if (isRootVisible()) {
                 visibleNodes.addElement(root);
-            if(!root.isExpanded())
+            }
+            if(!root.isExpanded()) {
                 root.expand();
-            else {
+            } else {
                 Enumeration cursor = root.children();
                 while(cursor.hasMoreElements()) {
                     visibleNodes.addElement(cursor.nextElement());
                 }
-                if(!isFixedRowHeight())
+                if(!isFixedRowHeight()) {
                     updateYLocationsFrom(0);
+                }
             }
         }
         else {
@@ -787,14 +837,15 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
 
             /* Find the new row to insert this newly visible node at. */
             if(childIndex == 0) {
-                if(isParentRoot && !isRootVisible())
+                if(isParentRoot && !isRootVisible()) {
                     newRow = 0;
-                else
+                } else {
                     newRow = parent.getRow() + 1;
+                }
             }
-            else if(childIndex == parent.getChildCount())
+            else if(childIndex == parent.getChildCount()) {
                 newRow = parent.getLastVisibleNode().getRow() + 1;
-            else {
+            } else {
                 TreeStateNode          previousNode;
 
                 previousNode = (TreeStateNode)parent.
@@ -819,8 +870,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
 
             node = getMapping(path);
             if(node != null) {
-                if(onlyIfVisible && !node.isVisible())
+                if(onlyIfVisible && !node.isVisible()) {
                     return null;
+                }
                 return node;
             }
 
@@ -856,9 +908,10 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                                (onlyIfVisible && !node.isVisible())) {
                                 node = null;
                             }
-                            else
+                            else {
                                 node = (TreeStateNode)node.getChildAt
                                                (childIndex);
+                            }
                         }
                         return node;
                     }
@@ -914,8 +967,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
             counter < maxCounter; counter++) {
             node = (TreeStateNode)visibleNodes.elementAt(counter);
             node.setYOrigin(aY);
-            if(updateAll || !node.hasValidSize())
+            if(updateAll || !node.hasValidSize()) {
                 node.updatePreferredSize(counter);
+            }
             aY += node.getPreferredHeight();
         }
     }
@@ -927,8 +981,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
       */
     private int getRowContainingYLocation(int location) {
         if(isFixedRowHeight()) {
-            if(getRowCount() == 0)
+            if(getRowCount() == 0) {
                 return -1;
+            }
             return Math.max(0, Math.min(getRowCount() - 1,
                                         location / getRowHeight()));
         }
@@ -936,8 +991,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         int                    max, maxY, mid, min, minY;
         TreeStateNode          node;
 
-        if((max = getRowCount()) <= 0)
+        if((max = getRowCount()) <= 0) {
             return -1;
+        }
         mid = min = 0;
         while(min < max) {
             mid = (max - min) / 2 + min;
@@ -950,13 +1006,15 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
             else if(location >= maxY) {
                 min = mid + 1;
             }
-            else
+            else {
                 break;
+            }
         }
         if(min == max) {
             mid = min;
-            if(mid >= getRowCount())
+            if(mid >= getRowCount()) {
                 mid = getRowCount() - 1;
+            }
         }
         return mid;
     }
@@ -980,8 +1038,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
 
                 if(lastNode != null) {
                     lastNode.makeVisible();
-                    if(expandLast)
+                    if(expandLast) {
                         lastNode.expand();
+                    }
                 }
             }
         }
@@ -1006,8 +1065,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         for(counter = getRowCount() - 1;counter >= 0;counter--) {
             node = this.getNode(counter);
             nodeWidth = node.getPreferredWidth() + node.getXOrigin();
-            if(nodeWidth > maxWidth)
+            if(nodeWidth > maxWidth) {
                 maxWidth = nodeWidth;
+            }
         }
         return maxWidth;
     }
@@ -1059,6 +1119,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * Messaged when this node is added somewhere, resets the path
          * and adds a mapping from path to this node.
          */
+        @Override
         public void setParent(MutableTreeNode parent) {
             super.setParent(parent);
             if(parent != null) {
@@ -1072,6 +1133,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * Messaged when this node is removed from its parent, this messages
          * <code>removedFromMapping</code> to remove all the children.
          */
+        @Override
         public void remove(int childIndex) {
             TreeStateNode     node = (TreeStateNode)getChildAt(childIndex);
 
@@ -1082,15 +1144,17 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         /**
          * Messaged to set the user object. This resets the path.
          */
+        @Override
         public void setUserObject(Object o) {
             super.setUserObject(o);
             if(path != null) {
                 TreeStateNode      parent = (TreeStateNode)getParent();
 
-                if(parent != null)
+                if(parent != null) {
                     resetChildrenPaths(parent.getTreePath());
-                else
+                } else {
                     resetChildrenPaths(null);
+                }
             }
         }
 
@@ -1099,6 +1163,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * If the receiver is not currently expanded, this will return an
          * empty enumeration.
          */
+        @Override
         public Enumeration children() {
             if (!this.isExpanded()) {
                 return DefaultMutableTreeNode.EMPTY_ENUMERATION;
@@ -1110,6 +1175,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         /**
          * Returns true if the receiver is a leaf.
          */
+        @Override
         public boolean isLeaf() {
             return getModel().isLeaf(this.getValue());
         }
@@ -1122,11 +1188,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * Returns the location and size of this node.
          */
         public Rectangle getNodeBounds(Rectangle placeIn) {
-            if(placeIn == null)
+            if(placeIn == null) {
                 placeIn = new Rectangle(getXOrigin(), getYOrigin(),
                                         getPreferredWidth(),
                                         getPreferredHeight());
-            else {
+            } else {
                 placeIn.x = getXOrigin();
                 placeIn.y = getYOrigin();
                 placeIn.width = getPreferredWidth();
@@ -1139,8 +1205,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * @return x location to draw node at.
          */
         public int getXOrigin() {
-            if(!hasValidSize())
+            if(!hasValidSize()) {
                 updatePreferredSize(getRow());
+            }
             return xOrigin;
         }
 
@@ -1151,8 +1218,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
             if(isFixedRowHeight()) {
                 int      aRow = getRow();
 
-                if(aRow == -1)
+                if(aRow == -1) {
                     return -1;
+                }
                 return getRowHeight() * aRow;
             }
             return yOrigin;
@@ -1162,10 +1230,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * Returns the preferred height of the receiver.
          */
         public int getPreferredHeight() {
-            if(isFixedRowHeight())
+            if(isFixedRowHeight()) {
                 return getRowHeight();
-            else if(!hasValidSize())
+            } else if(!hasValidSize()) {
                 updatePreferredSize(getRow());
+            }
             return preferredHeight;
         }
 
@@ -1173,8 +1242,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * Returns the preferred width of the receiver.
          */
         public int getPreferredWidth() {
-            if(!hasValidSize())
+            if(!hasValidSize()) {
                 updatePreferredSize(getRow());
+            }
             return preferredWidth;
         }
 
@@ -1213,8 +1283,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         public TreeStateNode getLastVisibleNode() {
             TreeStateNode                node = this;
 
-            while(node.isExpanded() && node.getChildCount() > 0)
+            while(node.isExpanded() && node.getChildCount() > 0) {
                 node = (TreeStateNode)node.getLastChild();
+            }
             return node;
         }
 
@@ -1222,8 +1293,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * Returns true if the receiver is currently visible.
          */
         public boolean isVisible() {
-            if(this == root)
+            if(this == root) {
                 return true;
+            }
 
             TreeStateNode        parent = (TreeStateNode)getParent();
 
@@ -1236,8 +1308,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * have not yet been loaded, this messages the model.
          */
         public int getModelChildCount() {
-            if(hasBeenExpanded)
+            if(hasBeenExpanded) {
                 return super.getChildCount();
+            }
             return getModel().getChildCount(getValue());
         }
 
@@ -1252,9 +1325,10 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                 int         maxCounter = getChildCount();
 
                 childCount += maxCounter;
-                for(int counter = 0; counter < maxCounter; counter++)
+                for(int counter = 0; counter < maxCounter; counter++) {
                     childCount += ((TreeStateNode)getChildAt(counter)).
                                     getVisibleChildCount();
+                }
             }
             return childCount;
         }
@@ -1277,8 +1351,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         public void makeVisible() {
             TreeStateNode       parent = (TreeStateNode)getParent();
 
-            if(parent != null)
+            if(parent != null) {
                 parent.expandParentAndReceiver();
+            }
         }
 
         /**
@@ -1319,13 +1394,15 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          */
         protected void resetChildrenPaths(TreePath parentPath) {
             removeMapping(this);
-            if(parentPath == null)
+            if(parentPath == null) {
                 path = new TreePath(getUserObject());
-            else
+            } else {
                 path = parentPath.pathByAddingChild(getUserObject());
+            }
             addMapping(this);
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
+            for(int counter = getChildCount() - 1; counter >= 0; counter--) {
                 ((TreeStateNode)getChildAt(counter)).resetChildrenPaths(path);
+            }
         }
 
         /**
@@ -1375,10 +1452,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
             else {
                 xOrigin = bounds.x;
                 preferredWidth = bounds.width;
-                if(isFixedRowHeight())
+                if(isFixedRowHeight()) {
                     preferredHeight = getRowHeight();
-                else
+                } else {
                     preferredHeight = bounds.height;
+                }
             }
         }
 
@@ -1395,8 +1473,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          */
         protected void deepMarkSizeInvalid() {
             markSizeInvalid();
-            for(int counter = getChildCount() - 1; counter >= 0; counter--)
+            for(int counter = getChildCount() - 1; counter >= 0; counter--) {
                 ((TreeStateNode)getChildAt(counter)).deepMarkSizeInvalid();
+            }
         }
 
         /**
@@ -1406,8 +1485,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
          * loaded.
          */
         protected Enumeration getLoadedChildren(boolean createIfNeeded) {
-            if(!createIfNeeded || hasBeenExpanded)
+            if(!createIfNeeded || hasBeenExpanded) {
                 return super.children();
+            }
 
             TreeStateNode   newNode;
             Object          realNode = getValue();
@@ -1452,8 +1532,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         protected void expandParentAndReceiver() {
             TreeStateNode       parent = (TreeStateNode)getParent();
 
-            if(parent != null)
+            if(parent != null) {
                 parent.expandParentAndReceiver();
+            }
             expand();
         }
 
@@ -1504,18 +1585,20 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
 
                 int newYOrigin;
 
-                if(isFixed)
+                if(isFixed) {
                     newYOrigin = 0;
-                else if(this == root && !isRootVisible())
+                } else if(this == root && !isRootVisible()) {
                     newYOrigin = 0;
-                else
+                } else {
                     newYOrigin = getYOrigin() + this.getPreferredHeight();
+                }
                 TreeStateNode   aNode;
                 if(!isFixed) {
                     while (cursor.hasMoreElements()) {
                         aNode = (TreeStateNode)cursor.nextElement();
-                        if(!updateNodeSizes && !aNode.hasValidSize())
+                        if(!updateNodeSizes && !aNode.hasValidSize()) {
                             aNode.updatePreferredSize(i + 1);
+                        }
                         aNode.setYOrigin(newYOrigin);
                         newYOrigin += aNode.getPreferredHeight();
                         visibleNodes.insertElementAt(aNode, ++i);
@@ -1538,9 +1621,10 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                             (getPreferredHeight() - startHeight);
 
                         for(counter = visibleNodes.size() - 1;counter >= i;
-                            counter--)
+                            counter--) {
                             ((TreeStateNode)visibleNodes.elementAt(counter)).
                                 shiftYOriginBy(heightDiff);
+                        }
                     }
                     didAdjustTree();
                     visibleNodesChanged();
@@ -1564,10 +1648,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                 int rowsDeleted = 0;
                 boolean isFixed = isFixedRowHeight();
                 int lastYEnd;
-                if(isFixed)
+                if(isFixed) {
                     lastYEnd = 0;
-                else
+                } else {
                     lastYEnd = getPreferredHeight() + getYOrigin();
+                }
                 int startHeight = getPreferredHeight();
                 int startYEnd = lastYEnd;
                 int myRow = getRow();
@@ -1603,10 +1688,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
 
                 expanded = false;
 
-                if(myRow == -1)
+                if(myRow == -1) {
                     markSizeInvalid();
-                else if (adjustTree)
+                } else if (adjustTree) {
                     updatePreferredSize(myRow);
+                }
 
                 if(myRow != -1 && adjustTree &&
                    (rowsDeleted > 0 || startHeight != getPreferredHeight())) {
@@ -1619,9 +1705,10 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                         shiftAmount = startYEnd - lastYEnd;
                         for(counter = myRow + 1, maxCounter =
                                 visibleNodes.size();
-                            counter < maxCounter;counter++)
+                            counter < maxCounter;counter++) {
                             ((TreeStateNode)visibleNodes.elementAt(counter))
                                 .shiftYOriginBy(shiftAmount);
+                        }
                     }
                     didAdjustTree();
                     visibleNodesChanged();
@@ -1640,8 +1727,9 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         protected void removeFromMapping() {
             if(path != null) {
                 removeMapping(this);
-                for(int counter = getChildCount() - 1; counter >= 0; counter--)
+                for(int counter = getChildCount() - 1; counter >= 0; counter--) {
                     ((TreeStateNode)getChildAt(counter)).removeFromMapping();
+                }
             }
         }
     } // End of VariableHeightLayoutCache.TreeStateNode
@@ -1674,6 +1762,7 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         /**
          * @return true if more visible nodes.
          */
+        @Override
         public boolean hasMoreElements() {
             return (parent != null);
         }
@@ -1681,9 +1770,11 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         /**
          * @return next visible TreePath.
          */
+        @Override
         public TreePath nextElement() {
-            if(!hasMoreElements())
+            if(!hasMoreElements()) {
                 throw new NoSuchElementException("No more visible paths");
+            }
 
             TreePath                retObject;
 
@@ -1728,11 +1819,13 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
                     nextIndex = newParent.getIndex(parent);
                     parent = newParent;
                     childCount = parent.getChildCount();
-                    if(updateNextIndex())
+                    if(updateNextIndex()) {
                         return true;
+                    }
                 }
-                else
+                else {
                     parent = null;
+                }
             }
             return false;
         }
@@ -1744,15 +1837,18 @@ public class VariableHeightLayoutCache extends AbstractLayoutCache {
         protected boolean updateNextIndex() {
             // nextIndex == -1 identifies receiver, make sure is expanded
             // before descend.
-            if(nextIndex == -1 && !parent.isExpanded())
+            if(nextIndex == -1 && !parent.isExpanded()) {
                 return false;
+            }
 
             // Check that it can have kids
-            if(childCount == 0)
+            if(childCount == 0) {
                 return false;
+            }
             // Make sure next index not beyond child count.
-            else if(++nextIndex >= childCount)
+            else if(++nextIndex >= childCount) {
                 return false;
+            }
 
             TreeStateNode       child = (TreeStateNode)parent.
                                         getChildAt(nextIndex);

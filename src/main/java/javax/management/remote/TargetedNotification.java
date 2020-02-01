@@ -107,6 +107,7 @@ public class TargetedNotification implements Serializable {
      *
      * @return a String representation of this Targeted Notification.
      **/
+    @Override
     public String toString() {
         return "{" + notif + ", " + id + "}";
     }

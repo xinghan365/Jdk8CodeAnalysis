@@ -46,6 +46,7 @@ public interface Bindings extends Map<String, Object> {
      * @throws NullPointerException if the name is null.
      * @throws IllegalArgumentException if the name is empty String.
      */
+    @Override
     public Object put(String name, Object value);
 
     /**
@@ -57,6 +58,7 @@ public interface Bindings extends Map<String, Object> {
      * @throws IllegalArgumentException
      *         if some key in the map is an empty String.
      */
+    @Override
     public void putAll(Map<? extends String, ? extends Object> toMerge);
 
     /**
@@ -74,6 +76,7 @@ public interface Bindings extends Map<String, Object> {
      * @throws ClassCastException if key is not String
      * @throws IllegalArgumentException if key is empty String
      */
+    @Override
     public boolean containsKey(Object key);
 
     /**
@@ -97,6 +100,7 @@ public interface Bindings extends Map<String, Object> {
      * @throws ClassCastException if key is not String
      * @throws IllegalArgumentException if key is empty String
      */
+    @Override
     public Object get(Object key);
 
     /**
@@ -121,5 +125,6 @@ public interface Bindings extends Map<String, Object> {
      * @throws ClassCastException if key is not String
      * @throws IllegalArgumentException if key is empty String
      */
+    @Override
     public Object remove(Object key);
 }

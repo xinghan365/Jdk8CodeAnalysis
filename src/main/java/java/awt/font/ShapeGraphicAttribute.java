@@ -103,6 +103,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      * bounds of its <code>Shape</code>.
      * @return the ascent of this <code>ShapeGraphicAttribute</code>.
      */
+    @Override
     public float getAscent() {
 
         return (float) Math.max(0, -fShapeBounds.getMinY());
@@ -115,6 +116,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      * bounds of its <code>Shape</code>.
      * @return the descent of this <code>ShapeGraphicAttribute</code>.
      */
+    @Override
     public float getDescent() {
 
         return (float) Math.max(0, fShapeBounds.getMaxY());
@@ -127,6 +129,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      * bounds of its <code>Shape</code>.
      * @return the advance of this <code>ShapeGraphicAttribute</code>.
      */
+    @Override
     public float getAdvance() {
 
         return (float) Math.max(0, fShapeBounds.getMaxX());
@@ -135,6 +138,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void draw(Graphics2D graphics, float x, float y) {
 
         // translating graphics to draw Shape !!!
@@ -163,6 +167,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      * @return a <code>Rectangle2D</code> that encloses all of the bits
      * rendered by this <code>ShapeGraphicAttribute</code>.
      */
+    @Override
     public Rectangle2D getBounds() {
 
         Rectangle2D.Float bounds = new Rectangle2D.Float();
@@ -188,6 +193,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      *   suitable for stroking or filling.
      * @since 1.6
      */
+    @Override
     public Shape getOutline(AffineTransform tx) {
         return tx == null ? fShape : tx.createTransformedShape(fShape);
     }
@@ -197,6 +203,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      * @return  a hash code value for this
      * <code>ShapeGraphicAttribute</code>.
      */
+    @Override
     public int hashCode() {
 
         return fShape.hashCode();
@@ -210,6 +217,7 @@ public final class ShapeGraphicAttribute extends GraphicAttribute {
      * <code>ShapeGraphicAttribute</code> equals <code>rhs</code>;
      * <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object rhs) {
 
         try {

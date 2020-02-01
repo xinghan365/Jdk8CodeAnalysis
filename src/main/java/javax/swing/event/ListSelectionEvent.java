@@ -111,6 +111,7 @@ public class ListSelectionEvent extends EventObject
      *
      * @return a String representation of this object
      */
+    @Override
     public String toString() {
         String properties =
             " source=" + getSource() +

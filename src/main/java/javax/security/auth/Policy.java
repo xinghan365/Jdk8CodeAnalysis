@@ -193,7 +193,9 @@ public abstract class Policy {
      */
     public static Policy getPolicy() {
         java.lang.SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(new AuthPermission("getPolicy"));
+        if (sm != null) {
+            sm.checkPermission(new AuthPermission("getPolicy"));
+        }
         return getPolicyNoCheck();
     }
 
@@ -212,6 +214,7 @@ public abstract class Policy {
                     String policy_class = null;
                     policy_class = AccessController.doPrivileged
                         (new PrivilegedAction<String>() {
+                        @Override
                         public String run() {
                             return java.security.Security.getProperty
                                 ("auth.policy.provider");
@@ -226,6 +229,7 @@ public abstract class Policy {
 
                         Policy untrustedImpl = AccessController.doPrivileged(
                                 new PrivilegedExceptionAction<Policy>() {
+                                    @Override
                                     public Policy run() throws ClassNotFoundException,
                                             InstantiationException,
                                             IllegalAccessException {
@@ -238,6 +242,7 @@ public abstract class Policy {
                                 });
                         AccessController.doPrivileged(
                                 new PrivilegedExceptionAction<Void>() {
+                                    @Override
                                     public Void run() {
                                         setPolicy(untrustedImpl);
                                         isCustomPolicy = !finalClass.equals(AUTH_POLICY);
@@ -274,7 +279,9 @@ public abstract class Policy {
      */
     public static void setPolicy(Policy policy) {
         java.lang.SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(new AuthPermission("setPolicy"));
+        if (sm != null) {
+            sm.checkPermission(new AuthPermission("setPolicy"));
+        }
         Policy.policy = policy;
         // all non-null policy objects are assumed to be custom
         isCustomPolicy = policy != null ? true : false;
@@ -302,6 +309,7 @@ public abstract class Policy {
         // check if custom policy has been set using auth.policy.provider prop
         String policyClass = java.security.AccessController.doPrivileged
             (new java.security.PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return Security.getProperty("auth.policy.provider");
                 }

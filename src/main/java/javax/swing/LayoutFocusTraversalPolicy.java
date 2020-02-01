@@ -92,6 +92,7 @@ public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
      *         root of aComponent or a focus traversal policy provider, or if either aContainer or
      *         aComponent is null
      */
+    @Override
     public Component getComponentAfter(Container aContainer,
                                        Component aComponent) {
         if (aContainer == null || aComponent == null) {
@@ -128,6 +129,7 @@ public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
      *         root of aComponent or a focus traversal policy provider, or if either aContainer or
      *         aComponent is null
      */
+    @Override
     public Component getComponentBefore(Container aContainer,
                                         Component aComponent) {
         if (aContainer == null || aComponent == null) {
@@ -153,6 +155,7 @@ public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
      *         or null if no suitable Component can be found
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getFirstComponent(Container aContainer) {
         if (aContainer == null) {
             throw new IllegalArgumentException("aContainer cannot be null");
@@ -177,6 +180,7 @@ public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
      *         or null if no suitable Component can be found
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getLastComponent(Container aContainer) {
         if (aContainer == null) {
             throw new IllegalArgumentException("aContainer cannot be null");
@@ -224,6 +228,7 @@ public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
      *         for a focus owner;
      *         otherwise <code>false</code>
      */
+     @Override
      protected boolean accept(Component aComponent) {
         if (!super.accept(aComponent)) {
             return false;
@@ -268,6 +273,7 @@ public class LayoutFocusTraversalPolicy extends SortingFocusTraversalPolicy
 class SwingDefaultFocusTraversalPolicy
     extends java.awt.DefaultFocusTraversalPolicy
 {
+    @Override
     public boolean accept(Component aComponent) {
         return super.accept(aComponent);
     }

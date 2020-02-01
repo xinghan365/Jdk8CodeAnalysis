@@ -164,19 +164,22 @@ public class MetalToolBarUI extends BasicToolBarUI
         return new MetalToolBarUI();
     }
 
-    public void installUI( JComponent c )
+    @Override
+    public void installUI(JComponent c )
     {
         super.installUI( c );
         register(c);
     }
 
-    public void uninstallUI( JComponent c )
+    @Override
+    public void uninstallUI(JComponent c )
     {
         super.uninstallUI( c );
         nonRolloverBorder = null;
         unregister(c);
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
 
@@ -190,6 +193,7 @@ public class MetalToolBarUI extends BasicToolBarUI
         }
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
 
@@ -202,10 +206,12 @@ public class MetalToolBarUI extends BasicToolBarUI
         }
     }
 
+    @Override
     protected Border createRolloverBorder() {
         return super.createRolloverBorder();
     }
 
+    @Override
     protected Border createNonRolloverBorder() {
         return super.createNonRolloverBorder();
     }
@@ -218,6 +224,7 @@ public class MetalToolBarUI extends BasicToolBarUI
         return createNonRolloverBorder();
     }
 
+    @Override
     protected void setBorderToNonRollover(Component c) {
         if (c instanceof JToggleButton && !(c instanceof JCheckBox)) {
             // 4735514, 4886944: The method createNonRolloverToggleBorder() is
@@ -265,6 +272,7 @@ public class MetalToolBarUI extends BasicToolBarUI
         return null;
     }
 
+    @Override
     protected MouseInputListener createDockingListener( )
     {
         return new MetalDockingListener( toolBar );
@@ -291,6 +299,7 @@ public class MetalToolBarUI extends BasicToolBarUI
      * @see javax.swing.plaf.ComponentUI#paint
      * @since 1.5
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         if (g == null) {
             throw new NullPointerException("graphics must be non-null");
@@ -362,6 +371,7 @@ public class MetalToolBarUI extends BasicToolBarUI
             super(t);
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
             if (!toolBar.isEnabled()) {
@@ -387,6 +397,7 @@ public class MetalToolBarUI extends BasicToolBarUI
             }
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (pressedInBumps) {
                 super.mouseDragged(e);

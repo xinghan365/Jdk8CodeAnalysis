@@ -195,6 +195,7 @@ public class AudioInputStream extends InputStream {
      * @see #available
      * <p>
      */
+    @Override
     public int read() throws IOException {
         if( frameSize != 1 ) {
             throw new IOException("cannot read a single byte if frame size > 1");
@@ -228,6 +229,7 @@ public class AudioInputStream extends InputStream {
      * @see #read()
      * @see #available
      */
+    @Override
     public int read(byte[] b) throws IOException {
         return read(b,0,b.length);
     }
@@ -253,6 +255,7 @@ public class AudioInputStream extends InputStream {
      * @see #skip
      * @see #available
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
 
         // make sure we don't read fractions of a frame.
@@ -324,6 +327,7 @@ public class AudioInputStream extends InputStream {
      * @see #read
      * @see #available
      */
+    @Override
     public long skip(long n) throws IOException {
 
         // make sure not to skip fractional frames
@@ -367,6 +371,7 @@ public class AudioInputStream extends InputStream {
      * @see #read()
      * @see #skip
      */
+    @Override
     public int available() throws IOException {
 
         int temp = stream.available();
@@ -385,6 +390,7 @@ public class AudioInputStream extends InputStream {
      * with the stream.
      * @throws IOException if an input or output error occurs
      */
+    @Override
     public void close() throws IOException {
         stream.close();
     }
@@ -398,6 +404,7 @@ public class AudioInputStream extends InputStream {
      * @see #markSupported
      */
 
+    @Override
     public void mark(int readlimit) {
 
         stream.mark(readlimit);
@@ -422,6 +429,7 @@ public class AudioInputStream extends InputStream {
      * @see #mark
      * @see #markSupported
      */
+    @Override
     public void reset() throws IOException {
 
         stream.reset();
@@ -445,6 +453,7 @@ public class AudioInputStream extends InputStream {
      * @see #mark
      * @see #reset
      */
+    @Override
     public boolean markSupported() {
 
         return stream.markSupported();
@@ -468,12 +477,14 @@ public class AudioInputStream extends InputStream {
         }
 
 
+        @Override
         public int available() throws IOException {
             return line.available();
         }
 
         //$$fb 2001-07-16: added this method to correctly close the underlying TargetDataLine.
         // fixes bug 4479984
+        @Override
         public void close() throws IOException {
             // the line needs to be flushed and stopped to avoid a dead lock...
             // Probably related to bugs 4417527, 4334868, 4383457
@@ -484,6 +495,7 @@ public class AudioInputStream extends InputStream {
             line.close();
         }
 
+        @Override
         public int read() throws IOException {
 
             byte[] b = new byte[1];
@@ -504,6 +516,7 @@ public class AudioInputStream extends InputStream {
         }
 
 
+        @Override
         public int read(byte[] b, int off, int len) throws IOException {
             try {
                 return line.read(b, off, len);

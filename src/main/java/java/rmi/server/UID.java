@@ -173,6 +173,7 @@ public final class UID implements Serializable {
      *
      * @return  the hash code value for this <code>UID</code>
      */
+    @Override
     public int hashCode() {
         return (int) time + (int) count;
     }
@@ -191,6 +192,7 @@ public final class UID implements Serializable {
      * @return  <code>true</code> if the given object is equivalent to
      * this one, and <code>false</code> otherwise
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof UID) {
             UID uid = (UID) obj;
@@ -207,6 +209,7 @@ public final class UID implements Serializable {
      *
      * @return  a string representation of this <code>UID</code>
      */
+    @Override
     public String toString() {
         return Integer.toString(unique,16) + ":" +
             Long.toString(time,16) + ":" +

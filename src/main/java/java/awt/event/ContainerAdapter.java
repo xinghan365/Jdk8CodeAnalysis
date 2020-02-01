@@ -53,10 +53,12 @@ public abstract class ContainerAdapter implements ContainerListener {
     /**
      * Invoked when a component has been added to the container.
      */
+    @Override
     public void componentAdded(ContainerEvent e) {}
 
     /**
      * Invoked when a component has been removed from the container.
      */
+    @Override
     public void componentRemoved(ContainerEvent e) {}
 }

@@ -80,8 +80,9 @@ public class PKIXCertPathBuilderResult extends PKIXCertPathValidatorResult
         PublicKey subjectPublicKey)
     {
         super(trustAnchor, policyTree, subjectPublicKey);
-        if (certPath == null)
+        if (certPath == null) {
             throw new NullPointerException("certPath must be non-null");
+        }
         this.certPath = certPath;
     }
 
@@ -95,6 +96,7 @@ public class PKIXCertPathBuilderResult extends PKIXCertPathValidatorResult
      * @return the built and validated {@code CertPath} (never
      * {@code null})
      */
+    @Override
     public CertPath getCertPath() {
         return certPath;
     }
@@ -106,6 +108,7 @@ public class PKIXCertPathBuilderResult extends PKIXCertPathValidatorResult
      * @return a {@code String} describing the contents of this
      *         {@code PKIXCertPathBuilderResult}
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("PKIXCertPathBuilderResult: [\n");

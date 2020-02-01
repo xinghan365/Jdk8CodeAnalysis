@@ -100,6 +100,7 @@ public class RemoteException extends java.io.IOException {
      *
      * @return the detail message
      */
+    @Override
     public String getMessage() {
         if (detail == null) {
             return super.getMessage();
@@ -116,6 +117,7 @@ public class RemoteException extends java.io.IOException {
      * @return  the cause, which may be <tt>null</tt>.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return detail;
     }

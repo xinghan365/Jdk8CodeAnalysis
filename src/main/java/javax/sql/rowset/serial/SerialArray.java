@@ -209,6 +209,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SQLException if an error occurs releasing the SerialArray's resources
      * @since 1.6
      */
+    @Override
     public void free() throws SQLException {
         if (elements != null) {
             elements = null;
@@ -305,6 +306,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public Object getArray() throws SerialException {
         isValid();
         Object dst = new Object[len];
@@ -336,6 +338,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public Object getArray(Map<String, Class<?>> map) throws SerialException {
         isValid();
         Object dst[] = new Object[len];
@@ -359,6 +362,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public Object getArray(long index, int count) throws SerialException {
         isValid();
         Object dst = new Object[count];
@@ -395,6 +399,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public Object getArray(long index, int count, Map<String,Class<?>> map)
         throws SerialException
     {
@@ -414,6 +419,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public int getBaseType() throws SerialException {
         isValid();
         return baseType;
@@ -428,6 +434,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public String getBaseTypeName() throws SerialException {
         isValid();
         return baseTypeName;
@@ -452,6 +459,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if called with the cause set to
      *         {@code UnsupportedOperationException}
      */
+    @Override
     public ResultSet getResultSet(long index, int count) throws SerialException {
         SerialException se = new SerialException();
         se.initCause(new UnsupportedOperationException());
@@ -481,6 +489,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if called with the cause set to
      *         {@code UnsupportedOperationException}
      */
+    @Override
     public ResultSet getResultSet(Map<String, Class<?>> map)
         throws SerialException
     {
@@ -502,6 +511,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if called with the cause set to
      *         {@code UnsupportedOperationException}
      */
+    @Override
     public ResultSet getResultSet() throws SerialException {
         SerialException se = new SerialException();
         se.initCause(new UnsupportedOperationException());
@@ -538,6 +548,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      * @throws SerialException if called with the cause set to
      *         {@code UnsupportedOperationException}
      */
+    @Override
     public ResultSet getResultSet(long index, int count,
                                   Map<String,Class<?>> map)
         throws SerialException
@@ -559,6 +570,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      *          equivalent to this SerialArray, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -580,6 +592,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      *
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return (((31 + Arrays.hashCode(elements)) * 31 + len)  * 31 +
                 baseType) * 31 + baseTypeName.hashCode();
@@ -592,6 +605,7 @@ public class SerialArray implements Array, Serializable, Cloneable {
      *
      * @return a clone of this SerialArray
      */
+    @Override
     public Object clone() {
         try {
             SerialArray sa = (SerialArray) super.clone();
@@ -613,12 +627,14 @@ public class SerialArray implements Array, Serializable, Cloneable {
 
        ObjectInputStream.GetField fields = s.readFields();
        Object[] tmp = (Object[])fields.get("elements", null);
-       if (tmp == null)
+       if (tmp == null) {
            throw new InvalidObjectException("elements is null and should not be!");
+       }
        elements = tmp.clone();
        len = fields.get("len", 0);
-       if(elements.length != len)
+       if(elements.length != len) {
            throw new InvalidObjectException("elements is not the expected size");
+       }
 
        baseType = fields.get("baseType", 0);
        baseTypeName = (String)fields.get("baseTypeName", null);

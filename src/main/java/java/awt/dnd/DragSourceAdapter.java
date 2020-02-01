@@ -69,6 +69,7 @@ public abstract class DragSourceAdapter
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragEnter(DragSourceDragEvent dsde) {}
 
     /**
@@ -84,6 +85,7 @@ public abstract class DragSourceAdapter
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragOver(DragSourceDragEvent dsde) {}
 
     /**
@@ -91,6 +93,7 @@ public abstract class DragSourceAdapter
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragMouseMoved(DragSourceDragEvent dsde) {}
 
     /**
@@ -102,6 +105,7 @@ public abstract class DragSourceAdapter
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dropActionChanged(DragSourceDragEvent dsde) {}
 
     /**
@@ -124,6 +128,7 @@ public abstract class DragSourceAdapter
      *
      * @param dse the <code>DragSourceEvent</code>
      */
+    @Override
     public void dragExit(DragSourceEvent dse) {}
 
     /**
@@ -138,5 +143,6 @@ public abstract class DragSourceAdapter
      *
      * @param dsde the <code>DragSourceDropEvent</code>
      */
+    @Override
     public void dragDropEnd(DragSourceDropEvent dsde) {}
 }

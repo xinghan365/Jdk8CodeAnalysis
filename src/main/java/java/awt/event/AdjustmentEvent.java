@@ -254,6 +254,7 @@ public class AdjustmentEvent extends AWTEvent {
         return isAdjusting;
     }
 
+    @Override
     public String paramString() {
         String typeStr;
         switch(id) {

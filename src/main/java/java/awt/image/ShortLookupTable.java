@@ -118,6 +118,7 @@ public class ShortLookupTable extends LookupTable {
      *            zero or greater than or equal to the length of the
      *            lookup table for any band.
      */
+    @Override
     public int[] lookupPixel(int[] src, int[] dst){
         if (dst == null) {
             // Need to alloc a new destination array

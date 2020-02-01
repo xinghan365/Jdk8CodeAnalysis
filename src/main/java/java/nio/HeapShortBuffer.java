@@ -94,6 +94,7 @@ class HeapShortBuffer
 
     }
 
+    @Override
     public ShortBuffer slice() {
         return new HeapShortBuffer(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapShortBuffer
                                         this.position() + offset);
     }
 
+    @Override
     public ShortBuffer duplicate() {
         return new HeapShortBuffer(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapShortBuffer
                                         offset);
     }
 
+    @Override
     public ShortBuffer asReadOnlyBuffer() {
 
         return new HeapShortBufferR(hb,
@@ -131,10 +134,12 @@ class HeapShortBuffer
         return i + offset;
     }
 
+    @Override
     public short get() {
         return hb[ix(nextGetIndex())];
     }
 
+    @Override
     public short get(int i) {
         return hb[ix(checkIndex(i))];
     }
@@ -145,25 +150,30 @@ class HeapShortBuffer
 
 
 
+    @Override
     public ShortBuffer get(short[] dst, int offset, int length) {
         checkBounds(offset, length, dst.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferUnderflowException();
+        }
         System.arraycopy(hb, ix(position()), dst, offset, length);
         position(position() + length);
         return this;
     }
 
+    @Override
     public boolean isDirect() {
         return false;
     }
 
 
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public ShortBuffer put(short x) {
 
         hb[ix(nextPutIndex())] = x;
@@ -173,6 +183,7 @@ class HeapShortBuffer
 
     }
 
+    @Override
     public ShortBuffer put(int i, short x) {
 
         hb[ix(checkIndex(i))] = x;
@@ -182,11 +193,13 @@ class HeapShortBuffer
 
     }
 
+    @Override
     public ShortBuffer put(short[] src, int offset, int length) {
 
         checkBounds(offset, length, src.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferOverflowException();
+        }
         System.arraycopy(src, offset, hb, ix(position()), length);
         position(position() + length);
         return this;
@@ -195,23 +208,27 @@ class HeapShortBuffer
 
     }
 
+    @Override
     public ShortBuffer put(ShortBuffer src) {
 
         if (src instanceof HeapShortBuffer) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             HeapShortBuffer sb = (HeapShortBuffer)src;
             int n = sb.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             System.arraycopy(sb.hb, sb.ix(sb.position()),
                              hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
             int n = src.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             src.get(hb, ix(position()), n);
             position(position() + n);
         } else {
@@ -223,6 +240,7 @@ class HeapShortBuffer
 
     }
 
+    @Override
     public ShortBuffer compact() {
 
         System.arraycopy(hb, ix(position()), hb, ix(0), remaining());
@@ -592,6 +610,7 @@ class HeapShortBuffer
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

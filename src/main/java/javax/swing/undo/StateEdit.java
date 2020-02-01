@@ -141,6 +141,7 @@ public class StateEdit
     /**
      * Tells the edited object to apply the state prior to the edit
      */
+    @Override
     public void undo() {
         super.undo();
         this.object.restoreState(preState);
@@ -149,6 +150,7 @@ public class StateEdit
     /**
      * Tells the edited object to apply the state after the edit
      */
+    @Override
     public void redo() {
         super.redo();
         this.object.restoreState(postState);
@@ -157,6 +159,7 @@ public class StateEdit
     /**
      * Gets the presentation name for this edit
      */
+    @Override
     public String getPresentationName() {
         return this.undoRedoName;
     }

@@ -122,6 +122,7 @@ public class JPanel extends JComponent implements Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((PanelUI)UIManager.getUI(this));
     }
@@ -164,6 +165,7 @@ public class JPanel extends JComponent implements Accessible
      *        expert: true
      *   description: A string that specifies the name of the L&amp;F class.
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -194,6 +196,7 @@ public class JPanel extends JComponent implements Accessible
      *
      * @return  a string representation of this JPanel.
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -211,6 +214,7 @@ public class JPanel extends JComponent implements Accessible
      * @return an AccessibleJPanel that serves as the
      *         AccessibleContext of this JPanel
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJPanel();
@@ -241,6 +245,7 @@ public class JPanel extends JComponent implements Accessible
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

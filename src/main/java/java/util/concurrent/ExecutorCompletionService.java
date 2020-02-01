@@ -117,22 +117,25 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
             super(task, null);
             this.task = task;
         }
+        @Override
         protected void done() { completionQueue.add(task); }
         private final Future<V> task;
     }
 
     private RunnableFuture<V> newTaskFor(Callable<V> task) {
-        if (aes == null)
+        if (aes == null) {
             return new FutureTask<V>(task);
-        else
+        } else {
             return aes.newTaskFor(task);
+        }
     }
 
     private RunnableFuture<V> newTaskFor(Runnable task, V result) {
-        if (aes == null)
+        if (aes == null) {
             return new FutureTask<V>(task, result);
-        else
+        } else {
             return aes.newTaskFor(task, result);
+        }
     }
 
     /**
@@ -144,8 +147,9 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
      * @throws NullPointerException if executor is {@code null}
      */
     public ExecutorCompletionService(Executor executor) {
-        if (executor == null)
+        if (executor == null) {
             throw new NullPointerException();
+        }
         this.executor = executor;
         this.aes = (executor instanceof AbstractExecutorService) ?
             (AbstractExecutorService) executor : null;
@@ -167,36 +171,46 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
      */
     public ExecutorCompletionService(Executor executor,
                                      BlockingQueue<Future<V>> completionQueue) {
-        if (executor == null || completionQueue == null)
+        if (executor == null || completionQueue == null) {
             throw new NullPointerException();
+        }
         this.executor = executor;
         this.aes = (executor instanceof AbstractExecutorService) ?
             (AbstractExecutorService) executor : null;
         this.completionQueue = completionQueue;
     }
 
+    @Override
     public Future<V> submit(Callable<V> task) {
-        if (task == null) throw new NullPointerException();
+        if (task == null) {
+            throw new NullPointerException();
+        }
         RunnableFuture<V> f = newTaskFor(task);
         executor.execute(new QueueingFuture(f));
         return f;
     }
 
+    @Override
     public Future<V> submit(Runnable task, V result) {
-        if (task == null) throw new NullPointerException();
+        if (task == null) {
+            throw new NullPointerException();
+        }
         RunnableFuture<V> f = newTaskFor(task, result);
         executor.execute(new QueueingFuture(f));
         return f;
     }
 
+    @Override
     public Future<V> take() throws InterruptedException {
         return completionQueue.take();
     }
 
+    @Override
     public Future<V> poll() {
         return completionQueue.poll();
     }
 
+    @Override
     public Future<V> poll(long timeout, TimeUnit unit)
             throws InterruptedException {
         return completionQueue.poll(timeout, unit);

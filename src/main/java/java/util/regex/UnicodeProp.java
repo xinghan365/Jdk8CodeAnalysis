@@ -31,36 +31,42 @@ import java.util.Locale;
 enum UnicodeProp {
 
     ALPHABETIC {
+        @Override
         public boolean is(int ch) {
             return Character.isAlphabetic(ch);
         }
     },
 
     LETTER {
+        @Override
         public boolean is(int ch) {
             return Character.isLetter(ch);
         }
     },
 
     IDEOGRAPHIC {
+        @Override
         public boolean is(int ch) {
             return Character.isIdeographic(ch);
         }
     },
 
     LOWERCASE {
+        @Override
         public boolean is(int ch) {
             return Character.isLowerCase(ch);
         }
     },
 
     UPPERCASE {
+        @Override
         public boolean is(int ch) {
             return Character.isUpperCase(ch);
         }
     },
 
     TITLECASE {
+        @Override
         public boolean is(int ch) {
             return Character.isTitleCase(ch);
         }
@@ -68,6 +74,7 @@ enum UnicodeProp {
 
     WHITE_SPACE {
         // \p{Whitespace}
+        @Override
         public boolean is(int ch) {
             return ((((1 << Character.SPACE_SEPARATOR) |
                       (1 << Character.LINE_SEPARATOR) |
@@ -78,6 +85,7 @@ enum UnicodeProp {
 
     CONTROL {
         // \p{gc=Control}
+        @Override
         public boolean is(int ch) {
             return Character.getType(ch) == Character.CONTROL;
         }
@@ -85,6 +93,7 @@ enum UnicodeProp {
 
     PUNCTUATION {
         // \p{gc=Punctuation}
+        @Override
         public boolean is(int ch) {
             return ((((1 << Character.CONNECTOR_PUNCTUATION) |
                       (1 << Character.DASH_PUNCTUATION) |
@@ -100,6 +109,7 @@ enum UnicodeProp {
     HEX_DIGIT {
         // \p{gc=Decimal_Number}
         // \p{Hex_Digit}    -> PropList.txt: Hex_Digit
+        @Override
         public boolean is(int ch) {
             return DIGIT.is(ch) ||
                    (ch >= 0x0030 && ch <= 0x0039) ||
@@ -112,6 +122,7 @@ enum UnicodeProp {
     },
 
     ASSIGNED {
+        @Override
         public boolean is(int ch) {
             return Character.getType(ch) != Character.UNASSIGNED;
         }
@@ -119,6 +130,7 @@ enum UnicodeProp {
 
     NONCHARACTER_CODE_POINT {
         // PropList.txt:Noncharacter_Code_Point
+        @Override
         public boolean is(int ch) {
             return (ch & 0xfffe) == 0xfffe || (ch >= 0xfdd0 && ch <= 0xfdef);
         }
@@ -126,6 +138,7 @@ enum UnicodeProp {
 
     DIGIT {
         // \p{gc=Decimal_Number}
+        @Override
         public boolean is(int ch) {
             return Character.isDigit(ch);
         }
@@ -134,6 +147,7 @@ enum UnicodeProp {
     ALNUM {
         // \p{alpha}
         // \p{digit}
+        @Override
         public boolean is(int ch) {
             return ALPHABETIC.is(ch) || DIGIT.is(ch);
         }
@@ -144,6 +158,7 @@ enum UnicodeProp {
         // [\N{LF} \N{VT} \N{FF} \N{CR} \N{NEL}  -> 0xa, 0xb, 0xc, 0xd, 0x85
         //  \p{gc=Line_Separator}
         //  \p{gc=Paragraph_Separator}]
+        @Override
         public boolean is(int ch) {
             return Character.getType(ch) == Character.SPACE_SEPARATOR ||
                    ch == 0x9; // \N{HT}
@@ -156,6 +171,7 @@ enum UnicodeProp {
         //  \p{gc=Control}
         //  \p{gc=Surrogate}
         //  \p{gc=Unassigned}]
+        @Override
         public boolean is(int ch) {
             return ((((1 << Character.SPACE_SEPARATOR) |
                       (1 << Character.LINE_SEPARATOR) |
@@ -171,6 +187,7 @@ enum UnicodeProp {
         // \p{graph}
         // \p{blank}
         // -- \p{cntrl}
+        @Override
         public boolean is(int ch) {
             return (GRAPH.is(ch) || BLANK.is(ch)) && !CONTROL.is(ch);
         }
@@ -183,6 +200,7 @@ enum UnicodeProp {
         //  \p{gc=Connector_Punctuation}
         //  \p{Join_Control}    200C..200D
 
+        @Override
         public boolean is(int ch) {
             return ALPHABETIC.is(ch) ||
                    ((((1 << Character.NON_SPACING_MARK) |
@@ -197,6 +215,7 @@ enum UnicodeProp {
 
     JOIN_CONTROL {
         //  200C..200D    PropList.txt:Join_Control
+        @Override
         public boolean is(int ch) {
            return (ch == 0x200C || ch == 0x200D);
         }
@@ -227,8 +246,9 @@ enum UnicodeProp {
     public static UnicodeProp forName(String propName) {
         propName = propName.toUpperCase(Locale.ENGLISH);
         String alias = aliases.get(propName);
-        if (alias != null)
+        if (alias != null) {
             propName = alias;
+        }
         try {
             return valueOf (propName);
         } catch (IllegalArgumentException x) {}
@@ -237,8 +257,9 @@ enum UnicodeProp {
 
     public static UnicodeProp forPOSIXName(String propName) {
         propName = posix.get(propName.toUpperCase(Locale.ENGLISH));
-        if (propName == null)
+        if (propName == null) {
             return null;
+        }
         return valueOf (propName);
     }
 

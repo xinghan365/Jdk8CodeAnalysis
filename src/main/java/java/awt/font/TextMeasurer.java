@@ -168,6 +168,7 @@ public final class TextMeasurer implements Cloneable {
         initAll(text);
     }
 
+    @Override
     protected Object clone() {
         TextMeasurer other;
         try {

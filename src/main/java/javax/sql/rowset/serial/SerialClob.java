@@ -188,6 +188,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public long length() throws SerialException {
         isValid();
         return len;
@@ -204,6 +205,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public java.io.Reader getCharacterStream() throws SerialException {
         isValid();
         return (java.io.Reader) new CharArrayReader(buf);
@@ -226,6 +228,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *     <code>CLOB</code> value represented by the <code>Clob</code> object
      * that was used to create this <code>SerialClob</code> object
      */
+    @Override
     public java.io.InputStream getAsciiStream() throws SerialException, SQLException {
         isValid();
         if (this.clob != null) {
@@ -262,6 +265,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * @throws SerialException if either of the arguments is out of bounds;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public String getSubString(long pos, int length) throws SerialException {
 
         isValid();
@@ -305,6 +309,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * @throws SQLException if there is an error accessing the Clob value
      *         from the database.
      */
+    @Override
     public long position(String searchStr, long start)
         throws SerialException, SQLException {
         isValid();
@@ -351,6 +356,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * @throws SQLException if there is an error accessing the Clob value
      *         from the database
      */
+    @Override
     public long position(Clob searchStr, long start)
         throws SerialException, SQLException {
         isValid();
@@ -376,6 +382,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *     values of the length and offset is greater than the Clob buffer;
      * if the {@code free} method had been previously called on this object
      */
+    @Override
     public int setString(long pos, String str) throws SerialException {
         return (setString(pos, str, 0, str.length()));
     }
@@ -402,6 +409,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *     values of the length and offset is greater than the Clob buffer;
      * if the {@code free} method had been previously called on this object
      */
+    @Override
     public int setString(long pos, String str, int offset, int length)
         throws SerialException {
         isValid();
@@ -454,6 +462,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *     <code>CLOB</code> value
      * @see #getAsciiStream
      */
+    @Override
     public java.io.OutputStream setAsciiStream(long pos)
         throws SerialException, SQLException {
         isValid();
@@ -486,6 +495,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *            <code>CLOB</code> value
      * @see #getCharacterStream
      */
+    @Override
     public java.io.Writer setCharacterStream(long pos)
         throws SerialException, SQLException {
         isValid();
@@ -512,6 +522,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *        <code>CLOB</code> value;
      * if the {@code free} method had been previously called on this object
      */
+    @Override
     public void truncate(long length) throws SerialException {
         isValid();
         if (length > len) {
@@ -547,6 +558,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * called on this object
      * @since 1.6
      */
+    @Override
     public Reader getCharacterStream(long pos, long length) throws SQLException {
         isValid();
         if (pos < 1 || pos > len) {
@@ -574,6 +586,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * the Clob's resources
      * @since 1.6
      */
+    @Override
     public void free() throws SQLException {
         if (buf != null) {
             buf = null;
@@ -596,6 +609,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *          equivalent to this SerialClob, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -613,6 +627,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      * Returns a hash code for this {@code SerialClob}.
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
        return ((31 + Arrays.hashCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
     }
@@ -625,6 +640,7 @@ public class SerialClob implements Clob, Serializable, Cloneable {
      *
      * @return  a clone of this SerialClob
      */
+    @Override
     public Object clone() {
         try {
             SerialClob sc = (SerialClob) super.clone();
@@ -646,12 +662,14 @@ public class SerialClob implements Clob, Serializable, Cloneable {
 
         ObjectInputStream.GetField fields = s.readFields();
        char[] tmp = (char[])fields.get("buf", null);
-       if (tmp == null)
+       if (tmp == null) {
            throw new InvalidObjectException("buf is null and should not be!");
+       }
        buf = tmp.clone();
        len = fields.get("len", 0L);
-       if (buf.length != len)
+       if (buf.length != len) {
            throw new InvalidObjectException("buf is not the expected size");
+       }
        origLen = fields.get("origLen", 0L);
        clob = (Clob) fields.get("clob", null);
     }

@@ -170,6 +170,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *                                          children
      * @see     #isNodeDescendant
      */
+    @Override
     public void insert(MutableTreeNode newChild, int childIndex) {
         if (!allowsChildren) {
             throw new IllegalStateException("node does not allow children");
@@ -201,6 +202,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      * @exception       ArrayIndexOutOfBoundsException  if
      *                          <code>childIndex</code> is out of bounds
      */
+    @Override
     public void remove(int childIndex) {
         MutableTreeNode child = (MutableTreeNode)getChildAt(childIndex);
         children.removeElementAt(childIndex);
@@ -216,6 +218,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @param   newParent       this node's new parent
      */
+    @Override
     @Transient
     public void setParent(MutableTreeNode newParent) {
         parent = newParent;
@@ -226,6 +229,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @return  this node's parent TreeNode, or null if this node has no parent
      */
+    @Override
     public TreeNode getParent() {
         return parent;
     }
@@ -238,6 +242,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *                                          is out of bounds
      * @return  the TreeNode in this node's child array at  the specified index
      */
+    @Override
     public TreeNode getChildAt(int index) {
         if (children == null) {
             throw new ArrayIndexOutOfBoundsException("node has no children");
@@ -250,6 +255,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @return  an int giving the number of children of this node
      */
+    @Override
     public int getChildCount() {
         if (children == null) {
             return 0;
@@ -271,6 +277,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *          array, or <code>-1</code> if the specified node is a not
      *          a child of this node
      */
+    @Override
     public int getIndex(TreeNode aChild) {
         if (aChild == null) {
             throw new IllegalArgumentException("argument is null");
@@ -289,6 +296,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @return  an Enumeration of this node's children
      */
+    @Override
     public Enumeration children() {
         if (children == null) {
             return EMPTY_ENUMERATION;
@@ -320,6 +328,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @return  true if this node allows children, else false
      */
+    @Override
     public boolean getAllowsChildren() {
         return allowsChildren;
     }
@@ -332,6 +341,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      * @see     #getUserObject
      * @see     #toString
      */
+    @Override
     public void setUserObject(Object userObject) {
         this.userObject = userObject;
     }
@@ -357,6 +367,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      * node a null parent.  Does nothing if this node is the root of its
      * tree.
      */
+    @Override
     public void removeFromParent() {
         MutableTreeNode parent = (MutableTreeNode)getParent();
         if (parent != null) {
@@ -372,6 +383,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      * @exception       IllegalArgumentException        if <code>aChild</code>
      *                                  is null or is not a child of this node
      */
+    @Override
     public void remove(MutableTreeNode aChild) {
         if (aChild == null) {
             throw new IllegalArgumentException("argument is null");
@@ -405,10 +417,11 @@ public class DefaultMutableTreeNode implements Cloneable,
      *                                          children
      */
     public void add(MutableTreeNode newChild) {
-        if(newChild != null && newChild.getParent() == this)
+        if(newChild != null && newChild.getParent() == this) {
             insert(newChild, getChildCount() - 1);
-        else
+        } else {
             insert(newChild, getChildCount());
+        }
     }
 
 
@@ -460,8 +473,9 @@ public class DefaultMutableTreeNode implements Cloneable,
      * @return  true if this node is an ancestor of <code>anotherNode</code>
      */
     public boolean isNodeDescendant(DefaultMutableTreeNode anotherNode) {
-        if (anotherNode == null)
+        if (anotherNode == null) {
             return false;
+        }
 
         return anotherNode.isNodeAncestor(this);
     }
@@ -620,10 +634,11 @@ public class DefaultMutableTreeNode implements Cloneable,
         /* Check for null, in case someone passed in a null node, or
            they passed in an element that isn't rooted at root. */
         if(aNode == null) {
-            if(depth == 0)
+            if(depth == 0) {
                 return null;
-            else
+            } else {
                 retNodes = new TreeNode[depth];
+            }
         }
         else {
             depth++;
@@ -642,9 +657,10 @@ public class DefaultMutableTreeNode implements Cloneable,
         TreeNode[]          realPath = getPath();
         Object[]            retPath = new Object[realPath.length];
 
-        for(int counter = 0; counter < realPath.length; counter++)
+        for(int counter = 0; counter < realPath.length; counter++) {
             retPath[counter] = ((DefaultMutableTreeNode)realPath[counter])
                                .getUserObject();
+        }
         return retPath;
     }
 
@@ -741,10 +757,11 @@ public class DefaultMutableTreeNode implements Cloneable,
         previousSibling = getPreviousSibling();
 
         if (previousSibling != null) {
-            if (previousSibling.getChildCount() == 0)
+            if (previousSibling.getChildCount() == 0) {
                 return previousSibling;
-            else
+            } else {
                 return previousSibling.getLastLeaf();
+            }
         } else {
             return myParent;
         }
@@ -1083,6 +1100,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      * @see     #getAllowsChildren
      * @return  true if this node has no children
      */
+    @Override
     public boolean isLeaf() {
         return (getChildCount() == 0);
     }
@@ -1151,13 +1169,15 @@ public class DefaultMutableTreeNode implements Cloneable,
         DefaultMutableTreeNode nextSibling;
         DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
 
-        if (myParent == null)
+        if (myParent == null) {
             return null;
+        }
 
         nextSibling = getNextSibling(); // linear search
 
-        if (nextSibling != null)
+        if (nextSibling != null) {
             return nextSibling.getFirstLeaf();
+        }
 
         return myParent.getNextLeaf();  // tail recursion
     }
@@ -1186,13 +1206,15 @@ public class DefaultMutableTreeNode implements Cloneable,
         DefaultMutableTreeNode previousSibling;
         DefaultMutableTreeNode myParent = (DefaultMutableTreeNode)getParent();
 
-        if (myParent == null)
+        if (myParent == null) {
             return null;
+        }
 
         previousSibling = getPreviousSibling(); // linear search
 
-        if (previousSibling != null)
+        if (previousSibling != null) {
             return previousSibling.getLastLeaf();
+        }
 
         return myParent.getPreviousLeaf();              // tail recursion
     }
@@ -1237,6 +1259,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @see     #getUserObject
      */
+    @Override
     public String toString() {
         if (userObject == null) {
             return "";
@@ -1252,6 +1275,7 @@ public class DefaultMutableTreeNode implements Cloneable,
      *
      * @return  a copy of this node
      */
+    @Override
     public Object clone() {
         DefaultMutableTreeNode newNode;
 
@@ -1282,8 +1306,9 @@ public class DefaultMutableTreeNode implements Cloneable,
             tValues[0] = "userObject";
             tValues[1] = userObject;
         }
-        else
+        else {
             tValues = new Object[0];
+        }
         s.writeObject(tValues);
     }
 
@@ -1295,8 +1320,9 @@ public class DefaultMutableTreeNode implements Cloneable,
 
         tValues = (Object[])s.readObject();
 
-        if(tValues.length > 0 && tValues[0].equals("userObject"))
+        if(tValues.length > 0 && tValues[0].equals("userObject")) {
             userObject = tValues[1];
+        }
     }
 
     private final class PreorderEnumeration implements Enumeration<TreeNode> {
@@ -1309,10 +1335,12 @@ public class DefaultMutableTreeNode implements Cloneable,
             stack.push(v.elements());
         }
 
+        @Override
         public boolean hasMoreElements() {
             return (!stack.empty() && stack.peek().hasMoreElements());
         }
 
+        @Override
         public TreeNode nextElement() {
             Enumeration enumer = stack.peek();
             TreeNode    node = (TreeNode)enumer.nextElement();
@@ -1343,10 +1371,12 @@ public class DefaultMutableTreeNode implements Cloneable,
             subtree = EMPTY_ENUMERATION;
         }
 
+        @Override
         public boolean hasMoreElements() {
             return root != null;
         }
 
+        @Override
         public TreeNode nextElement() {
             TreeNode retval;
 
@@ -1378,11 +1408,13 @@ public class DefaultMutableTreeNode implements Cloneable,
             queue.enqueue(v.elements());
         }
 
+        @Override
         public boolean hasMoreElements() {
             return (!queue.isEmpty() &&
                     ((Enumeration)queue.firstObject()).hasMoreElements());
         }
 
+        @Override
         public TreeNode nextElement() {
             Enumeration enumer = (Enumeration)queue.firstObject();
             TreeNode    node = (TreeNode)enumer.nextElement();
@@ -1483,10 +1515,12 @@ public class DefaultMutableTreeNode implements Cloneable,
             }
         }
 
+        @Override
         public boolean hasMoreElements() {
             return stack.size() > 0;
         }
 
+        @Override
         public TreeNode nextElement() {
             try {
                 return stack.pop();

@@ -72,6 +72,7 @@ public class IndexedPropertyChangeEvent extends PropertyChangeEvent {
         return index;
     }
 
+    @Override
     void appendTo(StringBuilder sb) {
         sb.append("; index=").append(getIndex());
     }

@@ -286,13 +286,16 @@ public final class Double extends Number implements Comparable<Double> {
          */
         if (!isFinite(d) )
             // For infinity and NaN, use the decimal output.
+        {
             return Double.toString(d);
-        else {
+        } else {
             // Initialized to maximum size of output.
             StringBuilder answer = new StringBuilder(24);
 
             if (Math.copySign(1.0, d) == -1.0)    // value is negative,
+            {
                 answer.append("-");                  // so append sign info
+            }
 
             answer.append("0x");
 
@@ -640,6 +643,7 @@ public final class Double extends Number implements Comparable<Double> {
      * @return  a {@code String} representation of this object.
      * @see java.lang.Double#toString(double)
      */
+    @Override
     public String toString() {
         return toString(value);
     }
@@ -653,6 +657,7 @@ public final class Double extends Number implements Comparable<Double> {
      * @jls 5.1.3 Narrowing Primitive Conversions
      * @since JDK1.1
      */
+    @Override
     public byte byteValue() {
         return (byte)value;
     }
@@ -666,6 +671,7 @@ public final class Double extends Number implements Comparable<Double> {
      * @jls 5.1.3 Narrowing Primitive Conversions
      * @since JDK1.1
      */
+    @Override
     public short shortValue() {
         return (short)value;
     }
@@ -678,6 +684,7 @@ public final class Double extends Number implements Comparable<Double> {
      * @return  the {@code double} value represented by this object
      *          converted to type {@code int}
      */
+    @Override
     public int intValue() {
         return (int)value;
     }
@@ -690,6 +697,7 @@ public final class Double extends Number implements Comparable<Double> {
      *          converted to type {@code long}
      * @jls 5.1.3 Narrowing Primitive Conversions
      */
+    @Override
     public long longValue() {
         return (long)value;
     }
@@ -703,6 +711,7 @@ public final class Double extends Number implements Comparable<Double> {
      * @jls 5.1.3 Narrowing Primitive Conversions
      * @since JDK1.0
      */
+    @Override
     public float floatValue() {
         return (float)value;
     }
@@ -712,6 +721,7 @@ public final class Double extends Number implements Comparable<Double> {
      *
      * @return the {@code double} value represented by this object
      */
+    @Override
     public double doubleValue() {
         return value;
     }
@@ -794,6 +804,7 @@ public final class Double extends Number implements Comparable<Double> {
      *          {@code false} otherwise.
      * @see java.lang.Double#doubleToLongBits(double)
      */
+    @Override
     public boolean equals(Object obj) {
         return (obj instanceof Double)
                && (doubleToLongBits(((Double)obj).value) ==
@@ -838,8 +849,9 @@ public final class Double extends Number implements Comparable<Double> {
         // exponent and nonzero significand.
         if ( ((result & DoubleConsts.EXP_BIT_MASK) ==
               DoubleConsts.EXP_BIT_MASK) &&
-             (result & DoubleConsts.SIGNIF_BIT_MASK) != 0L)
+             (result & DoubleConsts.SIGNIF_BIT_MASK) != 0L) {
             result = 0x7ff8000000000000L;
+        }
         return result;
     }
 
@@ -974,6 +986,7 @@ public final class Double extends Number implements Comparable<Double> {
      *
      * @since   1.2
      */
+    @Override
     public int compareTo(Double anotherDouble) {
         return Double.compare(value, anotherDouble.value);
     }
@@ -997,10 +1010,12 @@ public final class Double extends Number implements Comparable<Double> {
      * @since 1.4
      */
     public static int compare(double d1, double d2) {
-        if (d1 < d2)
+        if (d1 < d2) {
             return -1;           // Neither val is NaN, thisVal is smaller
-        if (d1 > d2)
+        }
+        if (d1 > d2) {
             return 1;            // Neither val is NaN, thisVal is larger
+        }
 
         // Cannot use doubleToRawLongBits because of possibility of NaNs.
         long thisBits    = Double.doubleToLongBits(d1);

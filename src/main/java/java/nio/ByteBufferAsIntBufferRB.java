@@ -69,6 +69,7 @@ class ByteBufferAsIntBufferRB                  // package-private
 
     }
 
+    @Override
     public IntBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsIntBufferRB                  // package-private
         return new ByteBufferAsIntBufferRB(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public IntBuffer duplicate() {
         return new ByteBufferAsIntBufferRB(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsIntBufferRB                  // package-private
                                                     offset);
     }
 
+    @Override
     public IntBuffer asReadOnlyBuffer() {
 
 
@@ -123,6 +126,7 @@ class ByteBufferAsIntBufferRB                  // package-private
 
 
 
+    @Override
     public IntBuffer put(int x) {
 
 
@@ -132,6 +136,7 @@ class ByteBufferAsIntBufferRB                  // package-private
 
     }
 
+    @Override
     public IntBuffer put(int i, int x) {
 
 
@@ -141,6 +146,7 @@ class ByteBufferAsIntBufferRB                  // package-private
 
     }
 
+    @Override
     public IntBuffer compact() {
 
 
@@ -163,10 +169,12 @@ class ByteBufferAsIntBufferRB                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -213,6 +221,7 @@ class ByteBufferAsIntBufferRB                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;

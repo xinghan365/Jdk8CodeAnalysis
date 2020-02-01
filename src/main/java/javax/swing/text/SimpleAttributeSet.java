@@ -89,6 +89,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @return the count
      */
+    @Override
     public int getAttributeCount() {
         return table.size();
     }
@@ -99,6 +100,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @param attrName the attribute name
      * @return true if the attribute is defined
      */
+    @Override
     public boolean isDefined(Object attrName) {
         return table.containsKey(attrName);
     }
@@ -109,6 +111,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @param attr the second attribute set
      * @return true if the sets are equal, false otherwise
      */
+    @Override
     public boolean isEqual(AttributeSet attr) {
         return ((getAttributeCount() == attr.getAttributeCount()) &&
                 containsAttributes(attr));
@@ -119,6 +122,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @return the copy
      */
+    @Override
     public AttributeSet copyAttributes() {
         return (AttributeSet) clone();
     }
@@ -128,6 +132,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @return the names as an <code>Enumeration</code>
      */
+    @Override
     public Enumeration<?> getAttributeNames() {
         return Collections.enumeration(table.keySet());
     }
@@ -138,6 +143,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @param name the attribute name
      * @return the value
      */
+    @Override
     public Object getAttribute(Object name) {
         Object value = table.get(name);
         if (value == null) {
@@ -157,6 +163,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @param value the value
      * @return true if the name/value pair is in the list
      */
+    @Override
     public boolean containsAttribute(Object name, Object value) {
         return value.equals(getAttribute(name));
     }
@@ -168,6 +175,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @param attributes the attribute list
      * @return true if the list contains all the name/value pairs
      */
+    @Override
     public boolean containsAttributes(AttributeSet attributes) {
         boolean result = true;
 
@@ -186,6 +194,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @param name the attribute name
      * @param value the attribute value
      */
+    @Override
     public void addAttribute(Object name, Object value) {
         table.put(name, value);
     }
@@ -195,6 +204,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @param attributes the set of attributes to add
      */
+    @Override
     public void addAttributes(AttributeSet attributes) {
         Enumeration names = attributes.getAttributeNames();
         while (names.hasMoreElements()) {
@@ -208,6 +218,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @param name the attribute name
      */
+    @Override
     public void removeAttribute(Object name) {
         table.remove(name);
     }
@@ -217,9 +228,11 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @param names the set of names to remove
      */
+    @Override
     public void removeAttributes(Enumeration<?> names) {
-        while (names.hasMoreElements())
+        while (names.hasMoreElements()) {
             removeAttribute(names.nextElement());
+        }
     }
 
     /**
@@ -227,6 +240,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @param attributes the set of attributes to remove
      */
+    @Override
     public void removeAttributes(AttributeSet attributes) {
         if (attributes == this) {
             table.clear();
@@ -236,8 +250,9 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
             while (names.hasMoreElements()) {
                 Object name = names.nextElement();
                 Object value = attributes.getAttribute(name);
-                if (value.equals(getAttribute(name)))
+                if (value.equals(getAttribute(name))) {
                     removeAttribute(name);
+                }
             }
         }
     }
@@ -251,6 +266,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @return the parent
      */
+    @Override
     public AttributeSet getResolveParent() {
         return (AttributeSet) table.get(StyleConstants.ResolveAttribute);
     }
@@ -260,6 +276,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @param parent the parent
      */
+    @Override
     public void setResolveParent(AttributeSet parent) {
         addAttribute(StyleConstants.ResolveAttribute, parent);
     }
@@ -271,6 +288,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @return the new set of attributes
      */
+    @Override
     public Object clone() {
         SimpleAttributeSet attr;
         try {
@@ -286,6 +304,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * Returns a hashcode for this set of attributes.
      * @return     a hashcode value for this set of attributes.
      */
+    @Override
     public int hashCode() {
         return table.hashCode();
     }
@@ -298,6 +317,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      * @return    <code>true</code> if the objects are equal;
      *            <code>false</code> otherwise
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -314,6 +334,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
      *
      * @return the string
      */
+    @Override
     public String toString() {
         String s = "";
         Enumeration names = getAttributeNames();
@@ -348,33 +369,43 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
     static class EmptyAttributeSet implements AttributeSet, Serializable {
         static final long serialVersionUID = -8714803568785904228L;
 
+        @Override
         public int getAttributeCount() {
             return 0;
         }
+        @Override
         public boolean isDefined(Object attrName) {
             return false;
         }
+        @Override
         public boolean isEqual(AttributeSet attr) {
             return (attr.getAttributeCount() == 0);
         }
+        @Override
         public AttributeSet copyAttributes() {
             return this;
         }
+        @Override
         public Object getAttribute(Object key) {
             return null;
         }
+        @Override
         public Enumeration getAttributeNames() {
             return Collections.emptyEnumeration();
         }
+        @Override
         public boolean containsAttribute(Object name, Object value) {
             return false;
         }
+        @Override
         public boolean containsAttributes(AttributeSet attributes) {
             return (attributes.getAttributeCount() == 0);
         }
+        @Override
         public AttributeSet getResolveParent() {
             return null;
         }
+        @Override
         public boolean equals(Object obj) {
             if (this == obj) {
                 return true;
@@ -382,6 +413,7 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
             return ((obj instanceof AttributeSet) &&
                     (((AttributeSet)obj).getAttributeCount() == 0));
         }
+        @Override
         public int hashCode() {
             return 0;
         }

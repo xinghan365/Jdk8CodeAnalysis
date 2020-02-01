@@ -98,17 +98,21 @@ public class InterfaceAddress {
      *          {@code false} otherwise.
      * @see     java.net.InterfaceAddress#hashCode()
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof InterfaceAddress)) {
             return false;
         }
         InterfaceAddress cmp = (InterfaceAddress) obj;
-        if ( !(address == null ? cmp.address == null : address.equals(cmp.address)) )
+        if ( !(address == null ? cmp.address == null : address.equals(cmp.address)) ) {
             return false;
-        if ( !(broadcast  == null ? cmp.broadcast == null : broadcast.equals(cmp.broadcast)) )
+        }
+        if ( !(broadcast  == null ? cmp.broadcast == null : broadcast.equals(cmp.broadcast)) ) {
             return false;
-        if (maskLength != cmp.maskLength)
+        }
+        if (maskLength != cmp.maskLength) {
             return false;
+        }
         return true;
     }
 
@@ -117,6 +121,7 @@ public class InterfaceAddress {
      *
      * @return  a hash code value for this Interface address.
      */
+    @Override
     public int hashCode() {
         return address.hashCode() + ((broadcast != null) ? broadcast.hashCode() : 0) + maskLength;
     }
@@ -127,6 +132,7 @@ public class InterfaceAddress {
      *
      * @return  a string representation of this Interface address.
      */
+    @Override
     public String toString() {
         return address + "/" + maskLength + " [" + broadcast + "]";
     }

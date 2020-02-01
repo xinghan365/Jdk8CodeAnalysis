@@ -115,6 +115,7 @@ class PipedOutputStream extends OutputStream {
      *          {@link #connect(java.io.PipedInputStream) unconnected},
      *          closed, or if an I/O error occurs.
      */
+    @Override
     public void write(int b)  throws IOException {
         if (sink == null) {
             throw new IOException("Pipe not connected");
@@ -135,6 +136,7 @@ class PipedOutputStream extends OutputStream {
      *          {@link #connect(java.io.PipedInputStream) unconnected},
      *          closed, or if an I/O error occurs.
      */
+    @Override
     public void write(byte b[], int off, int len) throws IOException {
         if (sink == null) {
             throw new IOException("Pipe not connected");
@@ -156,6 +158,7 @@ class PipedOutputStream extends OutputStream {
      *
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized void flush() throws IOException {
         if (sink != null) {
             synchronized (sink) {
@@ -171,6 +174,7 @@ class PipedOutputStream extends OutputStream {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void close()  throws IOException {
         if (sink != null) {
             sink.receivedLast();

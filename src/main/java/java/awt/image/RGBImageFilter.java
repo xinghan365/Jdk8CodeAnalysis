@@ -111,6 +111,7 @@ public abstract class RGBImageFilter extends ImageFilter {
      * @see ImageConsumer
      * @see ColorModel#getRGBdefault
      */
+    @Override
     public void setColorModel(ColorModel model) {
         if (canFilterIndexColorModel && (model instanceof IndexColorModel)) {
             ColorModel newcm = filterIndexColorModel((IndexColorModel)model);
@@ -221,6 +222,7 @@ public abstract class RGBImageFilter extends ImageFilter {
      * @see ColorModel#getRGBdefault
      * @see #filterRGBPixels
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
                           int scansize) {
@@ -258,6 +260,7 @@ public abstract class RGBImageFilter extends ImageFilter {
      * @see ColorModel#getRGBdefault
      * @see #filterRGBPixels
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
                           int scansize) {

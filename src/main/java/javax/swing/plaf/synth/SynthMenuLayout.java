@@ -41,6 +41,7 @@ class SynthMenuLayout extends DefaultMenuLayout {
         super(target, axis);
     }
 
+    @Override
     public Dimension preferredLayoutSize(Container target) {
         if (target instanceof JPopupMenu) {
             JPopupMenu popupMenu = (JPopupMenu) target;

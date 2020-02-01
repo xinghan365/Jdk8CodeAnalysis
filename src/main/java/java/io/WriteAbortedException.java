@@ -73,11 +73,13 @@ public class WriteAbortedException extends ObjectStreamException {
      * Produce the message and include the message from the nested
      * exception, if there is one.
      */
+    @Override
     public String getMessage() {
-        if (detail == null)
+        if (detail == null) {
             return super.getMessage();
-        else
+        } else {
             return super.getMessage() + "; " + detail.toString();
+        }
     }
 
     /**
@@ -87,6 +89,7 @@ public class WriteAbortedException extends ObjectStreamException {
      *          which may be null.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return detail;
     }

@@ -248,6 +248,7 @@ public final class MediaPrintableArea
      * @return  True if <CODE>object</CODE> is equivalent to this media margins
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         boolean ret = false;
         if (object instanceof MediaPrintableArea) {
@@ -269,6 +270,7 @@ public final class MediaPrintableArea
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return MediaPrintableArea.class;
     }
@@ -283,6 +285,7 @@ public final class MediaPrintableArea
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "media-printable-area";
     }
@@ -315,6 +318,7 @@ public final class MediaPrintableArea
     /**
      * Returns a string version of this rectangular size attribute in mm.
      */
+    @Override
     public String toString() {
         return(toString(MM, "mm"));
     }
@@ -322,6 +326,7 @@ public final class MediaPrintableArea
     /**
      * Returns a hash code value for this attribute.
      */
+    @Override
     public int hashCode() {
         return x + 37*y + 43*w + 47*h;
     }

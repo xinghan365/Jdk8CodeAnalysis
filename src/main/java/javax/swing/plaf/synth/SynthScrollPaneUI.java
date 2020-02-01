@@ -222,6 +222,7 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
         return baseState;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (SynthLookAndFeel.shouldUpdateStyle(e)) {
             updateStyle(scrollpane);
@@ -281,6 +282,7 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
      */
     private class ViewportViewFocusHandler implements ContainerListener,
             FocusListener{
+        @Override
         public void componentAdded(ContainerEvent e) {
             if (e.getChild() instanceof JTextComponent) {
                 e.getChild().addFocusListener(this);
@@ -289,17 +291,20 @@ public class SynthScrollPaneUI extends BasicScrollPaneUI
             }
         }
 
+        @Override
         public void componentRemoved(ContainerEvent e) {
             if (e.getChild() instanceof JTextComponent) {
                 e.getChild().removeFocusListener(this);
             }
         }
 
+        @Override
         public void focusGained(FocusEvent e) {
             viewportViewHasFocus = true;
             scrollpane.repaint();
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             viewportViewHasFocus = false;
             scrollpane.repaint();

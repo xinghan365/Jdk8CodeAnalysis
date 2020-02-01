@@ -53,10 +53,12 @@ public abstract class FocusAdapter implements FocusListener {
     /**
      * Invoked when a component gains the keyboard focus.
      */
+    @Override
     public void focusGained(FocusEvent e) {}
 
     /**
      * Invoked when a component loses the keyboard focus.
      */
+    @Override
     public void focusLost(FocusEvent e) {}
 }

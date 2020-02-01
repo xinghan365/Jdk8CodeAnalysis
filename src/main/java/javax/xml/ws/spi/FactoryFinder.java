@@ -175,14 +175,16 @@ class FactoryFinder {
                 }
             }
 
-            if (classLoader == null)
+            if (classLoader == null) {
                 return Class.forName(className);
-            else
+            } else {
                 return classLoader.loadClass(className);
+            }
         } catch (SecurityException se) {
             // anyone can access the platform default factory class without permission
-            if (Provider.DEFAULT_JAXWSPROVIDER.equals(className))
+            if (Provider.DEFAULT_JAXWSPROVIDER.equals(className)) {
                 return Class.forName(className);
+            }
             throw se;
         }
     }

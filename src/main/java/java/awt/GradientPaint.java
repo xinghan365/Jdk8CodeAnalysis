@@ -253,6 +253,7 @@ public class GradientPaint implements Paint {
      * @see AffineTransform
      * @see RenderingHints
      */
+    @Override
     public PaintContext createContext(ColorModel cm,
                                       Rectangle deviceBounds,
                                       Rectangle2D userBounds,
@@ -269,6 +270,7 @@ public class GradientPaint implements Paint {
      * object's transparency mode.
      * @see Transparency
      */
+    @Override
     public int getTransparency() {
         int a1 = color1.getAlpha();
         int a2 = color2.getAlpha();

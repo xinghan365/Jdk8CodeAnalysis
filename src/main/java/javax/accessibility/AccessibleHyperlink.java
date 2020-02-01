@@ -63,6 +63,7 @@ public abstract class AccessibleHyperlink implements AccessibleAction {
          *
          * @return the zero-based number of Actions in this object
          */
+        @Override
         public abstract int getAccessibleActionCount();
 
         /**
@@ -72,6 +73,7 @@ public abstract class AccessibleHyperlink implements AccessibleAction {
          * @return true if the action was performed; otherwise false.
          * @see #getAccessibleActionCount
          */
+        @Override
         public abstract boolean doAccessibleAction(int i);
 
         /**
@@ -90,6 +92,7 @@ public abstract class AccessibleHyperlink implements AccessibleAction {
          * @return a String description of the action
          * @see #getAccessibleActionCount
          */
+        @Override
         public abstract String getAccessibleActionDescription(int i);
 
         /**

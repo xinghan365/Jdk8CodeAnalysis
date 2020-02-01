@@ -140,6 +140,7 @@ public class EventQueue {
      push/pop is performed
      */
     private final static Runnable dummyRunnable = new Runnable() {
+        @Override
         public void run() {
         }
     };
@@ -194,29 +195,36 @@ public class EventQueue {
     static {
         AWTAccessor.setEventQueueAccessor(
             new AWTAccessor.EventQueueAccessor() {
+                @Override
                 public Thread getDispatchThread(EventQueue eventQueue) {
                     return eventQueue.getDispatchThread();
                 }
+                @Override
                 public boolean isDispatchThreadImpl(EventQueue eventQueue) {
                     return eventQueue.isDispatchThreadImpl();
                 }
+                @Override
                 public void removeSourceEvents(EventQueue eventQueue,
                                                Object source,
                                                boolean removeAllEvents)
                 {
                     eventQueue.removeSourceEvents(source, removeAllEvents);
                 }
+                @Override
                 public boolean noEvents(EventQueue eventQueue) {
                     return eventQueue.noEvents();
                 }
+                @Override
                 public void wakeup(EventQueue eventQueue, boolean isShutdown) {
                     eventQueue.wakeup(isShutdown);
                 }
+                @Override
                 public void invokeAndWait(Object source, Runnable r)
                     throws InterruptedException, InvocationTargetException
                 {
                     EventQueue.invokeAndWait(source, r);
                 }
+                @Override
                 public void setFwDispatcher(EventQueue eventQueue,
                                             FwDispatcher dispatcher) {
                     eventQueue.setFwDispatcher(dispatcher);
@@ -701,6 +709,7 @@ public class EventQueue {
     protected void dispatchEvent(final AWTEvent event) {
         final Object src = event.getSource();
         final PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
+            @Override
             public Void run() {
                 // In case fwDispatcher is installed and we're already on the
                 // dispatch thread (e.g. performing DefaultKeyboardFocusManager.sendMessage),
@@ -729,6 +738,7 @@ public class EventQueue {
         } else {
             javaSecurityAccess.doIntersectionPrivilege(
                 new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         javaSecurityAccess.doIntersectionPrivilege(action, eventAcc);
                         return null;
@@ -1096,6 +1106,7 @@ public class EventQueue {
             if (dispatchThread == null && !threadGroup.isDestroyed() && !appContext.isDisposed()) {
                 dispatchThread = AccessController.doPrivileged(
                     new PrivilegedAction<EventDispatchThread>() {
+                        @Override
                         public EventDispatchThread run() {
                             EventDispatchThread t =
                                 new EventDispatchThread(threadGroup,

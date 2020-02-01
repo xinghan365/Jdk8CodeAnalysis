@@ -104,6 +104,7 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
         ValueExp val1 = exp1.apply(name);
@@ -165,6 +166,7 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
     /**
      * Returns the string representing the object
      */
+    @Override
     public String toString()  {
         try {
             return parens(exp1, true) + " " + opString() + " " + parens(exp2, false);
@@ -213,17 +215,20 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
         boolean omit;
         if (subexp instanceof BinaryOpValueExp) {
             int subop = ((BinaryOpValueExp) subexp).op;
-            if (left)
+            if (left) {
                 omit = (precedence(subop) >= precedence(op));
-            else
+            } else {
                 omit = (precedence(subop) > precedence(op));
-        } else
+            }
+        } else {
             omit = true;
+        }
 
-        if (omit)
+        if (omit) {
             return subexp.toString();
-        else
+        } else {
             return "(" + subexp + ")";
+        }
     }
 
     private int precedence(int xop) throws BadBinaryOpValueExpException {
@@ -250,6 +255,7 @@ class BinaryOpValueExp extends QueryEval implements ValueExp {
         throw new BadBinaryOpValueExpException(this);
     }
 
+    @Override
     @Deprecated
     public void setMBeanServer(MBeanServer s) {
         super.setMBeanServer(s);

@@ -146,6 +146,7 @@ public class SAXSource implements Source {
      *
      * @param systemId The system identifier as a URI string.
      */
+    @Override
     public void setSystemId(String systemId) {
 
         if (null == inputSource) {
@@ -161,6 +162,7 @@ public class SAXSource implements Source {
      *
      * @return Base URL for the <code>Source</code>, or <code>null</code>.
      */
+    @Override
     public String getSystemId() {
 
         if (inputSource == null) {

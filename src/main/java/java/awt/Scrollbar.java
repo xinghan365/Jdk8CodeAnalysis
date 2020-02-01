@@ -419,6 +419,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * Constructs a name for this component.  Called by <code>getName</code>
      * when the name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (Scrollbar.class) {
             return base + nameCounter++;
@@ -430,10 +431,12 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * the appearance of the <code>Scrollbar</code> without changing any of its
      * functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createScrollbar(this);
+            }
             super.addNotify();
         }
     }
@@ -446,6 +449,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      *               <code>Scrollbar.VERTICAL</code>
      * @see       java.awt.Scrollbar#setOrientation
      */
+    @Override
     public int getOrientation() {
         return orientation;
     }
@@ -499,6 +503,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#getMinimum
      * @see         java.awt.Scrollbar#getMaximum
      */
+    @Override
     public int getValue() {
         return value;
     }
@@ -527,6 +532,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#getMinimum
      * @see         java.awt.Scrollbar#getMaximum
      */
+    @Override
     public void setValue(int newValue) {
         // Use setValues so that a consistent policy relating
         // minimum, maximum, visible amount, and value is enforced.
@@ -540,6 +546,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#getValue
      * @see         java.awt.Scrollbar#getMaximum
      */
+    @Override
     public int getMinimum() {
         return minimum;
     }
@@ -568,6 +575,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#setMaximum
      * @since       JDK1.1
      */
+    @Override
     public void setMinimum(int newMinimum) {
         // No checks are necessary in this method since minimum is
         // the first variable checked in the setValues function.
@@ -584,6 +592,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#getValue
      * @see         java.awt.Scrollbar#getMinimum
      */
+    @Override
     public int getMaximum() {
         return maximum;
     }
@@ -613,6 +622,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#setMinimum
      * @since       JDK1.1
      */
+    @Override
     public void setMaximum(int newMaximum) {
         // minimum is checked first in setValues, so we need to
         // enforce minimum and maximum checks here.
@@ -651,6 +661,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#setVisibleAmount
      * @since       JDK1.1
      */
+    @Override
     public int getVisibleAmount() {
         return getVisible();
     }
@@ -699,6 +710,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#setValues
      * @since       JDK1.1
      */
+    @Override
     public void setVisibleAmount(int newAmount) {
         // Use setValues so that a consistent policy relating
         // minimum, maximum, visible amount, and value is enforced.
@@ -724,6 +736,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see          java.awt.Scrollbar#getUnitIncrement
      * @since        JDK1.1
      */
+    @Override
     public void setUnitIncrement(int v) {
         setLineIncrement(v);
     }
@@ -763,6 +776,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#setUnitIncrement
      * @since       JDK1.1
      */
+    @Override
     public int getUnitIncrement() {
         return getLineIncrement();
     }
@@ -792,6 +806,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see          java.awt.Scrollbar#getBlockIncrement
      * @since        JDK1.1
      */
+    @Override
     public void setBlockIncrement(int v) {
         setPageIncrement(v);
     }
@@ -828,6 +843,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see         java.awt.Scrollbar#setBlockIncrement
      * @since       JDK1.1
      */
+    @Override
     public int getBlockIncrement() {
         return getPageIncrement();
     }
@@ -974,6 +990,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see          java.awt.event.AdjustmentListener
      * @since        JDK1.1
      */
+    @Override
     public synchronized void addAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
@@ -997,6 +1014,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see             java.awt.event.AdjustmentListener
      * @since           JDK1.1
      */
+    @Override
     public synchronized void removeAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
@@ -1051,6 +1069,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      *
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == AdjustmentListener.class) {
@@ -1062,6 +1081,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED) {
             if ((eventMask & AWTEvent.ADJUSTMENT_EVENT_MASK) != 0 ||
@@ -1088,6 +1108,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      * @see          java.awt.Scrollbar#processAdjustmentEvent
      * @since        JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof AdjustmentEvent) {
             processAdjustmentEvent((AdjustmentEvent)e);
@@ -1136,6 +1157,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      *
      * @return      the parameter string of this scroll bar
      */
+    @Override
     protected String paramString() {
         return super.paramString() +
             ",val=" + value +
@@ -1208,11 +1230,12 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (adjustmentListenerK == key)
-          addAdjustmentListener((AdjustmentListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (adjustmentListenerK == key) {
+            addAdjustmentListener((AdjustmentListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -1232,6 +1255,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
      *         <code>AccessibleContext</code> of this <code>ScrollBar</code>
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTScrollBar();
@@ -1261,6 +1285,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          *     containing the current state of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getValueIsAdjusting()) {
@@ -1280,6 +1305,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          * @return an instance of <code>AccessibleRole</code>
          *     describing the role of the object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SCROLL_BAR;
         }
@@ -1293,6 +1319,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -1302,6 +1329,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          *
          * @return The current value of this object.
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(getValue());
         }
@@ -1311,6 +1339,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             if (n instanceof Integer) {
                 setValue(n.intValue());
@@ -1325,6 +1354,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          *
          * @return The minimum value of this object.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(getMinimum());
         }
@@ -1334,6 +1364,7 @@ public class Scrollbar extends Component implements Adjustable, Accessible {
          *
          * @return The maximum value of this object.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.valueOf(getMaximum());
         }

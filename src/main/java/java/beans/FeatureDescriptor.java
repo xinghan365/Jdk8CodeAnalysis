@@ -402,6 +402,7 @@ public class FeatureDescriptor {
      *
      * @since 1.7
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(getClass().getName());
         sb.append("[name=").append(this.name);

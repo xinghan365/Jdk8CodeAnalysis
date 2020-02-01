@@ -343,9 +343,11 @@ public abstract class Image {
 
     static {
         SurfaceManager.setImageAccessor(new SurfaceManager.ImageAccessor() {
+            @Override
             public SurfaceManager getSurfaceManager(Image img) {
                 return img.surfaceManager;
             }
+            @Override
             public void setSurfaceManager(Image img, SurfaceManager mgr) {
                 img.surfaceManager = mgr;
             }

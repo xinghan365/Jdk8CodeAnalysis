@@ -111,6 +111,7 @@ public class SslRMIClientSocketFactory
      * comma-separated list of SSL/TLS protocol versions to
      * enable.</p>
      */
+    @Override
     public Socket createSocket(String host, int port) throws IOException {
         // Retrieve the SSLSocketFactory
         //
@@ -172,9 +173,14 @@ public class SslRMIClientSocketFactory
      * as {@link #hashCode()}) if its instances are not all
      * functionally equivalent.</p>
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
         return this.getClass().equals(obj.getClass());
     }
 
@@ -185,6 +191,7 @@ public class SslRMIClientSocketFactory
      * @return a hash code value for this
      * <code>SslRMIClientSocketFactory</code>.
      */
+    @Override
     public int hashCode() {
         return this.getClass().hashCode();
     }
@@ -203,8 +210,9 @@ public class SslRMIClientSocketFactory
     private static SocketFactory defaultSocketFactory = null;
 
     private static synchronized SocketFactory getDefaultClientSocketFactory() {
-        if (defaultSocketFactory == null)
+        if (defaultSocketFactory == null) {
             defaultSocketFactory = SSLSocketFactory.getDefault();
+        }
         return defaultSocketFactory;
     }
 

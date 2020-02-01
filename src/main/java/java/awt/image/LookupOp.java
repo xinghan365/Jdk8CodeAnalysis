@@ -122,6 +122,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      *         described in the class comments, or if the source image
      *         has an <code>IndexColorModel</code>.
      */
+    @Override
     public final BufferedImage filter(BufferedImage src, BufferedImage dst) {
         ColorModel srcCM = src.getColorModel();
         int numBands = srcCM.getNumColorComponents();
@@ -250,6 +251,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      *         not meet the restrictions described in the class comments.
      *
      */
+    @Override
     public final WritableRaster filter (Raster src, WritableRaster dst) {
         int numBands  = src.getNumBands();
         int dstLength = dst.getNumBands();
@@ -332,6 +334,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      * @param src the <code>BufferedImage</code> to be filtered
      * @return the bounds of the filtered definition image.
      */
+    @Override
     public final Rectangle2D getBounds2D (BufferedImage src) {
         return getBounds2D(src.getRaster());
     }
@@ -343,6 +346,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      * @param src the <code>Raster</code> to be filtered
      * @return the bounds of the filtered definition <code>Raster</code>.
      */
+    @Override
     public final Rectangle2D getBounds2D (Raster src) {
         return src.getBounds();
 
@@ -357,6 +361,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      *                  can be <code>null</code>.
      * @return a filtered destination <code>BufferedImage</code>.
      */
+    @Override
     public BufferedImage createCompatibleDestImage (BufferedImage src,
                                                     ColorModel destCM) {
         BufferedImage image;
@@ -437,6 +442,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      * @param src the <code>Raster</code> to be transformed
      * @return the zeroed-destination <code>Raster</code>.
      */
+    @Override
     public WritableRaster createCompatibleDestRaster (Raster src) {
         return src.createCompatibleWritableRaster();
     }
@@ -454,6 +460,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      * @return the <code>Point2D</code> in the destination that
      *         corresponds to the specified point in the source.
      */
+    @Override
     public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
             dstPt = new Point2D.Float();
@@ -468,6 +475,7 @@ public class LookupOp implements BufferedImageOp, RasterOp {
      * @return the <code>RenderingHints</code> object associated
      *         with this op.
      */
+    @Override
     public final RenderingHints getRenderingHints() {
         return hints;
     }

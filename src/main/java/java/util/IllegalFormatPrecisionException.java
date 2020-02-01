@@ -57,6 +57,7 @@ public class IllegalFormatPrecisionException extends IllegalFormatException {
         return p;
     }
 
+    @Override
     public String getMessage() {
         return Integer.toString(p);
     }

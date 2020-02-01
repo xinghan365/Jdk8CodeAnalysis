@@ -203,6 +203,7 @@ class FileInputStream extends InputStream
      *             file is reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public int read() throws IOException {
         return read0();
     }
@@ -229,6 +230,7 @@ class FileInputStream extends InputStream
      *             the file has been reached.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public int read(byte b[]) throws IOException {
         return readBytes(b, 0, b.length);
     }
@@ -251,6 +253,7 @@ class FileInputStream extends InputStream
      * <code>b.length - off</code>
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
         return readBytes(b, off, len);
     }
@@ -279,6 +282,7 @@ class FileInputStream extends InputStream
      * @exception  IOException  if n is negative, if the stream does not
      *             support seek, or if an I/O error occurs.
      */
+    @Override
     public long skip(long n) throws IOException {
         return skip0(n);
     }
@@ -302,6 +306,7 @@ class FileInputStream extends InputStream
      * @exception  IOException  if this file input stream has been closed by calling
      *             {@code close} or an I/O error occurs.
      */
+    @Override
     public int available() throws IOException {
         return available0();
     }
@@ -320,6 +325,7 @@ class FileInputStream extends InputStream
      * @revised 1.4
      * @spec JSR-51
      */
+    @Override
     public void close() throws IOException {
         synchronized (closeLock) {
             if (closed) {
@@ -332,6 +338,7 @@ class FileInputStream extends InputStream
         }
 
         fd.closeAll(new Closeable() {
+            @Override
             public void close() throws IOException {
                close0();
            }
@@ -395,6 +402,7 @@ class FileInputStream extends InputStream
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FileInputStream#close()
      */
+    @Override
     protected void finalize() throws IOException {
         if ((fd != null) &&  (fd != FileDescriptor.in)) {
             /* if fd is shared, the references in FileDescriptor

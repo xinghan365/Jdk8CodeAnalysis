@@ -139,7 +139,9 @@ public class Desktop {
      * @see java.awt.GraphicsEnvironment#isHeadless
      */
     public static synchronized Desktop getDesktop(){
-        if (GraphicsEnvironment.isHeadless()) throw new HeadlessException();
+        if (GraphicsEnvironment.isHeadless()) {
+            throw new HeadlessException();
+        }
         if (!Desktop.isDesktopSupported()) {
             throw new UnsupportedOperationException("Desktop API is not " +
                                                     "supported on the current platform");
@@ -464,7 +466,9 @@ public class Desktop {
         checkAWTPermission();
         checkExec();
         checkActionSupport(Action.MAIL);
-        if (mailtoURI == null) throw new NullPointerException();
+        if (mailtoURI == null) {
+            throw new NullPointerException();
+        }
 
         if (!"mailto".equalsIgnoreCase(mailtoURI.getScheme())) {
             throw new IllegalArgumentException("URI scheme is not \"mailto\"");

@@ -126,6 +126,7 @@ public class BasicSliderUI extends SliderUI{
     public BasicSliderUI(JSlider b)   {
     }
 
+    @Override
     public void installUI(JComponent c)   {
         slider = (JSlider) c;
 
@@ -162,12 +163,14 @@ public class BasicSliderUI extends SliderUI{
         calculateGeometry(); // This figures out where the labels, ticks, track, and thumb are.
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
-        if ( c != slider )
+        if ( c != slider ) {
             throw new IllegalComponentStateException(
                                                     this + " was asked to deinstall() "
                                                     + c + " when it only knows about "
                                                     + slider + ".");
+        }
 
         scrollTimer.stop();
         scrollTimer = null;
@@ -205,7 +208,9 @@ public class BasicSliderUI extends SliderUI{
         focusInsets = (Insets)UIManager.get( "Slider.focusInsets" );
         // use default if missing so that BasicSliderUI can be used in other
         // LAFs like Nimbus
-        if (focusInsets == null) focusInsets = new InsetsUIResource(2,2,2,2);
+        if (focusInsets == null) {
+            focusInsets = new InsetsUIResource(2,2,2,2);
+        }
     }
 
     protected void uninstallDefaults(JSlider slider) {
@@ -317,6 +322,7 @@ public class BasicSliderUI extends SliderUI{
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         if (slider.getPaintLabels() && labelsHaveSameBaselines()) {
@@ -376,6 +382,7 @@ public class BasicSliderUI extends SliderUI{
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -465,6 +472,7 @@ public class BasicSliderUI extends SliderUI{
         return minVertDim;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c)    {
         recalculateIfInsetsChanged();
         Dimension d;
@@ -484,6 +492,7 @@ public class BasicSliderUI extends SliderUI{
         return d;
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c)  {
         recalculateIfInsetsChanged();
         Dimension d;
@@ -504,6 +513,7 @@ public class BasicSliderUI extends SliderUI{
         return d;
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         if ( slider.getOrientation() == JSlider.VERTICAL ) {
@@ -631,8 +641,12 @@ public class BasicSliderUI extends SliderUI{
         int centerSpacing; // used to center sliders added using BorderLayout.CENTER (bug 4275631)
         if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
             centerSpacing = thumbRect.height;
-            if ( slider.getPaintTicks() ) centerSpacing += getTickLength();
-            if ( slider.getPaintLabels() ) centerSpacing += getHeightOfTallestLabel();
+            if ( slider.getPaintTicks() ) {
+                centerSpacing += getTickLength();
+            }
+            if ( slider.getPaintLabels() ) {
+                centerSpacing += getHeightOfTallestLabel();
+            }
             trackRect.x = contentRect.x + trackBuffer;
             trackRect.y = contentRect.y + (contentRect.height - centerSpacing - 1)/2;
             trackRect.width = contentRect.width - (trackBuffer * 2);
@@ -641,11 +655,19 @@ public class BasicSliderUI extends SliderUI{
         else {
             centerSpacing = thumbRect.width;
             if (BasicGraphicsUtils.isLeftToRight(slider)) {
-                if ( slider.getPaintTicks() ) centerSpacing += getTickLength();
-                if ( slider.getPaintLabels() ) centerSpacing += getWidthOfWidestLabel();
+                if ( slider.getPaintTicks() ) {
+                    centerSpacing += getTickLength();
+                }
+                if ( slider.getPaintLabels() ) {
+                    centerSpacing += getWidthOfWidestLabel();
+                }
             } else {
-                if ( slider.getPaintTicks() ) centerSpacing -= getTickLength();
-                if ( slider.getPaintLabels() ) centerSpacing -= getWidthOfWidestLabel();
+                if ( slider.getPaintTicks() ) {
+                    centerSpacing -= getTickLength();
+                }
+                if ( slider.getPaintLabels() ) {
+                    centerSpacing -= getWidthOfWidestLabel();
+                }
             }
             trackRect.x = contentRect.x + (contentRect.width - centerSpacing - 1)/2;
             trackRect.y = contentRect.y + trackBuffer;
@@ -747,7 +769,8 @@ public class BasicSliderUI extends SliderUI{
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
-        public void propertyChange( PropertyChangeEvent e ) {
+        @Override
+        public void propertyChange(PropertyChangeEvent e ) {
             getHandler().propertyChange(e);
         }
     }
@@ -917,13 +940,15 @@ public class BasicSliderUI extends SliderUI{
         return null;
     }
 
-    public void paint( Graphics g, JComponent c )   {
+    @Override
+    public void paint(Graphics g, JComponent c )   {
         recalculateIfInsetsChanged();
         recalculateIfOrientationChanged();
         Rectangle clip = g.getClipBounds();
 
-        if ( !clip.intersects(trackRect) && slider.getPaintTrack())
+        if ( !clip.intersects(trackRect) && slider.getPaintTrack()) {
             calculateGeometry();
+        }
 
         if ( slider.getPaintTrack() && clip.intersects( trackRect ) ) {
             paintTrack( g );
@@ -1481,6 +1506,7 @@ public class BasicSliderUI extends SliderUI{
     private class Handler implements ChangeListener,
             ComponentListener, FocusListener, PropertyChangeListener {
         // Change Handler
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (!isDragging) {
                 calculateThumbLocation();
@@ -1490,19 +1516,26 @@ public class BasicSliderUI extends SliderUI{
         }
 
         // Component Handler
+        @Override
         public void componentHidden(ComponentEvent e) { }
+        @Override
         public void componentMoved(ComponentEvent e) { }
+        @Override
         public void componentResized(ComponentEvent e) {
             calculateGeometry();
             slider.repaint();
         }
+        @Override
         public void componentShown(ComponentEvent e) { }
 
         // Focus Handler
+        @Override
         public void focusGained(FocusEvent e) { slider.repaint(); }
+        @Override
         public void focusLost(FocusEvent e) { slider.repaint(); }
 
         // Property Change Handler
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
             if (propertyName == "orientation" ||
@@ -1549,6 +1582,7 @@ public class BasicSliderUI extends SliderUI{
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
         }
@@ -1567,6 +1601,7 @@ public class BasicSliderUI extends SliderUI{
         protected transient int offset;
         protected transient int currentMouseX, currentMouseY;
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (!slider.isEnabled()) {
                 return;
@@ -1587,6 +1622,7 @@ public class BasicSliderUI extends SliderUI{
         * thumb then page up if the mouse is in the upper half
         * of the track.
         */
+        @Override
         public void mousePressed(MouseEvent e) {
             if (!slider.isEnabled()) {
                 return;
@@ -1734,6 +1770,7 @@ public class BasicSliderUI extends SliderUI{
         * Set the models value to the position of the top/left
         * of the thumb relative to the origin of the track.
         */
+        @Override
         public void mouseDragged(MouseEvent e) {
             int thumbMiddle;
 
@@ -1798,6 +1835,7 @@ public class BasicSliderUI extends SliderUI{
             }
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) { }
     }
 
@@ -1832,6 +1870,7 @@ public class BasicSliderUI extends SliderUI{
             this.useBlockIncrement = block;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (useBlockIncrement) {
                 scrollByBlock(direction);
@@ -1856,6 +1895,7 @@ public class BasicSliderUI extends SliderUI{
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void componentResized(ComponentEvent e)  {
             getHandler().componentResized(e);
         }
@@ -1872,10 +1912,12 @@ public class BasicSliderUI extends SliderUI{
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void focusGained(FocusEvent e) {
             getHandler().focusGained(e);
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             getHandler().focusLost(e);
         }
@@ -1909,10 +1951,12 @@ public class BasicSliderUI extends SliderUI{
             this.slider = slider;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             SHARED_ACTION.scroll(slider, BasicSliderUI.this, dir, block);
         }
 
+        @Override
         public boolean isEnabled() {
             boolean b = true;
             if (slider != null) {
@@ -1940,6 +1984,7 @@ public class BasicSliderUI extends SliderUI{
             this.block = block;
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JSlider slider = (JSlider)evt.getSource();
             BasicSliderUI ui = (BasicSliderUI)BasicLookAndFeel.getUIOfType(
@@ -1972,6 +2017,7 @@ public class BasicSliderUI extends SliderUI{
             super(name);
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JSlider slider = (JSlider)evt.getSource();
             BasicSliderUI ui = (BasicSliderUI)BasicLookAndFeel.getUIOfType(

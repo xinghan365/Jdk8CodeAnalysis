@@ -68,10 +68,12 @@ class PartiallyOrderedSet extends AbstractSet {
      */
     public PartiallyOrderedSet() {}
 
+    @Override
     public int size() {
         return nodes.size();
     }
 
+    @Override
     public boolean contains(Object o) {
         return nodes.contains(o);
     }
@@ -81,6 +83,7 @@ class PartiallyOrderedSet extends AbstractSet {
      * collection, with an ordering that respects the orderings set
      * by the <code>setOrdering</code> method.
      */
+    @Override
     public Iterator iterator() {
         return new PartialOrderIterator(poNodes.values().iterator());
     }
@@ -89,6 +92,7 @@ class PartiallyOrderedSet extends AbstractSet {
      * Adds an <code>Object</code> to this
      * <code>PartiallyOrderedSet</code>.
      */
+    @Override
     public boolean add(Object o) {
         if (nodes.contains(o)) {
             return false;
@@ -103,6 +107,7 @@ class PartiallyOrderedSet extends AbstractSet {
      * Removes an <code>Object</code> from this
      * <code>PartiallyOrderedSet</code>.
      */
+    @Override
     public boolean remove(Object o) {
         DigraphNode node = (DigraphNode)poNodes.get(o);
         if (node == null) {
@@ -114,6 +119,7 @@ class PartiallyOrderedSet extends AbstractSet {
         return true;
     }
 
+    @Override
     public void clear() {
         poNodes.clear();
     }
@@ -185,10 +191,12 @@ class PartialOrderIterator implements Iterator {
         }
     }
 
+    @Override
     public boolean hasNext() {
         return !zeroList.isEmpty();
     }
 
+    @Override
     public Object next() {
         DigraphNode first = (DigraphNode)zeroList.removeFirst();
 
@@ -208,6 +216,7 @@ class PartialOrderIterator implements Iterator {
         return first.getData();
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

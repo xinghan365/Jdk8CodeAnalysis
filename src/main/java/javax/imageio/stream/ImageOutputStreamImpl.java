@@ -45,22 +45,28 @@ public abstract class ImageOutputStreamImpl
     public ImageOutputStreamImpl() {
     }
 
+    @Override
     public abstract void write(int b) throws IOException;
 
+    @Override
     public void write(byte b[]) throws IOException {
         write(b, 0, b.length);
     }
 
+    @Override
     public abstract void write(byte b[], int off, int len) throws IOException;
 
+    @Override
     public void writeBoolean(boolean v) throws IOException {
         write(v ? 1 : 0);
     }
 
+    @Override
     public void writeByte(int v) throws IOException {
         write(v);
     }
 
+    @Override
     public void writeShort(int v) throws IOException {
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             byteBuf[0] = (byte)(v >>> 8);
@@ -72,10 +78,12 @@ public abstract class ImageOutputStreamImpl
         write(byteBuf, 0, 2);
     }
 
+    @Override
     public void writeChar(int v) throws IOException {
         writeShort(v);
     }
 
+    @Override
     public void writeInt(int v) throws IOException {
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             byteBuf[0] = (byte)(v >>> 24);
@@ -91,6 +99,7 @@ public abstract class ImageOutputStreamImpl
         write(byteBuf, 0, 4);
     }
 
+    @Override
     public void writeLong(long v) throws IOException {
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             byteBuf[0] = (byte)(v >>> 56);
@@ -119,14 +128,17 @@ public abstract class ImageOutputStreamImpl
         write(byteBuf, 4, 4);
     }
 
+    @Override
     public void writeFloat(float v) throws IOException {
         writeInt(Float.floatToIntBits(v));
     }
 
+    @Override
     public void writeDouble(double v) throws IOException {
         writeLong(Double.doubleToLongBits(v));
     }
 
+    @Override
     public void writeBytes(String s) throws IOException {
         int len = s.length();
         for (int i = 0 ; i < len ; i++) {
@@ -134,6 +146,7 @@ public abstract class ImageOutputStreamImpl
         }
     }
 
+    @Override
     public void writeChars(String s) throws IOException {
         int len = s.length();
 
@@ -156,6 +169,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*2);
     }
 
+    @Override
     public void writeUTF(String s) throws IOException {
         int strlen = s.length();
         int utflen = 0;
@@ -198,6 +212,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, utflen + 2);
     }
 
+    @Override
     public void writeShorts(short[] s, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > s.length || off + len < 0) {
@@ -224,6 +239,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*2);
     }
 
+    @Override
     public void writeChars(char[] c, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > c.length || off + len < 0) {
@@ -250,6 +266,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*2);
     }
 
+    @Override
     public void writeInts(int[] i, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > i.length || off + len < 0) {
@@ -280,6 +297,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*4);
     }
 
+    @Override
     public void writeLongs(long[] l, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > l.length || off + len < 0) {
@@ -318,6 +336,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*8);
     }
 
+    @Override
     public void writeFloats(float[] f, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > f.length || off + len < 0) {
@@ -348,6 +367,7 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*4);
     }
 
+    @Override
     public void writeDoubles(double[] d, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > d.length || off + len < 0) {
@@ -386,10 +406,12 @@ public abstract class ImageOutputStreamImpl
         write(b, 0, len*8);
     }
 
+    @Override
     public void writeBit(int bit) throws IOException {
         writeBits((1L & bit), 1);
     }
 
+    @Override
     public void writeBits(long bits, int numBits) throws IOException {
         checkClosed();
 

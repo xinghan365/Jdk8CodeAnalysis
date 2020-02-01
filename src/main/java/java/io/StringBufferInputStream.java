@@ -88,6 +88,7 @@ class StringBufferInputStream extends InputStream {
      * @return     the next byte of data, or <code>-1</code> if the end of the
      *             stream is reached.
      */
+    @Override
     public synchronized int read() {
         return (pos < count) ? (buffer.charAt(pos++) & 0xFF) : -1;
     }
@@ -108,6 +109,7 @@ class StringBufferInputStream extends InputStream {
      *             <code>-1</code> if there is no more data because the end of
      *             the stream has been reached.
      */
+    @Override
     public synchronized int read(byte b[], int off, int len) {
         if (b == null) {
             throw new NullPointerException();
@@ -142,6 +144,7 @@ class StringBufferInputStream extends InputStream {
      * @param      n   the number of bytes to be skipped.
      * @return     the actual number of bytes skipped.
      */
+    @Override
     public synchronized long skip(long n) {
         if (n < 0) {
             return 0;
@@ -160,6 +163,7 @@ class StringBufferInputStream extends InputStream {
      * @return     the value of <code>count&nbsp;-&nbsp;pos</code>, which is the
      *             number of bytes remaining to be read from the input buffer.
      */
+    @Override
     public synchronized int available() {
         return count - pos;
     }
@@ -168,6 +172,7 @@ class StringBufferInputStream extends InputStream {
      * Resets the input stream to begin reading from the first character
      * of this input stream's underlying buffer.
      */
+    @Override
     public synchronized void reset() {
         pos = 0;
     }

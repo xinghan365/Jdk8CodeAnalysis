@@ -411,10 +411,12 @@ public abstract class ImageWriter implements ImageTranscoder {
                                 ImageWriteParam param);
 
     // comment inherited
+    @Override
     public abstract IIOMetadata convertStreamMetadata(IIOMetadata inData,
                                                       ImageWriteParam param);
 
     // comment inherited
+    @Override
     public abstract IIOMetadata
         convertImageMetadata(IIOMetadata inData,
                              ImageTypeSpecifier imageType,
@@ -1969,6 +1971,7 @@ public abstract class ImageWriter implements ImageTranscoder {
             ClassLoader loader = (ClassLoader)
                 java.security.AccessController.doPrivileged(
                    new java.security.PrivilegedAction() {
+                      @Override
                       public Object run() {
                         return Thread.currentThread().getContextClassLoader();
                       }

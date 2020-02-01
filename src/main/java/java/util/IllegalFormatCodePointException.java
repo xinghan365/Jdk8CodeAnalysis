@@ -63,6 +63,7 @@ public class IllegalFormatCodePointException extends IllegalFormatException {
         return c;
     }
 
+    @Override
     public String getMessage() {
         return String.format("Code point = %#x", c);
     }

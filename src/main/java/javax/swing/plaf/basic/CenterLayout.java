@@ -35,10 +35,13 @@ import java.io.*;
   * @author Steve Wilson
   */
 class CenterLayout implements LayoutManager, Serializable {
+    @Override
     public void addLayoutComponent(String name, Component comp) { }
+    @Override
     public void removeLayoutComponent(Component comp) { }
 
-    public Dimension preferredLayoutSize( Container container ) {
+    @Override
+    public Dimension preferredLayoutSize(Container container ) {
         Component c = container.getComponent( 0 );
         if ( c != null ) {
             Dimension size = c.getPreferredSize();
@@ -52,10 +55,12 @@ class CenterLayout implements LayoutManager, Serializable {
         }
     }
 
+    @Override
     public Dimension minimumLayoutSize(Container cont) {
         return preferredLayoutSize(cont);
     }
 
+    @Override
     public void layoutContainer(Container container) {
         if (container.getComponentCount() > 0) {
             Component c = container.getComponent(0);

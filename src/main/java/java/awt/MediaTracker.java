@@ -942,10 +942,12 @@ java.io.Serializable {
         return (image == img && width == w && height == h);
     }
 
+    @Override
     Object getMedia() {
         return image;
     }
 
+    @Override
     synchronized int getStatus(boolean doLoad, boolean doVerify) {
         if (doVerify) {
             int flags = tracker.target.checkImage(image, width, height, null);
@@ -961,6 +963,7 @@ java.io.Serializable {
         return super.getStatus(doLoad, doVerify);
     }
 
+    @Override
     void startLoad() {
         if (tracker.target.prepareImage(image, width, height, this)) {
             setStatus(COMPLETE);
@@ -978,6 +981,7 @@ java.io.Serializable {
         return 0;
     }
 
+    @Override
     public boolean imageUpdate(Image img, int infoflags,
                                int x, int y, int w, int h) {
         if (cancelled) {

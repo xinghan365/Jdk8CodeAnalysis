@@ -189,6 +189,7 @@ public interface XMLEventWriter extends XMLEventConsumer {
    * @param event the event to be added
    * @throws XMLStreamException
    */
+  @Override
   public void add(XMLEvent event) throws XMLStreamException;
 
   /**

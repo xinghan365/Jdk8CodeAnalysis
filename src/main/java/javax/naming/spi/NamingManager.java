@@ -107,8 +107,9 @@ public class NamingManager {
      */
     public static synchronized void setObjectFactoryBuilder(
             ObjectFactoryBuilder builder) throws NamingException {
-        if (object_factory_builder != null)
+        if (object_factory_builder != null) {
             throw new IllegalStateException("ObjectFactoryBuilder already set");
+        }
 
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
@@ -177,8 +178,9 @@ public class NamingManager {
         FactoryEnumeration factories = ResourceManager.getFactories(
             Context.OBJECT_FACTORIES, environment, nameCtx);
 
-        if (factories == null)
+        if (factories == null) {
             return null;
+        }
 
         // Try each factory until one succeeds
         ObjectFactory factory;
@@ -194,8 +196,9 @@ public class NamingManager {
         int colon_posn = str.indexOf(':');
         int slash_posn = str.indexOf('/');
 
-        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn))
+        if (colon_posn > 0 && (slash_posn == -1 || colon_posn < slash_posn)) {
             return str.substring(0, colon_posn);
+        }
         return null;
     }
 
@@ -396,8 +399,9 @@ public class NamingManager {
                 if (scheme != null) {
                     answer = getURLObject(scheme, refInfo, name, nameCtx,
                                           environment);
-                    if (answer != null)
+                    if (answer != null) {
                         return answer;
+                    }
                 }
             }
         }
@@ -593,8 +597,9 @@ public class NamingManager {
             Context.URL_PKG_PREFIXES, environment, nameCtx,
             "." + scheme + "." + scheme + "URLContextFactory", defaultPkgPrefix);
 
-        if (factory == null)
-          return null;
+        if (factory == null) {
+            return null;
+        }
 
         // Found object factory
         try {
@@ -705,9 +710,10 @@ public class NamingManager {
     public static synchronized void setInitialContextFactoryBuilder(
         InitialContextFactoryBuilder builder)
         throws NamingException {
-            if (initctx_factory_builder != null)
+            if (initctx_factory_builder != null) {
                 throw new IllegalStateException(
                     "InitialContextFactoryBuilder already set");
+            }
 
             SecurityManager security = System.getSecurityManager();
             if (security != null) {

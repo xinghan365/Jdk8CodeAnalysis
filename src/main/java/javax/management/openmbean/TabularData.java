@@ -273,6 +273,7 @@ public interface TabularData /*extends Map*/ {
      *
      * @return  <code>true</code> if the specified object is equal to this <code>TabularData</code> instance.
      */
+    @Override
     public boolean equals(Object obj);
 
     /**
@@ -289,6 +290,7 @@ public interface TabularData /*extends Map*/ {
      *
      * @return  the hash code value for this <code>TabularDataSupport</code> instance
      */
+    @Override
     public int hashCode();
 
     /**
@@ -299,6 +301,7 @@ public interface TabularData /*extends Map*/ {
      *
      * @return  a string representation of this <code>TabularData</code> instance
      */
+    @Override
     public String toString();
 
 }

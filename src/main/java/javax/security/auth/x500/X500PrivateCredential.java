@@ -54,8 +54,9 @@ public final class X500PrivateCredential implements Destroyable {
      */
 
     public X500PrivateCredential(X509Certificate cert, PrivateKey key) {
-        if (cert == null || key == null )
+        if (cert == null || key == null ) {
             throw new IllegalArgumentException();
+        }
         this.cert = cert;
         this.key = key;
         this.alias=null;
@@ -74,8 +75,9 @@ public final class X500PrivateCredential implements Destroyable {
      */
     public X500PrivateCredential(X509Certificate cert, PrivateKey key,
                                  String alias) {
-        if (cert == null || key == null|| alias == null )
+        if (cert == null || key == null|| alias == null ) {
             throw new IllegalArgumentException();
+        }
         this.cert = cert;
         this.key = key;
         this.alias=alias;
@@ -115,6 +117,7 @@ public final class X500PrivateCredential implements Destroyable {
      * KeyStore alias in this object.
      */
 
+    @Override
     public void destroy() {
         cert = null;
         key = null;
@@ -128,6 +131,7 @@ public final class X500PrivateCredential implements Destroyable {
      * @return true if X509Certificate and the PrivateKey are null
 
      */
+    @Override
     public boolean isDestroyed() {
         return cert == null && key == null && alias==null;
     }

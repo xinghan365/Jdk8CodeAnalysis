@@ -52,6 +52,7 @@ public class BasicRootPaneUI extends RootPaneUI implements
         return rootPaneUI;
     }
 
+    @Override
     public void installUI(JComponent c) {
         installDefaults((JRootPane)c);
         installComponents((JRootPane)c);
@@ -60,6 +61,7 @@ public class BasicRootPaneUI extends RootPaneUI implements
     }
 
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults((JRootPane)c);
         uninstallComponents((JRootPane)c);
@@ -158,6 +160,7 @@ public class BasicRootPaneUI extends RootPaneUI implements
      * indicates the <code>defaultButton</code> has changed, this will
      * reinstall the keyboard actions.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if(e.getPropertyName().equals("defaultButton")) {
             JRootPane rootpane = (JRootPane)e.getSource();
@@ -178,6 +181,7 @@ public class BasicRootPaneUI extends RootPaneUI implements
             super(name);
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JRootPane root = (JRootPane)evt.getSource();
             JButton owner = root.getDefaultButton();
@@ -210,6 +214,7 @@ public class BasicRootPaneUI extends RootPaneUI implements
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             String key = getName();
             if(key == POST_POPUP) {

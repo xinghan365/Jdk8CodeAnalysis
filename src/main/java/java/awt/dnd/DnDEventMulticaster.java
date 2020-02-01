@@ -62,6 +62,7 @@ class DnDEventMulticaster extends AWTEventMulticaster
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragEnter(DragSourceDragEvent dsde) {
         ((DragSourceListener)a).dragEnter(dsde);
         ((DragSourceListener)b).dragEnter(dsde);
@@ -73,6 +74,7 @@ class DnDEventMulticaster extends AWTEventMulticaster
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragOver(DragSourceDragEvent dsde) {
         ((DragSourceListener)a).dragOver(dsde);
         ((DragSourceListener)b).dragOver(dsde);
@@ -84,6 +86,7 @@ class DnDEventMulticaster extends AWTEventMulticaster
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dropActionChanged(DragSourceDragEvent dsde) {
         ((DragSourceListener)a).dropActionChanged(dsde);
         ((DragSourceListener)b).dropActionChanged(dsde);
@@ -95,6 +98,7 @@ class DnDEventMulticaster extends AWTEventMulticaster
      *
      * @param dse the <code>DragSourceEvent</code>
      */
+    @Override
     public void dragExit(DragSourceEvent dse) {
         ((DragSourceListener)a).dragExit(dse);
         ((DragSourceListener)b).dragExit(dse);
@@ -106,6 +110,7 @@ class DnDEventMulticaster extends AWTEventMulticaster
      *
      * @param dsde the <code>DragSourceDropEvent</code>
      */
+    @Override
     public void dragDropEnd(DragSourceDropEvent dsde) {
         ((DragSourceListener)a).dragDropEnd(dsde);
         ((DragSourceListener)b).dragDropEnd(dsde);
@@ -117,6 +122,7 @@ class DnDEventMulticaster extends AWTEventMulticaster
      *
      * @param dsde the <code>DragSourceDragEvent</code>
      */
+    @Override
     public void dragMouseMoved(DragSourceDragEvent dsde) {
         ((DragSourceMotionListener)a).dragMouseMoved(dsde);
         ((DragSourceMotionListener)b).dragMouseMoved(dsde);
@@ -182,8 +188,12 @@ class DnDEventMulticaster extends AWTEventMulticaster
      * @param b event listener-b
      */
     protected static EventListener addInternal(EventListener a, EventListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
         return new DnDEventMulticaster(a, b);
     }
 
@@ -192,9 +202,14 @@ class DnDEventMulticaster extends AWTEventMulticaster
      * resulting multicast listener.
      * @param oldl the listener to be removed
      */
+    @Override
     protected EventListener remove(EventListener oldl) {
-        if (oldl == a)  return b;
-        if (oldl == b)  return a;
+        if (oldl == a) {
+            return b;
+        }
+        if (oldl == b) {
+            return a;
+        }
         EventListener a2 = removeInternal(a, oldl);
         EventListener b2 = removeInternal(b, oldl);
         if (a2 == a && b2 == b) {

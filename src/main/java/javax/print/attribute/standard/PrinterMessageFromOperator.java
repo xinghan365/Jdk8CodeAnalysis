@@ -99,6 +99,7 @@ public final class PrinterMessageFromOperator   extends TextSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this printer
      *          message from operator attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) &&
                 object instanceof PrinterMessageFromOperator);
@@ -114,6 +115,7 @@ public final class PrinterMessageFromOperator   extends TextSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterMessageFromOperator.class;
     }
@@ -127,6 +129,7 @@ public final class PrinterMessageFromOperator   extends TextSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-message-from-operator";
     }

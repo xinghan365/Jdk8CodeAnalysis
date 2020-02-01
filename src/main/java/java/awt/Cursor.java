@@ -199,14 +199,17 @@ public class Cursor implements java.io.Serializable {
 
         AWTAccessor.setCursorAccessor(
             new AWTAccessor.CursorAccessor() {
+                @Override
                 public long getPData(Cursor cursor) {
                     return cursor.pData;
                 }
 
+                @Override
                 public void setPData(Cursor cursor, long pData) {
                     cursor.pData = pData;
                 }
 
+                @Override
                 public int getType(Cursor cursor) {
                     return cursor.type;
                 }
@@ -231,6 +234,7 @@ public class Cursor implements java.io.Serializable {
         public CursorDisposer(long pData) {
             this.pData = pData;
         }
+        @Override
         public void dispose() {
             if (pData != 0) {
                 finalizeImpl(pData);
@@ -302,8 +306,9 @@ public class Cursor implements java.io.Serializable {
 
         if (cursor == null) {
             synchronized(systemCustomCursors) {
-                if (systemCustomCursorProperties == null)
+                if (systemCustomCursorProperties == null) {
                     loadSystemCustomCursorProperties();
+                }
             }
 
             String prefix = CursorDotPrefix + name;
@@ -321,17 +326,21 @@ public class Cursor implements java.io.Serializable {
 
             String localized = systemCustomCursorProperties.getProperty(prefix + DotNameSuffix);
 
-            if (localized == null) localized = name;
+            if (localized == null) {
+                localized = name;
+            }
 
             String hotspot = systemCustomCursorProperties.getProperty(prefix + DotHotspotSuffix);
 
-            if (hotspot == null)
+            if (hotspot == null) {
                 throw new AWTException("no hotspot property defined for cursor: " + name);
+            }
 
             StringTokenizer st = new StringTokenizer(hotspot, ",");
 
-            if (st.countTokens() != 2)
+            if (st.countTokens() != 2) {
                 throw new AWTException("failed to parse hotspot property for cursor: " + name);
+            }
 
             int x = 0;
             int y = 0;
@@ -350,6 +359,7 @@ public class Cursor implements java.io.Serializable {
 
                 cursor = java.security.AccessController.<Cursor>doPrivileged(
                     new java.security.PrivilegedExceptionAction<Cursor>() {
+                    @Override
                     public Cursor run() throws Exception {
                         Toolkit toolkit = Toolkit.getDefaultToolkit();
                         Image image = toolkit.getImage(
@@ -435,6 +445,7 @@ public class Cursor implements java.io.Serializable {
      * @return    a string representation of this cursor.
      * @since     1.2
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[" + getName() + "]";
     }
@@ -449,6 +460,7 @@ public class Cursor implements java.io.Serializable {
             try {
                 AccessController.<Object>doPrivileged(
                       new java.security.PrivilegedExceptionAction<Object>() {
+                    @Override
                     public Object run() throws Exception {
                         FileInputStream fis = null;
                         try {
@@ -456,8 +468,9 @@ public class Cursor implements java.io.Serializable {
                                            systemCustomCursorPropertiesFile);
                             systemCustomCursorProperties.load(fis);
                         } finally {
-                            if (fis != null)
+                            if (fis != null) {
                                 fis.close();
+                            }
                         }
                         return null;
                     }

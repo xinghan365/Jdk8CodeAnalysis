@@ -1810,6 +1810,7 @@ public class X509CertSelector implements CertSelector {
      * @return a {@code String} describing the contents of the
      *         {@code CertSelector}
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("X509CertSelector: [\n");
@@ -1996,6 +1997,7 @@ public class X509CertSelector implements CertSelector {
      * @return {@code true} if the {@code Certificate} should be
      *         selected, {@code false} otherwise
      */
+    @Override
     public boolean match(Certificate cert) {
         if (!(cert instanceof X509Certificate)) {
             return false;
@@ -2346,9 +2348,10 @@ public class X509CertSelector implements CertSelector {
                 }
             }
         } catch (IOException ex) {
-            if (debug != null)
+            if (debug != null) {
                 debug.println("X509CertSelector.match: IOException in subject "
                     + "alternative name check");
+            }
             return false;
         }
         return true;
@@ -2547,11 +2550,12 @@ public class X509CertSelector implements CertSelector {
                 }
             }
             if (!permittedNameFound && nameTypeFound) {
-                if (debug != null)
-                  debug.println("X509CertSelector.match: " +
-                            "name constraints inhibit path to specified name; " +
-                            "permitted names of type " + pathToName.getType() +
-                            ": " + names);
+                if (debug != null) {
+                    debug.println("X509CertSelector.match: " +
+                              "name constraints inhibit path to specified name; " +
+                              "permitted names of type " + pathToName.getType() +
+                              ": " + names);
+                }
                 return false;
             }
         }
@@ -2600,6 +2604,7 @@ public class X509CertSelector implements CertSelector {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         try {
             X509CertSelector copy = (X509CertSelector)super.clone();

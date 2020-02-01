@@ -124,6 +124,7 @@ public abstract class ListResourceBundle extends ResourceBundle {
     }
 
     // Implements java.util.ResourceBundle.handleGetObject; inherits javadoc specification.
+    @Override
     public final Object handleGetObject(String key) {
         // lazily load the lookup hashtable.
         if (lookup == null) {
@@ -143,6 +144,7 @@ public abstract class ListResourceBundle extends ResourceBundle {
      *         this <code>ResourceBundle</code> and its parent bundles.
      * @see #keySet()
      */
+    @Override
     public Enumeration<String> getKeys() {
         // lazily load the lookup hashtable.
         if (lookup == null) {
@@ -163,6 +165,7 @@ public abstract class ListResourceBundle extends ResourceBundle {
      * @since 1.6
      * @see #keySet()
      */
+    @Override
     protected Set<String> handleKeySet() {
         if (lookup == null) {
             loadLookup();
@@ -189,8 +192,9 @@ public abstract class ListResourceBundle extends ResourceBundle {
      * loading.
      */
     private synchronized void loadLookup() {
-        if (lookup != null)
+        if (lookup != null) {
             return;
+        }
 
         Object[][] contents = getContents();
         HashMap<String,Object> temp = new HashMap<>(contents.length);

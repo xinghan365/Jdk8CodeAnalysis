@@ -98,6 +98,7 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
      *
      * @param ic an ImageConsumer to be added to the interest list.
      */
+    @Override
     public synchronized void addConsumer(ImageConsumer ic) {
         if (!ics.contains(ic)) {
             ics.addElement(ic);
@@ -111,6 +112,7 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
      * @param ic the ImageConsumer to be checked.
      * @return true if the ImageConsumer is on the list; false otherwise.
      */
+    @Override
     public synchronized boolean isConsumer(ImageConsumer ic) {
         return ics.contains(ic);
     }
@@ -121,6 +123,7 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
      *
      * @param ic the ImageConsumer to be removed.
      */
+    @Override
     public synchronized void removeConsumer(ImageConsumer ic) {
         ics.removeElement(ic);
     }
@@ -132,6 +135,7 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
      *
      * @param ic the ImageConsumer to be added to the list of consumers.
      */
+    @Override
     public synchronized void startProduction(ImageConsumer ic) {
         addConsumer(ic);
         // Need to build a runnable object for the Thread.
@@ -145,6 +149,7 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
      *
      * @param ic the ImageConsumer requesting the resend.
      */
+    @Override
     public void requestTopDownLeftRightResend(ImageConsumer ic) {
         // So far, all pixels are already sent in TDLR order
     }
@@ -154,6 +159,7 @@ public class RenderableImageProducer implements ImageProducer, Runnable {
      * the current RenderableImage and RenderContext and send it to all the
      * ImageConsumer currently registered with this class.
      */
+    @Override
     public void run() {
         // First get the rendered image
         RenderedImage rdrdImage;

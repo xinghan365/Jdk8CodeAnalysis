@@ -125,6 +125,7 @@ public class Clipboard {
 
         if (oldOwner != null && oldOwner != owner) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     oldOwner.lostOwnership(Clipboard.this, oldContents);
                 }
@@ -323,6 +324,7 @@ public class Clipboard {
         for (int i = 0; i < flavorListenerArray.length; i++) {
             final FlavorListener listener = flavorListenerArray[i];
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     listener.flavorsChanged(new FlavorEvent(Clipboard.this));
                 }

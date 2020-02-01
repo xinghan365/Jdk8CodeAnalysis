@@ -723,6 +723,7 @@ public abstract class LookAndFeel
      *
      * @return a String representation of this object
      */
+    @Override
     public String toString() {
         return "[" + getDescription() + " - " + getClass().getName() + "]";
     }

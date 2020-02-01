@@ -156,6 +156,7 @@ class TagStack implements DTDConstants {
     /**
      * Convert to a string.
      */
+    @Override
     public String toString() {
         return (next == null) ?
             "<" + tag.getElement().getName() + ">" :
@@ -173,6 +174,7 @@ class NPrintWriter extends PrintWriter {
         numLines = numberOfLines;
     }
 
+    @Override
     public void println(char[] array) {
         if (numPrinted >= numLines) {
             return;

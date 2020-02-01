@@ -188,6 +188,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ToolBarUI)UIManager.getUI(this));
         // GTKLookAndFeel installs a different LayoutManager, and sets it
@@ -208,6 +209,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -226,8 +228,9 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
         Component[] component = this.getComponents();
         for (int i = 0 ; i < ncomponents ; i++) {
             Component comp = component[i];
-            if (comp == c)
+            if (comp == c) {
                 return i;
+            }
         }
         return -1;
     }
@@ -339,6 +342,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
       * @see JComponent#paint
       * @see JComponent#setBorder
       */
+     @Override
      protected void paintBorder(Graphics g)
      {
          if (isBorderPainted())
@@ -531,6 +535,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
      */
     protected JButton createActionComponent(Action a) {
         JButton b = new JButton() {
+            @Override
             protected PropertyChangeListener createActionPropertyChangeListener(Action a) {
                 PropertyChangeListener pcl = createActionChangeListener(this);
                 if (pcl==null) {
@@ -569,6 +574,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
      * @param index the index of the component
      *
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         if (comp instanceof Separator) {
             if (getOrientation() == VERTICAL) {
@@ -619,6 +625,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
          * @see JComponent#getUIClassID
          * @see UIDefaults#getUI
          */
+        @Override
         public String getUIClassID()
         {
             return "ToolBarSeparatorUI";
@@ -656,6 +663,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
          * @return the <code>Dimension</code> object containing the separator's
          *         minimum size
          */
+        @Override
         public Dimension getMinimumSize()
         {
             if (separatorSize != null) {
@@ -671,6 +679,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
          * @return the <code>Dimension</code> object containing the separator's
          *         maximum size
          */
+        @Override
         public Dimension getMaximumSize()
         {
             if (separatorSize != null) {
@@ -686,6 +695,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
          * @return the <code>Dimension</code> object containing the separator's
          *         preferred size
          */
+        @Override
         public Dimension getPreferredSize()
         {
             if (separatorSize != null) {
@@ -724,6 +734,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
      *
      * @return  a string representation of this <code>JToolBar</code>.
      */
+    @Override
     protected String paramString() {
         String paintBorderString = (paintBorder ?
                                     "true" : "false");
@@ -755,54 +766,65 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
             }
         }
 
+        @Override
         public void addLayoutComponent(String name, Component comp) {
             lm.addLayoutComponent(name, comp);
         }
 
+        @Override
         public void addLayoutComponent(Component comp, Object constraints) {
             lm.addLayoutComponent(comp, constraints);
         }
 
+        @Override
         public void removeLayoutComponent(Component comp) {
             lm.removeLayoutComponent(comp);
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container target) {
             return lm.preferredLayoutSize(target);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container target) {
             return lm.minimumLayoutSize(target);
         }
 
+        @Override
         public Dimension maximumLayoutSize(Container target) {
             return lm.maximumLayoutSize(target);
         }
 
+        @Override
         public void layoutContainer(Container target) {
             lm.layoutContainer(target);
         }
 
+        @Override
         public float getLayoutAlignmentX(Container target) {
             return lm.getLayoutAlignmentX(target);
         }
 
+        @Override
         public float getLayoutAlignmentY(Container target) {
             return lm.getLayoutAlignmentY(target);
         }
 
+        @Override
         public void invalidateLayout(Container target) {
             lm.invalidateLayout(target);
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String name = e.getPropertyName();
             if( name.equals("orientation") ) {
                 int o = ((Integer)e.getNewValue()).intValue();
 
-                if (o == JToolBar.VERTICAL)
+                if (o == JToolBar.VERTICAL) {
                     lm = new BoxLayout(JToolBar.this, BoxLayout.PAGE_AXIS);
-                else {
+                } else {
                     lm = new BoxLayout(JToolBar.this, BoxLayout.LINE_AXIS);
                 }
             }
@@ -810,6 +832,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
     }
 
 
+    @Override
     public void setLayout(LayoutManager mgr) {
         LayoutManager oldMgr = getLayout();
         if (oldMgr instanceof PropertyChangeListener) {
@@ -831,6 +854,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
      * @return an AccessibleJToolBar that serves as the
      *         AccessibleContext of this JToolBar
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJToolBar();
@@ -852,6 +876,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             // FIXME:  [[[WDW - need to add orientation from BoxLayout]]]
@@ -864,6 +889,7 @@ public class JToolBar extends JComponent implements SwingConstants, Accessible
          *
          * @return an instance of AccessibleRole describing the role of the object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TOOL_BAR;
         }

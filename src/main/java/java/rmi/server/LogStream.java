@@ -167,6 +167,7 @@ public class LogStream extends PrintStream {
      * @since JDK1.1
      * @deprecated no replacement
      */
+    @Override
     @Deprecated
     public void write(int b)
     {
@@ -202,8 +203,9 @@ public class LogStream extends PrintStream {
                 }
             }
         }
-        else
+        else {
             super.write(b);
+        }
     }
 
     /**
@@ -211,13 +213,16 @@ public class LogStream extends PrintStream {
      * @since JDK1.1
      * @deprecated no replacement
      */
+    @Override
     @Deprecated
     public void write(byte b[], int off, int len)
     {
-        if (len < 0)
+        if (len < 0) {
             throw new ArrayIndexOutOfBoundsException(len);
-        for (int i = 0; i < len; ++ i)
+        }
+        for (int i = 0; i < len; ++ i) {
             write(b[off + i]);
+        }
     }
 
     /**
@@ -226,6 +231,7 @@ public class LogStream extends PrintStream {
      * @since JDK1.1
      * @deprecated no replacement
      */
+    @Override
     @Deprecated
     public String toString()
     {
@@ -250,22 +256,25 @@ public class LogStream extends PrintStream {
     @Deprecated
     public static int parseLevel(String s)
     {
-        if ((s == null) || (s.length() < 1))
+        if ((s == null) || (s.length() < 1)) {
             return -1;
+        }
 
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException e) {
         }
-        if (s.length() < 1)
+        if (s.length() < 1) {
             return -1;
+        }
 
-        if ("SILENT".startsWith(s.toUpperCase()))
+        if ("SILENT".startsWith(s.toUpperCase())) {
             return SILENT;
-        else if ("BRIEF".startsWith(s.toUpperCase()))
+        } else if ("BRIEF".startsWith(s.toUpperCase())) {
             return BRIEF;
-        else if ("VERBOSE".startsWith(s.toUpperCase()))
+        } else if ("VERBOSE".startsWith(s.toUpperCase())) {
             return VERBOSE;
+        }
 
         return -1;
     }

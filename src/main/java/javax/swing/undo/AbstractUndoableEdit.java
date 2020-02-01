@@ -90,6 +90,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      * another edit's <code>addEdit</code> or <code>replaceEdit</code>
      * method, or when it is dequeued from an <code>UndoManager</code>.
      */
+    @Override
     public void die() {
         alive = false;
     }
@@ -105,6 +106,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *    returns <code>false</code>
      * @see     #canUndo
      */
+    @Override
     public void undo() throws CannotUndoException {
         if (!canUndo()) {
             throw new CannotUndoException();
@@ -123,6 +125,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      * @see     #undo
      * @see     #redo
      */
+    @Override
     public boolean canUndo() {
         return alive && hasBeenDone;
     }
@@ -137,6 +140,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *     returns <code>false</code>
      * @see     #canRedo
      */
+    @Override
     public void redo() throws CannotRedoException {
         if (!canRedo()) {
             throw new CannotRedoException();
@@ -154,6 +158,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      * @see     #undo
      * @see     #redo
      */
+    @Override
     public boolean canRedo() {
         return alive && !hasBeenDone;
     }
@@ -166,6 +171,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *
      * @see UndoableEdit#addEdit
      */
+    @Override
     public boolean addEdit(UndoableEdit anEdit) {
         return false;
     }
@@ -178,6 +184,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *
      * @see UndoableEdit#replaceEdit
      */
+    @Override
     public boolean replaceEdit(UndoableEdit anEdit) {
         return false;
     }
@@ -188,6 +195,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      * @return true
      * @see UndoableEdit#isSignificant
      */
+    @Override
     public boolean isSignificant() {
         return true;
     }
@@ -205,6 +213,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      * @see     #getUndoPresentationName
      * @see     #getRedoPresentationName
      */
+    @Override
     public String getPresentationName() {
         return "";
     }
@@ -224,6 +233,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *    case, the defaults value is returned alone.
      * @see #getPresentationName
      */
+    @Override
     public String getUndoPresentationName() {
         String name = getPresentationName();
         if (!"".equals(name)) {
@@ -251,6 +261,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *    case, the defaults value is returned alone.
      * @see #getPresentationName
      */
+    @Override
     public String getRedoPresentationName() {
         String name = getPresentationName();
         if (!"".equals(name)) {
@@ -269,6 +280,7 @@ public class AbstractUndoableEdit implements UndoableEdit, Serializable {
      *
      * @return a String representation of this object
      */
+    @Override
     public String toString()
     {
         return super.toString()

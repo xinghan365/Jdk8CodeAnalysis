@@ -179,33 +179,40 @@ public class InitialLdapContext extends InitialDirContext implements LdapContext
 // LdapContext methods
 // Most Javadoc is deferred to the LdapContext interface.
 
+    @Override
     public ExtendedResponse extendedOperation(ExtendedRequest request)
             throws NamingException {
         return getDefaultLdapInitCtx().extendedOperation(request);
     }
 
+    @Override
     public LdapContext newInstance(Control[] reqCtls)
         throws NamingException {
             return getDefaultLdapInitCtx().newInstance(reqCtls);
     }
 
+    @Override
     public void reconnect(Control[] connCtls) throws NamingException {
         getDefaultLdapInitCtx().reconnect(connCtls);
     }
 
+    @Override
     public Control[] getConnectControls() throws NamingException {
         return getDefaultLdapInitCtx().getConnectControls();
     }
 
+    @Override
     public void setRequestControls(Control[] requestControls)
         throws NamingException {
             getDefaultLdapInitCtx().setRequestControls(requestControls);
     }
 
+    @Override
     public Control[] getRequestControls() throws NamingException {
         return getDefaultLdapInitCtx().getRequestControls();
     }
 
+    @Override
     public Control[] getResponseControls() throws NamingException {
         return getDefaultLdapInitCtx().getResponseControls();
     }

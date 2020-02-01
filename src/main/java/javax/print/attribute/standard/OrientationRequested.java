@@ -140,6 +140,7 @@ public final class OrientationRequested extends EnumSyntax
     /**
      * Returns the string table for class OrientationRequested.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -147,6 +148,7 @@ public final class OrientationRequested extends EnumSyntax
     /**
      * Returns the enumeration value table for class OrientationRequested.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -154,6 +156,7 @@ public final class OrientationRequested extends EnumSyntax
     /**
      * Returns the lowest integer value used by class OrientationRequested.
      */
+    @Override
     protected int getOffset() {
         return 3;
     }
@@ -168,6 +171,7 @@ public final class OrientationRequested extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return OrientationRequested.class;
     }
@@ -181,6 +185,7 @@ public final class OrientationRequested extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "orientation-requested";
     }

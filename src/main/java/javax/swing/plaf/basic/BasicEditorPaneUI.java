@@ -76,6 +76,7 @@ public class BasicEditorPaneUI extends BasicTextUI {
      *
      * @return the name ("EditorPane")
      */
+    @Override
     protected String getPropertyPrefix() {
         return "EditorPane";
     }
@@ -85,6 +86,7 @@ public class BasicEditorPaneUI extends BasicTextUI {
      *
      * @since 1.5
      */
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         updateDisplayProperties(c.getFont(),
@@ -96,6 +98,7 @@ public class BasicEditorPaneUI extends BasicTextUI {
      *
      * @since 1.5
      */
+    @Override
     public void uninstallUI(JComponent c) {
         cleanDisplayProperties();
         super.uninstallUI(c);
@@ -108,6 +111,7 @@ public class BasicEditorPaneUI extends BasicTextUI {
      * @return the editor capabilities
      * @see TextUI#getEditorKit
      */
+    @Override
     public EditorKit getEditorKit(JTextComponent tc) {
         JEditorPane pane = (JEditorPane) getComponent();
         return pane.getEditorKit();
@@ -117,6 +121,7 @@ public class BasicEditorPaneUI extends BasicTextUI {
      * Fetch an action map to use.  The map for a JEditorPane
      * is not shared because it changes with the EditorKit.
      */
+    @Override
     ActionMap getActionMap() {
         ActionMap am = new ActionMapUIResource();
         am.put("requestFocus", new FocusAction());
@@ -146,6 +151,7 @@ public class BasicEditorPaneUI extends BasicTextUI {
      *
      * @param evt the property change event
      */
+    @Override
     protected void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
         String name = evt.getPropertyName();

@@ -91,8 +91,9 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
 
         super(env);
 
-        if (port < 0)
+        if (port < 0) {
             throw new IllegalArgumentException("Negative port: " + port);
+        }
 
         this.port = port;
         this.csf = csf;
@@ -117,6 +118,7 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
                 null;
     }
 
+    @Override
     protected void export() throws IOException {
         if (exportedWrapper != null) {
             export(exportedWrapper);
@@ -153,12 +155,14 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
             throws NoSuchObjectException {
         RMIExporter exporter =
             (RMIExporter) env.get(RMIExporter.EXPORTER_ATTRIBUTE);
-        if (exporter == null)
+        if (exporter == null) {
             UnicastRemoteObject.unexportObject(obj, force);
-        else
+        } else {
             exporter.unexportObject(obj, force);
+        }
     }
 
+    @Override
     protected String getProtocol() {
         return "rmi";
     }
@@ -171,6 +175,7 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
      * @exception IOException if the stub cannot be obtained - e.g the
      *            RMIJRMPServerImpl has not been exported yet.
      */
+    @Override
     public Remote toStub() throws IOException {
         if (exportedWrapper != null) {
             return RemoteObject.toStub(exportedWrapper);
@@ -197,11 +202,13 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
      * @exception IOException if the new {@link RMIConnection}
      * object cannot be created or exported.
      */
+    @Override
     protected RMIConnection makeClient(String connectionId, Subject subject)
             throws IOException {
 
-        if (connectionId == null)
+        if (connectionId == null) {
             throw new NullPointerException("Null connectionId");
+        }
 
         RMIConnection client =
             new RMIConnectionImpl(this, connectionId, getDefaultClassLoader(),
@@ -210,6 +217,7 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
         return client;
     }
 
+    @Override
     protected void closeClient(RMIConnection client) throws IOException {
         unexport(client, true);
     }
@@ -222,6 +230,7 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
      * @exception IOException if the attempt to close the connector
      * server failed.
      */
+    @Override
     protected void closeServer() throws IOException {
         if (exportedWrapper != null) {
             unexport(exportedWrapper, true);

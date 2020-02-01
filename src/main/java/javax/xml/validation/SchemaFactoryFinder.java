@@ -171,9 +171,12 @@ class SchemaFactoryFinder  {
             if(r!=null) {
                 debugPrintln("The value is '"+r+"'");
                 sf = createInstance(r);
-                if(sf!=null)    return sf;
-            } else
+                if(sf!=null) {
+                    return sf;
+                }
+            } else {
                 debugPrintln("The property is undefined.");
+            }
         } catch( Throwable t ) {
             if( debug ) {
                 debugPrintln("failed to look up system property '"+propertyName+"'" );
@@ -324,6 +327,7 @@ class SchemaFactoryFinder  {
             final String schemaLanguage,
             AccessControlContext acc) {
         return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+            @Override
             public Boolean run() {
                 return factory.isSchemaLanguageSupported(schemaLanguage);
             }
@@ -345,6 +349,7 @@ class SchemaFactoryFinder  {
         final AccessControlContext acc = AccessController.getContext();
         try {
             return AccessController.doPrivileged(new PrivilegedAction<SchemaFactory>() {
+                @Override
                 public SchemaFactory run() {
                     final ServiceLoader<SchemaFactory> loader =
                             ServiceLoader.load(SERVICE_CLASS);
@@ -383,7 +388,9 @@ class SchemaFactoryFinder  {
 
         String classnameAsResource = classname.replace('.', '/') + ".class";
 
-        if( loader==null )  loader = ClassLoader.getSystemClassLoader();
+        if( loader==null ) {
+            loader = ClassLoader.getSystemClassLoader();
+        }
 
         //URL it = loader.getResource(classnameAsResource);
         URL it = ss.getResourceAsURL(loader, classnameAsResource);

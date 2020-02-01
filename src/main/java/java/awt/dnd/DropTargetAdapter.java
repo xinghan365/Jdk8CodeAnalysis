@@ -79,6 +79,7 @@ public abstract class DropTargetAdapter implements DropTargetListener {
      *
      * @param dtde the <code>DropTargetDragEvent</code>
      */
+    @Override
     public void dragEnter(DropTargetDragEvent dtde) {}
 
     /**
@@ -88,6 +89,7 @@ public abstract class DropTargetAdapter implements DropTargetListener {
      *
      * @param dtde the <code>DropTargetDragEvent</code>
      */
+    @Override
     public void dragOver(DropTargetDragEvent dtde) {}
 
     /**
@@ -96,6 +98,7 @@ public abstract class DropTargetAdapter implements DropTargetListener {
      *
      * @param dtde the <code>DropTargetDragEvent</code>
      */
+    @Override
     public void dropActionChanged(DropTargetDragEvent dtde) {}
 
     /**
@@ -105,5 +108,6 @@ public abstract class DropTargetAdapter implements DropTargetListener {
      *
      * @param dte the <code>DropTargetEvent</code>
      */
+    @Override
     public void dragExit(DropTargetEvent dte) {}
 }

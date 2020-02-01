@@ -55,6 +55,7 @@ class CheckedInputStream extends FilterInputStream {
      * @return the byte read, or -1 if the end of the stream is reached.
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public int read() throws IOException {
         int b = in.read();
         if (b != -1) {
@@ -78,6 +79,7 @@ class CheckedInputStream extends FilterInputStream {
      * <code>buf.length - off</code>
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public int read(byte[] buf, int off, int len) throws IOException {
         len = in.read(buf, off, len);
         if (len != -1) {
@@ -92,6 +94,7 @@ class CheckedInputStream extends FilterInputStream {
      * @return the actual number of bytes skipped
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public long skip(long n) throws IOException {
         byte[] buf = new byte[512];
         long total = 0;

@@ -182,6 +182,7 @@ public class FieldView extends PlainView {
      *
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         Rectangle r = (Rectangle) a;
         g.clipRect(r.x, r.y, r.width, r.height);
@@ -191,6 +192,7 @@ public class FieldView extends PlainView {
     /**
      * Adjusts <code>a</code> based on the visible region and returns it.
      */
+    @Override
     Shape adjustPaintRegion(Shape a) {
         return adjustAllocation(a);
     }
@@ -205,6 +207,7 @@ public class FieldView extends PlainView {
      *           that is returned, although there is no guarantee.
      *           The parent may choose to resize or break the view.
      */
+    @Override
     public float getPreferredSpan(int axis) {
         switch (axis) {
         case View.X_AXIS:
@@ -243,6 +246,7 @@ public class FieldView extends PlainView {
      * @param axis View.X_AXIS or View.Y_AXIS
      * @return the weight -&gt; 1 for View.X_AXIS, else 0
      */
+    @Override
     public int getResizeWeight(int axis) {
         if (axis == View.X_AXIS) {
             return 1;
@@ -261,6 +265,7 @@ public class FieldView extends PlainView {
      *   represent a valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         return super.modelToView(pos, adjustAllocation(a), b);
     }
@@ -276,6 +281,7 @@ public class FieldView extends PlainView {
      *  given point in the view
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float fx, float fy, Shape a, Position.Bias[] bias) {
         return super.viewToModel(fx, fy, adjustAllocation(a), bias);
     }
@@ -289,6 +295,7 @@ public class FieldView extends PlainView {
      * @param f the factory to use to rebuild if the view has children
      * @see View#insertUpdate
      */
+    @Override
     public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         super.insertUpdate(changes, adjustAllocation(a), f);
         updateVisibilityModel();
@@ -303,6 +310,7 @@ public class FieldView extends PlainView {
      * @param f the factory to use to rebuild if the view has children
      * @see View#removeUpdate
      */
+    @Override
     public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         super.removeUpdate(changes, adjustAllocation(a), f);
         updateVisibilityModel();

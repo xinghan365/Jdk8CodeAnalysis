@@ -185,6 +185,7 @@ public final class Boolean implements java.io.Serializable,
      *
      * @return  a string representation of this object.
      */
+    @Override
     public String toString() {
         return value ? "true" : "false";
     }
@@ -222,6 +223,7 @@ public final class Boolean implements java.io.Serializable,
      * @return  {@code true} if the Boolean objects represent the
      *          same value; {@code false} otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Boolean) {
             return value == ((Boolean)obj).booleanValue();
@@ -269,6 +271,7 @@ public final class Boolean implements java.io.Serializable,
      * @see     Comparable
      * @since  1.5
      */
+    @Override
     public int compareTo(Boolean b) {
         return compare(this.value, b.value);
     }

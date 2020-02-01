@@ -120,6 +120,7 @@ public final class Chromaticity extends EnumSyntax
     /**
      * Returns the string table for class Chromaticity.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -127,6 +128,7 @@ public final class Chromaticity extends EnumSyntax
     /**
      * Returns the enumeration value table for class Chromaticity.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -140,6 +142,7 @@ public final class Chromaticity extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return Chromaticity.class;
     }
@@ -152,6 +155,7 @@ public final class Chromaticity extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+        @Override
         public final String getName() {
             return "chromaticity";
         }

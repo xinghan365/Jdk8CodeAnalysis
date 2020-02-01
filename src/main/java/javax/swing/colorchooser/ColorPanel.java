@@ -105,6 +105,7 @@ final class ColorPanel extends JPanel implements ActionListener {
         this.model = model;
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         try {
             this.z = Integer.parseInt(event.getActionCommand());

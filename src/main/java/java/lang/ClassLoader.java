@@ -492,6 +492,7 @@ public abstract class ClassLoader {
             final int i = name.lastIndexOf('.');
             if (i != -1) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         sm.checkPackageAccess(name.substring(0, i));
                         return null;
@@ -643,8 +644,9 @@ public abstract class ClassLoader {
     private ProtectionDomain preDefineClass(String name,
                                             ProtectionDomain pd)
     {
-        if (!checkName(name))
+        if (!checkName(name)) {
             throw new NoClassDefFoundError("IllegalName: " + name);
+        }
 
         // Note:  Checking logic in java.lang.invoke.MemberName.checkForTypeAlias
         // relies on the fact that spoofing is impossible if a class has a name
@@ -658,7 +660,9 @@ public abstract class ClassLoader {
             pd = defaultDomain;
         }
 
-        if (name != null) checkCerts(name, pd.getCodeSource());
+        if (name != null) {
+            checkCerts(name, pd.getCodeSource());
+        }
 
         return pd;
     }
@@ -677,8 +681,9 @@ public abstract class ClassLoader {
     {
         if (pd.getCodeSource() != null) {
             Certificate certs[] = pd.getCodeSource().getCertificates();
-            if (certs != null)
+            if (certs != null) {
                 setSigners(c, certs);
+            }
         }
     }
 
@@ -859,11 +864,13 @@ public abstract class ClassLoader {
 
     // true if the name is null or has the potential to be a valid binary name
     private boolean checkName(String name) {
-        if ((name == null) || (name.length() == 0))
+        if ((name == null) || (name.length() == 0)) {
             return true;
+        }
         if ((name.indexOf('/') != -1)
-            || (!VM.allowArraySyntax() && (name.charAt(0) == '[')))
+            || (!VM.allowArraySyntax() && (name.charAt(0) == '['))) {
             return false;
+        }
         return true;
     }
 
@@ -906,8 +913,9 @@ public abstract class ClassLoader {
         }
 
         // the length must be the same at this point
-        if (certs.length != pcerts.length)
+        if (certs.length != pcerts.length) {
             return false;
+        }
 
         // go through and make sure all the certs in one array
         // are in the other and vice-versa.
@@ -920,7 +928,9 @@ public abstract class ClassLoader {
                     break;
                 }
             }
-            if (!match) return false;
+            if (!match) {
+                return false;
+            }
         }
 
         // now do the same for pcerts
@@ -932,7 +942,9 @@ public abstract class ClassLoader {
                     break;
                 }
             }
-            if (!match) return false;
+            if (!match) {
+                return false;
+            }
         }
 
         return true;
@@ -986,8 +998,9 @@ public abstract class ClassLoader {
     {
         ClassLoader system = getSystemClassLoader();
         if (system == null) {
-            if (!checkName(name))
+            if (!checkName(name)) {
                 throw new ClassNotFoundException(name);
+            }
             Class<?> cls = findBootstrapClass(name);
             if (cls == null) {
                 throw new ClassNotFoundException(name);
@@ -1003,7 +1016,9 @@ public abstract class ClassLoader {
      */
     private Class<?> findBootstrapClassOrNull(String name)
     {
-        if (!checkName(name)) return null;
+        if (!checkName(name)) {
+            return null;
+        }
 
         return findBootstrapClass(name);
     }
@@ -1026,8 +1041,9 @@ public abstract class ClassLoader {
      * @since  1.1
      */
     protected final Class<?> findLoadedClass(String name) {
-        if (!checkName(name))
+        if (!checkName(name)) {
             return null;
+        }
         return findLoadedClass0(name);
     }
 
@@ -1267,9 +1283,11 @@ public abstract class ClassLoader {
         final Enumeration<Resource> e =
             getBootstrapClassPath().getResources(name);
         return new Enumeration<URL> () {
+            @Override
             public URL nextElement() {
                 return e.nextElement().getURL();
             }
+            @Override
             public boolean hasMoreElements() {
                 return e.hasMoreElements();
             }
@@ -1357,8 +1375,9 @@ public abstract class ClassLoader {
      */
     @CallerSensitive
     public final ClassLoader getParent() {
-        if (parent == null)
+        if (parent == null) {
             return null;
+        }
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             // Check access to the parent class loader
@@ -1439,8 +1458,9 @@ public abstract class ClassLoader {
 
     private static synchronized void initSystemClassLoader() {
         if (!sclSet) {
-            if (scl != null)
+            if (scl != null) {
                 throw new IllegalStateException("recursive invocation");
+            }
             sun.misc.Launcher l = sun.misc.Launcher.getLauncher();
             if (l != null) {
                 Throwable oops = null;
@@ -1488,11 +1508,13 @@ public abstract class ClassLoader {
     private static boolean needsClassLoaderPermissionCheck(ClassLoader from,
                                                            ClassLoader to)
     {
-        if (from == to)
+        if (from == to) {
             return false;
+        }
 
-        if (from == null)
+        if (from == null) {
             return false;
+        }
 
         return !to.isAncestor(from);
     }
@@ -1727,6 +1749,7 @@ public abstract class ClassLoader {
             this.isBuiltin = isBuiltin;
         }
 
+        @Override
         protected void finalize() {
             synchronized (loadedLibraryNames) {
                 if (fromClass.getClassLoader() != null && loaded) {
@@ -1869,6 +1892,7 @@ public abstract class ClassLoader {
         if (!isBuiltin) {
             boolean exists = AccessController.doPrivileged(
                 new PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         return file.exists() ? Boolean.TRUE : null;
                     }})
@@ -1954,8 +1978,9 @@ public abstract class ClassLoader {
             for (int i = 0; i < size; i++) {
                 NativeLibrary lib = libs.elementAt(i);
                 long entry = lib.find(name);
-                if (entry != 0)
+                if (entry != 0) {
                     return entry;
+                }
             }
         }
         return 0;
@@ -2002,8 +2027,9 @@ public abstract class ClassLoader {
      */
     public void setDefaultAssertionStatus(boolean enabled) {
         synchronized (assertionLock) {
-            if (classAssertionStatus == null)
+            if (classAssertionStatus == null) {
                 initializeJavaAssertionMaps();
+            }
 
             defaultAssertionStatus = enabled;
         }
@@ -2049,8 +2075,9 @@ public abstract class ClassLoader {
     public void setPackageAssertionStatus(String packageName,
                                           boolean enabled) {
         synchronized (assertionLock) {
-            if (packageAssertionStatus == null)
+            if (packageAssertionStatus == null) {
                 initializeJavaAssertionMaps();
+            }
 
             packageAssertionStatus.put(packageName, enabled);
         }
@@ -2080,8 +2107,9 @@ public abstract class ClassLoader {
      */
     public void setClassAssertionStatus(String className, boolean enabled) {
         synchronized (assertionLock) {
-            if (classAssertionStatus == null)
+            if (classAssertionStatus == null) {
                 initializeJavaAssertionMaps();
+            }
 
             classAssertionStatus.put(className, enabled);
         }
@@ -2137,21 +2165,24 @@ public abstract class ClassLoader {
 
             // Check for a class entry
             Boolean result = classAssertionStatus.get(className);
-            if (result != null)
+            if (result != null) {
                 return result.booleanValue();
+            }
 
             // Check for most specific package entry
             int dotIndex = className.lastIndexOf(".");
             if (dotIndex < 0) { // default package
                 result = packageAssertionStatus.get(null);
-                if (result != null)
+                if (result != null) {
                     return result.booleanValue();
+                }
             }
             while(dotIndex > 0) {
                 className = className.substring(0, dotIndex);
                 result = packageAssertionStatus.get(className);
-                if (result != null)
+                if (result != null) {
                     return result.booleanValue();
+                }
                 dotIndex = className.lastIndexOf(".", dotIndex-1);
             }
 
@@ -2169,13 +2200,15 @@ public abstract class ClassLoader {
         packageAssertionStatus = new HashMap<>();
         AssertionStatusDirectives directives = retrieveDirectives();
 
-        for(int i = 0; i < directives.classes.length; i++)
+        for(int i = 0; i < directives.classes.length; i++) {
             classAssertionStatus.put(directives.classes[i],
                                      directives.classEnabled[i]);
+        }
 
-        for(int i = 0; i < directives.packages.length; i++)
+        for(int i = 0; i < directives.packages.length; i++) {
             packageAssertionStatus.put(directives.packages[i],
                                        directives.packageEnabled[i]);
+        }
 
         defaultAssertionStatus = directives.deflt;
     }
@@ -2193,6 +2226,7 @@ class SystemClassLoaderAction
         this.parent = parent;
     }
 
+    @Override
     public ClassLoader run() throws Exception {
         String cls = System.getProperty("java.system.class.loader");
         if (cls == null) {

@@ -88,15 +88,18 @@ public final class StringCharacterIterator implements CharacterIterator
      * @param  pos    Initial iterator position
      */
     public StringCharacterIterator(String text, int begin, int end, int pos) {
-        if (text == null)
+        if (text == null) {
             throw new NullPointerException();
+        }
         this.text = text;
 
-        if (begin < 0 || begin > end || end > text.length())
+        if (begin < 0 || begin > end || end > text.length()) {
             throw new IllegalArgumentException("Invalid substring range");
+        }
 
-        if (pos < begin || pos > end)
+        if (pos < begin || pos > end) {
             throw new IllegalArgumentException("Invalid position");
+        }
 
         this.begin = begin;
         this.end = end;
@@ -113,8 +116,9 @@ public final class StringCharacterIterator implements CharacterIterator
      * @since 1.2
      */
     public void setText(String text) {
-        if (text == null)
+        if (text == null) {
             throw new NullPointerException();
+        }
         this.text = text;
         this.begin = 0;
         this.end = text.length();
@@ -125,6 +129,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.first() for String.
      * @see CharacterIterator#first
      */
+    @Override
     public char first()
     {
         pos = begin;
@@ -135,6 +140,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.last() for String.
      * @see CharacterIterator#last
      */
+    @Override
     public char last()
     {
         if (end != begin) {
@@ -149,10 +155,12 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.setIndex() for String.
      * @see CharacterIterator#setIndex
      */
+    @Override
     public char setIndex(int p)
     {
-    if (p < begin || p > end)
-            throw new IllegalArgumentException("Invalid index");
+    if (p < begin || p > end) {
+        throw new IllegalArgumentException("Invalid index");
+    }
         pos = p;
         return current();
     }
@@ -161,6 +169,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.current() for String.
      * @see CharacterIterator#current
      */
+    @Override
     public char current()
     {
         if (pos >= begin && pos < end) {
@@ -175,6 +184,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.next() for String.
      * @see CharacterIterator#next
      */
+    @Override
     public char next()
     {
         if (pos < end - 1) {
@@ -191,6 +201,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.previous() for String.
      * @see CharacterIterator#previous
      */
+    @Override
     public char previous()
     {
         if (pos > begin) {
@@ -206,6 +217,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.getBeginIndex() for String.
      * @see CharacterIterator#getBeginIndex
      */
+    @Override
     public int getBeginIndex()
     {
         return begin;
@@ -215,6 +227,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.getEndIndex() for String.
      * @see CharacterIterator#getEndIndex
      */
+    @Override
     public int getEndIndex()
     {
         return end;
@@ -224,6 +237,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Implements CharacterIterator.getIndex() for String.
      * @see CharacterIterator#getIndex
      */
+    @Override
     public int getIndex()
     {
         return pos;
@@ -235,21 +249,27 @@ public final class StringCharacterIterator implements CharacterIterator
      * @return true if the given obj is the same as this
      * StringCharacterIterator object; false otherwise.
      */
+    @Override
     public boolean equals(Object obj)
     {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj instanceof StringCharacterIterator))
+        }
+        if (!(obj instanceof StringCharacterIterator)) {
             return false;
+        }
 
         StringCharacterIterator that = (StringCharacterIterator) obj;
 
-        if (hashCode() != that.hashCode())
+        if (hashCode() != that.hashCode()) {
             return false;
-        if (!text.equals(that.text))
+        }
+        if (!text.equals(that.text)) {
             return false;
-        if (pos != that.pos || begin != that.begin || end != that.end)
+        }
+        if (pos != that.pos || begin != that.begin || end != that.end) {
             return false;
+        }
         return true;
     }
 
@@ -257,6 +277,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Computes a hashcode for this iterator.
      * @return A hash code
      */
+    @Override
     public int hashCode()
     {
         return text.hashCode() ^ pos ^ begin ^ end;
@@ -266,6 +287,7 @@ public final class StringCharacterIterator implements CharacterIterator
      * Creates a copy of this iterator.
      * @return A copy of this
      */
+    @Override
     public Object clone()
     {
         try {

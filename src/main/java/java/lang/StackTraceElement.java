@@ -168,6 +168,7 @@ public final class StackTraceElement implements java.io.Serializable {
      * </ul>
      * @see    Throwable#printStackTrace()
      */
+    @Override
     public String toString() {
         return getClassName() + "." + methodName +
             (isNativeMethod() ? "(Native Method)" :
@@ -195,11 +196,14 @@ public final class StackTraceElement implements java.io.Serializable {
      *         {@code StackTraceElement} instance representing the same
      *         execution point as this instance.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj==this)
+        if (obj==this) {
             return true;
-        if (!(obj instanceof StackTraceElement))
+        }
+        if (!(obj instanceof StackTraceElement)) {
             return false;
+        }
         StackTraceElement e = (StackTraceElement)obj;
         return e.declaringClass.equals(declaringClass) &&
             e.lineNumber == lineNumber &&
@@ -210,6 +214,7 @@ public final class StackTraceElement implements java.io.Serializable {
     /**
      * Returns a hash code value for this stack trace element.
      */
+    @Override
     public int hashCode() {
         int result = 31*declaringClass.hashCode() + methodName.hashCode();
         result = 31*result + Objects.hashCode(fileName);

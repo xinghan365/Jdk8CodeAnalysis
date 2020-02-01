@@ -175,6 +175,7 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -213,9 +214,11 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
      * @return an array containing one Object -- the text of the menu item
      *         -- if the item is selected; otherwise null
      */
+    @Override
     public Object[] getSelectedObjects() {
-        if (isSelected() == false)
+        if (isSelected() == false) {
             return null;
+        }
         Object[] selectedObjects = new Object[1];
         selectedObjects[0] = getText();
         return selectedObjects;
@@ -246,6 +249,7 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
      *
      * @return  a string representation of this JCheckBoxMenuItem.
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -254,6 +258,7 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
      * Overriden to return true, JCheckBoxMenuItem supports
      * the selected state.
      */
+    @Override
     boolean shouldUpdateSelectedStateFromAction() {
         return true;
     }
@@ -271,6 +276,7 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
      * @return an AccessibleJCheckBoxMenuItem that serves as the
      *         AccessibleContext of this AccessibleJCheckBoxMenuItem
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJCheckBoxMenuItem();
@@ -300,6 +306,7 @@ public class JCheckBoxMenuItem extends JMenuItem implements SwingConstants,
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CHECK_BOX;
         }

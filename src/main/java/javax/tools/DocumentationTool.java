@@ -144,6 +144,7 @@ public interface DocumentationTool extends Tool, OptionChecker {
          *
          * @throws IllegalStateException if called more than once
          */
+        @Override
         Boolean call();
     }
 
@@ -168,8 +169,10 @@ public interface DocumentationTool extends Tool, OptionChecker {
          */
         TAGLET_PATH;
 
+        @Override
         public String getName() { return name(); }
 
+        @Override
         public boolean isOutputLocation() {
             switch (this) {
                 case DOCUMENTATION_OUTPUT:

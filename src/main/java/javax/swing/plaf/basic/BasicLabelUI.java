@@ -168,6 +168,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
      * @see #paintDisabledText
      * @see #layoutCL
      */
+    @Override
     public void paint(Graphics g, JComponent c)
     {
         JLabel label = (JLabel)c;
@@ -220,6 +221,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
                         paintTextR);
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c)
     {
         JLabel label = (JLabel)c;
@@ -270,6 +272,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
     /**
      * @return getPreferredSize(c)
      */
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -282,6 +285,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
     /**
      * @return getPreferredSize(c)
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -299,6 +303,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         JLabel label = (JLabel)c;
@@ -320,6 +325,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -338,6 +344,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
     }
 
 
+    @Override
     public void installUI(JComponent c) {
         installDefaults((JLabel)c);
         installComponents((JLabel)c);
@@ -346,6 +353,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
     }
 
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults((JLabel) c);
         uninstallComponents((JLabel) c);
@@ -470,6 +478,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
         return labelUI;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         String name = e.getPropertyName();
         if (name == "text" || "font" == name || "foreground" == name) {
@@ -497,6 +506,7 @@ public class BasicLabelUI extends LabelUI implements  PropertyChangeListener
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JLabel label = (JLabel)e.getSource();
             String key = getName();

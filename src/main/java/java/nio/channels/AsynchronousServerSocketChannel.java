@@ -187,6 +187,7 @@ public abstract class AsynchronousServerSocketChannel
      * @throws  ClosedChannelException              {@inheritDoc}
      * @throws  IOException                         {@inheritDoc}
      */
+    @Override
     public final AsynchronousServerSocketChannel bind(SocketAddress local)
         throws IOException
     {
@@ -236,6 +237,7 @@ public abstract class AsynchronousServerSocketChannel
      * @throws  ClosedChannelException                  {@inheritDoc}
      * @throws  IOException                             {@inheritDoc}
      */
+    @Override
     public abstract <T> AsynchronousServerSocketChannel setOption(SocketOption<T> name, T value)
         throws IOException;
 

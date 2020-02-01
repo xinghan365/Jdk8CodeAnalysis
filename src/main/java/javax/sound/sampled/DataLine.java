@@ -426,6 +426,7 @@ public interface DataLine extends Line {
          * @return <code>true</code> if this object matches the one specified,
          * otherwise <code>false</code>.
          */
+        @Override
         public boolean matches(Line.Info info) {
 
             if (! (super.matches(info)) ) {
@@ -469,6 +470,7 @@ public interface DataLine extends Line {
          * Obtains a textual description of the data line info.
          * @return a string description
          */
+        @Override
         public String toString() {
 
             StringBuffer buf = new StringBuffer();

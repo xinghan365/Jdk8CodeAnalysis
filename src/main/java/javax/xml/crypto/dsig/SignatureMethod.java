@@ -93,5 +93,6 @@ public interface SignatureMethod extends XMLStructure, AlgorithmMethod {
      *    <code>SignatureMethod</code> (may be <code>null</code> if not
      *    specified)
      */
+    @Override
     AlgorithmParameterSpec getParameterSpec();
 }

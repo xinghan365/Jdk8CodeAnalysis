@@ -169,6 +169,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setModel(ButtonModel newModel) {
         super.setModel(newModel);
         if(newModel instanceof DefaultButtonModel) {
@@ -194,6 +195,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * @param text the text of the <code>JMenuItem</code>
      * @param icon the icon of the <code>JMenuItem</code>
      */
+    @Override
     protected void init(String text, Icon icon) {
         if(text != null) {
             setText(text);
@@ -214,7 +216,9 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
 
     private static class MenuItemFocusListener implements FocusListener,
         Serializable {
+        @Override
         public void focusGained(FocusEvent event) {}
+        @Override
         public void focusLost(FocusEvent event) {
             // When focus is lost, repaint if
             // the focus information is painted
@@ -246,6 +250,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((MenuItemUI)UIManager.getUI(this));
     }
@@ -259,6 +264,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -304,6 +310,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *          bound: true
      *      preferred: true
      */
+    @Override
     public void setEnabled(boolean b) {
         // Make sure we aren't armed!
         if (!b && !UIManager.getBoolean("MenuItem.disabledAreNavigable")) {
@@ -320,6 +327,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * for windows laf where the menu is not always on top.
      */
     // package private
+    @Override
     boolean alwaysOnTop() {
         // Fix for bug #4482165
         if (SwingUtilities.getAncestorOfClass(JInternalFrame.class, this) !=
@@ -373,11 +381,13 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *
      * @since 1.3
      */
+    @Override
     protected void configurePropertiesFromAction(Action a) {
         super.configurePropertiesFromAction(a);
         configureAcceleratorFromAction(a);
     }
 
+    @Override
     void setIconFromAction(Action a) {
         Icon icon = null;
         if (a != null) {
@@ -386,9 +396,11 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
         setIcon(icon);
     }
 
+    @Override
     void largeIconChanged(Action a) {
     }
 
+    @Override
     void smallIconChanged(Action a) {
         setIconFromAction(a);
     }
@@ -403,6 +415,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     protected void actionPropertyChanged(Action action, String propertyName) {
         if (propertyName == Action.ACCELERATOR_KEY) {
             configureAcceleratorFromAction(action);
@@ -425,7 +438,8 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * @param path  the <code>MenuElement</code> path array
      * @param manager   the <code>MenuSelectionManager</code>
      */
-    public void processMouseEvent(MouseEvent e,MenuElement path[],MenuSelectionManager manager) {
+    @Override
+    public void processMouseEvent(MouseEvent e, MenuElement path[], MenuSelectionManager manager) {
         processMenuDragMouseEvent(
                  new MenuDragMouseEvent(e.getComponent(), e.getID(),
                                         e.getWhen(),
@@ -448,7 +462,8 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * @param path the <code>MenuElement</code> path array
      * @param manager   the <code>MenuSelectionManager</code>
      */
-    public void processKeyEvent(KeyEvent e,MenuElement path[],MenuSelectionManager manager) {
+    @Override
+    public void processKeyEvent(KeyEvent e, MenuElement path[], MenuSelectionManager manager) {
         if (DEBUG) {
             System.out.println("in JMenuItem.processKeyEvent/3 for " + getText() +
                                    "  " + KeyStroke.getKeyStrokeForEvent(e));
@@ -480,7 +495,10 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
         case MouseEvent.MOUSE_DRAGGED:
             isMouseDragged = true; fireMenuDragMouseDragged(e); break;
         case MouseEvent.MOUSE_RELEASED:
-            if(isMouseDragged) fireMenuDragMouseReleased(e); break;
+            if(isMouseDragged) {
+                fireMenuDragMouseReleased(e);
+            }
+            break;
         default:
             break;
         }
@@ -670,6 +688,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *                    that path is still the same
      * @see MenuSelectionManager#setSelectedPath(MenuElement[])
      */
+    @Override
     public void menuSelectionChanged(boolean isIncluded) {
         setArmed(isIncluded);
     }
@@ -680,6 +699,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *
      * @return an array of <code>MenuElement</code>s
      */
+    @Override
     public MenuElement[] getSubElements() {
         return new MenuElement[0];
     }
@@ -691,6 +711,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *
      * @return the <code>Component</code> that paints this menu item
      */
+    @Override
     public Component getComponent() {
         return this;
     }
@@ -789,6 +810,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      *
      * @return  a string representation of this <code>JMenuItem</code>
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -807,6 +829,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
      * @return an <code>AccessibleJMenuItem</code> that serves as the
      *         <code>AccessibleContext</code> of this <code>JMenuItem</code>
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJMenuItem();
@@ -849,6 +872,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.MENU_ITEM;
         }
@@ -869,6 +893,7 @@ public class JMenuItem extends AbstractButton implements Accessible,MenuElement 
         /**
          * Supports the change listener interface and fires property changes.
          */
+        @Override
         public void stateChanged(ChangeEvent e) {
             firePropertyChange(AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                                Boolean.valueOf(false), Boolean.valueOf(true));

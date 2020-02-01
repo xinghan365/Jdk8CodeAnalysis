@@ -210,6 +210,7 @@ public class Applet extends Panel {
      * @param   width    the new requested width for the applet.
      * @param   height   the new requested height for the applet.
      */
+    @Override
     @SuppressWarnings("deprecation")
     public void resize(int width, int height) {
         Dimension d = size();
@@ -226,6 +227,7 @@ public class Applet extends Panel {
      *
      * @param   d   an object giving the new width and height.
      */
+    @Override
     @SuppressWarnings("deprecation")
     public void resize(Dimension d) {
         resize(d.width, d.height);
@@ -376,6 +378,7 @@ public class Applet extends Panel {
      *          been set, the default locale is returned.
      * @since   JDK1.1
      */
+    @Override
     public Locale getLocale() {
       Locale locale = super.getLocale();
       if (locale == null) {
@@ -551,6 +554,7 @@ public class Applet extends Panel {
      *         AccessibleContext of this Applet
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleApplet();
@@ -574,6 +578,7 @@ public class Applet extends Panel {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.FRAME;
         }
@@ -585,6 +590,7 @@ public class Applet extends Panel {
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             states.add(AccessibleState.ACTIVE);

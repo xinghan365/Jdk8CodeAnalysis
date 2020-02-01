@@ -87,11 +87,14 @@ public enum StandardLocation implements Location {
     public static Location locationFor(final String name) {
         if (locations.isEmpty()) {
             // can't use valueOf which throws IllegalArgumentException
-            for (Location location : values())
+            for (Location location : values()) {
                 locations.putIfAbsent(location.getName(), location);
+            }
         }
         locations.putIfAbsent(name.toString(/* null-check */), new Location() {
+                @Override
                 public String getName() { return name; }
+                @Override
                 public boolean isOutputLocation() { return name.endsWith("_OUTPUT"); }
             });
         return locations.get(name);
@@ -100,8 +103,10 @@ public enum StandardLocation implements Location {
         private static final ConcurrentMap<String,Location> locations
             = new ConcurrentHashMap<String,Location>();
 
+    @Override
     public String getName() { return name(); }
 
+    @Override
     public boolean isOutputLocation() {
         switch (this) {
             case CLASS_OUTPUT:

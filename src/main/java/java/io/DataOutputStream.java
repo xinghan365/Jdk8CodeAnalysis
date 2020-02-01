@@ -84,6 +84,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public synchronized void write(int b) throws IOException {
         out.write(b);
         incCount(1);
@@ -101,6 +102,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public synchronized void write(byte b[], int off, int len)
         throws IOException
     {
@@ -119,6 +121,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @see        java.io.FilterOutputStream#out
      * @see        java.io.OutputStream#flush()
      */
+    @Override
     public void flush() throws IOException {
         out.flush();
     }
@@ -135,6 +138,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeBoolean(boolean v) throws IOException {
         out.write(v ? 1 : 0);
         incCount(1);
@@ -149,6 +153,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeByte(int v) throws IOException {
         out.write(v);
         incCount(1);
@@ -163,6 +168,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeShort(int v) throws IOException {
         out.write((v >>> 8) & 0xFF);
         out.write((v >>> 0) & 0xFF);
@@ -178,6 +184,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeChar(int v) throws IOException {
         out.write((v >>> 8) & 0xFF);
         out.write((v >>> 0) & 0xFF);
@@ -193,6 +200,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeInt(int v) throws IOException {
         out.write((v >>> 24) & 0xFF);
         out.write((v >>> 16) & 0xFF);
@@ -212,6 +220,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeLong(long v) throws IOException {
         writeBuffer[0] = (byte)(v >>> 56);
         writeBuffer[1] = (byte)(v >>> 48);
@@ -238,6 +247,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @see        java.io.FilterOutputStream#out
      * @see        java.lang.Float#floatToIntBits(float)
      */
+    @Override
     public final void writeFloat(float v) throws IOException {
         writeInt(Float.floatToIntBits(v));
     }
@@ -255,6 +265,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @see        java.io.FilterOutputStream#out
      * @see        java.lang.Double#doubleToLongBits(double)
      */
+    @Override
     public final void writeDouble(double v) throws IOException {
         writeLong(Double.doubleToLongBits(v));
     }
@@ -270,6 +281,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeBytes(String s) throws IOException {
         int len = s.length();
         for (int i = 0 ; i < len ; i++) {
@@ -290,6 +302,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @see        java.io.DataOutputStream#writeChar(int)
      * @see        java.io.FilterOutputStream#out
      */
+    @Override
     public final void writeChars(String s) throws IOException {
         int len = s.length();
         for (int i = 0 ; i < len ; i++) {
@@ -319,6 +332,7 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
      * @param      str   a string to be written.
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public final void writeUTF(String str) throws IOException {
         writeUTF(str, this);
     }
@@ -360,15 +374,17 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
             }
         }
 
-        if (utflen > 65535)
+        if (utflen > 65535) {
             throw new UTFDataFormatException(
                 "encoded string too long: " + utflen + " bytes");
+        }
 
         byte[] bytearr = null;
         if (out instanceof DataOutputStream) {
             DataOutputStream dos = (DataOutputStream)out;
-            if(dos.bytearr == null || (dos.bytearr.length < (utflen+2)))
+            if(dos.bytearr == null || (dos.bytearr.length < (utflen+2))) {
                 dos.bytearr = new byte[(utflen*2) + 2];
+            }
             bytearr = dos.bytearr;
         } else {
             bytearr = new byte[utflen+2];
@@ -380,7 +396,9 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
         int i=0;
         for (i=0; i<strlen; i++) {
            c = str.charAt(i);
-           if (!((c >= 0x0001) && (c <= 0x007F))) break;
+           if (!((c >= 0x0001) && (c <= 0x007F))) {
+               break;
+           }
            bytearr[count++] = (byte) c;
         }
 

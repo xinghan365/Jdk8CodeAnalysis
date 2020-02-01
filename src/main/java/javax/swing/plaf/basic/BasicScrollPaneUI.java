@@ -99,6 +99,7 @@ public class BasicScrollPaneUI
 
 
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         Border vpBorder = scrollpane.getViewportBorder();
         if (vpBorder != null) {
@@ -111,6 +112,7 @@ public class BasicScrollPaneUI
     /**
      * @return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE)
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -194,6 +196,7 @@ public class BasicScrollPaneUI
         return null;
     }
 
+    @Override
     public void installUI(JComponent x) {
         scrollpane = (JScrollPane)x;
         installDefaults(scrollpane);
@@ -250,6 +253,7 @@ public class BasicScrollPaneUI
     }
 
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults(scrollpane);
         uninstallListeners(scrollpane);
@@ -361,6 +365,7 @@ public class BasicScrollPaneUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         if (c == null) {
             throw new NullPointerException("Component must be non-null");
@@ -425,6 +430,7 @@ public class BasicScrollPaneUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -448,6 +454,7 @@ public class BasicScrollPaneUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             getHandler().stateChanged(e);
         }
@@ -469,6 +476,7 @@ public class BasicScrollPaneUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void stateChanged(ChangeEvent e)
         {
             getHandler().stateChanged(e);
@@ -499,6 +507,7 @@ public class BasicScrollPaneUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void stateChanged(ChangeEvent e)
         {
             getHandler().stateChanged(e);
@@ -546,6 +555,7 @@ public class BasicScrollPaneUI
          * @param e     MouseWheelEvent to be handled
          * @since 1.4
          */
+        @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             getHandler().mouseWheelMoved(e);
         }
@@ -670,6 +680,7 @@ public class BasicScrollPaneUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void propertyChange(PropertyChangeEvent e)
         {
             getHandler().propertyChange(e);
@@ -723,6 +734,7 @@ public class BasicScrollPaneUI
             super(key);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JScrollPane scrollPane = (JScrollPane)e.getSource();
             boolean ltr = scrollPane.getComponentOrientation().isLeftToRight();
@@ -862,6 +874,7 @@ public class BasicScrollPaneUI
         //
         // MouseWheelListener
         //
+        @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (scrollpane.isWheelScrollingEnabled() &&
                 e.getWheelRotation() != 0) {
@@ -1026,6 +1039,7 @@ public class BasicScrollPaneUI
         //
         // ChangeListener: This is added to the vieport, and hsb/vsb models.
         //
+        @Override
         public void stateChanged(ChangeEvent e) {
             JViewport viewport = scrollpane.getViewport();
 
@@ -1095,6 +1109,7 @@ public class BasicScrollPaneUI
 
         // Listens for changes in the model property and reinstalls the
         // horizontal/vertical PropertyChangeListeners.
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             if (e.getSource() == scrollpane) {
                 scrollPanePropertyChange(e);

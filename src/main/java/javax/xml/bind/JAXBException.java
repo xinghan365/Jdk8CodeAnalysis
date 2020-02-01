@@ -141,6 +141,7 @@ public class JAXBException extends Exception {
      * Returns a short description of this JAXBException.
      *
      */
+    @Override
     public String toString() {
         return linkedException == null ?
             super.toString() :
@@ -154,7 +155,8 @@ public class JAXBException extends Exception {
      *
      * @param s PrintStream to use for output
      */
-    public void printStackTrace( java.io.PrintStream s ) {
+    @Override
+    public void printStackTrace(java.io.PrintStream s ) {
         super.printStackTrace(s);
     }
 
@@ -163,6 +165,7 @@ public class JAXBException extends Exception {
      * of the linkedException if it is non-null) to <tt>System.err</tt>.
      *
      */
+    @Override
     public void printStackTrace() {
         super.printStackTrace();
     }
@@ -173,6 +176,7 @@ public class JAXBException extends Exception {
      *
      * @param s PrintWriter to use for output
      */
+    @Override
     public void printStackTrace(PrintWriter s) {
         super.printStackTrace(s);
     }

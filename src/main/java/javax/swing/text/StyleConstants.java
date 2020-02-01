@@ -81,6 +81,7 @@ public class StyleConstants {
      *
      * @return the string
      */
+    @Override
     public String toString() {
         return representation;
     }

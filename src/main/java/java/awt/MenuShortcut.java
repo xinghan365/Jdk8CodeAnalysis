@@ -159,6 +159,7 @@ public class MenuShortcut implements java.io.Serializable
      * <code>false</code> otherwise.
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof MenuShortcut) {
             return equals( (MenuShortcut) obj );
@@ -171,6 +172,7 @@ public class MenuShortcut implements java.io.Serializable
      * @return the hashcode for this MenuShortcut.
      * @since 1.2
      */
+    @Override
     public int hashCode() {
         return (usesShift) ? (~key) : key;
     }
@@ -180,6 +182,7 @@ public class MenuShortcut implements java.io.Serializable
      * @return a string representation of this MenuShortcut.
      * @since JDK1.1
      */
+    @Override
     public String toString() {
         int modifiers = 0;
         if (!GraphicsEnvironment.isHeadless()) {

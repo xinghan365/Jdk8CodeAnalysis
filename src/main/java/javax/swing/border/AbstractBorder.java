@@ -58,6 +58,7 @@ public abstract class AbstractBorder implements Border, Serializable
      * @param width the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
     }
 
@@ -71,6 +72,7 @@ public abstract class AbstractBorder implements Border, Serializable
      * @param c  the component for which this border insets value applies
      * @return a new {@link Insets} object
      */
+    @Override
     public Insets getBorderInsets(Component c)       {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
@@ -90,6 +92,7 @@ public abstract class AbstractBorder implements Border, Serializable
      * This default implementation returns false.
      * @return false
      */
+    @Override
     public boolean isBorderOpaque() { return false; }
 
     /**
@@ -119,10 +122,11 @@ public abstract class AbstractBorder implements Border, Serializable
      */
     public static Rectangle getInteriorRectangle(Component c, Border b, int x, int y, int width, int height) {
         Insets insets;
-        if(b != null)
+        if(b != null) {
             insets = b.getBorderInsets(c);
-        else
+        } else {
             insets = new Insets(0, 0, 0, 0);
+        }
         return new Rectangle(x + insets.left,
                                     y + insets.top,
                                     width - insets.right - insets.left,

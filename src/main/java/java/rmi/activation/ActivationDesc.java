@@ -224,8 +224,9 @@ public final class ActivationDesc implements Serializable {
                           MarshalledObject<?> data,
                           boolean restart)
     {
-        if (groupID == null)
+        if (groupID == null) {
             throw new IllegalArgumentException("groupID can't be null");
+        }
         this.groupID = groupID;
         this.className = className;
         this.location = location;
@@ -302,6 +303,7 @@ public final class ActivationDesc implements Serializable {
      * @see             java.util.Hashtable
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
 
         if (obj instanceof ActivationDesc) {
@@ -327,6 +329,7 @@ public final class ActivationDesc implements Serializable {
      * @return an integer
      * @see java.util.Hashtable
      */
+    @Override
     public int hashCode() {
         return ((location == null
                     ? 0

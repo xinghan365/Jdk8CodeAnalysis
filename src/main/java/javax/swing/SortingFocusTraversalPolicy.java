@@ -107,6 +107,7 @@ public class SortingFocusTraversalPolicy
             new GetPropertyAction("swing.legacySortingFTPEnabled", "true")));
         legacyMergeSortMethod = legacySortingFTPEnabled ?
             AccessController.doPrivileged(new PrivilegedAction<Method>() {
+                @Override
                 public Method run() {
                     try {
                         Class c = Class.forName("java.util.Arrays");
@@ -175,8 +176,9 @@ public class SortingFocusTraversalPolicy
     }
 
     private boolean legacySort(List<Component> l, Comparator<? super Component> c) {
-        if (legacyMergeSortMethod == null)
+        if (legacyMergeSortMethod == null) {
             return false;
+        }
 
         Object[] a = l.toArray();
         try {
@@ -290,6 +292,7 @@ public class SortingFocusTraversalPolicy
      *         root of aComponent or a focus traversal policy provider, or if either aContainer or
      *         aComponent is null
      */
+    @Override
     public Component getComponentAfter(Container aContainer, Component aComponent) {
         if (log.isLoggable(PlatformLogger.Level.FINE)) {
             log.fine("### Searching in " + aContainer + " for component after " + aComponent);
@@ -394,6 +397,7 @@ public class SortingFocusTraversalPolicy
      *         root of aComponent or a focus traversal policy provider, or if either aContainer or
      *         aComponent is null
      */
+    @Override
     public Component getComponentBefore(Container aContainer, Component aComponent) {
         if (aContainer == null || aComponent == null) {
             throw new IllegalArgumentException("aContainer and aComponent cannot be null");
@@ -484,6 +488,7 @@ public class SortingFocusTraversalPolicy
      *         or null if no suitable Component can be found
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getFirstComponent(Container aContainer) {
         List<Component> cycle;
 
@@ -533,6 +538,7 @@ public class SortingFocusTraversalPolicy
      *         or null if no suitable Component can be found
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getLastComponent(Container aContainer) {
         List<Component> cycle;
         if (log.isLoggable(PlatformLogger.Level.FINE)) {
@@ -589,6 +595,7 @@ public class SortingFocusTraversalPolicy
      * @see #getFirstComponent
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getDefaultComponent(Container aContainer) {
         return getFirstComponent(aContainer);
     }
@@ -668,6 +675,7 @@ public class SortingFocusTraversalPolicy
 class SwingContainerOrderFocusTraversalPolicy
     extends java.awt.ContainerOrderFocusTraversalPolicy
 {
+    @Override
     public boolean accept(Component aComponent) {
         return super.accept(aComponent);
     }

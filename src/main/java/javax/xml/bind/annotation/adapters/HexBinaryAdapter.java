@@ -37,13 +37,19 @@ import javax.xml.bind.DatatypeConverter;
  * @since JAXB 2.0
  */
 public final class HexBinaryAdapter extends XmlAdapter<String,byte[]> {
+    @Override
     public byte[] unmarshal(String s) {
-        if(s==null)     return null;
+        if(s==null) {
+            return null;
+        }
         return DatatypeConverter.parseHexBinary(s);
     }
 
+    @Override
     public String marshal(byte[] bytes) {
-        if(bytes==null)     return null;
+        if(bytes==null) {
+            return null;
+        }
         return DatatypeConverter.printHexBinary(bytes);
     }
 }

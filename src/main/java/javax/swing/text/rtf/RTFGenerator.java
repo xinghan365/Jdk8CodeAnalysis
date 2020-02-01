@@ -125,8 +125,9 @@ static public void writeDocument(Document d, OutputStream to)
     /* TODO this assumes a particular element structure; is there
        a way to iterate more generically ? */
     int max = root.getElementCount();
-    for(int idx = 0; idx < max; idx++)
+    for(int idx = 0; idx < max; idx++) {
         gen.writeParagraphElement(root.getElement(idx));
+    }
 
     gen.writeRTFTrailer();
 }
@@ -178,8 +179,9 @@ public void examineElement(Element el)
 
         fontName = StyleConstants.getFontFamily(a);
 
-        if (fontName == null)
+        if (fontName == null) {
             fontName = defaultFontFamily;
+        }
 
         if (fontName != null &&
             fontTable.get(fontName) == null) {
@@ -213,8 +215,9 @@ private Style findStyle(AttributeSet a)
     while(a != null) {
         if (a instanceof Style) {
             Object aNum = styleTable.get(a);
-            if (aNum != null)
+            if (aNum != null) {
                 return (Style)a;
+            }
         }
         a = a.getResolveParent();
     }
@@ -228,8 +231,9 @@ private Integer findStyleNumber(AttributeSet a, String domain)
             Integer aNum = styleTable.get(a);
             if (aNum != null) {
                 if (domain == null ||
-                    domain.equals(a.getAttribute(Constants.StyleType)))
+                    domain.equals(a.getAttribute(Constants.StyleType))) {
                     return aNum;
+                }
             }
 
         }
@@ -248,14 +252,16 @@ static private Object attrDiff(MutableAttributeSet oldAttrs,
     oldValue = oldAttrs.getAttribute(key);
     newValue = newAttrs.getAttribute(key);
 
-    if (newValue == oldValue)
+    if (newValue == oldValue) {
         return null;
+    }
     if (newValue == null) {
         oldAttrs.removeAttribute(key);
-        if (dfl != null && !dfl.equals(oldValue))
+        if (dfl != null && !dfl.equals(oldValue)) {
             return dfl;
-        else
+        } else {
             return null;
+        }
     }
     if (oldValue == null ||
         !equalArraysOK(oldValue, newValue)) {
@@ -268,24 +274,30 @@ static private Object attrDiff(MutableAttributeSet oldAttrs,
 static private boolean equalArraysOK(Object a, Object b)
 {
     Object[] aa, bb;
-    if (a == b)
+    if (a == b) {
         return true;
-    if (a == null || b == null)
+    }
+    if (a == null || b == null) {
         return false;
-    if (a.equals(b))
+    }
+    if (a.equals(b)) {
         return true;
-    if (!(a.getClass().isArray() && b.getClass().isArray()))
+    }
+    if (!(a.getClass().isArray() && b.getClass().isArray())) {
         return false;
+    }
     aa = (Object[])a;
     bb = (Object[])b;
-    if (aa.length != bb.length)
+    if (aa.length != bb.length) {
         return false;
+    }
 
     int i;
     int l = aa.length;
     for(i = 0; i < l; i++) {
-        if (!equalArraysOK(aa[i], bb[i]))
+        if (!equalArraysOK(aa[i], bb[i])) {
             return false;
+        }
     }
 
     return true;
@@ -372,8 +384,9 @@ public void writeRTFHeader()
             int styleNumber = styleTable.get(style).intValue();
             writeBegingroup();
             String styleType = (String)style.getAttribute(Constants.StyleType);
-            if (styleType == null)
+            if (styleType == null) {
                 styleType = Constants.STParagraph;
+            }
             if (styleType.equals(Constants.STCharacter)) {
                 writeControlWord("*");
                 writeControlWord("cs", styleNumber);
@@ -413,12 +426,14 @@ public void writeRTFHeader()
             }
 
             Boolean hidden = (Boolean)style.getAttribute(Constants.StyleHidden);
-            if (hidden != null && hidden.booleanValue())
+            if (hidden != null && hidden.booleanValue()) {
                 writeControlWord("shidden");
+            }
 
             Boolean additive = (Boolean)style.getAttribute(Constants.StyleAdditive);
-            if (additive != null && additive.booleanValue())
+            if (additive != null && additive.booleanValue()) {
                 writeControlWord("additive");
+            }
 
 
             writeText(style.getName());
@@ -441,16 +456,19 @@ void writeDocumentProperties(Document doc)
 
     for(i = 0; i < RTFAttributes.attributes.length; i++) {
         RTFAttribute attr = RTFAttributes.attributes[i];
-        if (attr.domain() != RTFAttribute.D_DOCUMENT)
+        if (attr.domain() != RTFAttribute.D_DOCUMENT) {
             continue;
+        }
         Object prop = doc.getProperty(attr.swingName());
         boolean ok = attr.writeValue(prop, this, false);
-        if (ok)
+        if (ok) {
             wroteSomething = true;
+        }
     }
 
-    if (wroteSomething)
+    if (wroteSomething) {
         writeLineBreak();
+    }
 }
 
 public void writeRTFTrailer()
@@ -472,10 +490,11 @@ protected void checkNumericControlWord(MutableAttributeSet currentAttributes,
     if ((parm = attrDiff(currentAttributes, newAttributes,
                          attrName, MagicToken)) != null) {
         float targ;
-        if (parm == MagicToken)
+        if (parm == MagicToken) {
             targ = dflt;
-        else
+        } else {
             targ = ((Number)parm).floatValue();
+        }
         writeControlWord(controlWord, Math.round(targ * scale));
     }
 }
@@ -489,8 +508,9 @@ protected void checkControlWord(MutableAttributeSet currentAttributes,
 
     if ((parm = attrDiff(currentAttributes, newAttributes,
                          word.swingName(), MagicToken)) != null) {
-        if (parm == MagicToken)
+        if (parm == MagicToken) {
             parm = null;
+        }
         word.writeValue(parm, this, true);
     }
 }
@@ -505,8 +525,9 @@ protected void checkControlWords(MutableAttributeSet currentAttributes,
     int wordCount = words.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
         RTFAttribute attr = words[wordIndex];
-        if (attr.domain() == domain)
+        if (attr.domain() == domain) {
             checkControlWord(currentAttributes, newAttributes, attr);
+        }
     }
 }
 
@@ -544,8 +565,9 @@ protected void resetSectionAttributes(MutableAttributeSet currentAttributes)
     int wordCount = RTFAttributes.attributes.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
         RTFAttribute attr = RTFAttributes.attributes[wordIndex];
-        if (attr.domain() == RTFAttribute.D_SECTION)
+        if (attr.domain() == RTFAttribute.D_SECTION) {
             attr.setDefault(currentAttributes);
+        }
     }
 
     currentAttributes.removeAttribute("sectionStyle");
@@ -691,8 +713,9 @@ protected void resetParagraphAttributes(MutableAttributeSet currentAttributes)
     int wordCount = RTFAttributes.attributes.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
         RTFAttribute attr = RTFAttributes.attributes[wordIndex];
-        if (attr.domain() == RTFAttribute.D_PARAGRAPH)
+        if (attr.domain() == RTFAttribute.D_PARAGRAPH) {
             attr.setDefault(currentAttributes);
+        }
     }
 
     currentAttributes.removeAttribute("paragraphStyle");
@@ -743,20 +766,22 @@ void updateCharacterAttributes(MutableAttributeSet current,
     if ((parm = attrDiff(current, newAttributes,
                          StyleConstants.Background, MagicToken)) != null) {
         int colorNum;
-        if (parm == MagicToken)
+        if (parm == MagicToken) {
             colorNum = 0;
-        else
+        } else {
             colorNum = colorTable.get(parm).intValue();
+        }
         writeControlWord("cb", colorNum);
     }
 
     if ((parm = attrDiff(current, newAttributes,
                          StyleConstants.Foreground, null)) != null) {
         int colorNum;
-        if (parm == MagicToken)
+        if (parm == MagicToken) {
             colorNum = 0;
-        else
+        } else {
             colorNum = colorTable.get(parm).intValue();
+        }
         writeControlWord("cf", colorNum);
     }
 }
@@ -770,8 +795,9 @@ protected void resetCharacterAttributes(MutableAttributeSet currentAttributes)
     int wordCount = RTFAttributes.attributes.length;
     for(wordIndex = 0; wordIndex < wordCount; wordIndex++) {
         RTFAttribute attr = RTFAttributes.attributes[wordIndex];
-        if (attr.domain() == RTFAttribute.D_CHARACTER)
+        if (attr.domain() == RTFAttribute.D_CHARACTER) {
             attr.setDefault(currentAttributes);
+        }
     }
 
     StyleConstants.setFontFamily(currentAttributes, defaultFontFamily);
@@ -800,8 +826,9 @@ public void writeTextElement(Element el)
         writeText(this.workingSegment);
     } else {
         int sub_count = el.getElementCount();
-        for(int idx = 0; idx < sub_count; idx ++)
+        for(int idx = 0; idx < sub_count; idx ++) {
             writeTextElement(el.getElement(idx));
+        }
     }
 }
 
@@ -814,8 +841,9 @@ public void writeText(Segment s)
     pos = s.offset;
     end = pos + s.count;
     array = s.array;
-    for( ; pos < end; pos ++)
+    for( ; pos < end; pos ++) {
         writeCharacter(array[pos]);
+    }
 }
 
 public void writeText(String s)
@@ -825,16 +853,18 @@ public void writeText(String s)
 
     pos = 0;
     end = s.length();
-    for( ; pos < end; pos ++)
+    for( ; pos < end; pos ++) {
         writeCharacter(s.charAt(pos));
+    }
 }
 
 public void writeRawString(String str)
     throws IOException
 {
     int strlen = str.length();
-    for (int offset = 0; offset < strlen; offset ++)
+    for (int offset = 0; offset < strlen; offset ++) {
         outputStream.write((int)str.charAt(offset));
+    }
 }
 
 public void writeControlWord(String keyword)
@@ -991,8 +1021,9 @@ static protected int convertCharacter(int[] conversion, char ch)
    int index;
 
    for(index = 0; index < conversion.length; index += 2) {
-       if(conversion[index] == ch)
+       if(conversion[index] == ch) {
            return conversion[index + 1];
+       }
    }
 
    return 0;  /* 0 indicates an unrepresentable character */

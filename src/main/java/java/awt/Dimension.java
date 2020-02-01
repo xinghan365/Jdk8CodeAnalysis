@@ -127,6 +127,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public double getWidth() {
         return width;
     }
@@ -135,6 +136,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public double getHeight() {
         return height;
     }
@@ -150,6 +152,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * @param height the new height for the <code>Dimension</code> object
      * @since 1.2
      */
+    @Override
     public void setSize(double width, double height) {
         this.width = (int) Math.ceil(width);
         this.height = (int) Math.ceil(height);
@@ -204,6 +207,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
     /**
      * Checks whether two dimension objects have equal values.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Dimension) {
             Dimension d = (Dimension)obj;
@@ -217,6 +221,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      *
      * @return    a hash code for this <code>Dimension</code>
      */
+    @Override
     public int hashCode() {
         int sum = width + height;
         return sum * (sum + 1)/2 + width;
@@ -233,6 +238,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * @return  a string representation of this <code>Dimension</code>
      *          object
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[width=" + width + ",height=" + height + "]";
     }

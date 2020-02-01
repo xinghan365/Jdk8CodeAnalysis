@@ -109,10 +109,11 @@ public class MenuSelectionManager {
         }
 
         for(i=0,c=path.length;i<c;i++) {
-            if (i < currentSelectionCount && selection.elementAt(i) == path[i])
+            if (i < currentSelectionCount && selection.elementAt(i) == path[i]) {
                 firstDifference++;
-            else
+            } else {
                 break;
+            }
         }
 
         for(i=currentSelectionCount - 1 ; i >= firstDifference ; i--) {
@@ -139,8 +140,9 @@ public class MenuSelectionManager {
     public MenuElement[] getSelectedPath() {
         MenuElement res[] = new MenuElement[selection.size()];
         int i,c;
-        for(i=0,c=selection.size();i<c;i++)
+        for(i=0,c=selection.size();i<c;i++) {
             res[i] = selection.elementAt(i);
+        }
         return res;
     }
 
@@ -199,8 +201,9 @@ public class MenuSelectionManager {
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
@@ -260,11 +263,13 @@ public class MenuSelectionManager {
 
             path = null;
             for (j = 0, d = subElements.length;j < d && success == false; j++) {
-                if (subElements[j] == null)
+                if (subElements[j] == null) {
                     continue;
+                }
                 mc = subElements[j].getComponent();
-                if(!mc.isShowing())
+                if(!mc.isShowing()) {
                     continue;
+                }
                 if(mc instanceof JComponent) {
                     cWidth  = mc.getWidth();
                     cHeight = mc.getHeight();
@@ -285,8 +290,9 @@ public class MenuSelectionManager {
                     int k;
                     if(path == null) {
                         path = new MenuElement[i+2];
-                        for(k=0;k<=i;k++)
+                        for(k=0;k<=i;k++) {
                             path[k] = (MenuElement)tmp.elementAt(k);
+                        }
                     }
                     path[i+1] = subElements[j];
                     MenuElement currentSelection[] = getSelectedPath();
@@ -352,8 +358,9 @@ public class MenuSelectionManager {
         System.out.println("Path is(");
         int i, j;
         for(i=0,j=path.length; i<j ;i++){
-            for (int k=0; k<=i; k++)
+            for (int k=0; k<=i; k++) {
                 System.out.print("  ");
+            }
             MenuElement me = path[i];
             if(me instanceof JMenuItem) {
                 System.out.println(((JMenuItem)me).getText() + ", ");
@@ -369,8 +376,9 @@ public class MenuSelectionManager {
         }
         System.out.println(")");
 
-        if (dumpStack == true)
+        if (dumpStack == true) {
             Thread.dumpStack();
+        }
     }
 
     /**
@@ -409,11 +417,13 @@ public class MenuSelectionManager {
             subElements = menuElement.getSubElements();
 
             for(j = 0, d = subElements.length ; j < d ; j++) {
-                if (subElements[j] == null)
+                if (subElements[j] == null) {
                     continue;
+                }
                 mc = subElements[j].getComponent();
-                if(!mc.isShowing())
+                if(!mc.isShowing()) {
                     continue;
+                }
                 if(mc instanceof JComponent) {
                     cWidth  = mc.getWidth();
                     cHeight = mc.getHeight();
@@ -492,24 +502,27 @@ public class MenuSelectionManager {
         if(selection.size() > 0) {
             MenuElement me = selection.elementAt(0);
             return isComponentPartOfCurrentMenu(me,c);
-        } else
+        } else {
             return false;
+        }
     }
 
     private boolean isComponentPartOfCurrentMenu(MenuElement root,Component c) {
         MenuElement children[];
         int i,d;
 
-        if (root == null)
+        if (root == null) {
             return false;
+        }
 
-        if(root.getComponent() == c)
+        if(root.getComponent() == c) {
             return true;
-        else {
+        } else {
             children = root.getSubElements();
             for(i=0,d=children.length;i<d;i++) {
-                if(isComponentPartOfCurrentMenu(children[i],c))
+                if(isComponentPartOfCurrentMenu(children[i],c)) {
                     return true;
+                }
             }
         }
         return false;

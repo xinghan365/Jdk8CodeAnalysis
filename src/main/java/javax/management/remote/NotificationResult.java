@@ -125,6 +125,7 @@ public class NotificationResult implements Serializable {
      *
      * @return a string representation of the object.
      */
+    @Override
     public String toString() {
         return "NotificationResult: earliest=" + getEarliestSequenceNumber() +
             "; next=" + getNextSequenceNumber() + "; nnotifs=" +
@@ -161,8 +162,9 @@ public class NotificationResult implements Serializable {
             throw new IllegalArgumentException(msg);
         }
 
-        if (earliestSequenceNumber < 0 || nextSequenceNumber < 0)
+        if (earliestSequenceNumber < 0 || nextSequenceNumber < 0) {
             throw new IllegalArgumentException("Bad sequence numbers");
+        }
         /* We used to check nextSequenceNumber >= earliestSequenceNumber
            here.  But in fact the opposite can legitimately be true if
            notifications have been lost.  */

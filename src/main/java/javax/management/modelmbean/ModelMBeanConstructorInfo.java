@@ -354,6 +354,7 @@ public class ModelMBeanConstructorInfo
         *
         * @see #getDescriptor
         */
+        @Override
         public void setDescriptor(Descriptor inDescriptor)
         {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {

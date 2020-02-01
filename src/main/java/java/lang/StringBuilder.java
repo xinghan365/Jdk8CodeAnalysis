@@ -156,6 +156,7 @@ public final class StringBuilder
      * @param   sb   the {@code StringBuffer} to append.
      * @return  a reference to this object.
      */
+    @Override
     public StringBuilder append(StringBuffer sb) {
         super.append(sb);
         return this;

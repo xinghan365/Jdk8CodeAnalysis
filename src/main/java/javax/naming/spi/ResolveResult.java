@@ -133,9 +133,9 @@ public class ResolveResult implements java.io.Serializable {
       * @see #appendRemainingComponent
       */
     public void setRemainingName(Name name) {
-        if (name != null)
+        if (name != null) {
             this.remainingName = (Name)(name.clone());
-        else {
+        } else {
             // ??? should throw illegal argument exception
             this.remainingName = null;
         }

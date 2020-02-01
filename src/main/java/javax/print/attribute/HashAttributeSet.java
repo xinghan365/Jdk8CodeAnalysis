@@ -273,6 +273,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *     {@link java.lang.Class Class} that implements interface {@link
      *     Attribute Attribute}.
      */
+    @Override
     public Attribute get(Class<?> category) {
         return (Attribute)
             attrMap.get(AttributeSetUtilities.
@@ -297,6 +298,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *    (unchecked exception) Thrown if this attribute set does not support
      *     the <CODE>add()</CODE> operation.
      */
+    @Override
     public boolean add(Attribute attribute) {
         Object oldAttribute =
             attrMap.put(attribute.getCategory(),
@@ -321,6 +323,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *     (unchecked exception) Thrown if this attribute set does not
      *     support the <CODE>remove()</CODE> operation.
      */
+    @Override
     public boolean remove(Class<?> category) {
         return
             category != null &&
@@ -344,6 +347,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *     (unchecked exception) Thrown if this attribute set does not
      *     support the <CODE>remove()</CODE> operation.
      */
+    @Override
     public boolean remove(Attribute attribute) {
         return
             attribute != null &&
@@ -360,6 +364,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      * @return  <tt>true</tt> if this attribute set contains an attribute
      *         value for the specified category.
      */
+    @Override
     public boolean containsKey(Class<?> category) {
         return
             category != null &&
@@ -378,6 +383,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      * @return  <tt>true</tt> if this attribute set contains the given
      *      attribute    value.
      */
+    @Override
     public boolean containsValue(Attribute attribute) {
         return
            attribute != null &&
@@ -415,6 +421,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *
      * @see #add(Attribute)
      */
+    @Override
     public boolean addAll(AttributeSet attributes) {
 
         Attribute []attrs = attributes.toArray();
@@ -436,6 +443,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *
      * @return  The number of attributes in this attribute set.
      */
+    @Override
     public int size() {
         return attrMap.size();
     }
@@ -445,6 +453,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      * @return the Attributes contained in this set as an array, zero length
      * if the AttributeSet is empty.
      */
+    @Override
     public Attribute[] toArray() {
         Attribute []attrs = new Attribute[size()];
         attrMap.values().toArray(attrs);
@@ -459,6 +468,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *   (unchecked exception) Thrown if this attribute set does not support
      *     the <CODE>clear()</CODE> operation.
      */
+    @Override
     public void clear() {
         attrMap.clear();
     }
@@ -468,6 +478,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *
      * @return true if this attribute set contains no attributes.
      */
+    @Override
     public boolean isEmpty() {
         return attrMap.isEmpty();
     }
@@ -486,6 +497,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *       attribute   set.
      */
 
+    @Override
     public boolean equals(Object object) {
         if (object == null || !(object instanceof AttributeSet)) {
             return false;
@@ -516,6 +528,7 @@ public class HashAttributeSet implements AttributeSet, Serializable {
      *
      * @return  The hash code value for this attribute set.
      */
+    @Override
     public int hashCode() {
         int hcode = 0;
         Attribute[] attrs = toArray();

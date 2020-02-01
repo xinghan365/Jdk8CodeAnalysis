@@ -148,18 +148,21 @@ class ImagePainter extends SynthPainter {
 
 
     // SynthPainter
+    @Override
     public void paintArrowButtonBackground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintArrowButtonBorder(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintArrowButtonForeground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h,
@@ -168,12 +171,14 @@ class ImagePainter extends SynthPainter {
     }
 
     // BUTTON
+    @Override
     public void paintButtonBackground(SynthContext context,
                                       Graphics g, int x, int y,
                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintButtonBorder(SynthContext context,
                                   Graphics g, int x, int y,
                                   int w, int h) {
@@ -181,12 +186,14 @@ class ImagePainter extends SynthPainter {
     }
 
     // CHECK_BOX_MENU_ITEM
+    @Override
     public void paintCheckBoxMenuItemBackground(SynthContext context,
                                                 Graphics g, int x, int y,
                                                 int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintCheckBoxMenuItemBorder(SynthContext context,
                                             Graphics g, int x, int y,
                                             int w, int h) {
@@ -194,12 +201,14 @@ class ImagePainter extends SynthPainter {
     }
 
     // CHECK_BOX
+    @Override
     public void paintCheckBoxBackground(SynthContext context,
                                         Graphics g, int x, int y,
                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintCheckBoxBorder(SynthContext context,
                                     Graphics g, int x, int y,
                                     int w, int h) {
@@ -207,12 +216,14 @@ class ImagePainter extends SynthPainter {
     }
 
     // COLOR_CHOOSER
+    @Override
     public void paintColorChooserBackground(SynthContext context,
                                             Graphics g, int x, int y,
                                             int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintColorChooserBorder(SynthContext context,
                                         Graphics g, int x, int y,
                                         int w, int h) {
@@ -220,38 +231,44 @@ class ImagePainter extends SynthPainter {
     }
 
     // COMBO_BOX
+    @Override
     public void paintComboBoxBackground(SynthContext context,
                                         Graphics g, int x, int y,
                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintComboBoxBorder(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // DESKTOP_ICON
+    @Override
     public void paintDesktopIconBackground(SynthContext context,
-                                        Graphics g, int x, int y,
-                                        int w, int h) {
-        paint(context, g, x, y, w, h);
-    }
-
-    public void paintDesktopIconBorder(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
+    public void paintDesktopIconBorder(SynthContext context,
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
+        paint(context, g, x, y, w, h);
+    }
+
     // DESKTOP_PANE
+    @Override
     public void paintDesktopPaneBackground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintDesktopPaneBorder(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h) {
@@ -259,12 +276,14 @@ class ImagePainter extends SynthPainter {
     }
 
     // EDITOR_PANE
+    @Override
     public void paintEditorPaneBackground(SynthContext context,
                                           Graphics g, int x, int y,
                                           int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintEditorPaneBorder(SynthContext context,
                                       Graphics g, int x, int y,
                                       int w, int h) {
@@ -272,64 +291,74 @@ class ImagePainter extends SynthPainter {
     }
 
     // FILE_CHOOSER
+    @Override
     public void paintFileChooserBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintFileChooserBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // FORMATTED_TEXT_FIELD
+    @Override
     public void paintFormattedTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                                  Graphics g, int x, int y,
+                                                  int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintFormattedTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                              Graphics g, int x, int y,
+                                              int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // INTERNAL_FRAME_TITLE_PANE
+    @Override
     public void paintInternalFrameTitlePaneBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                                      Graphics g, int x, int y,
+                                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintInternalFrameTitlePaneBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                                  Graphics g, int x, int y,
+                                                  int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // INTERNAL_FRAME
+    @Override
     public void paintInternalFrameBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintInternalFrameBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // LABEL
+    @Override
     public void paintLabelBackground(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintLabelBorder(SynthContext context,
                                  Graphics g, int x, int y,
                                  int w, int h) {
@@ -337,77 +366,89 @@ class ImagePainter extends SynthPainter {
     }
 
     // LIST
+    @Override
     public void paintListBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintListBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                Graphics g, int x, int y,
+                                int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // MENU_BAR
+    @Override
     public void paintMenuBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintMenuBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // MENU_ITEM
+    @Override
     public void paintMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // MENU
+    @Override
     public void paintMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                Graphics g, int x, int y,
+                                int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // OPTION_PANE
+    @Override
     public void paintOptionPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintOptionPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // PANEL
+    @Override
     public void paintPanelBackground(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintPanelBorder(SynthContext context,
                                  Graphics g, int x, int y,
                                  int w, int h) {
@@ -415,120 +456,139 @@ class ImagePainter extends SynthPainter {
     }
 
     // PANEL
+    @Override
     public void paintPasswordFieldBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintPasswordFieldBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // POPUP_MENU
+    @Override
     public void paintPopupMenuBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintPopupMenuBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // PROGRESS_BAR
+    @Override
     public void paintProgressBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintProgressBarBackground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintProgressBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintProgressBarBorder(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintProgressBarForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                           Graphics g, int x, int y,
+                                           int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
     // RADIO_BUTTON_MENU_ITEM
+    @Override
     public void paintRadioButtonMenuItemBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                   Graphics g, int x, int y,
+                                                   int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintRadioButtonMenuItemBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                               Graphics g, int x, int y,
+                                               int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // RADIO_BUTTON
+    @Override
     public void paintRadioButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintRadioButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // ROOT_PANE
+    @Override
     public void paintRootPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintRootPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // SCROLL_BAR
+    @Override
     public void paintScrollBarBackground(SynthContext context,
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
+        paint(context, g, x, y, w, h);
+    }
+
+    @Override
+    public void paintScrollBarBackground(SynthContext context,
+                                         Graphics g, int x, int y,
+                                         int w, int h, int orientation) {
+        paint(context, g, x, y, w, h);
+    }
+
+    @Override
+    public void paintScrollBarBorder(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
-    public void paintScrollBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
-        paint(context, g, x, y, w, h);
-    }
-
-    public void paintScrollBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
-        paint(context, g, x, y, w, h);
-    }
-
+    @Override
     public void paintScrollBarBorder(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h, int orientation) {
@@ -536,37 +596,43 @@ class ImagePainter extends SynthPainter {
     }
 
     // SCROLL_BAR_THUMB
+    @Override
     public void paintScrollBarThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                              Graphics g, int x, int y,
+                                              int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintScrollBarThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                          Graphics g, int x, int y,
+                                          int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
     // SCROLL_BAR_TRACK
+    @Override
     public void paintScrollBarTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                              Graphics g, int x, int y,
+                                              int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintScrollBarTrackBackground(SynthContext context,
                                               Graphics g, int x, int y,
                                               int w, int h, int orientation) {
          paint(context, g, x, y, w, h);
      }
 
+    @Override
     public void paintScrollBarTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintScrollBarTrackBorder(SynthContext context,
                                           Graphics g, int x, int y,
                                           int w, int h, int orientation) {
@@ -574,68 +640,79 @@ class ImagePainter extends SynthPainter {
     }
 
     // SCROLL_PANE
+    @Override
     public void paintScrollPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintScrollPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // SEPARATOR
+    @Override
     public void paintSeparatorBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSeparatorBackground(SynthContext context,
                                          Graphics g, int x, int y,
                                          int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSeparatorBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSeparatorBorder(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSeparatorForeground(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                         Graphics g, int x, int y,
+                                         int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
     // SLIDER
+    @Override
     public void paintSliderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSliderBackground(SynthContext context,
                                       Graphics g, int x, int y,
                                       int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSliderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                  Graphics g, int x, int y,
+                                  int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSliderBorder(SynthContext context,
                                   Graphics g, int x, int y,
                                   int w, int h, int orientation) {
@@ -643,38 +720,44 @@ class ImagePainter extends SynthPainter {
      }
 
     // SLIDER_THUMB
+    @Override
     public void paintSliderThumbBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                           Graphics g, int x, int y,
+                                           int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSliderThumbBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h, int orientation) {
+                                       Graphics g, int x, int y,
+                                       int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
     // SLIDER_TRACK
+    @Override
     public void paintSliderTrackBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSliderTrackBackground(SynthContext context,
                                            Graphics g, int x, int y,
                                            int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSliderTrackBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
 
+    @Override
     public void paintSliderTrackBorder(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h, int orientation) {
@@ -682,88 +765,102 @@ class ImagePainter extends SynthPainter {
     }
 
     // SPINNER
+    @Override
     public void paintSpinnerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSpinnerBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // SPLIT_PANE_DIVIDER
+    @Override
     public void paintSplitPaneDividerBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                Graphics g, int x, int y,
+                                                int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSplitPaneDividerBackground(SynthContext context,
                                                 Graphics g, int x, int y,
                                                 int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSplitPaneDividerForeground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                                Graphics g, int x, int y,
+                                                int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSplitPaneDragDivider(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h, int orientation) {
+                                          Graphics g, int x, int y,
+                                          int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
     // SPLIT_PANE
+    @Override
     public void paintSplitPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintSplitPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TABBED_PANE
+    @Override
     public void paintTabbedPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                      Graphics g, int x, int y,
+                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TABBED_PANE_TAB_AREA
+    @Override
     public void paintTabbedPaneTabAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                 Graphics g, int x, int y,
+                                                 int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneTabAreaBackground(SynthContext context,
                                                  Graphics g, int x, int y,
                                                  int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneTabAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneTabAreaBorder(SynthContext context,
                                              Graphics g, int x, int y,
                                              int w, int h, int orientation) {
@@ -771,24 +868,28 @@ class ImagePainter extends SynthPainter {
     }
 
     // TABBED_PANE_TAB
+    @Override
     public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h,
-                                         int tabIndex) {
+                                             int x, int y, int w, int h,
+                                             int tabIndex) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneTabBackground(SynthContext context, Graphics g,
                                              int x, int y, int w, int h,
                                              int tabIndex, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
                                          int x, int y, int w, int h,
                                          int tabIndex) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneTabBorder(SynthContext context, Graphics g,
                                          int x, int y, int w, int h,
                                          int tabIndex, int orientation) {
@@ -796,37 +897,43 @@ class ImagePainter extends SynthPainter {
     }
 
     // TABBED_PANE_CONTENT
+    @Override
     public void paintTabbedPaneContentBackground(SynthContext context,
-                                         Graphics g, int x, int y, int w,
-                                         int h) {
+                                                 Graphics g, int x, int y, int w,
+                                                 int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTabbedPaneContentBorder(SynthContext context, Graphics g,
-                                         int x, int y, int w, int h) {
+                                             int x, int y, int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TABLE_HEADER
+    @Override
     public void paintTableHeaderBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                           Graphics g, int x, int y,
+                                           int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTableHeaderBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TABLE
+    @Override
     public void paintTableBackground(SynthContext context,
                                      Graphics g, int x, int y,
                                      int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTableBorder(SynthContext context,
                                  Graphics g, int x, int y,
                                  int w, int h) {
@@ -834,76 +941,88 @@ class ImagePainter extends SynthPainter {
     }
 
     // TEXT_AREA
+    @Override
     public void paintTextAreaBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTextAreaBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TEXT_PANE
+    @Override
     public void paintTextPaneBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTextPaneBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TEXT_FIELD
+    @Override
     public void paintTextFieldBackground(SynthContext context,
-                                          Graphics g, int x, int y,
-                                          int w, int h) {
+                                         Graphics g, int x, int y,
+                                         int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTextFieldBorder(SynthContext context,
-                                      Graphics g, int x, int y,
-                                      int w, int h) {
+                                     Graphics g, int x, int y,
+                                     int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TOGGLE_BUTTON
+    @Override
     public void paintToggleButtonBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                            Graphics g, int x, int y,
+                                            int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToggleButtonBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TOOL_BAR
+    @Override
     public void paintToolBarBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarBackground(SynthContext context,
                                        Graphics g, int x, int y,
                                        int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarBorder(SynthContext context,
                                    Graphics g, int x, int y,
                                    int w, int h, int orientation) {
@@ -911,24 +1030,28 @@ class ImagePainter extends SynthPainter {
     }
 
     // TOOL_BAR_CONTENT
+    @Override
     public void paintToolBarContentBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                              Graphics g, int x, int y,
+                                              int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarContentBackground(SynthContext context,
                                               Graphics g, int x, int y,
                                               int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarContentBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                          Graphics g, int x, int y,
+                                          int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarContentBorder(SynthContext context,
                                           Graphics g, int x, int y,
                                           int w, int h, int orientation) {
@@ -936,24 +1059,28 @@ class ImagePainter extends SynthPainter {
     }
 
     // TOOL_DRAG_WINDOW
+    @Override
     public void paintToolBarDragWindowBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                                 Graphics g, int x, int y,
+                                                 int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarDragWindowBackground(SynthContext context,
                                                  Graphics g, int x, int y,
                                                  int w, int h, int orientation) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarDragWindowBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                             Graphics g, int x, int y,
+                                             int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolBarDragWindowBorder(SynthContext context,
                                              Graphics g, int x, int y,
                                              int w, int h, int orientation) {
@@ -961,44 +1088,51 @@ class ImagePainter extends SynthPainter {
     }
 
     // TOOL_TIP
+    @Override
     public void paintToolTipBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                       Graphics g, int x, int y,
+                                       int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintToolTipBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                   Graphics g, int x, int y,
+                                   int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TREE
+    @Override
     public void paintTreeBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTreeBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                Graphics g, int x, int y,
+                                int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
     // TREE_CELL
+    @Override
     public void paintTreeCellBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTreeCellBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintTreeCellFocus(SynthContext context,
                                    Graphics g, int x, int y,
                                    int w, int h) {
@@ -1006,15 +1140,17 @@ class ImagePainter extends SynthPainter {
     }
 
     // VIEWPORT
+    @Override
     public void paintViewportBackground(SynthContext context,
-                                     Graphics g, int x, int y,
-                                     int w, int h) {
+                                        Graphics g, int x, int y,
+                                        int w, int h) {
         paint(context, g, x, y, w, h);
     }
 
+    @Override
     public void paintViewportBorder(SynthContext context,
-                                 Graphics g, int x, int y,
-                                 int w, int h) {
+                                    Graphics g, int x, int y,
+                                    int w, int h) {
         paint(context, g, x, y, w, h);
     }
 }

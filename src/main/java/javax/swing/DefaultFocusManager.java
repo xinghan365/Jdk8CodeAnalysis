@@ -163,6 +163,7 @@ final class CompareTabOrderComparator implements Comparator<Component> {
         this.defaultFocusManager = defaultFocusManager;
     }
 
+    @Override
     public int compare(Component o1, Component o2) {
         if (o1 == o2) {
             return 0;

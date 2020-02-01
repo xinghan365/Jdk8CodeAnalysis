@@ -158,11 +158,13 @@ public final class ServicePermission extends Permission
      */
     private void init(String servicePrincipal, int mask) {
 
-        if (servicePrincipal == null)
-                throw new NullPointerException("service principal can't be null");
+        if (servicePrincipal == null) {
+            throw new NullPointerException("service principal can't be null");
+        }
 
-        if ((mask & ALL) != mask)
+        if ((mask & ALL) != mask) {
             throw new IllegalArgumentException("invalid actions mask");
+        }
 
         this.mask = mask;
     }
@@ -178,9 +180,11 @@ public final class ServicePermission extends Permission
      * @return true if the specified permission is implied by this object,
      * false if not.
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof ServicePermission))
+        if (!(p instanceof ServicePermission)) {
             return false;
+        }
 
         ServicePermission that = (ServicePermission) p;
 
@@ -205,12 +209,15 @@ public final class ServicePermission extends Permission
      *  same service principal, and actions as this
      * ServicePermission object.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (! (obj instanceof ServicePermission))
+        if (! (obj instanceof ServicePermission)) {
             return false;
+        }
 
         ServicePermission that = (ServicePermission) obj;
         return ((this.mask & that.mask) == that.mask) &&
@@ -225,6 +232,7 @@ public final class ServicePermission extends Permission
      * @return a hash code value for this object.
      */
 
+    @Override
     public int hashCode() {
         return (getName().hashCode() ^ mask);
     }
@@ -245,14 +253,20 @@ public final class ServicePermission extends Permission
         boolean comma = false;
 
         if ((mask & INITIATE) == INITIATE) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("initiate");
         }
 
         if ((mask & ACCEPT) == ACCEPT) {
-            if (comma) sb.append(',');
-            else comma = true;
+            if (comma) {
+                sb.append(',');
+            } else {
+                comma = true;
+            }
             sb.append("accept");
         }
 
@@ -264,9 +278,11 @@ public final class ServicePermission extends Permission
      * Always returns present actions in the following order:
      * initiate, accept.
      */
+    @Override
     public String getActions() {
-        if (actions == null)
+        if (actions == null) {
             actions = getActions(this.mask);
+        }
 
         return actions;
     }
@@ -284,6 +300,7 @@ public final class ServicePermission extends Permission
      * @return a new PermissionCollection object suitable for storing
      * ServicePermissions.
      */
+    @Override
     public PermissionCollection newPermissionCollection() {
         return new KrbServicePermissionCollection();
     }
@@ -334,8 +351,9 @@ public final class ServicePermission extends Permission
                                c == '\r' ||
                                c == '\n' ||
                                c == '\f' ||
-                               c == '\t'))
+                               c == '\t')) {
                 i--;
+            }
 
             // check for the known strings
             int matchlen;
@@ -404,8 +422,9 @@ public final class ServicePermission extends Permission
     {
         // Write out the actions. The superclass takes care of the name
         // call getActions to make sure actions field is initialized
-        if (actions == null)
+        if (actions == null) {
             getActions();
+        }
         s.defaultWriteObject();
     }
 
@@ -479,9 +498,11 @@ final class KrbServicePermissionCollection extends PermissionCollection
      * @return true if "permission" is a proper subset of a permission in
      * the collection, false if not.
      */
+    @Override
     public boolean implies(Permission permission) {
-        if (! (permission instanceof ServicePermission))
-                return false;
+        if (! (permission instanceof ServicePermission)) {
+            return false;
+        }
 
         ServicePermission np = (ServicePermission) permission;
         int desired = np.getMask();
@@ -512,8 +533,9 @@ final class KrbServicePermissionCollection extends PermissionCollection
                 //System.out.println("  trying "+x);
                 if (((needed & x.getMask()) != 0) && x.impliesIgnoreMask(np)) {
                     effective |=  x.getMask();
-                    if ((effective & desired) == desired)
+                    if ((effective & desired) == desired) {
                         return true;
+                    }
                     needed = (desired ^ effective);
                 }
             }
@@ -533,12 +555,15 @@ final class KrbServicePermissionCollection extends PermissionCollection
      * @exception SecurityException - if this PermissionCollection object
      *                                has been marked readonly
      */
+    @Override
     public void add(Permission permission) {
-        if (! (permission instanceof ServicePermission))
+        if (! (permission instanceof ServicePermission)) {
             throw new IllegalArgumentException("invalid permission: "+
                                                permission);
-        if (isReadOnly())
+        }
+        if (isReadOnly()) {
             throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+        }
 
         synchronized (this) {
             perms.add(0, permission);
@@ -552,6 +577,7 @@ final class KrbServicePermissionCollection extends PermissionCollection
      * @return an enumeration of all the ServicePermission objects.
      */
 
+    @Override
     public Enumeration<Permission> elements() {
         // Convert Iterator into Enumeration
         synchronized (this) {

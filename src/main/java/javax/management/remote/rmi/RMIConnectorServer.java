@@ -204,8 +204,10 @@ public class RMIConnectorServer extends JMXConnectorServer {
             throws IOException {
         super(mbeanServer);
 
-        if (url == null) throw new
-            IllegalArgumentException("Null JMXServiceURL");
+        if (url == null) {
+            throw new
+                IllegalArgumentException("Null JMXServiceURL");
+        }
         if (rmiServerImpl == null) {
             final String prt = url.getProtocol();
             if (prt == null || !(prt.equals("rmi") || prt.equals("iiop"))) {
@@ -222,9 +224,9 @@ public class RMIConnectorServer extends JMXConnectorServer {
             }
         }
 
-        if (environment == null)
+        if (environment == null) {
             this.attributes = Collections.emptyMap();
-        else {
+        } else {
             EnvHelp.checkAttributes(environment);
             this.attributes = Collections.unmodifiableMap(environment);
         }
@@ -256,11 +258,14 @@ public class RMIConnectorServer extends JMXConnectorServer {
      * @exception IOException if a communications problem means that a
      * stub cannot be created.
      **/
+    @Override
     public JMXConnector toJMXConnector(Map<String,?> env) throws IOException {
         // The serialized for of rmiServerImpl is automatically
         // a RMI server stub.
-        if (!isActive()) throw new
-            IllegalStateException("Connector is not active");
+        if (!isActive()) {
+            throw new
+                IllegalStateException("Connector is not active");
+        }
 
         // Merge maps
         Map<String, Object> usemap = new HashMap<String, Object>(
@@ -340,20 +345,26 @@ public class RMIConnectorServer extends JMXConnectorServer {
      * started, or in the case of the {@code iiop} protocol, that
      * RMI/IIOP is not supported.
      */
+    @Override
     public synchronized void start() throws IOException {
         final boolean tracing = logger.traceOn();
 
         if (state == STARTED) {
-            if (tracing) logger.trace("start", "already started");
+            if (tracing) {
+                logger.trace("start", "already started");
+            }
             return;
         } else if (state == STOPPED) {
-            if (tracing) logger.trace("start", "already stopped");
+            if (tracing) {
+                logger.trace("start", "already stopped");
+            }
             throw new IOException("The server has been stopped.");
         }
 
-        if (getMBeanServer() == null)
+        if (getMBeanServer() == null) {
             throw new IllegalStateException("This connector server is not " +
                                             "attached to an MBean server");
+        }
 
         // Check the internal access file property to see
         // if an MBeanServerForwarder is to be provided
@@ -381,7 +392,9 @@ public class RMIConnectorServer extends JMXConnectorServer {
         }
 
         try {
-            if (tracing) logger.trace("start", "setting default class loader");
+            if (tracing) {
+                logger.trace("start", "setting default class loader");
+            }
             defaultClassLoader = EnvHelp.resolveServerClassLoader(
                     attributes, getMBeanServer());
         } catch (InstanceNotFoundException infc) {
@@ -390,13 +403,16 @@ public class RMIConnectorServer extends JMXConnectorServer {
             throw EnvHelp.initCause(x,infc);
         }
 
-        if (tracing) logger.trace("start", "setting RMIServer object");
+        if (tracing) {
+            logger.trace("start", "setting RMIServer object");
+        }
         final RMIServerImpl rmiServer;
 
-        if (rmiServerImpl != null)
+        if (rmiServerImpl != null) {
             rmiServer = rmiServerImpl;
-        else
+        } else {
             rmiServer = newServer();
+        }
 
         rmiServer.setMBeanServer(getMBeanServer());
         rmiServer.setDefaultClassLoader(defaultClassLoader);
@@ -404,23 +420,29 @@ public class RMIConnectorServer extends JMXConnectorServer {
         rmiServer.export();
 
         try {
-            if (tracing) logger.trace("start", "getting RMIServer object to export");
+            if (tracing) {
+                logger.trace("start", "getting RMIServer object to export");
+            }
             final RMIServer objref = objectToBind(rmiServer, attributes);
 
             if (address != null && address.getURLPath().startsWith("/jndi/")) {
                 final String jndiUrl = address.getURLPath().substring(6);
 
-                if (tracing)
+                if (tracing) {
                     logger.trace("start", "Using external directory: " + jndiUrl);
+                }
 
                 String stringBoolean = (String) attributes.get(JNDI_REBIND_ATTRIBUTE);
                 final boolean rebind = EnvHelp.computeBooleanFromString( stringBoolean );
 
-                if (tracing)
+                if (tracing) {
                     logger.trace("start", JNDI_REBIND_ATTRIBUTE + "=" + rebind);
+                }
 
                 try {
-                    if (tracing) logger.trace("start", "binding to " + jndiUrl);
+                    if (tracing) {
+                        logger.trace("start", "binding to " + jndiUrl);
+                    }
 
                     final Hashtable<?, ?> usemap = EnvHelp.mapToHashtable(attributes);
 
@@ -434,11 +456,15 @@ public class RMIConnectorServer extends JMXConnectorServer {
                 }
             } else {
                 // if jndiURL is null, we must encode the stub into the URL.
-                if (tracing) logger.trace("start", "Encoding URL");
+                if (tracing) {
+                    logger.trace("start", "Encoding URL");
+                }
 
                 encodeStubInAddress(objref, attributes);
 
-                if (tracing) logger.trace("start", "Encoded URL: " + this.address);
+                if (tracing) {
+                    logger.trace("start", "Encoded URL: " + this.address);
+                }
             }
         } catch (Exception e) {
             try {
@@ -446,14 +472,15 @@ public class RMIConnectorServer extends JMXConnectorServer {
             } catch (Exception x) {
                 // OK: we are already throwing another exception
             }
-            if (e instanceof RuntimeException)
+            if (e instanceof RuntimeException) {
                 throw (RuntimeException) e;
-            else if (e instanceof IOException)
+            } else if (e instanceof IOException) {
                 throw (IOException) e;
-            else
+            } else {
                 throw newIOException("Got unexpected exception while " +
                                      "starting the connector server: "
                                      + e, e);
+            }
         }
 
         rmiServerImpl = rmiServer;
@@ -515,18 +542,25 @@ public class RMIConnectorServer extends JMXConnectorServer {
      * those that generated exceptions when the server attempted to
      * close them.
      */
+    @Override
     public void stop() throws IOException {
         final boolean tracing = logger.traceOn();
 
         synchronized (this) {
             if (state == STOPPED) {
-                if (tracing) logger.trace("stop","already stopped.");
+                if (tracing) {
+                    logger.trace("stop","already stopped.");
+                }
                 return;
             } else if (state == CREATED) {
-                if (tracing) logger.trace("stop","not started yet.");
+                if (tracing) {
+                    logger.trace("stop","not started yet.");
+                }
             }
 
-            if (tracing) logger.trace("stop", "stopping.");
+            if (tracing) {
+                logger.trace("stop", "stopping.");
+            }
             state = STOPPED;
         }
 
@@ -539,20 +573,27 @@ public class RMIConnectorServer extends JMXConnectorServer {
         // rmiServerImpl can be null if stop() called without start()
         if (rmiServerImpl != null) {
             try {
-                if (tracing) logger.trace("stop", "closing RMI server.");
+                if (tracing) {
+                    logger.trace("stop", "closing RMI server.");
+                }
                 rmiServerImpl.close();
             } catch (IOException e) {
-                if (tracing) logger.trace("stop", "failed to close RMI server: " + e);
-                if (logger.debugOn()) logger.debug("stop",e);
+                if (tracing) {
+                    logger.trace("stop", "failed to close RMI server: " + e);
+                }
+                if (logger.debugOn()) {
+                    logger.debug("stop",e);
+                }
                 exception = e;
             }
         }
 
         if (boundJndiUrl != null) {
             try {
-                if (tracing)
+                if (tracing) {
                     logger.trace("stop",
                           "unbind from external directory: " + boundJndiUrl);
+                }
 
                 final Hashtable<?, ?> usemap = EnvHelp.mapToHashtable(attributes);
 
@@ -563,29 +604,42 @@ public class RMIConnectorServer extends JMXConnectorServer {
 
                 ctx.close();
             } catch (NamingException e) {
-                if (tracing) logger.trace("stop", "failed to unbind RMI server: "+e);
-                if (logger.debugOn()) logger.debug("stop",e);
+                if (tracing) {
+                    logger.trace("stop", "failed to unbind RMI server: "+e);
+                }
+                if (logger.debugOn()) {
+                    logger.debug("stop",e);
+                }
                 // fit e in as the nested exception if we are on 1.4
-                if (exception == null)
+                if (exception == null) {
                     exception = newIOException("Cannot bind to URL: " + e, e);
+                }
             }
         }
 
-        if (exception != null) throw exception;
+        if (exception != null) {
+            throw exception;
+        }
 
-        if (tracing) logger.trace("stop", "stopped");
+        if (tracing) {
+            logger.trace("stop", "stopped");
+        }
     }
 
+    @Override
     public synchronized boolean isActive() {
         return (state == STARTED);
     }
 
+    @Override
     public JMXServiceURL getAddress() {
-        if (!isActive())
+        if (!isActive()) {
             return null;
+        }
         return address;
     }
 
+    @Override
     public Map<String,?> getAttributes() {
         Map<String, ?> map = EnvHelp.filterAttributes(attributes);
         return Collections.unmodifiableMap(map);
@@ -595,8 +649,9 @@ public class RMIConnectorServer extends JMXConnectorServer {
     public synchronized
         void setMBeanServerForwarder(MBeanServerForwarder mbsf) {
         super.setMBeanServerForwarder(mbsf);
-        if (rmiServerImpl != null)
+        if (rmiServerImpl != null) {
             rmiServerImpl.setMBeanServer(getMBeanServer());
+        }
     }
 
     /* We repeat the definitions of connection{Opened,Closed,Failed}
@@ -638,10 +693,11 @@ public class RMIConnectorServer extends JMXConnectorServer {
         InitialContext ctx =
             new InitialContext(attributes);
 
-        if (rebind)
+        if (rebind) {
             ctx.rebind(jndiUrl, rmiServer);
-        else
+        } else {
             ctx.bind(jndiUrl, rmiServer);
+        }
         ctx.close();
     }
 
@@ -651,14 +707,16 @@ public class RMIConnectorServer extends JMXConnectorServer {
     RMIServerImpl newServer() throws IOException {
         final boolean iiop = isIiopURL(address,true);
         final int port;
-        if (address == null)
+        if (address == null) {
             port = 0;
-        else
+        } else {
             port = address.getPort();
-        if (iiop)
+        }
+        if (iiop) {
             return newIIOPServer(attributes);
-        else
+        } else {
             return newJRMPServer(attributes, port);
+        }
     }
 
     /**
@@ -675,10 +733,11 @@ public class RMIConnectorServer extends JMXConnectorServer {
         final int port;
 
         if (address == null) {
-            if (IIOPHelper.isStub(rmiServer))
+            if (IIOPHelper.isStub(rmiServer)) {
                 protocol = "iiop";
-            else
+            } else {
                 protocol = "rmi";
+            }
             host = null; // will default to local host name
             port = 0;
         } else {
@@ -695,11 +754,11 @@ public class RMIConnectorServer extends JMXConnectorServer {
     static boolean isIiopURL(JMXServiceURL directoryURL, boolean strict)
         throws MalformedURLException {
         String protocol = directoryURL.getProtocol();
-        if (protocol.equals("rmi"))
+        if (protocol.equals("rmi")) {
             return false;
-        else if (protocol.equals("iiop"))
+        } else if (protocol.equals("iiop")) {
             return true;
-        else if (strict) {
+        } else if (strict) {
 
             throw new MalformedURLException("URL must have protocol " +
                                             "\"rmi\" or \"iiop\": \"" +
@@ -713,10 +772,11 @@ public class RMIConnectorServer extends JMXConnectorServer {
      **/
     static String encodeStub(
             RMIServer rmiServer, Map<String, ?> env) throws IOException {
-        if (IIOPHelper.isStub(rmiServer))
+        if (IIOPHelper.isStub(rmiServer)) {
             return "/ior/" + encodeIIOPStub(rmiServer, env);
-        else
+        } else {
             return "/stub/" + encodeJRMPStub(rmiServer, env);
+        }
     }
 
     static String encodeJRMPStub(

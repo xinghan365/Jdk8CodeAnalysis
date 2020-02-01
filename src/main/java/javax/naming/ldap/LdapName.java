@@ -171,6 +171,7 @@ public class LdapName implements Name {
      * Retrieves the number of components in this LDAP name.
      * @return The non-negative number of components in this LDAP name.
      */
+    @Override
     public int size() {
         return rdns.size();
     }
@@ -180,6 +181,7 @@ public class LdapName implements Name {
      * An empty name is one with zero components.
      * @return true if this LDAP name is empty, false otherwise.
      */
+    @Override
     public boolean isEmpty() {
         return rdns.isEmpty();
     }
@@ -196,13 +198,16 @@ public class LdapName implements Name {
      * @return A non-null enumeration of the components of this LDAP name.
      * Each element of the enumeration is of class String.
      */
+    @Override
     public Enumeration<String> getAll() {
         final Iterator<Rdn> iter = rdns.iterator();
 
         return new Enumeration<String>() {
+            @Override
             public boolean hasMoreElements() {
                 return iter.hasNext();
             }
+            @Override
             public String nextElement() {
                 return iter.next().toString();
             }
@@ -217,6 +222,7 @@ public class LdapName implements Name {
      * @exception IndexOutOfBoundsException if posn is outside the
      *          specified range.
      */
+    @Override
     public String get(int posn) {
         return rdns.get(posn).toString();
     }
@@ -246,6 +252,7 @@ public class LdapName implements Name {
      * @exception   IndexOutOfBoundsException
      *              If posn is outside the specified range.
      */
+    @Override
     public Name getPrefix(int posn) {
         try {
             return new LdapName(null, rdns, 0, posn);
@@ -270,6 +277,7 @@ public class LdapName implements Name {
      * @exception IndexOutOfBoundsException
      *          If posn is outside the specified range.
      */
+    @Override
     public Name getSuffix(int posn) {
         try {
             return new LdapName(null, rdns, posn, rdns.size());
@@ -292,6 +300,7 @@ public class LdapName implements Name {
      * false otherwise.
      * @see #getPrefix(int posn)
      */
+    @Override
     public boolean startsWith(Name n) {
         if (n == null) {
             return false;
@@ -335,6 +344,7 @@ public class LdapName implements Name {
      * @return true if <tt>n</tt> is a suffix of this name, false otherwise.
      * @see #getSuffix(int posn)
      */
+    @Override
     public boolean endsWith(Name n) {
         if (n == null) {
             return false;
@@ -413,6 +423,7 @@ public class LdapName implements Name {
      *          name, or if the addition of the components would violate the
      *          syntax rules of this LDAP name.
      */
+    @Override
     public Name addAll(Name suffix) throws InvalidNameException {
          return addAll(size(), suffix);
     }
@@ -446,6 +457,7 @@ public class LdapName implements Name {
      * @throws  IndexOutOfBoundsException
      *          If posn is outside the specified range.
      */
+    @Override
     public Name addAll(int posn, Name suffix)
         throws InvalidNameException {
         unparsed = null;        // no longer valid
@@ -499,6 +511,7 @@ public class LdapName implements Name {
      * @exception       InvalidNameException If adding comp at end of the name
      *                  would violate the name's syntax.
      */
+    @Override
     public Name add(String comp) throws InvalidNameException {
         return add(size(), comp);
     }
@@ -532,6 +545,7 @@ public class LdapName implements Name {
      * @exception       InvalidNameException If adding comp at the
      *                  specified position would violate the name's syntax.
      */
+    @Override
     public Name add(int posn, String comp) throws InvalidNameException {
         Rdn rdn = (new Rfc2253Parser(comp)).parseRdn();
         rdns.add(posn, rdn);
@@ -578,6 +592,7 @@ public class LdapName implements Name {
      * @throws          InvalidNameException if deleting the component
      *                  would violate the syntax rules of the name.
      */
+    @Override
     public Object remove(int posn) throws InvalidNameException {
         unparsed = null;        // no longer valid
         return rdns.remove(posn).toString();
@@ -604,6 +619,7 @@ public class LdapName implements Name {
      *
      * @return A copy of the this LDAP name.
      */
+    @Override
     public Object clone() {
         return new LdapName(unparsed, rdns, 0, rdns.size());
     }
@@ -616,6 +632,7 @@ public class LdapName implements Name {
      *
      * @return The string representation of the LdapName.
      */
+    @Override
     public String toString() {
         if (unparsed != null) {
             return unparsed;
@@ -649,6 +666,7 @@ public class LdapName implements Name {
      *                  false otherwise.
      * @see #hashCode
      */
+    @Override
     public boolean equals(Object obj) {
         // check possible shortcuts
         if (obj == this) {
@@ -702,6 +720,7 @@ public class LdapName implements Name {
      *          is less than, equal to, or greater than the given obj.
      * @exception ClassCastException if obj is null or not a LdapName.
      */
+    @Override
     public int compareTo(Object obj) {
 
         if (!(obj instanceof LdapName)) {
@@ -742,6 +761,7 @@ public class LdapName implements Name {
      * @return An int representing the hash code of this name.
      * @see #equals
      */
+    @Override
     public int hashCode() {
         // Sum up the hash codes of the components.
         int hash = 0;

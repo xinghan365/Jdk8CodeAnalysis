@@ -156,6 +156,7 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
      * @see SpinnerModel#getValue
      * @see #setValue
      */
+    @Override
     public Object getValue() {
         return list.get(index);
     }
@@ -179,6 +180,7 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
      * @see SpinnerModel#setValue
      * @see #getValue
      */
+    @Override
     public void setValue(Object elt) {
         int index = list.indexOf(elt);
         if (index == -1) {
@@ -200,6 +202,7 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
      * @see SpinnerModel#getNextValue
      * @see #getPreviousValue
      */
+    @Override
     public Object getNextValue() {
         return (index >= (list.size() - 1)) ? null : list.get(index + 1);
     }
@@ -214,6 +217,7 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
      * @see SpinnerModel#getPreviousValue
      * @see #getNextValue
      */
+    @Override
     public Object getPreviousValue() {
         return (index <= 0) ? null : list.get(index - 1);
     }

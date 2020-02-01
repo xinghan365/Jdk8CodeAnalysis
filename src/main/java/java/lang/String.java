@@ -259,11 +259,13 @@ public final class String
         int n = count;
         for (int i = offset; i < end; i++) {
             int c = codePoints[i];
-            if (Character.isBmpCodePoint(c))
+            if (Character.isBmpCodePoint(c)) {
                 continue;
-            else if (Character.isValidCodePoint(c))
+            } else if (Character.isValidCodePoint(c)) {
                 n++;
-            else throw new IllegalArgumentException(Integer.toString(c));
+            } else {
+                throw new IllegalArgumentException(Integer.toString(c));
+            }
         }
 
         // Pass 2: Allocate and fill in char[]
@@ -271,10 +273,11 @@ public final class String
 
         for (int i = offset, j = 0; i < end; i++, j++) {
             int c = codePoints[i];
-            if (Character.isBmpCodePoint(c))
+            if (Character.isBmpCodePoint(c)) {
                 v[j] = (char)c;
-            else
+            } else {
                 Character.toSurrogates(c, v, j++);
+            }
         }
 
         this.value = v;
@@ -377,12 +380,15 @@ public final class String
      * constructors.
      */
     private static void checkBounds(byte[] bytes, int offset, int length) {
-        if (length < 0)
+        if (length < 0) {
             throw new StringIndexOutOfBoundsException(length);
-        if (offset < 0)
+        }
+        if (offset < 0) {
             throw new StringIndexOutOfBoundsException(offset);
-        if (offset > bytes.length - length)
+        }
+        if (offset > bytes.length - length) {
             throw new StringIndexOutOfBoundsException(offset + length);
+        }
     }
 
     /**
@@ -420,8 +426,9 @@ public final class String
      */
     public String(byte bytes[], int offset, int length, String charsetName)
             throws UnsupportedEncodingException {
-        if (charsetName == null)
+        if (charsetName == null) {
             throw new NullPointerException("charsetName");
+        }
         checkBounds(bytes, offset, length);
         this.value = StringCoding.decode(charsetName, bytes, offset, length);
     }
@@ -457,8 +464,9 @@ public final class String
      * @since  1.6
      */
     public String(byte bytes[], int offset, int length, Charset charset) {
-        if (charset == null)
+        if (charset == null) {
             throw new NullPointerException("charset");
+        }
         checkBounds(bytes, offset, length);
         this.value =  StringCoding.decode(charset, bytes, offset, length);
     }
@@ -619,6 +627,7 @@ public final class String
      * @return  the length of the sequence of characters represented by this
      *          object.
      */
+    @Override
     public int length() {
         return value.length;
     }
@@ -653,6 +662,7 @@ public final class String
      *             argument is negative or not less than the length of this
      *             string.
      */
+    @Override
     public char charAt(int index) {
         if ((index < 0) || (index >= value.length)) {
             throw new StringIndexOutOfBoundsException(index);
@@ -914,7 +924,9 @@ public final class String
      */
     public byte[] getBytes(String charsetName)
             throws UnsupportedEncodingException {
-        if (charsetName == null) throw new NullPointerException();
+        if (charsetName == null) {
+            throw new NullPointerException();
+        }
         return StringCoding.encode(charsetName, value, 0, value.length);
     }
 
@@ -937,7 +949,9 @@ public final class String
      * @since  1.6
      */
     public byte[] getBytes(Charset charset) {
-        if (charset == null) throw new NullPointerException();
+        if (charset == null) {
+            throw new NullPointerException();
+        }
         return StringCoding.encode(charset, value, 0, value.length);
     }
 
@@ -973,6 +987,7 @@ public final class String
      * @see  #compareTo(String)
      * @see  #equalsIgnoreCase(String)
      */
+    @Override
     public boolean equals(Object anObject) {
         if (this == anObject) {
             return true;
@@ -985,8 +1000,9 @@ public final class String
                 char v2[] = anotherString.value;
                 int i = 0;
                 while (n-- != 0) {
-                    if (v1[i] != v2[i])
+                    if (v1[i] != v2[i]) {
                         return false;
+                    }
                     i++;
                 }
                 return true;
@@ -1150,6 +1166,7 @@ public final class String
      *          value greater than {@code 0} if this string is
      *          lexicographically greater than the string argument.
      */
+    @Override
     public int compareTo(String anotherString) {
         int len1 = value.length;
         int len2 = anotherString.value.length;
@@ -1188,6 +1205,7 @@ public final class String
         // use serialVersionUID from JDK 1.2.2 for interoperability
         private static final long serialVersionUID = 8575799808933029326L;
 
+        @Override
         public int compare(String s1, String s2) {
             int n1 = s1.length();
             int n2 = s2.length();
@@ -1462,6 +1480,7 @@ public final class String
      *
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         int h = hash;
         if (h == 0 && value.length > 0) {
@@ -1769,7 +1788,9 @@ public final class String
         for (int i = sourceOffset + fromIndex; i <= max; i++) {
             /* Look for first character. */
             if (source[i] != first) {
-                while (++i <= max && source[i] != first);
+                while (++i <= max && source[i] != first) {
+                    ;
+                }
             }
 
             /* Found first character, now look at the rest of v2 */
@@ -1777,7 +1798,9 @@ public final class String
                 int j = i + 1;
                 int end = j + targetCount - 1;
                 for (int k = targetOffset + 1; j < end && source[j]
-                        == target[k]; j++, k++);
+                        == target[k]; j++, k++) {
+                    ;
+                }
 
                 if (j == end) {
                     /* Found whole string. */
@@ -1999,6 +2022,7 @@ public final class String
      * @since 1.4
      * @spec JSR-51
      */
+    @Override
     public CharSequence subSequence(int beginIndex, int endIndex) {
         return this.substring(beginIndex, endIndex);
     }
@@ -2360,12 +2384,14 @@ public final class String
                 }
             }
             // If no match was found, return this
-            if (off == 0)
+            if (off == 0) {
                 return new String[]{this};
+            }
 
             // Add remaining segment
-            if (!limited || list.size() < limit)
+            if (!limited || list.size() < limit) {
                 list.add(substring(off, value.length));
+            }
 
             // Construct result
             int resultSize = list.size();
@@ -2883,6 +2909,7 @@ public final class String
      *
      * @return  the string itself.
      */
+    @Override
     public String toString() {
         return this;
     }

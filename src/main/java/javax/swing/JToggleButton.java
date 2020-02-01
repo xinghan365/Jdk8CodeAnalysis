@@ -181,6 +181,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ButtonUI)UIManager.getUI(this));
     }
@@ -195,6 +196,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
      * @beaninfo
      *  description: A string that specifies the name of the L&amp;F class
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -204,6 +206,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
      * Overriden to return true, JToggleButton supports
      * the selected state.
      */
+    @Override
     boolean shouldUpdateSelectedStateFromAction() {
         return true;
     }
@@ -233,6 +236,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
         /**
          * Checks if the button is selected.
          */
+        @Override
         public boolean isSelected() {
 //              if(getGroup() != null) {
 //                  return getGroup().isSelected(this);
@@ -247,6 +251,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
          * @param b true selects the toggle button,
          *          false deselects the toggle button.
          */
+        @Override
         public void setSelected(boolean b) {
             ButtonGroup group = getGroup();
             if (group != null) {
@@ -280,6 +285,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
         /**
          * Sets the pressed state of the toggle button.
          */
+        @Override
         public void setPressed(boolean b) {
             if ((isPressed() == b) || !isEnabled()) {
                 return;
@@ -341,6 +347,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
      *
      * @return  a string representation of this JToggleButton.
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }
@@ -362,6 +369,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
      *       expert: true
      *  description: The AccessibleContext associated with this ToggleButton.
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJToggleButton();
@@ -396,6 +404,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
          * Fire accessible property change events when the state of the
          * toggle button changes.
          */
+        @Override
         public void itemStateChanged(ItemEvent e) {
             JToggleButton tb = (JToggleButton) e.getSource();
             if (JToggleButton.this.accessibleContext != null) {
@@ -417,6 +426,7 @@ public class JToggleButton extends AbstractButton implements Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TOGGLE_BUTTON;
         }

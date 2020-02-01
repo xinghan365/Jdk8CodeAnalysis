@@ -72,6 +72,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
 
         AWTAccessor.setCheckboxMenuItemAccessor(
             new AWTAccessor.CheckboxMenuItemAccessor() {
+                @Override
                 public boolean getState(CheckboxMenuItem cmi) {
                     return cmi.state;
                 }
@@ -144,6 +145,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * Construct a name for this MenuComponent.  Called by getName() when
      * the name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (CheckboxMenuItem.class) {
             return base + nameCounter++;
@@ -158,10 +160,12 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * @see     java.awt.Toolkit#createCheckboxMenuItem(java.awt.CheckboxMenuItem)
      * @see     java.awt.Component#getToolkit()
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = Toolkit.getDefaultToolkit().createCheckboxMenuItem(this);
+            }
             super.addNotify();
         }
     }
@@ -208,6 +212,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * label or null if the checkbox is not selected.
      * @see ItemSelectable
      */
+    @Override
     public synchronized Object[] getSelectedObjects() {
         if (state) {
             Object[] items = new Object[1];
@@ -233,6 +238,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void addItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -255,6 +261,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -313,6 +320,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * @see #getItemListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ItemListener.class) {
@@ -324,6 +332,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
             if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
@@ -352,6 +361,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      * @see          #processItemEvent
      * @since        JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ItemEvent) {
             processItemEvent((ItemEvent)e);
@@ -393,6 +403,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
     /*
      * Post an ItemEvent and toggle state.
      */
+    @Override
     void doMenuEvent(long when, int modifiers) {
         setState(!state);
         Toolkit.getEventQueue().postEvent(
@@ -412,6 +423,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      *
      * @return     the parameter string of this check box menu item
      */
+    @Override
     public String paramString() {
         return super.paramString() + ",state=" + state;
     }
@@ -474,11 +486,12 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (itemListenerK == key) {
+            addItemListener((ItemListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -502,6 +515,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
      *         AccessibleContext of this CheckboxMenuItem
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTCheckboxMenuItem();
@@ -537,6 +551,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          *
          * @return this object
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -549,6 +564,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -560,6 +576,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          *
          * @return the number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 0;  //  To be fully implemented in a future release
         }
@@ -569,6 +586,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          *
          * @param i zero-based index of the actions
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             return null;  //  To be fully implemented in a future release
         }
@@ -579,6 +597,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          * @param i zero-based index of actions
          * @return true if the action was performed; otherwise false.
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             return false;    //  To be fully implemented in a future release
         }
@@ -590,6 +609,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          * @return value of the object
          * @see #setCurrentAccessibleValue
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return null;  //  To be fully implemented in a future release
         }
@@ -600,6 +620,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          * @return true if the value was set; otherwise false
          * @see #getCurrentAccessibleValue
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             return false;  //  To be fully implemented in a future release
         }
@@ -611,6 +632,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          * have a minimum value
          * @see #getMaximumAccessibleValue
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return null;  //  To be fully implemented in a future release
         }
@@ -622,6 +644,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          * have a maximum value
          * @see #getMinimumAccessibleValue
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             return null;  //  To be fully implemented in a future release
         }
@@ -632,6 +655,7 @@ public class CheckboxMenuItem extends MenuItem implements ItemSelectable, Access
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.CHECK_BOX;
         }

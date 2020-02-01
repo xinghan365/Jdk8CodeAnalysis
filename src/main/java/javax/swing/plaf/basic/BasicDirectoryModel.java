@@ -59,6 +59,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
         validateFileCache();
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
         if(prop == JFileChooser.DIRECTORY_CHANGED_PROPERTY ||
@@ -168,6 +169,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
         fireContentsChanged(this, 0, getSize()-1);
     }
 
+    @Override
     public int getSize() {
         return fileCache.size();
     }
@@ -180,6 +182,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
         return fileCache.indexOf(o);
     }
 
+    @Override
     public Object getElementAt(int index) {
         return fileCache.get(index);
     }
@@ -224,6 +227,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
             this.fid = fid;
         }
 
+        @Override
         public void run() {
             run0();
             setBusy(false, fid);
@@ -273,6 +277,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
             // To avoid loads of synchronizations with Invoker and improve performance we
             // execute the whole block on the COM thread
             DoChangeContents doChangeContents = ShellFolder.invoke(new Callable<DoChangeContents>() {
+                @Override
                 public DoChangeContents call() {
                     int newSize = newFileCache.size();
                     int oldSize = fileCache.size();
@@ -441,6 +446,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
 
             if (changeSupport != null && busy != oldValue) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         firePropertyChange("busy", !busy, busy);
                     }
@@ -470,6 +476,7 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
                 doFire = false;
         }
 
+        @Override
         public synchronized void run() {
             if (fetchID == fid && doFire) {
                 int remSize = (remFiles == null) ? 0 : remFiles.size();

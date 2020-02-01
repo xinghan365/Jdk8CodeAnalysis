@@ -152,6 +152,7 @@ public interface StandardJavaFileManager extends JavaFileManager {
      * @throws IllegalArgumentException if either of the arguments
      * were created with another file manager implementation
      */
+    @Override
     boolean isSameFile(FileObject a, FileObject b);
 
     /**

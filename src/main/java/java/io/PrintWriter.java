@@ -305,14 +305,16 @@ public class PrintWriter extends Writer {
 
     /** Checks to make sure that the stream has not been closed */
     private void ensureOpen() throws IOException {
-        if (out == null)
+        if (out == null) {
             throw new IOException("Stream closed");
+        }
     }
 
     /**
      * Flushes the stream.
      * @see #checkError()
      */
+    @Override
     public void flush() {
         try {
             synchronized (lock) {
@@ -331,11 +333,13 @@ public class PrintWriter extends Writer {
      *
      * @see #checkError()
      */
+    @Override
     public void close() {
         try {
             synchronized (lock) {
-                if (out == null)
+                if (out == null) {
                     return;
+                }
                 out.close();
                 out = null;
             }
@@ -398,6 +402,7 @@ public class PrintWriter extends Writer {
      * Writes a single character.
      * @param c int specifying a character to be written.
      */
+    @Override
     public void write(int c) {
         try {
             synchronized (lock) {
@@ -419,6 +424,7 @@ public class PrintWriter extends Writer {
      * @param off Offset from which to start writing characters
      * @param len Number of characters to write
      */
+    @Override
     public void write(char buf[], int off, int len) {
         try {
             synchronized (lock) {
@@ -439,6 +445,7 @@ public class PrintWriter extends Writer {
      * Writer class because it must suppress I/O exceptions.
      * @param buf Array of characters to be written
      */
+    @Override
     public void write(char buf[]) {
         write(buf, 0, buf.length);
     }
@@ -449,6 +456,7 @@ public class PrintWriter extends Writer {
      * @param off Offset from which to start writing characters
      * @param len Number of characters to write
      */
+    @Override
     public void write(String s, int off, int len) {
         try {
             synchronized (lock) {
@@ -469,6 +477,7 @@ public class PrintWriter extends Writer {
      * because it must suppress I/O exceptions.
      * @param s String to be written
      */
+    @Override
     public void write(String s) {
         write(s, 0, s.length());
     }
@@ -478,8 +487,9 @@ public class PrintWriter extends Writer {
             synchronized (lock) {
                 ensureOpen();
                 out.write(lineSeparator);
-                if (autoFlush)
+                if (autoFlush) {
                     out.flush();
+                }
             }
         }
         catch (InterruptedIOException x) {
@@ -900,11 +910,13 @@ public class PrintWriter extends Writer {
             synchronized (lock) {
                 ensureOpen();
                 if ((formatter == null)
-                    || (formatter.locale() != Locale.getDefault()))
+                    || (formatter.locale() != Locale.getDefault())) {
                     formatter = new Formatter(this);
+                }
                 formatter.format(Locale.getDefault(), format, args);
-                if (autoFlush)
+                if (autoFlush) {
                     out.flush();
+                }
             }
         } catch (InterruptedIOException x) {
             Thread.currentThread().interrupt();
@@ -959,11 +971,13 @@ public class PrintWriter extends Writer {
         try {
             synchronized (lock) {
                 ensureOpen();
-                if ((formatter == null) || (formatter.locale() != l))
+                if ((formatter == null) || (formatter.locale() != l)) {
                     formatter = new Formatter(this, l);
+                }
                 formatter.format(l, format, args);
-                if (autoFlush)
+                if (autoFlush) {
                     out.flush();
+                }
             }
         } catch (InterruptedIOException x) {
             Thread.currentThread().interrupt();
@@ -997,11 +1011,13 @@ public class PrintWriter extends Writer {
      *
      * @since  1.5
      */
+    @Override
     public PrintWriter append(CharSequence csq) {
-        if (csq == null)
+        if (csq == null) {
             write("null");
-        else
+        } else {
             write(csq.toString());
+        }
         return this;
     }
 
@@ -1037,6 +1053,7 @@ public class PrintWriter extends Writer {
      *
      * @since  1.5
      */
+    @Override
     public PrintWriter append(CharSequence csq, int start, int end) {
         CharSequence cs = (csq == null ? "null" : csq);
         write(cs.subSequence(start, end).toString());
@@ -1059,6 +1076,7 @@ public class PrintWriter extends Writer {
      *
      * @since 1.5
      */
+    @Override
     public PrintWriter append(char c) {
         write(c);
         return this;

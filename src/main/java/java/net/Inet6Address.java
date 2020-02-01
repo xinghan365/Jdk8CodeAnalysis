@@ -265,6 +265,7 @@ class Inet6Address extends InetAddress {
             return s;
         }
 
+        @Override
         public boolean equals(Object o) {
             if (! (o instanceof Inet6AddressHolder)) {
                 return false;
@@ -274,6 +275,7 @@ class Inet6Address extends InetAddress {
             return Arrays.equals(this.ipaddress, that.ipaddress);
         }
 
+        @Override
         public int hashCode() {
             if (ipaddress != null) {
 
@@ -900,8 +902,9 @@ class Inet6Address extends InetAddress {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Inet6Address))
+        if (obj == null || !(obj instanceof Inet6Address)) {
             return false;
+        }
 
         Inet6Address inetAddr = (Inet6Address)obj;
 

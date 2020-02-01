@@ -42,6 +42,7 @@ public interface Permission {
      *
      * @return true if the Permission objects are equal, false otherwise
      */
+    @Override
     public boolean equals(Object another);
 
     /**
@@ -49,6 +50,7 @@ public interface Permission {
      *
      * @return the string representation of the permission.
      */
+    @Override
     public String toString();
 
 }

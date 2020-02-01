@@ -72,6 +72,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
       * try to determine the appropriate parent from the desktopIcon of the frame.
       * Will remove the desktopIcon from its parent if it successfully adds the frame.
       */
+    @Override
     public void openFrame(JInternalFrame f) {
         if(f.getDesktopIcon().getParent() != null) {
             f.getDesktopIcon().getParent().add(f);
@@ -84,6 +85,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
      * <code>desktopIcon</code>, from its parent.
      * @param f the <code>JInternalFrame</code> to be removed
      */
+    @Override
     public void closeFrame(JInternalFrame f) {
         JDesktopPane d = f.getDesktopPane();
         if (d == null) {
@@ -101,10 +103,12 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
             c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
         }
         removeIconFor(f);
-        if(f.getNormalBounds() != null)
+        if(f.getNormalBounds() != null) {
             f.setNormalBounds(null);
-        if(wasIcon(f))
+        }
+        if(wasIcon(f)) {
             setWasIcon(f, null);
+        }
         if (nextFrame != null) {
             try { nextFrame.setSelected(true); }
             catch (PropertyVetoException e2) { }
@@ -118,6 +122,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
      * Resizes the frame to fill its parents bounds.
      * @param f the frame to be resized
      */
+    @Override
     public void maximizeFrame(JInternalFrame f) {
         if (f.isIcon()) {
             try {
@@ -145,6 +150,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
      * to a <code>maximizeFrame</code> call.
      * @param f the <code>JInternalFrame</code> to be restored
      */
+    @Override
     public void minimizeFrame(JInternalFrame f) {
         // If the frame was an icon restore it back to an icon.
         if (f.isIcon()) {
@@ -165,6 +171,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
      * <code>desktopIcon</code> to the parent.
      * @param f the <code>JInternalFrame</code> to be iconified
      */
+    @Override
     public void iconifyFrame(JInternalFrame f) {
         JInternalFrame.JDesktopIcon desktopIcon;
         Container c = f.getParent();
@@ -213,6 +220,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
      * to the parent.
      * @param f the <code>JInternalFrame</code> to be de-iconified
      */
+    @Override
     public void deiconifyFrame(JInternalFrame f) {
         JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
         Container c = desktopIcon.getParent();
@@ -249,6 +257,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
       * There can be only one active frame across all Layers.
       * @param f the <code>JInternalFrame</code> to be activated
       */
+    @Override
     public void activateFrame(JInternalFrame f) {
         Container p = f.getParent();
         Component[] c;
@@ -259,8 +268,9 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
         if(p == null) {
             // If the frame is not in parent, its icon maybe, check it
             p = f.getDesktopIcon().getParent();
-            if(p == null)
+            if(p == null) {
                 return;
+            }
         }
         // we only need to keep track of the currentActive InternalFrame, if any
         if (currentlyActiveFrame == null){
@@ -280,15 +290,18 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
     }
 
     // implements javax.swing.DesktopManager
+    @Override
     public void deactivateFrame(JInternalFrame f) {
       JDesktopPane d = f.getDesktopPane();
       JInternalFrame currentlyActiveFrame =
           (d == null) ? null : d.getSelectedFrame();
-      if (currentlyActiveFrame == f)
-        d.setSelectedFrame(null);
+      if (currentlyActiveFrame == f) {
+          d.setSelectedFrame(null);
+      }
     }
 
     // implements javax.swing.DesktopManager
+    @Override
     public void beginDraggingFrame(JComponent f) {
         setupDragMode(f);
 
@@ -348,6 +361,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
       * on the dragging algorithm being used.  The actual logical location of the frame
       * might not change until <code>endDraggingFrame</code> is called.
       */
+    @Override
     public void dragFrame(JComponent f, int newX, int newY) {
 
         if (dragMode == OUTLINE_DRAG_MODE) {
@@ -387,6 +401,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
     }
 
     // implements javax.swing.DesktopManager
+    @Override
     public void endDraggingFrame(JComponent f) {
         if ( dragMode == OUTLINE_DRAG_MODE && currentLoc != null) {
             setBoundsForFrame(f, currentLoc.x, currentLoc.y, f.getWidth(), f.getHeight() );
@@ -403,6 +418,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
     }
 
     // implements javax.swing.DesktopManager
+    @Override
     public void beginResizingFrame(JComponent f, int direction) {
         setupDragMode(f);
     }
@@ -415,6 +431,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
      * @param newWidth the new width
      * @param newHeight the new height
      */
+    @Override
     public void resizeFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
 
         if ( dragMode == DEFAULT_DRAG_MODE || dragMode == FASTER_DRAG_MODE ) {
@@ -445,6 +462,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
     }
 
     // implements javax.swing.DesktopManager
+    @Override
     public void endResizingFrame(JComponent f) {
         if ( dragMode == OUTLINE_DRAG_MODE && currentBounds != null) {
             setBoundsForFrame(f, currentBounds.x, currentBounds.y, currentBounds.width, currentBounds.height );
@@ -454,6 +472,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
 
 
     /** This moves the <code>JComponent</code> and repaints the damaged areas. */
+    @Override
     public void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
         f.setBounds(newX, newY, newWidth, newHeight);
         // we must validate the hierarchy to not break the hw/lw mixing
@@ -536,8 +555,9 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
                an icon. I don't believe this should happen, but at
                present it does and causes a null pointer exception.
                Even when that gets fixed, this code protects against
-               the npe. hania */
-            continue;
+               the npe. hania */ {
+              continue;
+          }
 
           //
           // If this icon intersects the current location, get next location.
@@ -554,8 +574,9 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
         if (currentIcon == null)
           /* didn't find any useful children above. This probably shouldn't
            happen, but this check protects against an npe if it ever does
-           (and it's happening now) */
-          return availableRectangle;
+           (and it's happening now) */ {
+            return availableRectangle;
+        }
 
         x += currentIcon.getBounds().width;
 
@@ -794,6 +815,7 @@ public class DefaultDesktopManager implements DesktopManager, java.io.Serializab
         if ( ((JInternalFrame)f).danger ) {
 
            SwingUtilities.invokeLater( new Runnable(){
+                                       @Override
                                        public void run(){
 
                                        ((JInternalFrame)f).isDragging = false;

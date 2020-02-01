@@ -109,6 +109,7 @@ public interface TypeElement extends Element, Parameterizable, QualifiedNameable
      * @see Elements#getBinaryName
      * @jls 6.7 Fully Qualified Names and Canonical Names
      */
+    @Override
     Name getQualifiedName();
 
     /**
@@ -149,6 +150,7 @@ public interface TypeElement extends Element, Parameterizable, QualifiedNameable
      * @return the formal type parameters, or an empty list
      * if there are none
      */
+    @Override
     List<? extends TypeParameterElement> getTypeParameters();
 
     /**

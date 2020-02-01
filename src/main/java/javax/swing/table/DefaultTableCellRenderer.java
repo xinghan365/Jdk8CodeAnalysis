@@ -116,7 +116,9 @@ public class DefaultTableCellRenderer extends JLabel
     private Border getNoFocusBorder() {
         Border border = DefaultLookup.getBorder(this, ui, "Table.cellNoFocusBorder");
         if (System.getSecurityManager() != null) {
-            if (border != null) return border;
+            if (border != null) {
+                return border;
+            }
             return SAFE_NO_FOCUS_BORDER;
         } else if (border != null) {
             if (noFocusBorder == null || noFocusBorder == DEFAULT_NO_FOCUS_BORDER) {
@@ -132,6 +134,7 @@ public class DefaultTableCellRenderer extends JLabel
      *
      * @param c set the foreground color to this value
      */
+    @Override
     public void setForeground(Color c) {
         super.setForeground(c);
         unselectedForeground = c;
@@ -143,6 +146,7 @@ public class DefaultTableCellRenderer extends JLabel
      *
      * @param c set the background color to this value
      */
+    @Override
     public void setBackground(Color c) {
         super.setBackground(c);
         unselectedBackground = c;
@@ -156,6 +160,7 @@ public class DefaultTableCellRenderer extends JLabel
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         super.updateUI();
         setForeground(null);
@@ -184,8 +189,9 @@ public class DefaultTableCellRenderer extends JLabel
      * @return the default table cell renderer
      * @see javax.swing.JComponent#isPaintingForPrint()
      */
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
-                          boolean isSelected, boolean hasFocus, int row, int column) {
+                                                   boolean isSelected, boolean hasFocus, int row, int column) {
         if (table == null) {
             return this;
         }
@@ -272,6 +278,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     public boolean isOpaque() {
         Color back = getBackground();
         Component p = getParent();
@@ -293,6 +300,7 @@ public class DefaultTableCellRenderer extends JLabel
      *
      * @since 1.5
      */
+    @Override
     public void invalidate() {}
 
     /**
@@ -300,6 +308,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     public void validate() {}
 
     /**
@@ -307,6 +316,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     public void revalidate() {}
 
     /**
@@ -314,6 +324,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     public void repaint(long tm, int x, int y, int width, int height) {}
 
     /**
@@ -321,6 +332,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     public void repaint(Rectangle r) { }
 
     /**
@@ -330,6 +342,7 @@ public class DefaultTableCellRenderer extends JLabel
      *
      * @since 1.5
      */
+    @Override
     public void repaint() {
     }
 
@@ -338,6 +351,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         // Strings get interned...
         if (propertyName=="text"
@@ -356,6 +370,7 @@ public class DefaultTableCellRenderer extends JLabel
      * See the <a href="#override">Implementation Note</a>
      * for more information.
      */
+    @Override
     public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) { }
 
 

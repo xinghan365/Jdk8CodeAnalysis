@@ -236,6 +236,7 @@ class JarFile extends ZipFile {
      *
      * @see java.util.zip.ZipEntry
      */
+    @Override
     public ZipEntry getEntry(String name) {
         ZipEntry ze = super.getEntry(name);
         if (ze != null) {
@@ -249,19 +250,23 @@ class JarFile extends ZipFile {
     {
         final Enumeration<? extends ZipEntry> e = JarFile.super.entries();
 
+        @Override
         public boolean hasNext() {
             return e.hasMoreElements();
         }
 
+        @Override
         public JarEntry next() {
             ZipEntry ze = e.nextElement();
             return new JarFileEntry(ze);
         }
 
+        @Override
         public boolean hasMoreElements() {
             return hasNext();
         }
 
+        @Override
         public JarEntry nextElement() {
             return next();
         }
@@ -270,6 +275,7 @@ class JarFile extends ZipFile {
     /**
      * Returns an enumeration of the zip file entries.
      */
+    @Override
     public Enumeration<JarEntry> entries() {
         return new JarEntryIterator();
     }
@@ -286,6 +292,7 @@ class JarFile extends ZipFile {
         JarFileEntry(ZipEntry ze) {
             super(ze);
         }
+        @Override
         public Attributes getAttributes() throws IOException {
             Manifest man = JarFile.this.getManifest();
             if (man != null) {
@@ -294,6 +301,7 @@ class JarFile extends ZipFile {
                 return null;
             }
         }
+        @Override
         public Certificate[] getCertificates() {
             try {
                 maybeInstantiateVerifier();
@@ -305,6 +313,7 @@ class JarFile extends ZipFile {
             }
             return certs == null ? null : certs.clone();
         }
+        @Override
         public CodeSigner[] getCodeSigners() {
             try {
                 maybeInstantiateVerifier();
@@ -439,6 +448,7 @@ class JarFile extends ZipFile {
      * @throws IllegalStateException
      *         may be thrown if the jar file has been closed
      */
+    @Override
     public synchronized InputStream getInputStream(ZipEntry ze)
         throws IOException
     {
@@ -452,8 +462,9 @@ class JarFile extends ZipFile {
             // could be set to null after a call to
             // initializeVerifier if we have nothing to
             // verify
-            if (jv == null)
+            if (jv == null) {
                 return super.getInputStream(ze);
+            }
         }
 
         // wrap a verifier stream around the real stream
@@ -483,8 +494,9 @@ class JarFile extends ZipFile {
         CLASSPATH_LASTOCC[(int)'a'] = 8;
         CLASSPATH_LASTOCC[(int)'t'] = 9;
         CLASSPATH_LASTOCC[(int)'h'] = 10;
-        for (int i=0; i<9; i++)
+        for (int i=0; i<9; i++) {
             CLASSPATH_OPTOSFT[i] = 10;
+        }
         CLASSPATH_OPTOSFT[9]=1;
     }
 
@@ -548,13 +560,16 @@ class JarFile extends ZipFile {
      * attribute. A no-op on subsequent calls.
      */
     private void checkForSpecialAttributes() throws IOException {
-        if (hasCheckedSpecialAttributes) return;
+        if (hasCheckedSpecialAttributes) {
+            return;
+        }
         if (!isKnownNotToHaveSpecialAttributes()) {
             JarEntry manEntry = getManEntry();
             if (manEntry != null) {
                 byte[] b = getBytes(manEntry);
-                if (match(CLASSPATH_CHARS, b, CLASSPATH_LASTOCC, CLASSPATH_OPTOSFT))
+                if (match(CLASSPATH_CHARS, b, CLASSPATH_LASTOCC, CLASSPATH_OPTOSFT)) {
                     hasClassPathAttribute = true;
+                }
             }
         }
         hasCheckedSpecialAttributes = true;
@@ -640,10 +655,12 @@ class JarFile extends ZipFile {
         } else {
             return new Enumeration<String>() {
 
+                @Override
                 public boolean hasMoreElements() {
                     return false;
                 }
 
+                @Override
                 public String nextElement() {
                     throw new NoSuchElementException();
                 }
@@ -668,6 +685,7 @@ class JarFile extends ZipFile {
 
             ZipEntry entry;
 
+            @Override
             public boolean hasMoreElements() {
                 if (entry != null) {
                     return true;
@@ -683,6 +701,7 @@ class JarFile extends ZipFile {
                 return false;
             }
 
+            @Override
             public JarFileEntry nextElement() {
                 if (hasMoreElements()) {
                     ZipEntry ze = entry;
@@ -722,6 +741,7 @@ class JarFile extends ZipFile {
              * Grab entries from ZIP directory but screen out
              * metadata.
              */
+            @Override
             public boolean hasMoreElements() {
                 if (name != null) {
                     return true;
@@ -739,6 +759,7 @@ class JarFile extends ZipFile {
                 return false;
             }
 
+            @Override
             public String nextElement() {
                 if (hasMoreElements()) {
                     String value = name;

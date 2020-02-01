@@ -124,6 +124,7 @@ public class AttributeModificationException extends NamingException {
       * programmatically.
       * @return The non-null string representation of this exception.
       */
+    @Override
     public String toString() {
         String orig = super.toString();
         if (unexecs != null) {

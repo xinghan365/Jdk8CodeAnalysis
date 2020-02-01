@@ -172,6 +172,7 @@ public class NotificationBroadcasterSupport implements NotificationEmitter {
      *
      * @see #removeNotificationListener
      */
+    @Override
     public void addNotificationListener(NotificationListener listener,
                                         NotificationFilter filter,
                                         Object handback) {
@@ -183,16 +184,19 @@ public class NotificationBroadcasterSupport implements NotificationEmitter {
         listenerList.add(new ListenerInfo(listener, filter, handback));
     }
 
+    @Override
     public void removeNotificationListener(NotificationListener listener)
             throws ListenerNotFoundException {
 
         ListenerInfo wildcard = new WildcardListenerInfo(listener);
         boolean removed =
             listenerList.removeAll(Collections.singleton(wildcard));
-        if (!removed)
+        if (!removed) {
             throw new ListenerNotFoundException("Listener not registered");
+        }
     }
 
+    @Override
     public void removeNotificationListener(NotificationListener listener,
                                            NotificationFilter filter,
                                            Object handback)
@@ -208,11 +212,13 @@ public class NotificationBroadcasterSupport implements NotificationEmitter {
         }
     }
 
+    @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
-        if (notifInfo.length == 0)
+        if (notifInfo.length == 0) {
             return notifInfo;
-        else
+        } else {
             return notifInfo.clone();
+        }
     }
 
 
@@ -291,14 +297,16 @@ public class NotificationBroadcasterSupport implements NotificationEmitter {
 
         @Override
         public boolean equals(Object o) {
-            if (!(o instanceof ListenerInfo))
+            if (!(o instanceof ListenerInfo)) {
                 return false;
+            }
             ListenerInfo li = (ListenerInfo) o;
-            if (li instanceof WildcardListenerInfo)
+            if (li instanceof WildcardListenerInfo) {
                 return (li.listener == listener);
-            else
+            } else {
                 return (li.listener == listener && li.filter == filter
                         && li.handback == handback);
+            }
         }
 
         @Override
@@ -333,6 +341,7 @@ public class NotificationBroadcasterSupport implements NotificationEmitter {
 
     private final static Executor defaultExecutor = new Executor() {
             // DirectExecutor using caller thread
+            @Override
             public void execute(Runnable r) {
                 r.run();
             }
@@ -347,6 +356,7 @@ public class NotificationBroadcasterSupport implements NotificationEmitter {
             this.listenerInfo = listenerInfo;
         }
 
+        @Override
         public void run() {
             try {
                 handleNotification(listenerInfo.listener,

@@ -398,6 +398,7 @@ public interface NavigableMap<K,V> extends SortedMap<K,V> {
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     SortedMap<K,V> subMap(K fromKey, K toKey);
 
     /**
@@ -409,6 +410,7 @@ public interface NavigableMap<K,V> extends SortedMap<K,V> {
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     SortedMap<K,V> headMap(K toKey);
 
     /**
@@ -420,5 +422,6 @@ public interface NavigableMap<K,V> extends SortedMap<K,V> {
      * @throws NullPointerException     {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     SortedMap<K,V> tailMap(K fromKey);
 }

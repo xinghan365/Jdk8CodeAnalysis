@@ -233,6 +233,7 @@ public final class PageRanges   extends SetOfIntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this page ranges
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) && object instanceof PageRanges);
     }
@@ -246,6 +247,7 @@ public final class PageRanges   extends SetOfIntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PageRanges.class;
     }
@@ -258,6 +260,7 @@ public final class PageRanges   extends SetOfIntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "page-ranges";
     }

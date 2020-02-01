@@ -190,8 +190,9 @@ public class OpenMBeanInfoSupport
 
     private static MBeanAttributeInfo[]
             attributeArray(OpenMBeanAttributeInfo[] src) {
-        if (src == null)
+        if (src == null) {
             return null;
+        }
         MBeanAttributeInfo[] dst = new MBeanAttributeInfo[src.length];
         System.arraycopy(src, 0, dst, 0, src.length);
         // may throw an ArrayStoreException
@@ -200,8 +201,9 @@ public class OpenMBeanInfoSupport
 
     private static MBeanConstructorInfo[]
             constructorArray(OpenMBeanConstructorInfo[] src) {
-        if (src == null)
+        if (src == null) {
             return null;
+        }
         MBeanConstructorInfo[] dst = new MBeanConstructorInfo[src.length];
         System.arraycopy(src, 0, dst, 0, src.length);
         // may throw an ArrayStoreException
@@ -210,8 +212,9 @@ public class OpenMBeanInfoSupport
 
     private static MBeanOperationInfo[]
             operationArray(OpenMBeanOperationInfo[] src) {
-        if (src == null)
+        if (src == null) {
             return null;
+        }
         MBeanOperationInfo[] dst = new MBeanOperationInfo[src.length];
         System.arraycopy(src, 0, dst, 0, src.length);
         return dst;
@@ -248,6 +251,7 @@ public class OpenMBeanInfoSupport
      * @return {@code true} if the specified object is equal to this
      * {@code OpenMBeanInfoSupport} instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         // if obj is null, return false
@@ -276,24 +280,27 @@ public class OpenMBeanInfoSupport
 
         // their infos on attributes should be equal (order not
         // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getAttributes(), other.getAttributes()))
+        if (!sameArrayContents(this.getAttributes(), other.getAttributes())) {
             return false;
+        }
 
         // their infos on constructors should be equal (order not
         // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getConstructors(), other.getConstructors()))
+        if (!sameArrayContents(this.getConstructors(), other.getConstructors())) {
             return false;
+        }
 
         // their infos on operations should be equal (order not
         // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getOperations(), other.getOperations()))
-
+        if (!sameArrayContents(this.getOperations(), other.getOperations())) {
             return false;
+        }
 
         // their infos on notifications should be equal (order not
         // significant => equality between sets, not arrays or lists)
-        if (!sameArrayContents(this.getNotifications(), other.getNotifications()))
+        if (!sameArrayContents(this.getNotifications(), other.getNotifications())) {
             return false;
+        }
 
         // All tests for equality were successful
         //
@@ -337,6 +344,7 @@ public class OpenMBeanInfoSupport
      * @return the hash code value for this {@code
      * OpenMBeanInfoSupport} instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done
@@ -383,6 +391,7 @@ public class OpenMBeanInfoSupport
      * @return a string representation of this {@code
      * OpenMBeanInfoSupport} instance
      */
+    @Override
     public String toString() {
 
         // Calculate the string value if it has not yet been done (ie

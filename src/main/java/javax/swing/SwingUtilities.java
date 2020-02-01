@@ -171,19 +171,22 @@ public class SwingUtilities implements SwingConstants
     public static Point convertPoint(Component source,Point aPoint,Component destination) {
         Point p;
 
-        if(source == null && destination == null)
+        if(source == null && destination == null) {
             return aPoint;
+        }
         if(source == null) {
             source = getWindowAncestor(destination);
-            if(source == null)
+            if(source == null) {
                 throw new Error("Source component not connected to component tree hierarchy");
+            }
         }
         p = new Point(aPoint);
         convertPointToScreen(p,source);
         if(destination == null) {
             destination = getWindowAncestor(source);
-            if(destination == null)
+            if(destination == null) {
                 throw new Error("Destination component not connected to component tree hierarchy");
+            }
         }
         convertPointFromScreen(p,destination);
         return p;
@@ -227,12 +230,14 @@ public class SwingUtilities implements SwingConstants
      */
     public static Container getAncestorOfClass(Class<?> c, Component comp)
     {
-        if(comp == null || c == null)
+        if(comp == null || c == null) {
             return null;
+        }
 
         Container parent = comp.getParent();
-        while(parent != null && !(c.isInstance(parent)))
+        while(parent != null && !(c.isInstance(parent))) {
             parent = parent.getParent();
+        }
         return parent;
     }
 
@@ -242,12 +247,14 @@ public class SwingUtilities implements SwingConstants
      * finds. Can return {@code null}, if <code>name</code> cannot be found.
      */
     public static Container getAncestorNamed(String name, Component comp) {
-        if(comp == null || name == null)
+        if(comp == null || name == null) {
             return null;
+        }
 
         Container parent = comp.getParent();
-        while(parent != null && !(name.equals(parent.getName())))
+        while(parent != null && !(name.equals(parent.getName()))) {
             parent = parent.getParent();
+        }
         return parent;
     }
 
@@ -308,10 +315,11 @@ public class SwingUtilities implements SwingConstants
                                destination);
         Component newSource;
 
-        if(destination != null)
+        if(destination != null) {
             newSource = destination;
-        else
+        } else {
             newSource = source;
+        }
 
         MouseEvent newEvent;
         if (sourceEvent instanceof MouseWheelEvent) {
@@ -398,8 +406,9 @@ public class SwingUtilities implements SwingConstants
                 p.x += x;
                 p.y += y;
 
-                if(c instanceof java.awt.Window || c instanceof java.applet.Applet)
+                if(c instanceof java.awt.Window || c instanceof java.applet.Applet) {
                     break;
+                }
                 c = c.getParent();
             } while(c != null);
         }
@@ -437,8 +446,9 @@ public class SwingUtilities implements SwingConstants
             p.x -= x;
             p.y -= y;
 
-            if(c instanceof java.awt.Window || c instanceof java.applet.Applet)
+            if(c instanceof java.awt.Window || c instanceof java.applet.Applet) {
                 break;
+            }
             c = c.getParent();
         } while(c != null);
     }
@@ -464,11 +474,14 @@ public class SwingUtilities implements SwingConstants
      * Return <code>true</code> if a component <code>a</code> descends from a component <code>b</code>
      */
     public static boolean isDescendingFrom(Component a,Component b) {
-        if(a == b)
+        if(a == b) {
             return true;
-        for(Container p = a.getParent();p!=null;p=p.getParent())
-            if(p == b)
+        }
+        for(Container p = a.getParent();p!=null;p=p.getParent()) {
+            if(p == b) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -780,14 +793,18 @@ public class SwingUtilities implements SwingConstants
 
         result = new Rectangle[rectCount];
         rectCount = 0;
-        if(a != null)
+        if(a != null) {
             result[rectCount++] = a;
-        if(b != null)
+        }
+        if(b != null) {
             result[rectCount++] = b;
-        if(c != null)
+        }
+        if(c != null) {
             result[rectCount++] = c;
-        if(d != null)
+        }
+        if(d != null) {
             result[rectCount++] = d;
+        }
         return result;
     }
 
@@ -1761,6 +1778,7 @@ public class SwingUtilities implements SwingConstants
        new StringBuffer("SwingUtilities.sharedOwnerFrame");
 
     static class SharedOwnerFrame extends Frame implements WindowListener {
+        @Override
         public void addNotify() {
             super.addNotify();
             installListeners();
@@ -1783,6 +1801,7 @@ public class SwingUtilities implements SwingConstants
          * Watches for displayability changes and disposes shared instance if there are no
          * displayable children left.
          */
+        @Override
         public void windowClosed(WindowEvent e) {
             synchronized(getTreeLock()) {
                 Window[] windows = getOwnedWindows();
@@ -1797,22 +1816,30 @@ public class SwingUtilities implements SwingConstants
                 dispose();
             }
         }
+        @Override
         public void windowOpened(WindowEvent e) {
         }
+        @Override
         public void windowClosing(WindowEvent e) {
         }
+        @Override
         public void windowIconified(WindowEvent e) {
         }
+        @Override
         public void windowDeiconified(WindowEvent e) {
         }
+        @Override
         public void windowActivated(WindowEvent e) {
         }
+        @Override
         public void windowDeactivated(WindowEvent e) {
         }
 
+        @Override
         public void show() {
             // This frame can never be shown
         }
+        @Override
         public void dispose() {
             try {
                 getToolkit().getSystemEventQueue();

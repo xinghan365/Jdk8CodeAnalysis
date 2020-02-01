@@ -276,6 +276,7 @@ public class RelationSupport
      *
      * @see #setRole
      */
+    @Override
     public List<ObjectName> getRole(String roleName)
         throws IllegalArgumentException,
                RoleNotFoundException,
@@ -315,6 +316,7 @@ public class RelationSupport
      *
      * @see #setRoles
      */
+    @Override
     public RoleResult getRoles(String[] roleNameArray)
         throws IllegalArgumentException,
                RelationServiceNotRegisteredException {
@@ -343,6 +345,7 @@ public class RelationSupport
      * @exception RelationServiceNotRegisteredException  if the Relation
      * Service is not registered in the MBean Server
      */
+    @Override
     public RoleResult getAllRoles()
         throws RelationServiceNotRegisteredException {
 
@@ -365,6 +368,7 @@ public class RelationSupport
      *
      * @return a RoleList
      */
+    @Override
     public RoleList retrieveAllRoles() {
 
         RELATION_LOGGER.entering(RelationSupport.class.getName(),
@@ -391,6 +395,7 @@ public class RelationSupport
      * @exception IllegalArgumentException  if null role name
      * @exception RoleNotFoundException  if there is no role with given name
      */
+    @Override
     public Integer getRoleCardinality(String roleName)
         throws IllegalArgumentException,
                RoleNotFoundException {
@@ -463,6 +468,7 @@ public class RelationSupport
      *
      * @see #getRole
      */
+    @Override
     public void setRole(Role role)
         throws IllegalArgumentException,
                RoleNotFoundException,
@@ -510,6 +516,7 @@ public class RelationSupport
      *
      * @see #getRoles
      */
+    @Override
     public RoleResult setRoles(RoleList list)
         throws IllegalArgumentException,
                RelationServiceNotRegisteredException,
@@ -556,6 +563,7 @@ public class RelationSupport
      * @exception RelationNotFoundException  if this method is called for a
      * relation MBean not added in the Relation Service.
      */
+    @Override
     public void handleMBeanUnregistration(ObjectName objectName,
                                           String roleName)
         throws IllegalArgumentException,
@@ -592,6 +600,7 @@ public class RelationSupport
      * @return a HashMap mapping:
      * <P> ObjectName {@literal ->} ArrayList of String (role names)
      */
+    @Override
     public Map<ObjectName,List<String>> getReferencedMBeans() {
 
         RELATION_LOGGER.entering(RelationSupport.class.getName(),
@@ -636,6 +645,7 @@ public class RelationSupport
     /**
      * Returns name of associated relation type.
      */
+    @Override
     public String getRelationTypeName() {
         return myRelTypeName;
     }
@@ -645,6 +655,7 @@ public class RelationSupport
      *
      * @return the ObjectName of the Relation Service.
      */
+    @Override
     public ObjectName getRelationServiceName() {
         return myRelServiceName;
     }
@@ -655,6 +666,7 @@ public class RelationSupport
      *
      * @return the relation id.
      */
+    @Override
     public String getRelationId() {
         return myRelId;
     }
@@ -669,6 +681,7 @@ public class RelationSupport
     // a MBean created by the user outside of the Relation Service.
     //
     // No exception thrown.
+    @Override
     public ObjectName preRegister(MBeanServer server,
                                   ObjectName name)
         throws Exception {
@@ -678,17 +691,20 @@ public class RelationSupport
     }
 
     // Post-registration: does nothing
+    @Override
     public void postRegister(Boolean registrationDone) {
         return;
     }
 
     // Pre-unregistration: does nothing
+    @Override
     public void preDeregister()
         throws Exception {
         return;
     }
 
     // Post-unregistration: does nothing
+    @Override
     public void postDeregister() {
         return;
     }
@@ -701,10 +717,12 @@ public class RelationSupport
      * Returns an internal flag specifying if the object is still handled by
      * the Relation Service.
      */
+    @Override
     public Boolean isInRelationService() {
         return myInRelServFlg.get();
     }
 
+    @Override
     public void setRelationServiceManagementFlag(Boolean flag)
         throws IllegalArgumentException {
 

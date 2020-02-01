@@ -87,6 +87,7 @@ class LineNumberInputStream extends FilterInputStream {
      * @see        java.io.FilterInputStream#in
      * @see        java.io.LineNumberInputStream#getLineNumber()
      */
+    @Override
     @SuppressWarnings("fallthrough")
     public int read() throws IOException {
         int c = pushBack;
@@ -127,6 +128,7 @@ class LineNumberInputStream extends FilterInputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.LineNumberInputStream#read()
      */
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
         if (b == null) {
             throw new NullPointerException();
@@ -176,6 +178,7 @@ class LineNumberInputStream extends FilterInputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterInputStream#in
      */
+    @Override
     public long skip(long n) throws IOException {
         int chunk = 2048;
         long remaining = n;
@@ -237,6 +240,7 @@ class LineNumberInputStream extends FilterInputStream {
      * @exception  IOException  if an I/O error occurs.
      * @see        java.io.FilterInputStream#in
      */
+    @Override
     public int available() throws IOException {
         return (pushBack == -1) ? super.available()/2 : super.available()/2 + 1;
     }
@@ -256,6 +260,7 @@ class LineNumberInputStream extends FilterInputStream {
      * @see     java.io.FilterInputStream#in
      * @see     java.io.LineNumberInputStream#reset()
      */
+    @Override
     public void mark(int readlimit) {
         markLineNumber = lineNumber;
         markPushBack   = pushBack;
@@ -285,6 +290,7 @@ class LineNumberInputStream extends FilterInputStream {
      * @see        java.io.FilterInputStream#in
      * @see        java.io.LineNumberInputStream#mark(int)
      */
+    @Override
     public void reset() throws IOException {
         lineNumber = markLineNumber;
         pushBack   = markPushBack;

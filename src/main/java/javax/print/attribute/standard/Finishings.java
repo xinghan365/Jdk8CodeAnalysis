@@ -429,6 +429,7 @@ public class Finishings extends EnumSyntax
     /**
      * Returns the string table for class Finishings.
      */
+    @Override
     protected String[] getStringTable() {
         return (String[])myStringTable.clone();
     }
@@ -436,6 +437,7 @@ public class Finishings extends EnumSyntax
     /**
      * Returns the enumeration value table for class Finishings.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return (EnumSyntax[])myEnumValueTable.clone();
     }
@@ -443,6 +445,7 @@ public class Finishings extends EnumSyntax
     /**
      * Returns the lowest integer value used by class Finishings.
      */
+    @Override
     protected int getOffset() {
         return 3;
     }
@@ -457,6 +460,7 @@ public class Finishings extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return Finishings.class;
     }
@@ -470,6 +474,7 @@ public class Finishings extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "finishings";
     }

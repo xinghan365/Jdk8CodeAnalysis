@@ -123,6 +123,7 @@ public class PixelInterleavedSampleModel extends ComponentSampleModel
      * @throws IllegalArgumentException if <code>w</code> or
      *         <code>h</code> is not greater than 0
      */
+    @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
         int minBandoff=bandOffsets[0];
         int numBands = bandOffsets.length;
@@ -154,6 +155,7 @@ public class PixelInterleavedSampleModel extends ComponentSampleModel
      * an image with a subset of the bands of the original
      * PixelInterleavedSampleModel/DataBuffer combination.
      */
+    @Override
     public SampleModel createSubsetSampleModel(int bands[]) {
         int newBandOffsets[] = new int[bands.length];
         for (int i=0; i<bands.length; i++) {
@@ -165,6 +167,7 @@ public class PixelInterleavedSampleModel extends ComponentSampleModel
     }
 
     // Differentiate hash code from other ComponentSampleModel subclasses
+    @Override
     public int hashCode() {
         return super.hashCode() ^ 0x1;
     }

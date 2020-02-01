@@ -69,6 +69,7 @@ public class Panel extends Container implements Accessible {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Panel.class) {
             return base + nameCounter++;
@@ -80,10 +81,12 @@ public class Panel extends Container implements Accessible {
      * appearance of the panel without changing its functionality.
      */
 
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createPanel(this);
+            }
             super.addNotify();
         }
     }
@@ -102,6 +105,7 @@ public class Panel extends Container implements Accessible {
      *         AccessibleContext of this Panel
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTPanel();
@@ -125,6 +129,7 @@ public class Panel extends Container implements Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

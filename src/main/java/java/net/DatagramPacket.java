@@ -48,6 +48,7 @@ class DatagramPacket {
     static {
         java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     System.loadLibrary("net");
                     return null;
@@ -309,11 +310,13 @@ class DatagramPacket {
      * @see #getSocketAddress
      */
     public synchronized void setSocketAddress(SocketAddress address) {
-        if (address == null || !(address instanceof InetSocketAddress))
+        if (address == null || !(address instanceof InetSocketAddress)) {
             throw new IllegalArgumentException("unsupported address type");
+        }
         InetSocketAddress addr = (InetSocketAddress) address;
-        if (addr.isUnresolved())
+        if (addr.isUnresolved()) {
             throw new IllegalArgumentException("unresolved address");
+        }
         setAddress(addr.getAddress());
         setPort(addr.getPort());
     }

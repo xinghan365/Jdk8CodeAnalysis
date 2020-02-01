@@ -132,6 +132,7 @@ public abstract class X509CRL extends CRL implements X509Extension {
      * @return true iff the encoded forms of the two CRLs
      * match, false otherwise.
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
@@ -155,6 +156,7 @@ public abstract class X509CRL extends CRL implements X509Extension {
      *
      * @return the hashcode value.
      */
+    @Override
     public int hashCode() {
         int retval = 0;
         try {

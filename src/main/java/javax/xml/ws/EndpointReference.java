@@ -184,6 +184,7 @@ public abstract class EndpointReference {
     /**
      * Displays EPR infoset for debugging convenience.
      */
+    @Override
     public String toString() {
         StringWriter w = new StringWriter();
         writeTo(new StreamResult(w));

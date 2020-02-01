@@ -179,6 +179,7 @@ public class SerialJavaObject implements Serializable, Cloneable {
      *          equivalent to this SerialJavaObject, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -197,6 +198,7 @@ public class SerialJavaObject implements Serializable, Cloneable {
      *
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return 31 + obj.hashCode();
     }
@@ -207,12 +209,14 @@ public class SerialJavaObject implements Serializable, Cloneable {
      * @return  a clone of this SerialJavaObject
      */
 
+    @Override
     public Object clone() {
         try {
             SerialJavaObject sjo = (SerialJavaObject) super.clone();
             sjo.fields = Arrays.copyOf(fields, fields.length);
-            if (chain != null)
+            if (chain != null) {
                 sjo.chain = new Vector<>(chain);
+            }
             return sjo;
         } catch (CloneNotSupportedException ex) {
             // this shouldn't happen, since we are Cloneable
@@ -240,15 +244,17 @@ public class SerialJavaObject implements Serializable, Cloneable {
         ObjectInputStream.GetField fields1 = s.readFields();
         @SuppressWarnings("unchecked")
         Vector<RowSetWarning> tmp = (Vector<RowSetWarning>)fields1.get("chain", null);
-        if (tmp != null)
+        if (tmp != null) {
             chain = new Vector<>(tmp);
+        }
 
         obj = fields1.get("obj", null);
         if (obj != null) {
             fields = obj.getClass().getFields();
-            if(hasStaticFields(fields))
+            if(hasStaticFields(fields)) {
                 throw new IOException("Located static fields in " +
                 "object instance. Cannot serialize");
+            }
         } else {
             throw new IOException("Object cannot be null!");
         }

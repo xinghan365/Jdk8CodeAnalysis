@@ -54,6 +54,7 @@ public class MetalComboBoxEditor extends BasicComboBoxEditor {
         //editor.removeFocusListener(this);
         editor = new JTextField("",9) {
                 // workaround for 4530952
+                @Override
                 public void setText(String s) {
                     if (getText().equals(s)) {
                         return;
@@ -63,11 +64,13 @@ public class MetalComboBoxEditor extends BasicComboBoxEditor {
             // The preferred and minimum sizes are overriden and padded by
             // 4 to keep the size as it previously was.  Refer to bugs
             // 4775789 and 4517214 for details.
+            @Override
             public Dimension getPreferredSize() {
                 Dimension pref = super.getPreferredSize();
                 pref.height += 4;
                 return pref;
             }
+            @Override
             public Dimension getMinimumSize() {
                 Dimension min = super.getMinimumSize();
                 min.height += 4;
@@ -86,6 +89,7 @@ public class MetalComboBoxEditor extends BasicComboBoxEditor {
     protected static Insets editorBorderInsets = new Insets( 2, 2, 2, 0 );
 
     class EditorBorder extends AbstractBorder {
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             g.translate( x, y );
 
@@ -111,6 +115,7 @@ public class MetalComboBoxEditor extends BasicComboBoxEditor {
             g.translate( -x, -y );
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             insets.set(2, 2, 2, 0);
             return insets;

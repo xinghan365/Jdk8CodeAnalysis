@@ -224,6 +224,7 @@ public class ScrollPaneLayout
      * @param c the the component to be added
      * @exception IllegalArgumentException if <code>s</code> is an invalid key
      */
+    @Override
     public void addLayoutComponent(String s, Component c)
     {
         if (s.equals(VIEWPORT)) {
@@ -264,6 +265,7 @@ public class ScrollPaneLayout
      *
      * @param c the component to remove
      */
+    @Override
     public void removeLayoutComponent(Component c)
     {
         if (c == viewport) {
@@ -466,6 +468,7 @@ public class ScrollPaneLayout
      * @see ViewportLayout
      * @see LayoutManager
      */
+    @Override
     public Dimension preferredLayoutSize(Container parent)
     {
         /* Sync the (now obsolete) policy fields with the
@@ -589,6 +592,7 @@ public class ScrollPaneLayout
      * @param parent the <code>Container</code> that will be laid out
      * @return a <code>Dimension</code> object specifying the minimum size
      */
+    @Override
     public Dimension minimumLayoutSize(Container parent)
     {
         /* Sync the (now obsolete) policy fields with the
@@ -690,6 +694,7 @@ public class ScrollPaneLayout
      *
      * @param parent the <code>Container</code> to lay out
      */
+    @Override
     public void layoutContainer(Container parent)
     {
         /* Sync the (now obsolete) policy fields with the

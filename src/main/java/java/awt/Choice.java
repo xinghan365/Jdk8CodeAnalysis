@@ -133,6 +133,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * Constructs a name for this component.  Called by
      * <code>getName</code> when the name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (Choice.class) {
             return base + nameCounter++;
@@ -146,10 +147,12 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * @see     java.awt.Toolkit#createChoice(java.awt.Choice)
      * @see     java.awt.Component#getToolkit()
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createChoice(this);
+            }
             super.addNotify();
         }
     }
@@ -387,6 +390,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * item.  If this choice has no items, returns <code>null</code>.
      * @see ItemSelectable
      */
+    @Override
     public synchronized Object[] getSelectedObjects() {
         if (selectedIndex >= 0) {
             Object[] items = new Object[1];
@@ -477,6 +481,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void addItemListener(ItemListener l) {
         if (l == null) {
            return;
@@ -499,6 +504,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * @see           java.awt.event.ItemListener
      * @since         JDK1.1
      */
+    @Override
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
@@ -557,6 +563,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * @see #getItemListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ItemListener.class) {
@@ -568,6 +575,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
             if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
@@ -593,6 +601,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      * @see        #processItemEvent
      * @since      JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ItemEvent) {
             processItemEvent((ItemEvent)e);
@@ -641,6 +650,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      *
      * @return    the parameter string of this <code>Choice</code> menu
      */
+    @Override
     protected String paramString() {
         return super.paramString() + ",current=" + getSelectedItem();
     }
@@ -709,11 +719,12 @@ public class Choice extends Component implements ItemSelectable, Accessible {
       while(null != (keyOrNull = s.readObject())) {
         String key = ((String)keyOrNull).intern();
 
-        if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
-
-        else // skip value for unrecognized key
-          s.readObject();
+        if (itemListenerK == key) {
+            addItemListener((ItemListener)(s.readObject()));
+        } else // skip value for unrecognized key
+        {
+            s.readObject();
+        }
       }
     }
 
@@ -738,6 +749,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
      *         <code>AccessibleContext</code> of this <code>Choice</code>
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTChoice();
@@ -772,6 +784,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
          * @return this object
          * @see AccessibleAction
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -783,6 +796,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.COMBO_BOX;
         }
@@ -794,6 +808,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
          *
          * @return the zero-based number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 0;  //  To be fully implemented in a future release
         }
@@ -805,6 +820,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
          * @return a String description of the action
          * @see #getAccessibleActionCount
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             return null;  //  To be fully implemented in a future release
         }
@@ -816,6 +832,7 @@ public class Choice extends Component implements ItemSelectable, Accessible {
          * @return true if the action was performed; otherwise false.
          * @see #getAccessibleActionCount
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             return false;  //  To be fully implemented in a future release
         }

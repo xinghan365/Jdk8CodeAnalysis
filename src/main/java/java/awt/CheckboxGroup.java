@@ -143,6 +143,7 @@ public class CheckboxGroup implements java.io.Serializable {
      * including the value of its current selection.
      * @return    a string representation of this check box group.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[selectedCheckbox=" + selectedCheckbox + "]";
     }

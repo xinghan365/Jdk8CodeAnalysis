@@ -95,6 +95,7 @@ final class SlidingSpinner implements ChangeListener {
         this.spinner.setVisible(visible);
     }
 
+    @Override
     public void stateChanged(ChangeEvent event) {
         if (!this.internal) {
             if (this.spinner == event.getSource()) {

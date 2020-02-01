@@ -189,6 +189,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      * @return the location in the model that represents the
      *  next location visual position
      */
+    @Override
     protected int getNextNorthSouthVisualPositionFrom(int pos, Position.Bias b,
                                                       Shape a, int direction,
                                                       Position.Bias[] biasRet)
@@ -332,6 +333,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      * @return true if the text is layed out right to left at
      *         position, otherwise false.
      */
+    @Override
     protected boolean flipEastAndWestAtEnds(int position,
                                             Position.Bias bias) {
         Document doc = getDocument();
@@ -349,6 +351,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      *  <code>index</code>
      * @since 1.3
      */
+    @Override
     public int getFlowSpan(int index) {
         View child = getView(index);
         int adjust = 0;
@@ -368,6 +371,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      *  <code>index</code>
      * @since 1.3
      */
+    @Override
     public int getFlowStart(int index) {
         View child = getView(index);
         int adjust = 0;
@@ -384,6 +388,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      * @return the new <code>View</code>
      * @since 1.3
      */
+    @Override
     protected View createRow() {
         return new Row(getElement());
     }
@@ -415,10 +420,12 @@ public class ParagraphView extends FlowView implements TabExpander {
      * @see TabStop
      * @see LabelView
      */
+    @Override
     public float nextTabStop(float x, int tabOffset) {
         // If the text isn't left justified, offset by 10 pixels!
-        if(justification != StyleConstants.ALIGN_LEFT)
+        if(justification != StyleConstants.ALIGN_LEFT) {
             return x + 10.0f;
+        }
         x -= tabBase;
         TabSet tabs = getTabSet();
         if(tabs == null) {
@@ -510,14 +517,16 @@ public class ParagraphView extends FlowView implements TabExpander {
             view = layoutPool.getView(viewIndex++);
             viewEnd = view.getEndOffset();
             tempEnd = Math.min(endOffset, viewEnd);
-            if(view instanceof TabableView)
+            if(view instanceof TabableView) {
                 size += ((TabableView)view).getPartialSpan(startOffset, tempEnd);
-            else if(startOffset == view.getStartOffset() &&
-                    tempEnd == view.getEndOffset())
+            } else if(startOffset == view.getStartOffset() &&
+                    tempEnd == view.getEndOffset()) {
                 size += view.getPreferredSpan(View.X_AXIS);
-            else
+            } else
                 // PENDING: should we handle this better?
+            {
                 return 0.0f;
+            }
             startOffset = viewEnd;
         }
         return size;
@@ -547,8 +556,9 @@ public class ParagraphView extends FlowView implements TabExpander {
             char currentChar = seg.array[counter];
             for(int subCounter = 0; subCounter < stringLength;
                 subCounter++) {
-                if(currentChar == string[subCounter])
+                if(currentChar == string[subCounter]) {
                     return counter - seg.offset + start;
+                }
             }
         }
         // No match.
@@ -574,6 +584,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      * @param a the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
         tabBase = alloc.x + getLeftInset();
@@ -614,6 +625,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      *   away from the origin.  An alignment of 0.5 would be the
      *   center of the view.
      */
+    @Override
     public float getAlignment(int axis) {
         switch (axis) {
         case Y_AXIS:
@@ -779,6 +791,7 @@ public class ParagraphView extends FlowView implements TabExpander {
      * @param f the factory to use to rebuild if the view has children
      * @see View#changedUpdate
      */
+    @Override
     public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
         // update any property settings stored, and layout should be
         // recomputed
@@ -837,6 +850,7 @@ public class ParagraphView extends FlowView implements TabExpander {
          * paragraph fills in the row with its needed
          * children.
          */
+        @Override
         protected void loadChildren(ViewFactory f) {
         }
 
@@ -845,11 +859,13 @@ public class ParagraphView extends FlowView implements TabExpander {
          * isn't directly responsible for an element so it returns
          * the outer classes attributes.
          */
+        @Override
         public AttributeSet getAttributes() {
             View p = getParent();
             return (p != null) ? p.getAttributes() : null;
         }
 
+        @Override
         public float getAlignment(int axis) {
             if (axis == View.X_AXIS) {
                 switch (justification) {
@@ -887,6 +903,7 @@ public class ParagraphView extends FlowView implements TabExpander {
          *   valid location in the associated document
          * @see View#modelToView
          */
+        @Override
         public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
             Rectangle r = a.getBounds();
             View v = getViewAtPosition(pos, r);
@@ -909,6 +926,7 @@ public class ParagraphView extends FlowView implements TabExpander {
          * a subset of the total range of the paragraph element.
          * @see View#getRange
          */
+        @Override
         public int getStartOffset() {
             int offs = Integer.MAX_VALUE;
             int n = getViewCount();
@@ -919,6 +937,7 @@ public class ParagraphView extends FlowView implements TabExpander {
             return offs;
         }
 
+        @Override
         public int getEndOffset() {
             int offs = 0;
             int n = getViewCount();
@@ -949,10 +968,12 @@ public class ParagraphView extends FlowView implements TabExpander {
          * @return the offset and span for each child view in the
          *  offsets and spans parameters
          */
+        @Override
         protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
             baselineLayout(targetSpan, axis, offsets, spans);
         }
 
+        @Override
         protected SizeRequirements calculateMinorAxisRequirements(int axis,
                                                                   SizeRequirements r) {
             return baselineRequirements(axis, r);
@@ -1145,11 +1166,13 @@ public class ParagraphView extends FlowView implements TabExpander {
          * @return  index of the view representing the given position, or
          *   -1 if no view represents that position
          */
+        @Override
         protected int getViewIndexAtPosition(int pos) {
             // This is expensive, but are views are not necessarily layed
             // out in model order.
-            if(pos < getStartOffset() || pos >= getEndOffset())
+            if(pos < getStartOffset() || pos >= getEndOffset()) {
                 return -1;
+            }
             for(int counter = getViewCount() - 1; counter >= 0; counter--) {
                 View v = getView(counter);
                 if(pos >= v.getStartOffset() &&
@@ -1165,6 +1188,7 @@ public class ParagraphView extends FlowView implements TabExpander {
          *
          * @return the inset
          */
+        @Override
         protected short getLeftInset() {
             View parentView;
             int adjustment = 0;
@@ -1176,6 +1200,7 @@ public class ParagraphView extends FlowView implements TabExpander {
             return (short)(super.getLeftInset() + adjustment);
         }
 
+        @Override
         protected short getBottomInset() {
             return (short)(super.getBottomInset() +
                            ((minorRequest != null) ? minorRequest.preferred : 0) *

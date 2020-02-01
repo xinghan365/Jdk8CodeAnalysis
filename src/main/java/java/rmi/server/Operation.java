@@ -66,6 +66,7 @@ public class Operation {
      * @deprecated no replacement
      * @since JDK1.1
      */
+    @Override
     @Deprecated
     public String toString() {
         return operation;

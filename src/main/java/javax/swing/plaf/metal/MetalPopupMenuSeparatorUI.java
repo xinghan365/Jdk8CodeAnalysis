@@ -48,7 +48,8 @@ public class MetalPopupMenuSeparatorUI extends MetalSeparatorUI
         return new MetalPopupMenuSeparatorUI();
     }
 
-    public void paint( Graphics g, JComponent c )
+    @Override
+    public void paint(Graphics g, JComponent c )
     {
         Dimension s = c.getSize();
 
@@ -61,7 +62,8 @@ public class MetalPopupMenuSeparatorUI extends MetalSeparatorUI
         g.drawLine( 0, 3, 0, 3 );
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    @Override
+    public Dimension getPreferredSize(JComponent c )
     {
         return new Dimension( 0, 4 );
     }

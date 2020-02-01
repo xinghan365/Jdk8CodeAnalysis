@@ -72,10 +72,12 @@ public class InvalidClassException extends ObjectStreamException {
     /**
      * Produce the message and include the classname, if present.
      */
+    @Override
     public String getMessage() {
-        if (classname == null)
+        if (classname == null) {
             return super.getMessage();
-        else
+        } else {
             return classname + "; " + super.getMessage();
+        }
     }
 }

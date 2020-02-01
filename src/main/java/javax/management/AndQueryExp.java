@@ -92,6 +92,7 @@ class AndQueryExp extends QueryEval implements QueryExp {
      * @exception InvalidApplicationException  An attempt has been made to apply a subquery expression to a
      * managed object or a qualified attribute expression to a managed object of the wrong class.
      */
+    @Override
     public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
         return exp1.apply(name) && exp2.apply(name);

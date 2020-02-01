@@ -295,6 +295,7 @@ public class FontRenderContext {
      *         this <code>FontRenderContext</code>; <code>false</code>
      *         otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         try {
             return equals((FontRenderContext)obj);
@@ -340,6 +341,7 @@ public class FontRenderContext {
     /**
      * Return a hashcode for this FontRenderContext.
      */
+    @Override
     public int hashCode() {
         int hash = tx == null ? 0 : tx.hashCode();
         /* SunHints value objects have identity hashcode, so we can rely on

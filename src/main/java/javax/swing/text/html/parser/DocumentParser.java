@@ -127,6 +127,7 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
     /**
      * Handle Start Tag.
      */
+    @Override
     protected void handleStartTag(TagElement tag) {
 
         Element elem = tag.getElement();
@@ -164,6 +165,7 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
     }
 
 
+    @Override
     protected void handleComment(char text[]) {
         if (debugFlag) {
             debug("comment: ->" + new String(text) + "<-"
@@ -175,6 +177,7 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
     /**
      * Handle Empty Tag.
      */
+    @Override
     protected void handleEmptyTag(TagElement tag) throws ChangedCharSetException {
 
         Element elem = tag.getElement();
@@ -220,6 +223,7 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
     /**
      * Handle End Tag.
      */
+    @Override
     protected void handleEndTag(TagElement tag) {
         Element elem = tag.getElement();
         if (elem == dtd.body) {
@@ -244,6 +248,7 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
     /**
      * Handle Text.
      */
+    @Override
     protected void handleText(char data[]) {
         if (data != null) {
             if (inscript != 0) {
@@ -263,6 +268,7 @@ public class DocumentParser extends javax.swing.text.html.parser.Parser {
     /*
      * Error handling.
      */
+    @Override
     protected void handleError(int ln, String errorMsg) {
         if (debugFlag) {
             debug("Error: ->" + errorMsg + "<-" + " pos: " + getCurrentPos());

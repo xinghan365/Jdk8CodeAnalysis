@@ -196,6 +196,7 @@ public class ImageReadParam extends IIOParam {
     public ImageReadParam() {}
 
     // Comment inherited
+    @Override
     public void setDestinationType(ImageTypeSpecifier destinationType) {
         super.setDestinationType(destinationType);
         setDestination(null);

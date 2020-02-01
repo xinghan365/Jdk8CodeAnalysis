@@ -319,6 +319,7 @@ public abstract class AtomicReferenceFieldUpdater<T,V> {
             try {
                 field = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Field>() {
+                        @Override
                         public Field run() throws NoSuchFieldException {
                             return tclass.getDeclaredField(fieldName);
                         }
@@ -339,13 +340,16 @@ public abstract class AtomicReferenceFieldUpdater<T,V> {
                 throw new RuntimeException(ex);
             }
 
-            if (vclass != fieldClass)
+            if (vclass != fieldClass) {
                 throw new ClassCastException();
-            if (vclass.isPrimitive())
+            }
+            if (vclass.isPrimitive()) {
                 throw new IllegalArgumentException("Must be reference type");
+            }
 
-            if (!Modifier.isVolatile(modifiers))
+            if (!Modifier.isVolatile(modifiers)) {
                 throw new IllegalArgumentException("Must be volatile type");
+            }
 
             // Access to protected field members is restricted to receivers only
             // of the accessing class, or one of its subclasses, and the
@@ -399,8 +403,9 @@ public abstract class AtomicReferenceFieldUpdater<T,V> {
          * failure, throws cause.
          */
         private final void accessCheck(T obj) {
-            if (!cclass.isInstance(obj))
+            if (!cclass.isInstance(obj)) {
                 throwAccessCheckException(obj);
+            }
         }
 
         /**
@@ -408,9 +413,9 @@ public abstract class AtomicReferenceFieldUpdater<T,V> {
          * protected access, else ClassCastException.
          */
         private final void throwAccessCheckException(T obj) {
-            if (cclass == tclass)
+            if (cclass == tclass) {
                 throw new ClassCastException();
-            else
+            } else {
                 throw new RuntimeException(
                     new IllegalAccessException(
                         "Class " +
@@ -419,23 +424,27 @@ public abstract class AtomicReferenceFieldUpdater<T,V> {
                         tclass.getName() +
                         " using an instance of " +
                         obj.getClass().getName()));
+            }
         }
 
         private final void valueCheck(V v) {
-            if (v != null && !(vclass.isInstance(v)))
+            if (v != null && !(vclass.isInstance(v))) {
                 throwCCE();
+            }
         }
 
         static void throwCCE() {
             throw new ClassCastException();
         }
 
+        @Override
         public final boolean compareAndSet(T obj, V expect, V update) {
             accessCheck(obj);
             valueCheck(update);
             return U.compareAndSwapObject(obj, offset, expect, update);
         }
 
+        @Override
         public final boolean weakCompareAndSet(T obj, V expect, V update) {
             // same implementation as strong form for now
             accessCheck(obj);
@@ -443,24 +452,28 @@ public abstract class AtomicReferenceFieldUpdater<T,V> {
             return U.compareAndSwapObject(obj, offset, expect, update);
         }
 
+        @Override
         public final void set(T obj, V newValue) {
             accessCheck(obj);
             valueCheck(newValue);
             U.putObjectVolatile(obj, offset, newValue);
         }
 
+        @Override
         public final void lazySet(T obj, V newValue) {
             accessCheck(obj);
             valueCheck(newValue);
             U.putOrderedObject(obj, offset, newValue);
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public final V get(T obj) {
             accessCheck(obj);
             return (V)U.getObjectVolatile(obj, offset);
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public final V getAndSet(T obj, V newValue) {
             accessCheck(obj);

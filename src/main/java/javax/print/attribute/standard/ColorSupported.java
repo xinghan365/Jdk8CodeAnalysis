@@ -91,6 +91,7 @@ public final class ColorSupported extends EnumSyntax
     /**
      * Returns the string table for class ColorSupported.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -98,6 +99,7 @@ public final class ColorSupported extends EnumSyntax
     /**
      * Returns the enumeration value table for class ColorSupported.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -111,6 +113,7 @@ public final class ColorSupported extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return ColorSupported.class;
     }
@@ -123,6 +126,7 @@ public final class ColorSupported extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "color-supported";
     }

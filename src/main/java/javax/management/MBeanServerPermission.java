@@ -151,10 +151,11 @@ public class MBeanServerPermission extends BasicPermission {
         mask = parseMask(name);
 
         /* Check that actions is a null empty string */
-        if (actions != null && actions.length() > 0)
+        if (actions != null && actions.length() > 0) {
             throw new IllegalArgumentException("MBeanServerPermission " +
                                                "actions must be null: " +
                                                actions);
+        }
     }
 
     MBeanServerPermission(int mask) {
@@ -169,26 +170,30 @@ public class MBeanServerPermission extends BasicPermission {
     }
 
     static int simplifyMask(int mask) {
-        if ((mask & CREATE_MASK) != 0)
+        if ((mask & CREATE_MASK) != 0) {
             mask &= ~NEW_MASK;
+        }
         return mask;
     }
 
     static int impliedMask(int mask) {
-        if ((mask & CREATE_MASK) != 0)
+        if ((mask & CREATE_MASK) != 0) {
             mask |= NEW_MASK;
+        }
         return mask;
     }
 
     static String getCanonicalName(int mask) {
-        if (mask == ALL_MASK)
+        if (mask == ALL_MASK) {
             return "*";
+        }
 
         mask = simplifyMask(mask);
 
         synchronized (canonicalNames) {
-            if (canonicalNames[mask] == null)
+            if (canonicalNames[mask] == null) {
                 canonicalNames[mask] = makeCanonicalName(mask);
+            }
         }
 
         return canonicalNames[mask];
@@ -198,8 +203,9 @@ public class MBeanServerPermission extends BasicPermission {
         final StringBuilder buf = new StringBuilder();
         for (int i = 0; i < N_NAMES; i++) {
             if ((mask & (1<<i)) != 0) {
-                if (buf.length() > 0)
+                if (buf.length() > 0) {
                     buf.append(',');
+                }
                 buf.append(names[i]);
             }
         }
@@ -219,12 +225,14 @@ public class MBeanServerPermission extends BasicPermission {
         }
 
         name = name.trim();
-        if (name.equals("*"))
+        if (name.equals("*")) {
             return ALL_MASK;
+        }
 
         /* If the name is empty, nameIndex will barf. */
-        if (name.indexOf(',') < 0)
+        if (name.indexOf(',') < 0) {
             return impliedMask(1 << nameIndex(name.trim()));
+        }
 
         int mask = 0;
 
@@ -241,14 +249,16 @@ public class MBeanServerPermission extends BasicPermission {
     private static int nameIndex(String name)
             throws IllegalArgumentException {
         for (int i = 0; i < N_NAMES; i++) {
-            if (names[i].equals(name))
+            if (names[i].equals(name)) {
                 return i;
+            }
         }
         final String msg =
             "Invalid MBeanServerPermission name: \"" + name + "\"";
         throw new IllegalArgumentException(msg);
     }
 
+    @Override
     public int hashCode() {
         return mask;
     }
@@ -272,9 +282,11 @@ public class MBeanServerPermission extends BasicPermission {
      * @return true if the specified permission is implied by this object,
      * false if not.
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof MBeanServerPermission))
+        if (!(p instanceof MBeanServerPermission)) {
             return false;
+        }
 
         MBeanServerPermission that = (MBeanServerPermission) p;
 
@@ -289,18 +301,22 @@ public class MBeanServerPermission extends BasicPermission {
      * @param obj the object we are testing for equality with this object.
      * @return true if the objects are equal.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (! (obj instanceof MBeanServerPermission))
+        if (! (obj instanceof MBeanServerPermission)) {
             return false;
+        }
 
         MBeanServerPermission that = (MBeanServerPermission) obj;
 
         return (this.mask == that.mask);
     }
 
+    @Override
     public PermissionCollection newPermissionCollection() {
         return new MBeanServerPermissionCollection();
     }
@@ -338,34 +354,39 @@ class MBeanServerPermissionCollection extends PermissionCollection {
 
     private static final long serialVersionUID = -5661980843569388590L;
 
+    @Override
     public synchronized void add(Permission permission) {
         if (!(permission instanceof MBeanServerPermission)) {
             final String msg =
                 "Permission not an MBeanServerPermission: " + permission;
             throw new IllegalArgumentException(msg);
         }
-        if (isReadOnly())
+        if (isReadOnly()) {
             throw new SecurityException("Read-only permission collection");
+        }
         MBeanServerPermission mbsp = (MBeanServerPermission) permission;
-        if (collectionPermission == null)
+        if (collectionPermission == null) {
             collectionPermission = mbsp;
-        else if (!collectionPermission.implies(permission)) {
+        } else if (!collectionPermission.implies(permission)) {
             int newmask = collectionPermission.mask | mbsp.mask;
             collectionPermission = new MBeanServerPermission(newmask);
         }
     }
 
+    @Override
     public synchronized boolean implies(Permission permission) {
         return (collectionPermission != null &&
                 collectionPermission.implies(permission));
     }
 
+    @Override
     public synchronized Enumeration<Permission> elements() {
         Set<Permission> set;
-        if (collectionPermission == null)
+        if (collectionPermission == null) {
             set = Collections.emptySet();
-        else
+        } else {
             set = Collections.singleton((Permission) collectionPermission);
+        }
         return Collections.enumeration(set);
     }
 }

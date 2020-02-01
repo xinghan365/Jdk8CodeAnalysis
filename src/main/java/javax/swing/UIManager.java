@@ -347,6 +347,7 @@ public class UIManager implements Serializable
          *
          * @return a <code>String</code> representation of this object
          */
+        @Override
         public String toString() {
             return getClass().getName() + "[" + getName() + " " + getClassName() + "]";
         }
@@ -1227,6 +1228,7 @@ public class UIManager implements Serializable
 
             java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     OSInfo.OSType osType = AccessController.doPrivileged(OSInfo.getOSTypeAction());
                     if (osType == OSInfo.OSType.MACOSX) {
@@ -1474,6 +1476,7 @@ public class UIManager implements Serializable
         // handle it here.
         KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 addKeyEventPostProcessor(new KeyEventPostProcessor() {
+                    @Override
                     public boolean postProcessKeyEvent(KeyEvent e) {
                         Component c = e.getComponent();
 

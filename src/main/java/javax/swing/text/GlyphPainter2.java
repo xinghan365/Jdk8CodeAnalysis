@@ -57,6 +57,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
     /**
      * Create a painter to use for the given GlyphView.
      */
+    @Override
     public GlyphView.GlyphPainter getPainter(GlyphView v, int p0, int p1) {
         return null;
     }
@@ -67,6 +68,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
      * has no tabs (i.e. TextLayout doesn't deal with tab
      * expansion).
      */
+    @Override
     public float getSpan(GlyphView v, int p0, int p1,
                          TabExpander e, float x) {
 
@@ -86,6 +88,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
         return (x1 > x0) ? x1 - x0 : x0 - x1;
     }
 
+    @Override
     public float getHeight(GlyphView v) {
         return layout.getAscent() + layout.getDescent() + layout.getLeading();
     }
@@ -94,6 +97,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
      * Fetch the ascent above the baseline for the glyphs
      * corresponding to the given range in the model.
      */
+    @Override
     public float getAscent(GlyphView v) {
         return layout.getAscent();
     }
@@ -102,6 +106,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
      * Fetch the descent below the baseline for the glyphs
      * corresponding to the given range in the model.
      */
+    @Override
     public float getDescent(GlyphView v) {
         return layout.getDescent();
     }
@@ -112,6 +117,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
      * is required by TextLayout (and this should be the case if
      * running on the JDK).
      */
+    @Override
     public void paint(GlyphView v, Graphics g, Shape a, int p0, int p1) {
         if (g instanceof Graphics2D) {
             Rectangle2D alloc = a.getBounds2D();
@@ -135,6 +141,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
         }
     }
 
+    @Override
     public Shape modelToView(GlyphView v, int pos, Position.Bias bias,
                              Shape a) throws BadLocationException {
         int offs = pos - v.getStartOffset();
@@ -164,6 +171,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
      *  given point of view
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(GlyphView v, float x, float y, Shape a,
                            Position.Bias[] biasReturn) {
 
@@ -200,9 +208,11 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
      * @return the maximum model location possible for a break.
      * @see View#breakView
      */
+    @Override
     public int getBoundedPosition(GlyphView v, int p0, float x, float len) {
-        if( len < 0 )
+        if( len < 0 ) {
             throw new IllegalArgumentException("Length must be >= 0.");
+        }
         // note: this only works because swing uses TextLayouts that are
         // only pure rtl or pure ltr
         TextHitInfo hit;
@@ -233,6 +243,7 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
          * @exception BadLocationException
          * @exception IllegalArgumentException for an invalid direction
          */
+        @Override
         public int getNextVisualPositionFrom(GlyphView v, int pos,
                                              Position.Bias b, Shape a,
                                              int direction,
@@ -280,10 +291,11 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
                         return endOffset;
                     }
                 }
-                if( b==Position.Bias.Forward )
+                if( b==Position.Bias.Forward ) {
                     currentHit = TextHitInfo.afterOffset(pos-startOffset);
-                else
+                } else {
                     currentHit = TextHitInfo.beforeOffset(pos-startOffset);
+                }
                 nextHit = layout.getNextRightHit(currentHit);
                 if( nextHit == null ) {
                     return -1;
@@ -340,10 +352,11 @@ class GlyphPainter2 extends GlyphView.GlyphPainter {
                         return startOffset;
                    }
                 }
-                if( b==Position.Bias.Forward )
+                if( b==Position.Bias.Forward ) {
                     currentHit = TextHitInfo.afterOffset(pos-startOffset);
-                else
+                } else {
                     currentHit = TextHitInfo.beforeOffset(pos-startOffset);
+                }
                 nextHit = layout.getNextLeftHit(currentHit);
                 if( nextHit == null ) {
                     return -1;

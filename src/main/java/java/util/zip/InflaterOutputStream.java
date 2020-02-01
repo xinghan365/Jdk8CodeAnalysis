@@ -104,12 +104,15 @@ public class InflaterOutputStream extends FilterOutputStream {
         super(out);
 
         // Sanity checks
-        if (out == null)
+        if (out == null) {
             throw new NullPointerException("Null output");
-        if (infl == null)
+        }
+        if (infl == null) {
             throw new NullPointerException("Null inflater");
-        if (bufLen <= 0)
+        }
+        if (bufLen <= 0) {
             throw new IllegalArgumentException("Buffer size < 1");
+        }
 
         // Initialize
         inf = infl;
@@ -122,6 +125,7 @@ public class InflaterOutputStream extends FilterOutputStream {
      *
      * @throws IOException if an I/O error occurs
      */
+    @Override
     public void close() throws IOException {
         if (!closed) {
             // Complete the uncompressed output
@@ -141,6 +145,7 @@ public class InflaterOutputStream extends FilterOutputStream {
      * @throws IOException if an I/O error occurs or this stream is already
      * closed
      */
+    @Override
     public void flush() throws IOException {
         ensureOpen();
 
@@ -198,6 +203,7 @@ public class InflaterOutputStream extends FilterOutputStream {
      * closed
      * @throws ZipException if a compression (ZIP) format error occurs
      */
+    @Override
     public void write(int b) throws IOException {
         // Write a single byte of data
         wbuf[0] = (byte) b;
@@ -218,6 +224,7 @@ public class InflaterOutputStream extends FilterOutputStream {
      * @throws NullPointerException if {@code b} is null
      * @throws ZipException if a compression (ZIP) format error occurs
      */
+    @Override
     public void write(byte[] b, int off, int len) throws IOException {
         // Sanity checks
         ensureOpen();

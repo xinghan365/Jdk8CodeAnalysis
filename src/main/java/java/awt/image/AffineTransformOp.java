@@ -208,6 +208,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      *         image-processing operation, or any other unsupported
      *         operation.
      */
+    @Override
     public final BufferedImage filter(BufferedImage src, BufferedImage dst) {
 
         if (src == null) {
@@ -335,6 +336,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      *         image-processing operation, or any other unsupported
      *         operation.
      */
+    @Override
     public final WritableRaster filter(Raster src, WritableRaster dst) {
         if (src == null) {
             throw new NullPointerException("src image is null");
@@ -371,6 +373,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      * @return The <CODE>Rectangle2D</CODE> representing the destination's
      * bounding box.
      */
+    @Override
     public final Rectangle2D getBounds2D (BufferedImage src) {
         return getBounds2D(src.getRaster());
     }
@@ -386,6 +389,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      * @return The <CODE>Rectangle2D</CODE> representing the destination's
      * bounding box.
      */
+    @Override
     public final Rectangle2D getBounds2D (Raster src) {
         int w = src.getWidth();
         int h = src.getHeight();
@@ -433,6 +437,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      *
      * @return The zeroed destination image.
      */
+    @Override
     public BufferedImage createCompatibleDestImage (BufferedImage src,
                                                     ColorModel destCM) {
         BufferedImage image;
@@ -486,6 +491,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      *
      * @return The zeroed destination <CODE>Raster</CODE>.
      */
+    @Override
     public WritableRaster createCompatibleDestRaster (Raster src) {
         Rectangle2D r = getBounds2D(src);
 
@@ -507,6 +513,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      * @return The <CODE>Point2D</CODE> in the destination that corresponds to
      * the specified point in the source.
      */
+    @Override
     public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         return xform.transform (srcPt, dstPt);
     }
@@ -525,6 +532,7 @@ public class AffineTransformOp implements BufferedImageOp, RasterOp {
      *
      * @return The <CODE>RenderingHints</CODE> object associated with this op.
      */
+    @Override
     public final RenderingHints getRenderingHints() {
         if (hints == null) {
             Object val;

@@ -83,5 +83,6 @@ public abstract class AbstractTypeVisitor8<R, P> extends AbstractTypeVisitor7<R,
      * @param p  {@inheritDoc}
      * @return the result of the visit as defined by a subclass
      */
+    @Override
     public abstract R visitIntersection(IntersectionType t, P p);
 }

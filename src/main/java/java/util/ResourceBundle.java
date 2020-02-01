@@ -291,8 +291,11 @@ public abstract class ResourceBundle {
 
     /** constant indicating that no resource bundle exists */
     private static final ResourceBundle NONEXISTENT_BUNDLE = new ResourceBundle() {
+            @Override
             public Enumeration<String> getKeys() { return null; }
+            @Override
             protected Object handleGetObject(String key) { return null; }
+            @Override
             public String toString() { return "NONEXISTENT_BUNDLE"; }
         };
 
@@ -490,6 +493,7 @@ public abstract class ResourceBundle {
     private static class RBClassLoader extends ClassLoader {
         private static final RBClassLoader INSTANCE = AccessController.doPrivileged(
                     new PrivilegedAction<RBClassLoader>() {
+                        @Override
                         public RBClassLoader run() {
                             return new RBClassLoader();
                         }
@@ -507,18 +511,21 @@ public abstract class ResourceBundle {
 
         private RBClassLoader() {
         }
+        @Override
         public Class<?> loadClass(String name) throws ClassNotFoundException {
             if (loader != null) {
                 return loader.loadClass(name);
             }
             return Class.forName(name);
         }
+        @Override
         public URL getResource(String name) {
             if (loader != null) {
                 return loader.getResource(name);
             }
             return ClassLoader.getSystemResource(name);
         }
+        @Override
         public InputStream getResourceAsStream(String name) {
             if (loader != null) {
                 return loader.getResourceAsStream(name);
@@ -612,6 +619,7 @@ public abstract class ResourceBundle {
             return (loaderRef != null) ? loaderRef.get() : null;
         }
 
+        @Override
         public boolean equals(Object other) {
             if (this == other) {
                 return true;
@@ -646,6 +654,7 @@ public abstract class ResourceBundle {
             return false;
         }
 
+        @Override
         public int hashCode() {
             return hashCodeCache;
         }
@@ -659,6 +668,7 @@ public abstract class ResourceBundle {
             }
         }
 
+        @Override
         public Object clone() {
             try {
                 CacheKey clone = (CacheKey) super.clone();
@@ -699,6 +709,7 @@ public abstract class ResourceBundle {
             return cause;
         }
 
+        @Override
         public String toString() {
             String l = locale.toString();
             if (l.length() == 0) {
@@ -735,6 +746,7 @@ public abstract class ResourceBundle {
             cacheKey = key;
         }
 
+        @Override
         public CacheKey getCacheKey() {
             return cacheKey;
         }
@@ -753,6 +765,7 @@ public abstract class ResourceBundle {
             cacheKey = key;
         }
 
+        @Override
         public CacheKey getCacheKey() {
             return cacheKey;
         }
@@ -2387,6 +2400,7 @@ public abstract class ResourceBundle {
         private static final CandidateListCache CANDIDATES_CACHE = new CandidateListCache();
 
         private static class CandidateListCache extends LocaleObjectCache<BaseLocale, List<Locale>> {
+            @Override
             protected List<Locale> createObject(BaseLocale base) {
                 String language = base.getLanguage();
                 String script = base.getScript();
@@ -2677,6 +2691,7 @@ public abstract class ResourceBundle {
                 try {
                     stream = AccessController.doPrivileged(
                         new PrivilegedExceptionAction<InputStream>() {
+                            @Override
                             public InputStream run() throws IOException {
                                 InputStream is = null;
                                 if (reloadFlag) {
@@ -2985,6 +3000,7 @@ public abstract class ResourceBundle {
             this.formats = formats;
         }
 
+        @Override
         public List<String> getFormats(String baseName) {
             if (baseName == null) {
                 throw new NullPointerException();
@@ -3007,6 +3023,7 @@ public abstract class ResourceBundle {
             super(formats);
         }
 
+        @Override
         public Locale getFallbackLocale(String baseName, Locale locale) {
             if (baseName == null || locale == null) {
                 throw new NullPointerException();

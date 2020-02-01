@@ -1452,8 +1452,9 @@ final class NimbusDefaults {
             }
             
             // lazily create the style if necessary
-            if (style == null)
+            if (style == null) {
                 style = new NimbusStyle(prefix, null);
+            }
             
             // return the style
             return style;
@@ -1472,8 +1473,12 @@ final class NimbusDefaults {
         }
 
         private boolean matches(Component c, int partIndex) {
-            if (partIndex < 0) return true;
-            if (c == null) return false;
+            if (partIndex < 0) {
+                return true;
+            }
+            if (c == null) {
+                return false;
+            }
             //only get here if partIndex > 0 and c == null
 
             String name = c.getName();
@@ -1748,13 +1753,15 @@ final class NimbusDefaults {
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             if (painter == null) {
                 painter = (Painter)UIManager.get(painterKey);
-                if (painter == null) return;
+                if (painter == null) {
+                    return;
+                }
             }
             
             g.translate(x, y);
-            if (g instanceof Graphics2D)
+            if (g instanceof Graphics2D) {
                 painter.paint((Graphics2D)g, c, w, h);
-            else {
+            } else {
                 BufferedImage img = new BufferedImage(w, h, TYPE_INT_ARGB);
                 Graphics2D gfx = img.createGraphics();
                 painter.paint(gfx, c, w, h);

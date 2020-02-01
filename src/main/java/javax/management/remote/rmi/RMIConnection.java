@@ -114,6 +114,7 @@ public interface RMIConnection extends Closeable, Remote {
      * communication failure when transmitting the remote close
      * request.
      */
+    @Override
     public void close() throws IOException;
 
     /**

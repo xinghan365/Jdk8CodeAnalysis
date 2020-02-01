@@ -706,6 +706,7 @@ public abstract class Toolkit {
 
         atNames = java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<String>() {
+            @Override
             public String run() {
 
                 // Try loading the per-user accessibility properties file.
@@ -853,6 +854,7 @@ public abstract class Toolkit {
         if (toolkit == null) {
             java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     Class<?> cls = null;
                     String nm = System.getProperty("awt.toolkit");
@@ -1632,6 +1634,7 @@ public abstract class Toolkit {
         if (!loaded) {
             java.security.AccessController.doPrivileged(
                 new java.security.PrivilegedAction<Void>() {
+                    @Override
                     public Void run() {
                         System.loadLibrary("awt");
                         return null;
@@ -1652,6 +1655,7 @@ public abstract class Toolkit {
 
         java.security.AccessController.doPrivileged(
                                  new java.security.PrivilegedAction<Void>() {
+            @Override
             public Void run() {
                 try {
                     resources =
@@ -2288,8 +2292,12 @@ public abstract class Toolkit {
 
         static AWTEventListener add(AWTEventListener a,
                                     AWTEventListener b) {
-            if (a == null)  return b;
-            if (b == null)  return a;
+            if (a == null) {
+                return b;
+            }
+            if (b == null) {
+                return a;
+            }
             return new ToolkitEventMulticaster(a, b);
         }
 
@@ -2303,9 +2311,14 @@ public abstract class Toolkit {
         // ToolkitEventMulticaster instead of an AWTEventMulticaster.
         // Note: this method is called by AWTEventListener.removeInternal(),
         // so its method signature must match AWTEventListener.remove().
+        @Override
         protected EventListener remove(EventListener oldl) {
-            if (oldl == a)  return b;
-            if (oldl == b)  return a;
+            if (oldl == a) {
+                return b;
+            }
+            if (oldl == b) {
+                return a;
+            }
             AWTEventListener a2 = (AWTEventListener)removeInternal(a, oldl);
             AWTEventListener b2 = (AWTEventListener)removeInternal(b, oldl);
             if (a2 == a && b2 == b) {
@@ -2314,6 +2327,7 @@ public abstract class Toolkit {
             return add(a2, b2);
         }
 
+        @Override
         public void eventDispatched(AWTEvent event) {
             ((AWTEventListener)a).eventDispatched(event);
             ((AWTEventListener)b).eventDispatched(event);
@@ -2351,6 +2365,7 @@ public abstract class Toolkit {
             eventMask = mask;
         }
 
+        @Override
         public void eventDispatched(AWTEvent event) {
             long eventBit = 0; // Used to save the bit of the event type.
             if (((eventBit = eventMask & AWTEvent.COMPONENT_EVENT_MASK) != 0 &&
@@ -2549,6 +2564,7 @@ public abstract class Toolkit {
                 return;
             }
             Runnable updater = new Runnable() {
+                @Override
                 public void run() {
                     PropertyChangeSupport pcs = (PropertyChangeSupport)
                             AppContext.getAppContext().get(PROP_CHANGE_SUPPORT_KEY);

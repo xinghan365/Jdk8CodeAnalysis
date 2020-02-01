@@ -132,6 +132,7 @@ public class Insets implements Cloneable, java.io.Serializable {
      *                          otherwise <code>false</code>.
      * @since       JDK1.1
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Insets) {
             Insets insets = (Insets)obj;
@@ -146,6 +147,7 @@ public class Insets implements Cloneable, java.io.Serializable {
      *
      * @return    a hash code for this Insets.
      */
+    @Override
     public int hashCode() {
         int sum1 = left + bottom;
         int sum2 = right + top;
@@ -164,6 +166,7 @@ public class Insets implements Cloneable, java.io.Serializable {
      *
      * @return  a string representation of this <code>Insets</code> object.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[top="  + top + ",left=" + left + ",bottom=" + bottom + ",right=" + right + "]";
     }
@@ -172,6 +175,7 @@ public class Insets implements Cloneable, java.io.Serializable {
      * Create a copy of this object.
      * @return     a copy of this <code>Insets</code> object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();

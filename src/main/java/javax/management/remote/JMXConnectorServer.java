@@ -111,15 +111,20 @@ public abstract class JMXConnectorServer
         return mbeanServer;
     }
 
+    @Override
     public synchronized void setMBeanServerForwarder(MBeanServerForwarder mbsf)
     {
-        if (mbsf == null)
+        if (mbsf == null) {
             throw new IllegalArgumentException("Invalid null argument: mbsf");
+        }
 
-        if (mbeanServer !=  null) mbsf.setMBeanServer(mbeanServer);
+        if (mbeanServer !=  null) {
+            mbsf.setMBeanServer(mbeanServer);
+        }
         mbeanServer = mbsf;
     }
 
+    @Override
     public String[] getConnectionIds() {
         synchronized (connectionIds) {
             return connectionIds.toArray(new String[connectionIds.size()]);
@@ -168,11 +173,14 @@ public abstract class JMXConnectorServer
      * @exception IOException if a communications problem means that a
      * stub cannot be created.
      **/
+    @Override
     public JMXConnector toJMXConnector(Map<String,?> env)
         throws IOException
     {
-        if (!isActive()) throw new
-            IllegalStateException("Connector is not active");
+        if (!isActive()) {
+            throw new
+                IllegalStateException("Connector is not active");
+        }
         JMXServiceURL addr = getAddress();
         return JMXConnectorFactory.newJMXConnector(addr, env);
     }
@@ -229,8 +237,9 @@ public abstract class JMXConnectorServer
                                     String message,
                                     Object userData) {
 
-        if (connectionId == null)
+        if (connectionId == null) {
             throw new NullPointerException("Illegal null argument");
+        }
 
         synchronized (connectionIds) {
             connectionIds.add(connectionId);
@@ -264,8 +273,9 @@ public abstract class JMXConnectorServer
                                     String message,
                                     Object userData) {
 
-        if (connectionId == null)
+        if (connectionId == null) {
             throw new NullPointerException("Illegal null argument");
+        }
 
         synchronized (connectionIds) {
             connectionIds.remove(connectionId);
@@ -299,8 +309,9 @@ public abstract class JMXConnectorServer
                                     String message,
                                     Object userData) {
 
-        if (connectionId == null)
+        if (connectionId == null) {
             throw new NullPointerException("Illegal null argument");
+        }
 
         synchronized (connectionIds) {
             connectionIds.remove(connectionId);
@@ -323,10 +334,11 @@ public abstract class JMXConnectorServer
     }
 
     private synchronized Object getNotificationSource() {
-        if (myName != null)
+        if (myName != null) {
             return myName;
-        else
+        } else {
             return this;
+        }
     }
 
     private static long nextSequenceNumber() {
@@ -357,10 +369,12 @@ public abstract class JMXConnectorServer
      * @exception NullPointerException if <code>mbs</code> or
      * <code>name</code> is null.
      */
+    @Override
     public synchronized ObjectName preRegister(MBeanServer mbs,
                                                ObjectName name) {
-        if (mbs == null || name == null)
+        if (mbs == null || name == null) {
             throw new NullPointerException("Null MBeanServer or ObjectName");
+        }
         if (mbeanServer == null) {
             mbeanServer = mbs;
             myName = name;
@@ -368,6 +382,7 @@ public abstract class JMXConnectorServer
         return name;
     }
 
+    @Override
     public void postRegister(Boolean registrationDone) {
         // do nothing
     }
@@ -385,6 +400,7 @@ public abstract class JMXConnectorServer
      *
      * @exception IOException if thrown by the {@link #stop stop} method.
      */
+    @Override
     public synchronized void preDeregister() throws Exception {
         if (myName != null && isActive()) {
             stop();
@@ -392,6 +408,7 @@ public abstract class JMXConnectorServer
         }
     }
 
+    @Override
     public void postDeregister() {
         myName = null;
     }

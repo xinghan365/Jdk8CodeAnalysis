@@ -223,6 +223,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * Overrides <code>JComponent.updateUI</code>.
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ScrollBarUI)UIManager.getUI(this));
     }
@@ -235,6 +236,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -248,6 +250,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @see #setOrientation
      * @see java.awt.Adjustable#getOrientation
      */
+    @Override
     public int getOrientation() {
         return orientation;
     }
@@ -374,6 +377,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *       bound: true
      * description: The scrollbar's unit increment.
      */
+    @Override
     public void setUnitIncrement(int unitIncrement) {
         int oldValue = this.unitIncrement;
         this.unitIncrement = unitIncrement;
@@ -424,6 +428,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *       bound: true
      * description: The scrollbar's block increment.
      */
+    @Override
     public void setBlockIncrement(int blockIncrement) {
         int oldValue = this.blockIncrement;
         this.blockIncrement = blockIncrement;
@@ -436,6 +441,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @see Adjustable#getUnitIncrement
      * @see #getUnitIncrement(int)
      */
+    @Override
     public int getUnitIncrement() {
         return unitIncrement;
     }
@@ -446,6 +452,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @see Adjustable#getBlockIncrement
      * @see #getBlockIncrement(int)
      */
+    @Override
     public int getBlockIncrement() {
         return blockIncrement;
     }
@@ -456,6 +463,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @return the model's value property
      * @see #setValue
      */
+    @Override
     public int getValue() {
         return getModel().getValue();
     }
@@ -471,6 +479,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *   preferred: true
      * description: The scrollbar's current value.
      */
+    @Override
     public void setValue(int value) {
         BoundedRangeModel m = getModel();
         int oldValue = m.getValue();
@@ -493,6 +502,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @return the value of the model's extent property
      * @see #setVisibleAmount
      */
+    @Override
     public int getVisibleAmount() {
         return getModel().getExtent();
     }
@@ -507,6 +517,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *   preferred: true
      * description: The amount of the view that is currently visible.
      */
+    @Override
     public void setVisibleAmount(int extent) {
         getModel().setExtent(extent);
     }
@@ -519,6 +530,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @return the value of the model's minimum property
      * @see #setMinimum
      */
+    @Override
     public int getMinimum() {
         return getModel().getMinimum();
     }
@@ -533,6 +545,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *   preferred: true
      * description: The scrollbar's minimum value.
      */
+    @Override
     public void setMinimum(int minimum) {
         getModel().setMinimum(minimum);
     }
@@ -544,6 +557,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @return the value of the model's maximum property
      * @see #setMaximum
      */
+    @Override
     public int getMaximum() {
         return getModel().getMaximum();
     }
@@ -559,6 +573,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *   preferred: true
      * description: The scrollbar's maximum value.
      */
+    @Override
     public void setMaximum(int maximum) {
         getModel().setMaximum(maximum);
     }
@@ -648,6 +663,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @see #removeAdjustmentListener
      * @see BoundedRangeModel#addChangeListener
      */
+    @Override
     public void addAdjustmentListener(AdjustmentListener l)   {
         listenerList.add(AdjustmentListener.class, l);
     }
@@ -659,6 +675,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @param l the AdjustmentLister to remove
      * @see #addAdjustmentListener
      */
+    @Override
     public void removeAdjustmentListener(AdjustmentListener l)  {
         listenerList.remove(AdjustmentListener.class, l);
     }
@@ -716,6 +733,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * value are considered equivalent.
      */
     private class ModelListener implements ChangeListener, Serializable {
+        @Override
         public void stateChanged(ChangeEvent e)   {
             Object obj = e.getSource();
             if (obj instanceof BoundedRangeModel) {
@@ -735,6 +753,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * The scrollbar is flexible along it's scrolling axis and
      * rigid along the other axis.
      */
+    @Override
     public Dimension getMinimumSize() {
         Dimension pref = getPreferredSize();
         if (orientation == VERTICAL) {
@@ -748,6 +767,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * The scrollbar is flexible along it's scrolling axis and
      * rigid along the other axis.
      */
+    @Override
     public Dimension getMaximumSize() {
         Dimension pref = getPreferredSize();
         if (getOrientation() == VERTICAL) {
@@ -764,6 +784,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @param x a boolean value, where true enables the component and
      *          false disables it
      */
+    @Override
     public void setEnabled(boolean x)  {
         super.setEnabled(x);
         Component[] children = getComponents();
@@ -797,6 +818,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      *
      * @return  a string representation of this JScrollBar.
      */
+    @Override
     protected String paramString() {
         String orientationString = (orientation == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
@@ -820,6 +842,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
      * @return an AccessibleJScrollBar that serves as the
      *         AccessibleContext of this JScrollBar
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJScrollBar();
@@ -852,6 +875,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getValueIsAdjusting()) {
@@ -871,6 +895,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SCROLL_BAR;
         }
@@ -883,6 +908,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -892,6 +918,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          *
          * @return The current value of this object.
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(getValue());
         }
@@ -901,6 +928,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // TIGER - 4422535
             if (n == null) {
@@ -915,6 +943,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          *
          * @return The minimum value of this object.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(getMinimum());
         }
@@ -924,6 +953,7 @@ public class JScrollBar extends JComponent implements Adjustable, Accessible
          *
          * @return The maximum value of this object.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             // TIGER - 4422362
             return new Integer(model.getMaximum() - model.getExtent());

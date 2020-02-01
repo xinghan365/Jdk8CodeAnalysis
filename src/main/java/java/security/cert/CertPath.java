@@ -175,16 +175,20 @@ public abstract class CertPath implements Serializable {
      * @return true if the specified object is equal to this certification path,
      * false otherwise
      */
+    @Override
     public boolean equals(Object other) {
-        if (this == other)
+        if (this == other) {
             return true;
+        }
 
-        if (! (other instanceof CertPath))
+        if (! (other instanceof CertPath)) {
             return false;
+        }
 
         CertPath otherCP = (CertPath) other;
-        if (! otherCP.getType().equals(type))
+        if (! otherCP.getType().equals(type)) {
             return false;
+        }
 
         List<? extends Certificate> thisCertList = this.getCertificates();
         List<? extends Certificate> otherCertList = otherCP.getCertificates();
@@ -206,6 +210,7 @@ public abstract class CertPath implements Serializable {
      *
      * @return the hashcode value for this certification path
      */
+    @Override
     public int hashCode() {
         int hashCode = type.hashCode();
         hashCode = 31*hashCode + getCertificates().hashCode();
@@ -219,6 +224,7 @@ public abstract class CertPath implements Serializable {
      *
      * @return a string representation of this certification path
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         Iterator<? extends Certificate> stringIterator =

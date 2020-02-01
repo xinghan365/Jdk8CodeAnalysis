@@ -65,10 +65,12 @@ public class RMIIIOPServerImpl extends RMIServerImpl {
         callerACC = AccessController.getContext();
     }
 
+    @Override
     protected void export() throws IOException {
         IIOPHelper.exportObject(this);
     }
 
+    @Override
     protected String getProtocol() {
         return "iiop";
     }
@@ -81,6 +83,7 @@ public class RMIIIOPServerImpl extends RMIServerImpl {
      * @exception IOException if the stub cannot be created - e.g the
      *            RMIIIOPServerImpl has not been exported yet.
      **/
+    @Override
     public Remote toStub() throws IOException {
         // javax.rmi.CORBA.Stub stub =
         //    (javax.rmi.CORBA.Stub) PortableRemoteObject.toStub(this);
@@ -109,11 +112,13 @@ public class RMIIIOPServerImpl extends RMIServerImpl {
      * @exception IOException if the new client object cannot be
      * created or exported.
      */
+    @Override
     protected RMIConnection makeClient(String connectionId, Subject subject)
             throws IOException {
 
-        if (connectionId == null)
+        if (connectionId == null) {
             throw new NullPointerException("Null connectionId");
+        }
 
         RMIConnection client =
             new RMIConnectionImpl(this, connectionId, getDefaultClassLoader(),
@@ -122,6 +127,7 @@ public class RMIIIOPServerImpl extends RMIServerImpl {
         return client;
     }
 
+    @Override
     protected void closeClient(RMIConnection client) throws IOException {
         IIOPHelper.unexportObject(client);
     }
@@ -134,6 +140,7 @@ public class RMIIIOPServerImpl extends RMIServerImpl {
      * @exception IOException if the attempt to close the connector
      * server failed.
      */
+    @Override
     protected void closeServer() throws IOException {
         IIOPHelper.unexportObject(this);
     }
@@ -146,6 +153,7 @@ public class RMIIIOPServerImpl extends RMIServerImpl {
         try {
             return AccessController.doPrivileged(
                 new PrivilegedExceptionAction<RMIConnection>() {
+                    @Override
                     public RMIConnection run() throws IOException {
                         return superDoNewClient(credentials);
                     }

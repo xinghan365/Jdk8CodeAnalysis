@@ -47,7 +47,8 @@ public class BasicPopupMenuSeparatorUI extends BasicSeparatorUI
         return new BasicPopupMenuSeparatorUI();
     }
 
-    public void paint( Graphics g, JComponent c )
+    @Override
+    public void paint(Graphics g, JComponent c )
     {
         Dimension s = c.getSize();
 
@@ -58,7 +59,8 @@ public class BasicPopupMenuSeparatorUI extends BasicSeparatorUI
         g.drawLine( 0, 1, s.width, 1 );
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    @Override
+    public Dimension getPreferredSize(JComponent c )
     {
         return new Dimension( 0, 2 );
     }

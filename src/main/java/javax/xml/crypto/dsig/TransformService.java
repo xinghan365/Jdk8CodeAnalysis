@@ -286,6 +286,7 @@ public abstract class TransformService implements Transform {
             this.mechanism = mechanism;
             this.key = "TransformService." + algorithm + " MechanismType";
         }
+        @Override
         public boolean equals(Object o) {
             if (!(o instanceof Map.Entry)) {
                 return false;
@@ -296,15 +297,19 @@ public abstract class TransformService implements Transform {
                    (getValue()==null ?
                     e.getValue()==null : getValue().equals(e.getValue()));
         }
+        @Override
         public String getKey() {
             return key;
         }
+        @Override
         public String getValue() {
             return mechanism;
         }
+        @Override
         public String setValue(String value) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public int hashCode() {
             return (getKey()==null ? 0 : getKey().hashCode()) ^
                    (getValue()==null ? 0 : getValue().hashCode());
@@ -326,6 +331,7 @@ public abstract class TransformService implements Transform {
      *
      * @return the algorithm URI
      */
+    @Override
     public final String getAlgorithm() {
         return algorithm;
     }

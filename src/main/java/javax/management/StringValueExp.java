@@ -72,6 +72,7 @@ public class StringValueExp implements ValueExp   {
     /**
      * Returns the string representing the object.
      */
+    @Override
     public String toString()  {
         return "'" + val.replace("'", "''") + "'";
     }
@@ -85,6 +86,7 @@ public class StringValueExp implements ValueExp   {
     /* There is no need for this method, because if a query is being
        evaluated a StringValueExp can only appear inside a QueryExp,
        and that QueryExp will itself have done setMBeanServer.  */
+    @Override
     @Deprecated
     public void setMBeanServer(MBeanServer s)  { }
 
@@ -100,6 +102,7 @@ public class StringValueExp implements ValueExp   {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
         return this;

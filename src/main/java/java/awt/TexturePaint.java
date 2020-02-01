@@ -121,6 +121,7 @@ public class TexturePaint implements Paint {
      * @see AffineTransform
      * @see RenderingHints
      */
+    @Override
     public PaintContext createContext(ColorModel cm,
                                       Rectangle deviceBounds,
                                       Rectangle2D userBounds,
@@ -144,6 +145,7 @@ public class TexturePaint implements Paint {
      * as an integer value.
      * @see Transparency
      */
+    @Override
     public int getTransparency() {
         return (bufImg.getColorModel()).getTransparency();
     }

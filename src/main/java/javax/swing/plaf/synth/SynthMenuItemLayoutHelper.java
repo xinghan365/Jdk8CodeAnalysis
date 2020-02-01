@@ -127,6 +127,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
                 propertyPrefix + ".alignAcceleratorText", true);
     }
 
+    @Override
     protected void calcWidthsAndHeights() {
         // iconRect
         if (getIcon() != null) {
@@ -202,6 +203,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
         }
     }
 
+    @Override
     protected void calcMaxWidths() {
         calcMaxWidth(getCheckSize(), MAX_CHECK_WIDTH);
         maxAccOrArrowWidth =
@@ -271,6 +273,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
         return maxAccOrArrowWidth;
     }
 
+    @Override
     protected void prepareForLayout(LayoutResult lr) {
         lr.getCheckRect().width = getCheckSize().getMaxWidth();
         // An item can have an arrow or a check icon at once
@@ -281,6 +284,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
         }
     }
 
+    @Override
     public ColumnAlignment getLTRColumnAlignment() {
         if (alignAcceleratorText()) {
             return LTR_ALIGNMENT_2;
@@ -289,6 +293,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
         }
     }
 
+    @Override
     public ColumnAlignment getRTLColumnAlignment() {
         if (alignAcceleratorText()) {
             return RTL_ALIGNMENT_2;
@@ -297,6 +302,7 @@ class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
         }
     }
 
+    @Override
     protected void layoutIconAndTextInLabelRect(LayoutResult lr) {
         lr.setTextRect(new Rectangle());
         lr.setIconRect(new Rectangle());

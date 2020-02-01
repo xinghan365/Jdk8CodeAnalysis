@@ -65,16 +65,19 @@ abstract class AbstractFilter extends OutputStream
       int i;
 
       noSpecialsTable = new boolean[256];
-      for (i = 0; i < 256; i++)
-        noSpecialsTable[i] = false;
+      for (i = 0; i < 256; i++) {
+          noSpecialsTable[i] = false;
+      }
 
       allSpecialsTable = new boolean[256];
-      for (i = 0; i < 256; i++)
-        allSpecialsTable[i] = true;
+      for (i = 0; i < 256; i++) {
+          allSpecialsTable[i] = true;
+      }
 
       latin1TranslationTable = new char[256];
-      for (i = 0; i < 256; i++)
-        latin1TranslationTable[i] = (char)i;
+      for (i = 0; i < 256; i++) {
+          latin1TranslationTable[i] = (char)i;
+      }
     }
 
     /**
@@ -100,8 +103,9 @@ abstract class AbstractFilter extends OutputStream
 
         while(true) {
             count = in.read(buf);
-            if (count < 0)
+            if (count < 0) {
                 break;
+            }
 
             this.write(buf, 0, count);
         }
@@ -117,8 +121,9 @@ abstract class AbstractFilter extends OutputStream
 
         while(true) {
             count = in.read(buf);
-            if (count < 0)
+            if (count < 0) {
                 break;
+            }
             for (int i = 0; i < count; i++) {
               this.write(buf[i]);
             }
@@ -135,17 +140,20 @@ abstract class AbstractFilter extends OutputStream
      * Implements the abstract method of OutputStream, of which this class
      * is a subclass.
      */
+    @Override
     public void write(int b)
       throws IOException
     {
-      if (b < 0)
-        b += 256;
-      if (specialsTable[b])
-        writeSpecial(b);
-      else {
+      if (b < 0) {
+          b += 256;
+      }
+      if (specialsTable[b]) {
+          writeSpecial(b);
+      } else {
         char ch = translationTable[b];
-        if (ch != (char)0)
-          write(ch);
+        if (ch != (char)0) {
+            write(ch);
+        }
       }
     }
 
@@ -157,6 +165,7 @@ abstract class AbstractFilter extends OutputStream
      * call <code>write(byte[], int, int)</code> or is it the other way
      * around?
      */
+    @Override
     public void write(byte[] buf, int off, int len)
       throws IOException
     {
@@ -165,8 +174,9 @@ abstract class AbstractFilter extends OutputStream
         short b = (short)buf[off];
 
         // stupid signed bytes
-        if (b < 0)
+        if (b < 0) {
             b += 256;
+        }
 
         if (specialsTable[b]) {
           if (accumulator != null) {
@@ -177,8 +187,9 @@ abstract class AbstractFilter extends OutputStream
         } else {
           char ch = translationTable[b];
           if (ch != (char)0) {
-            if (accumulator == null)
-              accumulator = new StringBuilder();
+            if (accumulator == null) {
+                accumulator = new StringBuilder();
+            }
             accumulator.append(ch);
           }
         }
@@ -187,8 +198,9 @@ abstract class AbstractFilter extends OutputStream
         off ++;
       }
 
-      if (accumulator != null)
-        write(accumulator.toString());
+      if (accumulator != null) {
+          write(accumulator.toString());
+      }
     }
 
     /**

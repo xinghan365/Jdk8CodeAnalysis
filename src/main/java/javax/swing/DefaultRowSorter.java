@@ -238,6 +238,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @return the underlying model
      */
+    @Override
     public final M getModel() {
         return getModelWrapper().getModel();
     }
@@ -295,6 +296,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *         <code>sortKeys</code> are null or have a column index outside
      *         the range of the model
      */
+    @Override
     public void setSortKeys(List<? extends SortKey> sortKeys) {
         List<SortKey> old = this.sortKeys;
         if (sortKeys != null && sortKeys.size() > 0) {
@@ -331,6 +333,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @return the current sort order
      */
+    @Override
     public List<? extends SortKey> getSortKeys() {
         return sortKeys;
     }
@@ -448,6 +451,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      * @see #setSortable(int,boolean)
      * @see #setMaxSortKeys(int)
      */
+    @Override
     public void toggleSortOrder(int column) {
         checkColumn(column);
         if (isSortable(column)) {
@@ -493,6 +497,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public int convertRowIndexToView(int index) {
         if (modelToView == null) {
             if (index < 0 || index >= getModelWrapper().getRowCount()) {
@@ -508,6 +513,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public int convertRowIndexToModel(int index) {
         if (viewToModel == null) {
             if (index < 0 || index >= getModelWrapper().getRowCount()) {
@@ -807,6 +813,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getViewRowCount() {
         if (viewToModel != null) {
             // When filtering this may differ from getModelWrapper().getRowCount()
@@ -818,6 +825,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getModelRowCount() {
         return getModelWrapper().getRowCount();
     }
@@ -839,6 +847,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void modelStructureChanged() {
         allChanged();
         modelRowCount = getModelWrapper().getRowCount();
@@ -847,6 +856,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void allRowsChanged() {
         modelRowCount = getModelWrapper().getRowCount();
         sort();
@@ -857,6 +867,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public void rowsInserted(int firstRow, int endRow) {
         checkAgainstModel(firstRow, endRow);
         int newModelRowCount = getModelWrapper().getRowCount();
@@ -874,6 +885,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public void rowsDeleted(int firstRow, int endRow) {
         checkAgainstModel(firstRow, endRow);
         if (firstRow >= modelRowCount || endRow >= modelRowCount) {
@@ -890,6 +902,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public void rowsUpdated(int firstRow, int endRow) {
         checkAgainstModel(firstRow, endRow);
         if (firstRow >= modelRowCount || endRow >= modelRowCount) {
@@ -910,6 +923,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
      *
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
+    @Override
     public void rowsUpdated(int firstRow, int endRow, int column) {
         checkColumn(column);
         rowsUpdated(firstRow, endRow);
@@ -1336,22 +1350,27 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
          */
         int modelIndex;
 
+        @Override
         public M getModel() {
             return getModelWrapper().getModel();
         }
 
+        @Override
         public int getValueCount() {
             return getModelWrapper().getColumnCount();
         }
 
+        @Override
         public Object getValue(int index) {
             return getModelWrapper().getValueAt(modelIndex, index);
         }
 
+        @Override
         public String getStringValue(int index) {
             return getModelWrapper().getStringValueAt(modelIndex, index);
         }
 
+        @Override
         public I getIdentifier() {
             return getModelWrapper().getIdentifier(modelIndex);
         }
@@ -1372,6 +1391,7 @@ public abstract class DefaultRowSorter<M, I> extends RowSorter<M> {
             modelIndex = index;
         }
 
+        @Override
         public int compareTo(Row o) {
             return sorter.compare(modelIndex, o.modelIndex);
         }

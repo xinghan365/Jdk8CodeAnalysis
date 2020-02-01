@@ -124,9 +124,11 @@ public class TrayIcon {
 
         AWTAccessor.setTrayIconAccessor(
             new AWTAccessor.TrayIconAccessor() {
+                @Override
                 public void addNotify(TrayIcon trayIcon) throws AWTException {
                     trayIcon.addNotify();
                 }
+                @Override
                 public void removeNotify(TrayIcon trayIcon) {
                     trayIcon.removeNotify();
                 }

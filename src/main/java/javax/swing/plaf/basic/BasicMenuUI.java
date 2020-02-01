@@ -73,6 +73,7 @@ public class BasicMenuUI extends BasicMenuItemUI
     }
 
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         updateDefaultBackgroundColor();
@@ -80,31 +81,39 @@ public class BasicMenuUI extends BasicMenuItemUI
         crossMenuMnemonic = UIManager.getBoolean("Menu.crossMenuMnemonic");
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "Menu";
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
 
-        if (changeListener == null)
+        if (changeListener == null) {
             changeListener = createChangeListener(menuItem);
+        }
 
-        if (changeListener != null)
+        if (changeListener != null) {
             menuItem.addChangeListener(changeListener);
+        }
 
-        if (menuListener == null)
+        if (menuListener == null) {
             menuListener = createMenuListener(menuItem);
+        }
 
-        if (menuListener != null)
+        if (menuListener != null) {
             ((JMenu)menuItem).addMenuListener(menuListener);
+        }
     }
 
+    @Override
     protected void installKeyboardActions() {
         super.installKeyboardActions();
         updateMnemonicBinding();
     }
 
+    @Override
     void installLazyActionMap() {
         LazyActionMap.installLazyActionMap(menuItem, BasicMenuUI.class,
                                            getPropertyPrefix() + ".actionMap");
@@ -143,11 +152,13 @@ public class BasicMenuUI extends BasicMenuItemUI
         lastMnemonic = mnemonic;
     }
 
+    @Override
     protected void uninstallKeyboardActions() {
         super.uninstallKeyboardActions();
         lastMnemonic = 0;
     }
 
+    @Override
     protected MouseInputListener createMouseInputListener(JComponent c) {
         return getHandler();
     }
@@ -160,10 +171,12 @@ public class BasicMenuUI extends BasicMenuItemUI
         return null;
     }
 
+    @Override
     protected PropertyChangeListener createPropertyChangeListener(JComponent c) {
         return getHandler();
     }
 
+    @Override
     BasicMenuItemUI.Handler getHandler() {
         if (handler == null) {
             handler = new Handler();
@@ -171,6 +184,7 @@ public class BasicMenuUI extends BasicMenuItemUI
         return handler;
     }
 
+    @Override
     protected void uninstallDefaults() {
         menuItem.setArmed(false);
         menuItem.setSelected(false);
@@ -178,28 +192,34 @@ public class BasicMenuUI extends BasicMenuItemUI
         super.uninstallDefaults();
     }
 
+    @Override
     protected void uninstallListeners() {
         super.uninstallListeners();
 
-        if (changeListener != null)
+        if (changeListener != null) {
             menuItem.removeChangeListener(changeListener);
+        }
 
-        if (menuListener != null)
+        if (menuListener != null) {
             ((JMenu)menuItem).removeMenuListener(menuListener);
+        }
 
         changeListener = null;
         menuListener = null;
         handler = null;
     }
 
+    @Override
     protected MenuDragMouseListener createMenuDragMouseListener(JComponent c) {
         return getHandler();
     }
 
+    @Override
     protected MenuKeyListener createMenuKeyListener(JComponent c) {
         return (MenuKeyListener)getHandler();
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         if (((JMenu)menuItem).isTopLevelMenu() == true) {
             Dimension d = c.getPreferredSize();
@@ -243,6 +263,7 @@ public class BasicMenuUI extends BasicMenuItemUI
             return menu;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JMenu menu = getMenu(e);
             if (!crossMenuMnemonic) {
@@ -282,6 +303,7 @@ public class BasicMenuUI extends BasicMenuItemUI
             }
         }
 
+        @Override
         public boolean isEnabled(Object c) {
             if (c instanceof JMenu) {
                 return ((JMenu)c).isEnabled();
@@ -327,6 +349,7 @@ public class BasicMenuUI extends BasicMenuItemUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             getHandler().mouseClicked(e);
         }
@@ -338,6 +361,7 @@ public class BasicMenuUI extends BasicMenuItemUI
          *
          * @param e the mouse event
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             getHandler().mousePressed(e);
         }
@@ -348,6 +372,7 @@ public class BasicMenuUI extends BasicMenuItemUI
          *
          * @param e the mouse event
          */
+        @Override
         public void mouseReleased(MouseEvent e) {
             getHandler().mouseReleased(e);
         }
@@ -360,9 +385,11 @@ public class BasicMenuUI extends BasicMenuItemUI
          *
          * @param e the mouse event; not used
          */
+        @Override
         public void mouseEntered(MouseEvent e) {
             getHandler().mouseEntered(e);
         }
+        @Override
         public void mouseExited(MouseEvent e) {
             getHandler().mouseExited(e);
         }
@@ -374,10 +401,12 @@ public class BasicMenuUI extends BasicMenuItemUI
          * @param e the mouse event
          * @see java.awt.event.MouseMotionListener#mouseDragged
          */
+        @Override
         public void mouseDragged(MouseEvent e) {
             getHandler().mouseDragged(e);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             getHandler().mouseMoved(e);
         }
@@ -398,6 +427,7 @@ public class BasicMenuUI extends BasicMenuItemUI
             this.ui = ui;
         }
 
+        @Override
         public void stateChanged(ChangeEvent e) { }
     }
 
@@ -405,6 +435,7 @@ public class BasicMenuUI extends BasicMenuItemUI
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             if (e.getPropertyName() == AbstractButton.
                              MNEMONIC_CHANGED_PROPERTY) {
@@ -421,6 +452,7 @@ public class BasicMenuUI extends BasicMenuItemUI
         //
         // MouseInputListener
         //
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
@@ -431,10 +463,12 @@ public class BasicMenuUI extends BasicMenuItemUI
          *
          * @param e the mouse event
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            if (!menu.isEnabled())
+            if (!menu.isEnabled()) {
                 return;
+            }
 
             MenuSelectionManager manager =
                 MenuSelectionManager.defaultManager();
@@ -471,15 +505,18 @@ public class BasicMenuUI extends BasicMenuItemUI
          *
          * @param e the mouse event
          */
+        @Override
         public void mouseReleased(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            if (!menu.isEnabled())
+            if (!menu.isEnabled()) {
                 return;
+            }
             MenuSelectionManager manager =
                 MenuSelectionManager.defaultManager();
             manager.processMouseEvent(e);
-            if (!e.isConsumed())
+            if (!e.isConsumed()) {
                 manager.clearSelectedPath();
+            }
         }
 
         /**
@@ -490,6 +527,7 @@ public class BasicMenuUI extends BasicMenuItemUI
          *
          * @param e the mouse event; not used
          */
+        @Override
         public void mouseEntered(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
             // only disable the menu highlighting if it's disabled and the property isn't
@@ -527,6 +565,7 @@ public class BasicMenuUI extends BasicMenuItemUI
                 }
             }
         }
+        @Override
         public void mouseExited(MouseEvent e) {
         }
 
@@ -537,12 +576,15 @@ public class BasicMenuUI extends BasicMenuItemUI
          * @param e the mouse event
          * @see java.awt.event.MouseMotionListener#mouseDragged
          */
+        @Override
         public void mouseDragged(MouseEvent e) {
             JMenu menu = (JMenu)menuItem;
-            if (!menu.isEnabled())
+            if (!menu.isEnabled()) {
                 return;
+            }
             MenuSelectionManager.defaultManager().processMouseEvent(e);
         }
+        @Override
         public void mouseMoved(MouseEvent e) {
         }
 
@@ -550,10 +592,13 @@ public class BasicMenuUI extends BasicMenuItemUI
         //
         // MenuDragHandler
         //
+        @Override
         public void menuDragMouseEntered(MenuDragMouseEvent e) {}
+        @Override
         public void menuDragMouseDragged(MenuDragMouseEvent e) {
-            if (menuItem.isEnabled() == false)
+            if (menuItem.isEnabled() == false) {
                 return;
+            }
 
             MenuSelectionManager manager = e.getMenuSelectionManager();
             MenuElement path[] = e.getPath();
@@ -577,12 +622,15 @@ public class BasicMenuUI extends BasicMenuItemUI
                 }
             } else if(e.getID() == MouseEvent.MOUSE_RELEASED) {
                 Component comp = manager.componentForPoint(e.getComponent(), e.getPoint());
-                if (comp == null)
+                if (comp == null) {
                     manager.clearSelectedPath();
+                }
             }
 
         }
+        @Override
         public void menuDragMouseExited(MenuDragMouseEvent e) {}
+        @Override
         public void menuDragMouseReleased(MenuDragMouseEvent e) {}
 
         //
@@ -591,6 +639,7 @@ public class BasicMenuUI extends BasicMenuItemUI
         /**
          * Open the Menu
          */
+        @Override
         public void menuKeyTyped(MenuKeyEvent e) {
             if (!crossMenuMnemonic && BasicPopupMenuUI.getLastPopup() != null) {
                 // when crossMenuMnemonic is not set, we don't open a toplevel
@@ -625,7 +674,9 @@ public class BasicMenuUI extends BasicMenuItemUI
             }
         }
 
+        @Override
         public void menuKeyPressed(MenuKeyEvent e) {}
+        @Override
         public void menuKeyReleased(MenuKeyEvent e) {}
     }
 }

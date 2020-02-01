@@ -120,6 +120,7 @@ public final class JobHoldUntil extends DateTimeSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this job hold
      *          until attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) && object instanceof JobHoldUntil);
     }
@@ -134,6 +135,7 @@ public final class JobHoldUntil extends DateTimeSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return JobHoldUntil.class;
     }
@@ -146,6 +148,7 @@ public final class JobHoldUntil extends DateTimeSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "job-hold-until";
     }

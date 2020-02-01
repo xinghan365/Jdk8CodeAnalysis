@@ -291,16 +291,23 @@ public class ChoiceFormat extends NumberFormat {
                 || text.indexOf('#') >= 0
                 || text.indexOf('\u2264') >= 0
                 || text.indexOf('|') >= 0;
-            if (needQuote) result.append('\'');
-            if (text.indexOf('\'') < 0) result.append(text);
-            else {
+            if (needQuote) {
+                result.append('\'');
+            }
+            if (text.indexOf('\'') < 0) {
+                result.append(text);
+            } else {
                 for (int j=0; j<text.length(); ++j) {
                     char c = text.charAt(j);
                     result.append(c);
-                    if (c == '\'') result.append(c);
+                    if (c == '\'') {
+                        result.append(c);
+                    }
                 }
             }
-            if (needQuote) result.append('\'');
+            if (needQuote) {
+                result.append('\'');
+            }
         }
         return result.toString();
     }
@@ -376,6 +383,7 @@ public class ChoiceFormat extends NumberFormat {
      * the range that can be stored by double. This will never be
      * a practical limitation.
      */
+    @Override
     public StringBuffer format(long number, StringBuffer toAppendTo,
                                FieldPosition status) {
         return format((double)number, toAppendTo, status);
@@ -387,8 +395,9 @@ public class ChoiceFormat extends NumberFormat {
      * @param toAppendTo where text is appended.
      * @param status ignore no useful status is returned.
      */
+   @Override
    public StringBuffer format(double number, StringBuffer toAppendTo,
-                               FieldPosition status) {
+                              FieldPosition status) {
         // find the number
         int i;
         for (i = 0; i < choiceLimits.length; ++i) {
@@ -398,7 +407,9 @@ public class ChoiceFormat extends NumberFormat {
             }
         }
         --i;
-        if (i < 0) i = 0;
+        if (i < 0) {
+            i = 0;
+        }
         // return either a formatted number, or a string
         return toAppendTo.append(choiceFormats[i]);
     }
@@ -415,6 +426,7 @@ public class ChoiceFormat extends NumberFormat {
      * first index of the character that caused the parse to fail.
      * @return A Number representing the value of the number parsed.
      */
+    @Override
     public Number parse(String text, ParsePosition status) {
         // find the best number (defined as the one with the longest parse)
         int start = status.index;
@@ -429,7 +441,9 @@ public class ChoiceFormat extends NumberFormat {
                 if (status.index > furthest) {
                     furthest = status.index;
                     bestNumber = tempNumber;
-                    if (furthest == text.length()) break;
+                    if (furthest == text.length()) {
+                        break;
+                    }
                 }
             }
         }
@@ -468,6 +482,7 @@ public class ChoiceFormat extends NumberFormat {
     /**
      * Overrides Cloneable
      */
+    @Override
     public Object clone()
     {
         ChoiceFormat other = (ChoiceFormat) super.clone();
@@ -480,6 +495,7 @@ public class ChoiceFormat extends NumberFormat {
     /**
      * Generates a hash code for the message format object.
      */
+    @Override
     public int hashCode() {
         int result = choiceLimits.length;
         if (choiceFormats.length > 0) {
@@ -492,12 +508,18 @@ public class ChoiceFormat extends NumberFormat {
     /**
      * Equality comparision between two
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (this == obj)                      // quick check
-            return true;
-        if (getClass() != obj.getClass())
+        if (obj == null) {
             return false;
+        }
+        if (this == obj)                      // quick check
+        {
+            return true;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         ChoiceFormat other = (ChoiceFormat) obj;
         return (Arrays.equals(choiceLimits, other.choiceLimits)
              && Arrays.equals(choiceFormats, other.choiceFormats));

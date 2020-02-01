@@ -58,18 +58,21 @@ class ContinuationDirContext extends ContinuationContext implements DirContext {
     protected DirContextNamePair getTargetContext(Name name)
             throws NamingException {
 
-        if (cpe.getResolvedObj() == null)
+        if (cpe.getResolvedObj() == null) {
             throw (NamingException)cpe.fillInStackTrace();
+        }
 
         Context ctx = NamingManager.getContext(cpe.getResolvedObj(),
                                                cpe.getAltName(),
                                                cpe.getAltNameCtx(),
                                                env);
-        if (ctx == null)
+        if (ctx == null) {
             throw (NamingException)cpe.fillInStackTrace();
+        }
 
-        if (ctx instanceof DirContext)
+        if (ctx instanceof DirContext) {
             return new DirContextNamePair((DirContext)ctx, name);
+        }
 
         if (ctx instanceof Resolver) {
             Resolver res = (Resolver)ctx;
@@ -94,16 +97,18 @@ class ContinuationDirContext extends ContinuationContext implements DirContext {
     protected DirContextStringPair getTargetContext(String name)
             throws NamingException {
 
-        if (cpe.getResolvedObj() == null)
+        if (cpe.getResolvedObj() == null) {
             throw (NamingException)cpe.fillInStackTrace();
+        }
 
         Context ctx = NamingManager.getContext(cpe.getResolvedObj(),
                                                cpe.getAltName(),
                                                cpe.getAltNameCtx(),
                                                env);
 
-        if (ctx instanceof DirContext)
+        if (ctx instanceof DirContext) {
             return new DirContextStringPair((DirContext)ctx, name);
+        }
 
         if (ctx instanceof Resolver) {
             Resolver res = (Resolver)ctx;
@@ -126,78 +131,92 @@ class ContinuationDirContext extends ContinuationContext implements DirContext {
         throw (NamingException)cpe.fillInStackTrace();
     }
 
+    @Override
     public Attributes getAttributes(String name) throws NamingException {
         DirContextStringPair res = getTargetContext(name);
         return res.getDirContext().getAttributes(res.getString());
     }
 
+    @Override
     public Attributes getAttributes(String name, String[] attrIds)
         throws NamingException {
             DirContextStringPair res = getTargetContext(name);
             return res.getDirContext().getAttributes(res.getString(), attrIds);
         }
 
+    @Override
     public Attributes getAttributes(Name name) throws NamingException {
         DirContextNamePair res = getTargetContext(name);
         return res.getDirContext().getAttributes(res.getName());
     }
 
+    @Override
     public Attributes getAttributes(Name name, String[] attrIds)
         throws NamingException {
             DirContextNamePair res = getTargetContext(name);
             return res.getDirContext().getAttributes(res.getName(), attrIds);
         }
 
+    @Override
     public void modifyAttributes(Name name, int mod_op, Attributes attrs)
         throws NamingException  {
             DirContextNamePair res = getTargetContext(name);
             res.getDirContext().modifyAttributes(res.getName(), mod_op, attrs);
         }
+    @Override
     public void modifyAttributes(String name, int mod_op, Attributes attrs)
         throws NamingException  {
             DirContextStringPair res = getTargetContext(name);
             res.getDirContext().modifyAttributes(res.getString(), mod_op, attrs);
         }
 
+    @Override
     public void modifyAttributes(Name name, ModificationItem[] mods)
         throws NamingException  {
             DirContextNamePair res = getTargetContext(name);
             res.getDirContext().modifyAttributes(res.getName(), mods);
         }
+    @Override
     public void modifyAttributes(String name, ModificationItem[] mods)
         throws NamingException  {
             DirContextStringPair res = getTargetContext(name);
             res.getDirContext().modifyAttributes(res.getString(), mods);
         }
 
+    @Override
     public void bind(Name name, Object obj, Attributes attrs)
         throws NamingException  {
             DirContextNamePair res = getTargetContext(name);
             res.getDirContext().bind(res.getName(), obj, attrs);
         }
+    @Override
     public void bind(String name, Object obj, Attributes attrs)
         throws NamingException  {
             DirContextStringPair res = getTargetContext(name);
             res.getDirContext().bind(res.getString(), obj, attrs);
         }
 
+    @Override
     public void rebind(Name name, Object obj, Attributes attrs)
                 throws NamingException {
             DirContextNamePair res = getTargetContext(name);
             res.getDirContext().rebind(res.getName(), obj, attrs);
         }
+    @Override
     public void rebind(String name, Object obj, Attributes attrs)
                 throws NamingException {
             DirContextStringPair res = getTargetContext(name);
             res.getDirContext().rebind(res.getString(), obj, attrs);
         }
 
+    @Override
     public DirContext createSubcontext(Name name, Attributes attrs)
                 throws NamingException  {
             DirContextNamePair res = getTargetContext(name);
             return res.getDirContext().createSubcontext(res.getName(), attrs);
         }
 
+    @Override
     public DirContext createSubcontext(String name, Attributes attrs)
                 throws NamingException  {
             DirContextStringPair res = getTargetContext(name);
@@ -205,18 +224,20 @@ class ContinuationDirContext extends ContinuationContext implements DirContext {
                 res.getDirContext().createSubcontext(res.getString(), attrs);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(Name name,
-                                    Attributes matchingAttributes,
-                                    String[] attributesToReturn)
+                                                  Attributes matchingAttributes,
+                                                  String[] attributesToReturn)
         throws NamingException  {
             DirContextNamePair res = getTargetContext(name);
             return res.getDirContext().search(res.getName(), matchingAttributes,
                                              attributesToReturn);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(String name,
-                                    Attributes matchingAttributes,
-                                    String[] attributesToReturn)
+                                                  Attributes matchingAttributes,
+                                                  String[] attributesToReturn)
         throws NamingException  {
             DirContextStringPair res = getTargetContext(name);
             return res.getDirContext().search(res.getString(),
@@ -224,72 +245,82 @@ class ContinuationDirContext extends ContinuationContext implements DirContext {
                                              attributesToReturn);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(Name name,
-                                    Attributes matchingAttributes)
+                                                  Attributes matchingAttributes)
         throws NamingException  {
             DirContextNamePair res = getTargetContext(name);
             return res.getDirContext().search(res.getName(), matchingAttributes);
         }
+    @Override
     public NamingEnumeration<SearchResult> search(String name,
-                                    Attributes matchingAttributes)
+                                                  Attributes matchingAttributes)
         throws NamingException  {
             DirContextStringPair res = getTargetContext(name);
             return res.getDirContext().search(res.getString(),
                                              matchingAttributes);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(Name name,
-                                    String filter,
-                                    SearchControls cons)
+                                                  String filter,
+                                                  SearchControls cons)
         throws NamingException {
             DirContextNamePair res = getTargetContext(name);
             return res.getDirContext().search(res.getName(), filter, cons);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(String name,
-                                    String filter,
-                                    SearchControls cons)
+                                                  String filter,
+                                                  SearchControls cons)
         throws NamingException {
             DirContextStringPair res = getTargetContext(name);
             return res.getDirContext().search(res.getString(), filter, cons);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(Name name,
-                                    String filterExpr,
-                                    Object[] args,
-                                    SearchControls cons)
+                                                  String filterExpr,
+                                                  Object[] args,
+                                                  SearchControls cons)
         throws NamingException {
             DirContextNamePair res = getTargetContext(name);
             return res.getDirContext().search(res.getName(), filterExpr, args,
                                              cons);
         }
 
+    @Override
     public NamingEnumeration<SearchResult> search(String name,
-                                    String filterExpr,
-                                    Object[] args,
-                                    SearchControls cons)
+                                                  String filterExpr,
+                                                  Object[] args,
+                                                  SearchControls cons)
         throws NamingException {
             DirContextStringPair res = getTargetContext(name);
             return res.getDirContext().search(res.getString(), filterExpr, args,
                                              cons);
         }
 
+    @Override
     public DirContext getSchema(String name) throws NamingException {
         DirContextStringPair res = getTargetContext(name);
         return res.getDirContext().getSchema(res.getString());
     }
 
+    @Override
     public DirContext getSchema(Name name) throws NamingException  {
         DirContextNamePair res = getTargetContext(name);
         return res.getDirContext().getSchema(res.getName());
     }
 
+    @Override
     public DirContext getSchemaClassDefinition(String name)
             throws NamingException  {
         DirContextStringPair res = getTargetContext(name);
         return res.getDirContext().getSchemaClassDefinition(res.getString());
     }
 
+    @Override
     public DirContext getSchemaClassDefinition(Name name)
             throws NamingException  {
         DirContextNamePair res = getTargetContext(name);

@@ -133,6 +133,7 @@ public class SimpleElementVisitor6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitPackage(PackageElement e, P p) {
         return defaultAction(e, p);
     }
@@ -144,6 +145,7 @@ public class SimpleElementVisitor6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitType(TypeElement e, P p) {
         return defaultAction(e, p);
     }
@@ -159,11 +161,13 @@ public class SimpleElementVisitor6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction} or {@code visitUnknown}
      */
+    @Override
     public R visitVariable(VariableElement e, P p) {
-        if (e.getKind() != ElementKind.RESOURCE_VARIABLE)
+        if (e.getKind() != ElementKind.RESOURCE_VARIABLE) {
             return defaultAction(e, p);
-        else
+        } else {
             return visitUnknown(e, p);
+        }
     }
 
     /**
@@ -173,6 +177,7 @@ public class SimpleElementVisitor6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitExecutable(ExecutableElement e, P p) {
         return defaultAction(e, p);
     }
@@ -184,6 +189,7 @@ public class SimpleElementVisitor6<R, P> extends AbstractElementVisitor6<R, P> {
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitTypeParameter(TypeParameterElement e, P p) {
         return defaultAction(e, p);
     }

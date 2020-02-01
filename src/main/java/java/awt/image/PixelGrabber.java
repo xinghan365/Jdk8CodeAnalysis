@@ -363,6 +363,7 @@ public class PixelGrabber implements ImageConsumer {
      * @param width the width of the dimension
      * @param height the height of the dimension
      */
+    @Override
     public void setDimensions(int width, int height) {
         if (dstW < 0) {
             dstW = width - dstX;
@@ -392,6 +393,7 @@ public class PixelGrabber implements ImageConsumer {
      * with retrieving the requested pixels.
      * @param hints a set of hints used to process the pixels
      */
+    @Override
     public void setHints(int hints) {
         return;
     }
@@ -407,6 +409,7 @@ public class PixelGrabber implements ImageConsumer {
      * with retrieving the requested pixels.
      * @param props the list of properties
      */
+    @Override
     public void setProperties(Hashtable<?,?> props) {
         return;
     }
@@ -423,6 +426,7 @@ public class PixelGrabber implements ImageConsumer {
      * @param model the specified <code>ColorModel</code>
      * @see #getColorModel
      */
+    @Override
     public void setColorModel(ColorModel model) {
         return;
     }
@@ -468,6 +472,7 @@ public class PixelGrabber implements ImageConsumer {
      *        in the pixels array
      * @see #getPixels
      */
+    @Override
     public void setPixels(int srcX, int srcY, int srcW, int srcH,
                           ColorModel model,
                           byte pixels[], int srcOff, int srcScan) {
@@ -555,6 +560,7 @@ public class PixelGrabber implements ImageConsumer {
      *        in the pixels array
      * @see #getPixels
      */
+    @Override
     public void setPixels(int srcX, int srcY, int srcW, int srcH,
                           ColorModel model,
                           int pixels[], int srcOff, int srcScan) {
@@ -633,6 +639,7 @@ public class PixelGrabber implements ImageConsumer {
      * with retrieving the requested pixels.
      * @param status the status of image loading
      */
+    @Override
     public synchronized void imageComplete(int status) {
         grabbing = false;
         switch (status) {

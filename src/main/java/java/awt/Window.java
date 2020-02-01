@@ -454,6 +454,7 @@ public class Window extends Container implements Accessible {
                     : new WeakReference<Window>(victim.getOwner());
         }
 
+        @Override
         public void dispose() {
             if (owner != null) {
                 Window parent = owner.get();
@@ -646,6 +647,7 @@ public class Window extends Container implements Accessible {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Window.class) {
             return base + nameCounter++;
@@ -755,6 +757,7 @@ public class Window extends Container implements Accessible {
      * @see Container#removeNotify
      * @since JDK1.0
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
             Container parent = this.parent;
@@ -774,6 +777,7 @@ public class Window extends Container implements Accessible {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             synchronized (allWindows) {
@@ -847,6 +851,7 @@ public class Window extends Container implements Accessible {
      * @see #pack
      * @since 1.6
      */
+    @Override
     public void setMinimumSize(Dimension minimumSize) {
         synchronized (getTreeLock()) {
             super.setMinimumSize(minimumSize);
@@ -882,6 +887,7 @@ public class Window extends Container implements Accessible {
      * @see #setMinimumSize
      * @since 1.6
      */
+    @Override
     public void setSize(Dimension d) {
         super.setSize(d);
     }
@@ -904,6 +910,7 @@ public class Window extends Container implements Accessible {
      * @see #setMinimumSize
      * @since 1.6
      */
+    @Override
     public void setSize(int width, int height) {
         super.setSize(width, height);
     }
@@ -938,6 +945,7 @@ public class Window extends Container implements Accessible {
      * @deprecated As of JDK version 1.1,
      * replaced by {@code setBounds(int, int, int, int)}.
      */
+    @Override
     @Deprecated
     public void reshape(int x, int y, int width, int height) {
         if (isMinimumSizeSet()) {
@@ -1010,6 +1018,7 @@ public class Window extends Container implements Accessible {
      * @see java.awt.Window#setAutoRequestFocus
      * @see java.awt.Window#isFocusableWindow
      */
+    @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
     }
@@ -1025,6 +1034,7 @@ public class Window extends Container implements Accessible {
      * @deprecated As of JDK version 1.5, replaced by
      * {@link #setVisible(boolean)}.
      */
+    @Override
     @Deprecated
     public void show() {
         if (peer == null) {
@@ -1098,6 +1108,7 @@ public class Window extends Container implements Accessible {
      * @deprecated As of JDK version 1.5, replaced by
      * {@link #setVisible(boolean)}.
      */
+    @Override
     @Deprecated
     public void hide() {
         synchronized(ownedWindowList) {
@@ -1116,6 +1127,7 @@ public class Window extends Container implements Accessible {
         locationByPlatform = false;
     }
 
+    @Override
     final void clearMostRecentFocusOwnerOnHide() {
         /* do nothing */
     }
@@ -1162,6 +1174,7 @@ public class Window extends Container implements Accessible {
 
     void doDispose() {
     class DisposeAction implements Runnable {
+        @Override
         public void run() {
             disposing = true;
             try {
@@ -1231,10 +1244,12 @@ public class Window extends Container implements Accessible {
      * It's overridden here because parent == owner in Window,
      * and we shouldn't adjust counter on owner
      */
+    @Override
     void adjustListeningChildrenOnParent(long mask, int num) {
     }
 
     // Should only be called while holding tree lock
+    @Override
     void adjustDecendantsOnParent(int num) {
         // do nothing since parent == owner and we shouldn't
         // ajust counter on owner
@@ -1354,6 +1369,7 @@ public class Window extends Container implements Accessible {
      * @see       Toolkit#getDefaultToolkit
      * @see       Component#getToolkit
      */
+    @Override
     public Toolkit getToolkit() {
         return Toolkit.getDefaultToolkit();
     }
@@ -1403,6 +1419,7 @@ public class Window extends Container implements Accessible {
      * @see       java.util.Locale
      * @since     JDK1.1
      */
+    @Override
     public Locale getLocale() {
       if (this.locale == null) {
         return Locale.getDefault();
@@ -1416,6 +1433,7 @@ public class Window extends Container implements Accessible {
      * @see Component#getInputContext
      * @since 1.2
      */
+    @Override
     public InputContext getInputContext() {
         synchronized (inputContextLock) {
             if (inputContext == null) {
@@ -1439,6 +1457,7 @@ public class Window extends Container implements Accessible {
      * @see       Cursor
      * @since     JDK1.1
      */
+    @Override
     public void setCursor(Cursor cursor) {
         if (cursor == null) {
             cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
@@ -1941,6 +1960,7 @@ public class Window extends Container implements Accessible {
      * @see #getWindowListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if (listenerType == WindowFocusListener.class) {
@@ -1956,6 +1976,7 @@ public class Window extends Container implements Accessible {
     }
 
     // REMIND: remove when filtering is handled at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         switch(e.id) {
           case WindowEvent.WINDOW_OPENED:
@@ -2000,6 +2021,7 @@ public class Window extends Container implements Accessible {
      *
      * @param e the event
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof WindowEvent) {
             switch (e.getID()) {
@@ -2148,6 +2170,7 @@ public class Window extends Container implements Accessible {
      * the list of child windows is dumped to {@code System.out}.
      * @param e  the keyboard event
      */
+    @Override
     void preProcessKeyEvent(KeyEvent e) {
         // Dump the list of child windows to System.out.
         if (e.isActionKey() && e.getKeyCode() == KeyEvent.VK_F1 &&
@@ -2157,6 +2180,7 @@ public class Window extends Container implements Accessible {
         }
     }
 
+    @Override
     void postProcessKeyEvent(KeyEvent e) {
         // Do nothing
     }
@@ -2407,6 +2431,7 @@ public class Window extends Container implements Accessible {
      *         KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS
      * @since 1.4
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Set<AWTKeyStroke> getFocusTraversalKeys(int id) {
         if (id < 0 || id >= KeyboardFocusManager.TRAVERSAL_KEY_LENGTH) {
@@ -2437,6 +2462,7 @@ public class Window extends Container implements Accessible {
      * @see Container#getFocusTraversalPolicy
      * @since 1.4
      */
+    @Override
     public final void setFocusCycleRoot(boolean focusCycleRoot) {
     }
 
@@ -2450,6 +2476,7 @@ public class Window extends Container implements Accessible {
      * @see Container#getFocusTraversalPolicy
      * @since 1.4
      */
+    @Override
     public final boolean isFocusCycleRoot() {
         return true;
     }
@@ -2462,6 +2489,7 @@ public class Window extends Container implements Accessible {
      * @see Container#isFocusCycleRoot()
      * @since 1.4
      */
+    @Override
     public final Container getFocusCycleRootAncestor() {
         return null;
     }
@@ -2674,6 +2702,7 @@ public class Window extends Container implements Accessible {
      * @see Component#removePropertyChangeListener
      * @see #addPropertyChangeListener(java.lang.String,java.beans.PropertyChangeListener)
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         super.addPropertyChangeListener(listener);
     }
@@ -2714,6 +2743,7 @@ public class Window extends Container implements Accessible {
      * @see #addPropertyChangeListener(java.beans.PropertyChangeListener)
      * @see Component#removePropertyChangeListener
      */
+    @Override
     public void addPropertyChangeListener(String propertyName,
                                           PropertyChangeListener listener) {
         super.addPropertyChangeListener(propertyName, listener);
@@ -2738,6 +2768,7 @@ public class Window extends Container implements Accessible {
      * Dispatches an event to this window or one of its sub components.
      * @param e the event
      */
+    @Override
     void dispatchEventImpl(AWTEvent e) {
         if (e.getID() == ComponentEvent.COMPONENT_RESIZED) {
             invalidate();
@@ -2750,6 +2781,7 @@ public class Window extends Container implements Accessible {
      * @deprecated As of JDK version 1.1
      * replaced by {@code dispatchEvent(AWTEvent)}.
      */
+    @Override
     @Deprecated
     public boolean postEvent(Event e) {
         if (handleEvent(e)) {
@@ -2763,6 +2795,7 @@ public class Window extends Container implements Accessible {
      * Checks if this Window is showing on screen.
      * @see Component#setVisible
     */
+    @Override
     public boolean isShowing() {
         return visible;
     }
@@ -3021,18 +3054,21 @@ public class Window extends Container implements Accessible {
             } else if (windowStateListenerK == key) {
                 addWindowStateListener((WindowStateListener)(s.readObject()));
             } else // skip value for unrecognized key
+            {
                 s.readObject();
+            }
         }
 
         try {
             while (null != (keyOrNull = s.readObject())) {
                 String key = ((String)keyOrNull).intern();
 
-                if (ownedWindowK == key)
+                if (ownedWindowK == key) {
                     connectOwnedWindow((Window) s.readObject());
-
-                else // skip value for unrecognized key
+                } else // skip value for unrecognized key
+                {
                     s.readObject();
+                }
             }
 
             //read icons
@@ -3117,6 +3153,7 @@ public class Window extends Container implements Accessible {
      *         AccessibleContext of this Window
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTWindow();
@@ -3144,6 +3181,7 @@ public class Window extends Container implements Accessible {
          * object
          * @see javax.accessibility.AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.WINDOW;
         }
@@ -3155,6 +3193,7 @@ public class Window extends Container implements Accessible {
          * state set of the object
          * @see javax.accessibility.AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getFocusOwner() != null) {
@@ -3309,6 +3348,7 @@ public class Window extends Container implements Accessible {
     /**
      * Overridden from Component.  Top-level Windows don't dispatch to ancestors
      */
+    @Override
     boolean dispatchMouseWheelToAncestor(MouseWheelEvent e) {return false;}
 
     /**
@@ -3330,6 +3370,7 @@ public class Window extends Container implements Accessible {
      * @see #getBufferStrategy
      * @since 1.4
      */
+    @Override
     public void createBufferStrategy(int numBuffers) {
         super.createBufferStrategy(numBuffers);
     }
@@ -3354,8 +3395,9 @@ public class Window extends Container implements Accessible {
      * @see #getBufferStrategy
      * @since 1.4
      */
+    @Override
     public void createBufferStrategy(int numBuffers,
-        BufferCapabilities caps) throws AWTException {
+                                     BufferCapabilities caps) throws AWTException {
         super.createBufferStrategy(numBuffers, caps);
     }
 
@@ -3368,6 +3410,7 @@ public class Window extends Container implements Accessible {
      * @see #createBufferStrategy
      * @since 1.4
      */
+    @Override
     public BufferStrategy getBufferStrategy() {
         return super.getBufferStrategy();
     }
@@ -3392,6 +3435,7 @@ public class Window extends Container implements Accessible {
      * Verifies that it is focusable and as container it can container focus owner.
      * @since 1.5
      */
+    @Override
     boolean canContainFocusOwner(Component focusOwnerCandidate) {
         return super.canContainFocusOwner(focusOwnerCandidate) && isFocusableWindow();
     }
@@ -3493,6 +3537,7 @@ public class Window extends Container implements Accessible {
      * @see #isLocationByPlatform
      * @since 1.6
      */
+    @Override
     public void setBounds(int x, int y, int width, int height) {
         synchronized (getTreeLock()) {
             if (getBoundsOp() == ComponentPeer.SET_LOCATION ||
@@ -3527,6 +3572,7 @@ public class Window extends Container implements Accessible {
      * @see #isLocationByPlatform
      * @since 1.6
      */
+    @Override
     public void setBounds(Rectangle r) {
         setBounds(r.x, r.y, r.width, r.height);
     }
@@ -3536,6 +3582,7 @@ public class Window extends Container implements Accessible {
      * @return {@code true} if the component and all of its ancestors
      *          until a toplevel window are visible, {@code false} otherwise
      */
+    @Override
     boolean isRecursivelyVisible() {
         // 5079694 fix: for a toplevel to be displayed, its parent doesn't have to be visible.
         // We're overriding isRecursivelyVisible to implement this policy.
@@ -4030,18 +4077,23 @@ public class Window extends Container implements Accessible {
 
     static {
         AWTAccessor.setWindowAccessor(new AWTAccessor.WindowAccessor() {
+            @Override
             public float getOpacity(Window window) {
                 return window.opacity;
             }
+            @Override
             public void setOpacity(Window window, float opacity) {
                 window.setOpacity(opacity);
             }
+            @Override
             public Shape getShape(Window window) {
                 return window.getShape();
             }
+            @Override
             public void setShape(Window window, Shape shape) {
                 window.setShape(shape);
             }
+            @Override
             public void setOpaque(Window window, boolean opaque) {
                 Color bg = window.getBackground();
                 if (bg == null) {
@@ -4050,23 +4102,27 @@ public class Window extends Container implements Accessible {
                 window.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue(),
                                                opaque ? 255 : 0));
             }
+            @Override
             public void updateWindow(Window window) {
                 window.updateWindow();
             }
 
+            @Override
             public Dimension getSecurityWarningSize(Window window) {
                 return new Dimension(window.securityWarningWidth,
                         window.securityWarningHeight);
             }
 
+            @Override
             public void setSecurityWarningSize(Window window, int width, int height)
             {
                 window.securityWarningWidth = width;
                 window.securityWarningHeight = height;
             }
 
+            @Override
             public void setSecurityWarningPosition(Window window,
-                    Point2D point, float alignmentX, float alignmentY)
+                                                   Point2D point, float alignmentX, float alignmentY)
             {
                 window.securityWarningPointX = point.getX();
                 window.securityWarningPointY = point.getY();
@@ -4081,28 +4137,34 @@ public class Window extends Container implements Accessible {
                 }
             }
 
+            @Override
             public Point2D calculateSecurityWarningPosition(Window window,
-                    double x, double y, double w, double h)
+                                                            double x, double y, double w, double h)
             {
                 return window.calculateSecurityWarningPosition(x, y, w, h);
             }
 
+            @Override
             public void setLWRequestStatus(Window changed, boolean status) {
                 changed.syncLWRequests = status;
             }
 
+            @Override
             public boolean isAutoRequestFocus(Window w) {
                 return w.autoRequestFocus;
             }
 
+            @Override
             public boolean isTrayIconWindow(Window w) {
                 return w.isTrayIconWindow;
             }
 
+            @Override
             public void setTrayIconWindow(Window w, boolean isTrayIconWindow) {
                 w.isTrayIconWindow = isTrayIconWindow;
             }
 
+            @Override
             public Window[] getOwnedWindows(Window w) {
                 return w.getOwnedWindows_NoClientCode();
             }

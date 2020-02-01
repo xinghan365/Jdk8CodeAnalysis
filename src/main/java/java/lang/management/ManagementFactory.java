@@ -601,6 +601,7 @@ public class ManagementFactory {
         final Class<?> cls = mxbeanInterface;
         ClassLoader loader =
             AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                @Override
                 public ClassLoader run() {
                     return cls.getClassLoader();
                 }
@@ -670,9 +671,10 @@ public class ManagementFactory {
             throw new IllegalArgumentException(mxbeanInterface.getName() +
                 " is not a platform management interface");
         }
-        if (!pc.isSingleton())
+        if (!pc.isSingleton()) {
             throw new IllegalArgumentException(mxbeanInterface.getName() +
                 " can have zero or more than one instances");
+        }
 
         return pc.getSingletonMXBean(mxbeanInterface);
     }
@@ -765,9 +767,10 @@ public class ManagementFactory {
             throw new IllegalArgumentException(mxbeanInterface.getName() +
                 " is not a platform management interface");
         }
-        if (!pc.isSingleton())
+        if (!pc.isSingleton()) {
             throw new IllegalArgumentException(mxbeanInterface.getName() +
                 " can have zero or more than one instances");
+        }
         return pc.getSingletonMXBean(connection, mxbeanInterface);
     }
 
@@ -853,6 +856,7 @@ public class ManagementFactory {
         // Make DynamicMBean out of MXBean by wrapping it with a StandardMBean
         try {
             AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
+                @Override
                 public Void run() throws InstanceAlreadyExistsException,
                                          MBeanRegistrationException,
                                          NotCompliantMBeanException {

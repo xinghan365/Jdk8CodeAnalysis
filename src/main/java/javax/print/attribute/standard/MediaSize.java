@@ -254,6 +254,7 @@ public class MediaSize extends Size2DSyntax implements Attribute {
      * @return  True if <CODE>object</CODE> is equivalent to this media size
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) && object instanceof MediaSize);
     }
@@ -268,6 +269,7 @@ public class MediaSize extends Size2DSyntax implements Attribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return MediaSize.class;
     }
@@ -281,6 +283,7 @@ public class MediaSize extends Size2DSyntax implements Attribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "media-size";
     }

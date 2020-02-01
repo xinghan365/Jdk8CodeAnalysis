@@ -316,6 +316,7 @@ public final class JLayer<V extends Component>
      * @param mgr the specified layout manager
      * @exception IllegalArgumentException this method is not supported
      */
+    @Override
     public void setLayout(LayoutManager mgr) {
         if (mgr != null) {
             throw new IllegalArgumentException("JLayer.setLayout() not supported");
@@ -334,6 +335,7 @@ public final class JLayer<V extends Component>
      * @param border the {@code Border} to set
      * @exception IllegalArgumentException this method is not supported
      */
+    @Override
     public void setBorder(Border border) {
         if (border != null) {
             throw new IllegalArgumentException("JLayer.setBorder() not supported");
@@ -349,6 +351,7 @@ public final class JLayer<V extends Component>
      * @see #setView(Component)
      * @see #setGlassPane(JPanel)
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index) {
         throw new UnsupportedOperationException(
                 "Adding components to JLayer is not supported, " +
@@ -358,6 +361,7 @@ public final class JLayer<V extends Component>
     /**
      * {@inheritDoc}
      */
+    @Override
     public void remove(Component comp) {
         if (comp == null) {
             super.remove(comp);
@@ -373,6 +377,7 @@ public final class JLayer<V extends Component>
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeAll() {
         if (view != null) {
             setView(null);
@@ -389,6 +394,7 @@ public final class JLayer<V extends Component>
      * @return true
      * @see JComponent#isPaintingOrigin()
      */
+    @Override
     protected boolean isPaintingOrigin() {
         return true;
     }
@@ -403,6 +409,7 @@ public final class JLayer<V extends Component>
      * @param w  the width of the region to be painted
      * @param h  the height of the region to be painted
      */
+    @Override
     public void paintImmediately(int x, int y, int w, int h) {
         if (!isPaintingImmediately && getUI() != null) {
             isPaintingImmediately = true;
@@ -421,6 +428,7 @@ public final class JLayer<V extends Component>
      *
      * @param g the {@code Graphics} to render to
      */
+    @Override
     public void paint(Graphics g) {
         if (!isPainting) {
             isPainting = true;
@@ -439,6 +447,7 @@ public final class JLayer<V extends Component>
      * {@link #paint(Graphics)} and
      * {@link javax.swing.plaf.LayerUI#update(Graphics, JComponent)} methods
      */
+    @Override
     protected void paintComponent(Graphics g) {
     }
 
@@ -453,6 +462,7 @@ public final class JLayer<V extends Component>
      *
      * @return false
      */
+    @Override
     public boolean isOptimizedDrawingEnabled() {
         return false;
     }
@@ -460,6 +470,7 @@ public final class JLayer<V extends Component>
     /**
      * {@inheritDoc}
      */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (getUI() != null) {
             getUI().applyPropertyChange(evt, this);
@@ -535,6 +546,7 @@ public final class JLayer<V extends Component>
      * Delegates its functionality to the {@link javax.swing.plaf.LayerUI#updateUI(JLayer)} method,
      * if {@code LayerUI} is set.
      */
+    @Override
     public void updateUI() {
         if (getUI() != null) {
             getUI().updateUI(this);
@@ -551,6 +563,7 @@ public final class JLayer<V extends Component>
      *
      * @see Scrollable
      */
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         if (getView() instanceof Scrollable) {
             return ((Scrollable)getView()).getPreferredScrollableViewportSize();
@@ -570,6 +583,7 @@ public final class JLayer<V extends Component>
      *
      * @see Scrollable
      */
+    @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect,
                                            int orientation, int direction) {
         if (getView() instanceof Scrollable) {
@@ -592,6 +606,7 @@ public final class JLayer<V extends Component>
      *
      * @see Scrollable
      */
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         if (getView() instanceof Scrollable) {
             return ((Scrollable)getView()).getScrollableTracksViewportHeight();
@@ -611,6 +626,7 @@ public final class JLayer<V extends Component>
      *
      * @see Scrollable
      */
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         if (getView() instanceof Scrollable) {
             return ((Scrollable)getView()).getScrollableTracksViewportWidth();
@@ -636,6 +652,7 @@ public final class JLayer<V extends Component>
      *
      * @see Scrollable
      */
+    @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation,
                                           int direction) {
         if (getView() instanceof Scrollable) {
@@ -659,6 +676,7 @@ public final class JLayer<V extends Component>
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addNotify() {
         super.addNotify();
         eventController.updateAWTEventListener(0, eventMask);
@@ -667,6 +685,7 @@ public final class JLayer<V extends Component>
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeNotify() {
         super.removeNotify();
         eventController.updateAWTEventListener(eventMask, 0);
@@ -676,6 +695,7 @@ public final class JLayer<V extends Component>
      * Delegates its functionality to the {@link javax.swing.plaf.LayerUI#doLayout(JLayer)} method,
      * if {@code LayerUI} is set.
      */
+    @Override
     public void doLayout() {
         if (getUI() != null) {
             getUI().doLayout(this);
@@ -687,9 +707,11 @@ public final class JLayer<V extends Component>
      *
      * @return the AccessibleContext associated with this {@code JLayer}.
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJComponent() {
+                @Override
                 public AccessibleRole getAccessibleRole() {
                     return AccessibleRole.PANEL;
                 }
@@ -719,6 +741,7 @@ public final class JLayer<V extends Component>
                         AWTEvent.HIERARCHY_EVENT_MASK |
                         AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK;
 
+        @Override
         @SuppressWarnings("unchecked")
         public void eventDispatched(AWTEvent event) {
             Object source = event.getSource();
@@ -767,6 +790,7 @@ public final class JLayer<V extends Component>
 
         private void addAWTEventListener(final long eventMask) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     Toolkit.getDefaultToolkit().
                             addAWTEventListener(LayerEventController.this, eventMask);
@@ -778,6 +802,7 @@ public final class JLayer<V extends Component>
 
         private void removeAWTEventListener() {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     Toolkit.getDefaultToolkit().
                             removeAWTEventListener(LayerEventController.this);
@@ -845,6 +870,7 @@ public final class JLayer<V extends Component>
          * @param y the <i>y</i> coordinate of the point
          * @return true if this component logically contains x,y
          */
+        @Override
         public boolean contains(int x, int y) {
             for (int i = 0; i < getComponentCount(); i++) {
                 Component c = getComponent(i);

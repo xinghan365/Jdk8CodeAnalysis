@@ -105,10 +105,11 @@ public class MBeanConstructorInfo extends MBeanFeatureInfo implements Cloneable 
                                 Descriptor descriptor) {
         super(name, description, descriptor);
 
-        if (signature == null || signature.length == 0)
+        if (signature == null || signature.length == 0) {
             signature = MBeanParameterInfo.NO_PARAMS;
-        else
+        } else {
             signature = signature.clone();
+        }
         this.signature = signature;
         this.arrayGettersSafe =
             MBeanInfo.arrayGettersSafe(this.getClass(),
@@ -126,6 +127,7 @@ public class MBeanConstructorInfo extends MBeanFeatureInfo implements Cloneable 
      * <p>Since this class is immutable, cloning is chiefly of
      * interest to subclasses.</p>
      */
+     @Override
      public Object clone () {
          try {
              return super.clone() ;
@@ -149,19 +151,22 @@ public class MBeanConstructorInfo extends MBeanFeatureInfo implements Cloneable 
      * @return  An array of <CODE>MBeanParameterInfo</CODE> objects.
      */
     public MBeanParameterInfo[] getSignature() {
-        if (signature.length == 0)
+        if (signature.length == 0) {
             return signature;
-        else
+        } else {
             return signature.clone();
+        }
     }
 
     private MBeanParameterInfo[] fastGetSignature() {
-        if (arrayGettersSafe)
+        if (arrayGettersSafe) {
             return signature;
-        else
+        } else {
             return getSignature();
+        }
     }
 
+    @Override
     public String toString() {
         return
             getClass().getName() + "[" +
@@ -185,11 +190,14 @@ public class MBeanConstructorInfo extends MBeanFeatureInfo implements Cloneable 
      * signature arrays are equal if their elements are pairwise
      * equal.
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof MBeanConstructorInfo))
+        }
+        if (!(o instanceof MBeanConstructorInfo)) {
             return false;
+        }
         MBeanConstructorInfo p = (MBeanConstructorInfo) o;
         return (Objects.equals(p.getName(), getName()) &&
                 Objects.equals(p.getDescription(), getDescription()) &&
@@ -203,6 +211,7 @@ public class MBeanConstructorInfo extends MBeanFeatureInfo implements Cloneable 
        We don't include the description, though, because it could be
        quite long and yet the same between constructors.  Likewise for
        the descriptor.  */
+    @Override
     public int hashCode() {
         return Objects.hash(getName()) ^ Arrays.hashCode(fastGetSignature());
     }

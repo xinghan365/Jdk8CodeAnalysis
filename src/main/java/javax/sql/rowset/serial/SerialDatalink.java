@@ -119,6 +119,7 @@ public class SerialDatalink implements Serializable, Cloneable {
      *          equivalent to this SerialDatalink, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -137,6 +138,7 @@ public class SerialDatalink implements Serializable, Cloneable {
      *
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return 31 + url.hashCode();
     }
@@ -146,6 +148,7 @@ public class SerialDatalink implements Serializable, Cloneable {
      *
      * @return  a clone of this SerialDatalink
      */
+    @Override
     public Object clone() {
         try {
             SerialDatalink sdl = (SerialDatalink) super.clone();

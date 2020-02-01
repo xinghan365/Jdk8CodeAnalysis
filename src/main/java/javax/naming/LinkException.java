@@ -245,10 +245,11 @@ public class LinkException extends NamingException {
      * @see #getLinkRemainingName
      */
     public void setLinkRemainingName(Name name) {
-        if (name != null)
+        if (name != null) {
             this.linkRemainingName = (Name)(name.clone());
-        else
+        } else {
             this.linkRemainingName = null;
+        }
     }
 
     /**
@@ -270,6 +271,7 @@ public class LinkException extends NamingException {
      * programmatically.
      * @return The non-null string representation of this link exception.
      */
+    @Override
     public String toString() {
         return super.toString() + "; Link Remaining Name: '" +
             this.linkRemainingName + "'";
@@ -289,9 +291,11 @@ public class LinkException extends NamingException {
      *                  object.
      * @return The non-null string representation of this link exception.
      */
+    @Override
     public String toString(boolean detail) {
-        if (!detail || this.linkResolvedObj == null)
+        if (!detail || this.linkResolvedObj == null) {
             return this.toString();
+        }
 
         return this.toString() + "; Link Resolved Object: " +
             this.linkResolvedObj;

@@ -78,6 +78,7 @@ public class JMXPrincipal implements Principal, Serializable {
      *
      * @return the name of this <code>JMXPrincipal</code>.
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -89,6 +90,7 @@ public class JMXPrincipal implements Principal, Serializable {
      *
      * @return a string representation of this <code>JMXPrincipal</code>.
      */
+    @Override
     public String toString() {
         return("JMXPrincipal:  " + name);
     }
@@ -107,15 +109,19 @@ public class JMXPrincipal implements Principal, Serializable {
      * @return true if the specified Object is equal to this
      * <code>JMXPrincipal</code>.
      */
+    @Override
     public boolean equals(Object o) {
-        if (o == null)
+        if (o == null) {
             return false;
+        }
 
-        if (this == o)
+        if (this == o) {
             return true;
+        }
 
-        if (!(o instanceof JMXPrincipal))
+        if (!(o instanceof JMXPrincipal)) {
             return false;
+        }
         JMXPrincipal that = (JMXPrincipal)o;
 
         return (this.getName().equals(that.getName()));
@@ -128,6 +134,7 @@ public class JMXPrincipal implements Principal, Serializable {
      *
      * @return a hash code for this <code>JMXPrincipal</code>.
      */
+    @Override
     public int hashCode() {
         return name.hashCode();
     }
@@ -144,7 +151,8 @@ public class JMXPrincipal implements Principal, Serializable {
     }
 
     private static void validate(String name) throws NullPointerException {
-        if (name == null)
+        if (name == null) {
             throw new NullPointerException("illegal null input");
+        }
     }
 }

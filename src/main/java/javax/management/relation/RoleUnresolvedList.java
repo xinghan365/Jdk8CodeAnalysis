@@ -101,8 +101,9 @@ public class RoleUnresolvedList extends ArrayList<Object> {
         throws IllegalArgumentException {
         // Check for null parameter
         //
-        if (list == null)
+        if (list == null) {
             throw new IllegalArgumentException("Null parameter");
+        }
 
         // Check for non-RoleUnresolved objects
         //
@@ -137,8 +138,9 @@ public class RoleUnresolvedList extends ArrayList<Object> {
     @SuppressWarnings("unchecked")
     public List<RoleUnresolved> asList() {
         if (!typeSafe) {
-            if (tainted)
+            if (tainted) {
                 checkTypeSafe(this);
+            }
             typeSafe = true;
         }
         return Util.cast(this);
@@ -277,46 +279,56 @@ public class RoleUnresolvedList extends ArrayList<Object> {
 
     @Override
     public boolean add(Object o) {
-        if (!tainted)
+        if (!tainted) {
             tainted = isTainted(o);
-        if (typeSafe)
+        }
+        if (typeSafe) {
             checkTypeSafe(o);
+        }
         return super.add(o);
     }
 
     @Override
     public void add(int index, Object element) {
-        if (!tainted)
+        if (!tainted) {
             tainted = isTainted(element);
-        if (typeSafe)
+        }
+        if (typeSafe) {
             checkTypeSafe(element);
+        }
         super.add(index, element);
     }
 
     @Override
     public boolean addAll(Collection<?> c) {
-        if (!tainted)
+        if (!tainted) {
             tainted = isTainted(c);
-        if (typeSafe)
+        }
+        if (typeSafe) {
             checkTypeSafe(c);
+        }
         return super.addAll(c);
     }
 
     @Override
     public boolean addAll(int index, Collection<?> c) {
-        if (!tainted)
+        if (!tainted) {
             tainted = isTainted(c);
-        if (typeSafe)
+        }
+        if (typeSafe) {
             checkTypeSafe(c);
+        }
         return super.addAll(index, c);
     }
 
     @Override
     public Object set(int index, Object element) {
-        if (!tainted)
+        if (!tainted) {
             tainted = isTainted(element);
-        if (typeSafe)
+        }
+        if (typeSafe) {
             checkTypeSafe(element);
+        }
         return super.set(index, element);
     }
 
@@ -337,8 +349,9 @@ public class RoleUnresolvedList extends ArrayList<Object> {
     private static void checkTypeSafe(Collection<?> c) {
         try {
             RoleUnresolved r;
-            for (Object o : c)
+            for (Object o : c) {
                 r = (RoleUnresolved) o;
+            }
         } catch (ClassCastException e) {
             throw new IllegalArgumentException(e);
         }

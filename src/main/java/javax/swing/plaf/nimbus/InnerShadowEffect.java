@@ -47,6 +47,7 @@ class InnerShadowEffect extends ShadowEffect {
      *
      * @return The effect type
      */
+    @Override
     Effect.EffectType getEffectType() {
         return Effect.EffectType.OVER;
     }
@@ -63,6 +64,7 @@ class InnerShadowEffect extends ShadowEffect {
      *            the area the need effect applied to it
      * @return Image with the result of the effect
      */
+    @Override
     BufferedImage applyEffect(BufferedImage src, BufferedImage dst, int w, int h) {
         if (src == null || src.getType() != BufferedImage.TYPE_INT_ARGB){
             throw new IllegalArgumentException("Effect only works with " +
@@ -109,8 +111,10 @@ class InnerShadowEffect extends ShadowEffect {
             tmpBuf1[i] = (val > 255) ? (byte) 0xFF : (byte) val;
         }
         // create color image with shadow color and greyscale image as alpha
-        if (dst == null) dst = new BufferedImage(w, h,
-                BufferedImage.TYPE_INT_ARGB);
+        if (dst == null) {
+            dst = new BufferedImage(w, h,
+                    BufferedImage.TYPE_INT_ARGB);
+        }
         WritableRaster shadowRaster = dst.getRaster();
         int red = color.getRed(), green = color.getGreen(), blue = color.getBlue();
         for (int y = 0; y < h; y++) {

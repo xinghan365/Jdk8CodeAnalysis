@@ -81,6 +81,7 @@ public class MultiTextUI extends TextUI {
      * the UI obtained from the default <code>LookAndFeel</code>
      * @since 1.4
      */
+    @Override
     public String getToolTipText(JTextComponent a, Point b) {
         String returnValue =
             ((TextUI) (uis.elementAt(0))).getToolTipText(a,b);
@@ -96,6 +97,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Rectangle modelToView(JTextComponent a, int b)
             throws BadLocationException {
         Rectangle returnValue =
@@ -112,6 +114,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Rectangle modelToView(JTextComponent a, int b, Position.Bias c)
             throws BadLocationException {
         Rectangle returnValue =
@@ -128,6 +131,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public int viewToModel(JTextComponent a, Point b) {
         int returnValue =
             ((TextUI) (uis.elementAt(0))).viewToModel(a,b);
@@ -143,6 +147,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public int viewToModel(JTextComponent a, Point b, Position.Bias[] c) {
         int returnValue =
             ((TextUI) (uis.elementAt(0))).viewToModel(a,b,c);
@@ -158,6 +163,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public int getNextVisualPositionFrom(JTextComponent a, int b, Position.Bias c, int d, Position.Bias[] e)
             throws BadLocationException {
         int returnValue =
@@ -171,6 +177,7 @@ public class MultiTextUI extends TextUI {
     /**
      * Invokes the <code>damageRange</code> method on each UI handled by this object.
      */
+    @Override
     public void damageRange(JTextComponent a, int b, int c) {
         for (int i = 0; i < uis.size(); i++) {
             ((TextUI) (uis.elementAt(i))).damageRange(a,b,c);
@@ -180,6 +187,7 @@ public class MultiTextUI extends TextUI {
     /**
      * Invokes the <code>damageRange</code> method on each UI handled by this object.
      */
+    @Override
     public void damageRange(JTextComponent a, int b, int c, Position.Bias d, Position.Bias e) {
         for (int i = 0; i < uis.size(); i++) {
             ((TextUI) (uis.elementAt(i))).damageRange(a,b,c,d,e);
@@ -192,6 +200,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public EditorKit getEditorKit(JTextComponent a) {
         EditorKit returnValue =
             ((TextUI) (uis.elementAt(0))).getEditorKit(a);
@@ -207,6 +216,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public View getRootView(JTextComponent a) {
         View returnValue =
             ((TextUI) (uis.elementAt(0))).getRootView(a);
@@ -226,6 +236,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public boolean contains(JComponent a, int b, int c) {
         boolean returnValue =
             ((ComponentUI) (uis.elementAt(0))).contains(a,b,c);
@@ -238,6 +249,7 @@ public class MultiTextUI extends TextUI {
     /**
      * Invokes the <code>update</code> method on each UI handled by this object.
      */
+    @Override
     public void update(Graphics a, JComponent b) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).update(a,b);
@@ -259,6 +271,7 @@ public class MultiTextUI extends TextUI {
     /**
      * Invokes the <code>installUI</code> method on each UI handled by this object.
      */
+    @Override
     public void installUI(JComponent a) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).installUI(a);
@@ -268,6 +281,7 @@ public class MultiTextUI extends TextUI {
     /**
      * Invokes the <code>uninstallUI</code> method on each UI handled by this object.
      */
+    @Override
     public void uninstallUI(JComponent a) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).uninstallUI(a);
@@ -277,6 +291,7 @@ public class MultiTextUI extends TextUI {
     /**
      * Invokes the <code>paint</code> method on each UI handled by this object.
      */
+    @Override
     public void paint(Graphics a, JComponent b) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).paint(a,b);
@@ -289,6 +304,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getPreferredSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getPreferredSize(a);
@@ -304,6 +320,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getMinimumSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getMinimumSize(a);
@@ -319,6 +336,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getMaximumSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getMaximumSize(a);
@@ -334,6 +352,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public int getAccessibleChildrenCount(JComponent a) {
         int returnValue =
             ((ComponentUI) (uis.elementAt(0))).getAccessibleChildrenCount(a);
@@ -349,6 +368,7 @@ public class MultiTextUI extends TextUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Accessible getAccessibleChild(JComponent a, int b) {
         Accessible returnValue =
             ((ComponentUI) (uis.elementAt(0))).getAccessibleChild(a,b);

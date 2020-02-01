@@ -63,6 +63,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
         super(elem);
     }
 
+    @Override
     protected Component createComponent() {
 
         Element elem = getElement();
@@ -128,6 +129,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      *
      * @param parent View
      */
+    @Override
     public void setParent(View parent) {
         if (parent != null) {
             JTextComponent t = (JTextComponent)parent.getContainer();
@@ -146,6 +148,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      * @param parent View
      * @see text.ComponentView#paint
      */
+    @Override
     public void paint(Graphics g, Shape allocation) {
 
         Container host = getContainer();
@@ -291,6 +294,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      *
      * @param HyperlinkEvent
      */
+    @Override
     public void hyperlinkUpdate(HyperlinkEvent evt) {
 
         JEditorPane c = getOutermostJEditorPane();
@@ -363,6 +367,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      * @param f the factory to use to rebuild if the view has children
      *
      */
+    @Override
     public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
 
         Element elem = getElement();
@@ -436,6 +441,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      * is the same as the preferred span
      *
      */
+    @Override
     public float getMinimumSpan(int axis) {
       return 5;
     }
@@ -451,6 +457,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      * is the same as the preferred span
      *
      */
+    @Override
     public float getMaximumSpan(int axis) {
         return Integer.MAX_VALUE;
     }
@@ -459,6 +466,7 @@ class FrameView extends ComponentView implements HyperlinkListener {
      *  It uses the same editor kits classes as outermost JEditorPane
      */
     class FrameEditorPane extends JEditorPane implements FrameEditorPaneTag {
+        @Override
         public EditorKit getEditorKitForContentType(String type) {
             EditorKit editorKit = super.getEditorKitForContentType(type);
             JEditorPane outerMostJEditorPane = null;

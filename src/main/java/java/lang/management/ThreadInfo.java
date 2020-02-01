@@ -578,6 +578,7 @@ public class ThreadInfo {
      *
      * @return a string representation of this thread info.
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("\"" + getThreadName() + "\"" +
                                              " Id=" + getThreadId() + " " +

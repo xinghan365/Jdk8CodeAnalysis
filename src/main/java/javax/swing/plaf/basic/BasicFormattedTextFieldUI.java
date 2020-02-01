@@ -51,6 +51,7 @@ public class BasicFormattedTextFieldUI extends BasicTextFieldUI {
      *
      * @return the name "FormattedTextField"
      */
+    @Override
     protected String getPropertyPrefix() {
         return "FormattedTextField";
     }

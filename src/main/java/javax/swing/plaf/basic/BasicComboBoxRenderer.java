@@ -72,6 +72,7 @@ implements ListCellRenderer, Serializable {
         }
     }
 
+    @Override
     public Dimension getPreferredSize() {
         Dimension size;
 
@@ -87,6 +88,7 @@ implements ListCellRenderer, Serializable {
         return size;
     }
 
+    @Override
     public Component getListCellRendererComponent(
                                                  JList list,
                                                  Object value,

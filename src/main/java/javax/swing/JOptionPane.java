@@ -871,17 +871,20 @@ public class JOptionPane extends JComponent implements Accessible
 
         Object        selectedValue = pane.getValue();
 
-        if(selectedValue == null)
+        if(selectedValue == null) {
             return CLOSED_OPTION;
+        }
         if(options == null) {
-            if(selectedValue instanceof Integer)
+            if(selectedValue instanceof Integer) {
                 return ((Integer)selectedValue).intValue();
+            }
             return CLOSED_OPTION;
         }
         for(int counter = 0, maxCounter = options.length;
             counter < maxCounter; counter++) {
-            if(options[counter].equals(selectedValue))
+            if(options[counter].equals(selectedValue)) {
                 return counter;
+            }
         }
         return CLOSED_OPTION;
     }
@@ -987,6 +990,7 @@ public class JOptionPane extends JComponent implements Accessible
         dialog.setLocationRelativeTo(parentComponent);
 
         final PropertyChangeListener listener = new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent event) {
                 // Let the defaultCloseOperation handle the closing
                 // if the user closed the window without selecting a button
@@ -1002,15 +1006,18 @@ public class JOptionPane extends JComponent implements Accessible
 
         WindowAdapter adapter = new WindowAdapter() {
             private boolean gotFocus = false;
+            @Override
             public void windowClosing(WindowEvent we) {
                 setValue(null);
             }
 
+            @Override
             public void windowClosed(WindowEvent e) {
                 removePropertyChangeListener(listener);
                 dialog.getContentPane().removeAll();
             }
 
+            @Override
             public void windowGainedFocus(WindowEvent we) {
                 // Once window gets focus, set initial focus
                 if (!gotFocus) {
@@ -1022,6 +1029,7 @@ public class JOptionPane extends JComponent implements Accessible
         dialog.addWindowListener(adapter);
         dialog.addWindowFocusListener(adapter);
         dialog.addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentShown(ComponentEvent ce) {
                 // reset value to ensure closing works properly
                 setValue(JOptionPane.UNINITIALIZED_VALUE);
@@ -1520,6 +1528,7 @@ public class JOptionPane extends JComponent implements Accessible
                                  Integer.valueOf(getMessageType()));
 
         iFrame.addInternalFrameListener(new InternalFrameAdapter() {
+            @Override
             public void internalFrameClosing(InternalFrameEvent e) {
                 if (getValue() == UNINITIALIZED_VALUE) {
                     setValue(null);
@@ -1527,6 +1536,7 @@ public class JOptionPane extends JComponent implements Accessible
             }
         });
         addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent event) {
                 // Let the defaultCloseOperation handle the closing
                 // if the user closed the iframe without selecting a button
@@ -1608,10 +1618,12 @@ public class JOptionPane extends JComponent implements Accessible
      */
     public static Frame getFrameForComponent(Component parentComponent)
         throws HeadlessException {
-        if (parentComponent == null)
+        if (parentComponent == null) {
             return getRootFrame();
-        if (parentComponent instanceof Frame)
+        }
+        if (parentComponent instanceof Frame) {
             return (Frame)parentComponent;
+        }
         return JOptionPane.getFrameForComponent(parentComponent.getParent());
     }
 
@@ -1633,10 +1645,12 @@ public class JOptionPane extends JComponent implements Accessible
      */
     static Window getWindowForComponent(Component parentComponent)
         throws HeadlessException {
-        if (parentComponent == null)
+        if (parentComponent == null) {
             return getRootFrame();
-        if (parentComponent instanceof Frame || parentComponent instanceof Dialog)
+        }
+        if (parentComponent instanceof Frame || parentComponent instanceof Dialog) {
             return (Window)parentComponent;
+        }
         return JOptionPane.getWindowForComponent(parentComponent.getParent());
     }
 
@@ -1652,10 +1666,12 @@ public class JOptionPane extends JComponent implements Accessible
      *          <code>JInternalFrame</code>
      */
     public static JDesktopPane getDesktopPaneForComponent(Component parentComponent) {
-        if(parentComponent == null)
+        if(parentComponent == null) {
             return null;
-        if(parentComponent instanceof JDesktopPane)
+        }
+        if(parentComponent instanceof JDesktopPane) {
             return (JDesktopPane)parentComponent;
+        }
         return getDesktopPaneForComponent(parentComponent.getParent());
     }
 
@@ -1878,6 +1894,7 @@ public class JOptionPane extends JComponent implements Accessible
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((OptionPaneUI)UIManager.getUI(this));
     }
@@ -1891,6 +1908,7 @@ public class JOptionPane extends JComponent implements Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -2078,8 +2096,9 @@ public class JOptionPane extends JComponent implements Accessible
     public void setMessageType(int newType) {
         if(newType != ERROR_MESSAGE && newType != INFORMATION_MESSAGE &&
            newType != WARNING_MESSAGE && newType != QUESTION_MESSAGE &&
-           newType != PLAIN_MESSAGE)
+           newType != PLAIN_MESSAGE) {
             throw new RuntimeException("JOptionPane: type must be one of JOptionPane.ERROR_MESSAGE, JOptionPane.INFORMATION_MESSAGE, JOptionPane.WARNING_MESSAGE, JOptionPane.QUESTION_MESSAGE or JOptionPane.PLAIN_MESSAGE");
+        }
 
         int           oldType = messageType;
 
@@ -2119,8 +2138,9 @@ public class JOptionPane extends JComponent implements Accessible
       */
     public void setOptionType(int newType) {
         if(newType != DEFAULT_OPTION && newType != YES_NO_OPTION &&
-           newType != YES_NO_CANCEL_OPTION && newType != OK_CANCEL_OPTION)
+           newType != YES_NO_CANCEL_OPTION && newType != OK_CANCEL_OPTION) {
             throw new RuntimeException("JOptionPane: option type must be one of JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_CANCEL_OPTION or JOptionPane.OK_CANCEL_OPTION");
+        }
 
         int            oldType = optionType;
 
@@ -2166,8 +2186,9 @@ public class JOptionPane extends JComponent implements Accessible
 
         selectionValues = newValues;
         firePropertyChange(SELECTION_VALUES_PROPERTY, oldValues, newValues);
-        if(selectionValues != null)
+        if(selectionValues != null) {
             setWantsInput(true);
+        }
     }
 
     /**
@@ -2349,9 +2370,11 @@ public class JOptionPane extends JComponent implements Accessible
             Vector<Object> serOptions = new Vector<Object>();
 
             for(int counter = 0, maxCounter = options.length;
-                counter < maxCounter; counter++)
-                if(options[counter] instanceof Serializable)
+                counter < maxCounter; counter++) {
+                if(options[counter] instanceof Serializable) {
                     serOptions.addElement(options[counter]);
+                }
+            }
             if(serOptions.size() > 0) {
                 int             optionCount = serOptions.size();
                 Object[]        arrayOptions = new Object[optionCount];
@@ -2470,6 +2493,7 @@ public class JOptionPane extends JComponent implements Accessible
      *
      * @return  a string representation of this <code>JOptionPane</code>
      */
+    @Override
     protected String paramString() {
         String iconString = (icon != null ?
                              icon.toString() : "");
@@ -2488,7 +2512,9 @@ public class JOptionPane extends JComponent implements Accessible
             messageTypeString = "QUESTION_MESSAGE";
         } else if (messageType == PLAIN_MESSAGE)  {
             messageTypeString = "PLAIN_MESSAGE";
-        } else messageTypeString = "";
+        } else {
+            messageTypeString = "";
+        }
         String optionTypeString;
         if (optionType == DEFAULT_OPTION) {
             optionTypeString = "DEFAULT_OPTION";
@@ -2498,7 +2524,9 @@ public class JOptionPane extends JComponent implements Accessible
             optionTypeString = "YES_NO_CANCEL_OPTION";
         } else if (optionType == OK_CANCEL_OPTION) {
             optionTypeString = "OK_CANCEL_OPTION";
-        } else optionTypeString = "";
+        } else {
+            optionTypeString = "";
+        }
         String wantsInputString = (wantsInput ?
                                    "true" : "false");
 
@@ -2523,6 +2551,7 @@ public class JOptionPane extends JComponent implements Accessible
             this.methodName = methodName;
         }
 
+        @Override
         public Method run() {
             Method method = null;
             try {
@@ -2554,6 +2583,7 @@ public class JOptionPane extends JComponent implements Accessible
      *       expert: true
      *  description: The AccessibleContext associated with this option pane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJOptionPane();
@@ -2584,6 +2614,7 @@ public class JOptionPane extends JComponent implements Accessible
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             switch (messageType) {
             case ERROR_MESSAGE:

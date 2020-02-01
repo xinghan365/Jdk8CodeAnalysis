@@ -160,10 +160,11 @@ public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
 
         super(name, description, descriptor);
 
-        if (signature == null || signature.length == 0)
+        if (signature == null || signature.length == 0) {
             signature = MBeanParameterInfo.NO_PARAMS;
-        else
+        } else {
             signature = signature.clone();
+        }
         this.signature = signature;
         this.type = type;
         this.impact = impact;
@@ -227,11 +228,13 @@ public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
         if (signature == null)
             // if signature is null simply return an empty array .
             //
+        {
             return MBeanParameterInfo.NO_PARAMS;
-        else if (signature.length == 0)
+        } else if (signature.length == 0) {
             return signature;
-        else
+        } else {
             return signature.clone();
+        }
     }
 
     private MBeanParameterInfo[] fastGetSignature() {
@@ -239,10 +242,14 @@ public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
             // if signature is null simply return an empty array .
             // see getSignature() above.
             //
-            if (signature == null)
+            if (signature == null) {
                 return MBeanParameterInfo.NO_PARAMS;
-            else return signature;
-        } else return getSignature();
+            } else {
+                return signature;
+            }
+        } else {
+            return getSignature();
+        }
     }
 
     /**
@@ -289,10 +296,12 @@ public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof MBeanOperationInfo))
+        }
+        if (!(o instanceof MBeanOperationInfo)) {
             return false;
+        }
         MBeanOperationInfo p = (MBeanOperationInfo) o;
         return (Objects.equals(p.getName(), getName()) &&
                 Objects.equals(p.getReturnType(), getReturnType()) &&

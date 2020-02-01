@@ -139,7 +139,9 @@ public class Robot {
     }
 
     private static synchronized void initLegalButtonMask() {
-        if (LEGAL_BUTTON_MASK != 0) return;
+        if (LEGAL_BUTTON_MASK != 0) {
+            return;
+        }
 
         int tmpMask = 0;
         if (Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled()){
@@ -181,6 +183,7 @@ public class Robot {
         public RobotDisposer(RobotPeer peer) {
             this.peer = peer;
         }
+        @Override
         public void dispose() {
             if (peer != null) {
                 peer.dispose();
@@ -556,6 +559,7 @@ public class Robot {
         try {
             SunToolkit.flushPendingEvents();
             EventQueue.invokeAndWait( new Runnable() {
+                                            @Override
                                             public void run() {
                                                 // dummy implementation
                                             }
@@ -580,6 +584,7 @@ public class Robot {
      *
      * @return  the string representation.
      */
+    @Override
     public synchronized String toString() {
         String params = "autoDelay = "+getAutoDelay()+", "+"autoWaitForIdle = "+isAutoWaitForIdle();
         return getClass().getName() + "[ " + params + " ]";

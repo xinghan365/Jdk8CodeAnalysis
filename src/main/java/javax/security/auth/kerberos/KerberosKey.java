@@ -138,8 +138,9 @@ public class KerberosKey implements SecretKey, Destroyable {
      * @return the principal this key belongs to.
      */
     public final KerberosPrincipal getPrincipal() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return principal;
     }
 
@@ -149,8 +150,9 @@ public class KerberosKey implements SecretKey, Destroyable {
      * @return the key version number.
      */
     public final int getVersionNumber() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return versionNum;
     }
 
@@ -160,8 +162,9 @@ public class KerberosKey implements SecretKey, Destroyable {
      * @return the key type.
      */
     public final int getKeyType() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return key.getKeyType();
     }
 
@@ -180,9 +183,11 @@ public class KerberosKey implements SecretKey, Destroyable {
      *
      * @return the name of the algorithm associated with this key.
      */
+    @Override
     public final String getAlgorithm() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return key.getAlgorithm();
     }
 
@@ -191,9 +196,11 @@ public class KerberosKey implements SecretKey, Destroyable {
      *
      * @return the String "RAW"
      */
+    @Override
     public final String getFormat() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return key.getFormat();
     }
 
@@ -202,9 +209,11 @@ public class KerberosKey implements SecretKey, Destroyable {
      *
      * @return the key material
      */
+    @Override
     public final byte[] getEncoded() {
-        if (destroyed)
+        if (destroyed) {
             throw new IllegalStateException("This key is no longer valid");
+        }
         return key.getEncoded();
     }
 
@@ -215,6 +224,7 @@ public class KerberosKey implements SecretKey, Destroyable {
      * @throws DestroyFailedException if some error occurs while destorying
      * this key.
      */
+    @Override
     public void destroy() throws DestroyFailedException {
         if (!destroyed) {
             key.destroy();
@@ -225,10 +235,12 @@ public class KerberosKey implements SecretKey, Destroyable {
 
 
     /** Determines if this key has been destroyed.*/
+    @Override
     public boolean isDestroyed() {
         return destroyed;
     }
 
+    @Override
     public String toString() {
         if (destroyed) {
             return "Destroyed Principal";
@@ -244,6 +256,7 @@ public class KerberosKey implements SecretKey, Destroyable {
      * @return a hashCode() for the {@code KerberosKey}
      * @since 1.6
      */
+    @Override
     public int hashCode() {
         int result = 17;
         if (isDestroyed()) {
@@ -269,10 +282,12 @@ public class KerberosKey implements SecretKey, Destroyable {
      * objects has been destroyed.
      * @since 1.6
      */
+    @Override
     public boolean equals(Object other) {
 
-        if (other == this)
+        if (other == this) {
             return true;
+        }
 
         if (! (other instanceof KerberosKey)) {
             return false;

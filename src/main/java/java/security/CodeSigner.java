@@ -103,6 +103,7 @@ public final class CodeSigner implements Serializable {
      *
      * @return a hash code value for this code signer.
      */
+    @Override
     public int hashCode() {
         if (myhash == -1) {
             if (timestamp == null) {
@@ -124,6 +125,7 @@ public final class CodeSigner implements Serializable {
      *
      * @return true if the objects are considered equal, false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || (!(obj instanceof CodeSigner))) {
             return false;
@@ -153,6 +155,7 @@ public final class CodeSigner implements Serializable {
      * @return A string comprising the signer's certificate and a timestamp,
      *         if present.
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("(");

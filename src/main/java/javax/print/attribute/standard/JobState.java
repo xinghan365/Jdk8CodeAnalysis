@@ -196,6 +196,7 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
     /**
      * Returns the string table for class JobState.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -203,6 +204,7 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
     /**
      * Returns the enumeration value table for class JobState.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -217,6 +219,7 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return JobState.class;
     }
@@ -230,6 +233,7 @@ public class JobState extends EnumSyntax implements PrintJobAttribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "job-state";
     }

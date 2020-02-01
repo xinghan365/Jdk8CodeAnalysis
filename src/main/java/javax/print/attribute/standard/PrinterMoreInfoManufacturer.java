@@ -92,6 +92,7 @@ public final class PrinterMoreInfoManufacturer extends URISyntax
      * @return  True if <CODE>object</CODE> is equivalent to this printer
      *          more info manufacturer attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals(object) &&
                 object instanceof PrinterMoreInfoManufacturer);
@@ -107,6 +108,7 @@ public final class PrinterMoreInfoManufacturer extends URISyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterMoreInfoManufacturer.class;
     }
@@ -120,6 +122,7 @@ public final class PrinterMoreInfoManufacturer extends URISyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-more-info-manufacturer";
     }

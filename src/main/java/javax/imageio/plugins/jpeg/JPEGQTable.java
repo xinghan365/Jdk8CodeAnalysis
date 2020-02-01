@@ -195,6 +195,7 @@ public class JPEGQTable {
      * Returns a {@code String} representing this quantization table.
      * @return a {@code String} representing this quantization table.
      */
+    @Override
     public String toString() {
         String ls = System.getProperty("line.separator", "\n");
         StringBuilder sb = new StringBuilder("JPEGQTable:"+ls);

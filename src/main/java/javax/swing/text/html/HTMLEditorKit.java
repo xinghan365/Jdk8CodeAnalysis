@@ -179,6 +179,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
         return "text/html";
     }
@@ -190,6 +191,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @return the factory
      */
+    @Override
     public ViewFactory getViewFactory() {
         return defaultFactory;
     }
@@ -200,6 +202,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @return the model
      */
+    @Override
     public Document createDefaultDocument() {
         StyleSheet styles = getStyleSheet();
         StyleSheet ss = new StyleSheet();
@@ -247,6 +250,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      * @exception RuntimeException (will eventually be a BadLocationException)
      *            if pos is invalid
      */
+    @Override
     public void read(Reader in, Document doc, int pos) throws IOException, BadLocationException {
 
         if (doc instanceof HTMLDocument) {
@@ -310,6 +314,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      * @exception BadLocationException if pos represents an invalid
      *   location within the document
      */
+    @Override
     public void write(Writer out, Document doc, int pos, int len)
         throws IOException, BadLocationException {
 
@@ -330,6 +335,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @param c the JEditorPane
      */
+    @Override
     public void install(JEditorPane c) {
         c.addMouseListener(linkHandler);
         c.addMouseMotionListener(linkHandler);
@@ -345,6 +351,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @param c the JEditorPane
      */
+    @Override
     public void deinstall(JEditorPane c) {
         c.removeMouseListener(linkHandler);
         c.removeMouseMotionListener(linkHandler);
@@ -417,6 +424,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     static InputStream getResourceAsStream(final String name) {
         return AccessController.doPrivileged(
                 new PrivilegedAction<InputStream>() {
+                    @Override
                     public InputStream run() {
                         return HTMLEditorKit.class.getResourceAsStream(name);
                     }
@@ -431,6 +439,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @return the command list
      */
+    @Override
     public Action[] getActions() {
         return TextAction.augmentList(super.getActions(), this.defaultActions);
     }
@@ -444,6 +453,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      * This is called anytime the caret moves over a different location.
      *
      */
+    @Override
     protected void createInputAttributes(Element element,
                                          MutableAttributeSet set) {
         set.removeAttributes(set);
@@ -495,6 +505,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @return the attribute set
      */
+    @Override
     public MutableAttributeSet getInputAttributes() {
         if (input == null) {
             input = getStyleSheet().addStyle(null, null);
@@ -569,6 +580,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         HTMLEditorKit o = (HTMLEditorKit)super.clone();
         if (o != null) {
@@ -606,6 +618,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
      * @return the AccessibleContext associated with this editor kit
      * @since 1.4
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (theEditor == null) {
             return null;
@@ -663,6 +676,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
          * @param e the mouse event
          * @see MouseListener#mouseClicked
          */
+        @Override
         public void mouseClicked(MouseEvent e) {
             JEditorPane editor = (JEditorPane) e.getSource();
 
@@ -677,10 +691,12 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
 
         // ignore the drags
+        @Override
         public void mouseDragged(MouseEvent e) {
         }
 
         // track the moving of the mouse.
+        @Override
         public void mouseMoved(MouseEvent e) {
             JEditorPane editor = (JEditorPane) e.getSource();
             if (!editor.isEnabled()) {
@@ -1119,6 +1135,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
          * @param elem the element
          * @return the view
          */
+        @Override
         public View create(Element elem) {
             AttributeSet attrs = elem.getAttributes();
             Object elementName =
@@ -1203,24 +1220,30 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                     // getNextVisualPositionFrom is overriden to always return
                     // the end offset of the element.
                     return new BlockView(elem, View.X_AXIS) {
+                        @Override
                         public float getPreferredSpan(int axis) {
                             return 0;
                         }
+                        @Override
                         public float getMinimumSpan(int axis) {
                             return 0;
                         }
+                        @Override
                         public float getMaximumSpan(int axis) {
                             return 0;
                         }
+                        @Override
                         protected void loadChildren(ViewFactory f) {
                         }
+                        @Override
                         public Shape modelToView(int pos, Shape a,
-                               Position.Bias b) throws BadLocationException {
+                                                 Position.Bias b) throws BadLocationException {
                             return a;
                         }
+                        @Override
                         public int getNextVisualPositionFrom(int pos,
-                                     Position.Bias b, Shape a,
-                                     int direction, Position.Bias[] biasRet) {
+                                                             Position.Bias b, Shape a,
+                                                             int direction, Position.Bias[] biasRet) {
                             return getElement().getEndOffset();
                         }
                     };
@@ -1265,12 +1288,14 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
             // reimplement major axis requirements to indicate that the
             // block is flexible for the body element... so that it can
             // be stretched to fill the background properly.
+            @Override
             protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
                 r = super.calculateMajorAxisRequirements(axis, r);
                 r.maximum = Integer.MAX_VALUE;
                 return r;
             }
 
+            @Override
             protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
                 Container container = getContainer();
                 Container parentContainer;
@@ -1313,6 +1338,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                 super.layoutMinorAxis(targetSpan, axis, offsets, spans);
             }
 
+            @Override
             public void setParent(View parent) {
                 //if parent == null unregister component listener
                 if (parent == null) {
@@ -1327,6 +1353,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                 super.setParent(parent);
             }
 
+            @Override
             public void componentResized(ComponentEvent e) {
                 if ( !(e.getSource() instanceof JViewport) ) {
                     return;
@@ -1347,10 +1374,13 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                     }
                 }
             }
+            @Override
             public void componentHidden(ComponentEvent e) {
             }
+            @Override
             public void componentMoved(ComponentEvent e) {
             }
+            @Override
             public void componentShown(ComponentEvent e) {
             }
             /*
@@ -1776,6 +1806,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
          *
          * @param ae the event
          */
+        @Override
         public void actionPerformed(ActionEvent ae) {
             JEditorPane editor = getEditor(ae);
             if (editor != null) {
@@ -1833,6 +1864,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
          *
          * @param ae the event
          */
+        @Override
         public void actionPerformed(ActionEvent ae) {
             JEditorPane editor = getEditor(ae);
             if (editor != null) {
@@ -1895,6 +1927,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
          *
          * @param e the caret event
          */
+        @Override
         public void caretUpdate(CaretEvent e) {
             Object src = e.getSource();
             if (src instanceof JTextComponent) {
@@ -1916,6 +1949,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         /*
          * The operation to perform when this action is triggered.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent comp = getTextComponent(e);
             if (comp == null || comp.isEditable()) {
@@ -2034,6 +2068,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
              * @param view View painting for
              * @return region in which drawing occurred
              */
+            @Override
             public Shape paintLayer(Graphics g, int offs0, int offs1,
                                     Shape bounds, JTextComponent c, View view) {
 
@@ -2194,6 +2229,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         /*
          * The operation to perform when this action is triggered.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
 
             JTextComponent c = getTextComponent(e);
@@ -2268,6 +2304,7 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
 
         /** The operation to perform when this action is triggered. */
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent target = getTextComponent(e);
             int bodyStart = getBodyElementStart(target);

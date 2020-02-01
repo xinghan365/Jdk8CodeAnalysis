@@ -208,6 +208,7 @@ public class MetaMessage extends MidiMessage {
      * as this object.
      * @return a clone of this instance
      */
+    @Override
     public Object clone() {
         byte[] newData = new byte[length];
         System.arraycopy(data, 0, newData, 0, newData.length);
@@ -232,7 +233,9 @@ public class MetaMessage extends MidiMessage {
     private void writeVarInt(byte[] data, int off, long value) {
         int shift=63; // number of bitwise left-shifts of mask
         // first screen out leading zeros
-        while ((shift > 0) && ((value & (mask << shift)) == 0)) shift-=7;
+        while ((shift > 0) && ((value & (mask << shift)) == 0)) {
+            shift-=7;
+        }
         // then write actual values
         while (shift > 0) {
             data[off++]=(byte) (((value & (mask << shift)) >> shift) | 0x80);

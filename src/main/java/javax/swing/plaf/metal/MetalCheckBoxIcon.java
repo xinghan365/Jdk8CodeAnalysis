@@ -50,6 +50,7 @@ public class MetalCheckBoxIcon implements Icon, UIResource, Serializable {
 
     protected int getControlSize() { return 13; }
 
+    @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
 
         JCheckBox cb = (JCheckBox)c;
@@ -97,10 +98,12 @@ public class MetalCheckBoxIcon implements Icon, UIResource, Serializable {
         g.drawLine( x+(controlSize-4), y+4, x+5, y+(controlSize-5) );
     }
 
+    @Override
     public int getIconWidth() {
         return getControlSize();
     }
 
+    @Override
     public int getIconHeight() {
         return getControlSize();
     }

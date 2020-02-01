@@ -76,6 +76,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public boolean contains(JComponent a, int b, int c) {
         boolean returnValue =
             ((ComponentUI) (uis.elementAt(0))).contains(a,b,c);
@@ -88,6 +89,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
     /**
      * Invokes the <code>update</code> method on each UI handled by this object.
      */
+    @Override
     public void update(Graphics a, JComponent b) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).update(a,b);
@@ -109,6 +111,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
     /**
      * Invokes the <code>installUI</code> method on each UI handled by this object.
      */
+    @Override
     public void installUI(JComponent a) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).installUI(a);
@@ -118,6 +121,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
     /**
      * Invokes the <code>uninstallUI</code> method on each UI handled by this object.
      */
+    @Override
     public void uninstallUI(JComponent a) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).uninstallUI(a);
@@ -127,6 +131,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
     /**
      * Invokes the <code>paint</code> method on each UI handled by this object.
      */
+    @Override
     public void paint(Graphics a, JComponent b) {
         for (int i = 0; i < uis.size(); i++) {
             ((ComponentUI) (uis.elementAt(i))).paint(a,b);
@@ -139,6 +144,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getPreferredSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getPreferredSize(a);
@@ -154,6 +160,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getMinimumSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getMinimumSize(a);
@@ -169,6 +176,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Dimension getMaximumSize(JComponent a) {
         Dimension returnValue =
             ((ComponentUI) (uis.elementAt(0))).getMaximumSize(a);
@@ -184,6 +192,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public int getAccessibleChildrenCount(JComponent a) {
         int returnValue =
             ((ComponentUI) (uis.elementAt(0))).getAccessibleChildrenCount(a);
@@ -199,6 +208,7 @@ public class MultiScrollBarUI extends ScrollBarUI {
      * @return the value obtained from the first UI, which is
      * the UI obtained from the default <code>LookAndFeel</code>
      */
+    @Override
     public Accessible getAccessibleChild(JComponent a, int b) {
         Accessible returnValue =
             ((ComponentUI) (uis.elementAt(0))).getAccessibleChild(a,b);

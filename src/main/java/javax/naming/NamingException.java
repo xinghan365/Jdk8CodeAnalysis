@@ -209,10 +209,11 @@ public class NamingException extends Exception {
      * @see #getResolvedName
      */
     public void setResolvedName(Name name) {
-        if (name != null)
+        if (name != null) {
             resolvedName = (Name)(name.clone());
-        else
+        } else {
             resolvedName = null;
+        }
     }
 
     /**
@@ -234,10 +235,11 @@ public class NamingException extends Exception {
      * @see #appendRemainingComponent
      */
     public void setRemainingName(Name name) {
-        if (name != null)
+        if (name != null) {
             remainingName = (Name)(name.clone());
-        else
+        } else {
             remainingName = null;
+        }
     }
 
     /**
@@ -356,6 +358,7 @@ public class NamingException extends Exception {
       * @see #initCause(Throwable)
       * @since 1.4
       */
+    @Override
     public Throwable getCause() {
         return getRootCause();
     }
@@ -378,6 +381,7 @@ public class NamingException extends Exception {
       * @see #getCause
       * @since 1.4
       */
+    @Override
     public Throwable initCause(Throwable cause) {
         super.initCause(cause);
         setRootCause(cause);
@@ -396,6 +400,7 @@ public class NamingException extends Exception {
      * @return The non-null string containing the string representation
      * of this exception.
      */
+    @Override
     public String toString() {
         String answer = super.toString();
 

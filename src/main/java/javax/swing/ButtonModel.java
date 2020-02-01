@@ -216,6 +216,7 @@ public interface ButtonModel extends ItemSelectable {
      *
      * @param l the listener to add
      */
+    @Override
     void addItemListener(ItemListener l);
 
     /**
@@ -223,6 +224,7 @@ public interface ButtonModel extends ItemSelectable {
      *
      * @param l the listener to remove
      */
+    @Override
     void removeItemListener(ItemListener l);
 
     /**

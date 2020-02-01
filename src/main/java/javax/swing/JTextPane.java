@@ -118,6 +118,7 @@ public class JTextPane extends JEditorPane {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -131,6 +132,7 @@ public class JTextPane extends JEditorPane {
      *   be narrowed to a <code>StyledDocument</code> which is the
      *   required type of model for this text component
      */
+    @Override
     public void setDocument(Document doc) {
         if (doc instanceof StyledDocument) {
             super.setDocument(doc);
@@ -455,6 +457,7 @@ public class JTextPane extends JEditorPane {
      *
      * @return the editor kit
      */
+    @Override
     protected EditorKit createDefaultEditorKit() {
         return new StyledEditorKit();
     }
@@ -468,6 +471,7 @@ public class JTextPane extends JEditorPane {
      * @exception IllegalArgumentException if kit is not a
      *          <code>StyledEditorKit</code>
      */
+    @Override
     public final void setEditorKit(EditorKit kit) {
         if (kit instanceof StyledEditorKit) {
             super.setEditorKit(kit);
@@ -486,6 +490,7 @@ public class JTextPane extends JEditorPane {
      *
      * @return  a string representation of this <code>JTextPane</code>
      */
+    @Override
     protected String paramString() {
         return super.paramString();
     }

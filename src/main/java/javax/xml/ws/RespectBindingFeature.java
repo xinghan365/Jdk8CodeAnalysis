@@ -111,6 +111,7 @@ public final class RespectBindingFeature extends WebServiceFeature {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getID() {
         return ID;
     }

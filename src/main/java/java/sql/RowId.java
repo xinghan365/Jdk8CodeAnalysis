@@ -81,6 +81,7 @@ public interface RowId {
      * @return true if the <code>RowId</code>s are equal; false otherwise
      * @since 1.6
      */
+    @Override
     boolean equals(Object obj);
 
     /**
@@ -108,6 +109,7 @@ public interface RowId {
       *     connection, representing the value of the <code>ROWID</code> designated
       *     by this <code>java.sql.RowId</code>  object.
       */
+     @Override
      String toString();
 
      /**
@@ -115,6 +117,7 @@ public interface RowId {
       *
       * @return a hash code for the <code>RowId</code>
       */
+     @Override
      int hashCode();
 
 }

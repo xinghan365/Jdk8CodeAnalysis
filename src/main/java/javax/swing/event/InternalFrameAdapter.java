@@ -44,36 +44,43 @@ public abstract class InternalFrameAdapter implements InternalFrameListener {
     /**
      * Invoked when an internal frame has been opened.
      */
+    @Override
     public void internalFrameOpened(InternalFrameEvent e) {}
 
     /**
      * Invoked when an internal frame is in the process of being closed.
      * The close operation can be overridden at this point.
      */
+    @Override
     public void internalFrameClosing(InternalFrameEvent e) {}
 
     /**
      * Invoked when an internal frame has been closed.
      */
+    @Override
     public void internalFrameClosed(InternalFrameEvent e) {}
 
     /**
      * Invoked when an internal frame is iconified.
      */
+    @Override
     public void internalFrameIconified(InternalFrameEvent e) {}
 
     /**
      * Invoked when an internal frame is de-iconified.
      */
+    @Override
     public void internalFrameDeiconified(InternalFrameEvent e) {}
 
     /**
      * Invoked when an internal frame is activated.
      */
+    @Override
     public void internalFrameActivated(InternalFrameEvent e) {}
 
     /**
      * Invoked when an internal frame is de-activated.
      */
+    @Override
     public void internalFrameDeactivated(InternalFrameEvent e) {}
 }

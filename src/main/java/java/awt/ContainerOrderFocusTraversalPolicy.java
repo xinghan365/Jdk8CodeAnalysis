@@ -207,6 +207,7 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
      *         root of aComponent or focus traversal policy provider, or if either aContainer or
      *         aComponent is null
      */
+    @Override
     public Component getComponentAfter(Container aContainer, Component aComponent) {
         if (log.isLoggable(PlatformLogger.Level.FINE)) {
             log.fine("### Searching in " + aContainer + " for component after " + aComponent);
@@ -311,6 +312,7 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
      *         root of aComponent or focus traversal policy provider, or if either aContainer or
      *         aComponent is null
      */
+    @Override
     public Component getComponentBefore(Container aContainer, Component aComponent) {
         if (aContainer == null || aComponent == null) {
             throw new IllegalArgumentException("aContainer and aComponent cannot be null");
@@ -408,6 +410,7 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
      *         or null if no suitable Component can be found
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getFirstComponent(Container aContainer) {
         List<Component> cycle;
 
@@ -465,6 +468,7 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
      *         or null if no suitable Component can be found
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getLastComponent(Container aContainer) {
         List<Component> cycle;
         if (log.isLoggable(PlatformLogger.Level.FINE)) {
@@ -528,6 +532,7 @@ public class ContainerOrderFocusTraversalPolicy extends FocusTraversalPolicy
      * @see #getFirstComponent
      * @throws IllegalArgumentException if aContainer is null
      */
+    @Override
     public Component getDefaultComponent(Container aContainer) {
         return getFirstComponent(aContainer);
     }

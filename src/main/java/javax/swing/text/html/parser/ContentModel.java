@@ -225,6 +225,7 @@ public final class ContentModel implements Serializable {
     /**
      * Convert to a string.
      */
+    @Override
     public String toString() {
         switch (type) {
           case '*':

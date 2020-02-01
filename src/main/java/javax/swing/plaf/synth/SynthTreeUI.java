@@ -780,6 +780,7 @@ public class SynthTreeUI extends BasicTreeUI
     // the SynthContext as needed.
     //
     private class ExpandedIconWrapper extends SynthIcon {
+        @Override
         public void paintIcon(SynthContext context, Graphics g, int x,
                               int y, int w, int h) {
             if (context == null) {
@@ -792,6 +793,7 @@ public class SynthTreeUI extends BasicTreeUI
             }
         }
 
+        @Override
         public int getIconWidth(SynthContext context) {
             int width;
             if (context == null) {
@@ -805,6 +807,7 @@ public class SynthTreeUI extends BasicTreeUI
             return width;
         }
 
+        @Override
         public int getIconHeight(SynthContext context) {
             int height;
             if (context == null) {

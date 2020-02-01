@@ -203,6 +203,7 @@ class DirectDoubleBufferRU
 
     }
 
+    @Override
     public DoubleBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectDoubleBufferRU
         return new DirectDoubleBufferRU(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public DoubleBuffer duplicate() {
         return new DirectDoubleBufferRU(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectDoubleBufferRU
                                               0);
     }
 
+    @Override
     public DoubleBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectDoubleBufferRU
 
 
 
+    @Override
     public DoubleBuffer put(double x) {
 
 
@@ -301,6 +305,7 @@ class DirectDoubleBufferRU
 
     }
 
+    @Override
     public DoubleBuffer put(int i, double x) {
 
 
@@ -310,6 +315,7 @@ class DirectDoubleBufferRU
 
     }
 
+    @Override
     public DoubleBuffer put(DoubleBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectDoubleBufferRU
 
     }
 
+    @Override
     public DoubleBuffer put(double[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectDoubleBufferRU
 
     }
 
+    @Override
     public DoubleBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectDoubleBufferRU
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -455,6 +465,7 @@ class DirectDoubleBufferRU
 
 
 
+    @Override
     public ByteOrder order() {
 
 

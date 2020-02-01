@@ -122,6 +122,7 @@ public class PaintEvent extends ComponentEvent {
         this.updateRect = updateRect;
     }
 
+    @Override
     public String paramString() {
         String typeStr;
         switch(id) {

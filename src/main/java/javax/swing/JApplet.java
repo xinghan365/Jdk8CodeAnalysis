@@ -216,6 +216,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setTransferHandler
      * @since 1.6
      */
+    @Override
     public TransferHandler getTransferHandler() {
         return transferHandler;
     }
@@ -224,6 +225,7 @@ public class JApplet extends Applet implements Accessible,
      * Just calls <code>paint(g)</code>.  This method was overridden to
      * prevent an unnecessary call to clear the background.
      */
+    @Override
     public void update(Graphics g) {
         paint(g);
     }
@@ -309,6 +311,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index)
     {
         if(isRootPaneCheckingEnabled()) {
@@ -331,6 +334,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #add
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void remove(Component comp) {
         if (comp == rootPane) {
             super.remove(comp);
@@ -351,6 +355,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void setLayout(LayoutManager manager) {
         if(isRootPaneCheckingEnabled()) {
             getContentPane().setLayout(manager);
@@ -367,6 +372,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setRootPane
      * @see RootPaneContainer#getRootPane
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -406,6 +412,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setContentPane
      * @see RootPaneContainer#getContentPane
      */
+    @Override
     public Container getContentPane() {
         return getRootPane().getContentPane();
     }
@@ -424,6 +431,7 @@ public class JApplet extends Applet implements Accessible,
      *     description: The client area of the applet where child
      *                  components are normally inserted.
      */
+    @Override
     public void setContentPane(Container contentPane) {
         getRootPane().setContentPane(contentPane);
     }
@@ -436,6 +444,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setLayeredPane
      * @see RootPaneContainer#getLayeredPane
      */
+    @Override
     public JLayeredPane getLayeredPane() {
         return getRootPane().getLayeredPane();
     }
@@ -451,6 +460,7 @@ public class JApplet extends Applet implements Accessible,
      *     hidden: true
      *     description: The pane which holds the various applet layers.
      */
+    @Override
     public void setLayeredPane(JLayeredPane layeredPane) {
         getRootPane().setLayeredPane(layeredPane);
     }
@@ -461,6 +471,7 @@ public class JApplet extends Applet implements Accessible,
      * @see #setGlassPane
      * @see RootPaneContainer#getGlassPane
      */
+    @Override
     public Component getGlassPane() {
         return getRootPane().getGlassPane();
     }
@@ -477,6 +488,7 @@ public class JApplet extends Applet implements Accessible,
      *     hidden: true
      *     description: A transparent pane used for menu rendering.
      */
+    @Override
     public void setGlassPane(Component glassPane) {
         getRootPane().setGlassPane(glassPane);
     }
@@ -486,6 +498,7 @@ public class JApplet extends Applet implements Accessible,
      *
      * @since 1.6
      */
+    @Override
     public Graphics getGraphics() {
         JComponent.getGraphicsInvoked(this);
         return super.getGraphics();
@@ -504,6 +517,7 @@ public class JApplet extends Applet implements Accessible,
      * @see       RepaintManager
      * @since     1.6
      */
+    @Override
     public void repaint(long time, int x, int y, int width, int height) {
         if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
             RepaintManager.currentManager(this).addDirtyRegion(
@@ -523,6 +537,7 @@ public class JApplet extends Applet implements Accessible,
      *
      * @return  a string representation of this JApplet.
      */
+    @Override
     protected String paramString() {
         String rootPaneString = (rootPane != null ?
                                  rootPane.toString() : "");
@@ -551,6 +566,7 @@ public class JApplet extends Applet implements Accessible,
      * @return an AccessibleJApplet that serves as the
      *         AccessibleContext of this JApplet
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJApplet();

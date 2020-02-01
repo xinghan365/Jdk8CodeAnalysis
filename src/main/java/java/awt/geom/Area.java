@@ -454,6 +454,7 @@ public class Area implements Shape, Cloneable {
      * <code>Area</code>.
      * @since 1.2
      */
+    @Override
     public Rectangle2D getBounds2D() {
         return getCachedBounds().getBounds2D();
     }
@@ -474,6 +475,7 @@ public class Area implements Shape, Cloneable {
      * <code>Area</code>.
      * @since 1.2
      */
+    @Override
     public Rectangle getBounds() {
         return getCachedBounds().getBounds();
     }
@@ -483,6 +485,7 @@ public class Area implements Shape, Cloneable {
      * @return    Created clone object
      * @since 1.2
      */
+    @Override
     public Object clone() {
         return new Area(this);
     }
@@ -551,6 +554,7 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean contains(double x, double y) {
         if (!getCachedBounds().contains(x, y)) {
             return false;
@@ -568,6 +572,7 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean contains(Point2D p) {
         return contains(p.getX(), p.getY());
     }
@@ -576,6 +581,7 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean contains(double x, double y, double w, double h) {
         if (w < 0 || h < 0) {
             return false;
@@ -591,6 +597,7 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean contains(Rectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
@@ -599,6 +606,7 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean intersects(double x, double y, double w, double h) {
         if (w < 0 || h < 0) {
             return false;
@@ -614,6 +622,7 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean intersects(Rectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
@@ -629,6 +638,7 @@ public class Area implements Shape, Cloneable {
      *          segment at a time.
      * @since 1.2
      */
+    @Override
     public PathIterator getPathIterator(AffineTransform at) {
         return new AreaIterator(curves, at);
     }
@@ -651,6 +661,7 @@ public class Area implements Shape, Cloneable {
      * at a time.
      * @since 1.2
      */
+    @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return new FlatteningPathIterator(getPathIterator(at), flatness);
     }
@@ -671,6 +682,7 @@ class AreaIterator implements PathIterator {
         }
     }
 
+    @Override
     public int getWindingRule() {
         // REMIND: Which is better, EVEN_ODD or NON_ZERO?
         //         The paths calculated could be classified either way.
@@ -678,10 +690,12 @@ class AreaIterator implements PathIterator {
         return WIND_NON_ZERO;
     }
 
+    @Override
     public boolean isDone() {
         return (prevcurve == null && thiscurve == null);
     }
 
+    @Override
     public void next() {
         if (prevcurve != null) {
             prevcurve = null;
@@ -702,6 +716,7 @@ class AreaIterator implements PathIterator {
         }
     }
 
+    @Override
     public int currentSegment(float coords[]) {
         double dcoords[] = new double[6];
         int segtype = currentSegment(dcoords);
@@ -715,6 +730,7 @@ class AreaIterator implements PathIterator {
         return segtype;
     }
 
+    @Override
     public int currentSegment(double coords[]) {
         int segtype;
         int numpoints;

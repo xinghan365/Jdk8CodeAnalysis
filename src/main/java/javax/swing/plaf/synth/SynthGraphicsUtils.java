@@ -642,14 +642,17 @@ public class SynthGraphicsUtils {
             this.context = context;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             // This is a noop as this should only be for sizing calls.
         }
 
+        @Override
         public int getIconWidth() {
             return synthIcon.getIconWidth(context);
         }
 
+        @Override
         public int getIconHeight() {
             return synthIcon.getIconHeight(context);
         }

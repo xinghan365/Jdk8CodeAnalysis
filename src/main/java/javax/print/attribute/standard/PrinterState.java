@@ -103,6 +103,7 @@ implements PrintServiceAttribute {
     /**
      * Returns the string table for class PrinterState.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -110,6 +111,7 @@ implements PrintServiceAttribute {
     /**
      * Returns the enumeration value table for class PrinterState.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -123,6 +125,7 @@ implements PrintServiceAttribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PrinterState.class;
     }
@@ -135,6 +138,7 @@ implements PrintServiceAttribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "printer-state";
     }

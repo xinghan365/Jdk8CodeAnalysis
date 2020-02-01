@@ -103,6 +103,7 @@ public class StartTlsRequest implements ExtendedRequest {
      *
      * @return The object identifier string, "1.3.6.1.4.1.1466.20037".
      */
+    @Override
     public String getID() {
         return OID;
     }
@@ -114,6 +115,7 @@ public class StartTlsRequest implements ExtendedRequest {
      *
      * @return The null value.
      */
+    @Override
     public byte[] getEncodedValue() {
         return null;
     }
@@ -168,8 +170,9 @@ public class StartTlsRequest implements ExtendedRequest {
      * @exception        NamingException If a naming exception was encountered
      *                   while creating the StartTLS extended response object.
      */
+    @Override
     public ExtendedResponse createExtendedResponse(String id, byte[] berValue,
-        int offset, int length) throws NamingException {
+                                                   int offset, int length) throws NamingException {
 
         // Confirm that the object identifier is correct
         if ((id != null) && (!id.equals(OID))) {
@@ -228,6 +231,7 @@ public class StartTlsRequest implements ExtendedRequest {
     private final ClassLoader getContextClassLoader() {
         return AccessController.doPrivileged(
             new PrivilegedAction<ClassLoader>() {
+                @Override
                 public ClassLoader run() {
                     return Thread.currentThread().getContextClassLoader();
                 }
@@ -238,6 +242,7 @@ public class StartTlsRequest implements ExtendedRequest {
     private final static boolean privilegedHasNext(final Iterator<StartTlsResponse> iter) {
         Boolean answer = AccessController.doPrivileged(
             new PrivilegedAction<Boolean>() {
+            @Override
             public Boolean run() {
                 return Boolean.valueOf(iter.hasNext());
             }

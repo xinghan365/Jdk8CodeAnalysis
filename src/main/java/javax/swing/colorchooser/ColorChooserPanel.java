@@ -176,6 +176,7 @@ final class ColorChooserPanel extends AbstractColorChooserPanel implements Prope
         return null;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         ColorSelectionModel model = getColorSelectionModel();
         if (model != null) {

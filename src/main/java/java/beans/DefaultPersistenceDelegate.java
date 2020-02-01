@@ -130,6 +130,7 @@ public class DefaultPersistenceDelegate extends PersistenceDelegate {
      *
      * @see #DefaultPersistenceDelegate(String[])
      */
+    @Override
     protected boolean mutatesTo(Object oldInstance, Object newInstance) {
         // Assume the instance is either mutable or a singleton
         // if it has a nullary constructor.
@@ -153,6 +154,7 @@ public class DefaultPersistenceDelegate extends PersistenceDelegate {
      *
      * @see #DefaultPersistenceDelegate(String[])
      */
+    @Override
     protected Expression instantiate(Object oldInstance, Encoder out) {
         int nArgs = constructor.length;
         Class<?> type = oldInstance.getClass();
@@ -396,6 +398,7 @@ public class DefaultPersistenceDelegate extends PersistenceDelegate {
      * @see java.beans.Introspector#getBeanInfo
      * @see java.beans.PropertyDescriptor
      */
+    @Override
     protected void initialize(Class<?> type,
                               Object oldInstance, Object newInstance,
                               Encoder out)
@@ -410,8 +413,9 @@ public class DefaultPersistenceDelegate extends PersistenceDelegate {
     private static PropertyDescriptor getPropertyDescriptor(Class<?> type, String property) {
         try {
             for (PropertyDescriptor pd : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
-                if (property.equals(pd.getName()))
+                if (property.equals(pd.getName())) {
                     return pd;
+                }
             }
         } catch (IntrospectionException exception) {
         }

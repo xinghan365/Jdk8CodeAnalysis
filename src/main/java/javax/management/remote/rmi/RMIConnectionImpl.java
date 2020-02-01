@@ -103,10 +103,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                              ClassLoader defaultClassLoader,
                              Subject subject,
                              Map<String,?> env) {
-        if (rmiServer == null || connectionId == null)
+        if (rmiServer == null || connectionId == null) {
             throw new NullPointerException("Illegal null argument");
-        if (env == null)
+        }
+        if (env == null) {
             env = Collections.emptyMap();
+        }
         this.rmiServer = rmiServer;
         this.connectionId = connectionId;
         this.defaultClassLoader = defaultClassLoader;
@@ -133,6 +135,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
 
         ClassLoaderRepository repository = AccessController.doPrivileged(
             new PrivilegedAction<ClassLoaderRepository>() {
+                @Override
                 public ClassLoaderRepository run() {
                     return mbeanServer.getClassLoaderRepository();
                 }
@@ -141,6 +144,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         );
         this.classLoaderWithRepository = AccessController.doPrivileged(
             new PrivilegedAction<ClassLoaderWithRepository>() {
+                @Override
                 public ClassLoaderWithRepository run() {
                     return new ClassLoaderWithRepository(
                         repository,
@@ -180,31 +184,38 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
     private synchronized ServerNotifForwarder getServerNotifFwd() {
         // Lazily created when first use. Mainly when
         // addNotificationListener is first called.
-        if (serverNotifForwarder == null)
+        if (serverNotifForwarder == null) {
             serverNotifForwarder =
                 new ServerNotifForwarder(mbeanServer,
                                          env,
                                          rmiServer.getNotifBuffer(),
                                          connectionId);
+        }
         return serverNotifForwarder;
     }
 
+    @Override
     public String getConnectionId() throws IOException {
         // We should call reqIncomming() here... shouldn't we?
         return connectionId;
     }
 
+    @Override
     public void close() throws IOException {
         final boolean debug = logger.debugOn();
         final String  idstr = (debug?"["+this.toString()+"]":null);
 
         synchronized (this) {
             if (terminated) {
-                if (debug) logger.debug("close",idstr + " already terminated.");
+                if (debug) {
+                    logger.debug("close",idstr + " already terminated.");
+                }
                 return;
             }
 
-            if (debug) logger.debug("close",idstr + " closing.");
+            if (debug) {
+                logger.debug("close",idstr + " closing.");
+            }
 
             terminated = true;
 
@@ -219,9 +230,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
 
         rmiServer.clientClosed(this);
 
-        if (debug) logger.debug("close",idstr + " closed.");
+        if (debug) {
+            logger.debug("close",idstr + " closed.");
+        }
     }
 
+    @Override
     public void unreferenced() {
         logger.debug("unreferenced", "called");
         try {
@@ -236,6 +250,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
     // MBeanServerConnection Wrapper
     //-------------------------------------------------------------------------
 
+    @Override
     public ObjectInstance createMBean(String className,
                                       ObjectName name,
                                       Subject delegationSubject)
@@ -250,10 +265,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             final Object params[] =
                 new Object[] { className, name };
 
-            if (logger.debugOn())
+            if (logger.debugOn()) {
                 logger.debug("createMBean(String,ObjectName)",
                              "connectionId=" + connectionId +", className=" +
                              className+", name=" + name);
+            }
 
             return (ObjectInstance)
                 doPrivilegedOperation(
@@ -262,22 +278,29 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
+            }
+            if (e instanceof InstanceAlreadyExistsException) {
                 throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
+            }
+            if (e instanceof MBeanRegistrationException) {
                 throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
+            }
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
+            }
+            if (e instanceof NotCompliantMBeanException) {
                 throw (NotCompliantMBeanException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public ObjectInstance createMBean(String className,
                                       ObjectName name,
                                       ObjectName loaderName,
@@ -294,12 +317,13 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             final Object params[] =
                 new Object[] { className, name, loaderName };
 
-            if (logger.debugOn())
+            if (logger.debugOn()) {
                 logger.debug("createMBean(String,ObjectName,ObjectName)",
                       "connectionId=" + connectionId
                       +", className=" + className
                       +", name=" + name
                       +", loaderName=" + loaderName);
+            }
 
             return (ObjectInstance)
                 doPrivilegedOperation(
@@ -308,24 +332,32 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
+            }
+            if (e instanceof InstanceAlreadyExistsException) {
                 throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
+            }
+            if (e instanceof MBeanRegistrationException) {
                 throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
+            }
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
+            }
+            if (e instanceof NotCompliantMBeanException) {
                 throw (NotCompliantMBeanException) e;
-            if (e instanceof InstanceNotFoundException)
+            }
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public ObjectInstance createMBean(String className,
                                       ObjectName name,
@@ -343,10 +375,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final Object[] values;
         final boolean debug = logger.debugOn();
 
-        if (debug) logger.debug(
-                  "createMBean(String,ObjectName,Object[],String[])",
-                  "connectionId=" + connectionId
-                  +", unwrapping parameters using classLoaderWithRepository.");
+        if (debug) {
+            logger.debug(
+                      "createMBean(String,ObjectName,Object[],String[])",
+                      "connectionId=" + connectionId
+                      +", unwrapping parameters using classLoaderWithRepository.");
+        }
 
         values =
             nullIsEmpty(unwrap(params, classLoaderWithRepository, Object[].class,delegationSubject));
@@ -356,12 +390,13 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                 new Object[] { className, name, values,
                                nullIsEmpty(signature) };
 
-            if (debug)
-               logger.debug("createMBean(String,ObjectName,Object[],String[])",
-                             "connectionId=" + connectionId
-                             +", className=" + className
-                             +", name=" + name
-                             +", signature=" + strings(signature));
+            if (debug) {
+                logger.debug("createMBean(String,ObjectName,Object[],String[])",
+                              "connectionId=" + connectionId
+                              +", className=" + className
+                              +", name=" + name
+                              +", signature=" + strings(signature));
+            }
 
             return (ObjectInstance)
                 doPrivilegedOperation(
@@ -370,22 +405,29 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
+            }
+            if (e instanceof InstanceAlreadyExistsException) {
                 throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
+            }
+            if (e instanceof MBeanRegistrationException) {
                 throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
+            }
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
+            }
+            if (e instanceof NotCompliantMBeanException) {
                 throw (NotCompliantMBeanException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public ObjectInstance createMBean(String className,
                                  ObjectName name,
@@ -405,10 +447,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final Object[] values;
         final boolean debug = logger.debugOn();
 
-        if (debug) logger.debug(
-                 "createMBean(String,ObjectName,ObjectName,Object[],String[])",
-                 "connectionId=" + connectionId
-                 +", unwrapping params with MBean extended ClassLoader.");
+        if (debug) {
+            logger.debug(
+                     "createMBean(String,ObjectName,ObjectName,Object[],String[])",
+                     "connectionId=" + connectionId
+                     +", unwrapping params with MBean extended ClassLoader.");
+        }
 
         values = nullIsEmpty(unwrap(params,
                                     getClassLoader(loaderName),
@@ -420,13 +464,15 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                new Object[] { className, name, loaderName, values,
                               nullIsEmpty(signature) };
 
-           if (debug) logger.debug(
-                 "createMBean(String,ObjectName,ObjectName,Object[],String[])",
-                 "connectionId=" + connectionId
-                 +", className=" + className
-                 +", name=" + name
-                 +", loaderName=" + loaderName
-                 +", signature=" + strings(signature));
+           if (debug) {
+               logger.debug(
+                     "createMBean(String,ObjectName,ObjectName,Object[],String[])",
+                     "connectionId=" + connectionId
+                     +", className=" + className
+                     +", name=" + name
+                     +", loaderName=" + loaderName
+                     +", signature=" + strings(signature));
+           }
 
             return (ObjectInstance)
                 doPrivilegedOperation(
@@ -435,24 +481,32 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof ReflectionException)
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof InstanceAlreadyExistsException)
+            }
+            if (e instanceof InstanceAlreadyExistsException) {
                 throw (InstanceAlreadyExistsException) e;
-            if (e instanceof MBeanRegistrationException)
+            }
+            if (e instanceof MBeanRegistrationException) {
                 throw (MBeanRegistrationException) e;
-            if (e instanceof MBeanException)
+            }
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof NotCompliantMBeanException)
+            }
+            if (e instanceof NotCompliantMBeanException) {
                 throw (NotCompliantMBeanException) e;
-            if (e instanceof InstanceNotFoundException)
+            }
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public void unregisterMBean(ObjectName name, Subject delegationSubject)
         throws
         InstanceNotFoundException,
@@ -461,9 +515,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name };
 
-            if (logger.debugOn()) logger.debug("unregisterMBean",
-                 "connectionId=" + connectionId
-                 +", name="+name);
+            if (logger.debugOn()) {
+                logger.debug("unregisterMBean",
+                     "connectionId=" + connectionId
+                     +", name="+name);
+            }
 
             doPrivilegedOperation(
               UNREGISTER_MBEAN,
@@ -471,16 +527,20 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
               delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof MBeanRegistrationException)
+            }
+            if (e instanceof MBeanRegistrationException) {
                 throw (MBeanRegistrationException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public ObjectInstance getObjectInstance(ObjectName name,
                                             Subject delegationSubject)
         throws
@@ -492,9 +552,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name };
 
-            if (logger.debugOn()) logger.debug("getObjectInstance",
-                 "connectionId=" + connectionId
-                 +", name="+name);
+            if (logger.debugOn()) {
+                logger.debug("getObjectInstance",
+                     "connectionId=" + connectionId
+                     +", name="+name);
+            }
 
             return (ObjectInstance)
                 doPrivilegedOperation(
@@ -503,14 +565,17 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public Set<ObjectInstance>
         queryMBeans(ObjectName name,
@@ -520,18 +585,22 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final QueryExp queryValue;
         final boolean debug=logger.debugOn();
 
-        if (debug) logger.debug("queryMBeans",
-                 "connectionId=" + connectionId
-                 +" unwrapping query with defaultClassLoader.");
+        if (debug) {
+            logger.debug("queryMBeans",
+                     "connectionId=" + connectionId
+                     +" unwrapping query with defaultClassLoader.");
+        }
 
         queryValue = unwrap(query, defaultContextClassLoader, QueryExp.class, delegationSubject);
 
         try {
             final Object params[] = new Object[] { name, queryValue };
 
-            if (debug) logger.debug("queryMBeans",
-                 "connectionId=" + connectionId
-                 +", name="+name +", query="+query);
+            if (debug) {
+                logger.debug("queryMBeans",
+                     "connectionId=" + connectionId
+                     +", name="+name +", query="+query);
+            }
 
             return cast(
                 doPrivilegedOperation(
@@ -540,12 +609,14 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject));
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public Set<ObjectName>
         queryNames(ObjectName name,
@@ -555,18 +626,22 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final QueryExp queryValue;
         final boolean debug=logger.debugOn();
 
-        if (debug) logger.debug("queryNames",
-                 "connectionId=" + connectionId
-                 +" unwrapping query with defaultClassLoader.");
+        if (debug) {
+            logger.debug("queryNames",
+                     "connectionId=" + connectionId
+                     +" unwrapping query with defaultClassLoader.");
+        }
 
         queryValue = unwrap(query, defaultContextClassLoader, QueryExp.class, delegationSubject);
 
         try {
             final Object params[] = new Object[] { name, queryValue };
 
-            if (debug) logger.debug("queryNames",
-                 "connectionId=" + connectionId
-                 +", name="+name +", query="+query);
+            if (debug) {
+                logger.debug("queryNames",
+                     "connectionId=" + connectionId
+                     +", name="+name +", query="+query);
+            }
 
             return cast(
                 doPrivilegedOperation(
@@ -575,12 +650,14 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject));
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public boolean isRegistered(ObjectName name,
                                 Subject delegationSubject) throws IOException {
         try {
@@ -592,19 +669,23 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject)).booleanValue();
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public Integer getMBeanCount(Subject delegationSubject)
         throws IOException {
         try {
             final Object params[] = new Object[] { };
 
-            if (logger.debugOn()) logger.debug("getMBeanCount",
-                 "connectionId=" + connectionId);
+            if (logger.debugOn()) {
+                logger.debug("getMBeanCount",
+                     "connectionId=" + connectionId);
+            }
 
             return (Integer)
                 doPrivilegedOperation(
@@ -613,12 +694,14 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public Object getAttribute(ObjectName name,
                                String attribute,
                                Subject delegationSubject)
@@ -630,10 +713,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         IOException {
         try {
             final Object params[] = new Object[] { name, attribute };
-            if (logger.debugOn()) logger.debug("getAttribute",
-                                   "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", attribute="+ attribute);
+            if (logger.debugOn()) {
+                logger.debug("getAttribute",
+                                       "connectionId=" + connectionId
+                                       +", name=" + name
+                                       +", attribute="+ attribute);
+            }
 
             return
                 doPrivilegedOperation(
@@ -642,20 +727,26 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof MBeanException)
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof AttributeNotFoundException)
+            }
+            if (e instanceof AttributeNotFoundException) {
                 throw (AttributeNotFoundException) e;
-            if (e instanceof InstanceNotFoundException)
+            }
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof ReflectionException)
+            }
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public AttributeList getAttributes(ObjectName name,
                                        String[] attributes,
                                        Subject delegationSubject)
@@ -666,10 +757,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name, attributes };
 
-            if (logger.debugOn()) logger.debug("getAttributes",
-                                   "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", attributes="+ strings(attributes));
+            if (logger.debugOn()) {
+                logger.debug("getAttributes",
+                                       "connectionId=" + connectionId
+                                       +", name=" + name
+                                       +", attributes="+ strings(attributes));
+            }
 
             return (AttributeList)
                 doPrivilegedOperation(
@@ -678,16 +771,20 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof ReflectionException)
+            }
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public void setAttribute(ObjectName name,
                              MarshalledObject attribute,
@@ -702,9 +799,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final Attribute attr;
         final boolean debug=logger.debugOn();
 
-        if (debug) logger.debug("setAttribute",
-                 "connectionId=" + connectionId
-                 +" unwrapping attribute with MBean extended ClassLoader.");
+        if (debug) {
+            logger.debug("setAttribute",
+                     "connectionId=" + connectionId
+                     +" unwrapping attribute with MBean extended ClassLoader.");
+        }
 
         attr = unwrap(attribute,
                       getClassLoaderFor(name),
@@ -714,10 +813,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name, attr };
 
-            if (debug) logger.debug("setAttribute",
-                             "connectionId=" + connectionId
-                             +", name="+name
-                             +", attribute name="+attr.getName());
+            if (debug) {
+                logger.debug("setAttribute",
+                                 "connectionId=" + connectionId
+                                 +", name="+name
+                                 +", attribute name="+attr.getName());
+            }
 
             doPrivilegedOperation(
               SET_ATTRIBUTE,
@@ -725,22 +826,29 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
               delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof AttributeNotFoundException)
+            }
+            if (e instanceof AttributeNotFoundException) {
                 throw (AttributeNotFoundException) e;
-            if (e instanceof InvalidAttributeValueException)
+            }
+            if (e instanceof InvalidAttributeValueException) {
                 throw (InvalidAttributeValueException) e;
-            if (e instanceof MBeanException)
+            }
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof ReflectionException)
+            }
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public AttributeList setAttributes(ObjectName name,
                          MarshalledObject attributes,
@@ -752,9 +860,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final AttributeList attrlist;
         final boolean debug=logger.debugOn();
 
-        if (debug) logger.debug("setAttributes",
-                 "connectionId=" + connectionId
-                 +" unwrapping attributes with MBean extended ClassLoader.");
+        if (debug) {
+            logger.debug("setAttributes",
+                     "connectionId=" + connectionId
+                     +" unwrapping attributes with MBean extended ClassLoader.");
+        }
 
         attrlist =
             unwrap(attributes,
@@ -765,10 +875,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name, attrlist };
 
-            if (debug) logger.debug("setAttributes",
-                             "connectionId=" + connectionId
-                             +", name="+name
-                             +", attribute names="+RMIConnector.getAttributesNames(attrlist));
+            if (debug) {
+                logger.debug("setAttributes",
+                                 "connectionId=" + connectionId
+                                 +", name="+name
+                                 +", attribute names="+RMIConnector.getAttributesNames(attrlist));
+            }
 
             return (AttributeList)
                 doPrivilegedOperation(
@@ -777,16 +889,20 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof ReflectionException)
+            }
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public Object invoke(ObjectName name,
                          String operationName,
@@ -805,9 +921,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         final Object[] values;
         final boolean debug=logger.debugOn();
 
-        if (debug) logger.debug("invoke",
-                 "connectionId=" + connectionId
-                 +" unwrapping params with MBean extended ClassLoader.");
+        if (debug) {
+            logger.debug("invoke",
+                     "connectionId=" + connectionId
+                     +" unwrapping params with MBean extended ClassLoader.");
+        }
 
         values = nullIsEmpty(unwrap(params,
                                     getClassLoaderFor(name),
@@ -819,11 +937,13 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                 new Object[] { name, operationName, values,
                                nullIsEmpty(signature) };
 
-            if (debug) logger.debug("invoke",
-                             "connectionId=" + connectionId
-                             +", name="+name
-                             +", operationName="+operationName
-                             +", signature="+strings(signature));
+            if (debug) {
+                logger.debug("invoke",
+                                 "connectionId=" + connectionId
+                                 +", name="+name
+                                 +", operationName="+operationName
+                                 +", signature="+strings(signature));
+            }
 
             return
                 doPrivilegedOperation(
@@ -832,25 +952,32 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof MBeanException)
+            }
+            if (e instanceof MBeanException) {
                 throw (MBeanException) e;
-            if (e instanceof ReflectionException)
+            }
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public String getDefaultDomain(Subject delegationSubject)
         throws IOException {
         try {
             final Object params[] = new Object[] { };
 
-            if (logger.debugOn())  logger.debug("getDefaultDomain",
-                                    "connectionId=" + connectionId);
+            if (logger.debugOn()) {
+                logger.debug("getDefaultDomain",
+                                        "connectionId=" + connectionId);
+            }
 
             return (String)
                 doPrivilegedOperation(
@@ -859,18 +986,22 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public String[] getDomains(Subject delegationSubject) throws IOException {
         try {
             final Object params[] = new Object[] { };
 
-            if (logger.debugOn())  logger.debug("getDomains",
-                                    "connectionId=" + connectionId);
+            if (logger.debugOn()) {
+                logger.debug("getDomains",
+                                        "connectionId=" + connectionId);
+            }
 
             return (String[])
                 doPrivilegedOperation(
@@ -879,12 +1010,14 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public MBeanInfo getMBeanInfo(ObjectName name, Subject delegationSubject)
         throws
         InstanceNotFoundException,
@@ -897,9 +1030,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name };
 
-            if (logger.debugOn())  logger.debug("getMBeanInfo",
-                                    "connectionId=" + connectionId
-                                    +", name="+name);
+            if (logger.debugOn()) {
+                logger.debug("getMBeanInfo",
+                                        "connectionId=" + connectionId
+                                        +", name="+name);
+            }
 
             return (MBeanInfo)
                 doPrivilegedOperation(
@@ -908,18 +1043,23 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof IntrospectionException)
+            }
+            if (e instanceof IntrospectionException) {
                 throw (IntrospectionException) e;
-            if (e instanceof ReflectionException)
+            }
+            if (e instanceof ReflectionException) {
                 throw (ReflectionException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public boolean isInstanceOf(ObjectName name,
                                 String className,
                                 Subject delegationSubject)
@@ -930,10 +1070,12 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name, className };
 
-            if (logger.debugOn())  logger.debug("isInstanceOf",
-                                    "connectionId=" + connectionId
-                                    +", name="+name
-                                    +", className="+className);
+            if (logger.debugOn()) {
+                logger.debug("isInstanceOf",
+                                        "connectionId=" + connectionId
+                                        +", name="+name
+                                        +", className="+className);
+            }
 
             return ((Boolean)
                 doPrivilegedOperation(
@@ -942,14 +1084,17 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                   delegationSubject)).booleanValue();
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public Integer[] addNotificationListeners(ObjectName[] names,
                       MarshalledObject[] filters,
@@ -985,20 +1130,24 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             for (; i<names.length; i++) {
                 targetCl = getClassLoaderFor(names[i]);
 
-                if (debug) logger.debug("addNotificationListener"+
-                                        "(ObjectName,NotificationFilter)",
-                                        "connectionId=" + connectionId +
-                      " unwrapping filter with target extended ClassLoader.");
+                if (debug) {
+                    logger.debug("addNotificationListener"+
+                                            "(ObjectName,NotificationFilter)",
+                                            "connectionId=" + connectionId +
+                          " unwrapping filter with target extended ClassLoader.");
+                }
 
                 filterValues[i] =
                     unwrap(filters[i], targetCl, defaultClassLoader,
                            NotificationFilter.class, sbjs[i]);
 
-                if (debug) logger.debug("addNotificationListener"+
-                                        "(ObjectName,NotificationFilter)",
-                                        "connectionId=" + connectionId
-                                        +", name=" + names[i]
-                                        +", filter=" + filterValues[i]);
+                if (debug) {
+                    logger.debug("addNotificationListener"+
+                                            "(ObjectName,NotificationFilter)",
+                                            "connectionId=" + connectionId
+                                            +", name=" + names[i]
+                                            +", filter=" + filterValues[i]);
+                }
 
                 ids[i] = (Integer)
                     doPrivilegedOperation(ADD_NOTIFICATION_LISTENERS,
@@ -1037,6 +1186,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public void addNotificationListener(ObjectName name,
                        ObjectName listener,
@@ -1054,18 +1204,22 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
 
         final ClassLoader targetCl = getClassLoaderFor(name);
 
-        if (debug) logger.debug("addNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
-                 "connectionId=" + connectionId
-                 +" unwrapping filter with target extended ClassLoader.");
+        if (debug) {
+            logger.debug("addNotificationListener"+
+                     "(ObjectName,ObjectName,NotificationFilter,Object)",
+                     "connectionId=" + connectionId
+                     +" unwrapping filter with target extended ClassLoader.");
+        }
 
         filterValue =
             unwrap(filter, targetCl, defaultClassLoader, NotificationFilter.class, delegationSubject);
 
-        if (debug) logger.debug("addNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
-                 "connectionId=" + connectionId
-                 +" unwrapping handback with target extended ClassLoader.");
+        if (debug) {
+            logger.debug("addNotificationListener"+
+                     "(ObjectName,ObjectName,NotificationFilter,Object)",
+                     "connectionId=" + connectionId
+                     +" unwrapping handback with target extended ClassLoader.");
+        }
 
         handbackValue =
             unwrap(handback, targetCl, defaultClassLoader, Object.class, delegationSubject);
@@ -1074,13 +1228,15 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             final Object params[] =
                 new Object[] { name, listener, filterValue, handbackValue };
 
-            if (debug) logger.debug("addNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
-                             "connectionId=" + connectionId
-                             +", name=" + name
-                             +", listenerName=" + listener
-                             +", filter=" + filterValue
-                             +", handback=" + handbackValue);
+            if (debug) {
+                logger.debug("addNotificationListener"+
+                     "(ObjectName,ObjectName,NotificationFilter,Object)",
+                                 "connectionId=" + connectionId
+                                 +", name=" + name
+                                 +", listenerName=" + listener
+                                 +", filter=" + filterValue
+                                 +", handback=" + handbackValue);
+            }
 
             doPrivilegedOperation(
               ADD_NOTIFICATION_LISTENER_OBJECTNAME,
@@ -1088,14 +1244,17 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
               delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public void removeNotificationListeners(ObjectName name,
                                             Integer[] listenerIDs,
                                             Subject delegationSubject)
@@ -1104,22 +1263,26 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         ListenerNotFoundException,
         IOException {
 
-        if (name == null || listenerIDs == null)
+        if (name == null || listenerIDs == null) {
             throw new IllegalArgumentException("Illegal null parameter");
+        }
 
         for (int i = 0; i < listenerIDs.length; i++) {
-            if (listenerIDs[i] == null)
+            if (listenerIDs[i] == null) {
                 throw new IllegalArgumentException("Null listener ID");
+            }
         }
 
         try {
             final Object params[] = new Object[] { name, listenerIDs };
 
-            if (logger.debugOn()) logger.debug("removeNotificationListener"+
-                                   "(ObjectName,Integer[])",
-                                   "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", listenerIDs=" + objects(listenerIDs));
+            if (logger.debugOn()) {
+                logger.debug("removeNotificationListener"+
+                                       "(ObjectName,Integer[])",
+                                       "connectionId=" + connectionId
+                                       +", name=" + name
+                                       +", listenerIDs=" + objects(listenerIDs));
+            }
 
             doPrivilegedOperation(
               REMOVE_NOTIFICATION_LISTENER,
@@ -1127,16 +1290,20 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
               delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof ListenerNotFoundException)
+            }
+            if (e instanceof ListenerNotFoundException) {
                 throw (ListenerNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public void removeNotificationListener(ObjectName name,
                                            ObjectName listener,
                                            Subject delegationSubject)
@@ -1151,11 +1318,13 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             final Object params[] = new Object[] { name, listener };
 
-            if (logger.debugOn()) logger.debug("removeNotificationListener"+
-                                   "(ObjectName,ObjectName)",
-                                   "connectionId=" + connectionId
-                                   +", name=" + name
-                                   +", listenerName=" + listener);
+            if (logger.debugOn()) {
+                logger.debug("removeNotificationListener"+
+                                       "(ObjectName,ObjectName)",
+                                       "connectionId=" + connectionId
+                                       +", name=" + name
+                                       +", listenerName=" + listener);
+            }
 
             doPrivilegedOperation(
               REMOVE_NOTIFICATION_LISTENER_OBJECTNAME,
@@ -1163,16 +1332,20 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
               delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof ListenerNotFoundException)
+            }
+            if (e instanceof ListenerNotFoundException) {
                 throw (ListenerNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     @SuppressWarnings("rawtypes")  // MarshalledObject
     public void removeNotificationListener(ObjectName name,
                         ObjectName listener,
@@ -1193,18 +1366,22 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
 
         final ClassLoader targetCl = getClassLoaderFor(name);
 
-        if (debug) logger.debug("removeNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
-                 "connectionId=" + connectionId
-                 +" unwrapping filter with target extended ClassLoader.");
+        if (debug) {
+            logger.debug("removeNotificationListener"+
+                     "(ObjectName,ObjectName,NotificationFilter,Object)",
+                     "connectionId=" + connectionId
+                     +" unwrapping filter with target extended ClassLoader.");
+        }
 
         filterValue =
             unwrap(filter, targetCl, defaultClassLoader, NotificationFilter.class, delegationSubject);
 
-        if (debug) logger.debug("removeNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
-                 "connectionId=" + connectionId
-                 +" unwrapping handback with target extended ClassLoader.");
+        if (debug) {
+            logger.debug("removeNotificationListener"+
+                     "(ObjectName,ObjectName,NotificationFilter,Object)",
+                     "connectionId=" + connectionId
+                     +" unwrapping handback with target extended ClassLoader.");
+        }
 
         handbackValue =
             unwrap(handback, targetCl, defaultClassLoader, Object.class, delegationSubject);
@@ -1213,13 +1390,15 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             final Object params[] =
                 new Object[] { name, listener, filterValue, handbackValue };
 
-            if (debug) logger.debug("removeNotificationListener"+
-                 "(ObjectName,ObjectName,NotificationFilter,Object)",
-                             "connectionId=" + connectionId
-                             +", name=" + name
-                             +", listenerName=" + listener
-                             +", filter=" + filterValue
-                             +", handback=" + handbackValue);
+            if (debug) {
+                logger.debug("removeNotificationListener"+
+                     "(ObjectName,ObjectName,NotificationFilter,Object)",
+                                 "connectionId=" + connectionId
+                                 +", name=" + name
+                                 +", listenerName=" + listener
+                                 +", filter=" + filterValue
+                                 +", handback=" + handbackValue);
+            }
 
             doPrivilegedOperation(
               REMOVE_NOTIFICATION_LISTENER_OBJECTNAME_FILTER_HANDBACK,
@@ -1227,27 +1406,34 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
               delegationSubject);
         } catch (PrivilegedActionException pe) {
             Exception e = extractException(pe);
-            if (e instanceof InstanceNotFoundException)
+            if (e instanceof InstanceNotFoundException) {
                 throw (InstanceNotFoundException) e;
-            if (e instanceof ListenerNotFoundException)
+            }
+            if (e instanceof ListenerNotFoundException) {
                 throw (ListenerNotFoundException) e;
-            if (e instanceof IOException)
+            }
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw newIOException("Got unexpected server exception: " + e, e);
         }
     }
 
+    @Override
     public NotificationResult fetchNotifications(long clientSequenceNumber,
                                                  int maxNotifications,
                                                  long timeout)
         throws IOException {
 
-        if (logger.debugOn()) logger.debug("fetchNotifications",
-                               "connectionId=" + connectionId
-                               +", timeout=" + timeout);
+        if (logger.debugOn()) {
+            logger.debug("fetchNotifications",
+                                   "connectionId=" + connectionId
+                                   +", timeout=" + timeout);
+        }
 
-        if (maxNotifications < 0 || timeout < 0)
+        if (maxNotifications < 0 || timeout < 0) {
             throw new IllegalArgumentException("Illegal negative argument");
+        }
 
         final boolean serverTerminated =
             serverCommunicatorAdmin.reqIncoming();
@@ -1256,9 +1442,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                 // we must not call fetchNotifs() if the server is
                 // terminated (timeout elapsed).
                 // returns null to force the client to stop fetching
-                if (logger.debugOn()) logger.debug("fetchNotifications",
-                               "The notification server has been closed, "
-                                       + "returns null to force the client to stop fetching");
+                if (logger.debugOn()) {
+                    logger.debug("fetchNotifications",
+                                   "The notification server has been closed, "
+                                           + "returns null to force the client to stop fetching");
+                }
                 return null;
             }
             final long csn = clientSequenceNumber;
@@ -1266,14 +1454,16 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             final long t = timeout;
             PrivilegedAction<NotificationResult> action =
                 new PrivilegedAction<NotificationResult>() {
+                    @Override
                     public NotificationResult run() {
                         return getServerNotifFwd().fetchNotifs(csn, t, mn);
                     }
             };
-            if (acc == null)
+            if (acc == null) {
                 return action.run();
-            else
+            } else {
                 return AccessController.doPrivileged(action, acc);
+            }
         } finally {
             serverCommunicatorAdmin.rspOutgoing();
         }
@@ -1305,6 +1495,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             this.params = params;
         }
 
+        @Override
         public Object run() throws Exception {
             return doOperation(operation, params);
         }
@@ -1321,6 +1512,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             super(timeout);
         }
 
+        @Override
         protected void doStop() {
             try {
                 close();
@@ -1344,6 +1536,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             return
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<ClassLoader>() {
+                        @Override
                         public ClassLoader run() throws InstanceNotFoundException {
                             return mbeanServer.getClassLoader(name);
                         }
@@ -1361,6 +1554,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             return (ClassLoader)
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Object>() {
+                        @Override
                         public Object run() throws InstanceNotFoundException {
                             return mbeanServer.getClassLoaderFor(name);
                         }
@@ -1381,9 +1575,9 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
 
             final AccessControlContext reqACC;
-            if (delegationSubject == null)
+            if (delegationSubject == null) {
                 reqACC = acc;
-            else {
+            } else {
                 if (subject == null) {
                     final String msg =
                         "Subject delegation cannot be enabled unless " +
@@ -1400,8 +1594,9 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
                 try {
                     return op.run();
                 } catch (Exception e) {
-                    if (e instanceof RuntimeException)
+                    if (e instanceof RuntimeException) {
                         throw (RuntimeException) e;
+                    }
                     throw new PrivilegedActionException(e);
                 }
             } else {
@@ -1543,6 +1738,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             this.classLoader = classLoader;
         }
 
+        @Override
         public ClassLoader run() {
             Thread currentThread = Thread.currentThread();
             ClassLoader old = currentThread.getContextClassLoader();
@@ -1563,9 +1759,9 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
             final ClassLoader old = AccessController.doPrivileged(new SetCcl(cl));
             try{
                 final AccessControlContext reqACC;
-                if (delegationSubject == null)
+                if (delegationSubject == null) {
                     reqACC = acc;
-                else {
+                } else {
                     if (subject == null) {
                         final String msg =
                             "Subject delegation cannot be enabled unless " +
@@ -1615,6 +1811,7 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
         try {
             ClassLoader orderCL = AccessController.doPrivileged(
                 new PrivilegedExceptionAction<ClassLoader>() {
+                    @Override
                     public ClassLoader run() throws Exception {
                         return new CombinedClassLoader(Thread.currentThread().getContextClassLoader(),
                                 new OrderClassLoaders(cl1, cl2));
@@ -1781,10 +1978,11 @@ public class RMIConnectionImpl implements RMIConnection, Unreferenced {
     //---------------
 
     private static String objects(final Object[] objs) {
-        if (objs == null)
+        if (objs == null) {
             return "null";
-        else
+        } else {
             return Arrays.asList(objs).toString();
+        }
     }
 
     private static String strings(final String[] strs) {

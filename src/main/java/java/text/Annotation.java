@@ -80,6 +80,7 @@ public class Annotation {
      *
      * @return the {@code String} representation of this {@code Annotation}
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[value=" + value + "]";
     }

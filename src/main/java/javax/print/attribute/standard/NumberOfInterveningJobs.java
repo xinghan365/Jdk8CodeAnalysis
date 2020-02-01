@@ -78,6 +78,7 @@ public final class NumberOfInterveningJobs extends IntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this number of
      *          intervening jobs attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof NumberOfInterveningJobs);
@@ -93,6 +94,7 @@ public final class NumberOfInterveningJobs extends IntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return NumberOfInterveningJobs.class;
     }
@@ -106,6 +108,7 @@ public final class NumberOfInterveningJobs extends IntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "number-of-intervening-jobs";
     }

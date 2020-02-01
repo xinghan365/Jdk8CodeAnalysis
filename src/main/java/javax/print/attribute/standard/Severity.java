@@ -118,6 +118,7 @@ public final class Severity extends EnumSyntax implements Attribute {
     /**
      * Returns the string table for class Severity.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -125,6 +126,7 @@ public final class Severity extends EnumSyntax implements Attribute {
     /**
      * Returns the enumeration value table for class Severity.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -139,6 +141,7 @@ public final class Severity extends EnumSyntax implements Attribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return Severity.class;
     }
@@ -151,6 +154,7 @@ public final class Severity extends EnumSyntax implements Attribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "severity";
     }

@@ -86,6 +86,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * with the filtering operation.
      * @see ImageConsumer#setDimensions
      */
+    @Override
     public void setDimensions(int width, int height) {
         consumer.setDimensions(width, height);
     }
@@ -103,6 +104,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * @param props the properties from the source object
      * @exception NullPointerException if <code>props</code> is null
      */
+    @Override
     public void setProperties(Hashtable<?,?> props) {
         Hashtable<Object,Object> p = (Hashtable<Object,Object>)props.clone();
         Object o = p.get("filters");
@@ -125,6 +127,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * with the filtering operation.
      * @see ImageConsumer#setColorModel
      */
+    @Override
     public void setColorModel(ColorModel model) {
         consumer.setColorModel(model);
     }
@@ -140,6 +143,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * with the filtering operation.
      * @see ImageConsumer#setHints
      */
+    @Override
     public void setHints(int hints) {
         consumer.setHints(hints);
     }
@@ -155,6 +159,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * with the filtering operation.
      * @see ImageConsumer#setPixels
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, byte pixels[], int off,
                           int scansize) {
@@ -172,6 +177,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * with the filtering operation.
      * @see ImageConsumer#setPixels
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           ColorModel model, int pixels[], int off,
                           int scansize) {
@@ -189,6 +195,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
      * with the filtering operation.
      * @see ImageConsumer#imageComplete
      */
+    @Override
     public void imageComplete(int status) {
         consumer.imageComplete(status);
     }
@@ -247,6 +254,7 @@ public class ImageFilter implements ImageConsumer, Cloneable {
     /**
      * Clones this object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();

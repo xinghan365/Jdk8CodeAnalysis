@@ -134,6 +134,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitBoolean(boolean b, P p) {
         return defaultAction(b, p);
     }
@@ -145,6 +146,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitByte(byte b, P p) {
         return defaultAction(b, p);
     }
@@ -156,6 +158,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitChar(char c, P p) {
         return defaultAction(c, p);
     }
@@ -167,6 +170,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitDouble(double d, P p) {
         return defaultAction(d, p);
     }
@@ -178,6 +182,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitFloat(float f, P p) {
         return defaultAction(f, p);
     }
@@ -189,6 +194,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitInt(int i, P p) {
         return defaultAction(i, p);
     }
@@ -200,6 +206,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitLong(long i, P p) {
         return defaultAction(i, p);
     }
@@ -211,6 +218,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitShort(short s, P p) {
         return defaultAction(s, p);
     }
@@ -222,6 +230,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitString(String s, P p) {
         return defaultAction(s, p);
     }
@@ -233,6 +242,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitType(TypeMirror t, P p) {
         return defaultAction(t, p);
     }
@@ -244,6 +254,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitEnumConstant(VariableElement c, P p) {
         return defaultAction(c, p);
     }
@@ -255,6 +266,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitAnnotation(AnnotationMirror a, P p) {
         return defaultAction(a, p);
     }
@@ -266,6 +278,7 @@ public class SimpleAnnotationValueVisitor6<R, P>
      * @param p {@inheritDoc}
      * @return  the result of {@code defaultAction}
      */
+    @Override
     public R visitArray(List<? extends AnnotationValue> vals, P p) {
         return defaultAction(vals, p);
     }

@@ -130,6 +130,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
      * @param x,y,w,h the area in device space for which colors are
      * generated.
      */
+    @Override
     protected void fillRaster(int[] pixels, int off, int adjust,
                               int x, int y, int w, int h)
     {

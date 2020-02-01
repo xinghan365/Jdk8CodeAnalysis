@@ -56,11 +56,13 @@ Serializable {
     private int index = -1;
 
     // implements javax.swing.SingleSelectionModel
+    @Override
     public int getSelectedIndex() {
         return index;
     }
 
     // implements javax.swing.SingleSelectionModel
+    @Override
     public void setSelectedIndex(int index) {
         if (this.index != index) {
             this.index = index;
@@ -69,11 +71,13 @@ Serializable {
     }
 
     // implements javax.swing.SingleSelectionModel
+    @Override
     public void clearSelection() {
         setSelectedIndex(-1);
     }
 
     // implements javax.swing.SingleSelectionModel
+    @Override
     public boolean isSelected() {
         boolean ret = false;
         if (getSelectedIndex() != -1) {
@@ -85,6 +89,7 @@ Serializable {
     /**
      * Adds a <code>ChangeListener</code> to the button.
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -92,6 +97,7 @@ Serializable {
     /**
      * Removes a <code>ChangeListener</code> from the button.
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
@@ -127,8 +133,9 @@ Serializable {
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }

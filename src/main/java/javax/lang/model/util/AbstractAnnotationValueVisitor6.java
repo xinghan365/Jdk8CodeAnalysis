@@ -90,6 +90,7 @@ public abstract class AbstractAnnotationValueVisitor6<R, P>
      * @param av {@inheritDoc}
      * @param p  {@inheritDoc}
      */
+    @Override
     public final R visit(AnnotationValue av, P p) {
         return av.accept(this, p);
     }
@@ -102,6 +103,7 @@ public abstract class AbstractAnnotationValueVisitor6<R, P>
      * null)}.
      * @param av {@inheritDoc}
      */
+    @Override
     public final R visit(AnnotationValue av) {
         return av.accept(this, null);
     }
@@ -117,6 +119,7 @@ public abstract class AbstractAnnotationValueVisitor6<R, P>
      * @param av {@inheritDoc}
      * @param p  {@inheritDoc}
      */
+    @Override
     public R visitUnknown(AnnotationValue av, P p) {
         throw new UnknownAnnotationValueException(av, p);
     }

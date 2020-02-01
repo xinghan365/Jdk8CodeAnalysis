@@ -92,6 +92,7 @@ public class FilteredImageSource implements ImageProducer {
      * @param ic  the consumer for the filtered image
      * @see ImageConsumer
      */
+    @Override
     public synchronized void addConsumer(ImageConsumer ic) {
         if (proxies == null) {
             proxies = new Hashtable();
@@ -118,6 +119,7 @@ public class FilteredImageSource implements ImageProducer {
      * @return true if the ImageConsumer is on the list; false otherwise
      * @see ImageConsumer
      */
+    @Override
     public synchronized boolean isConsumer(ImageConsumer ic) {
         return (proxies != null && proxies.containsKey(ic));
     }
@@ -135,6 +137,7 @@ public class FilteredImageSource implements ImageProducer {
      *
      * @see ImageConsumer
      */
+    @Override
     public synchronized void removeConsumer(ImageConsumer ic) {
         if (proxies != null) {
             ImageFilter imgf = (ImageFilter) proxies.get(ic);
@@ -171,6 +174,7 @@ public class FilteredImageSource implements ImageProducer {
      * @param ic  the consumer for the filtered image
      * @see ImageConsumer
      */
+    @Override
     public synchronized void startProduction(ImageConsumer ic) {
         if (proxies == null) {
             proxies = new Hashtable();
@@ -198,6 +202,7 @@ public class FilteredImageSource implements ImageProducer {
      *
      * @see ImageConsumer
      */
+    @Override
     public synchronized void requestTopDownLeftRightResend(ImageConsumer ic) {
         if (proxies != null) {
             ImageFilter imgf = (ImageFilter) proxies.get(ic);

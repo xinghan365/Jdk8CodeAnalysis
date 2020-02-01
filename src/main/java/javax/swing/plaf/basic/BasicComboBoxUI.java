@@ -568,11 +568,13 @@ public class BasicComboBoxUI extends ComboBoxUI {
      * <code>BasicComboBoxUI</code>.
      */
     public class FocusHandler implements FocusListener {
-        public void focusGained( FocusEvent e ) {
+        @Override
+        public void focusGained(FocusEvent e ) {
             getHandler().focusGained(e);
         }
 
-        public void focusLost( FocusEvent e ) {
+        @Override
+        public void focusLost(FocusEvent e ) {
             getHandler().focusLost(e);
         }
     }
@@ -588,15 +590,18 @@ public class BasicComboBoxUI extends ComboBoxUI {
      * @see #createListDataListener
      */
     public class ListDataHandler implements ListDataListener {
-        public void contentsChanged( ListDataEvent e ) {
+        @Override
+        public void contentsChanged(ListDataEvent e ) {
             getHandler().contentsChanged(e);
         }
 
-        public void intervalAdded( ListDataEvent e ) {
+        @Override
+        public void intervalAdded(ListDataEvent e ) {
             getHandler().intervalAdded(e);
         }
 
-        public void intervalRemoved( ListDataEvent e ) {
+        @Override
+        public void intervalRemoved(ListDataEvent e ) {
             getHandler().intervalRemoved(e);
         }
     }
@@ -613,6 +618,7 @@ public class BasicComboBoxUI extends ComboBoxUI {
      */
     public class ItemHandler implements ItemListener {
         // This class used to implement behavior which is now redundant.
+        @Override
         public void itemStateChanged(ItemEvent e) {}
     }
 
@@ -631,6 +637,7 @@ public class BasicComboBoxUI extends ComboBoxUI {
      * @see #createPropertyChangeListener
      */
     public class PropertyChangeHandler implements PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);
         }
@@ -658,18 +665,23 @@ public class BasicComboBoxUI extends ComboBoxUI {
      * <code>BasicComboBoxUI</code>.
      */
     public class ComboBoxLayoutManager implements LayoutManager {
+        @Override
         public void addLayoutComponent(String name, Component comp) {}
 
+        @Override
         public void removeLayoutComponent(Component comp) {}
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             return getHandler().preferredLayoutSize(parent);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             return getHandler().minimumLayoutSize(parent);
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             getHandler().layoutContainer(parent);
         }
@@ -865,14 +877,16 @@ public class BasicComboBoxUI extends ComboBoxUI {
     /**
      * Tells if the popup is visible or not.
      */
-    public boolean isPopupVisible( JComboBox c ) {
+    @Override
+    public boolean isPopupVisible(JComboBox c ) {
         return popup.isVisible();
     }
 
     /**
      * Hides the popup.
      */
-    public void setPopupVisible( JComboBox c, boolean v ) {
+    @Override
+    public void setPopupVisible(JComboBox c, boolean v ) {
         if ( v ) {
             popup.show();
         } else {
@@ -884,7 +898,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
      * Determines if the JComboBox is focus traversable.  If the JComboBox is editable
      * this returns false, otherwise it returns true.
      */
-    public boolean isFocusTraversable( JComboBox c ) {
+    @Override
+    public boolean isFocusTraversable(JComboBox c ) {
         return !comboBox.isEditable();
     }
 
@@ -1263,12 +1278,13 @@ public class BasicComboBoxUI extends ComboBoxUI {
      */
     public void paintCurrentValueBackground(Graphics g,Rectangle bounds,boolean hasFocus) {
         Color t = g.getColor();
-        if ( comboBox.isEnabled() )
+        if ( comboBox.isEnabled() ) {
             g.setColor(DefaultLookup.getColor(comboBox, this,
                                               "ComboBox.background", null));
-        else
+        } else {
             g.setColor(DefaultLookup.getColor(comboBox, this,
                                      "ComboBox.disabledBackground", null));
+        }
         g.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
         g.setColor(t);
     }
@@ -1482,7 +1498,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
             super(name);
         }
 
-        public void actionPerformed( ActionEvent e ) {
+        @Override
+        public void actionPerformed(ActionEvent e ) {
             String key = getName();
             JComboBox comboBox = (JComboBox)e.getSource();
             BasicComboBoxUI ui = (BasicComboBoxUI)BasicLookAndFeel.getUIOfType(
@@ -1652,6 +1669,7 @@ public class BasicComboBoxUI extends ComboBoxUI {
             return comboBox.getSelectedIndex();
         }
 
+        @Override
         public boolean isEnabled(Object c) {
             if (getName() == HIDE) {
                 return (c != null && ((JComboBox)c).isPopupVisible());
@@ -1673,6 +1691,7 @@ public class BasicComboBoxUI extends ComboBoxUI {
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
             if (e.getSource() == editor){
@@ -1723,18 +1742,22 @@ public class BasicComboBoxUI extends ComboBoxUI {
                 }
                 else if ( propertyName == "enabled" ) {
                     boolean enabled = comboBox.isEnabled();
-                    if ( editor != null )
+                    if ( editor != null ) {
                         editor.setEnabled(enabled);
-                    if ( arrowButton != null )
+                    }
+                    if ( arrowButton != null ) {
                         arrowButton.setEnabled(enabled);
+                    }
                     comboBox.repaint();
                 }
                 else if ( propertyName == "focusable" ) {
                     boolean focusable = comboBox.isFocusable();
-                    if ( editor != null )
+                    if ( editor != null ) {
                         editor.setFocusable(focusable);
-                    if ( arrowButton != null )
+                    }
+                    if ( arrowButton != null ) {
                         arrowButton.setFocusable(focusable);
+                    }
                     comboBox.repaint();
                 }
                 else if ( propertyName == "maximumRowCount" ) {
@@ -1781,7 +1804,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
         // key.  If it finds a key event that wasn't a navigation key it
         // dispatches it to JComboBox.selectWithKeyChar() so that it can do
         // type-ahead.
-        public void keyPressed( KeyEvent e ) {
+        @Override
+        public void keyPressed(KeyEvent e ) {
             if ( isNavigationKey(e.getKeyCode(), e.getModifiers()) ) {
                 lastTime = 0L;
             } else if ( comboBox.isEnabled() && comboBox.getModel().getSize()!=0 &&
@@ -1793,9 +1817,11 @@ public class BasicComboBoxUI extends ComboBoxUI {
             }
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {
         }
 
+        @Override
         public void keyReleased(KeyEvent e) {
         }
 
@@ -1810,7 +1836,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
         // The combo box listener hides the popup when the focus is lost.
         // It also repaints when focus is gained or lost.
 
-        public void focusGained( FocusEvent e ) {
+        @Override
+        public void focusGained(FocusEvent e ) {
             ComboBoxEditor comboBoxEditor = comboBox.getEditor();
 
             if ( (comboBoxEditor != null) &&
@@ -1825,7 +1852,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
             }
         }
 
-        public void focusLost( FocusEvent e ) {
+        @Override
+        public void focusLost(FocusEvent e ) {
             ComboBoxEditor editor = comboBox.getEditor();
             if ( (editor != null) &&
                  (e.getSource() == editor.getEditorComponent()) ) {
@@ -1852,7 +1880,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
         //
 
         // This listener watches for changes in the ComboBoxModel
-        public void contentsChanged( ListDataEvent e ) {
+        @Override
+        public void contentsChanged(ListDataEvent e ) {
             if ( !(e.getIndex0() == -1 && e.getIndex1() == -1) ) {
                 isMinimumSizeDirty = true;
                 comboBox.revalidate();
@@ -1869,11 +1898,13 @@ public class BasicComboBoxUI extends ComboBoxUI {
             comboBox.repaint();
         }
 
-        public void intervalAdded( ListDataEvent e ) {
+        @Override
+        public void intervalAdded(ListDataEvent e ) {
             contentsChanged( e );
         }
 
-        public void intervalRemoved( ListDataEvent e ) {
+        @Override
+        public void intervalRemoved(ListDataEvent e ) {
             contentsChanged( e );
         }
 
@@ -1884,18 +1915,23 @@ public class BasicComboBoxUI extends ComboBoxUI {
         // This layout manager handles the 'standard' layout of combo boxes.
         // It puts the arrow button to the right and the editor to the left.
         // If there is no editor it still keeps the arrow button to the right.
+        @Override
         public void addLayoutComponent(String name, Component comp) {}
 
+        @Override
         public void removeLayoutComponent(Component comp) {}
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             return parent.getPreferredSize();
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             return parent.getMinimumSize();
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             JComboBox cb = (JComboBox)parent;
             int width = cb.getWidth();
@@ -1936,6 +1972,7 @@ public class BasicComboBoxUI extends ComboBoxUI {
         // Note: This could depend on event ordering. The first ActionEvent
         // from the editor may be handled by the JComboBox in which case, the
         // enterPressed action will always be invoked.
+        @Override
         public void actionPerformed(ActionEvent evt) {
             Object item = comboBox.getEditor().getItem();
             if (item != null) {
@@ -1959,7 +1996,8 @@ public class BasicComboBoxUI extends ComboBoxUI {
         private String prefix = "";
         private String typedString = "";
 
-        public int selectionForKey(char aKey,ComboBoxModel aModel) {
+        @Override
+        public int selectionForKey(char aKey, ComboBoxModel aModel) {
             if (lastTime == 0L) {
                 prefix = "";
                 typedString = "";

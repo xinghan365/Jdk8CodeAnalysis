@@ -132,6 +132,7 @@ import javax.swing.text.*;
         return null;
     }
 
+    @Override
     protected View getViewAtPoint(int x, int y, Rectangle alloc) {
         int n = getViewCount();
         View v;
@@ -305,7 +306,9 @@ import javax.swing.text.*;
                         }
                     }
                     // advance to a free column
-                    for (; rv.isFilled(col); col++);
+                    for (; rv.isFilled(col); col++) {
+                        ;
+                    }
                     int rowSpan = getRowsOccupied(cv);
                     if (rowSpan > 1) {
                         multiRowCells = true;
@@ -417,7 +420,9 @@ import javax.swing.text.*;
                 if (skipComments && !(cv instanceof CellView)) {
                     continue;
                 }
-                for (; row.isFilled(col); col++); // advance to a free column
+                for (; row.isFilled(col); col++) {
+                    ; // advance to a free column
+                }
                 int rowSpan = getRowsOccupied(cv);
                 int colSpan = getColumnsOccupied(cv);
                 if (colSpan == 1) {
@@ -441,7 +446,9 @@ import javax.swing.text.*;
                     if (skipComments && !(cv instanceof CellView)) {
                         continue;
                     }
-                    for (; row.isFilled(col); col++); // advance to a free column
+                    for (; row.isFilled(col); col++) {
+                        ; // advance to a free column
+                    }
                     int colSpan = getColumnsOccupied(cv);
                     if (colSpan > 1) {
                         checkMultiColumnCell(axis, col, colSpan, cv);
@@ -539,6 +546,7 @@ import javax.swing.text.*;
      * CSS width or height attribute is specified and applicable to
      * the axis.
      */
+    @Override
     protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
         updateGrid();
 
@@ -610,6 +618,7 @@ import javax.swing.text.*;
      * This is implemented to provide the superclass behavior adjusted for
      * multi-row table cells.
      */
+    @Override
     protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
         updateInsets();
         rowIterator.updateAdjustments();
@@ -642,6 +651,7 @@ import javax.swing.text.*;
      * @return the offset and span for each child view in the
      *  offsets and spans parameters
      */
+    @Override
     protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
         // make grid is properly represented
         updateGrid();
@@ -685,6 +695,7 @@ import javax.swing.text.*;
      * @return the offset and span for each child view in the
      *  offsets and spans parameters
      */
+    @Override
     protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
         rowIterator.setLayoutArrays(offsets, spans);
         CSS.calculateTiledLayout(rowIterator, targetSpan);
@@ -716,6 +727,7 @@ import javax.swing.text.*;
      * @return  the view representing the given position, or
      *   null if there isn't one
      */
+    @Override
     protected View getViewAtPosition(int pos, Rectangle a) {
         int n = getViewCount();
         for (int i = 0; i < n; i++) {
@@ -747,6 +759,7 @@ import javax.swing.text.*;
      * implemented to multiplex the attributes specified in the
      * model with a StyleSheet.
      */
+    @Override
     public AttributeSet getAttributes() {
         if (attr == null) {
             StyleSheet sheet = getStyleSheet();
@@ -770,6 +783,7 @@ import javax.swing.text.*;
      * @param allocation the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape allocation) {
         // paint the border
         Rectangle a = allocation.getBounds();
@@ -813,6 +827,7 @@ import javax.swing.text.*;
      *  being removed from a parent it was previously added
      *  to
      */
+    @Override
     public void setParent(View parent) {
         super.setParent(parent);
         if (parent != null) {
@@ -831,6 +846,7 @@ import javax.swing.text.*;
      *
      * @return the factory, null if none
      */
+    @Override
     public ViewFactory getViewFactory() {
         return this;
     }
@@ -849,6 +865,7 @@ import javax.swing.text.*;
      * @param f the factory to use to rebuild if the view has children
      * @see View#insertUpdate
      */
+    @Override
     public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.insertUpdate(e, a, this);
     }
@@ -867,6 +884,7 @@ import javax.swing.text.*;
      * @param f the factory to use to rebuild if the view has children
      * @see View#removeUpdate
      */
+    @Override
     public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.removeUpdate(e, a, this);
     }
@@ -885,10 +903,12 @@ import javax.swing.text.*;
      * @param f the factory to use to rebuild if the view has children
      * @see View#changedUpdate
      */
+    @Override
     public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.changedUpdate(e, a, this);
     }
 
+    @Override
     protected void forwardUpdate(DocumentEvent.ElementChange ec,
                                  DocumentEvent e, Shape a, ViewFactory f) {
         super.forwardUpdate(ec, e, a, f);
@@ -909,6 +929,7 @@ import javax.swing.text.*;
      * provide the superclass behavior and invalidate the
      * grid so that rows and columns will be recalculated.
      */
+    @Override
     public void replace(int offset, int length, View[] views) {
         super.replace(offset, length, views);
         invalidateGrid();
@@ -922,6 +943,7 @@ import javax.swing.text.*;
      * All other factory activity is delegated to the factory
      * returned by the parent of the table.
      */
+    @Override
     public View create(Element elem) {
         Object o = elem.getAttributes().getAttribute(StyleConstants.NameAttribute);
         if (o instanceof HTML.Tag) {
@@ -1028,7 +1050,9 @@ import javax.swing.text.*;
                 int ncells = row.getViewCount();
                 for (int cell = 0; cell < ncells; cell++, col++) {
                     View cv = row.getView(cell);
-                    for (; row.isFilled(col); col++); // advance to a free column
+                    for (; row.isFilled(col); col++) {
+                        ; // advance to a free column
+                    }
                     int rowSpan = getRowsOccupied(cv);
                     int colSpan = getColumnsOccupied(cv);
                     AttributeSet a = cv.getAttributes();
@@ -1062,30 +1086,37 @@ import javax.swing.text.*;
 
         // --- RequirementIterator methods -------------------
 
+        @Override
         public int getCount() {
             return columnRequirements.length;
         }
 
+        @Override
         public void setIndex(int i) {
             col = i;
         }
 
+        @Override
         public void setOffset(int offs) {
             offsets[col] = offs;
         }
 
+        @Override
         public int getOffset() {
             return offsets[col];
         }
 
+        @Override
         public void setSpan(int span) {
             spans[col] = span;
         }
 
+        @Override
         public int getSpan() {
             return spans[col];
         }
 
+        @Override
         public float getMinimumSpan(float parentSpan) {
             // do not care for percentages, since min span can't
             // be less than columnRequirements[col].minimum,
@@ -1093,6 +1124,7 @@ import javax.swing.text.*;
             return columnRequirements[col].minimum;
         }
 
+        @Override
         public float getPreferredSpan(float parentSpan) {
             if ((percentages != null) && (percentages[col] != 0)) {
                 return Math.max(percentages[col], columnRequirements[col].minimum);
@@ -1100,23 +1132,28 @@ import javax.swing.text.*;
             return columnRequirements[col].preferred;
         }
 
+        @Override
         public float getMaximumSpan(float parentSpan) {
             return columnRequirements[col].maximum;
         }
 
+        @Override
         public float getBorderWidth() {
             return borderWidth;
         }
 
 
+        @Override
         public float getLeadingCollapseSpan() {
             return cellSpacing;
         }
 
+        @Override
         public float getTrailingCollapseSpan() {
             return cellSpacing;
         }
 
+        @Override
         public int getAdjustmentWeight() {
             return adjustmentWeights[col];
         }
@@ -1210,6 +1247,7 @@ import javax.swing.text.*;
 
         // --- RequirementIterator methods -------------------
 
+        @Override
         public void setOffset(int offs) {
             RowView rv = getRow(row);
             if (rv != null) {
@@ -1217,6 +1255,7 @@ import javax.swing.text.*;
             }
         }
 
+        @Override
         public int getOffset() {
             RowView rv = getRow(row);
             if (rv != null) {
@@ -1225,6 +1264,7 @@ import javax.swing.text.*;
             return 0;
         }
 
+        @Override
         public void setSpan(int span) {
             RowView rv = getRow(row);
             if (rv != null) {
@@ -1232,6 +1272,7 @@ import javax.swing.text.*;
             }
         }
 
+        @Override
         public int getSpan() {
             RowView rv = getRow(row);
             if (rv != null) {
@@ -1240,18 +1281,22 @@ import javax.swing.text.*;
             return 0;
         }
 
+        @Override
         public int getCount() {
             return rows.size();
         }
 
+        @Override
         public void setIndex(int i) {
             row = i;
         }
 
+        @Override
         public float getMinimumSpan(float parentSpan) {
             return getPreferredSpan(parentSpan);
         }
 
+        @Override
         public float getPreferredSpan(float parentSpan) {
             RowView rv = getRow(row);
             if (rv != null) {
@@ -1261,22 +1306,27 @@ import javax.swing.text.*;
             return 0;
         }
 
+        @Override
         public float getMaximumSpan(float parentSpan) {
             return getPreferredSpan(parentSpan);
         }
 
+        @Override
         public float getBorderWidth() {
             return borderWidth;
         }
 
+        @Override
         public float getLeadingCollapseSpan() {
             return cellSpacing;
         }
 
+        @Override
         public float getTrailingCollapseSpan() {
             return cellSpacing;
         }
 
+        @Override
         public int getAdjustmentWeight() {
             return 0;
         }
@@ -1343,6 +1393,7 @@ import javax.swing.text.*;
          * implemented to multiplex the attributes specified in the
          * model with a StyleSheet.
          */
+        @Override
         public AttributeSet getAttributes() {
             return attr;
         }
@@ -1376,6 +1427,7 @@ import javax.swing.text.*;
          * @param width true if the width preference should change
          * @param height true if the height preference should change
          */
+        @Override
         public void preferenceChanged(View child, boolean width, boolean height) {
             super.preferenceChanged(child, width, height);
             if (TableView.this.multiRowCells && height) {
@@ -1392,6 +1444,7 @@ import javax.swing.text.*;
         // The major axis requirements for a row are dictated by the column
         // requirements. These methods use the value calculated by
         // TableView.
+        @Override
         protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
             SizeRequirements req = new SizeRequirements();
             req.minimum = totalColumnRequirements.minimum;
@@ -1401,6 +1454,7 @@ import javax.swing.text.*;
             return req;
         }
 
+        @Override
         public float getMinimumSpan(int axis) {
             float value;
 
@@ -1414,6 +1468,7 @@ import javax.swing.text.*;
             return value;
         }
 
+        @Override
         public float getMaximumSpan(int axis) {
             float value;
 
@@ -1427,6 +1482,7 @@ import javax.swing.text.*;
             return value;
         }
 
+        @Override
         public float getPreferredSpan(int axis) {
             float value;
 
@@ -1440,6 +1496,7 @@ import javax.swing.text.*;
             return value;
         }
 
+        @Override
         public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
             super.changedUpdate(e, a, f);
             int pos = e.getOffset();
@@ -1459,6 +1516,7 @@ import javax.swing.text.*;
          * @param allocation the allocated region to render into
          * @see View#paint
          */
+        @Override
         public void paint(Graphics g, Shape allocation) {
             Rectangle a = (Rectangle) allocation;
             painter.paint(g, a.x, a.y, a.width, a.height, this);
@@ -1470,6 +1528,7 @@ import javax.swing.text.*;
          * provide the superclass behavior and invalidate the
          * grid so that rows and columns will be recalculated.
          */
+        @Override
         public void replace(int offset, int length, View[] views) {
             super.replace(offset, length, views);
             invalidateGrid();
@@ -1483,6 +1542,7 @@ import javax.swing.text.*;
          * them.  This method updates the multi-row flag that indicates that
          * this row and rows below need additional consideration.
          */
+        @Override
         protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
 //          return super.calculateMinorAxisRequirements(axis, r);
             long min = 0;
@@ -1533,6 +1593,7 @@ import javax.swing.text.*;
          * @return the offset and span for each child view in the
          *  offsets and spans parameters
          */
+        @Override
         protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
             int col = 0;
             int ncells = getViewCount();
@@ -1541,7 +1602,9 @@ import javax.swing.text.*;
                 if (skipComments && !(cv instanceof CellView)) {
                     continue;
                 }
-                for (; isFilled(col); col++); // advance to a free column
+                for (; isFilled(col); col++) {
+                    ; // advance to a free column
+                }
                 int colSpan = getColumnsOccupied(cv);
                 spans[cell] = columnSpans[col];
                 offsets[cell] = columnOffsets[col];
@@ -1584,13 +1647,16 @@ import javax.swing.text.*;
          * @return the offset and span for each child view in the
          *  offsets and spans parameters
          */
+        @Override
         protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
             super.layoutMinorAxis(targetSpan, axis, offsets, spans);
             int col = 0;
             int ncells = getViewCount();
             for (int cell = 0; cell < ncells; cell++, col++) {
                 View cv = getView(cell);
-                for (; isFilled(col); col++); // advance to a free column
+                for (; isFilled(col); col++) {
+                    ; // advance to a free column
+                }
                 int colSpan = getColumnsOccupied(cv);
                 int rowSpan = getRowsOccupied(cv);
                 if (rowSpan > 1) {
@@ -1613,6 +1679,7 @@ import javax.swing.text.*;
          * @return the resize weight
          * @exception IllegalArgumentException for an invalid axis
          */
+        @Override
         public int getResizeWeight(int axis) {
             return 1;
         }
@@ -1630,6 +1697,7 @@ import javax.swing.text.*;
          * @return  the view representing the given position, or
          *   null if there isn't one
          */
+        @Override
         protected View getViewAtPosition(int pos, Rectangle a) {
             int n = getViewCount();
             for (int i = 0; i < n; i++) {
@@ -1726,6 +1794,7 @@ import javax.swing.text.*;
          * @return the offset and span for each child view in the
          *  offsets and spans parameters
          */
+        @Override
         protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
             super.layoutMajorAxis(targetSpan, axis, offsets, spans);
             // calculate usage
@@ -1774,6 +1843,7 @@ import javax.swing.text.*;
          * @param r the requirements to fill in.  If null, a new one
          *  should be allocated.
          */
+        @Override
         protected SizeRequirements calculateMajorAxisRequirements(int axis,
                                                                   SizeRequirements r) {
             SizeRequirements req = super.calculateMajorAxisRequirements(axis, r);

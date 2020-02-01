@@ -68,8 +68,9 @@ public class PasswordCallback implements Callback, java.io.Serializable {
      *                  if {@code prompt} has a length of 0.
      */
     public PasswordCallback(String prompt, boolean echoOn) {
-        if (prompt == null || prompt.length() == 0)
+        if (prompt == null || prompt.length() == 0) {
             throw new IllegalArgumentException();
+        }
 
         this.prompt = prompt;
         this.echoOn = echoOn;
@@ -135,8 +136,9 @@ public class PasswordCallback implements Callback, java.io.Serializable {
      */
     public void clearPassword() {
         if (inputPassword != null) {
-            for (int i = 0; i < inputPassword.length; i++)
+            for (int i = 0; i < inputPassword.length; i++) {
                 inputPassword[i] = ' ';
+            }
         }
     }
 }

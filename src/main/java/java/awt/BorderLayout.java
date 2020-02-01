@@ -418,6 +418,7 @@ public class BorderLayout implements LayoutManager2,
          *              constants.
      * @since   JDK1.1
      */
+    @Override
     public void addLayoutComponent(Component comp, Object constraints) {
       synchronized (comp.getTreeLock()) {
         if ((constraints == null) || (constraints instanceof String)) {
@@ -431,6 +432,7 @@ public class BorderLayout implements LayoutManager2,
     /**
      * @deprecated  replaced by <code>addLayoutComponent(Component, Object)</code>.
      */
+    @Override
     @Deprecated
     public void addLayoutComponent(String name, Component comp) {
       synchronized (comp.getTreeLock()) {
@@ -474,6 +476,7 @@ public class BorderLayout implements LayoutManager2,
      * @see     java.awt.Container#remove(java.awt.Component)
      * @see     java.awt.Container#removeAll()
      */
+    @Override
     public void removeLayoutComponent(Component comp) {
       synchronized (comp.getTreeLock()) {
         if (comp == center) {
@@ -642,6 +645,7 @@ public class BorderLayout implements LayoutManager2,
      * @see     java.awt.BorderLayout#preferredLayoutSize
      * @see     java.awt.Container#getMinimumSize()
      */
+    @Override
     public Dimension minimumLayoutSize(Container target) {
       synchronized (target.getTreeLock()) {
         Dimension dim = new Dimension(0, 0);
@@ -698,6 +702,7 @@ public class BorderLayout implements LayoutManager2,
      * @see     java.awt.BorderLayout#minimumLayoutSize
      * @see     java.awt.Container#getPreferredSize()
      */
+    @Override
     public Dimension preferredLayoutSize(Container target) {
       synchronized (target.getTreeLock()) {
         Dimension dim = new Dimension(0, 0);
@@ -747,6 +752,7 @@ public class BorderLayout implements LayoutManager2,
      * @see #minimumLayoutSize
      * @see #preferredLayoutSize
      */
+    @Override
     public Dimension maximumLayoutSize(Container target) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
@@ -758,6 +764,7 @@ public class BorderLayout implements LayoutManager2,
      * where 0 represents alignment along the origin, 1 is aligned
      * the furthest away from the origin, 0.5 is centered, etc.
      */
+    @Override
     public float getLayoutAlignmentX(Container parent) {
         return 0.5f;
     }
@@ -769,6 +776,7 @@ public class BorderLayout implements LayoutManager2,
      * where 0 represents alignment along the origin, 1 is aligned
      * the furthest away from the origin, 0.5 is centered, etc.
      */
+    @Override
     public float getLayoutAlignmentY(Container parent) {
         return 0.5f;
     }
@@ -777,6 +785,7 @@ public class BorderLayout implements LayoutManager2,
      * Invalidates the layout, indicating that if the layout manager
      * has cached information it should be discarded.
      */
+    @Override
     public void invalidateLayout(Container target) {
     }
 
@@ -799,6 +808,7 @@ public class BorderLayout implements LayoutManager2,
      * @see     java.awt.Container
      * @see     java.awt.Container#doLayout()
      */
+    @Override
     public void layoutContainer(Container target) {
       synchronized (target.getTreeLock()) {
         Insets insets = target.getInsets();
@@ -881,6 +891,7 @@ public class BorderLayout implements LayoutManager2,
      * Returns a string representation of the state of this border layout.
      * @return    a string representation of this border layout.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
     }

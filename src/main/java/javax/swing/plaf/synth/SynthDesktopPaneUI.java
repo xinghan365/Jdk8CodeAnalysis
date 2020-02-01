@@ -198,6 +198,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
         TaskBar() {
             setOpaque(true);
             setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0) {
+                @Override
                 public void layoutContainer(Container target) {
                     // First shrink buttons to fit
                     Component[] comps = target.getComponents();
@@ -227,6 +228,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
 
             // PENDING: This should be handled by the painter
             setBorder(new BevelBorder(BevelBorder.RAISED) {
+                @Override
                 protected void paintRaisedBevel(Component c, Graphics g,
                                                 int x, int y, int w, int h)  {
                     Color oldColor = g.getColor();
@@ -265,20 +267,24 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
 
         // ComponentListener interface
 
+        @Override
         public void componentResized(ComponentEvent e) {
             if (e.getSource() instanceof JDesktopPane) {
                 adjustSize();
             }
         }
 
+        @Override
         public void componentMoved(ComponentEvent e){}
 
+        @Override
         public void componentShown(ComponentEvent e) {
             if (e.getSource() instanceof JInternalFrame) {
                 adjustSize();
             }
         }
 
+        @Override
         public void componentHidden(ComponentEvent e) {
             if (e.getSource() instanceof JInternalFrame) {
                 ((JInternalFrame)e.getSource()).getDesktopIcon().setVisible(false);
@@ -288,6 +294,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
 
         // ContainerListener interface
 
+        @Override
         public void componentAdded(ContainerEvent e) {
             if (e.getChild() instanceof JInternalFrame) {
                 JDesktopPane desktop = (JDesktopPane)e.getSource();
@@ -307,6 +314,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
             }
         }
 
+        @Override
         public void componentRemoved(ContainerEvent e) {
             if (e.getChild() instanceof JInternalFrame) {
                 JInternalFrame f = (JInternalFrame)e.getChild();
@@ -324,6 +332,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
 
     class SynthDesktopManager extends DefaultDesktopManager implements UIResource {
 
+        @Override
         public void maximizeFrame(JInternalFrame f) {
             if (f.isIcon()) {
                 try {
@@ -344,6 +353,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
             }
         }
 
+        @Override
         public void iconifyFrame(JInternalFrame f) {
             JInternalFrame.JDesktopIcon desktopIcon;
             Container c = f.getParent();
@@ -382,6 +392,7 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
         }
 
 
+        @Override
         public void deiconifyFrame(JInternalFrame f) {
             JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
             Container c = desktopIcon.getParent();
@@ -408,11 +419,13 @@ public class SynthDesktopPaneUI extends BasicDesktopPaneUI implements
             }
         }
 
+        @Override
         protected void removeIconFor(JInternalFrame f) {
             super.removeIconFor(f);
             taskBar.validate();
         }
 
+        @Override
         public void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
             super.setBoundsForFrame(f, newX, newY, newWidth, newHeight);
             if (taskBar != null && newY >= taskBar.getY()) {

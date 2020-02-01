@@ -56,6 +56,7 @@ public class BadStringOperationException extends Exception   {
     /**
      * Returns the string representing the object.
      */
+    @Override
     public String toString()  {
         return "BadStringOperationException: " + op;
     }

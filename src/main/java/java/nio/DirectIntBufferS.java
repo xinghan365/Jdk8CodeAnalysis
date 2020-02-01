@@ -63,6 +63,7 @@ class DirectIntBufferS
     // ensure that its memory isn't freed before we are done with it.
     private final Object att;
 
+    @Override
     public Object attachment() {
         return att;
     }
@@ -104,6 +105,7 @@ class DirectIntBufferS
 
 
 
+    @Override
     public Cleaner cleaner() { return null; }
 
 
@@ -203,6 +205,7 @@ class DirectIntBufferS
 
     }
 
+    @Override
     public IntBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +216,7 @@ class DirectIntBufferS
         return new DirectIntBufferS(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public IntBuffer duplicate() {
         return new DirectIntBufferS(this,
                                               this.markValue(),
@@ -222,6 +226,7 @@ class DirectIntBufferS
                                               0);
     }
 
+    @Override
     public IntBuffer asReadOnlyBuffer() {
 
         return new DirectIntBufferRS(this,
@@ -237,6 +242,7 @@ class DirectIntBufferS
 
 
 
+    @Override
     public long address() {
         return address;
     }
@@ -245,10 +251,12 @@ class DirectIntBufferS
         return address + ((long)i << 2);
     }
 
+    @Override
     public int get() {
         return (Bits.swap(unsafe.getInt(ix(nextGetIndex()))));
     }
 
+    @Override
     public int get(int i) {
         return (Bits.swap(unsafe.getInt(ix(checkIndex(i)))));
     }
@@ -259,6 +267,7 @@ class DirectIntBufferS
 
 
 
+    @Override
     public IntBuffer get(int[] dst, int offset, int length) {
 
         if (((long)length << 2) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
@@ -267,19 +276,20 @@ class DirectIntBufferS
             int lim = limit();
             assert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
-            if (length > rem)
+            if (length > rem) {
                 throw new BufferUnderflowException();
+            }
 
 
-            if (order() != ByteOrder.nativeOrder())
+            if (order() != ByteOrder.nativeOrder()) {
                 Bits.copyToIntArray(ix(pos), dst,
                                           (long)offset << 2,
                                           (long)length << 2);
-            else
-
+            } else {
                 Bits.copyToArray(ix(pos), dst, arrayBaseOffset,
                                  (long)offset << 2,
                                  (long)length << 2);
+            }
             position(pos + length);
         } else {
             super.get(dst, offset, length);
@@ -292,6 +302,7 @@ class DirectIntBufferS
 
 
 
+    @Override
     public IntBuffer put(int x) {
 
         unsafe.putInt(ix(nextPutIndex()), Bits.swap((x)));
@@ -301,6 +312,7 @@ class DirectIntBufferS
 
     }
 
+    @Override
     public IntBuffer put(int i, int x) {
 
         unsafe.putInt(ix(checkIndex(i)), Bits.swap((x)));
@@ -310,11 +322,13 @@ class DirectIntBufferS
 
     }
 
+    @Override
     public IntBuffer put(IntBuffer src) {
 
         if (src instanceof DirectIntBufferS) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             DirectIntBufferS sb = (DirectIntBufferS)src;
 
             int spos = sb.position();
@@ -327,8 +341,9 @@ class DirectIntBufferS
             assert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
 
-            if (srem > rem)
+            if (srem > rem) {
                 throw new BufferOverflowException();
+            }
             unsafe.copyMemory(sb.ix(spos), ix(pos), (long)srem << 2);
             sb.position(spos + srem);
             position(pos + srem);
@@ -351,6 +366,7 @@ class DirectIntBufferS
 
     }
 
+    @Override
     public IntBuffer put(int[] src, int offset, int length) {
 
         if (((long)length << 2) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
@@ -359,21 +375,22 @@ class DirectIntBufferS
             int lim = limit();
             assert (pos <= lim);
             int rem = (pos <= lim ? lim - pos : 0);
-            if (length > rem)
+            if (length > rem) {
                 throw new BufferOverflowException();
+            }
 
 
-            if (order() != ByteOrder.nativeOrder())
+            if (order() != ByteOrder.nativeOrder()) {
                 Bits.copyFromIntArray(src,
                                             (long)offset << 2,
                                             ix(pos),
                                             (long)length << 2);
-            else
-
+            } else {
                 Bits.copyFromArray(src, arrayBaseOffset,
                                    (long)offset << 2,
                                    ix(pos),
                                    (long)length << 2);
+            }
             position(pos + length);
         } else {
             super.put(src, offset, length);
@@ -384,6 +401,7 @@ class DirectIntBufferS
 
     }
 
+    @Override
     public IntBuffer compact() {
 
         int pos = position();
@@ -401,10 +419,12 @@ class DirectIntBufferS
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -455,6 +475,7 @@ class DirectIntBufferS
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ((ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN)

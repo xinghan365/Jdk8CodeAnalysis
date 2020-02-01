@@ -40,6 +40,7 @@ public interface CookiePolicy {
      * One pre-defined policy which accepts all cookies.
      */
     public static final CookiePolicy ACCEPT_ALL = new CookiePolicy(){
+        @Override
         public boolean shouldAccept(URI uri, HttpCookie cookie) {
             return true;
         }
@@ -49,6 +50,7 @@ public interface CookiePolicy {
      * One pre-defined policy which accepts no cookies.
      */
     public static final CookiePolicy ACCEPT_NONE = new CookiePolicy(){
+        @Override
         public boolean shouldAccept(URI uri, HttpCookie cookie) {
             return false;
         }
@@ -58,9 +60,11 @@ public interface CookiePolicy {
      * One pre-defined policy which only accepts cookies from original server.
      */
     public static final CookiePolicy ACCEPT_ORIGINAL_SERVER  = new CookiePolicy(){
+        @Override
         public boolean shouldAccept(URI uri, HttpCookie cookie) {
-            if (uri == null || cookie == null)
+            if (uri == null || cookie == null) {
                 return false;
+            }
             return HttpCookie.domainMatches(cookie.getDomain(), uri.getHost());
         }
     };

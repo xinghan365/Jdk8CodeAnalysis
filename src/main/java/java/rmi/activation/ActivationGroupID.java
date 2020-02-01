@@ -88,6 +88,7 @@ public class ActivationGroupID implements java.io.Serializable {
      * @see java.util.Hashtable
      * @since 1.2
      */
+    @Override
     public int hashCode() {
         return uid.hashCode();
     }
@@ -104,6 +105,7 @@ public class ActivationGroupID implements java.io.Serializable {
      * @see             java.util.Hashtable
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

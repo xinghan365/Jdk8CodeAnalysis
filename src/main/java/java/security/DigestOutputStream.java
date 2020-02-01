@@ -111,6 +111,7 @@ public class DigestOutputStream extends FilterOutputStream {
      *
      * @see MessageDigest#update(byte)
      */
+    @Override
     public void write(int b) throws IOException {
         out.write(b);
         if (on) {
@@ -141,6 +142,7 @@ public class DigestOutputStream extends FilterOutputStream {
      *
      * @see MessageDigest#update(byte[], int, int)
      */
+    @Override
     public void write(byte[] b, int off, int len) throws IOException {
         out.write(b, off, len);
         if (on) {
@@ -165,6 +167,7 @@ public class DigestOutputStream extends FilterOutputStream {
      * Prints a string representation of this digest output stream and
      * its associated message digest object.
      */
+     @Override
      public String toString() {
          return "[Digest Output Stream] " + digest.toString();
      }

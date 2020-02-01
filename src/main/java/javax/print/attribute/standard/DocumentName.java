@@ -89,6 +89,7 @@ public final class DocumentName extends TextSyntax implements DocAttribute {
      * @return  True if <CODE>object</CODE> is equivalent to this document
      *          name attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) && object instanceof DocumentName);
     }
@@ -102,6 +103,7 @@ public final class DocumentName extends TextSyntax implements DocAttribute {
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return DocumentName.class;
     }
@@ -114,6 +116,7 @@ public final class DocumentName extends TextSyntax implements DocAttribute {
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "document-name";
     }

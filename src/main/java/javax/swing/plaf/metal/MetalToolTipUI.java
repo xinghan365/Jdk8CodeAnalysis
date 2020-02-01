@@ -68,6 +68,7 @@ public class MetalToolTipUI extends BasicToolTipUI {
         return sharedInstance;
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         tip = (JToolTip)c;
@@ -77,11 +78,13 @@ public class MetalToolTipUI extends BasicToolTipUI {
         if ( acceleratorDelimiter == null ) { acceleratorDelimiter = "-"; }
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
         tip = null;
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         JToolTip tip = (JToolTip)c;
         Font font = c.getFont();
@@ -137,6 +140,7 @@ public class MetalToolTipUI extends BasicToolTipUI {
                  SwingUtilities2.stringWidth(c, fm, accel);
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension d = super.getPreferredSize(c);
 

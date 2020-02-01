@@ -218,7 +218,9 @@ public class SynthComboBoxUI extends BasicComboBoxUI implements
         // but pass in a JTextField instead of JComboBox! In case this
         // happens, we just return the normal synth state for the component
         // instead of doing anything special
-        if (!(c instanceof JComboBox)) return SynthLookAndFeel.getComponentState(c);
+        if (!(c instanceof JComboBox)) {
+            return SynthLookAndFeel.getComponentState(c);
+        }
 
         JComboBox box = (JComboBox)c;
         if (shouldActLikeButton()) {
@@ -732,12 +734,14 @@ public class SynthComboBoxUI extends BasicComboBoxUI implements
         }
 
         /** Invoked when a component gains the keyboard focus. */
+        @Override
         public void focusGained(FocusEvent e) {
             // repaint whole combo on focus gain
             comboBox.repaint();
         }
 
         /** Invoked when a component loses the keyboard focus. */
+        @Override
         public void focusLost(FocusEvent e) {
             // repaint whole combo on focus loss
             comboBox.repaint();
@@ -749,6 +753,7 @@ public class SynthComboBoxUI extends BasicComboBoxUI implements
          * @param evt A PropertyChangeEvent object describing the event source and
          *            the property that has changed.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             ComboBoxEditor newEditor = comboBox.getEditor();
             if (editor != newEditor){

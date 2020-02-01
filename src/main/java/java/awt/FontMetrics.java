@@ -627,6 +627,7 @@ public abstract class FontMetrics implements java.io.Serializable {
      * <code>FontMetrics</code> object.
      * @since     JDK1.0.
      */
+    @Override
     public String toString() {
         return getClass().getName() +
             "[font=" + getFont() +

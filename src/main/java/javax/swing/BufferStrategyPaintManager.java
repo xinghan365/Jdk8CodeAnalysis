@@ -160,6 +160,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
     private static void getMethods() {
         java.security.AccessController.doPrivileged(
                             new java.security.PrivilegedAction<Object>() {
+            @Override
             public Object run() {
                 try {
                     COMPONENT_CREATE_BUFFER_STRATEGY_METHOD = Component.class.
@@ -192,11 +193,13 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
     /**
      * Cleans up any created BufferStrategies.
      */
+    @Override
     protected void dispose() {
         // dipose can be invoked at any random time. To avoid
         // threading dependancies we do the actual diposing via an
         // invokeLater.
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 java.util.List<BufferInfo> bufferInfos;
                 synchronized(BufferStrategyPaintManager.this) {
@@ -231,6 +234,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
      * true if successful, false otherwise.  This is invoked on the
      * toolkit thread in response to an expose event.
      */
+    @Override
     public boolean show(Container c, int x, int y, int w, int h) {
         synchronized(this) {
             if (painting) {
@@ -268,6 +272,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         return false;
     }
 
+    @Override
     public boolean paint(JComponent paintingComponent,
                          JComponent bufferComponent, Graphics g,
                          int x, int y, int w, int h) {
@@ -306,6 +311,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         return super.paint(paintingComponent, bufferComponent, g, x, y, w, h);
     }
 
+    @Override
     public void copyArea(JComponent c, Graphics g, int x, int y, int w, int h,
                          int deltaX, int deltaY, boolean clip) {
         // Note: this method is only called internally and we know that
@@ -348,6 +354,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         }
     }
 
+    @Override
     public void beginPaint() {
         synchronized(this) {
             painting = true;
@@ -367,6 +374,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         resetAccumulated();
     }
 
+    @Override
     public void endPaint() {
         if (LOGGER.isLoggable(PlatformLogger.Level.FINEST)) {
             LOGGER.finest("endPaint: region " + accumulatedX + " " +
@@ -442,12 +450,14 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
      * buffered, or true double buffering changes we throw out any
      * cache we may have.
      */
+    @Override
     public void doubleBufferingChanged(final JRootPane rootPane) {
         if ((!rootPane.isDoubleBuffered() ||
                 !rootPane.getUseTrueDoubleBuffering()) &&
                 rootPane.getParent() != null) {
             if (!SwingUtilities.isEventDispatchThread()) {
                 Runnable updater = new Runnable() {
+                    @Override
                     public void run() {
                         doubleBufferingChanged0(rootPane);
                     }
@@ -897,6 +907,7 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         // Ideally we would also move to having the BufferStrategy being
         // a SoftReference in Component here, but that requires changes to
         // Component and the like.
+        @Override
         public void componentHidden(ComponentEvent e) {
             Container root = getRoot();
             if (root != null && root.isVisible()) {
@@ -915,11 +926,13 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
             }
         }
 
+        @Override
         public void windowIconified(WindowEvent e) {
             setPaintAllOnExpose(true);
         }
 
         // On a dispose we chuck everything.
+        @Override
         public void windowClosed(WindowEvent e) {
             // Make sure we're not showing.
             synchronized(BufferStrategyPaintManager.this) {
@@ -934,18 +947,23 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
             dispose();
         }
 
+        @Override
         public void windowOpened(WindowEvent e) {
         }
 
+        @Override
         public void windowClosing(WindowEvent e) {
         }
 
+        @Override
         public void windowDeiconified(WindowEvent e) {
         }
 
+        @Override
         public void windowActivated(WindowEvent e) {
         }
 
+        @Override
         public void windowDeactivated(WindowEvent e) {
         }
     }

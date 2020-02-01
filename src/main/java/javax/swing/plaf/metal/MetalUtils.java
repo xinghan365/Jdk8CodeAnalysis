@@ -271,6 +271,7 @@ class MetalUtils {
             }
         }
 
+        @Override
         protected void paintToImage(Component c, Image image, Graphics g,
                                     int w, int h, Object[] args) {
             Graphics2D g2 = (Graphics2D)g;
@@ -295,6 +296,7 @@ class MetalUtils {
             }
         }
 
+        @Override
         protected void paintImage(Component c, Graphics g,
                                   int x, int y, int imageW, int imageH,
                                   Image image, Object[] args) {
@@ -420,6 +422,7 @@ class MetalUtils {
             this.factor = (max - min) / 255f;
         }
 
+        @Override
         public int filterRGB(int x, int y, int rgb) {
             // Coefficients are from the sRGB color space:
             int gray = Math.min(255, (int)(((0.2125f * ((rgb >> 16) & 0xFF)) +
@@ -440,6 +443,7 @@ class MetalUtils {
             canFilterIndexColorModel = true;
         }
 
+        @Override
         public int filterRGB(int x, int y, int rgb) {
             int r = ((rgb >> 16) & 0xff);
             int g = ((rgb >> 8) & 0xff);

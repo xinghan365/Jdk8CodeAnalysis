@@ -301,6 +301,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see    #setDefaultCloseOperation
      * @see    java.awt.Window#processWindowEvent
      */
+    @Override
     protected void processWindowEvent(final WindowEvent e) {
         super.processWindowEvent(e);
 
@@ -466,6 +467,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setTransferHandler
      * @since 1.6
      */
+    @Override
     public TransferHandler getTransferHandler() {
         return transferHandler;
     }
@@ -476,6 +478,7 @@ public class JFrame  extends Frame implements WindowConstants,
      *
      * @param g the Graphics context in which to paint
      */
+    @Override
     public void update(Graphics g) {
         paint(g);
     }
@@ -561,6 +564,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index)
     {
         if(isRootPaneCheckingEnabled()) {
@@ -583,6 +587,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #add
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void remove(Component comp) {
         if (comp == rootPane) {
             super.remove(comp);
@@ -603,6 +608,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void setLayout(LayoutManager manager) {
         if(isRootPaneCheckingEnabled()) {
             getContentPane().setLayout(manager);
@@ -620,6 +626,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setRootPane
      * @see RootPaneContainer#getRootPane
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -657,6 +664,7 @@ public class JFrame  extends Frame implements WindowConstants,
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setIconImage(Image image) {
         super.setIconImage(image);
     }
@@ -668,6 +676,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setContentPane
      * @see RootPaneContainer#getContentPane
      */
+    @Override
     public Container getContentPane() {
         return getRootPane().getContentPane();
     }
@@ -694,6 +703,7 @@ public class JFrame  extends Frame implements WindowConstants,
      *     description: The client area of the frame where child
      *                  components are normally inserted.
      */
+    @Override
     public void setContentPane(Container contentPane) {
         getRootPane().setContentPane(contentPane);
     }
@@ -705,6 +715,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setLayeredPane
      * @see RootPaneContainer#getLayeredPane
      */
+    @Override
     public JLayeredPane getLayeredPane() {
         return getRootPane().getLayeredPane();
     }
@@ -723,6 +734,7 @@ public class JFrame  extends Frame implements WindowConstants,
      *     hidden: true
      *     description: The pane that holds the various frame layers.
      */
+    @Override
     public void setLayeredPane(JLayeredPane layeredPane) {
         getRootPane().setLayeredPane(layeredPane);
     }
@@ -734,6 +746,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see #setGlassPane
      * @see RootPaneContainer#getGlassPane
      */
+    @Override
     public Component getGlassPane() {
         return getRootPane().getGlassPane();
     }
@@ -750,6 +763,7 @@ public class JFrame  extends Frame implements WindowConstants,
      *     hidden: true
      *     description: A transparent pane used for menu rendering.
      */
+    @Override
     public void setGlassPane(Component glassPane) {
         getRootPane().setGlassPane(glassPane);
     }
@@ -759,6 +773,7 @@ public class JFrame  extends Frame implements WindowConstants,
      *
      * @since 1.6
      */
+    @Override
     public Graphics getGraphics() {
         JComponent.getGraphicsInvoked(this);
         return super.getGraphics();
@@ -777,6 +792,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @see       RepaintManager
      * @since     1.6
      */
+    @Override
     public void repaint(long time, int x, int y, int width, int height) {
         if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
             RepaintManager.currentManager(this).addDirtyRegion(
@@ -847,6 +863,7 @@ public class JFrame  extends Frame implements WindowConstants,
      *
      * @return  a string representation of this <code>JFrame</code>
      */
+    @Override
     protected String paramString() {
         String defaultCloseOperationString;
         if (defaultCloseOperation == HIDE_ON_CLOSE) {
@@ -857,7 +874,9 @@ public class JFrame  extends Frame implements WindowConstants,
             defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
         } else if (defaultCloseOperation == 3) {
             defaultCloseOperationString = "EXIT_ON_CLOSE";
-        } else defaultCloseOperationString = "";
+        } else {
+            defaultCloseOperationString = "";
+        }
         String rootPaneString = (rootPane != null ?
                                  rootPane.toString() : "");
         String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
@@ -887,6 +906,7 @@ public class JFrame  extends Frame implements WindowConstants,
      * @return an AccessibleJFrame that serves as the
      *         AccessibleContext of this JFrame
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJFrame();
@@ -909,6 +929,7 @@ public class JFrame  extends Frame implements WindowConstants,
          * @return the localized name of the object -- can be null if this
          * object does not have a name
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -928,6 +949,7 @@ public class JFrame  extends Frame implements WindowConstants,
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
 

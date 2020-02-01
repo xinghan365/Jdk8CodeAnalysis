@@ -106,6 +106,7 @@ public class CoderResult {
      *
      * @return  A descriptive string
      */
+    @Override
     public String toString() {
         String nm = names[type];
         return isError() ? nm + "[" + length + "]" : nm;
@@ -171,8 +172,9 @@ public class CoderResult {
      *          if the {@link #isError() isError} does not return <tt>true</tt>
      */
     public int length() {
-        if (!isError())
+        if (!isError()) {
             throw new UnsupportedOperationException();
+        }
         return length;
     }
 
@@ -198,8 +200,9 @@ public class CoderResult {
         protected abstract CoderResult create(int len);
 
         private synchronized CoderResult get(int len) {
-            if (len <= 0)
+            if (len <= 0) {
                 throw new IllegalArgumentException("Non-positive length");
+            }
             Integer k = new Integer(len);
             WeakReference<CoderResult> w;
             CoderResult e = null;
@@ -219,6 +222,7 @@ public class CoderResult {
 
     private static Cache malformedCache
         = new Cache() {
+                @Override
                 public CoderResult create(int len) {
                     return new CoderResult(CR_MALFORMED, len);
                 }};
@@ -238,6 +242,7 @@ public class CoderResult {
 
     private static Cache unmappableCache
         = new Cache() {
+                @Override
                 public CoderResult create(int len) {
                     return new CoderResult(CR_UNMAPPABLE, len);
                 }};

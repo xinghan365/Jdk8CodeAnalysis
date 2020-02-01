@@ -132,89 +132,107 @@ public class InitialDirContext extends InitialContext implements DirContext {
 // DirContext methods
 // Most Javadoc is deferred to the DirContext interface.
 
+    @Override
     public Attributes getAttributes(String name)
             throws NamingException {
         return getAttributes(name, null);
     }
 
+    @Override
     public Attributes getAttributes(String name, String[] attrIds)
             throws NamingException {
         return getURLOrDefaultInitDirCtx(name).getAttributes(name, attrIds);
     }
 
+    @Override
     public Attributes getAttributes(Name name)
             throws NamingException {
         return getAttributes(name, null);
     }
 
+    @Override
     public Attributes getAttributes(Name name, String[] attrIds)
             throws NamingException {
         return getURLOrDefaultInitDirCtx(name).getAttributes(name, attrIds);
     }
 
+    @Override
     public void modifyAttributes(String name, int mod_op, Attributes attrs)
             throws NamingException {
         getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mod_op, attrs);
     }
 
+    @Override
     public void modifyAttributes(Name name, int mod_op, Attributes attrs)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mod_op, attrs);
     }
 
+    @Override
     public void modifyAttributes(String name, ModificationItem[] mods)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mods);
     }
 
+    @Override
     public void modifyAttributes(Name name, ModificationItem[] mods)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).modifyAttributes(name, mods);
     }
 
+    @Override
     public void bind(String name, Object obj, Attributes attrs)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).bind(name, obj, attrs);
     }
 
+    @Override
     public void bind(Name name, Object obj, Attributes attrs)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).bind(name, obj, attrs);
     }
 
+    @Override
     public void rebind(String name, Object obj, Attributes attrs)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).rebind(name, obj, attrs);
     }
 
+    @Override
     public void rebind(Name name, Object obj, Attributes attrs)
             throws NamingException  {
         getURLOrDefaultInitDirCtx(name).rebind(name, obj, attrs);
     }
 
+    @Override
     public DirContext createSubcontext(String name, Attributes attrs)
             throws NamingException  {
         return getURLOrDefaultInitDirCtx(name).createSubcontext(name, attrs);
     }
 
+    @Override
     public DirContext createSubcontext(Name name, Attributes attrs)
             throws NamingException  {
         return getURLOrDefaultInitDirCtx(name).createSubcontext(name, attrs);
     }
 
+    @Override
     public DirContext getSchema(String name) throws NamingException {
         return getURLOrDefaultInitDirCtx(name).getSchema(name);
     }
 
+    @Override
     public DirContext getSchema(Name name) throws NamingException {
         return getURLOrDefaultInitDirCtx(name).getSchema(name);
     }
 
+    @Override
     public DirContext getSchemaClassDefinition(String name)
             throws NamingException {
         return getURLOrDefaultInitDirCtx(name).getSchemaClassDefinition(name);
     }
 
+    @Override
     public DirContext getSchemaClassDefinition(Name name)
             throws NamingException {
         return getURLOrDefaultInitDirCtx(name).getSchemaClassDefinition(name);
@@ -222,6 +240,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
 
 // -------------------- search operations
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(String name, Attributes matchingAttributes)
         throws NamingException
@@ -229,6 +248,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
         return getURLOrDefaultInitDirCtx(name).search(name, matchingAttributes);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(Name name, Attributes matchingAttributes)
         throws NamingException
@@ -236,6 +256,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
         return getURLOrDefaultInitDirCtx(name).search(name, matchingAttributes);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(String name,
                Attributes matchingAttributes,
@@ -247,6 +268,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
                                                       attributesToReturn);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(Name name,
                Attributes matchingAttributes,
@@ -258,6 +280,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
                                             attributesToReturn);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(String name,
                String filter,
@@ -267,6 +290,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
         return getURLOrDefaultInitDirCtx(name).search(name, filter, cons);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(Name name,
                String filter,
@@ -276,6 +300,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
         return getURLOrDefaultInitDirCtx(name).search(name, filter, cons);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(String name,
                String filterExpr,
@@ -287,6 +312,7 @@ public class InitialDirContext extends InitialContext implements DirContext {
                                                       filterArgs, cons);
     }
 
+    @Override
     public NamingEnumeration<SearchResult>
         search(Name name,
                String filterExpr,

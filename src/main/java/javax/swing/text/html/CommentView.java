@@ -48,6 +48,7 @@ class CommentView extends HiddenTagView {
         super(e);
     }
 
+    @Override
     protected Component createComponent() {
         Container host = getContainer();
         if (host != null && !((JTextComponent)host).isEditable()) {
@@ -70,6 +71,7 @@ class CommentView extends HiddenTagView {
         return ta;
     }
 
+    @Override
     void resetBorder() {
     }
 
@@ -77,6 +79,7 @@ class CommentView extends HiddenTagView {
      * This is subclassed to put the text on the Comment attribute of
      * the Element's AttributeSet.
      */
+    @Override
     void _updateModelFromText() {
         JTextComponent textC = getTextComponent();
         Document doc = getDocument();
@@ -96,10 +99,12 @@ class CommentView extends HiddenTagView {
         }
     }
 
+    @Override
     JTextComponent getTextComponent() {
         return (JTextComponent)getComponent();
     }
 
+    @Override
     String getRepresentedText() {
         AttributeSet as = getElement().getAttributes();
         if (as != null) {
@@ -120,12 +125,14 @@ class CommentView extends HiddenTagView {
             super(Color.black, 1);
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int width, int height) {
             super.paintBorder(c, g, x + commentPadding, y,
                               width - commentPaddingD, height);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             Insets retI = super.getBorderInsets(c, insets);
 
@@ -134,6 +141,7 @@ class CommentView extends HiddenTagView {
             return retI;
         }
 
+        @Override
         public boolean isBorderOpaque() {
             return false;
         }

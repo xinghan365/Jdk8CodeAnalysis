@@ -103,7 +103,9 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
     public RescaleOp (float[] scaleFactors, float[] offsets,
                       RenderingHints hints) {
         length = scaleFactors.length;
-        if (length > offsets.length) length = offsets.length;
+        if (length > offsets.length) {
+            length = offsets.length;
+        }
 
         this.scaleFactors = new float[length];
         this.offsets      = new float[length];
@@ -323,6 +325,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      *         <code>RescaleOp</code> do not meet the requirements
      *         stated in the class comments.
      */
+    @Override
     public final BufferedImage filter (BufferedImage src, BufferedImage dst) {
         ColorModel srcCM = src.getColorModel();
         ColorModel dstCM;
@@ -460,6 +463,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      *         <code>RescaleOp</code> do not meet the requirements
      *         stated in the class comments.
      */
+    @Override
     public final WritableRaster filter (Raster src, WritableRaster dst)  {
         int numBands = src.getNumBands();
         int width  = src.getWidth();
@@ -585,6 +589,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      * this is not a geometric operation, the bounding box does not
      * change.
      */
+    @Override
     public final Rectangle2D getBounds2D (BufferedImage src) {
          return getBounds2D(src.getRaster());
     }
@@ -596,6 +601,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      * @param src the rescaled destination <code>Raster</code>
      * @return the bounds of the specified <code>Raster</code>.
      */
+    @Override
     public final Rectangle2D getBounds2D (Raster src) {
         return src.getBounds();
     }
@@ -608,6 +614,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      *                  ColorModel of the source will be used.
      * @return the zeroed-destination image.
      */
+    @Override
     public BufferedImage createCompatibleDestImage (BufferedImage src,
                                                     ColorModel destCM) {
         BufferedImage image;
@@ -635,6 +642,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      * @param src       the source <code>Raster</code>
      * @return the zeroed-destination <code>Raster</code>.
      */
+    @Override
     public WritableRaster createCompatibleDestRaster (Raster src) {
         return src.createCompatibleWritableRaster(src.getWidth(), src.getHeight());
     }
@@ -648,6 +656,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      * @param dstPt the destination point or <code>null</code>
      * @return the location of the destination point.
      */
+    @Override
     public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
             dstPt = new Point2D.Float();
@@ -660,6 +669,7 @@ public class RescaleOp implements BufferedImageOp, RasterOp {
      * Returns the rendering hints for this op.
      * @return the rendering hints of this <code>RescaleOp</code>.
      */
+    @Override
     public final RenderingHints getRenderingHints() {
         return hints;
     }

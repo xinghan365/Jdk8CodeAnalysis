@@ -112,6 +112,7 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
     public BasicDesktopPaneUI() {
     }
 
+    @Override
     public void installUI(JComponent c)   {
         desktop = (JDesktopPane)c;
         installDefaults();
@@ -120,6 +121,7 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
         installKeyboardActions();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions();
         uninstallListeners();
@@ -258,6 +260,7 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
       SwingUtilities.replaceUIActionMap(desktop, null);
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {}
 
     @Override
@@ -295,6 +298,7 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
     }
 
     private class Handler implements PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String propertyName = evt.getPropertyName();
             if ("desktopManager" == propertyName) {
@@ -344,6 +348,7 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
             super(name);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JDesktopPane dp = (JDesktopPane)e.getSource();
             String key = getName();
@@ -605,6 +610,7 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
             }
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if (sender instanceof JDesktopPane) {
                 JDesktopPane dp = (JDesktopPane)sender;
@@ -635,11 +641,13 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
      * @since 1.3
      */
     protected class OpenAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JDesktopPane dp = (JDesktopPane)evt.getSource();
             SHARED_ACTION.setState(dp, Actions.RESTORE);
         }
 
+        @Override
         public boolean isEnabled() {
             return true;
         }
@@ -649,11 +657,13 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
      * Handles closing an internal frame.
      */
     protected class CloseAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JDesktopPane dp = (JDesktopPane)evt.getSource();
             SHARED_ACTION.setState(dp, Actions.CLOSE);
         }
 
+        @Override
         public boolean isEnabled() {
             JInternalFrame iFrame = desktop.getSelectedFrame();
             if (iFrame != null) {
@@ -667,11 +677,13 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
      * Handles minimizing an internal frame.
      */
     protected class MinimizeAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JDesktopPane dp = (JDesktopPane)evt.getSource();
             SHARED_ACTION.setState(dp, Actions.MINIMIZE);
         }
 
+        @Override
         public boolean isEnabled() {
             JInternalFrame iFrame = desktop.getSelectedFrame();
             if (iFrame != null) {
@@ -685,11 +697,13 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
      * Handles maximizing an internal frame.
      */
     protected class MaximizeAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JDesktopPane dp = (JDesktopPane)evt.getSource();
             SHARED_ACTION.setState(dp, Actions.MAXIMIZE);
         }
 
+        @Override
         public boolean isEnabled() {
             JInternalFrame iFrame = desktop.getSelectedFrame();
             if (iFrame != null) {
@@ -703,11 +717,13 @@ public class BasicDesktopPaneUI extends DesktopPaneUI {
      * Handles navigating to the next internal frame.
      */
     protected class NavigateAction extends AbstractAction {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             JDesktopPane dp = (JDesktopPane)evt.getSource();
             dp.selectFrame(true);
         }
 
+        @Override
         public boolean isEnabled() {
             return true;
         }

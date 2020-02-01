@@ -195,6 +195,7 @@ public final class SheetCollate extends EnumSyntax
     /**
      * Returns the string table for class SheetCollate.
      */
+    @Override
     protected String[] getStringTable() {
         return myStringTable;
     }
@@ -202,6 +203,7 @@ public final class SheetCollate extends EnumSyntax
     /**
      * Returns the enumeration value table for class SheetCollate.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return myEnumValueTable;
     }
@@ -215,6 +217,7 @@ public final class SheetCollate extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return SheetCollate.class;
     }
@@ -227,6 +230,7 @@ public final class SheetCollate extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "sheet-collate";
     }

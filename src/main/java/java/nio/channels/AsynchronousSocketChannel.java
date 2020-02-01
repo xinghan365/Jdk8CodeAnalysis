@@ -683,5 +683,6 @@ public abstract class AsynchronousSocketChannel
      * @throws  ClosedChannelException     {@inheritDoc}
      * @throws  IOException                {@inheritDoc}
      */
+    @Override
     public abstract SocketAddress getLocalAddress() throws IOException;
 }

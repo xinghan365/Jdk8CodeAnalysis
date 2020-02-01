@@ -341,6 +341,7 @@ public class MBeanServerNotificationFilter extends NotificationFilterSupport {
      *
      * @exception IllegalArgumentException  if null parameter
      */
+    @Override
     public synchronized boolean isNotificationEnabled(Notification notif)
         throws IllegalArgumentException {
 

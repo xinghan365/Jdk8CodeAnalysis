@@ -524,9 +524,10 @@ class WindowsPreferences extends AbstractPreferences{
         if (windowsAbsolutePath.length <= MAX_WINDOWS_PATH_LENGTH + 1) {
             int[] result = WindowsRegOpenKey1(rootNativeHandle(),
                                               windowsAbsolutePath, mask1);
-            if (result[ERROR_CODE] == ERROR_ACCESS_DENIED && mask2 != mask1)
+            if (result[ERROR_CODE] == ERROR_ACCESS_DENIED && mask2 != mask1) {
                 result = WindowsRegOpenKey1(rootNativeHandle(),
                                             windowsAbsolutePath, mask2);
+            }
 
             if (result[ERROR_CODE] != ERROR_SUCCESS) {
                 logger().warning("Could not open windows registry node " +
@@ -570,9 +571,10 @@ class WindowsPreferences extends AbstractPreferences{
         if (windowsRelativePath.length <= MAX_WINDOWS_PATH_LENGTH + 1 ) {
             int[] result = WindowsRegOpenKey1(nativeHandle,
                                               windowsRelativePath, mask1);
-            if (result[ERROR_CODE] == ERROR_ACCESS_DENIED && mask2 != mask1)
+            if (result[ERROR_CODE] == ERROR_ACCESS_DENIED && mask2 != mask1) {
                 result = WindowsRegOpenKey1(nativeHandle,
                                             windowsRelativePath, mask2);
+            }
 
             if (result[ERROR_CODE] != ERROR_SUCCESS) {
                 logger().warning("Could not open windows registry node " +
@@ -639,6 +641,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Logs a warning, if Windows registry is unavailable.
      * @see #getSpi(String)
      */
+    @Override
     protected void putSpi(String javaName, String value) {
         int nativeHandle = openKey(KEY_SET_VALUE);
         if (nativeHandle == NULL_NATIVE_HANDLE) {
@@ -667,6 +670,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Logs a warning, if Windows registry is unavailable.
      * @see #putSpi(String, String)
      */
+    @Override
     protected String getSpi(String javaName) {
     int nativeHandle = openKey(KEY_QUERY_VALUE);
     if (nativeHandle == NULL_NATIVE_HANDLE) {
@@ -689,6 +693,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Logs a warning, if Windows registry is unavailable or key has already
      * been deleted.
      */
+    @Override
     protected void removeSpi(String key) {
         int nativeHandle = openKey(KEY_SET_VALUE);
         if (nativeHandle == NULL_NATIVE_HANDLE) {
@@ -714,6 +719,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Throws a BackingStoreException and logs a warning, if
      * Windows registry is unavailable.
      */
+    @Override
     protected String[] keysSpi() throws BackingStoreException{
         // Find out the number of values
         int nativeHandle = openKey(KEY_QUERY_VALUE);
@@ -766,6 +772,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Throws a BackingStoreException and logs a warning message,
      * if Windows registry is not available.
      */
+    @Override
     protected String[] childrenNamesSpi() throws BackingStoreException {
         // Open key
         int nativeHandle = openKey(KEY_ENUMERATE_SUB_KEYS | KEY_QUERY_VALUE);
@@ -820,6 +827,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Throws a BackingStoreException and logs a warning message if Windows
      * registry is not available.
      */
+    @Override
     public void flush() throws BackingStoreException{
 
         if (isRemoved()) {
@@ -858,9 +866,11 @@ class WindowsPreferences extends AbstractPreferences{
      * Flushes Windows registry changes to disk. Equivalent to flush().
      * @see flush()
      */
+    @Override
     public void sync() throws BackingStoreException{
-        if (isRemoved())
+        if (isRemoved()) {
             throw new IllegalStateException("Node has been removed");
+        }
         flush();
     }
 
@@ -871,6 +881,7 @@ class WindowsPreferences extends AbstractPreferences{
      * if it does not exist.
      * Logs a warning message, if Windows Registry is unavailable.
      */
+    @Override
     protected AbstractPreferences childSpi(String name) {
         return new WindowsPreferences(this, name);
     }
@@ -881,6 +892,7 @@ class WindowsPreferences extends AbstractPreferences{
      * Throws a BackingStoreException and logs a warning, if Windows registry
      * is not available.
      */
+    @Override
     public void removeNodeSpi() throws BackingStoreException {
         int parentNativeHandle =
                 ((WindowsPreferences)parent()).openKey(DELETE);
@@ -1140,6 +1152,7 @@ class WindowsPreferences extends AbstractPreferences{
    /**
     * Empty, never used implementation  of AbstractPreferences.flushSpi().
     */
+    @Override
     protected void flushSpi() throws BackingStoreException {
         // assert false;
     }
@@ -1147,6 +1160,7 @@ class WindowsPreferences extends AbstractPreferences{
    /**
     * Empty, never used implementation  of AbstractPreferences.flushSpi().
     */
+    @Override
     protected void syncSpi() throws BackingStoreException {
         // assert false;
     }

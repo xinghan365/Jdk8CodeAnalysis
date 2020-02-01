@@ -50,6 +50,7 @@ import javax.swing.*;
 public abstract class AbstractColorChooserPanel extends JPanel {
 
     private final PropertyChangeListener enabledListener = new PropertyChangeListener() {
+        @Override
         public void propertyChange(PropertyChangeEvent event) {
             Object value = event.getNewValue();
             if (value instanceof Boolean) {
@@ -201,6 +202,7 @@ public abstract class AbstractColorChooserPanel extends JPanel {
      * Draws the panel.
      * @param g  the <code>Graphics</code> object
      */
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
     }

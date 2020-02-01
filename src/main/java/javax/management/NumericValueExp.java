@@ -150,18 +150,22 @@ class NumericValueExp extends QueryEval implements ValueExp {
     /**
      * Returns the string representing the object
      */
+    @Override
     public String toString()  {
-      if (val == null)
-        return "null";
+      if (val == null) {
+          return "null";
+      }
       if (val instanceof Long || val instanceof Integer)
       {
         return Long.toString(val.longValue());
       }
       double d = val.doubleValue();
-      if (Double.isInfinite(d))
+      if (Double.isInfinite(d)) {
           return (d > 0) ? "(1.0 / 0.0)" : "(-1.0 / 0.0)";
-      if (Double.isNaN(d))
+      }
+      if (Double.isNaN(d)) {
           return "(0.0 / 0.0)";
+      }
       return Double.toString(d);
     }
 
@@ -177,6 +181,7 @@ class NumericValueExp extends QueryEval implements ValueExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public ValueExp apply(ObjectName name)
             throws BadStringOperationException, BadBinaryOpValueExpException,
                    BadAttributeValueExpException, InvalidApplicationException {
@@ -252,6 +257,7 @@ class NumericValueExp extends QueryEval implements ValueExp {
       }
     }
 
+    @Override
     @Deprecated
     public void setMBeanServer(MBeanServer s) {
         super.setMBeanServer(s);

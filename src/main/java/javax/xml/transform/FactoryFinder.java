@@ -217,7 +217,9 @@ class FactoryFinder {
             }
         }
         catch (SecurityException se) {
-            if (debug) se.printStackTrace();
+            if (debug) {
+                se.printStackTrace();
+            }
         }
 
         // try to read from $java.home/lib/jaxp.properties
@@ -244,7 +246,9 @@ class FactoryFinder {
             }
         }
         catch (Exception ex) {
-            if (debug) ex.printStackTrace();
+            if (debug) {
+                ex.printStackTrace();
+            }
         }
 
         // Try Jar Service Provider Mechanism
@@ -273,6 +277,7 @@ class FactoryFinder {
     {
       try {
             return AccessController.doPrivileged(new PrivilegedAction<T>() {
+                @Override
                 public T run() {
                     final ServiceLoader<T> serviceLoader = ServiceLoader.load(type);
                     final Iterator<T> iterator = serviceLoader.iterator();

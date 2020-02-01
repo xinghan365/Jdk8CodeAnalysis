@@ -961,6 +961,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #paintComponent
      * @see javax.swing.plaf.ComponentUI
      */
+    @Override
     public void update(Graphics g) {
         paint(g);
     }
@@ -991,6 +992,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #getComponentGraphics
      * @see #repaint
      */
+    @Override
     public void paint(Graphics g) {
         boolean shouldClearPaintFlags = false;
 
@@ -1119,14 +1121,18 @@ public abstract class JComponent extends Container implements Serializable,
             parent.getParent()) {
             if(parent instanceof JComponent) {
                 jparent = (JComponent) parent;
-                if(jparent.getFlag(ANCESTOR_USING_BUFFER))
-                  setFlag(ANCESTOR_USING_BUFFER, true);
-                if(jparent.getFlag(IS_PAINTING_TILE))
-                  setFlag(IS_PAINTING_TILE, true);
-                if(jparent.getFlag(IS_PRINTING))
-                  setFlag(IS_PRINTING, true);
-                if(jparent.getFlag(IS_PRINTING_ALL))
-                  setFlag(IS_PRINTING_ALL, true);
+                if(jparent.getFlag(ANCESTOR_USING_BUFFER)) {
+                    setFlag(ANCESTOR_USING_BUFFER, true);
+                }
+                if(jparent.getFlag(IS_PAINTING_TILE)) {
+                    setFlag(IS_PAINTING_TILE, true);
+                }
+                if(jparent.getFlag(IS_PRINTING)) {
+                    setFlag(IS_PRINTING, true);
+                }
+                if(jparent.getFlag(IS_PRINTING_ALL)) {
+                    setFlag(IS_PRINTING_ALL, true);
+                }
                 break;
             }
         }
@@ -1142,6 +1148,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #printBorder
      * @see #printChildren
      */
+    @Override
     public void printAll(Graphics g) {
         setFlag(IS_PRINTING_ALL, true);
         try {
@@ -1195,6 +1202,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #printChildren
      * @see #isPaintingForPrint
      */
+    @Override
     public void print(Graphics g) {
         setFlag(IS_PRINTING, true);
         firePropertyChange("paintingForPrint", false, true);
@@ -1474,6 +1482,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.Component#requestFocusInWindow(boolean)
      * @since 1.4
      */
+    @Override
     public void requestFocus() {
         super.requestFocus();
     }
@@ -1500,6 +1509,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.Component#requestFocusInWindow(boolean)
      * @since 1.4
      */
+    @Override
     public boolean requestFocus(boolean temporary) {
         return super.requestFocus(temporary);
     }
@@ -1521,6 +1531,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.Component#requestFocusInWindow(boolean)
      * @since 1.4
      */
+    @Override
     public boolean requestFocusInWindow() {
         return super.requestFocusInWindow();
     }
@@ -1543,6 +1554,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.Component#requestFocusInWindow(boolean)
      * @since 1.4
      */
+    @Override
     protected boolean requestFocusInWindow(boolean temporary) {
         return super.requestFocusInWindow(temporary);
     }
@@ -1622,6 +1634,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @throws NullPointerException if <code>font</code> is null
      * @since 1.5
      */
+    @Override
     public FontMetrics getFontMetrics(Font font) {
         return SwingUtilities2.getFontMetrics(this, font);
     }
@@ -1636,6 +1649,7 @@ public abstract class JComponent extends Container implements Serializable,
      *       bound: true
      * description: The preferred size of the component.
      */
+    @Override
     public void setPreferredSize(Dimension preferredSize) {
         super.setPreferredSize(preferredSize);
     }
@@ -1652,6 +1666,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #setPreferredSize
      * @see ComponentUI
      */
+    @Override
     @Transient
     public Dimension getPreferredSize() {
         if (isPreferredSizeSet()) {
@@ -1679,6 +1694,7 @@ public abstract class JComponent extends Container implements Serializable,
      *       bound: true
      * description: The maximum size of the component.
      */
+    @Override
     public void setMaximumSize(Dimension maximumSize) {
         super.setMaximumSize(maximumSize);
     }
@@ -1694,6 +1710,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #setMaximumSize
      * @see ComponentUI
      */
+    @Override
     @Transient
     public Dimension getMaximumSize() {
         if (isMaximumSizeSet()) {
@@ -1720,6 +1737,7 @@ public abstract class JComponent extends Container implements Serializable,
      *       bound: true
      * description: The minimum size of the component.
      */
+    @Override
     public void setMinimumSize(Dimension minimumSize) {
         super.setMinimumSize(minimumSize);
     }
@@ -1734,6 +1752,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #setMinimumSize
      * @see ComponentUI
      */
+    @Override
     @Transient
     public Dimension getMinimumSize() {
         if (isMinimumSizeSet()) {
@@ -1754,6 +1773,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.Component#contains(int, int)
      * @see ComponentUI
      */
+    @Override
     public boolean contains(int x, int y) {
         return (ui != null) ? ui.contains(this, x, y) : super.contains(x, y);
     }
@@ -1821,6 +1841,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @return the value of the insets property
      * @see #setBorder
      */
+    @Override
     public Insets getInsets() {
         if (border != null) {
             return border.getBorderInsets(this);
@@ -1870,6 +1891,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #setAlignmentY
      * @see java.awt.Component#getAlignmentY
      */
+    @Override
     public float getAlignmentY() {
         if (isAlignmentYSet) {
             return alignmentY;
@@ -1899,6 +1921,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #setAlignmentX
      * @see java.awt.Component#getAlignmentX
      */
+    @Override
     public float getAlignmentX() {
         if (isAlignmentXSet) {
             return alignmentX;
@@ -1953,6 +1976,7 @@ public abstract class JComponent extends Container implements Serializable,
      * then invoke operations on that object to draw on the component.
      * @return this components graphics context
      */
+    @Override
     public Graphics getGraphics() {
         if (DEBUG_GRAPHICS_LOADED && shouldDebugGraphics() != 0) {
             DebugGraphics graphics = new DebugGraphics(super.getGraphics(),
@@ -2557,6 +2581,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.FontMetrics
      * @since 1.6
      */
+    @Override
     public int getBaseline(int width, int height) {
         // check size.
         super.getBaseline(width, height);
@@ -2587,6 +2612,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public BaselineResizeBehavior getBaselineResizeBehavior() {
         if (ui != null) {
             return ui.getBaselineResizeBehavior(this);
@@ -2639,6 +2665,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @beaninfo
      *    attribute: visualUpdate true
      */
+    @Override
     public void setVisible(boolean aFlag) {
         if (aFlag != isVisible()) {
             super.setVisible(aFlag);
@@ -2675,6 +2702,7 @@ public abstract class JComponent extends Container implements Serializable,
      *    attribute: visualUpdate true
      *  description: The enabled state of the component.
      */
+    @Override
     public void setEnabled(boolean enabled) {
         boolean oldEnabled = isEnabled();
         super.setEnabled(enabled);
@@ -2698,6 +2726,7 @@ public abstract class JComponent extends Container implements Serializable,
      *    attribute: visualUpdate true
      *  description: The foreground color of the component.
      */
+    @Override
     public void setForeground(Color fg) {
         Color oldFg = getForeground();
         super.setForeground(fg);
@@ -2728,6 +2757,7 @@ public abstract class JComponent extends Container implements Serializable,
      *    attribute: visualUpdate true
      *  description: The background color of the component.
      */
+    @Override
     public void setBackground(Color bg) {
         Color oldBg = getBackground();
         super.setBackground(bg);
@@ -2749,6 +2779,7 @@ public abstract class JComponent extends Container implements Serializable,
      *    attribute: visualUpdate true
      *  description: The font for the component.
      */
+    @Override
     public void setFont(Font font) {
         Font oldFont = getFont();
         super.setFont(font);
@@ -2824,6 +2855,7 @@ public abstract class JComponent extends Container implements Serializable,
     }
 
     /** Overrides <code>processKeyEvent</code> to process events. **/
+    @Override
     protected void processKeyEvent(KeyEvent e) {
       boolean result;
       boolean shouldProcessKey;
@@ -2926,8 +2958,9 @@ public abstract class JComponent extends Container implements Serializable,
       if(ksE != null && processKeyBinding(ksE, e, WHEN_FOCUSED, pressed)) {
           return true;
       }
-      if(processKeyBinding(ks, e, WHEN_FOCUSED, pressed))
+      if(processKeyBinding(ks, e, WHEN_FOCUSED, pressed)) {
           return true;
+      }
 
       /* We have no key binding. Let's try the path from our parent to the
        * window excluded. We store the path components so we can avoid
@@ -2938,11 +2971,13 @@ public abstract class JComponent extends Container implements Serializable,
              !(parent instanceof Applet)) {
           if(parent instanceof JComponent) {
               if(ksE != null && ((JComponent)parent).processKeyBinding(ksE, e,
-                               WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, pressed))
+                               WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, pressed)) {
                   return true;
+              }
               if(((JComponent)parent).processKeyBinding(ks, e,
-                               WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, pressed))
+                               WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, pressed)) {
                   return true;
+              }
           }
           // This is done so that the children of a JInternalFrame are
           // given precedence for WHEN_IN_FOCUSED_WINDOW bindings before
@@ -3240,6 +3275,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #setTransferHandler
      * @since 1.4
      */
+    @Override
     public TransferHandler getTransferHandler() {
         return (TransferHandler)getClientProperty(JComponent_TRANSFER_HANDLER);
     }
@@ -3317,6 +3353,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see         java.awt.Component#processMouseEvent
      * @since       1.5
      */
+    @Override
     protected void processMouseEvent(MouseEvent e) {
         if (autoscrolls && e.getID() == MouseEvent.MOUSE_RELEASED) {
             Autoscroller.stop(this);
@@ -3330,6 +3367,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @param e the <code>MouseEvent</code>
      * @see MouseEvent
      */
+    @Override
     protected void processMouseMotionEvent(MouseEvent e) {
         boolean dispatch = true;
         if (autoscrolls && e.getID() == MouseEvent.MOUSE_DRAGGED) {
@@ -3390,6 +3428,7 @@ public abstract class JComponent extends Container implements Serializable,
             this.command = command;
         }
 
+        @Override
         public Object getValue(String key) {
             if (key != null) {
                 if (key.equals(Action.ACTION_COMMAND_KEY)) {
@@ -3405,6 +3444,7 @@ public abstract class JComponent extends Container implements Serializable,
             return null;
         }
 
+        @Override
         public boolean isEnabled() {
             if (actionListener == null) {
                 // This keeps the old semantics where
@@ -3420,6 +3460,7 @@ public abstract class JComponent extends Container implements Serializable,
             return action.isEnabled();
         }
 
+        @Override
         public void actionPerformed(ActionEvent ae) {
             if (actionListener != null) {
                 actionListener.actionPerformed(ae);
@@ -3427,14 +3468,18 @@ public abstract class JComponent extends Container implements Serializable,
         }
 
         // We don't allow any values to be added.
+        @Override
         public void putValue(String key, Object value) {}
 
         // Does nothing, our enabledness is determiend from our asociated
         // action.
+        @Override
         public void setEnabled(boolean b) { }
 
+        @Override
         public void addPropertyChangeListener
                     (PropertyChangeListener listener) {}
+        @Override
         public void removePropertyChangeListener
                           (PropertyChangeListener listener) {}
     }
@@ -3557,6 +3602,7 @@ public abstract class JComponent extends Container implements Serializable,
 
     static final sun.awt.RequestFocusController focusController =
         new sun.awt.RequestFocusController() {
+            @Override
             public boolean acceptRequestFocus(Component from, Component to,
                                               boolean temporary, boolean focusedWindowChangeAllowed,
                                               sun.awt.CausedFocusEvent.Cause cause)
@@ -3617,6 +3663,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @deprecated As of JDK version 1.1,
      * replaced by <code>java.awt.Component.setEnabled(boolean)</code>.
      */
+    @Override
     @Deprecated
     public void enable() {
         if (isEnabled() != true) {
@@ -3633,6 +3680,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @deprecated As of JDK version 1.1,
      * replaced by <code>java.awt.Component.setEnabled(boolean)</code>.
      */
+    @Override
     @Deprecated
     public void disable() {
         if (isEnabled() != false) {
@@ -3691,6 +3739,7 @@ public abstract class JComponent extends Container implements Serializable,
          */
         protected class AccessibleContainerHandler
             implements ContainerListener {
+            @Override
             public void componentAdded(ContainerEvent e) {
                 Component c = e.getChild();
                 if (c != null && c instanceof Accessible) {
@@ -3699,6 +3748,7 @@ public abstract class JComponent extends Container implements Serializable,
                         null, c.getAccessibleContext());
                 }
             }
+            @Override
             public void componentRemoved(ContainerEvent e) {
                 Component c = e.getChild();
                 if (c != null && c instanceof Accessible) {
@@ -3715,6 +3765,7 @@ public abstract class JComponent extends Container implements Serializable,
          * @since 1.3
          */
         protected class AccessibleFocusHandler implements FocusListener {
+           @Override
            public void focusGained(FocusEvent event) {
                if (accessibleContext != null) {
                     accessibleContext.firePropertyChange(
@@ -3722,6 +3773,7 @@ public abstract class JComponent extends Container implements Serializable,
                         null, AccessibleState.FOCUSED);
                 }
             }
+            @Override
             public void focusLost(FocusEvent event) {
                 if (accessibleContext != null) {
                     accessibleContext.firePropertyChange(
@@ -3737,6 +3789,7 @@ public abstract class JComponent extends Container implements Serializable,
          *
          * @param listener  the PropertyChangeListener to be added
          */
+        @Override
         public void addPropertyChangeListener(PropertyChangeListener listener) {
             super.addPropertyChangeListener(listener);
         }
@@ -3748,6 +3801,7 @@ public abstract class JComponent extends Container implements Serializable,
          *
          * @param listener  the PropertyChangeListener to be removed
          */
+        @Override
         public void removePropertyChangeListener(PropertyChangeListener listener) {
             super.removePropertyChangeListener(listener);
         }
@@ -3794,6 +3848,7 @@ public abstract class JComponent extends Container implements Serializable,
          *         object does not have a name
          * @see AccessibleContext#setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             String name = accessibleName;
 
@@ -3838,6 +3893,7 @@ public abstract class JComponent extends Container implements Serializable,
          * this object does not have a description
          * @see AccessibleContext#setAccessibleDescription
          */
+        @Override
         public String getAccessibleDescription() {
             String description = accessibleDescription;
 
@@ -3887,6 +3943,7 @@ public abstract class JComponent extends Container implements Serializable,
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SWING_COMPONENT;
         }
@@ -3898,6 +3955,7 @@ public abstract class JComponent extends Container implements Serializable,
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (JComponent.this.isOpaque()) {
@@ -3913,6 +3971,7 @@ public abstract class JComponent extends Container implements Serializable,
          *
          * @return the number of accessible children in the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return super.getAccessibleChildrenCount();
         }
@@ -3923,6 +3982,7 @@ public abstract class JComponent extends Container implements Serializable,
          * @param i zero-based index of child
          * @return the nth Accessible child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             return super.getAccessibleChild(i);
         }
@@ -3945,6 +4005,7 @@ public abstract class JComponent extends Container implements Serializable,
          * otherwise, null
          * @since 1.4
          */
+        @Override
         public String getToolTipText() {
             return JComponent.this.getToolTipText();
         }
@@ -3956,6 +4017,7 @@ public abstract class JComponent extends Container implements Serializable,
          * otherwise, null
          * @since 1.4
          */
+        @Override
         public String getTitledBorderText() {
             Border border = JComponent.this.getBorder();
             if (border instanceof TitledBorder) {
@@ -3973,6 +4035,7 @@ public abstract class JComponent extends Container implements Serializable,
          * @see AccessibleKeyBinding
          * @since 1.4
          */
+        @Override
         public AccessibleKeyBinding getAccessibleKeyBinding() {
             // Try to get the linked label's mnemonic if it exists
             Object o = getClientProperty(JLabel.LABELED_BY_PROPERTY);
@@ -3980,8 +4043,9 @@ public abstract class JComponent extends Container implements Serializable,
                 AccessibleContext ac = ((Accessible) o).getAccessibleContext();
                 if (ac != null){
                     AccessibleComponent comp = ac.getAccessibleComponent();
-                    if (! (comp instanceof AccessibleExtendedComponent))
+                    if (! (comp instanceof AccessibleExtendedComponent)) {
                         return null;
+                    }
                     return ((AccessibleExtendedComponent)comp).getAccessibleKeyBinding();
                 }
             }
@@ -4162,6 +4226,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @beaninfo
      *       bound: true
      */
+    @Override
     public void
         setFocusTraversalKeys(int id, Set<? extends AWTKeyStroke> keystrokes)
     {
@@ -4202,6 +4267,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @param h  the new height
      * @see java.awt.Component#setBounds
      */
+    @Override
     @Deprecated
     public void reshape(int x, int y, int w, int h) {
         super.reshape(x, y, w, h);
@@ -4221,6 +4287,7 @@ public abstract class JComponent extends Container implements Serializable,
      *          return a newly created <code>Rectangle</code> with this
      *          component's bounds
      */
+    @Override
     public Rectangle getBounds(Rectangle rv) {
         if (rv == null) {
             return new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -4243,6 +4310,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @param rv the return value, modified to the component's size
      * @return <code>rv</code>
      */
+    @Override
     public Dimension getSize(Dimension rv) {
         if (rv == null) {
             return new Dimension(getWidth(), getHeight());
@@ -4265,6 +4333,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @param rv the return value, modified to the component's location
      * @return <code>rv</code>
      */
+    @Override
     public Point getLocation(Point rv) {
         if (rv == null) {
             return new Point(getX(), getY());
@@ -4285,6 +4354,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @return the current x coordinate of the component's origin
      */
+    @Override
     public int getX() { return super.getX(); }
 
 
@@ -4297,6 +4367,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @return the current y coordinate of the component's origin
      */
+    @Override
     public int getY() { return super.getY(); }
 
 
@@ -4309,6 +4380,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @return the current width of this component
      */
+    @Override
     public int getWidth() { return super.getWidth(); }
 
 
@@ -4321,6 +4393,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @return the current height of this component
      */
+    @Override
     public int getHeight() { return super.getHeight(); }
 
     /**
@@ -4338,6 +4411,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @return true if this component is completely opaque
      * @see #setOpaque
      */
+    @Override
     public boolean isOpaque() {
         return getFlag(IS_OPAQUE);
     }
@@ -4486,6 +4560,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @param oldValue the property's previous value
      * @param newValue the property's new value
      */
+    @Override
     public void firePropertyChange(String propertyName,
                                    boolean oldValue, boolean newValue) {
         super.firePropertyChange(propertyName, oldValue, newValue);
@@ -4502,13 +4577,15 @@ public abstract class JComponent extends Container implements Serializable,
      * @param oldValue the property's previous value
      * @param newValue the property's new value
      */
+    @Override
     public void firePropertyChange(String propertyName,
-                                      int oldValue, int newValue) {
+                                   int oldValue, int newValue) {
         super.firePropertyChange(propertyName, oldValue, newValue);
     }
 
     // XXX This method is implemented as a workaround to a JLS issue with ambiguous
     // methods. This should be removed once 4758654 is resolved.
+    @Override
     public void firePropertyChange(String propertyName, char oldValue, char newValue) {
         super.firePropertyChange(propertyName, oldValue, newValue);
     }
@@ -4703,6 +4780,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #getVetoableChangeListeners
      * @see #getAncestorListeners
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         T[] result;
         if (listenerType == AncestorListener.class) {
@@ -4736,6 +4814,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @see #registerKeyboardAction
      */
+    @Override
     public void addNotify() {
         super.addNotify();
         firePropertyChange("ancestor", null, getParent());
@@ -4754,6 +4833,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @see #registerKeyboardAction
      */
+    @Override
     public void removeNotify() {
         super.removeNotify();
         // This isn't strictly correct.  The event shouldn't be
@@ -4788,6 +4868,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see java.awt.Component#isShowing
      * @see RepaintManager#addDirtyRegion
      */
+    @Override
     public void repaint(long tm, int x, int y, int width, int height) {
         RepaintManager.currentManager(SunToolkit.targetToAppContext(this))
                       .addDirtyRegion(this, x, y, width, height);
@@ -4834,6 +4915,7 @@ public abstract class JComponent extends Container implements Serializable,
      * @see #isValidateRoot
      * @see RepaintManager#addInvalidComponent
      */
+    @Override
     public void revalidate() {
         if (getParent() == null) {
             // Note: We don't bother invalidating here as once added
@@ -5066,7 +5148,9 @@ public abstract class JComponent extends Container implements Serializable,
                             Component[] children = c.getComponents();
                             int i = 0;
                             for (; i<children.length; i++) {
-                                if (children[i] == child) break;
+                                if (children[i] == child) {
+                                    break;
+                                }
                             }
                             switch (jc.getObscuredState(i,
                                             paintImmediatelyClip.x,
@@ -5330,6 +5414,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @return true if this component is double buffered, otherwise false
      */
+    @Override
     public boolean isDoubleBuffered() {
         return getFlag(IS_DOUBLE_BUFFERED);
     }
@@ -5405,6 +5490,7 @@ public abstract class JComponent extends Container implements Serializable,
          * the UI property of all of the copmonents with
          * <code>SwingUtilities.updateComponentTreeUI</code>.
          */
+        @Override
         public void validateObject() throws InvalidObjectException {
             try {
                 for (JComponent root : roots) {
@@ -5534,6 +5620,7 @@ public abstract class JComponent extends Container implements Serializable,
      *
      * @return  a string representation of this <code>JComponent</code>
      */
+    @Override
     protected String paramString() {
         String preferredSizeString = (isPreferredSizeSet() ?
                                       getPreferredSize().toString() : "");

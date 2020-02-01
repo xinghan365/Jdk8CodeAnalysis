@@ -235,6 +235,7 @@ public class BasicListUI extends ListUI
      *
      * @see #paintCell
      */
+    @Override
     public void paint(Graphics g, JComponent c) {
         Shape clip = g.getClip();
         paintImpl(g, c);
@@ -471,6 +472,7 @@ public class BasicListUI extends ListUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         int rowHeight = list.getFixedCellHeight();
@@ -513,6 +515,7 @@ public class BasicListUI extends ListUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -574,6 +577,7 @@ public class BasicListUI extends ListUI
      * @param c The JList component.
      * @return The total size of the list.
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         maybeUpdateLayoutState();
 
@@ -864,6 +868,7 @@ public class BasicListUI extends ListUI
      * @see #installListeners
      * @see #installKeyboardActions
      */
+    @Override
     public void installUI(JComponent c)
     {
         list = (JList)c;
@@ -893,6 +898,7 @@ public class BasicListUI extends ListUI
      * @see #uninstallKeyboardActions
      * @see #uninstallDefaults
      */
+    @Override
     public void uninstallUI(JComponent c)
     {
         uninstallListeners();
@@ -925,6 +931,7 @@ public class BasicListUI extends ListUI
      * {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
+    @Override
     public int locationToIndex(JList list, Point location) {
         maybeUpdateLayoutState();
         return convertLocationToModel(location.x, location.y);
@@ -934,6 +941,7 @@ public class BasicListUI extends ListUI
     /**
      * {@inheritDoc}
      */
+    @Override
     public Point indexToLocation(JList list, int index) {
         maybeUpdateLayoutState();
         Rectangle rect = getCellBounds(list, index, index);
@@ -948,6 +956,7 @@ public class BasicListUI extends ListUI
     /**
      * {@inheritDoc}
      */
+    @Override
     public Rectangle getCellBounds(JList list, int index1, int index2) {
         maybeUpdateLayoutState();
 
@@ -1498,30 +1507,37 @@ public class BasicListUI extends ListUI
      */
     public class MouseInputHandler implements MouseInputListener
     {
+        @Override
         public void mouseClicked(MouseEvent e) {
             getHandler().mouseClicked(e);
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             getHandler().mouseEntered(e);
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             getHandler().mouseExited(e);
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             getHandler().mousePressed(e);
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             getHandler().mouseDragged(e);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             getHandler().mouseMoved(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             getHandler().mouseReleased(e);
         }
@@ -1569,10 +1585,12 @@ public class BasicListUI extends ListUI
          * focus changes.
          */
 
+        @Override
         public void focusGained(FocusEvent e) {
             getHandler().focusGained(e);
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             getHandler().focusLost(e);
         }
@@ -1602,6 +1620,7 @@ public class BasicListUI extends ListUI
      */
     public class ListSelectionHandler implements ListSelectionListener
     {
+        @Override
         public void valueChanged(ListSelectionEvent e)
         {
             getHandler().valueChanged(e);
@@ -1661,17 +1680,20 @@ public class BasicListUI extends ListUI
      */
     public class ListDataHandler implements ListDataListener
     {
+        @Override
         public void intervalAdded(ListDataEvent e) {
             getHandler().intervalAdded(e);
         }
 
 
+        @Override
         public void intervalRemoved(ListDataEvent e)
         {
             getHandler().intervalRemoved(e);
         }
 
 
+        @Override
         public void contentsChanged(ListDataEvent e) {
             getHandler().contentsChanged(e);
         }
@@ -1727,6 +1749,7 @@ public class BasicListUI extends ListUI
      */
     public class PropertyChangeHandler implements PropertyChangeListener
     {
+        @Override
         public void propertyChange(PropertyChangeEvent e)
         {
             getHandler().propertyChange(e);
@@ -1832,6 +1855,7 @@ public class BasicListUI extends ListUI
         Actions(String name) {
             super(name);
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             String name = getName();
             JList list = (JList)e.getSource();
@@ -1973,6 +1997,7 @@ public class BasicListUI extends ListUI
             }
         }
 
+        @Override
         public boolean isEnabled(Object c) {
             Object name = getName();
             if (name == SELECT_PREVIOUS_COLUMN_CHANGE_LEAD ||
@@ -2366,6 +2391,7 @@ public class BasicListUI extends ListUI
          * key is pressed, then it is treated as the prefix with appropriate number
          * of the same letters followed by first typed another letter.
          */
+        @Override
         public void keyTyped(KeyEvent e) {
             JList src = (JList)e.getSource();
             ListModel model = src.getModel();
@@ -2423,6 +2449,7 @@ public class BasicListUI extends ListUI
          * Checks to see if the key event is a navigation key to prevent
          * dispatching these keys for the first letter navigation.
          */
+        @Override
         public void keyPressed(KeyEvent e) {
             if ( isNavigationKey(e) ) {
                 prefix = "";
@@ -2436,6 +2463,7 @@ public class BasicListUI extends ListUI
          * See the class description for {@link KeyEvent} for a definition of
          * a key released event.
          */
+        @Override
         public void keyReleased(KeyEvent e) {
         }
 
@@ -2457,6 +2485,7 @@ public class BasicListUI extends ListUI
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
 
@@ -2567,6 +2596,7 @@ public class BasicListUI extends ListUI
         //
         // ListDataListener
         //
+        @Override
         public void intervalAdded(ListDataEvent e) {
             updateLayoutStateNeeded = modelChanged;
 
@@ -2589,6 +2619,7 @@ public class BasicListUI extends ListUI
         }
 
 
+        @Override
         public void intervalRemoved(ListDataEvent e)
         {
             updateLayoutStateNeeded = modelChanged;
@@ -2610,6 +2641,7 @@ public class BasicListUI extends ListUI
         }
 
 
+        @Override
         public void contentsChanged(ListDataEvent e) {
             updateLayoutStateNeeded = modelChanged;
             redrawList();
@@ -2619,6 +2651,7 @@ public class BasicListUI extends ListUI
         //
         // ListSelectionListener
         //
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             maybeUpdateLayoutState();
 
@@ -2636,12 +2669,15 @@ public class BasicListUI extends ListUI
         //
         // MouseListener
         //
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
         }
 
@@ -2650,6 +2686,7 @@ public class BasicListUI extends ListUI
         // processed.
         private boolean dragPressDidSelection;
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, list)) {
                 return;
@@ -2741,6 +2778,7 @@ public class BasicListUI extends ListUI
             }
         }
 
+        @Override
         public void dragStarting(MouseEvent me) {
             if (BasicGraphicsUtils.isMenuShortcutKeyDown(me)) {
                 int row = SwingUtilities2.loc2IndexFileList(list, me.getPoint());
@@ -2748,6 +2786,7 @@ public class BasicListUI extends ListUI
             }
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, list)) {
                 return;
@@ -2776,9 +2815,11 @@ public class BasicListUI extends ListUI
             }
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (SwingUtilities2.shouldIgnore(e, list)) {
                 return;
@@ -2815,10 +2856,12 @@ public class BasicListUI extends ListUI
          * focus changes.
          */
 
+        @Override
         public void focusGained(FocusEvent e) {
             repaintCellFocus();
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             repaintCellFocus();
         }
@@ -2841,6 +2884,7 @@ public class BasicListUI extends ListUI
          * @return  The representation of the data to be transfered.
          *
          */
+        @Override
         protected Transferable createTransferable(JComponent c) {
             if (c instanceof JList) {
                 JList list = (JList) c;
@@ -2872,6 +2916,7 @@ public class BasicListUI extends ListUI
             return null;
         }
 
+        @Override
         public int getSourceActions(JComponent c) {
             return COPY;
         }

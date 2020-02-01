@@ -41,6 +41,7 @@ final class SerializationTester {
     static {
         try {
             stream = new ObjectOutputStream(new OutputStream() {
+                    @Override
                     public void write(int b) {}
                 });
         } catch (IOException cannotHappen) {

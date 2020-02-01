@@ -177,6 +177,7 @@ public class BoxView extends CompositeView {
      *   <code>null</code>to indicate no children are being added
      *   (useful to remove)
      */
+    @Override
     public void replace(int index, int length, View[] elems) {
         super.replace(index, length, elems);
 
@@ -234,6 +235,7 @@ public class BoxView extends CompositeView {
      * @see #changedUpdate
      * @since 1.3
      */
+    @Override
     protected void forwardUpdate(DocumentEvent.ElementChange ec,
                                  DocumentEvent e, Shape a, ViewFactory f) {
         boolean wasValid = isLayoutValid(majorAxis);
@@ -272,6 +274,7 @@ public class BoxView extends CompositeView {
      * @param width true if the width preference should change
      * @param height true if the height preference should change
      */
+    @Override
     public void preferenceChanged(View child, boolean width, boolean height) {
         boolean majorChanged = (majorAxis == X_AXIS) ? width : height;
         boolean minorChanged = (majorAxis == X_AXIS) ? height : width;
@@ -294,6 +297,7 @@ public class BoxView extends CompositeView {
      * @return the weight
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public int getResizeWeight(int axis) {
         checkRequests(axis);
         if (axis == majorAxis) {
@@ -393,6 +397,7 @@ public class BoxView extends CompositeView {
      * @param width the width &gt;= 0
      * @param height the height &gt;= 0
      */
+    @Override
     public void setSize(float width, float height) {
         layout(Math.max(0, (int)(width - getLeftInset() - getRightInset())),
                Math.max(0, (int)(height - getTopInset() - getBottomInset())));
@@ -409,6 +414,7 @@ public class BoxView extends CompositeView {
      * @param allocation the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape allocation) {
         Rectangle alloc = (allocation instanceof Rectangle) ?
                            (Rectangle)allocation : allocation.getBounds();
@@ -448,6 +454,7 @@ public class BoxView extends CompositeView {
      *          if <code>a</code> is <code>null</code>;
      *          or <code>null</code> if the layout is invalid
      */
+    @Override
     public Shape getChildAllocation(int index, Shape a) {
         if (a != null) {
             Shape ca = super.getChildAllocation(index, a);
@@ -476,6 +483,7 @@ public class BoxView extends CompositeView {
      *  not represent a valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         if (! isAllocationValid()) {
             Rectangle alloc = a.getBounds();
@@ -495,6 +503,7 @@ public class BoxView extends CompositeView {
      *  given point in the view &gt;= 0
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
         if (! isAllocationValid()) {
             Rectangle alloc = a.getBounds();
@@ -520,6 +529,7 @@ public class BoxView extends CompositeView {
      *   center of the view
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public float getAlignment(int axis) {
         checkRequests(axis);
         if (axis == majorAxis) {
@@ -541,6 +551,7 @@ public class BoxView extends CompositeView {
      *           the parent may choose to resize or break the view
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getPreferredSpan(int axis) {
         checkRequests(axis);
         float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
@@ -564,6 +575,7 @@ public class BoxView extends CompositeView {
      *           the parent may choose to resize or break the view
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getMinimumSpan(int axis) {
         checkRequests(axis);
         float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
@@ -587,6 +599,7 @@ public class BoxView extends CompositeView {
      *           the parent may choose to resize or break the view
      * @exception IllegalArgumentException for an invalid axis type
      */
+    @Override
     public float getMaximumSpan(int axis) {
         checkRequests(axis);
         float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
@@ -619,6 +632,7 @@ public class BoxView extends CompositeView {
      *   inside of the insets
      * @return true if the point lies before the region else false
      */
+    @Override
     protected boolean isBefore(int x, int y, Rectangle innerAlloc) {
         if (majorAxis == View.X_AXIS) {
             return (x < innerAlloc.x);
@@ -636,6 +650,7 @@ public class BoxView extends CompositeView {
      *   inside of the insets
      * @return true if the point lies after the region else false
      */
+    @Override
     protected boolean isAfter(int x, int y, Rectangle innerAlloc) {
         if (majorAxis == View.X_AXIS) {
             return (x > (innerAlloc.width + innerAlloc.x));
@@ -653,6 +668,7 @@ public class BoxView extends CompositeView {
      *   be changed to the child's allocation on exit
      * @return the view
      */
+    @Override
     protected View getViewAtPoint(int x, int y, Rectangle alloc) {
         int n = getViewCount();
         if (majorAxis == View.X_AXIS) {
@@ -691,6 +707,7 @@ public class BoxView extends CompositeView {
      *   allocate, &gt;= 0 &amp;&amp; &lt; getViewCount()
      * @param alloc the allocated region
      */
+    @Override
     protected void childAllocation(int index, Rectangle alloc) {
         alloc.x += getOffset(X_AXIS, index);
         alloc.y += getOffset(Y_AXIS, index);
@@ -1141,6 +1158,7 @@ public class BoxView extends CompositeView {
      *          <code>position</code> and <code>bias</code>
      *          are layed out in descending order; otherwise false
      */
+    @Override
     protected boolean flipEastAndWestAtEnds(int position,
                                             Position.Bias bias) {
         if(majorAxis == Y_AXIS) {

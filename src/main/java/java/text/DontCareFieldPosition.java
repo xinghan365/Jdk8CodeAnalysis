@@ -35,9 +35,11 @@ class DontCareFieldPosition extends FieldPosition {
     static final FieldPosition INSTANCE = new DontCareFieldPosition();
 
     private final Format.FieldDelegate noDelegate = new Format.FieldDelegate() {
+        @Override
         public void formatted(Format.Field attr, Object value, int start,
                               int end, StringBuffer buffer) {
         }
+        @Override
         public void formatted(int fieldID, Format.Field attr, Object value,
                               int start, int end, StringBuffer buffer) {
         }
@@ -47,6 +49,7 @@ class DontCareFieldPosition extends FieldPosition {
         super(0);
     }
 
+    @Override
     Format.FieldDelegate getFieldDelegate() {
         return noDelegate;
     }

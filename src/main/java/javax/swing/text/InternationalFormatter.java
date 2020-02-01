@@ -281,6 +281,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * @param ftf JFormattedTextField to format for, may be null indicating
      *            uninstall from current JFormattedTextField.
      */
+    @Override
     public void install(JFormattedTextField ftf) {
         super.install(ftf);
         updateMaskIfNecessary();
@@ -296,6 +297,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * @param value Value to convert
      * @return String representation of value
      */
+    @Override
     public String valueToString(Object value) throws ParseException {
         if (value == null) {
             return "";
@@ -316,6 +318,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * @return <code>Object</code> representation of text
      * @throws ParseException if there is an error in the conversion
      */
+    @Override
     public Object stringToValue(String text) throws ParseException {
         Object value = stringToValue(text, getFormat());
 
@@ -368,6 +371,7 @@ public class InternationalFormatter extends DefaultFormatter {
      *
      * @return copy of the DefaultFormatter
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         InternationalFormatter formatter = (InternationalFormatter)super.
                                            clone();
@@ -383,6 +387,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * If <code>getSupportsIncrement</code> returns true, this returns
      * two Actions suitable for incrementing/decrementing the value.
      */
+    @Override
     protected Action[] getActions() {
         if (getSupportsIncrement()) {
             return new Action[] { new IncrementAction("increment", 1),
@@ -573,6 +578,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * is implemented in terms of <code>isLiteral</code>, subclasses
      * may wish to provide different behavior.
      */
+    @Override
     boolean isNavigatable(int offset) {
         return !isLiteral(offset);
     }
@@ -580,6 +586,7 @@ public class InternationalFormatter extends DefaultFormatter {
     /**
      * Overriden to update the mask after invoking supers implementation.
      */
+    @Override
     void updateValue(Object value) {
         super.updateValue(value);
         updateMaskIfNecessary();
@@ -589,6 +596,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * Overriden to unconditionally allow the replace if
      * ignoreDocumentMutate is true.
      */
+    @Override
     void replace(DocumentFilter.FilterBypass fb, int offset,
                      int length, String text,
                      AttributeSet attrs) throws BadLocationException {
@@ -628,6 +636,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * is only text to remove, it is removed from the next non literal
      * index going backward.
      */
+    @Override
     boolean canReplace(ReplaceHolder rh) {
         if (!getAllowsInvalid()) {
             String text = rh.text;
@@ -643,7 +652,9 @@ public class InternationalFormatter extends DefaultFormatter {
                 boolean overflown = false;
 
                 for (int i = 0; i < rh.length; i++) {
-                    while (isLiteral(pos)) pos++;
+                    while (isLiteral(pos)) {
+                        pos++;
+                    }
                     if (pos >= string.length()) {
                         pos = textPos;
                         overflown = true;
@@ -685,6 +696,7 @@ public class InternationalFormatter extends DefaultFormatter {
      * As such, this invokes supers implementation and then invokes
      * <code>repositionCursor</code> to correctly reset the cursor.
      */
+    @Override
     boolean replace(ReplaceHolder rh) throws BadLocationException {
         int start = -1;
         int direction = 1;
@@ -838,7 +850,9 @@ public class InternationalFormatter extends DefaultFormatter {
             iterator.first();
             while (iterator.current() != CharacterIterator.DONE) {
                 while (iterator.getAttribute(field) == null &&
-                       iterator.next() != CharacterIterator.DONE);
+                       iterator.next() != CharacterIterator.DONE) {
+                    ;
+                }
                 if (iterator.current() != CharacterIterator.DONE) {
                     int limit = iterator.getRunLimit(field);
 
@@ -878,7 +892,9 @@ public class InternationalFormatter extends DefaultFormatter {
             iterator.first();
             while (iterator.getIndex() < start) {
                 while (iterator.getAttribute(field) == null &&
-                       iterator.next() != CharacterIterator.DONE);
+                       iterator.next() != CharacterIterator.DONE) {
+                    ;
+                }
                 if (iterator.current() != CharacterIterator.DONE) {
                     iterator.setIndex(iterator.getRunLimit(field));
                     iterator.next();
@@ -948,6 +964,7 @@ public class InternationalFormatter extends DefaultFormatter {
     /**
      * Overriden to return an instance of <code>ExtendedReplaceHolder</code>.
      */
+    @Override
     ReplaceHolder getReplaceHolder(DocumentFilter.FilterBypass fb, int offset,
                                    int length, String text,
                                    AttributeSet attrs) {
@@ -1004,6 +1021,7 @@ public class InternationalFormatter extends DefaultFormatter {
             this.direction = direction;
         }
 
+        @Override
         public void actionPerformed(ActionEvent ae) {
 
             if (getFormattedTextField().isEditable()) {

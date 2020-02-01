@@ -190,6 +190,7 @@ public final class KerberosPrincipal
      *
      * @return a hashCode() for the {@code KerberosPrincipal}
      */
+    @Override
     public int hashCode() {
         return getName().hashCode();
     }
@@ -206,10 +207,12 @@ public final class KerberosPrincipal
      * @return true if the Object passed in represents the same principal
      * as this one, false otherwise.
      */
+    @Override
     public boolean equals(Object other) {
 
-        if (other == this)
+        if (other == this) {
             return true;
+        }
 
         if (! (other instanceof KerberosPrincipal)) {
             return false;
@@ -266,6 +269,7 @@ public final class KerberosPrincipal
      *
      * @return the principal name.
      */
+    @Override
     public String getName() {
         return fullName;
     }
@@ -282,6 +286,7 @@ public final class KerberosPrincipal
     }
 
     // Inherits javadocs from Object
+    @Override
     public String toString() {
         return getName();
     }

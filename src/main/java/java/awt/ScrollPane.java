@@ -224,6 +224,7 @@ public class ScrollPane extends Container implements Accessible {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (ScrollPane.class) {
             return base + nameCounter++;
@@ -249,6 +250,7 @@ public class ScrollPane extends Container implements Accessible {
      * @param constraints  not applicable
      * @param index position of child component (must be &lt;= 0)
      */
+    @Override
     protected final void addImpl(Component comp, Object constraints, int index) {
         synchronized (getTreeLock()) {
             if (getComponentCount() > 0) {
@@ -407,6 +409,7 @@ public class ScrollPane extends Container implements Accessible {
      * overridden to prevent the layout mgr from being set.
      * @param mgr the specified layout manager
      */
+    @Override
     public final void setLayout(LayoutManager mgr) {
         throw new AWTError("ScrollPane controls layout");
     }
@@ -419,6 +422,7 @@ public class ScrollPane extends Container implements Accessible {
      *
      * @see Component#validate
      */
+    @Override
     public void doLayout() {
         layout();
     }
@@ -487,6 +491,7 @@ public class ScrollPane extends Container implements Accessible {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>doLayout()</code>.
      */
+    @Override
     @Deprecated
     public void layout() {
         if (getComponentCount()==0) {
@@ -517,6 +522,7 @@ public class ScrollPane extends Container implements Accessible {
      * @see Component#print
      * @see Component#printAll
      */
+    @Override
     public void printComponents(Graphics g) {
         if (getComponentCount()==0) {
             return;
@@ -539,6 +545,7 @@ public class ScrollPane extends Container implements Accessible {
     /**
      * Creates the scroll pane's peer.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
 
@@ -556,8 +563,9 @@ public class ScrollPane extends Container implements Accessible {
                 hAdjustable.setValue(0);
             }
 
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createScrollPane(this);
+            }
             super.addNotify();
 
             // Bug 4124460. Restore the adjustable values.
@@ -578,6 +586,7 @@ public class ScrollPane extends Container implements Accessible {
      *
      * @return the parameter string of this scroll pane
      */
+    @Override
     public String paramString() {
         String sdpStr;
         switch (scrollbarDisplayPolicy) {
@@ -601,6 +610,7 @@ public class ScrollPane extends Container implements Accessible {
         ",wheelScrollingEnabled="+isWheelScrollingEnabled();
     }
 
+    @Override
     void autoProcessMouseWheel(MouseWheelEvent e) {
         processMouseWheelEvent(e);
     }
@@ -615,6 +625,7 @@ public class ScrollPane extends Container implements Accessible {
      * @param e  the mouse wheel event
      * @since 1.4
      */
+    @Override
     protected void processMouseWheelEvent(MouseWheelEvent e) {
         if (isWheelScrollingEnabled()) {
             ScrollPaneWheelScroller.handleWheelScrolling(this, e);
@@ -627,6 +638,7 @@ public class ScrollPane extends Container implements Accessible {
      * If wheel scrolling is enabled, we return true for MouseWheelEvents
      * @since 1.4
      */
+    @Override
     protected boolean eventTypeEnabled(int type) {
         if (type == MouseEvent.MOUSE_WHEEL && isWheelScrollingEnabled()) {
             return true;
@@ -724,6 +736,7 @@ public class ScrollPane extends Container implements Accessible {
         /**
          * Invoked when the value of the adjustable has changed.
          */
+        @Override
         public void adjustmentValueChanged(AdjustmentEvent e) {
             Adjustable adj = e.getAdjustable();
             int value = e.getValue();
@@ -763,6 +776,7 @@ public class ScrollPane extends Container implements Accessible {
      *         AccessibleContext of this ScrollPane
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTScrollPane();
@@ -791,6 +805,7 @@ public class ScrollPane extends Container implements Accessible {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SCROLL_PANE;
         }
@@ -823,6 +838,7 @@ class PeerFixer implements AdjustmentListener, java.io.Serializable {
     /**
      * Invoked when the value of the adjustable has changed.
      */
+    @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
         Adjustable adj = e.getAdjustable();
         int value = e.getValue();

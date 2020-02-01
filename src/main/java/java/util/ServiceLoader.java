@@ -257,22 +257,28 @@ public final class ServiceLoader<S>
             return -1;
         }
         int ci = ln.indexOf('#');
-        if (ci >= 0) ln = ln.substring(0, ci);
+        if (ci >= 0) {
+            ln = ln.substring(0, ci);
+        }
         ln = ln.trim();
         int n = ln.length();
         if (n != 0) {
-            if ((ln.indexOf(' ') >= 0) || (ln.indexOf('\t') >= 0))
+            if ((ln.indexOf(' ') >= 0) || (ln.indexOf('\t') >= 0)) {
                 fail(service, u, lc, "Illegal configuration-file syntax");
+            }
             int cp = ln.codePointAt(0);
-            if (!Character.isJavaIdentifierStart(cp))
+            if (!Character.isJavaIdentifierStart(cp)) {
                 fail(service, u, lc, "Illegal provider-class name: " + ln);
+            }
             for (int i = Character.charCount(cp); i < n; i += Character.charCount(cp)) {
                 cp = ln.codePointAt(i);
-                if (!Character.isJavaIdentifierPart(cp) && (cp != '.'))
+                if (!Character.isJavaIdentifierPart(cp) && (cp != '.')) {
                     fail(service, u, lc, "Illegal provider-class name: " + ln);
+                }
             }
-            if (!providers.containsKey(ln) && !names.contains(ln))
+            if (!providers.containsKey(ln) && !names.contains(ln)) {
                 names.add(ln);
+            }
         }
         return lc + 1;
     }
@@ -304,13 +310,19 @@ public final class ServiceLoader<S>
             in = u.openStream();
             r = new BufferedReader(new InputStreamReader(in, "utf-8"));
             int lc = 1;
-            while ((lc = parseLine(service, u, r, lc, names)) >= 0);
+            while ((lc = parseLine(service, u, r, lc, names)) >= 0) {
+                ;
+            }
         } catch (IOException x) {
             fail(service, "Error reading configuration file", x);
         } finally {
             try {
-                if (r != null) r.close();
-                if (in != null) in.close();
+                if (r != null) {
+                    r.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
             } catch (IOException y) {
                 fail(service, "Error closing configuration file", y);
             }
@@ -342,10 +354,11 @@ public final class ServiceLoader<S>
             if (configs == null) {
                 try {
                     String fullName = PREFIX + service.getName();
-                    if (loader == null)
+                    if (loader == null) {
                         configs = ClassLoader.getSystemResources(fullName);
-                    else
+                    } else {
                         configs = loader.getResources(fullName);
+                    }
                 } catch (IOException x) {
                     fail(service, "Error locating configuration files", x);
                 }
@@ -361,8 +374,9 @@ public final class ServiceLoader<S>
         }
 
         private S nextService() {
-            if (!hasNextService())
+            if (!hasNextService()) {
                 throw new NoSuchElementException();
+            }
             String cn = nextName;
             nextName = null;
             Class<?> c = null;
@@ -388,28 +402,33 @@ public final class ServiceLoader<S>
             throw new Error();          // This cannot happen
         }
 
+        @Override
         public boolean hasNext() {
             if (acc == null) {
                 return hasNextService();
             } else {
                 PrivilegedAction<Boolean> action = new PrivilegedAction<Boolean>() {
+                    @Override
                     public Boolean run() { return hasNextService(); }
                 };
                 return AccessController.doPrivileged(action, acc);
             }
         }
 
+        @Override
         public S next() {
             if (acc == null) {
                 return nextService();
             } else {
                 PrivilegedAction<S> action = new PrivilegedAction<S>() {
+                    @Override
                     public S run() { return nextService(); }
                 };
                 return AccessController.doPrivileged(action, acc);
             }
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -462,24 +481,30 @@ public final class ServiceLoader<S>
      * @return  An iterator that lazily loads providers for this loader's
      *          service
      */
+    @Override
     public Iterator<S> iterator() {
         return new Iterator<S>() {
 
             Iterator<Map.Entry<String,S>> knownProviders
                 = providers.entrySet().iterator();
 
+            @Override
             public boolean hasNext() {
-                if (knownProviders.hasNext())
+                if (knownProviders.hasNext()) {
                     return true;
+                }
                 return lookupIterator.hasNext();
             }
 
+            @Override
             public S next() {
-                if (knownProviders.hasNext())
+                if (knownProviders.hasNext()) {
                     return knownProviders.next().getValue();
+                }
                 return lookupIterator.next();
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -579,6 +604,7 @@ public final class ServiceLoader<S>
      *
      * @return  A descriptive string
      */
+    @Override
     public String toString() {
         return "java.util.ServiceLoader[" + service.getName() + "]";
     }

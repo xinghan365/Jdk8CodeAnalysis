@@ -182,6 +182,7 @@ public class RenderingHints
          * system identity code of the object as defined by the
          * System.identityHashCode() method.
          */
+        @Override
         public final int hashCode() {
             return super.hashCode();
         }
@@ -190,6 +191,7 @@ public class RenderingHints
          * The equals method for all Key objects will return the same
          * result as the equality operator '=='.
          */
+        @Override
         public final boolean equals(Object o) {
             return this == o;
         }
@@ -983,6 +985,7 @@ public class RenderingHints
      * @return the number of key-value mappings in this
      * <code>RenderingHints</code>.
      */
+    @Override
     public int size() {
         return hintmap.size();
     }
@@ -994,6 +997,7 @@ public class RenderingHints
      * @return <code>true</code> if this
      * <code>RenderingHints</code> contains no key-value mappings.
      */
+    @Override
     public boolean isEmpty() {
         return hintmap.isEmpty();
     }
@@ -1009,6 +1013,7 @@ public class RenderingHints
      * @exception ClassCastException if the key can not
      *            be cast to {@code RenderingHints.Key}
      */
+    @Override
     public boolean containsKey(Object key) {
         return hintmap.containsKey((Key) key);
     }
@@ -1031,6 +1036,7 @@ public class RenderingHints
      * @return <code>true</code> if this <code>RenderingHints</code>
      *           maps one or more keys to the specified value.
      */
+    @Override
     public boolean containsValue(Object value) {
         return hintmap.containsValue(value);
     }
@@ -1045,6 +1051,7 @@ public class RenderingHints
      *            be cast to {@code RenderingHints.Key}
      * @see     #put(Object, Object)
      */
+    @Override
     public Object get(Object key) {
         return hintmap.get((Key) key);
     }
@@ -1070,6 +1077,7 @@ public class RenderingHints
      *            specified value
      * @see     #get(Object)
      */
+    @Override
     public Object put(Object key, Object value) {
         if (!((Key) key).isCompatibleValue(value)) {
             throw new IllegalArgumentException(value+
@@ -1096,6 +1104,7 @@ public class RenderingHints
      * Clears this <code>RenderingHints</code> object of all key/value
      * pairs.
      */
+    @Override
     public void clear() {
         hintmap.clear();
     }
@@ -1111,6 +1120,7 @@ public class RenderingHints
      *          {@code RenderingHints} object, or {@code null}
      *          if the key did not have a mapping.
      */
+    @Override
     public Object remove(Object key) {
         return hintmap.remove((Key) key);
     }
@@ -1129,17 +1139,20 @@ public class RenderingHints
      *           prevents it from being stored in
      *            this {@code RenderingHints}.
      */
+    @Override
     public void putAll(Map<?,?> m) {
         // ## javac bug?
         //if (m instanceof RenderingHints) {
         if (RenderingHints.class.isInstance(m)) {
             //hintmap.putAll(((RenderingHints) m).hintmap);
-            for (Map.Entry<?,?> entry : m.entrySet())
+            for (Map.Entry<?,?> entry : m.entrySet()) {
                 hintmap.put(entry.getKey(), entry.getValue());
+            }
         } else {
             // Funnel each key/value pair through our protected put method
-            for (Map.Entry<?,?> entry : m.entrySet())
+            for (Map.Entry<?,?> entry : m.entrySet()) {
                 put(entry.getKey(), entry.getValue());
+            }
         }
     }
 
@@ -1161,6 +1174,7 @@ public class RenderingHints
      * @return a <code>Set</code> view of the keys contained
      * in this <code>RenderingHints</code>.
      */
+    @Override
     public Set<Object> keySet() {
         return hintmap.keySet();
     }
@@ -1187,6 +1201,7 @@ public class RenderingHints
      * @return a <code>Collection</code> view of the values
      *          contained in this <code>RenderingHints</code>.
      */
+    @Override
     public Collection<Object> values() {
         return hintmap.values();
     }
@@ -1208,6 +1223,7 @@ public class RenderingHints
      * @return a <code>Set</code> view of the mappings contained in
      * this <code>RenderingHints</code>.
      */
+    @Override
     public Set<Map.Entry<Object,Object>> entrySet() {
         return Collections.unmodifiableMap(hintmap).entrySet();
     }
@@ -1232,6 +1248,7 @@ public class RenderingHints
      * @return <code>true</code> if the specified <code>Object</code>
      * is equal to this <code>RenderingHints</code>.
      */
+    @Override
     public boolean equals(Object o) {
         if (o instanceof RenderingHints) {
             return hintmap.equals(((RenderingHints) o).hintmap);
@@ -1257,6 +1274,7 @@ public class RenderingHints
      * @see Object#equals(Object)
      * @see #equals(Object)
      */
+    @Override
     public int hashCode() {
         return hintmap.hashCode();
     }
@@ -1267,6 +1285,7 @@ public class RenderingHints
      * object.
      * @return a clone of this instance.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object clone() {
         RenderingHints rh;
@@ -1289,6 +1308,7 @@ public class RenderingHints
      * <code>RenderingHints</code> object.
      * @return  a string representation of this object.
      */
+    @Override
     public String toString() {
         if (hintmap == null) {
             return getClass().getName() + "@" +

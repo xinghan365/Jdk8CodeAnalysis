@@ -234,6 +234,7 @@ public class TitledBorder extends AbstractBorder
      * @param width the width of the painted border
      * @param height the height of the painted border
      */
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         Border border = getBorder();
         String title = getTitle();
@@ -345,6 +346,7 @@ public class TitledBorder extends AbstractBorder
      * @param c the component for which this border insets value applies
      * @param insets the object to be reinitialized
      */
+    @Override
     public Insets getBorderInsets(Component c, Insets insets) {
         Border border = getBorder();
         insets = getBorderInsets(border, c, insets);
@@ -392,6 +394,7 @@ public class TitledBorder extends AbstractBorder
     /**
      * Returns whether or not the border is opaque.
      */
+    @Override
     public boolean isBorderOpaque() {
         return false;
     }
@@ -562,6 +565,7 @@ public class TitledBorder extends AbstractBorder
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(Component c, int width, int height) {
         if (c == null) {
             throw new NullPointerException("Must supply non-null component");
@@ -613,6 +617,7 @@ public class TitledBorder extends AbstractBorder
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             Component c) {
         super.getBaselineResizeBehavior(c);

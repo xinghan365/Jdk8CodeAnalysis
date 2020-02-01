@@ -526,6 +526,7 @@ public class VetoableChangeSupport implements Serializable {
         /**
          * {@inheritDoc}
          */
+        @Override
         public final VetoableChangeListener extract(VetoableChangeListener listener) {
             while (listener instanceof VetoableChangeListenerProxy) {
                 listener = ((VetoableChangeListenerProxy) listener).getListener();

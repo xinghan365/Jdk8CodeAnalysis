@@ -64,10 +64,11 @@ class ClassAttributeValueExp extends AttributeValueExp {
         } catch (Exception e) {
             // OK: exception means no compat with 1.0, too bad
         }
-        if (compat)
+        if (compat) {
             serialVersionUID = oldSerialVersionUID;
-        else
+        } else {
             serialVersionUID = newSerialVersionUID;
+        }
     }
 
     /**
@@ -99,6 +100,7 @@ class ClassAttributeValueExp extends AttributeValueExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public ValueExp apply(ObjectName name)
             throws BadStringOperationException, BadBinaryOpValueExpException,
                    BadAttributeValueExpException, InvalidApplicationException {
@@ -114,6 +116,7 @@ class ClassAttributeValueExp extends AttributeValueExp {
     /**
      * Returns the string "Class" representing its value
      */
+    @Override
     public String toString()  {
         return attr;
     }

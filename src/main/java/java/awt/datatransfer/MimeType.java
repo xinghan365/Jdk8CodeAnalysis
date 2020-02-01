@@ -109,6 +109,7 @@ MimeTypeParseException {
         parameters = (MimeTypeParameterList)mtpl.clone();
     }
 
+    @Override
     public int hashCode() {
 
         // We sum up the hash codes for all of the strings. This
@@ -129,6 +130,7 @@ MimeTypeParseException {
      * @return <code>true</code> if <code>thatObject</code> is
      *    a <code>MimeType</code>; otherwise returns <code>false</code>
      */
+    @Override
     public boolean equals(Object thatObject) {
         if (!(thatObject instanceof MimeType)) {
             return false;
@@ -242,6 +244,7 @@ MimeTypeParameterList(rawdata.substring(semIndex));
     /**
      * Return the String representation of this object.
      */
+    @Override
     public String toString() {
         return getBaseType() + parameters.toString();
     }
@@ -266,8 +269,9 @@ MimeTypeParameterList(rawdata.substring(semIndex));
      *    <code>false</code>
      */
     public boolean match(MimeType type) {
-        if (type == null)
+        if (type == null) {
             return false;
+        }
         return primaryType.equals(type.getPrimaryType())
                     && (subType.equals("*")
                             || type.getSubType().equals("*")
@@ -288,8 +292,9 @@ MimeTypeParameterList(rawdata.substring(semIndex));
      *    <code>null</code>, returns <code>false</code>
      */
     public boolean match(String rawdata) throws MimeTypeParseException {
-        if (rawdata == null)
+        if (rawdata == null) {
             return false;
+        }
         return match(new MimeType(rawdata));
     }
 
@@ -300,6 +305,7 @@ MimeTypeParameterList(rawdata.substring(semIndex));
      * and arrays.
      * @exception IOException Includes any I/O exceptions that may occur
      */
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         String s = toString(); // contains ASCII chars only
         // one-to-one correspondence between ASCII char and byte in UTF string
@@ -322,6 +328,7 @@ MimeTypeParameterList(rawdata.substring(semIndex));
      * @exception ClassNotFoundException If the class for an object being
      *              restored cannot be found.
      */
+    @Override
     public void readExternal(ObjectInput in) throws IOException,
 ClassNotFoundException {
         String s = in.readUTF();
@@ -342,6 +349,7 @@ ClassNotFoundException {
      * @return a clone of this object
      */
 
+    @Override
     public Object clone() {
         MimeType newObj = null;
         try {

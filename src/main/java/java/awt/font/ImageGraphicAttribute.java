@@ -114,6 +114,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
      * from the top of the image to the origin.
      * @return the ascent of this <code>ImageGraphicAttribute</code>.
      */
+    @Override
     public float getAscent() {
 
         return Math.max(0, fOriginY);
@@ -125,6 +126,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
      * distance from the origin to the bottom of the image.
      * @return the descent of this <code>ImageGraphicAttribute</code>.
      */
+    @Override
     public float getDescent() {
 
         return Math.max(0, fImageHeight-fOriginY);
@@ -136,6 +138,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
      * distance from the origin to the right edge of the image.
      * @return the advance of this <code>ImageGraphicAttribute</code>.
      */
+    @Override
     public float getAdvance() {
 
         return Math.max(0, fImageWidth-fOriginX);
@@ -150,6 +153,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
      * @return a <code>Rectangle2D</code> that encloses all of the bits
      * rendered by this <code>ImageGraphicAttribute</code>.
      */
+    @Override
     public Rectangle2D getBounds() {
 
         return new Rectangle2D.Float(
@@ -159,6 +163,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void draw(Graphics2D graphics, float x, float y) {
 
         graphics.drawImage(fImage, (int) (x-fOriginX), (int) (y-fOriginY), null);
@@ -168,6 +173,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
      * Returns a hashcode for this <code>ImageGraphicAttribute</code>.
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
 
         return fImage.hashCode();
@@ -181,6 +187,7 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
      * <code>ImageGraphicAttribute</code> equals <code>rhs</code>;
      * <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object rhs) {
 
         try {

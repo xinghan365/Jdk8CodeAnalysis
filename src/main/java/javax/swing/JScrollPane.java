@@ -389,6 +389,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
      * @see JComponent#updateUI
      * @see UIManager#getUI
      */
+    @Override
     public void updateUI() {
         setUI((ScrollPaneUI)UIManager.getUI(this));
     }
@@ -405,6 +406,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
      * @beaninfo
      *    hidden: true
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -429,6 +431,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
      * @beaninfo
      *    hidden: true
      */
+    @Override
     public void setLayout(LayoutManager layout) {
         if (layout instanceof ScrollPaneLayout) {
             super.setLayout(layout);
@@ -726,6 +729,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          *
          * @param unitIncrement the new unit increment value, in pixels
          */
+        @Override
         public void setUnitIncrement(int unitIncrement) {
             unitIncrementSet = true;
             this.putClientProperty("JScrollBar.fastWheelScrolling", null);
@@ -742,6 +746,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          * @return an integer, in pixels, containing the unit increment
          * @see Scrollable#getScrollableUnitIncrement
          */
+        @Override
         public int getUnitIncrement(int direction) {
             JViewport vp = getViewport();
             if (!unitIncrementSet && (vp != null) &&
@@ -761,6 +766,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          *
          * @param blockIncrement the new block increment value, in pixels
          */
+        @Override
         public void setBlockIncrement(int blockIncrement) {
             blockIncrementSet = true;
             this.putClientProperty("JScrollBar.fastWheelScrolling", null);
@@ -779,6 +785,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          * @return an integer, in pixels, containing the block increment
          * @see Scrollable#getScrollableBlockIncrement
          */
+        @Override
         public int getBlockIncrement(int direction) {
             JViewport vp = getViewport();
             if (blockIncrementSet || vp == null) {
@@ -1284,12 +1291,15 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
      * </ul>
      * @see java.awt.ComponentOrientation
      */
-    public void setComponentOrientation( ComponentOrientation co ) {
+    @Override
+    public void setComponentOrientation(ComponentOrientation co ) {
         super.setComponentOrientation( co );
-        if( verticalScrollBar != null )
+        if( verticalScrollBar != null ) {
             verticalScrollBar.setComponentOrientation( co );
-        if( horizontalScrollBar != null )
+        }
+        if( horizontalScrollBar != null ) {
             horizontalScrollBar.setComponentOrientation( co );
+        }
     }
 
     /**
@@ -1352,6 +1362,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
      *
      * @return  a string representation of this <code>JScrollPane</code>.
      */
+    @Override
     protected String paramString() {
         String viewportBorderString = (viewportBorder != null ?
                                        viewportBorder.toString() : "");
@@ -1364,7 +1375,9 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
             verticalScrollBarPolicyString = "VERTICAL_SCROLLBAR_NEVER";
         } else if (verticalScrollBarPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
             verticalScrollBarPolicyString = "VERTICAL_SCROLLBAR_ALWAYS";
-        } else verticalScrollBarPolicyString = "";
+        } else {
+            verticalScrollBarPolicyString = "";
+        }
         String horizontalScrollBarPolicyString;
         if (horizontalScrollBarPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED) {
             horizontalScrollBarPolicyString = "HORIZONTAL_SCROLLBAR_AS_NEEDED";
@@ -1372,7 +1385,9 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
             horizontalScrollBarPolicyString = "HORIZONTAL_SCROLLBAR_NEVER";
         } else if (horizontalScrollBarPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
             horizontalScrollBarPolicyString = "HORIZONTAL_SCROLLBAR_ALWAYS";
-        } else horizontalScrollBarPolicyString = "";
+        } else {
+            horizontalScrollBarPolicyString = "";
+        }
         String horizontalScrollBarString = (horizontalScrollBar != null ?
                                             horizontalScrollBar.toString()
                                             : "");
@@ -1419,6 +1434,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
      * @return an AccessibleJScrollPane that serves as the
      *         AccessibleContext of this JScrollPane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJScrollPane();
@@ -1488,6 +1504,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SCROLL_PANE;
         }
@@ -1499,6 +1516,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          *
          * @throws NullPointerException if the parameter is null.
          */
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (e == null) {
                 throw new NullPointerException();
@@ -1516,6 +1534,7 @@ public class JScrollPane extends JComponent implements ScrollPaneConstants, Acce
          * @throws NullPointerException if the parameter is null.
          * @since 1.5
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
             if (propertyName == "horizontalScrollBar" ||

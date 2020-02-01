@@ -88,6 +88,7 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
+        @Override
         public double getX() {
             return (double) x;
         }
@@ -96,6 +97,7 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
+        @Override
         public double getY() {
             return (double) y;
         }
@@ -104,6 +106,7 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
+        @Override
         public void setLocation(double x, double y) {
             this.x = (float) x;
             this.y = (float) y;
@@ -128,6 +131,7 @@ public abstract class Point2D implements Cloneable {
          * @return a string representation of this <code>Point2D</code>.
          * @since 1.2
          */
+        @Override
         public String toString() {
             return "Point2D.Float["+x+", "+y+"]";
         }
@@ -185,6 +189,7 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
+        @Override
         public double getX() {
             return x;
         }
@@ -193,6 +198,7 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
+        @Override
         public double getY() {
             return y;
         }
@@ -201,6 +207,7 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
+        @Override
         public void setLocation(double x, double y) {
             this.x = x;
             this.y = y;
@@ -212,6 +219,7 @@ public abstract class Point2D implements Cloneable {
          * @return a string representation of this <code>Point2D</code>.
          * @since 1.2
          */
+        @Override
         public String toString() {
             return "Point2D.Double["+x+", "+y+"]";
         }
@@ -388,6 +396,7 @@ public abstract class Point2D implements Cloneable {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -401,6 +410,7 @@ public abstract class Point2D implements Cloneable {
      * Returns the hashcode for this <code>Point2D</code>.
      * @return      a hash code for this <code>Point2D</code>.
      */
+    @Override
     public int hashCode() {
         long bits = java.lang.Double.doubleToLongBits(getX());
         bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
@@ -418,6 +428,7 @@ public abstract class Point2D implements Cloneable {
      *         the same values; <code>false</code> otherwise.
      * @since 1.2
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Point2D) {
             Point2D p2d = (Point2D) obj;

@@ -72,5 +72,6 @@ public interface Transmitter extends AutoCloseable {
      *
      * @see javax.sound.midi.MidiSystem#getTransmitter
      */
+    @Override
     public void close();
 }

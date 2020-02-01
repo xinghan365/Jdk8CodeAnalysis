@@ -167,6 +167,7 @@ public class UndoableEditSupport {
      *
      * @return a <code>String</code> representation of this object
      */
+    @Override
     public String toString() {
         return super.toString() +
             " updateLevel: " + updateLevel +

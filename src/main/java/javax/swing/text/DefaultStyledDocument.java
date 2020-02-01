@@ -112,6 +112,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @return the root
      * @see Document#getDefaultRootElement
      */
+    @Override
     public Element getDefaultRootElement() {
         return buffer.getRootElement();
     }
@@ -380,6 +381,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      *   attributes need not be resolved in some other style.
      * @return the style
      */
+    @Override
     public Style addStyle(String nm, Style parent) {
         StyleContext styles = (StyleContext) getAttributeContext();
         return styles.addStyle(nm, parent);
@@ -390,6 +392,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      *
      * @param nm  the name of the style to remove
      */
+    @Override
     public void removeStyle(String nm) {
         StyleContext styles = (StyleContext) getAttributeContext();
         styles.removeStyle(nm);
@@ -401,6 +404,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param nm  the name of the style
      * @return the style
      */
+    @Override
     public Style getStyle(String nm) {
         StyleContext styles = (StyleContext) getAttributeContext();
         return styles.getStyle(nm);
@@ -432,6 +436,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param pos the offset from the start of the document &gt;= 0
      * @param s  the logical style to assign to the paragraph, null if none
      */
+    @Override
     public void setLogicalStyle(int pos, Style s) {
         Element paragraph = getParagraphElement(pos);
         if ((paragraph != null) && (paragraph instanceof AbstractElement)) {
@@ -462,6 +467,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      *  is an offset from the start of the document.
      * @return the style, null if none
      */
+    @Override
     public Style getLogicalStyle(int p) {
         Style s = null;
         Element paragraph = getParagraphElement(p);
@@ -492,6 +498,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param replace true if the previous attributes should be replaced
      *  before setting the new attributes
      */
+    @Override
     public void setCharacterAttributes(int offset, int length, AttributeSet s, boolean replace) {
         if (length == 0) {
             return;
@@ -544,6 +551,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param s the attributes
      * @param replace whether to replace existing attributes, or merge them
      */
+    @Override
     public void setParagraphAttributes(int offset, int length, AttributeSet s,
                                        boolean replace) {
         try {
@@ -592,14 +600,16 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param pos the starting offset &gt;= 0
      * @return the element
      */
+    @Override
     public Element getParagraphElement(int pos) {
         Element e;
         for (e = getDefaultRootElement(); ! e.isLeaf(); ) {
             int index = e.getElementIndex(pos);
             e = e.getElement(index);
         }
-        if(e != null)
+        if(e != null) {
             return e.getParentElement();
+        }
         return e;
     }
 
@@ -609,6 +619,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param pos the position in the document &gt;= 0
      * @return the element
      */
+    @Override
     public Element getCharacterElement(int pos) {
         Element e;
         for (e = getDefaultRootElement(); ! e.isLeaf(); ) {
@@ -629,6 +640,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param chng a description of the document change
      * @param attr the attributes
      */
+    @Override
     protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
         int offset = chng.getOffset();
         int length = chng.getLength();
@@ -676,8 +688,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             }
             // If not inserting after a new line, pull the attributes for
             // new paragraphs from the paragraph under the insertion point.
-            if(!insertingAfterNewline)
+            if(!insertingAfterNewline) {
                 pattr = pParagraph.getAttributes();
+            }
 
             getText(offset, length, s);
             char[] txt = s.array;
@@ -819,12 +832,14 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             parseBuffer.addElement(spec);
             spec = new ElementSpec(pattr, ElementSpec.StartTagType);
             parseBuffer.addElement(spec);
-            if(pParagraph.getEndOffset() != endOffset)
+            if(pParagraph.getEndOffset() != endOffset) {
                 return ElementSpec.JoinFractureDirection;
+            }
 
             Element parent = pParagraph.getParentElement();
-            if((parent.getElementIndex(offset) + 1) < parent.getElementCount())
+            if((parent.getElementIndex(offset) + 1) < parent.getElementCount()) {
                 return ElementSpec.JoinNextDirection;
+            }
         }
         else {
             // Will only happen for text with more than 2 levels.
@@ -856,15 +871,17 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                     counter >= 0; counter--) {
                     spec = new ElementSpec(rightParents.elementAt(counter).getAttributes(),
                                    ElementSpec.StartTagType);
-                    if(counter > 0)
+                    if(counter > 0) {
                         spec.setDirection(ElementSpec.JoinNextDirection);
+                    }
                     parseBuffer.addElement(spec);
                 }
                 // If there are right parents, then we generated starts
                 // down the right subtree and there will be an element to
                 // join to.
-                if(rightParents.size() > 0)
+                if(rightParents.size() > 0) {
                     return ElementSpec.JoinNextDirection;
+                }
                 // No right subtree, e.getElement(endOffset) is a
                 // leaf. There will be a facture.
                 return ElementSpec.JoinFractureDirection;
@@ -879,6 +896,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      *
      * @param chng a description of the document change
      */
+    @Override
     protected void removeUpdate(DefaultDocumentEvent chng) {
         super.removeUpdate(chng);
         buffer.remove(chng.getOffset(), chng.getLength(), chng);
@@ -916,6 +934,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param attr the attribute set
      * @return the color
      */
+    @Override
     public Color getForeground(AttributeSet attr) {
         StyleContext styles = (StyleContext) getAttributeContext();
         return styles.getForeground(attr);
@@ -927,6 +946,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param attr the attribute set
      * @return the color
      */
+    @Override
     public Color getBackground(AttributeSet attr) {
         StyleContext styles = (StyleContext) getAttributeContext();
         return styles.getBackground(attr);
@@ -938,6 +958,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param attr the attribute set
      * @return the font
      */
+    @Override
     public Font getFont(AttributeSet attr) {
         StyleContext styles = (StyleContext) getAttributeContext();
         return styles.getFont(attr);
@@ -974,6 +995,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param listener the listener
      * @see Document#addDocumentListener
      */
+    @Override
     public void addDocumentListener(DocumentListener listener) {
         synchronized(listeningStyles) {
             int oldDLCount = listenerList.getListenerCount
@@ -1004,6 +1026,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
      * @param listener the listener
      * @see Document#removeDocumentListener
      */
+    @Override
     public void removeDocumentListener(DocumentListener listener) {
         synchronized(listeningStyles) {
             super.removeDocumentListener(listener);
@@ -1142,6 +1165,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
          *
          * @return the name
          */
+        @Override
         public String getName() {
             return SectionElementName;
         }
@@ -1341,6 +1365,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
          *
          * @return the string
          */
+        @Override
         public String toString() {
             String tlbl = "??";
             String plbl = "??";
@@ -1567,8 +1592,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             }
 
             // Fracture, if we haven't yet.
-            if(!createdFracture)
+            if(!createdFracture) {
                 fracture(-1);
+            }
 
             // pop the remaining path
             while (path.size() != 0) {
@@ -1585,8 +1611,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             for(int counter = insertPath.length - 1; counter >= 0;
                 counter--) {
                 ElemChanges change = insertPath[counter];
-                if(change.parent == fracturedParent)
+                if(change.parent == fracturedParent) {
                     change.added.addElement(fracturedChild);
+                }
                 if((change.added.size() > 0 ||
                     change.removed.size() > 0) && !changes.contains(change)) {
                     // PENDING(sky): Do I need to worry about order here?
@@ -1836,10 +1863,11 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                     if(parent.isLeaf()) {
                         // This happens if inserting into a leaf, followed
                         // by a join next where next sibling is not a leaf.
-                        if((ec.index + 1) < ec.parent.getElementCount())
+                        if((ec.index + 1) < ec.parent.getElementCount()) {
                             parent = ec.parent.getElement(ec.index + 1);
-                        else
+                        } else {
                             throw new StateInvariantError("Join next to leaf");
+                        }
                     }
                     // Not really a fracture, but need to treat it like
                     // one so that content join next will work correctly.
@@ -1859,7 +1887,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                     }
                     else
                         // Parent is a fracture, use 1st element.
+                    {
                         push(ec.parent.getElement(0), 0, true);
+                    }
                     break;
                 default:
                     Element belem = createBranchElement(ec.parent,
@@ -1891,14 +1921,16 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                             for(int counter = insertPath.length - 1;
                                 counter >= 0; counter--) {
                                 if(insertPath[counter] == ec) {
-                                    if(counter != (insertPath.length - 1))
+                                    if(counter != (insertPath.length - 1)) {
                                         first = ec.parent.getElement(ec.index);
+                                    }
                                     break;
                                 }
                             }
                         }
-                        if(first == null)
+                        if(first == null) {
                             first = ec.parent.getElement(ec.index + 1);
+                        }
                         Element leaf = createLeafElement(ec.parent, first.
                                  getAttributes(), pos, first.getEndOffset());
                         ec.added.addElement(leaf);
@@ -2190,8 +2222,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                     lastIndex = counter;
                     if(!needRecreate && childAltered) {
                         needRecreate = true;
-                        if(deepestAlteredIndex == -1)
+                        if(deepestAlteredIndex == -1) {
                             deepestAlteredIndex = lastAlteredIndex + 1;
+                        }
                     }
                 }
                 if(!childAltered && change.index <
@@ -2203,8 +2236,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             if(needRecreate) {
                 // Recreate all children to right of parent starting
                 // at lastIndex.
-                if(lastIndex == -1)
+                if(lastIndex == -1) {
                     lastIndex = cLength - 1;
+                }
                 fractureFrom(insertPath, lastIndex, deepestAlteredIndex);
             }
         }
@@ -2226,10 +2260,11 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             Element newChild;
             int changeLength = changed.length;
 
-            if((startIndex + 1) == changeLength)
+            if((startIndex + 1) == changeLength) {
                 child = change.parent.getElement(change.index);
-            else
+            } else {
                 child = change.parent.getElement(change.index - 1);
+            }
             if(child.isLeaf()) {
                 newChild = createLeafElement(change.parent,
                                child.getAttributes(), Math.max(endOffset,
@@ -2258,10 +2293,11 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                 // Determine the child to duplicate, won't have to duplicate
                 // if at end of fracture, or offseting index.
                 if(isEnd) {
-                    if(offsetLastIndex || !isEndLeaf)
+                    if(offsetLastIndex || !isEndLeaf) {
                         child = null;
-                    else
+                    } else {
                         child = change.parent.getElement(change.index);
+                    }
                 }
                 else {
                     child = change.parent.getElement(change.index - 1);
@@ -2278,8 +2314,9 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                                                    child.getAttributes());
                     }
                 }
-                else
+                else {
                     newChild = null;
+                }
 
                 // Recreate the remaining children (there may be none).
                 int kidsToMove = change.parent.getElementCount() -
@@ -2370,10 +2407,11 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                 ec.added.addElement(newChild);
             }
             ec.removed.addElement(child);
-            if(child.getEndOffset() != endOffset)
+            if(child.getEndOffset() != endOffset) {
                 recreateLeafs = true;
-            else
+            } else {
                 offsetLastIndex = true;
+            }
         }
 
         /**
@@ -2398,10 +2436,11 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                     ec.added.addElement(newE);
                     ec.removed.addElement(child);
                     // Remainder will be created later.
-                    if(child.getEndOffset() != endOffset)
+                    if(child.getEndOffset() != endOffset) {
                         recreateLeafs = true;
-                    else
+                    } else {
                         offsetLastIndex = true;
+                    }
                 }
                 else {
                     offsetLastIndex = true;
@@ -2421,12 +2460,13 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                     // Recreate the second, merge part. We do no checking
                     // to see if JoinNextDirection is valid here!
                     Element nextChild = ec.parent.getElement(ec.index + 1);
-                    if(isOnlyContent)
+                    if(isOnlyContent) {
                         newE = createLeafElement(ec.parent, nextChild.
                             getAttributes(), offset, nextChild.getEndOffset());
-                    else
+                    } else {
                         newE = createLeafElement(ec.parent, nextChild.
                             getAttributes(), offset, firstEndOffset);
+                    }
                     ec.added.addElement(newE);
                     ec.removed.addElement(child);
                     ec.removed.addElement(nextChild);
@@ -2500,6 +2540,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
                 removed = new Vector<Element>();
             }
 
+            @Override
             public String toString() {
                 return "added: " + added + "\nremoved: " + removed + "\n";
             }
@@ -2534,12 +2575,14 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
          *
          * @exception CannotRedoException if the change cannot be redone
          */
+        @Override
         public void redo() throws CannotRedoException {
             super.redo();
             MutableAttributeSet as = (MutableAttributeSet)element
                                      .getAttributes();
-            if(isReplacing)
+            if(isReplacing) {
                 as.removeAttributes(as);
+            }
             as.addAttributes(newAttributes);
         }
 
@@ -2548,6 +2591,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
          *
          * @exception CannotUndoException if the change cannot be undone
          */
+        @Override
         public void undo() throws CannotUndoException {
             super.undo();
             MutableAttributeSet as = (MutableAttributeSet)element.getAttributes();
@@ -2582,6 +2626,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
          *
          * @exception CannotRedoException if the change cannot be redone
          */
+        @Override
         public void redo() throws CannotRedoException {
             super.redo();
             element.setResolveParent(newStyle);
@@ -2592,6 +2637,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
          *
          * @exception CannotUndoException if the change cannot be undone
          */
+        @Override
         public void undo() throws CannotUndoException {
             super.undo();
             element.setResolveParent(oldStyle);
@@ -2669,6 +2715,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
         /**
          * The ChangeListener wrapper which guards against dead documents.
          */
+        @Override
         public void stateChanged(ChangeEvent e) {
             DefaultStyledDocument d = doc.get();
             if (d != null) {
@@ -2690,6 +2737,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             super(d);
         }
 
+        @Override
         void fireStateChanged(DefaultStyledDocument d, ChangeEvent e) {
             Object source = e.getSource();
             if (source instanceof Style) {
@@ -2711,6 +2759,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
             super(d);
         }
 
+        @Override
         void fireStateChanged(DefaultStyledDocument d, ChangeEvent e) {
             d.updateStylesListeningTo();
         }
@@ -2724,6 +2773,7 @@ public class DefaultStyledDocument extends AbstractDocument implements StyledDoc
     class ChangeUpdateRunnable implements Runnable {
         boolean isPending = false;
 
+        @Override
         public void run() {
             synchronized(this) {
                 isPending = false;

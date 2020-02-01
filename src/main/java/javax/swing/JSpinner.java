@@ -197,6 +197,7 @@ public class JSpinner extends JComponent implements Accessible
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -208,6 +209,7 @@ public class JSpinner extends JComponent implements Accessible
      *
      * @see UIManager#getUI
      */
+    @Override
     public void updateUI() {
         setUI((SpinnerUI)UIManager.getUI(this));
         invalidate();
@@ -382,6 +384,7 @@ public class JSpinner extends JComponent implements Accessible
      * the slider (instead of the model itself) as the event source.
      */
     private class ModelListener implements ChangeListener, Serializable {
+        @Override
         public void stateChanged(ChangeEvent e) {
             fireStateChanged();
         }
@@ -712,6 +715,7 @@ public class JSpinner extends JComponent implements Accessible
          * @see #getTextField
          * @see JSpinner#getValue
          */
+        @Override
         public void stateChanged(ChangeEvent e) {
             JSpinner spinner = (JSpinner)(e.getSource());
             getTextField().setValue(spinner.getValue());
@@ -733,6 +737,7 @@ public class JSpinner extends JComponent implements Accessible
          *    the <code>JFormattedTextField</code> created by this class.
          * @see #getTextField
          */
+        @Override
         public void propertyChange(PropertyChangeEvent e)
         {
             JSpinner spinner = getSpinner();
@@ -772,6 +777,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param name ignored
          * @param child ignored
          */
+        @Override
         public void addLayoutComponent(String name, Component child) {
         }
 
@@ -782,6 +788,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @param child ignored
          */
+        @Override
         public void removeLayoutComponent(Component child) {
         }
 
@@ -805,6 +812,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return the preferred dimensions to lay out the subcomponents
          *          of the specified container.
          */
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension preferredSize = insetSize(parent);
             if (parent.getComponentCount() > 0) {
@@ -824,6 +832,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return  the minimum dimensions needed to lay out the subcomponents
          *          of the specified container.
          */
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension minimumSize = insetSize(parent);
             if (parent.getComponentCount() > 0) {
@@ -839,6 +848,7 @@ public class JSpinner extends JComponent implements Accessible
          * Resize the one (and only) child to completely fill the area
          * within the parents insets.
          */
+        @Override
         public void layoutContainer(Container parent) {
             if (parent.getComponentCount() > 0) {
                 Insets insets = parent.getInsets();
@@ -873,6 +883,7 @@ public class JSpinner extends JComponent implements Accessible
          * @see javax.swing.JComponent#getBaselineResizeBehavior()
          * @since 1.6
          */
+        @Override
         public int getBaseline(int width, int height) {
             // check size.
             super.getBaseline(width, height);
@@ -894,6 +905,7 @@ public class JSpinner extends JComponent implements Accessible
          * @see javax.swing.JComponent#getBaseline(int, int)
          * @since 1.6
          */
+        @Override
         public BaselineResizeBehavior getBaselineResizeBehavior() {
             return getComponent(0).getBaselineResizeBehavior();
         }
@@ -914,18 +926,22 @@ public class JSpinner extends JComponent implements Accessible
             this.model = model;
         }
 
+        @Override
         public void setMinimum(Comparable min) {
             model.setStart(min);
         }
 
+        @Override
         public Comparable getMinimum() {
             return  model.getStart();
         }
 
+        @Override
         public void setMaximum(Comparable max) {
             model.setEnd(max);
         }
 
+        @Override
         public Comparable getMaximum() {
             return model.getEnd();
         }
@@ -1092,18 +1108,22 @@ public class JSpinner extends JComponent implements Accessible
             setValueClass(model.getValue().getClass());
         }
 
+        @Override
         public void setMinimum(Comparable min) {
             model.setMinimum(min);
         }
 
+        @Override
         public Comparable getMinimum() {
             return  model.getMinimum();
         }
 
+        @Override
         public void setMaximum(Comparable max) {
             model.setMaximum(max);
         }
 
+        @Override
         public Comparable getMaximum() {
             return model.getMaximum();
         }
@@ -1318,6 +1338,7 @@ public class JSpinner extends JComponent implements Accessible
                           JFormattedTextField.AbstractFormatter {
             private DocumentFilter filter;
 
+            @Override
             public String valueToString(Object value) throws ParseException {
                 if (value == null) {
                     return "";
@@ -1325,10 +1346,12 @@ public class JSpinner extends JComponent implements Accessible
                 return value.toString();
             }
 
+            @Override
             public Object stringToValue(String string) throws ParseException {
                 return string;
             }
 
+            @Override
             protected DocumentFilter getDocumentFilter() {
                 if (filter == null) {
                     filter = new Filter();
@@ -1338,6 +1361,7 @@ public class JSpinner extends JComponent implements Accessible
 
 
             private class Filter extends DocumentFilter {
+                @Override
                 public void replace(FilterBypass fb, int offset, int length,
                                     String string, AttributeSet attrs) throws
                                            BadLocationException {
@@ -1360,8 +1384,9 @@ public class JSpinner extends JComponent implements Accessible
                     super.replace(fb, offset, length, string, attrs);
                 }
 
+                @Override
                 public void insertString(FilterBypass fb, int offset,
-                                     String string, AttributeSet attr)
+                                         String string, AttributeSet attr)
                        throws BadLocationException {
                     replace(fb, offset, 0, string, attr);
                 }
@@ -1374,20 +1399,27 @@ public class JSpinner extends JComponent implements Accessible
      * An Action implementation that is always disabled.
      */
     private static class DisabledAction implements Action {
+        @Override
         public Object getValue(String key) {
             return null;
         }
+        @Override
         public void putValue(String key, Object value) {
         }
+        @Override
         public void setEnabled(boolean b) {
         }
+        @Override
         public boolean isEnabled() {
             return false;
         }
+        @Override
         public void addPropertyChangeListener(PropertyChangeListener l) {
         }
+        @Override
         public void removePropertyChangeListener(PropertyChangeListener l) {
         }
+        @Override
         public void actionPerformed(ActionEvent ae) {
         }
     }
@@ -1402,6 +1434,7 @@ public class JSpinner extends JComponent implements Accessible
      * @return the <code>AccessibleContext</code> for the <code>JSpinner</code>
      * @since 1.5
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJSpinner();
@@ -1435,6 +1468,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param e  a <code>ChangeEvent</code> object. Must not be null.
          * @throws NullPointerException if the parameter is null.
          */
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (e == null) {
                 throw new NullPointerException();
@@ -1470,6 +1504,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return an instance of AccessibleRole describing the role of the object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SPIN_BOX;
         }
@@ -1479,6 +1514,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @return the number of accessible children of the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             // the JSpinner has one child, the editor
             if (editor.getAccessibleContext() != null) {
@@ -1497,6 +1533,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             // the JSpinner has one child, the editor
             if (i != 0) {
@@ -1517,6 +1554,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return AccessibleAction if supported by object; else return null
          * @see AccessibleAction
          */
+        @Override
         public AccessibleAction getAccessibleAction() {
             return this;
         }
@@ -1528,6 +1566,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return AccessibleText if supported by object; else return null
          * @see AccessibleText
          */
+        @Override
         public AccessibleText getAccessibleText() {
             return this;
         }
@@ -1576,6 +1615,7 @@ public class JSpinner extends JComponent implements Accessible
          * @see AccessibleValue
          *
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -1589,6 +1629,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return value of the object
          * @see #setCurrentAccessibleValue
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             Object o = model.getValue();
             if (o instanceof Number) {
@@ -1604,6 +1645,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return true if the value was set; else False
          * @see #getCurrentAccessibleValue
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // try to set the new value
             try {
@@ -1622,6 +1664,7 @@ public class JSpinner extends JComponent implements Accessible
          * have a minimum value
          * @see #getMaximumAccessibleValue
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             if (model instanceof SpinnerNumberModel) {
                 SpinnerNumberModel numberModel = (SpinnerNumberModel)model;
@@ -1640,6 +1683,7 @@ public class JSpinner extends JComponent implements Accessible
          * have a maximum value
          * @see #getMinimumAccessibleValue
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             if (model instanceof SpinnerNumberModel) {
                 SpinnerNumberModel numberModel = (SpinnerNumberModel)model;
@@ -1666,6 +1710,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @return the zero-based number of Actions in this object
          */
+        @Override
         public int getAccessibleActionCount() {
             return 2;
         }
@@ -1677,6 +1722,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return a String description of the action
          * @see #getAccessibleActionCount
          */
+        @Override
         public String getAccessibleActionDescription(int i) {
             if (i == 0) {
                 return AccessibleAction.INCREMENT;
@@ -1695,6 +1741,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return true if the action was performed; otherwise false.
          * @see #getAccessibleActionCount
          */
+        @Override
         public boolean doAccessibleAction(int i) {
             if (i < 0 || i > 1) {
                 return false;
@@ -1740,6 +1787,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return the zero-based index of the character under Point p; if
          * Point is invalid return -1.
          */
+        @Override
         public int getIndexAtPoint(Point p) {
             AccessibleText at = getEditorAccessibleText();
             if (at != null && sameWindowAncestor(JSpinner.this, editor)) {
@@ -1765,6 +1813,7 @@ public class JSpinner extends JComponent implements Accessible
          * @return the screen coordinates of the character's bounding box,
          * if index is invalid return an empty rectangle.
          */
+        @Override
         public Rectangle getCharacterBounds(int i) {
             AccessibleText at = getEditorAccessibleText();
             if (at != null ) {
@@ -1785,6 +1834,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @return the number of characters
          */
+        @Override
         public int getCharCount() {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1800,6 +1850,7 @@ public class JSpinner extends JComponent implements Accessible
          * value as the offset (the caret is between two characters).
          * @return the zero-based offset of the caret.
          */
+        @Override
         public int getCaretPosition() {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1815,6 +1866,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param index an index within the text
          * @return the letter, word, or sentence
          */
+        @Override
         public String getAtIndex(int part, int index) {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1830,6 +1882,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param index an index within the text
          * @return the letter, word, or sentence
          */
+        @Override
         public String getAfterIndex(int part, int index) {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1845,6 +1898,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param index an index within the text
          * @return the letter, word, or sentence
          */
+        @Override
         public String getBeforeIndex(int part, int index) {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1859,6 +1913,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param i the zero-based index into the text
          * @return the AttributeSet of the character
          */
+        @Override
         public AttributeSet getCharacterAttribute(int i) {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1874,6 +1929,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @return the index into the text of the start of the selection
          */
+        @Override
         public int getSelectionStart() {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1889,6 +1945,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @return the index into the text of the end of the selection
          */
+        @Override
         public int getSelectionEnd() {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1902,6 +1959,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @return the String portion of the text that is selected
          */
+        @Override
         public String getSelectedText() {
             AccessibleText at = getEditorAccessibleText();
             if (at != null) {
@@ -1920,6 +1978,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @param s the string to set the text contents
          */
+        @Override
         public void setTextContents(String s) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -1934,6 +1993,7 @@ public class JSpinner extends JComponent implements Accessible
          * be inserted
          * @param s the string to insert in the text
          */
+        @Override
         public void insertTextAtIndex(int index, String s) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -1948,6 +2008,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param endIndex the ending index in the text
          * @return the text string between the indices
          */
+        @Override
         public String getTextRange(int startIndex, int endIndex) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -1962,6 +2023,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param startIndex the starting index in the text
          * @param endIndex the ending index in the text
          */
+        @Override
         public void delete(int startIndex, int endIndex) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -1975,6 +2037,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param startIndex the starting index in the text
          * @param endIndex the ending index in the text
          */
+        @Override
         public void cut(int startIndex, int endIndex) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -1988,6 +2051,7 @@ public class JSpinner extends JComponent implements Accessible
          *
          * @param startIndex the starting index in the text
          */
+        @Override
         public void paste(int startIndex) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -2003,6 +2067,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param endIndex the ending index in the text
          * @param s the string to replace the text between two indices
          */
+        @Override
         public void replaceText(int startIndex, int endIndex, String s) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -2016,6 +2081,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param startIndex the starting index in the text
          * @param endIndex the ending index in the text
          */
+        @Override
         public void selectText(int startIndex, int endIndex) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {
@@ -2031,6 +2097,7 @@ public class JSpinner extends JComponent implements Accessible
          * @param as the attribute set
          * @see AttributeSet
          */
+        @Override
         public void setAttributes(int startIndex, int endIndex, AttributeSet as) {
             AccessibleEditableText at = getEditorAccessibleEditableText();
             if (at != null) {

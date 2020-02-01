@@ -93,6 +93,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @return the value of the specified attribute name, or null if
      *         not found.
      */
+    @Override
     public Object get(Object name) {
         return map.get(name);
     }
@@ -144,6 +145,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @exception ClassCastException if the name is not a Attributes.Name
      *            or the value is not a String
      */
+    @Override
     public Object put(Object name, Object value) {
         return map.put((Attributes.Name)name, (String)value);
     }
@@ -175,6 +177,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @param name attribute name
      * @return the previous value of the attribute, or null if none
      */
+    @Override
     public Object remove(Object name) {
         return map.remove(name);
     }
@@ -187,6 +190,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @return true if this Map maps one or more attribute names to
      *         the specified value
      */
+    @Override
     public boolean containsValue(Object value) {
         return map.containsValue(value);
     }
@@ -197,6 +201,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @param name the attribute name
      * @return true if this Map contains the specified attribute name
      */
+    @Override
     public boolean containsKey(Object name) {
         return map.containsKey(name);
     }
@@ -208,17 +213,21 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @param attr the Attributes to be stored in this map
      * @exception ClassCastException if attr is not an Attributes
      */
+    @Override
     public void putAll(Map<?,?> attr) {
         // ## javac bug?
-        if (!Attributes.class.isInstance(attr))
+        if (!Attributes.class.isInstance(attr)) {
             throw new ClassCastException();
-        for (Map.Entry<?,?> me : (attr).entrySet())
+        }
+        for (Map.Entry<?,?> me : (attr).entrySet()) {
             put(me.getKey(), me.getValue());
+        }
     }
 
     /**
      * Removes all attributes from this Map.
      */
+    @Override
     public void clear() {
         map.clear();
     }
@@ -226,6 +235,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
     /**
      * Returns the number of attributes in this Map.
      */
+    @Override
     public int size() {
         return map.size();
     }
@@ -233,6 +243,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
     /**
      * Returns true if this Map contains no attributes.
      */
+    @Override
     public boolean isEmpty() {
         return map.isEmpty();
     }
@@ -240,6 +251,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
     /**
      * Returns a Set view of the attribute names (keys) contained in this Map.
      */
+    @Override
     public Set<Object> keySet() {
         return map.keySet();
     }
@@ -247,6 +259,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
     /**
      * Returns a Collection view of the attribute values contained in this Map.
      */
+    @Override
     public Collection<Object> values() {
         return map.values();
     }
@@ -255,6 +268,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * Returns a Collection view of the attribute name-value mappings
      * contained in this Map.
      */
+    @Override
     public Set<Map.Entry<Object,Object>> entrySet() {
         return map.entrySet();
     }
@@ -267,6 +281,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @param o the Object to be compared
      * @return true if the specified Object is equal to this Map
      */
+    @Override
     public boolean equals(Object o) {
         return map.equals(o);
     }
@@ -274,6 +289,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
     /**
      * Returns the hash code value for this Map.
      */
+    @Override
     public int hashCode() {
         return map.hashCode();
     }
@@ -287,6 +303,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * the Attributes returned can be safely modified without affecting
      * the original.
      */
+    @Override
     public Object clone() {
         return new Attributes(this);
     }
@@ -497,6 +514,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
          * @return true if this attribute name is equal to the
          *         specified attribute object
          */
+        @Override
         public boolean equals(Object o) {
             if (o instanceof Name) {
                 Comparator<String> c = ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER;
@@ -509,6 +527,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
         /**
          * Computes the hash value for this attribute name.
          */
+        @Override
         public int hashCode() {
             if (hashCode == -1) {
                 hashCode = ASCIICaseInsensitiveComparator.lowerCaseHashCode(name);
@@ -519,6 +538,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
         /**
          * Returns the attribute name as a String.
          */
+        @Override
         public String toString() {
             return name;
         }

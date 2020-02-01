@@ -56,6 +56,7 @@ class Adler32 implements Checksum {
      *
      * @param b the byte to update the checksum with
      */
+    @Override
     public void update(int b) {
         adler = update(adler, b);
     }
@@ -68,6 +69,7 @@ class Adler32 implements Checksum {
      *          or {@code off+len} is greater than the length of the
      *          array {@code b}
      */
+    @Override
     public void update(byte[] b, int off, int len) {
         if (b == null) {
             throw new NullPointerException();
@@ -106,8 +108,9 @@ class Adler32 implements Checksum {
         int limit = buffer.limit();
         assert (pos <= limit);
         int rem = limit - pos;
-        if (rem <= 0)
+        if (rem <= 0) {
             return;
+        }
         if (buffer instanceof DirectBuffer) {
             adler = updateByteBuffer(adler, ((DirectBuffer)buffer).address(), pos, rem);
         } else if (buffer.hasArray()) {
@@ -123,6 +126,7 @@ class Adler32 implements Checksum {
     /**
      * Resets the checksum to initial value.
      */
+    @Override
     public void reset() {
         adler = 1;
     }
@@ -130,6 +134,7 @@ class Adler32 implements Checksum {
     /**
      * Returns the checksum value.
      */
+    @Override
     public long getValue() {
         return (long)adler & 0xffffffffL;
     }

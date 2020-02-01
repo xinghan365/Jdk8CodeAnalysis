@@ -65,6 +65,7 @@ public class ComponentInputMap extends InputMap {
      *         is not a <code>ComponentInputMap</code>
      *         or is not associated with the same component
      */
+    @Override
     public void setParent(InputMap map) {
         if (getParent() == map) {
             return;
@@ -89,6 +90,7 @@ public class ComponentInputMap extends InputMap {
      * If <code>actionMapKey</code> is null, this removes the current binding
      * for <code>keyStroke</code>.
      */
+    @Override
     public void put(KeyStroke keyStroke, Object actionMapKey) {
         super.put(keyStroke, actionMapKey);
         if (getComponent() != null) {
@@ -99,6 +101,7 @@ public class ComponentInputMap extends InputMap {
     /**
      * Removes the binding for <code>key</code> from this object.
      */
+    @Override
     public void remove(KeyStroke key) {
         super.remove(key);
         if (getComponent() != null) {
@@ -109,6 +112,7 @@ public class ComponentInputMap extends InputMap {
     /**
      * Removes all the mappings from this object.
      */
+    @Override
     public void clear() {
         int oldSize = size();
         super.clear();

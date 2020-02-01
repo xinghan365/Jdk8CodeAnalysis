@@ -67,6 +67,7 @@ class CharacterDataLatin1 extends CharacterData {
         The encoding of character properties is subject to change at any time.
      */
 
+    @Override
     int getProperties(int ch) {
         char offset = (char)ch;
         int props = A[offset];
@@ -79,56 +80,67 @@ class CharacterDataLatin1 extends CharacterData {
         return props;
     }
 
+    @Override
     boolean isOtherLowercase(int ch) {
         int props = getPropertiesEx(ch);
         return (props & 0x0001) != 0;
     }
 
+    @Override
     boolean isOtherUppercase(int ch) {
         int props = getPropertiesEx(ch);
         return (props & 0x0002) != 0;
     }
 
+    @Override
     boolean isOtherAlphabetic(int ch) {
         int props = getPropertiesEx(ch);
         return (props & 0x0004) != 0;
     }
 
+    @Override
     boolean isIdeographic(int ch) {
         int props = getPropertiesEx(ch);
         return (props & 0x0010) != 0;
     }
 
+    @Override
     int getType(int ch) {
         int props = getProperties(ch);
         return (props & 0x1F);
     }
 
+    @Override
     boolean isJavaIdentifierStart(int ch) {
         int props = getProperties(ch);
         return ((props & 0x00007000) >= 0x00005000);
     }
 
+    @Override
     boolean isJavaIdentifierPart(int ch) {
         int props = getProperties(ch);
         return ((props & 0x00003000) != 0);
     }
 
+    @Override
     boolean isUnicodeIdentifierStart(int ch) {
         int props = getProperties(ch);
         return ((props & 0x00007000) == 0x00007000);
     }
 
+    @Override
     boolean isUnicodeIdentifierPart(int ch) {
         int props = getProperties(ch);
         return ((props & 0x00001000) != 0);
     }
 
+    @Override
     boolean isIdentifierIgnorable(int ch) {
         int props = getProperties(ch);
         return ((props & 0x00007000) == 0x00001000);
     }
 
+    @Override
     int toLowerCase(int ch) {
         int mapChar = ch;
         int val = getProperties(ch);
@@ -141,6 +153,7 @@ class CharacterDataLatin1 extends CharacterData {
         return mapChar;
     }
 
+    @Override
     int toUpperCase(int ch) {
         int mapChar = ch;
         int val = getProperties(ch);
@@ -156,10 +169,12 @@ class CharacterDataLatin1 extends CharacterData {
         return mapChar;
     }
 
+    @Override
     int toTitleCase(int ch) {
         return toUpperCase(ch);
     }
 
+    @Override
     int digit(int ch, int radix) {
         int value = -1;
         if (radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX) {
@@ -176,6 +191,7 @@ class CharacterDataLatin1 extends CharacterData {
         return (value < radix) ? value : -1;
     }
 
+    @Override
     int getNumericValue(int ch) {
         int val = getProperties(ch);
         int retval = -1;
@@ -198,11 +214,13 @@ class CharacterDataLatin1 extends CharacterData {
         return retval;
     }
 
+    @Override
     boolean isWhitespace(int ch) {
         int props = getProperties(ch);
         return ((props & 0x00007000) == 0x00004000);
     }
 
+    @Override
     byte getDirectionality(int ch) {
         int val = getProperties(ch);
         byte directionality = (byte)((val & 0x78000000) >> 27);
@@ -213,11 +231,13 @@ class CharacterDataLatin1 extends CharacterData {
         return directionality;
     }
 
+    @Override
     boolean isMirrored(int ch) {
         int props = getProperties(ch);
         return ((props & 0x80000000) != 0);
     }
 
+    @Override
     int toUpperCaseEx(int ch) {
         int mapChar = ch;
         int val = getProperties(ch);
@@ -240,6 +260,7 @@ class CharacterDataLatin1 extends CharacterData {
 
     static char[] sharpsMap = new char[] {'S', 'S'};
 
+    @Override
     char[] toUpperCaseCharArray(int ch) {
         char[] upperMap = {(char)ch};
         if (ch == 0x00DF) {

@@ -94,6 +94,7 @@ class HeapFloatBuffer
 
     }
 
+    @Override
     public FloatBuffer slice() {
         return new HeapFloatBuffer(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapFloatBuffer
                                         this.position() + offset);
     }
 
+    @Override
     public FloatBuffer duplicate() {
         return new HeapFloatBuffer(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapFloatBuffer
                                         offset);
     }
 
+    @Override
     public FloatBuffer asReadOnlyBuffer() {
 
         return new HeapFloatBufferR(hb,
@@ -131,10 +134,12 @@ class HeapFloatBuffer
         return i + offset;
     }
 
+    @Override
     public float get() {
         return hb[ix(nextGetIndex())];
     }
 
+    @Override
     public float get(int i) {
         return hb[ix(checkIndex(i))];
     }
@@ -145,25 +150,30 @@ class HeapFloatBuffer
 
 
 
+    @Override
     public FloatBuffer get(float[] dst, int offset, int length) {
         checkBounds(offset, length, dst.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferUnderflowException();
+        }
         System.arraycopy(hb, ix(position()), dst, offset, length);
         position(position() + length);
         return this;
     }
 
+    @Override
     public boolean isDirect() {
         return false;
     }
 
 
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public FloatBuffer put(float x) {
 
         hb[ix(nextPutIndex())] = x;
@@ -173,6 +183,7 @@ class HeapFloatBuffer
 
     }
 
+    @Override
     public FloatBuffer put(int i, float x) {
 
         hb[ix(checkIndex(i))] = x;
@@ -182,11 +193,13 @@ class HeapFloatBuffer
 
     }
 
+    @Override
     public FloatBuffer put(float[] src, int offset, int length) {
 
         checkBounds(offset, length, src.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferOverflowException();
+        }
         System.arraycopy(src, offset, hb, ix(position()), length);
         position(position() + length);
         return this;
@@ -195,23 +208,27 @@ class HeapFloatBuffer
 
     }
 
+    @Override
     public FloatBuffer put(FloatBuffer src) {
 
         if (src instanceof HeapFloatBuffer) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             HeapFloatBuffer sb = (HeapFloatBuffer)src;
             int n = sb.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             System.arraycopy(sb.hb, sb.ix(sb.position()),
                              hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
             int n = src.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             src.get(hb, ix(position()), n);
             position(position() + n);
         } else {
@@ -223,6 +240,7 @@ class HeapFloatBuffer
 
     }
 
+    @Override
     public FloatBuffer compact() {
 
         System.arraycopy(hb, ix(position()), hb, ix(0), remaining());
@@ -592,6 +610,7 @@ class HeapFloatBuffer
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

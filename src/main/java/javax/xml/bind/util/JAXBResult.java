@@ -107,9 +107,10 @@ public class JAXBResult extends SAXResult {
      * JAXBResult or the Unmarshaller parameter is null.
      */
     public JAXBResult( Unmarshaller _unmarshaller ) throws JAXBException {
-        if( _unmarshaller == null )
+        if( _unmarshaller == null ) {
             throw new JAXBException(
                 Messages.format( Messages.RESULT_NULL_UNMARSHALLER ) );
+        }
 
         this.unmarshallerHandler = _unmarshaller.getUnmarshallerHandler();
 

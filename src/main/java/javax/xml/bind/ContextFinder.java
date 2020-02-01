@@ -87,12 +87,17 @@ class ContextFinder {
         if( t != null ) {
             if( t instanceof JAXBException )
                 // one of our exceptions, just re-throw
+            {
                 throw (JAXBException)t;
+            }
             if( t instanceof RuntimeException )
                 // avoid wrapping exceptions unnecessarily
+            {
                 throw (RuntimeException)t;
-            if( t instanceof Error )
+            }
+            if( t instanceof Error ) {
                 throw (Error)t;
+            }
         }
     }
 
@@ -191,8 +196,9 @@ class ContextFinder {
             // for other exceptions, wrap the internal target exception
             // with a JAXBException
             Throwable e = x;
-            if(x.getTargetException()!=null)
+            if(x.getTargetException()!=null) {
                 e = x.getTargetException();
+            }
 
             throw new JAXBException( Messages.format( Messages.COULD_NOT_INSTANTIATE, spFactory, e ), e );
         } catch (RuntimeException x) {
@@ -256,8 +262,9 @@ class ContextFinder {
             handleInvocationTargetException(e);
 
             Throwable x = e;
-            if (e.getTargetException() != null)
+            if (e.getTargetException() != null) {
                 x = e.getTargetException();
+            }
 
             throw new JAXBException(x);
         }
@@ -276,7 +283,9 @@ class ContextFinder {
 
         if(!packages.hasMoreTokens())
             // no context is specified
+        {
             throw new JAXBException(Messages.format(Messages.NO_PACKAGE_IN_CONTEXTPATH));
+        }
 
 
         logger.fine("Searching jaxb.properties");
@@ -366,8 +375,9 @@ class ContextFinder {
             // this classloader is used only to load jaxb.properties, so doing this should be safe.
             ClassLoader classLoader = getClassClassLoader(c);
             Package pkg = c.getPackage();
-            if(pkg==null)
+            if(pkg==null) {
                 continue;       // this is possible for primitives, arrays, and classes that are loaded by poorly implemented ClassLoaders
+            }
             String packageName = pkg.getName().replace('.', '/');
 
             // TODO: do we want to optimize away searching the same package?  org.Foo, org.Bar, com.Baz
@@ -426,10 +436,11 @@ class ContextFinder {
             final String resource = new StringBuilder("META-INF/services/").append(jaxbContextFQCN).toString();
             ClassLoader classLoader = getContextClassLoader();
             URL resourceURL;
-            if(classLoader==null)
+            if(classLoader==null) {
                 resourceURL = ClassLoader.getSystemResource(resource);
-            else
+            } else {
                 resourceURL = classLoader.getResource(resource);
+            }
 
             if (resourceURL != null) {
                 logger.log(Level.FINE, "Reading {0}", resourceURL);
@@ -483,10 +494,11 @@ class ContextFinder {
 
         try {
             URL url;
-            if(classLoader==null)
+            if(classLoader==null) {
                 url = ClassLoader.getSystemResource(propFileName);
-            else
+            } else {
                 url = classLoader.getResource( propFileName );
+            }
 
             if( url != null ) {
                 logger.log(Level.FINE, "loading props from {0}", url);
@@ -593,6 +605,7 @@ class ContextFinder {
         } else {
             return (ClassLoader) java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction() {
+                        @Override
                         public java.lang.Object run() {
                             return Thread.currentThread().getContextClassLoader();
                         }
@@ -606,6 +619,7 @@ class ContextFinder {
         } else {
             return (ClassLoader) java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction() {
+                        @Override
                         public java.lang.Object run() {
                             return c.getClassLoader();
                         }
@@ -619,6 +633,7 @@ class ContextFinder {
         } else {
             return (ClassLoader) java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction() {
+                        @Override
                         public java.lang.Object run() {
                             return ClassLoader.getSystemClassLoader();
                         }

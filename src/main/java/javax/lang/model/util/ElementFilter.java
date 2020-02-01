@@ -189,8 +189,9 @@ public class ElementFilter {
                                                           Class<E> clazz) {
         List<E> list = new ArrayList<E>();
         for (Element e : elements) {
-            if (targetKinds.contains(e.getKind()))
+            if (targetKinds.contains(e.getKind())) {
                 list.add(clazz.cast(e));
+            }
         }
         return list;
     }
@@ -202,8 +203,9 @@ public class ElementFilter {
         // Return set preserving iteration order of input set.
         Set<E> set = new LinkedHashSet<E>();
         for (Element e : elements) {
-            if (targetKinds.contains(e.getKind()))
+            if (targetKinds.contains(e.getKind())) {
                 set.add(clazz.cast(e));
+            }
         }
         return set;
     }

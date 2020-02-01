@@ -165,8 +165,9 @@ class XPathFactoryFinder  {
                 if (xpathFactory != null) {
                     return xpathFactory;
                 }
-            } else
+            } else {
                 debugPrintln("The property is undefined.");
+            }
         } catch( Throwable t ) {
             if( debug ) {
                 debugPrintln("failed to look up system property '"+propertyName+"'" );
@@ -316,6 +317,7 @@ class XPathFactoryFinder  {
             final String objectModel,
             AccessControlContext acc) {
         return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+                    @Override
                     public Boolean run() {
                         return factory.isObjectModelSupported(objectModel);
                     }
@@ -339,6 +341,7 @@ class XPathFactoryFinder  {
         final AccessControlContext acc = AccessController.getContext();
         try {
             return AccessController.doPrivileged(new PrivilegedAction<XPathFactory>() {
+                @Override
                 public XPathFactory run() {
                     final ServiceLoader<XPathFactory> loader =
                             ServiceLoader.load(SERVICE_CLASS);
@@ -375,7 +378,9 @@ class XPathFactoryFinder  {
 
         String classnameAsResource = classname.replace('.', '/') + ".class";
 
-        if( loader==null )  loader = ClassLoader.getSystemClassLoader();
+        if( loader==null ) {
+            loader = ClassLoader.getSystemClassLoader();
+        }
 
         //URL it = loader.getResource(classnameAsResource);
         URL it = ss.getResourceAsURL(loader, classnameAsResource);

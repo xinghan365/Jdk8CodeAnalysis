@@ -2464,6 +2464,7 @@ public abstract class ImageReader {
             ClassLoader loader = (ClassLoader)
                 java.security.AccessController.doPrivileged(
                    new java.security.PrivilegedAction() {
+                      @Override
                       public Object run() {
                         return Thread.currentThread().getContextClassLoader();
                       }

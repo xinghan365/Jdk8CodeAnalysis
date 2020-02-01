@@ -319,6 +319,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((SliderUI)UIManager.getUI(this));
         // The labels preferred size may be derived from the font
@@ -336,6 +337,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -346,6 +348,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      * the slider (instead of the model itself) as the event source.
      */
     private class ModelListener implements ChangeListener, Serializable {
+        @Override
         public void stateChanged(ChangeEvent e) {
             fireStateChanged();
         }
@@ -752,6 +755,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      *
      * @since 1.6
      */
+    @Override
     public void setFont(Font font) {
         super.setFont(font);
         updateLabelSizes();
@@ -761,6 +765,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      * {@inheritDoc}
      * @since 1.7
      */
+    @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int w, int h) {
         if (!isShowing()) {
             return false;
@@ -940,6 +945,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
                     setName("Slider.label");
                 }
 
+                @Override
                 public Font getFont() {
                     Font font = super.getFont();
                     if (font != null && !(font instanceof UIResource)) {
@@ -948,6 +954,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
                     return JSlider.this.getFont();
                 }
 
+                @Override
                 public Color getForeground() {
                     Color fg = super.getForeground();
                     if (fg != null && !(fg instanceof UIResource)) {
@@ -968,7 +975,8 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
                 createLabels();
             }
 
-            public void propertyChange( PropertyChangeEvent e ) {
+            @Override
+            public void propertyChange(PropertyChangeEvent e ) {
                 if ( e.getPropertyName().equals( "minimum" ) && startAtMin ) {
                     start = getMinimum();
                 }
@@ -1366,6 +1374,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      *
      * @return  a string representation of this JSlider.
      */
+    @Override
     protected String paramString() {
         String paintTicksString = (paintTicks ?
                                    "true" : "false");
@@ -1408,6 +1417,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
      * @return an AccessibleJSlider that serves as the
      *         AccessibleContext of this JSlider
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJSlider();
@@ -1439,6 +1449,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getValueIsAdjusting()) {
@@ -1458,6 +1469,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          *
          * @return an instance of AccessibleRole describing the role of the object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SLIDER;
         }
@@ -1470,6 +1482,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -1479,6 +1492,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          *
          * @return The current value of this object.
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(getValue());
         }
@@ -1488,6 +1502,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          *
          * @return True if the value was set.
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // TIGER - 4422535
             if (n == null) {
@@ -1502,6 +1517,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          *
          * @return The minimum value of this object.
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(getMinimum());
         }
@@ -1511,6 +1527,7 @@ public class JSlider extends JComponent implements SwingConstants, Accessible {
          *
          * @return The maximum value of this object.
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             // TIGER - 4422362
             BoundedRangeModel model = JSlider.this.getModel();

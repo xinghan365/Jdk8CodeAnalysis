@@ -199,6 +199,7 @@ public final class ObjID implements Serializable {
      *
      * @return  the hash code value for this object identifier
      */
+    @Override
     public int hashCode() {
         return (int) objNum;
     }
@@ -216,6 +217,7 @@ public final class ObjID implements Serializable {
      * @return  <code>true</code> if the given object is equivalent to
      * this one, and <code>false</code> otherwise
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof ObjID) {
             ObjID id = (ObjID) obj;
@@ -235,6 +237,7 @@ public final class ObjID implements Serializable {
      * representation if it does not denote the local address space
      * (or if the randomIDs property was set).
      */
+    @Override
     public String toString() {
         return "[" + (space.equals(mySpace) ? "" : space + ", ") +
             objNum + "]";

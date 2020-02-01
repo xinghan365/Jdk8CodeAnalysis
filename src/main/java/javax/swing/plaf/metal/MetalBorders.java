@@ -59,8 +59,9 @@ public class MetalBorders {
 
 
     public static class Flush3DBorder extends AbstractBorder implements UIResource{
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
-                          int w, int h) {
+                                int w, int h) {
             if (c.isEnabled()) {
                 MetalUtils.drawFlush3DBorder(g, x, y, w, h);
             } else {
@@ -68,6 +69,7 @@ public class MetalBorders {
             }
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             newInsets.set(2, 2, 2, 2);
             return newInsets;
@@ -78,6 +80,7 @@ public class MetalBorders {
 
         protected static Insets borderInsets = new Insets( 3, 3, 3, 3 );
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             if (!(c instanceof AbstractButton)) {
                 return;
@@ -182,6 +185,7 @@ public class MetalBorders {
             }
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             newInsets.set(3, 3, 3, 3);
             return newInsets;
@@ -191,8 +195,9 @@ public class MetalBorders {
     public static class InternalFrameBorder extends AbstractBorder implements UIResource {
         private static final int corner = 14;
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
-                          int w, int h) {
+                                int w, int h) {
 
             Color background;
             Color highlight;
@@ -239,6 +244,7 @@ public class MetalBorders {
 
           }
 
+          @Override
           public Insets getBorderInsets(Component c, Insets newInsets) {
               newInsets.set(5, 5, 5, 5);
               return newInsets;
@@ -252,8 +258,9 @@ public class MetalBorders {
     static class FrameBorder extends AbstractBorder implements UIResource {
         private static final int corner = 14;
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
-            int w, int h) {
+                                int w, int h) {
 
             Color background;
             Color highlight;
@@ -300,6 +307,7 @@ public class MetalBorders {
 
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets)
         {
             newInsets.set(5, 5, 5, 5);
@@ -345,6 +353,7 @@ public class MetalBorders {
             return MetalLookAndFeel.getControlInfo();
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h)
         {
             Color background;
@@ -393,6 +402,7 @@ public class MetalBorders {
 
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets)
         {
             newInsets.set(5, 5, 5, 5);
@@ -406,6 +416,7 @@ public class MetalBorders {
      */
     static class ErrorDialogBorder extends DialogBorder implements UIResource
     {
+        @Override
         protected Color getActiveBackground() {
             return UIManager.getColor("OptionPane.errorDialog.border.background");
         }
@@ -419,6 +430,7 @@ public class MetalBorders {
      */
     static class QuestionDialogBorder extends DialogBorder implements UIResource
     {
+        @Override
         protected Color getActiveBackground() {
             return UIManager.getColor("OptionPane.questionDialog.border.background");
         }
@@ -431,6 +443,7 @@ public class MetalBorders {
      */
     static class WarningDialogBorder extends DialogBorder implements UIResource
     {
+        @Override
         protected Color getActiveBackground() {
             return UIManager.getColor("OptionPane.warningDialog.border.background");
         }
@@ -444,7 +457,8 @@ public class MetalBorders {
     public static class PaletteBorder extends AbstractBorder implements UIResource {
         int titleHeight = 0;
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
 
             g.translate(x,y);
             g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
@@ -457,6 +471,7 @@ public class MetalBorders {
 
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             newInsets.set(1, 1, 1, 1);
             return newInsets;
@@ -466,7 +481,8 @@ public class MetalBorders {
     public static class OptionDialogBorder extends AbstractBorder implements UIResource {
         int titleHeight = 0;
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
 
             g.translate(x,y);
 
@@ -518,6 +534,7 @@ public class MetalBorders {
 
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             newInsets.set(3, 3, 3, 3);
             return newInsets;
@@ -528,7 +545,8 @@ public class MetalBorders {
     public static class MenuBarBorder extends AbstractBorder implements UIResource {
         protected static Insets borderInsets = new Insets( 1, 0, 1, 0 );
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
             g.translate(x, y);
 
             if (MetalLookAndFeel.usingOcean()) {
@@ -547,6 +565,7 @@ public class MetalBorders {
             g.translate(-x, -y);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             if (MetalLookAndFeel.usingOcean()) {
                 newInsets.set(0, 0, 2, 0);
@@ -561,7 +580,8 @@ public class MetalBorders {
     public static class MenuItemBorder extends AbstractBorder implements UIResource {
         protected static Insets borderInsets = new Insets( 2, 2, 2, 2 );
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
             if (!(c instanceof JMenuItem)) {
                 return;
             }
@@ -599,6 +619,7 @@ public class MetalBorders {
             g.translate( -x, -y );
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             newInsets.set(2, 2, 2, 2);
             return newInsets;
@@ -608,7 +629,8 @@ public class MetalBorders {
     public static class PopupMenuBorder extends AbstractBorder implements UIResource {
         protected static Insets borderInsets = new Insets( 3, 1, 2, 1 );
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
             g.translate( x, y );
 
             g.setColor( MetalLookAndFeel.getPrimaryControlDarkShadow() );
@@ -623,6 +645,7 @@ public class MetalBorders {
 
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             newInsets.set(3, 1, 2, 1);
             return newInsets;
@@ -632,7 +655,8 @@ public class MetalBorders {
 
     public static class RolloverButtonBorder extends ButtonBorder {
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
             AbstractButton b = (AbstractButton) c;
             ButtonModel model = b.getModel();
 
@@ -656,6 +680,7 @@ public class MetalBorders {
             super(3,3,3,3); // hardcoded margin for JLF requirements.
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             Insets margin = null;
 
@@ -686,7 +711,8 @@ public class MetalBorders {
                                       MetalLookAndFeel.getControlDarkShadow(),
                                      UIManager.getColor("ToolBar.background"));
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h )
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h )
         {
             if (!(c instanceof JToolBar)) {
                 return;
@@ -725,6 +751,7 @@ public class MetalBorders {
             g.translate( -x, -y );
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets newInsets) {
             if (MetalLookAndFeel.usingOcean()) {
                 newInsets.set(1, 2, 3, 2);
@@ -808,6 +835,7 @@ public class MetalBorders {
 
     public static class TextFieldBorder extends Flush3DBorder {
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int w, int h) {
 
@@ -831,8 +859,9 @@ public class MetalBorders {
     }
 
     public static class ScrollPaneBorder extends AbstractBorder implements UIResource {
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
-                          int w, int h) {
+                                int w, int h) {
 
             if (!(c instanceof JScrollPane)) {
                 return;
@@ -840,13 +869,15 @@ public class MetalBorders {
             JScrollPane scroll = (JScrollPane)c;
             JComponent colHeader = scroll.getColumnHeader();
             int colHeaderHeight = 0;
-            if (colHeader != null)
-               colHeaderHeight = colHeader.getHeight();
+            if (colHeader != null) {
+                colHeaderHeight = colHeader.getHeight();
+            }
 
             JComponent rowHeader = scroll.getRowHeader();
             int rowHeaderWidth = 0;
-            if (rowHeader != null)
-               rowHeaderWidth = rowHeader.getWidth();
+            if (rowHeader != null) {
+                rowHeaderWidth = rowHeader.getWidth();
+            }
 
 
             g.translate( x, y);
@@ -866,6 +897,7 @@ public class MetalBorders {
 
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             insets.set(1, 1, 2, 2);
             return insets;
@@ -891,6 +923,7 @@ public class MetalBorders {
      * @since 1.3
      */
     public static class ToggleButtonBorder extends ButtonBorder {
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             AbstractButton button = (AbstractButton)c;
             ButtonModel model = button.getModel();
@@ -925,6 +958,7 @@ public class MetalBorders {
     public static class TableHeaderBorder extends javax.swing.border.AbstractBorder {
         protected Insets editorBorderInsets = new Insets( 2, 2, 2, 0 );
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             g.translate( x, y );
 
@@ -938,6 +972,7 @@ public class MetalBorders {
             g.translate( -x, -y );
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             insets.set(2, 2, 2, 0);
             return insets;

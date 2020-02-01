@@ -896,8 +896,9 @@ public class Utilities {
             StyleConstants.ComposedTextAttribute);
         as.addAttribute(TextAttribute.FONT, g.getFont());
 
-        if (p0 >= p1)
+        if (p0 >= p1) {
             return x;
+        }
 
         AttributedCharacterIterator aci = as.getIterator(null, p0, p1);
         return x + (int)SwingUtilities2.drawString(

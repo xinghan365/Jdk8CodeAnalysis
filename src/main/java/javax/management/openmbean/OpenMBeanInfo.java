@@ -153,6 +153,7 @@ public interface OpenMBeanInfo {
      *
      * @return  <code>true</code> if the specified object is equal to this <code>OpenMBeanInfo</code> instance.
      */
+    @Override
     public boolean equals(Object obj);
 
     /**
@@ -172,6 +173,7 @@ public interface OpenMBeanInfo {
      *
      * @return  the hash code value for this <code>OpenMBeanInfo</code> instance
      */
+    @Override
     public int hashCode();
 
     /**
@@ -183,6 +185,7 @@ public interface OpenMBeanInfo {
      *
      * @return  a string representation of this <code>OpenMBeanInfo</code> instance
      */
+    @Override
     public String toString();
 
 }

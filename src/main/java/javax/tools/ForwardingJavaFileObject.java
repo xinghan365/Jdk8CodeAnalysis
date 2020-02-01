@@ -50,16 +50,20 @@ public class ForwardingJavaFileObject<F extends JavaFileObject>
         super(fileObject);
     }
 
+    @Override
     public Kind getKind() {
         return fileObject.getKind();
     }
 
+    @Override
     public boolean isNameCompatible(String simpleName, Kind kind) {
         return fileObject.isNameCompatible(simpleName, kind);
     }
 
+    @Override
     public NestingKind getNestingKind() { return fileObject.getNestingKind(); }
 
+    @Override
     public Modifier getAccessLevel()  { return fileObject.getAccessLevel(); }
 
 }

@@ -405,6 +405,7 @@ public abstract class IIOMetadata {
             ClassLoader loader = (ClassLoader)
                 java.security.AccessController.doPrivileged(
                     new java.security.PrivilegedAction() {
+                            @Override
                             public Object run() {
                                 return o.getClass().getClassLoader();
                             }
@@ -420,6 +421,7 @@ public abstract class IIOMetadata {
                 loader = (ClassLoader)
                     java.security.AccessController.doPrivileged(
                         new java.security.PrivilegedAction() {
+                                @Override
                                 public Object run() {
                                     return Thread.currentThread().getContextClassLoader();
                                 }

@@ -379,14 +379,16 @@ class Inflater {
     /**
      * Closes the decompressor when garbage is collected.
      */
+    @Override
     protected void finalize() {
         end();
     }
 
     private void ensureOpen () {
         assert Thread.holdsLock(zsRef);
-        if (zsRef.address() == 0)
+        if (zsRef.address() == 0) {
             throw new NullPointerException("Inflater has been closed");
+        }
     }
 
     boolean ended() {

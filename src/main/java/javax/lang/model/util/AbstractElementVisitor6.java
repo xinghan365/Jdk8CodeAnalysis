@@ -93,6 +93,7 @@ public abstract class AbstractElementVisitor6<R, P> implements ElementVisitor<R,
      * @param p  a visitor-specified parameter
      * @return a visitor-specified result
      */
+    @Override
     public final R visit(Element e, P p) {
         return e.accept(this, p);
     }
@@ -107,6 +108,7 @@ public abstract class AbstractElementVisitor6<R, P> implements ElementVisitor<R,
      * @param e  the element to visit
      * @return a visitor-specified result
      */
+    @Override
     public final R visit(Element e) {
         return e.accept(this, null);
     }
@@ -125,6 +127,7 @@ public abstract class AbstractElementVisitor6<R, P> implements ElementVisitor<R,
      * @throws UnknownElementException
      *          a visitor implementation may optionally throw this exception
      */
+    @Override
     public R visitUnknown(Element e, P p) {
         throw new UnknownElementException(e, p);
     }

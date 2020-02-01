@@ -100,8 +100,9 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
         if(in == null) {
             throw new NullPointerException("in is null");
         }
-        if (charset == null)
+        if (charset == null) {
             throw new NullPointerException("charset is null");
+        }
         this.zc = ZipCoder.get(charset);
     }
 
@@ -137,7 +138,9 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
      */
     public void closeEntry() throws IOException {
         ensureOpen();
-        while (read(tmpbuf, 0, tmpbuf.length) != -1) ;
+        while (read(tmpbuf, 0, tmpbuf.length) != -1) {
+            ;
+        }
         entryEOF = true;
     }
 
@@ -152,6 +155,7 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
      * @exception  IOException  if an I/O error occurs.
      *
      */
+    @Override
     public int available() throws IOException {
         ensureOpen();
         if (entryEOF) {
@@ -178,6 +182,7 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
      * @exception ZipException if a ZIP file error has occurred
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         ensureOpen();
         if (off < 0 || len < 0 || off > b.length - len) {
@@ -234,6 +239,7 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
      * @exception IOException if an I/O error has occurred
      * @exception IllegalArgumentException if {@code n < 0}
      */
+    @Override
     public long skip(long n) throws IOException {
         if (n < 0) {
             throw new IllegalArgumentException("negative skip length");
@@ -261,6 +267,7 @@ class ZipInputStream extends InflaterInputStream implements ZipConstants {
      * with the stream.
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void close() throws IOException {
         if (!closed) {
             super.close();

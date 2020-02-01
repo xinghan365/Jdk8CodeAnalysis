@@ -67,6 +67,7 @@ public class DefaultListModel<E> extends AbstractListModel<E>
      * @return  the number of components in this list
      * @see #size()
      */
+    @Override
     public int getSize() {
         return delegate.size();
     }
@@ -85,6 +86,7 @@ public class DefaultListModel<E> extends AbstractListModel<E>
      *             list
      * @see #get(int)
      */
+    @Override
     public E getElementAt(int index) {
         return delegate.elementAt(index);
     }
@@ -412,6 +414,7 @@ public class DefaultListModel<E> extends AbstractListModel<E>
      *
      * @return a String representation of this object
      */
+   @Override
    public String toString() {
         return delegate.toString();
     }

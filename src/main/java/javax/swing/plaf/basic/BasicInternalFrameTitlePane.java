@@ -313,6 +313,7 @@ public class BasicInternalFrameTitlePane extends JComponent
       windowMenu.doClick();
     }
 
+    @Override
     public void paintComponent(Graphics g)  {
         paintTitleBackground(g);
 
@@ -320,10 +321,11 @@ public class BasicInternalFrameTitlePane extends JComponent
             boolean isSelected = frame.isSelected();
             Font f = g.getFont();
             g.setFont(getFont());
-            if(isSelected)
+            if(isSelected) {
                 g.setColor(selectedTextColor);
-            else
+            } else {
                 g.setColor(notSelectedTextColor);
+            }
 
             // Center text vertically.
             FontMetrics fm = SwingUtilities2.getFontMetrics(frame, g);
@@ -332,14 +334,20 @@ public class BasicInternalFrameTitlePane extends JComponent
 
             int titleX;
             Rectangle r = new Rectangle(0, 0, 0, 0);
-            if (frame.isIconifiable())  r = iconButton.getBounds();
-            else if (frame.isMaximizable())  r = maxButton.getBounds();
-            else if (frame.isClosable())  r = closeButton.getBounds();
+            if (frame.isIconifiable()) {
+                r = iconButton.getBounds();
+            } else if (frame.isMaximizable()) {
+                r = maxButton.getBounds();
+            } else if (frame.isClosable()) {
+                r = closeButton.getBounds();
+            }
             int titleW;
 
             String title = frame.getTitle();
             if( BasicGraphicsUtils.isLeftToRight(frame) ) {
-              if (r.x == 0)  r.x = frame.getWidth()-frame.getInsets().right;
+              if (r.x == 0) {
+                  r.x = frame.getWidth()-frame.getInsets().right;
+              }
               titleX = menuBar.getX() + menuBar.getWidth() + 2;
               titleW = r.x - titleX - 3;
               title = getTitle(frame.getTitle(), fm, titleW);
@@ -363,10 +371,11 @@ public class BasicInternalFrameTitlePane extends JComponent
     protected void paintTitleBackground(Graphics g) {
         boolean isSelected = frame.isSelected();
 
-        if(isSelected)
+        if(isSelected) {
             g.setColor(selectedTitleColor);
-        else
+        } else {
             g.setColor(notSelectedTitleColor);
+        }
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
@@ -422,6 +431,7 @@ public class BasicInternalFrameTitlePane extends JComponent
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String prop = evt.getPropertyName();
 
@@ -466,12 +476,16 @@ public class BasicInternalFrameTitlePane extends JComponent
         //
         // LayoutManager
         //
+        @Override
         public void addLayoutComponent(String name, Component c) {}
+        @Override
         public void removeLayoutComponent(Component c) {}
+        @Override
         public Dimension preferredLayoutSize(Container c) {
             return minimumLayoutSize(c);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             // Calculate width.
             int width = 22;
@@ -525,6 +539,7 @@ public class BasicInternalFrameTitlePane extends JComponent
             return dim;
         }
 
+        @Override
         public void layoutContainer(Container c) {
             boolean leftToRight = BasicGraphicsUtils.isLeftToRight(frame);
 
@@ -569,6 +584,7 @@ public class BasicInternalFrameTitlePane extends JComponent
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             getHandler().propertyChange(evt);
         }
@@ -583,22 +599,27 @@ public class BasicInternalFrameTitlePane extends JComponent
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void addLayoutComponent(String name, Component c) {
             getHandler().addLayoutComponent(name, c);
         }
 
+        @Override
         public void removeLayoutComponent(Component c) {
             getHandler().removeLayoutComponent(c);
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container c)  {
             return getHandler().preferredLayoutSize(c);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             return getHandler().minimumLayoutSize(c);
         }
 
+        @Override
         public void layoutContainer(Container c) {
             getHandler().layoutContainer(c);
         }
@@ -614,6 +635,7 @@ public class BasicInternalFrameTitlePane extends JComponent
                     "InternalFrameTitlePane.closeButtonText"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if(frame.isClosable()) {
                 frame.doDefaultCloseAction();
@@ -631,6 +653,7 @@ public class BasicInternalFrameTitlePane extends JComponent
                     "InternalFrameTitlePane.maximizeButtonText"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             if (frame.isMaximizable()) {
                 if (frame.isMaximum() && frame.isIcon()) {
@@ -660,6 +683,7 @@ public class BasicInternalFrameTitlePane extends JComponent
                     "InternalFrameTitlePane.minimizeButtonText"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if(frame.isIconifiable()) {
               if(!frame.isIcon()) {
@@ -681,6 +705,7 @@ public class BasicInternalFrameTitlePane extends JComponent
                     "InternalFrameTitlePane.restoreButtonText"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
             if (frame.isMaximizable() && frame.isMaximum() && frame.isIcon()) {
                 try {
@@ -708,6 +733,7 @@ public class BasicInternalFrameTitlePane extends JComponent
                     "InternalFrameTitlePane.moveButtonText"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             // This action is currently undefined
         }
@@ -723,6 +749,7 @@ public class BasicInternalFrameTitlePane extends JComponent
             this.show = show;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (show) {
                 windowMenu.doClick();
@@ -742,6 +769,7 @@ public class BasicInternalFrameTitlePane extends JComponent
                     "InternalFrameTitlePane.sizeButtonText"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             // This action is currently undefined
         }
@@ -753,8 +781,11 @@ public class BasicInternalFrameTitlePane extends JComponent
      * Instantiate it only within subclasses of <code>Foo</code>.
      */
     public class SystemMenuBar extends JMenuBar {
+        @Override
         public boolean isFocusTraversable() { return false; }
+        @Override
         public void requestFocus() {}
+        @Override
         public void paint(Graphics g) {
             Icon icon = frame.getFrameIcon();
             if (icon == null) {
@@ -771,6 +802,7 @@ public class BasicInternalFrameTitlePane extends JComponent
             }
         }
 
+        @Override
         public boolean isOpaque() {
             return true;
         }
@@ -789,8 +821,11 @@ public class BasicInternalFrameTitlePane extends JComponent
                 setOpaque(((Boolean)opacity).booleanValue());
             }
         }
+        @Override
         public boolean isFocusTraversable() { return false; }
+        @Override
         public void requestFocus() {}
+        @Override
         public AccessibleContext getAccessibleContext() {
             AccessibleContext ac = super.getAccessibleContext();
             if (uiKey != null) {

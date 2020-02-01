@@ -108,15 +108,18 @@ public class BorderUIResource implements Border, UIResource, Serializable
         this.delegate = delegate;
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y,
                             int width, int height) {
         delegate.paintBorder(c, g, x, y, width, height);
     }
 
+    @Override
     public Insets getBorderInsets(Component c)       {
         return delegate.getBorderInsets(c);
     }
 
+    @Override
     public boolean isBorderOpaque() {
         return delegate.isBorderOpaque();
     }

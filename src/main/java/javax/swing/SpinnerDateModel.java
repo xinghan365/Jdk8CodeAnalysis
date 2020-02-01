@@ -376,6 +376,7 @@ public class SpinnerDateModel extends AbstractSpinnerModel implements Serializab
      * @see #getPreviousValue
      * @see #setCalendarField
      */
+    @Override
     public Object getNextValue() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(value.getTime());
@@ -397,6 +398,7 @@ public class SpinnerDateModel extends AbstractSpinnerModel implements Serializab
      * @see #getNextValue
      * @see #setCalendarField
      */
+    @Override
     public Object getPreviousValue() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(value.getTime());
@@ -425,6 +427,7 @@ public class SpinnerDateModel extends AbstractSpinnerModel implements Serializab
      * @see #setValue
      * @see #getDate
      */
+    @Override
     public Object getValue() {
         return value.getTime();
     }
@@ -452,6 +455,7 @@ public class SpinnerDateModel extends AbstractSpinnerModel implements Serializab
      * @see #getValue
      * @see #addChangeListener
      */
+    @Override
     public void setValue(Object value) {
         if ((value == null) || !(value instanceof Date)) {
             throw new IllegalArgumentException("illegal value");

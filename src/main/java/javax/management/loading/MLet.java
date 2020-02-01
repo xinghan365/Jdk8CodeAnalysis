@@ -374,8 +374,9 @@ public class MLet extends java.net.URLClassLoader
 
          try {
              libraryDirectory = System.getProperty(MLET_LIB_DIR);
-             if (libraryDirectory == null)
+             if (libraryDirectory == null) {
                  libraryDirectory = getTmpDir();
+             }
          } catch (SecurityException e) {
              // OK : We don't do AccessController.doPrivileged, but we don't
              //      stop the user from creating an MLet just because they
@@ -396,9 +397,11 @@ public class MLet extends java.net.URLClassLoader
       * Appends the specified URL to the list of URLs to search for classes and
       * resources.
       */
+     @Override
      public void addURL(URL url) {
-         if (!Arrays.asList(getURLs()).contains(url))
+         if (!Arrays.asList(getURLs()).contains(url)) {
              super.addURL(url);
+         }
      }
 
      /**
@@ -406,11 +409,13 @@ public class MLet extends java.net.URLClassLoader
       * resources.
       * @exception ServiceNotFoundException The specified URL is malformed.
       */
+     @Override
      public void addURL(String url) throws ServiceNotFoundException {
          try {
              URL ur = new URL(url);
-             if (!Arrays.asList(getURLs()).contains(ur))
+             if (!Arrays.asList(getURLs()).contains(ur)) {
                  super.addURL(ur);
+             }
          } catch (MalformedURLException e) {
              if (MLET_LOGGER.isLoggable(Level.FINEST)) {
                  MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
@@ -425,6 +430,7 @@ public class MLet extends java.net.URLClassLoader
       * This includes the original list of URLs specified to the constructor,
       * along with any URLs subsequently appended by the addURL() method.
       */
+     @Override
      public URL[] getURLs() {
          return super.getURLs();
      }
@@ -447,6 +453,7 @@ public class MLet extends java.net.URLClassLoader
       * null.
       * @exception IllegalStateException MLet MBean is not registered with an MBeanServer.
       */
+     @Override
      public Set<Object> getMBeansFromURL(URL url)
              throws ServiceNotFoundException  {
          if (url == null) {
@@ -478,6 +485,7 @@ public class MLet extends java.net.URLClassLoader
       * with an MBeanServer.
       *
       */
+     @Override
      public Set<Object> getMBeansFromURL(String url)
              throws ServiceNotFoundException  {
 
@@ -734,6 +742,7 @@ public class MLet extends java.net.URLClassLoader
       * @throws UnsupportedOperationException if this implementation
       * does not support storing native libraries in this way.
       */
+     @Override
      public synchronized String getLibraryDirectory() {
          return libraryDirectory;
      }
@@ -749,6 +758,7 @@ public class MLet extends java.net.URLClassLoader
       * @throws UnsupportedOperationException if this implementation
       * does not support storing native libraries in this way.
       */
+     @Override
      public synchronized void setLibraryDirectory(String libdir) {
          libraryDirectory = libdir;
      }
@@ -767,6 +777,7 @@ public class MLet extends java.net.URLClassLoader
       * @exception java.lang.Exception This exception should be caught by the MBean server and re-thrown
       *as an MBeanRegistrationException.
       */
+     @Override
      public ObjectName preRegister(MBeanServer server, ObjectName name)
              throws Exception {
 
@@ -791,6 +802,7 @@ public class MLet extends java.net.URLClassLoader
       * false means that either the registration phase has failed.
       *
       */
+     @Override
      public void postRegister (Boolean registrationDone) {
      }
 
@@ -802,6 +814,7 @@ public class MLet extends java.net.URLClassLoader
       * by the MBean server and re-thrown as an
       * MBeanRegistrationException.
       */
+     @Override
      public void preDeregister() throws java.lang.Exception {
      }
 
@@ -810,6 +823,7 @@ public class MLet extends java.net.URLClassLoader
       * Allows the m-let to perform any operations needed after having been
       * unregistered in the MBean server.
       */
+     @Override
      public void postDeregister() {
      }
 
@@ -831,6 +845,7 @@ public class MLet extends java.net.URLClassLoader
       * @exception UnsupportedOperationException If this
       * implementation does not support this operation.
       */
+     @Override
      public void writeExternal(ObjectOutput out)
              throws IOException, UnsupportedOperationException {
          throw new UnsupportedOperationException("MLet.writeExternal");
@@ -856,6 +871,7 @@ public class MLet extends java.net.URLClassLoader
       * @exception UnsupportedOperationException if this
       * implementation does not support this operation.
       */
+     @Override
      public void readExternal(ObjectInput in)
              throws IOException, ClassNotFoundException,
                     UnsupportedOperationException {
@@ -913,6 +929,7 @@ public class MLet extends java.net.URLClassLoader
       * @exception ClassNotFoundException The specified class could not be
       *            found.
       */
+     @Override
      protected Class<?> findClass(String name) throws ClassNotFoundException {
          /* currentClr is context sensitive - used to avoid recursion
             in the class loader repository.  (This is no longer
@@ -1029,6 +1046,7 @@ public class MLet extends java.net.URLClassLoader
       *
       * @return The absolute path of the native library.
       */
+     @Override
      protected String findLibrary(String libname) {
 
          String abs_path;
@@ -1115,16 +1133,22 @@ public class MLet extends java.net.URLClassLoader
      private String getTmpDir() {
          // JDK 1.4
          String tmpDir = System.getProperty("java.io.tmpdir");
-         if (tmpDir != null) return tmpDir;
+         if (tmpDir != null) {
+             return tmpDir;
+         }
 
          // JDK < 1.4
          File tmpFile = null;
          try {
              // Try to guess the system temporary dir...
              tmpFile = File.createTempFile("tmp","jmx");
-             if (tmpFile == null) return null;
+             if (tmpFile == null) {
+                 return null;
+             }
              final File tmpDirFile = tmpFile.getParentFile();
-             if (tmpDirFile == null) return null;
+             if (tmpDirFile == null) {
+                 return null;
+             }
              return tmpDirFile.getAbsolutePath();
          } catch (Exception x) {
              MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
@@ -1304,22 +1328,30 @@ public class MLet extends java.net.URLClassLoader
                         "constructParameter", "Got unexpected exception", e);
             }
         }
-        if (type.compareTo("java.lang.Boolean") == 0)
-             return Boolean.valueOf(param);
-        if (type.compareTo("java.lang.Byte") == 0)
-             return new Byte(param);
-        if (type.compareTo("java.lang.Short") == 0)
-             return new Short(param);
-        if (type.compareTo("java.lang.Long") == 0)
-             return new Long(param);
-        if (type.compareTo("java.lang.Integer") == 0)
-             return new Integer(param);
-        if (type.compareTo("java.lang.Float") == 0)
-             return new Float(param);
-        if (type.compareTo("java.lang.Double") == 0)
-             return new Double(param);
-        if (type.compareTo("java.lang.String") == 0)
-             return param;
+        if (type.compareTo("java.lang.Boolean") == 0) {
+            return Boolean.valueOf(param);
+        }
+        if (type.compareTo("java.lang.Byte") == 0) {
+            return new Byte(param);
+        }
+        if (type.compareTo("java.lang.Short") == 0) {
+            return new Short(param);
+        }
+        if (type.compareTo("java.lang.Long") == 0) {
+            return new Long(param);
+        }
+        if (type.compareTo("java.lang.Integer") == 0) {
+            return new Integer(param);
+        }
+        if (type.compareTo("java.lang.Float") == 0) {
+            return new Float(param);
+        }
+        if (type.compareTo("java.lang.Double") == 0) {
+            return new Double(param);
+        }
+        if (type.compareTo("java.lang.String") == 0) {
+            return param;
+        }
 
         return param;
      }
@@ -1328,6 +1360,7 @@ public class MLet extends java.net.URLClassLoader
         this.server = server;
         PrivilegedAction<ClassLoaderRepository> act =
             new PrivilegedAction<ClassLoaderRepository>() {
+                @Override
                 public ClassLoaderRepository run() {
                     return server.getClassLoaderRepository();
                 }

@@ -164,6 +164,7 @@ public class StAXResult implements Result {
      * @throws UnsupportedOperationException Is <strong>always</strong>
      *   thrown by this method.
      */
+    @Override
     public void setSystemId(final String systemId) {
 
         throw new UnsupportedOperationException(
@@ -176,6 +177,7 @@ public class StAXResult implements Result {
      *
      * @return The returned system identifier is always <code>null</code>.
      */
+    @Override
     public String getSystemId() {
 
         return null;

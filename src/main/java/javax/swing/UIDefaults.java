@@ -157,6 +157,7 @@ public class UIDefaults extends Hashtable<Object,Object>
      * @see #addResourceBundle
      * @since 1.4
      */
+    @Override
     public Object get(Object key) {
         Object value = getFromHashtable( key );
         return (value != null) ? value : getFromResourceBundle(key, null);
@@ -278,10 +279,11 @@ public class UIDefaults extends Hashtable<Object,Object>
 
         // A null locale means use the default locale.
         if( l == null ) {
-            if( defaultLocale == null )
+            if( defaultLocale == null ) {
                 return null;
-            else
+            } else {
                 l = defaultLocale;
+            }
         }
 
         synchronized(this) {
@@ -342,6 +344,7 @@ public class UIDefaults extends Hashtable<Object,Object>
      * @see #putDefaults
      * @see java.util.Hashtable#put
      */
+    @Override
     public Object put(Object key, Object value) {
         Object oldValue = (value == null) ? super.remove(key) : super.put(key, value);
         if (key instanceof String) {
@@ -1077,6 +1080,7 @@ public class UIDefaults extends Hashtable<Object,Object>
          * @param table  a <code>UIDefaults</code> table
          * @return the created <code>Object</code>
          */
+        @Override
         public Object createValue(final UIDefaults table) {
             // In order to pick up the security policy in effect at the
             // time of creation we use a doPrivileged with the
@@ -1085,6 +1089,7 @@ public class UIDefaults extends Hashtable<Object,Object>
                 throw new SecurityException("null AccessControlContext");
             }
             return AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     try {
                         Class<?> c;
@@ -1202,6 +1207,7 @@ public class UIDefaults extends Hashtable<Object,Object>
          * @param table a <code>UIDefaults</code> table
          * @return the <code>InputMap</code>
          */
+        @Override
         public Object createValue(UIDefaults table) {
             if (bindings != null) {
                 InputMap km = LookAndFeel.makeInputMap(bindings);

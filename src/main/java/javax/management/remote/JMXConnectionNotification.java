@@ -165,19 +165,22 @@ public class JMXConnectionNotification extends Notification {
               Math.max(0, sequenceNumber),
               System.currentTimeMillis(),
               message);
-        if (type == null || source == null || connectionId == null)
+        if (type == null || source == null || connectionId == null) {
             throw new NullPointerException("Illegal null argument");
-        if (sequenceNumber < 0)
+        }
+        if (sequenceNumber < 0) {
             throw new IllegalArgumentException("Negative sequence number");
+        }
         this.connectionId = connectionId;
         setUserData(userData);
     }
 
     private static Object nonNull(Object arg) {
-        if (arg == null)
+        if (arg == null) {
             return "";
-        else
+        } else {
             return arg;
+        }
     }
 
     /**

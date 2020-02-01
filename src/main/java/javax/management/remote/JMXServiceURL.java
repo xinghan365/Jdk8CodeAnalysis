@@ -181,8 +181,9 @@ public class JMXServiceURL implements Serializable {
         if (hostStart < serviceURLLength
             && serviceURL.charAt(hostStart) == '[') {
             hostEnd = serviceURL.indexOf(']', hostStart) + 1;
-            if (hostEnd == 0)
+            if (hostEnd == 0) {
                 throw new MalformedURLException("Bad host name: [ without ]");
+            }
             this.host = serviceURL.substring(hostStart + 1, hostEnd - 1);
             if (!isNumericIPv6Address(this.host)) {
                 throw new MalformedURLException("Address inside [...] must " +
@@ -218,10 +219,11 @@ public class JMXServiceURL implements Serializable {
 
         // Parse the URL path
         final int urlPathStart = portEnd;
-        if (urlPathStart < serviceURLLength)
+        if (urlPathStart < serviceURLLength) {
             this.urlPath = serviceURL.substring(urlPathStart);
-        else
+        } else {
             this.urlPath = "";
+        }
 
         validate();
     }
@@ -278,8 +280,9 @@ public class JMXServiceURL implements Serializable {
     public JMXServiceURL(String protocol, String host, int port,
                          String urlPath)
             throws MalformedURLException {
-        if (protocol == null)
+        if (protocol == null) {
             protocol = "jmxmp";
+        }
 
         if (host == null) {
             InetAddress local;
@@ -324,16 +327,18 @@ public class JMXServiceURL implements Serializable {
                 throw new MalformedURLException("Address inside [...] must " +
                                                 "be numeric IPv6 address");
             }
-            if (host.startsWith("["))
+            if (host.startsWith("[")) {
                 throw new MalformedURLException("More than one [[...]]");
+            }
         }
 
         this.protocol = protocol.toLowerCase();
         this.host = host;
         this.port = port;
 
-        if (urlPath == null)
+        if (urlPath == null) {
             urlPath = "";
+        }
         this.urlPath = urlPath;
 
         validate();
@@ -397,13 +402,15 @@ public class JMXServiceURL implements Serializable {
         validateHost(h, p);
 
         // Check port
-        if (p < 0)
+        if (p < 0) {
             throw new MalformedURLException("Bad port: " + p);
+        }
 
         // Check URL path
         if (url.length() > 0) {
-            if (!url.startsWith("/") && !url.startsWith(";"))
+            if (!url.startsWith("/") && !url.startsWith(";")) {
                 throw new MalformedURLException("Bad URL path: " + url);
+            }
         }
     }
 
@@ -471,18 +478,21 @@ public class JMXServiceURL implements Serializable {
             for (int i = 0; i < hostLen; i++) {
                 char c = h.charAt(i);
                 boolean isAlphaNumeric = alphaNumericBitSet.get(c);
-                if (lastc == '.')
+                if (lastc == '.') {
                     componentStart = c;
-                if (isAlphaNumeric)
+                }
+                if (isAlphaNumeric) {
                     lastc = 'a';
-                else if (c == '-') {
-                    if (lastc == '.')
+                } else if (c == '-') {
+                    if (lastc == '.') {
                         break; // will throw exception
+                    }
                     lastc = '-';
                 } else if (c == '.') {
                     sawDot = true;
-                    if (lastc != 'a')
+                    if (lastc != 'a') {
                         break; // will throw exception
+                    }
                     lastc = '.';
                 } else {
                     lastc = '.'; // will throw exception
@@ -491,8 +501,9 @@ public class JMXServiceURL implements Serializable {
             }
 
             try {
-                if (lastc != 'a')
+                if (lastc != 'a') {
                     throw randomException;
+                }
                 if (sawDot && !alphaBitSet.get(componentStart)) {
                     /* Must be a numeric IPv4 address.  In addition to
                        the explicitly-thrown exceptions, we can get
@@ -505,13 +516,16 @@ public class JMXServiceURL implements Serializable {
                     for (int i = 0; i < 4; i++) {
                         String ns = tok.nextToken();
                         int n = Integer.parseInt(ns);
-                        if (n < 0 || n > 255)
+                        if (n < 0 || n > 255) {
                             throw randomException;
-                        if (i < 3 && !tok.nextToken().equals("."))
+                        }
+                        if (i < 3 && !tok.nextToken().equals(".")) {
                             throw randomException;
+                        }
                     }
-                    if (tok.hasMoreTokens())
+                    if (tok.hasMoreTokens()) {
                         throw randomException;
+                    }
                 }
             } catch (Exception e) {
                 throw new MalformedURLException("Bad host: \"" + h + "\"");
@@ -590,21 +604,25 @@ public class JMXServiceURL implements Serializable {
      *
      * @return the string representation of this Service URL.
      */
+    @Override
     public String toString() {
         /* We don't bother synchronizing the access to toString.  At worst,
            n threads will independently compute and store the same value.  */
-        if (toString != null)
+        if (toString != null) {
             return toString;
+        }
         StringBuilder buf = new StringBuilder("service:jmx:");
         buf.append(getProtocol()).append("://");
         final String getHost = getHost();
-        if (isNumericIPv6Address(getHost))
+        if (isNumericIPv6Address(getHost)) {
             buf.append('[').append(getHost).append(']');
-        else
+        } else {
             buf.append(getHost);
+        }
         final int getPort = getPort();
-        if (getPort != 0)
+        if (getPort != 0) {
             buf.append(':').append(getPort);
+        }
         buf.append(getURLPath());
         toString = buf.toString();
         return toString;
@@ -624,9 +642,11 @@ public class JMXServiceURL implements Serializable {
      * @return <code>true</code> if this object is the same as the
      * <code>obj</code> argument; <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof JMXServiceURL))
+        if (!(obj instanceof JMXServiceURL)) {
             return false;
+        }
         JMXServiceURL u = (JMXServiceURL) obj;
         return
             (u.getProtocol().equalsIgnoreCase(getProtocol()) &&
@@ -635,6 +655,7 @@ public class JMXServiceURL implements Serializable {
              u.getURLPath().equals(getURLPath()));
     }
 
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
@@ -650,10 +671,11 @@ public class JMXServiceURL implements Serializable {
     // like String.indexOf but returns string length not -1 if not present
     private static int indexOf(String s, char c, int fromIndex) {
         int index = s.indexOf(c, fromIndex);
-        if (index < 0)
+        if (index < 0) {
             return s.length();
-        else
+        } else {
             return index;
+        }
     }
 
     private static int indexOfFirstNotInSet(String s, BitSet set,
@@ -661,13 +683,16 @@ public class JMXServiceURL implements Serializable {
         final int slen = s.length();
         int i = fromIndex;
         while (true) {
-            if (i >= slen)
+            if (i >= slen) {
                 break;
+            }
             char c = s.charAt(i);
-            if (c >= 128)
+            if (c >= 128) {
                 break; // not ASCII
-            if (!set.get(c))
+            }
+            if (!set.get(c)) {
                 break;
+            }
             i++;
         }
         return i;
@@ -683,13 +708,16 @@ public class JMXServiceURL implements Serializable {
            allow us to simplify here, e.g. by not writing loops, but
            we want to work on J2SE 1.3 too.  */
 
-        for (char c = '0'; c <= '9'; c++)
+        for (char c = '0'; c <= '9'; c++) {
             numericBitSet.set(c);
+        }
 
-        for (char c = 'A'; c <= 'Z'; c++)
+        for (char c = 'A'; c <= 'Z'; c++) {
             alphaBitSet.set(c);
-        for (char c = 'a'; c <= 'z'; c++)
+        }
+        for (char c = 'a'; c <= 'z'; c++) {
             alphaBitSet.set(c);
+        }
 
         alphaNumericBitSet.or(alphaBitSet);
         alphaNumericBitSet.or(numericBitSet);

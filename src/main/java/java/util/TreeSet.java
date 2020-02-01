@@ -177,6 +177,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *
      * @return an iterator over the elements in this set in ascending order
      */
+    @Override
     public Iterator<E> iterator() {
         return m.navigableKeySet().iterator();
     }
@@ -187,6 +188,7 @@ public class TreeSet<E> extends AbstractSet<E>
      * @return an iterator over the elements in this set in descending order
      * @since 1.6
      */
+    @Override
     public Iterator<E> descendingIterator() {
         return m.descendingKeySet().iterator();
     }
@@ -194,6 +196,7 @@ public class TreeSet<E> extends AbstractSet<E>
     /**
      * @since 1.6
      */
+    @Override
     public NavigableSet<E> descendingSet() {
         return new TreeSet<>(m.descendingMap());
     }
@@ -203,6 +206,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *
      * @return the number of elements in this set (its cardinality)
      */
+    @Override
     public int size() {
         return m.size();
     }
@@ -212,6 +216,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *
      * @return {@code true} if this set contains no elements
      */
+    @Override
     public boolean isEmpty() {
         return m.isEmpty();
     }
@@ -230,6 +235,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         and this set uses natural ordering, or its comparator
      *         does not permit null elements
      */
+    @Override
     public boolean contains(Object o) {
         return m.containsKey(o);
     }
@@ -251,6 +257,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         and this set uses natural ordering, or its comparator
      *         does not permit null elements
      */
+    @Override
     public boolean add(E e) {
         return m.put(e, PRESENT)==null;
     }
@@ -272,6 +279,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         and this set uses natural ordering, or its comparator
      *         does not permit null elements
      */
+    @Override
     public boolean remove(Object o) {
         return m.remove(o)==PRESENT;
     }
@@ -280,6 +288,7 @@ public class TreeSet<E> extends AbstractSet<E>
      * Removes all of the elements from this set.
      * The set will be empty after this call returns.
      */
+    @Override
     public void clear() {
         m.clear();
     }
@@ -295,6 +304,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         if any element is null and this set uses natural ordering, or
      *         its comparator does not permit null elements
      */
+    @Override
     public  boolean addAll(Collection<? extends E> c) {
         // Use linear-time version if applicable
         if (m.size()==0 && c.size() > 0 &&
@@ -320,8 +330,9 @@ public class TreeSet<E> extends AbstractSet<E>
      * @throws IllegalArgumentException {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public NavigableSet<E> subSet(E fromElement, boolean fromInclusive,
-                                  E toElement,   boolean toInclusive) {
+                                  E toElement, boolean toInclusive) {
         return new TreeSet<>(m.subMap(fromElement, fromInclusive,
                                        toElement,   toInclusive));
     }
@@ -334,6 +345,7 @@ public class TreeSet<E> extends AbstractSet<E>
      * @throws IllegalArgumentException {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public NavigableSet<E> headSet(E toElement, boolean inclusive) {
         return new TreeSet<>(m.headMap(toElement, inclusive));
     }
@@ -346,6 +358,7 @@ public class TreeSet<E> extends AbstractSet<E>
      * @throws IllegalArgumentException {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
         return new TreeSet<>(m.tailMap(fromElement, inclusive));
     }
@@ -357,6 +370,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         or its comparator does not permit null elements
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     public SortedSet<E> subSet(E fromElement, E toElement) {
         return subSet(fromElement, true, toElement, false);
     }
@@ -368,6 +382,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         not permit null elements
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     public SortedSet<E> headSet(E toElement) {
         return headSet(toElement, false);
     }
@@ -379,10 +394,12 @@ public class TreeSet<E> extends AbstractSet<E>
      *         not permit null elements
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     public SortedSet<E> tailSet(E fromElement) {
         return tailSet(fromElement, true);
     }
 
+    @Override
     public Comparator<? super E> comparator() {
         return m.comparator();
     }
@@ -390,6 +407,7 @@ public class TreeSet<E> extends AbstractSet<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
+    @Override
     public E first() {
         return m.firstKey();
     }
@@ -397,6 +415,7 @@ public class TreeSet<E> extends AbstractSet<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
+    @Override
     public E last() {
         return m.lastKey();
     }
@@ -410,6 +429,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         does not permit null elements
      * @since 1.6
      */
+    @Override
     public E lower(E e) {
         return m.lowerKey(e);
     }
@@ -421,6 +441,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         does not permit null elements
      * @since 1.6
      */
+    @Override
     public E floor(E e) {
         return m.floorKey(e);
     }
@@ -432,6 +453,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         does not permit null elements
      * @since 1.6
      */
+    @Override
     public E ceiling(E e) {
         return m.ceilingKey(e);
     }
@@ -443,6 +465,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *         does not permit null elements
      * @since 1.6
      */
+    @Override
     public E higher(E e) {
         return m.higherKey(e);
     }
@@ -450,6 +473,7 @@ public class TreeSet<E> extends AbstractSet<E>
     /**
      * @since 1.6
      */
+    @Override
     public E pollFirst() {
         Map.Entry<E,?> e = m.pollFirstEntry();
         return (e == null) ? null : e.getKey();
@@ -458,6 +482,7 @@ public class TreeSet<E> extends AbstractSet<E>
     /**
      * @since 1.6
      */
+    @Override
     public E pollLast() {
         Map.Entry<E,?> e = m.pollLastEntry();
         return (e == null) ? null : e.getKey();
@@ -469,6 +494,7 @@ public class TreeSet<E> extends AbstractSet<E>
      *
      * @return a shallow copy of this set
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object clone() {
         TreeSet<E> clone;
@@ -506,8 +532,9 @@ public class TreeSet<E> extends AbstractSet<E>
         s.writeInt(m.size());
 
         // Write out all elements in the proper order.
-        for (E e : m.keySet())
+        for (E e : m.keySet()) {
             s.writeObject(e);
+        }
     }
 
     /**
@@ -552,6 +579,7 @@ public class TreeSet<E> extends AbstractSet<E>
      * @return a {@code Spliterator} over the elements in this set
      * @since 1.8
      */
+    @Override
     public Spliterator<E> spliterator() {
         return TreeMap.keySpliteratorFor(m);
     }

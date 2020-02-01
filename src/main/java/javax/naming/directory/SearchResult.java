@@ -178,6 +178,7 @@ public class SearchResult extends Binding {
       *
       * @return The string representation of this SearchResult. Cannot be null.
       */
+    @Override
     public String toString() {
         return super.toString() + ":" + getAttributes();
     }

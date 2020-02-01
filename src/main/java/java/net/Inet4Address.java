@@ -159,6 +159,7 @@ class Inet4Address extends InetAddress {
      * an IP multicast address
      * @since   JDK1.1
      */
+    @Override
     public boolean isMulticastAddress() {
         return ((holder().getAddress() & 0xf0000000) == 0xe0000000);
     }
@@ -169,6 +170,7 @@ class Inet4Address extends InetAddress {
      *         a wildcard address.
      * @since 1.4
      */
+    @Override
     public boolean isAnyLocalAddress() {
         return holder().getAddress() == 0;
     }
@@ -180,6 +182,7 @@ class Inet4Address extends InetAddress {
      * a loopback address; or false otherwise.
      * @since 1.4
      */
+    @Override
     public boolean isLoopbackAddress() {
         /* 127.x.x.x */
         byte[] byteAddr = getAddress();
@@ -193,6 +196,7 @@ class Inet4Address extends InetAddress {
      * a link local address; or false if address is not a link local unicast address.
      * @since 1.4
      */
+    @Override
     public boolean isLinkLocalAddress() {
         // link-local unicast in IPv4 (169.254.0.0/16)
         // defined in "Documenting Special Use IPv4 Address Blocks
@@ -210,6 +214,7 @@ class Inet4Address extends InetAddress {
      * a site local address; or false if address is not a site local unicast address.
      * @since 1.4
      */
+    @Override
     public boolean isSiteLocalAddress() {
         // refer to RFC 1918
         // 10/8 prefix
@@ -231,6 +236,7 @@ class Inet4Address extends InetAddress {
      *         of global scope or it is not a multicast address
      * @since 1.4
      */
+    @Override
     public boolean isMCGlobal() {
         // 224.0.1.0 to 238.255.255.255
         byte[] byteAddr = getAddress();
@@ -247,6 +253,7 @@ class Inet4Address extends InetAddress {
      *         of node-local scope or it is not a multicast address
      * @since 1.4
      */
+    @Override
     public boolean isMCNodeLocal() {
         // unless ttl == 0
         return false;
@@ -260,6 +267,7 @@ class Inet4Address extends InetAddress {
      *         of link-local scope or it is not a multicast address
      * @since 1.4
      */
+    @Override
     public boolean isMCLinkLocal() {
         // 224.0.0/24 prefix and ttl == 1
         int address = holder().getAddress();
@@ -276,6 +284,7 @@ class Inet4Address extends InetAddress {
      *         of site-local scope or it is not a multicast address
      * @since 1.4
      */
+    @Override
     public boolean isMCSiteLocal() {
         // 239.255/16 prefix or ttl < 32
         int address = holder().getAddress();
@@ -292,6 +301,7 @@ class Inet4Address extends InetAddress {
      *         or it is not a multicast address
      * @since 1.4
      */
+    @Override
     public boolean isMCOrgLocal() {
         // 239.192 - 239.195
         int address = holder().getAddress();
@@ -307,6 +317,7 @@ class Inet4Address extends InetAddress {
      *
      * @return  the raw IP address of this object.
      */
+    @Override
     public byte[] getAddress() {
         int address = holder().getAddress();
         byte[] addr = new byte[INADDRSZ];
@@ -324,6 +335,7 @@ class Inet4Address extends InetAddress {
      * @return  the raw IP address in a string format.
      * @since   JDK1.0.2
      */
+    @Override
     public String getHostAddress() {
         return numericToTextFormat(getAddress());
     }
@@ -333,6 +345,7 @@ class Inet4Address extends InetAddress {
      *
      * @return  a hash code value for this IP address.
      */
+    @Override
     public int hashCode() {
         return holder().getAddress();
     }
@@ -353,6 +366,7 @@ class Inet4Address extends InetAddress {
      *          {@code false} otherwise.
      * @see     java.net.InetAddress#getAddress()
      */
+    @Override
     public boolean equals(Object obj) {
         return (obj != null) && (obj instanceof Inet4Address) &&
             (((InetAddress)obj).holder().getAddress() == holder().getAddress());

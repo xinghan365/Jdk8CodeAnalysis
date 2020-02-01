@@ -229,6 +229,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
      *
      * @since  1.7
      */
+    @Override
     public InputStream getResourceAsStream(String name) {
         URL url = getResource(name);
         try {
@@ -284,6 +285,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
     *
     * @since 1.7
     */
+    @Override
     public void close() throws IOException {
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
@@ -354,6 +356,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
      *            or if the loader is closed.
      * @exception NullPointerException if {@code name} is {@code null}.
      */
+    @Override
     protected Class<?> findClass(final String name)
         throws ClassNotFoundException
     {
@@ -361,6 +364,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
         try {
             result = AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Class<?>>() {
+                    @Override
                     public Class<?> run() throws ClassNotFoundException {
                         String path = name.replace('.', '/').concat(".class");
                         Resource res = ucp.getResource(path, false);
@@ -562,12 +566,14 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
      * @return a {@code URL} for the resource, or {@code null}
      * if the resource could not be found, or if the loader is closed.
      */
+    @Override
     public URL findResource(final String name) {
         /*
          * The same restriction to finding classes applies to resources
          */
         URL url = AccessController.doPrivileged(
             new PrivilegedAction<URL>() {
+                @Override
                 public URL run() {
                     return ucp.findResource(name, true);
                 }
@@ -585,6 +591,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
      * @return an {@code Enumeration} of {@code URL}s
      *         If the loader is closed, the Enumeration will be empty.
      */
+    @Override
     public Enumeration<URL> findResources(final String name)
         throws IOException
     {
@@ -600,19 +607,23 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
                 do {
                     URL u = AccessController.doPrivileged(
                         new PrivilegedAction<URL>() {
+                            @Override
                             public URL run() {
-                                if (!e.hasMoreElements())
+                                if (!e.hasMoreElements()) {
                                     return null;
+                                }
                                 return e.nextElement();
                             }
                         }, acc);
-                    if (u == null)
+                    if (u == null) {
                         break;
+                    }
                     url = ucp.checkURL(u);
                 } while (url == null);
                 return url != null;
             }
 
+            @Override
             public URL nextElement() {
                 if (!next()) {
                     throw new NoSuchElementException();
@@ -622,6 +633,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
                 return u;
             }
 
+            @Override
             public boolean hasMoreElements() {
                 return next();
             }
@@ -652,6 +664,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
      * @exception NullPointerException if {@code codesource} is {@code null}.
      * @return the permissions granted to the codesource
      */
+    @Override
     protected PermissionCollection getPermissions(CodeSource codesource)
     {
         PermissionCollection perms = super.getPermissions(codesource);
@@ -681,8 +694,9 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
         } else if ((p == null) && (url.getProtocol().equals("file"))) {
             String path = url.getFile().replace('/', File.separatorChar);
             path = ParseUtil.decode(path);
-            if (path.endsWith(File.separator))
+            if (path.endsWith(File.separator)) {
                 path += "-";
+            }
             p =  new FilePermission(path, SecurityConstants.FILE_READ_ACTION);
         } else {
             /**
@@ -695,9 +709,10 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
                 locUrl = ((JarURLConnection)urlConnection).getJarFileURL();
             }
             String host = locUrl.getHost();
-            if (host != null && (host.length() > 0))
+            if (host != null && (host.length() > 0)) {
                 p = new SocketPermission(host,
                                          SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION);
+            }
         }
 
         // make sure the person that created this class loader
@@ -708,6 +723,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
             if (sm != null) {
                 final Permission fp = p;
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                    @Override
                     public Void run() throws SecurityException {
                         sm.checkPermission(fp);
                         return null;
@@ -739,6 +755,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
         // Need a privileged block to create the class loader
         URLClassLoader ucl = AccessController.doPrivileged(
             new PrivilegedAction<URLClassLoader>() {
+                @Override
                 public URLClassLoader run() {
                     return new FactoryURLClassLoader(urls, parent, acc);
                 }
@@ -764,6 +781,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
         // Need a privileged block to create the class loader
         URLClassLoader ucl = AccessController.doPrivileged(
             new PrivilegedAction<URLClassLoader>() {
+                @Override
                 public URLClassLoader run() {
                     return new FactoryURLClassLoader(urls, acc);
                 }
@@ -774,10 +792,12 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
     static {
         sun.misc.SharedSecrets.setJavaNetAccess (
             new sun.misc.JavaNetAccess() {
+                @Override
                 public URLClassPath getURLClassPath (URLClassLoader u) {
                     return u.ucp;
                 }
 
+                @Override
                 public String getOriginalHostName(InetAddress ia) {
                     return ia.holder.getOriginalHostName();
                 }
@@ -802,6 +822,7 @@ final class FactoryURLClassLoader extends URLClassLoader {
         super(urls, acc);
     }
 
+    @Override
     public final Class<?> loadClass(String name, boolean resolve)
         throws ClassNotFoundException
     {

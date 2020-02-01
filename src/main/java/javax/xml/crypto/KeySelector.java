@@ -61,6 +61,7 @@ public abstract class KeySelector {
          *
          * @return a string representation of this purpose
          */
+        @Override
         public String toString()        { return name; }
 
         /**
@@ -138,11 +139,13 @@ public abstract class KeySelector {
             this.key = key;
         }
 
+        @Override
         public KeySelectorResult select(KeyInfo keyInfo, Purpose purpose,
-            AlgorithmMethod method, XMLCryptoContext context)
+                                        AlgorithmMethod method, XMLCryptoContext context)
             throws KeySelectorException {
 
             return new KeySelectorResult() {
+                @Override
                 public Key getKey() {
                     return key;
                 }

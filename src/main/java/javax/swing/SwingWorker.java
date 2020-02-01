@@ -290,6 +290,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
     public SwingWorker() {
         Callable<T> callable =
                 new Callable<T>() {
+                    @Override
                     public T call() throws Exception {
                         setState(StateValue.STARTED);
                         return doInBackground();
@@ -330,6 +331,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
      * Sets this {@code Future} to the result of computation unless
      * it has been cancelled.
      */
+    @Override
     public final void run() {
         future.run();
     }
@@ -542,6 +544,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final boolean cancel(boolean mayInterruptIfRunning) {
         return future.cancel(mayInterruptIfRunning);
     }
@@ -549,6 +552,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final boolean isCancelled() {
         return future.isCancelled();
     }
@@ -556,6 +560,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final boolean isDone() {
         return future.isDone();
     }
@@ -598,6 +603,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
      * dialog.setVisible(true);
      * </pre>
      */
+    @Override
     public final T get() throws InterruptedException, ExecutionException {
         return future.get();
     }
@@ -607,6 +613,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
      * <p>
      * Please refer to {@link #get} for more details.
      */
+    @Override
     public final T get(long timeout, TimeUnit unit) throws InterruptedException,
             ExecutionException, TimeoutException {
         return future.get(timeout, unit);
@@ -733,6 +740,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
     private void doneEDT() {
         Runnable doDone =
             new Runnable() {
+                @Override
                 public void run() {
                     done();
                 }
@@ -763,6 +771,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
                 new ThreadFactory() {
                     final ThreadFactory defaultFactory =
                         Executors.defaultThreadFactory();
+                    @Override
                     public Thread newThread(final Runnable r) {
                         Thread thread =
                             defaultFactory.newThread(r);
@@ -796,6 +805,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
                             if (executorService != null) {
                                 AccessController.doPrivileged(
                                     new PrivilegedAction<Void>() {
+                                        @Override
                                         public Void run() {
                                             executorService.shutdown();
                                             return null;
@@ -838,6 +848,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
             timer.setRepeats(false);
             timer.start();
         }
+        @Override
         public void actionPerformed(ActionEvent event) {
             run();
         }
@@ -855,6 +866,7 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
             } else {
                 doSubmit.add(
                     new Runnable() {
+                        @Override
                         public void run() {
                             SwingWorkerPropertyChangeSupport.this
                                 .firePropertyChange(evt);

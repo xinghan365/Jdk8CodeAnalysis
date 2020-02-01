@@ -69,6 +69,7 @@ class ByteBufferAsLongBufferL                  // package-private
 
     }
 
+    @Override
     public LongBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsLongBufferL                  // package-private
         return new ByteBufferAsLongBufferL(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public LongBuffer duplicate() {
         return new ByteBufferAsLongBufferL(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsLongBufferL                  // package-private
                                                     offset);
     }
 
+    @Override
     public LongBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsLongBufferRL(bb,
@@ -107,10 +110,12 @@ class ByteBufferAsLongBufferL                  // package-private
         return (i << 3) + offset;
     }
 
+    @Override
     public long get() {
         return Bits.getLongL(bb, ix(nextGetIndex()));
     }
 
+    @Override
     public long get(int i) {
         return Bits.getLongL(bb, ix(checkIndex(i)));
     }
@@ -123,6 +128,7 @@ class ByteBufferAsLongBufferL                  // package-private
 
 
 
+    @Override
     public LongBuffer put(long x) {
 
         Bits.putLongL(bb, ix(nextPutIndex()), x);
@@ -132,6 +138,7 @@ class ByteBufferAsLongBufferL                  // package-private
 
     }
 
+    @Override
     public LongBuffer put(int i, long x) {
 
         Bits.putLongL(bb, ix(checkIndex(i)), x);
@@ -141,6 +148,7 @@ class ByteBufferAsLongBufferL                  // package-private
 
     }
 
+    @Override
     public LongBuffer compact() {
 
         int pos = position();
@@ -163,10 +171,12 @@ class ByteBufferAsLongBufferL                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -213,6 +223,7 @@ class ByteBufferAsLongBufferL                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
 

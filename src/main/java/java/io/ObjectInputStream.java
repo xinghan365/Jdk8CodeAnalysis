@@ -248,14 +248,17 @@ public class ObjectInputStream
     static {
         /* Setup access so sun.misc can invoke package private functions. */
         JavaOISAccess javaOISAccess = new JavaOISAccess() {
+            @Override
             public void setObjectInputFilter(ObjectInputStream stream, ObjectInputFilter filter) {
                 stream.setInternalObjectInputFilter(filter);
             }
 
+            @Override
             public ObjectInputFilter getObjectInputFilter(ObjectInputStream stream) {
                 return stream.getInternalObjectInputFilter();
             }
 
+            @Override
             public void checkArray(ObjectInputStream stream, Class<?> arrayType, int arrayLength)
                 throws InvalidClassException
             {
@@ -418,6 +421,7 @@ public class ObjectInputStream
      *          stream instead of objects.
      * @throws  IOException Any of the usual Input/Output related exceptions.
      */
+    @Override
     public final Object readObject()
         throws IOException, ClassNotFoundException
     {
@@ -898,6 +902,7 @@ public class ObjectInputStream
      * @return  the byte read, or -1 if the end of the stream is reached.
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public int read() throws IOException {
         return bin.read();
     }
@@ -915,6 +920,7 @@ public class ObjectInputStream
      * @throws  IOException If an I/O error has occurred.
      * @see java.io.DataInputStream#readFully(byte[],int,int)
      */
+    @Override
     public int read(byte[] buf, int off, int len) throws IOException {
         if (buf == null) {
             throw new NullPointerException();
@@ -933,6 +939,7 @@ public class ObjectInputStream
      * @throws  IOException if there are I/O errors while reading from the
      *          underlying <code>InputStream</code>
      */
+    @Override
     public int available() throws IOException {
         return bin.available();
     }
@@ -943,6 +950,7 @@ public class ObjectInputStream
      *
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public void close() throws IOException {
         /*
          * Even if stream already closed, propagate redundant close to
@@ -962,6 +970,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public boolean readBoolean() throws IOException {
         return bin.readBoolean();
     }
@@ -973,6 +982,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public byte readByte() throws IOException  {
         return bin.readByte();
     }
@@ -984,6 +994,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public int readUnsignedByte()  throws IOException {
         return bin.readUnsignedByte();
     }
@@ -995,6 +1006,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public char readChar()  throws IOException {
         return bin.readChar();
     }
@@ -1006,6 +1018,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public short readShort()  throws IOException {
         return bin.readShort();
     }
@@ -1017,6 +1030,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public int readUnsignedShort() throws IOException {
         return bin.readUnsignedShort();
     }
@@ -1028,6 +1042,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public int readInt()  throws IOException {
         return bin.readInt();
     }
@@ -1039,6 +1054,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public long readLong()  throws IOException {
         return bin.readLong();
     }
@@ -1050,6 +1066,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public float readFloat() throws IOException {
         return bin.readFloat();
     }
@@ -1061,6 +1078,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public double readDouble() throws IOException {
         return bin.readDouble();
     }
@@ -1072,6 +1090,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public void readFully(byte[] buf) throws IOException {
         bin.readFully(buf, 0, buf.length, false);
     }
@@ -1085,6 +1104,7 @@ public class ObjectInputStream
      * @throws  EOFException If end of file is reached.
      * @throws  IOException If other I/O error has occurred.
      */
+    @Override
     public void readFully(byte[] buf, int off, int len) throws IOException {
         int endoff = off + len;
         if (off < 0 || len < 0 || endoff > buf.length || endoff < 0) {
@@ -1100,6 +1120,7 @@ public class ObjectInputStream
      * @return  the actual number of bytes skipped.
      * @throws  IOException If an I/O error has occurred.
      */
+    @Override
     public int skipBytes(int len) throws IOException {
         return bin.skipBytes(len);
     }
@@ -1113,6 +1134,7 @@ public class ObjectInputStream
      * @deprecated This method does not properly convert bytes to characters.
      *          see DataInputStream for the details and alternatives.
      */
+    @Override
     @Deprecated
     public String readLine() throws IOException {
         return bin.readLine();
@@ -1129,6 +1151,7 @@ public class ObjectInputStream
      * @throws  UTFDataFormatException if read bytes do not represent a valid
      *          modified UTF-8 encoding of a string
      */
+    @Override
     public String readUTF() throws IOException {
         return bin.readUTF();
     }
@@ -1483,6 +1506,7 @@ public class ObjectInputStream
     private static boolean auditSubclass(final Class<?> subcl) {
         Boolean result = AccessController.doPrivileged(
             new PrivilegedAction<Boolean>() {
+                @Override
                 public Boolean run() {
                     for (Class<?> cl = subcl;
                          cl != ObjectInputStream.class;
@@ -2105,8 +2129,9 @@ public class ObjectInputStream
         throws IOException
     {
         SerialCallbackContext oldContext = curContext;
-        if (oldContext != null)
+        if (oldContext != null) {
             oldContext.check();
+        }
         curContext = null;
         try {
             boolean blocked = desc.hasBlockExternalData();
@@ -2131,8 +2156,9 @@ public class ObjectInputStream
                 skipCustomData();
             }
         } finally {
-            if (oldContext != null)
+            if (oldContext != null) {
                 oldContext.check();
+            }
             curContext = oldContext;
         }
         /*
@@ -2169,8 +2195,9 @@ public class ObjectInputStream
                     ThreadDeath t = null;
                     boolean reset = false;
                     SerialCallbackContext oldContext = curContext;
-                    if (oldContext != null)
+                    if (oldContext != null) {
                         oldContext.check();
+                    }
                     try {
                         curContext = new SerialCallbackContext(obj, slotDesc);
 
@@ -2189,16 +2216,18 @@ public class ObjectInputStream
                         do {
                             try {
                                 curContext.setUsed();
-                                if (oldContext!= null)
+                                if (oldContext!= null) {
                                     oldContext.check();
+                                }
                                 curContext = oldContext;
                                 reset = true;
                             } catch (ThreadDeath x) {
                                 t = x;  // defer until reset is true
                             }
                         } while (!reset);
-                        if (t != null)
+                        if (t != null) {
                             throw t;
+                        }
                     }
 
                     /*
@@ -2378,54 +2407,65 @@ public class ObjectInputStream
             objHandles = new int[objVals.length];
         }
 
+        @Override
         public ObjectStreamClass getObjectStreamClass() {
             return desc;
         }
 
+        @Override
         public boolean defaulted(String name) throws IOException {
             return (getFieldOffset(name, null) < 0);
         }
 
+        @Override
         public boolean get(String name, boolean val) throws IOException {
             int off = getFieldOffset(name, Boolean.TYPE);
             return (off >= 0) ? Bits.getBoolean(primVals, off) : val;
         }
 
+        @Override
         public byte get(String name, byte val) throws IOException {
             int off = getFieldOffset(name, Byte.TYPE);
             return (off >= 0) ? primVals[off] : val;
         }
 
+        @Override
         public char get(String name, char val) throws IOException {
             int off = getFieldOffset(name, Character.TYPE);
             return (off >= 0) ? Bits.getChar(primVals, off) : val;
         }
 
+        @Override
         public short get(String name, short val) throws IOException {
             int off = getFieldOffset(name, Short.TYPE);
             return (off >= 0) ? Bits.getShort(primVals, off) : val;
         }
 
+        @Override
         public int get(String name, int val) throws IOException {
             int off = getFieldOffset(name, Integer.TYPE);
             return (off >= 0) ? Bits.getInt(primVals, off) : val;
         }
 
+        @Override
         public float get(String name, float val) throws IOException {
             int off = getFieldOffset(name, Float.TYPE);
             return (off >= 0) ? Bits.getFloat(primVals, off) : val;
         }
 
+        @Override
         public long get(String name, long val) throws IOException {
             int off = getFieldOffset(name, Long.TYPE);
             return (off >= 0) ? Bits.getLong(primVals, off) : val;
         }
 
+        @Override
         public double get(String name, double val) throws IOException {
             int off = getFieldOffset(name, Double.TYPE);
             return (off >= 0) ? Bits.getDouble(primVals, off) : val;
         }
 
+        @Override
         public Object get(String name, Object val) throws IOException {
             int off = getFieldOffset(name, Object.class);
             if (off >= 0) {
@@ -2545,6 +2585,7 @@ public class ObjectInputStream
                     AccessController.doPrivileged(
                         new PrivilegedExceptionAction<Void>()
                     {
+                        @Override
                         public Void run() throws InvalidObjectException {
                             list.obj.validateObject();
                             return null;
@@ -2643,6 +2684,7 @@ public class ObjectInputStream
             return peekb;
         }
 
+        @Override
         public int read() throws IOException {
             if (peekb >= 0) {
                 int v = peekb;
@@ -2655,6 +2697,7 @@ public class ObjectInputStream
             }
         }
 
+        @Override
         public int read(byte[] b, int off, int len) throws IOException {
             int nbytes;
             if (len == 0) {
@@ -2684,6 +2727,7 @@ public class ObjectInputStream
             }
         }
 
+        @Override
         public long skip(long n) throws IOException {
             if (n <= 0) {
                 return 0;
@@ -2699,10 +2743,12 @@ public class ObjectInputStream
             return n;
         }
 
+        @Override
         public int available() throws IOException {
             return in.available() + ((peekb >= 0) ? 1 : 0);
         }
 
+        @Override
         public void close() throws IOException {
             in.close();
         }
@@ -2971,6 +3017,7 @@ public class ObjectInputStream
          * mode.
          */
 
+        @Override
         public int read() throws IOException {
             if (blkmode) {
                 if (pos == end) {
@@ -2982,10 +3029,12 @@ public class ObjectInputStream
             }
         }
 
+        @Override
         public int read(byte[] b, int off, int len) throws IOException {
             return read(b, off, len, false);
         }
 
+        @Override
         public long skip(long len) throws IOException {
             long remain = len;
             while (remain > 0) {
@@ -3010,11 +3059,14 @@ public class ObjectInputStream
             return len - remain;
         }
 
+        @Override
         public int available() throws IOException {
             if (blkmode) {
                 if ((pos == end) && (unread == 0)) {
                     int n;
-                    while ((n = readBlockHeader(false)) == 0) ;
+                    while ((n = readBlockHeader(false)) == 0) {
+                        ;
+                    }
                     switch (n) {
                         case HEADER_BLOCKED:
                             break;
@@ -3040,6 +3092,7 @@ public class ObjectInputStream
             }
         }
 
+        @Override
         public void close() throws IOException {
             if (blkmode) {
                 pos = 0;
@@ -3089,10 +3142,12 @@ public class ObjectInputStream
          * data mode.
          */
 
+        @Override
         public void readFully(byte[] b) throws IOException {
             readFully(b, 0, b.length, false);
         }
 
+        @Override
         public void readFully(byte[] b, int off, int len) throws IOException {
             readFully(b, off, len, false);
         }
@@ -3110,10 +3165,12 @@ public class ObjectInputStream
             }
         }
 
+        @Override
         public int skipBytes(int n) throws IOException {
             return din.skipBytes(n);
         }
 
+        @Override
         public boolean readBoolean() throws IOException {
             int v = read();
             if (v < 0) {
@@ -3122,6 +3179,7 @@ public class ObjectInputStream
             return (v != 0);
         }
 
+        @Override
         public byte readByte() throws IOException {
             int v = read();
             if (v < 0) {
@@ -3130,6 +3188,7 @@ public class ObjectInputStream
             return (byte) v;
         }
 
+        @Override
         public int readUnsignedByte() throws IOException {
             int v = read();
             if (v < 0) {
@@ -3138,6 +3197,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public char readChar() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3150,6 +3210,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public short readShort() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3162,6 +3223,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public int readUnsignedShort() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3174,6 +3236,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public int readInt() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3186,6 +3249,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public float readFloat() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3198,6 +3262,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public long readLong() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3210,6 +3275,7 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public double readDouble() throws IOException {
             if (!blkmode) {
                 pos = 0;
@@ -3222,10 +3288,12 @@ public class ObjectInputStream
             return v;
         }
 
+        @Override
         public String readUTF() throws IOException {
             return readUTFBody(readUnsignedShort());
         }
 
+        @Override
         @SuppressWarnings("deprecation")
         public String readLine() throws IOException {
             return din.readLine();      // deprecated, not worth optimizing

@@ -222,8 +222,9 @@ public abstract class MessageDigest extends MessageDigestSpi {
     public static MessageDigest getInstance(String algorithm, String provider)
         throws NoSuchAlgorithmException, NoSuchProviderException
     {
-        if (provider == null || provider.length() == 0)
+        if (provider == null || provider.length() == 0) {
             throw new IllegalArgumentException("missing provider");
+        }
         Object[] objs = Security.getImpl(algorithm, "MessageDigest", provider);
         if (objs[0] instanceof MessageDigest) {
             MessageDigest md = (MessageDigest)objs[0];
@@ -270,8 +271,9 @@ public abstract class MessageDigest extends MessageDigestSpi {
                                             Provider provider)
         throws NoSuchAlgorithmException
     {
-        if (provider == null)
+        if (provider == null) {
             throw new IllegalArgumentException("missing provider");
+        }
         Object[] objs = Security.getImpl(algorithm, "MessageDigest", provider);
         if (objs[0] instanceof MessageDigest) {
             MessageDigest md = (MessageDigest)objs[0];
@@ -414,6 +416,7 @@ public abstract class MessageDigest extends MessageDigestSpi {
     /**
      * Returns a string representation of this message digest object.
      */
+    @Override
     public String toString() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream p = new PrintStream(baos);
@@ -440,7 +443,9 @@ public abstract class MessageDigest extends MessageDigestSpi {
      * @return true if the digests are equal, false otherwise.
      */
     public static boolean isEqual(byte[] digesta, byte[] digestb) {
-        if (digesta == digestb) return true;
+        if (digesta == digestb) {
+            return true;
+        }
         if (digesta == null || digestb == null) {
             return false;
         }
@@ -510,6 +515,7 @@ public abstract class MessageDigest extends MessageDigestSpi {
      * @exception CloneNotSupportedException if this is called on an
      * implementation that does not support {@code Cloneable}.
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         if (this instanceof Cloneable) {
             return super.clone();
@@ -554,6 +560,7 @@ public abstract class MessageDigest extends MessageDigestSpi {
          * @exception CloneNotSupportedException if this is called on a
          * delegate that does not support {@code Cloneable}.
          */
+        @Override
         public Object clone() throws CloneNotSupportedException {
             if (digestSpi instanceof Cloneable) {
                 MessageDigestSpi digestSpiClone =
@@ -572,31 +579,38 @@ public abstract class MessageDigest extends MessageDigestSpi {
             }
         }
 
+        @Override
         protected int engineGetDigestLength() {
             return digestSpi.engineGetDigestLength();
         }
 
+        @Override
         protected void engineUpdate(byte input) {
             digestSpi.engineUpdate(input);
         }
 
+        @Override
         protected void engineUpdate(byte[] input, int offset, int len) {
             digestSpi.engineUpdate(input, offset, len);
         }
 
+        @Override
         protected void engineUpdate(ByteBuffer input) {
             digestSpi.engineUpdate(input);
         }
 
+        @Override
         protected byte[] engineDigest() {
             return digestSpi.engineDigest();
         }
 
+        @Override
         protected int engineDigest(byte[] buf, int offset, int len)
             throws DigestException {
                 return digestSpi.engineDigest(buf, offset, len);
         }
 
+        @Override
         protected void engineReset() {
             digestSpi.engineReset();
         }

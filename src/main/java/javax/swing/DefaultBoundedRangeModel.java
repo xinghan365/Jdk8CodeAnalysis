@@ -110,6 +110,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setValue
      * @see BoundedRangeModel#getValue
      */
+    @Override
     public int getValue() {
       return value;
     }
@@ -121,6 +122,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setExtent
      * @see BoundedRangeModel#getExtent
      */
+    @Override
     public int getExtent() {
       return extent;
     }
@@ -132,6 +134,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setMinimum
      * @see BoundedRangeModel#getMinimum
      */
+    @Override
     public int getMinimum() {
       return min;
     }
@@ -143,6 +146,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setMaximum
      * @see BoundedRangeModel#getMaximum
      */
+    @Override
     public int getMaximum() {
         return max;
     }
@@ -158,6 +162,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      *
      * @see BoundedRangeModel#setValue
      */
+    @Override
     public void setValue(int n) {
         n = Math.min(n, Integer.MAX_VALUE - extent);
 
@@ -178,6 +183,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * </pre>
      * @see BoundedRangeModel#setExtent
      */
+    @Override
     public void setExtent(int n) {
         int newExtent = Math.max(0, n);
         if(value + newExtent > max) {
@@ -196,6 +202,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #getMinimum
      * @see BoundedRangeModel#setMinimum
      */
+    @Override
     public void setMinimum(int n) {
         int newMax = Math.max(n, max);
         int newValue = Math.max(n, value);
@@ -212,6 +219,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * </pre>
      * @see BoundedRangeModel#setMaximum
      */
+    @Override
     public void setMaximum(int n) {
         int newMin = Math.min(n, min);
         int newExtent = Math.min(n - newMin, extent);
@@ -227,6 +235,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setValue
      * @see BoundedRangeModel#setValueIsAdjusting
      */
+    @Override
     public void setValueIsAdjusting(boolean b) {
         setRangeProperties(value, extent, min, max, b);
     }
@@ -240,6 +249,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setValue
      * @see BoundedRangeModel#getValueIsAdjusting
      */
+    @Override
     public boolean getValueIsAdjusting() {
         return isAdjusting;
     }
@@ -261,6 +271,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #setMaximum
      * @see #setValueIsAdjusting
      */
+    @Override
     public void setRangeProperties(int newValue, int newExtent, int newMin, int newMax, boolean adjusting)
     {
         if (newMin > newMax) {
@@ -312,6 +323,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #removeChangeListener
      * @see BoundedRangeModel#addChangeListener
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -324,6 +336,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * @see #addChangeListener
      * @see BoundedRangeModel#removeChangeListener
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
@@ -371,6 +384,7 @@ public class DefaultBoundedRangeModel implements BoundedRangeModel, Serializable
      * Returns a string that displays all of the
      * <code>BoundedRangeModel</code> properties.
      */
+    @Override
     public String toString()  {
         String modelString =
             "value=" + getValue() + ", " +

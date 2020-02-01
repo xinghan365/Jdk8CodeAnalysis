@@ -55,11 +55,13 @@ class CertPathHelperImpl extends CertPathHelper {
         }
     }
 
+    @Override
     protected void implSetPathToNames(X509CertSelector sel,
-            Set<GeneralNameInterface> names) {
+                                      Set<GeneralNameInterface> names) {
         sel.setPathToNamesInternal(names);
     }
 
+    @Override
     protected void implSetDateAndTime(X509CRLSelector sel, Date date, long skew) {
         sel.setDateAndTime(date, skew);
     }

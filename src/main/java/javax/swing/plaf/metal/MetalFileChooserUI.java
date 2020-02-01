@@ -147,10 +147,12 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         super(filechooser);
     }
 
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
     }
 
+    @Override
     public void uninstallComponents(JFileChooser fc) {
         fc.removeAll();
         bottomPanel = null;
@@ -158,52 +160,64 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
     }
 
     private class MetalFileChooserUIAccessor implements FilePane.FileChooserUIAccessor {
+        @Override
         public JFileChooser getFileChooser() {
             return MetalFileChooserUI.this.getFileChooser();
         }
 
+        @Override
         public BasicDirectoryModel getModel() {
             return MetalFileChooserUI.this.getModel();
         }
 
+        @Override
         public JPanel createList() {
             return MetalFileChooserUI.this.createList(getFileChooser());
         }
 
+        @Override
         public JPanel createDetailsView() {
             return MetalFileChooserUI.this.createDetailsView(getFileChooser());
         }
 
+        @Override
         public boolean isDirectorySelected() {
             return MetalFileChooserUI.this.isDirectorySelected();
         }
 
+        @Override
         public File getDirectory() {
             return MetalFileChooserUI.this.getDirectory();
         }
 
+        @Override
         public Action getChangeToParentDirectoryAction() {
             return MetalFileChooserUI.this.getChangeToParentDirectoryAction();
         }
 
+        @Override
         public Action getApproveSelectionAction() {
             return MetalFileChooserUI.this.getApproveSelectionAction();
         }
 
+        @Override
         public Action getNewFolderAction() {
             return MetalFileChooserUI.this.getNewFolderAction();
         }
 
+        @Override
         public MouseListener createDoubleClickListener(JList list) {
             return MetalFileChooserUI.this.createDoubleClickListener(getFileChooser(),
                                                                      list);
         }
 
+        @Override
         public ListSelectionListener createListSelectionListener() {
             return MetalFileChooserUI.this.createListSelectionListener(getFileChooser());
         }
     }
 
+    @Override
     public void installComponents(JFileChooser fc) {
         FileSystemView fsv = fc.getFileSystemView();
 
@@ -233,6 +247,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
 
         // CurrentDir ComboBox
         directoryComboBox = new JComboBox() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
                 // Must be small enough to not affect total width.
@@ -329,6 +344,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         viewButtonGroup.add(detailsViewButton);
 
         filePane.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent e) {
                 if ("viewType".equals(e.getPropertyName())) {
                     int viewType = filePane.getViewType();
@@ -374,6 +390,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         fileNamePanel.add(fileNameLabel);
 
         fileNameTextField = new JTextField(35) {
+            @Override
             public Dimension getMaximumSize() {
                 return new Dimension(Short.MAX_VALUE, super.getPreferredSize().height);
             }
@@ -382,6 +399,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         fileNameLabel.setLabelFor(fileNameTextField);
         fileNameTextField.addFocusListener(
             new FocusAdapter() {
+                @Override
                 public void focusGained(FocusEvent e) {
                     if (!getFileChooser().isMultiSelectionEnabled()) {
                         filePane.clearSelection();
@@ -449,6 +467,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         return bottomPanel;
     }
 
+    @Override
     protected void installStrings(JFileChooser fc) {
         super.installStrings(fc);
 
@@ -486,6 +505,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         return SwingUtilities2.getUIDefaultsInt(key, l);
     }
 
+    @Override
     protected void installListeners(JFileChooser fc) {
         super.installListeners(fc);
         ActionMap actionMap = getActionMap();
@@ -516,6 +536,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
      * @param fc a <code>JFileChooser</code>
      * @return a <code>ListSelectionListener</code>
      */
+    @Override
     public ListSelectionListener createListSelectionListener(JFileChooser fc) {
         return super.createListSelectionListener(fc);
     }
@@ -530,6 +551,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
     protected class FileRenderer extends DefaultListCellRenderer  {
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         // Remove listeners
         c.removePropertyChangeListener(filterComboBoxModel);
@@ -736,8 +758,10 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
      * Listen for filechooser property changes, such as
      * the selected file changing, or the type of the dialog changing.
      */
+    @Override
     public PropertyChangeListener createPropertyChangeListener(JFileChooser fc) {
         return new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent e) {
                 String s = e.getPropertyName();
                 if(s.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
@@ -789,14 +813,17 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         getBottomPanel().add(getButtonPanel());
     }
 
+    @Override
     public void ensureFileIsVisible(JFileChooser fc, File f) {
         filePane.ensureFileIsVisible(fc, f);
     }
 
+    @Override
     public void rescanCurrentDirectory(JFileChooser fc) {
         filePane.rescanCurrentDirectory();
     }
 
+    @Override
     public String getFileName() {
         if (fileNameTextField != null) {
             return fileNameTextField.getText();
@@ -805,6 +832,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         }
     }
 
+    @Override
     public void setFileName(String filename) {
         if (fileNameTextField != null) {
             fileNameTextField.setText(filename);
@@ -818,6 +846,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
      * @param directorySelected if a directory is currently selected.
      * @since 1.4
      */
+    @Override
     protected void setDirectorySelected(boolean directorySelected) {
         super.setDirectorySelected(directorySelected);
         JFileChooser chooser = getFileChooser();
@@ -834,11 +863,13 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         }
     }
 
+    @Override
     public String getDirectoryName() {
         // PENDING(jeff) - get the name from the directory combobox
         return null;
     }
 
+    @Override
     public void setDirectoryName(String dirname) {
         // PENDING(jeff) - set the name in the directory combobox
     }
@@ -852,6 +883,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
     //
     class DirectoryComboBoxRenderer extends DefaultListCellRenderer  {
         IndentIcon ii = new IndentIcon();
+        @Override
         public Component getListCellRendererComponent(JList list, Object value,
                                                       int index, boolean isSelected,
                                                       boolean cellHasFocus) {
@@ -879,6 +911,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         Icon icon = null;
         int depth = 0;
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (c.getComponentOrientation().isLeftToRight()) {
                 icon.paintIcon(c, g, x+depth*space, y);
@@ -887,10 +920,12 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             }
         }
 
+        @Override
         public int getIconWidth() {
             return icon.getIconWidth() + depth*space;
         }
 
+        @Override
         public int getIconHeight() {
             return icon.getIconHeight();
         }
@@ -1004,19 +1039,23 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             return (depths != null && i >= 0 && i < depths.length) ? depths[i] : 0;
         }
 
+        @Override
         public void setSelectedItem(Object selectedDirectory) {
             this.selectedDirectory = (File)selectedDirectory;
             fireContentsChanged(this, -1, -1);
         }
 
+        @Override
         public Object getSelectedItem() {
             return selectedDirectory;
         }
 
+        @Override
         public int getSize() {
             return directories.size();
         }
 
+        @Override
         public Object getElementAt(int index) {
             return directories.elementAt(index);
         }
@@ -1033,9 +1072,10 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
      * Render different type sizes and styles.
      */
     public class FilterComboBoxRenderer extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList list,
-            Object value, int index, boolean isSelected,
-            boolean cellHasFocus) {
+                                                      Object value, int index, boolean isSelected,
+                                                      boolean cellHasFocus) {
 
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
@@ -1064,6 +1104,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             filters = getFileChooser().getChoosableFileFilters();
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String prop = e.getPropertyName();
             if(prop == JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
@@ -1074,6 +1115,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             }
         }
 
+        @Override
         public void setSelectedItem(Object filter) {
             if(filter != null) {
                 getFileChooser().setFileFilter((FileFilter) filter);
@@ -1081,6 +1123,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             }
         }
 
+        @Override
         public Object getSelectedItem() {
             // Ensure that the current filter is in the list.
             // NOTE: we shouldnt' have to do this, since JFileChooser adds
@@ -1102,6 +1145,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             return getFileChooser().getFileFilter();
         }
 
+        @Override
         public int getSize() {
             if(filters != null) {
                 return filters.length;
@@ -1110,6 +1154,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             }
         }
 
+        @Override
         public Object getElementAt(int index) {
             if(index > getSize() - 1) {
                 // This shouldn't happen. Try to recover gracefully.
@@ -1139,6 +1184,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             super("DirectoryComboBoxAction");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             directoryComboBox.hidePopup();
             File f = (File)directoryComboBox.getSelectedItem();
@@ -1148,6 +1194,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         }
     }
 
+    @Override
     protected JButton getApproveButton(JFileChooser fc) {
         return approveButton;
     }
@@ -1163,9 +1210,11 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
         private int hGap = 5;
         private int topMargin = 17;
 
+        @Override
         public void addLayoutComponent(String string, Component comp) {
         }
 
+        @Override
         public void layoutContainer(Container container) {
             Component[] children = container.getComponents();
 
@@ -1196,6 +1245,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             }
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             if (c != null) {
                 Component[] children = c.getComponents();
@@ -1221,10 +1271,12 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             return new Dimension(0, 0);
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container c) {
             return minimumLayoutSize(c);
         }
 
+        @Override
         public void removeLayoutComponent(Component c) { }
     }
 
@@ -1249,6 +1301,7 @@ public class MetalFileChooserUI extends BasicFileChooserUI {
             setAlignmentX(JComponent.LEFT_ALIGNMENT);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             Dimension d = super.getPreferredSize();
             // Align the width with all other labels in group.

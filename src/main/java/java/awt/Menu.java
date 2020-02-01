@@ -66,6 +66,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
 
         AWTAccessor.setMenuAccessor(
             new AWTAccessor.MenuAccessor() {
+                @Override
                 public Vector<MenuComponent> getItems(Menu menu) {
                     return menu.items;
                 }
@@ -162,6 +163,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      * Construct a name for this MenuComponent.  Called by getName() when
      * the name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Menu.class) {
             return base + nameCounter++;
@@ -172,10 +174,12 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      * Creates the menu's peer.  The peer allows us to modify the
      * appearance of the menu without changing its functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = Toolkit.getDefaultToolkit().createMenu(this);
+            }
             int nitems = getItemCount();
             for (int i = 0 ; i < nitems ; i++) {
                 MenuItem mi = getItem(i);
@@ -189,6 +193,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      * Removes the menu's peer.  The peer allows us to modify the appearance
      * of the menu without changing its functionality.
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             int nitems = getItemCount();
@@ -425,6 +430,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      *         or is not in this menu, this method does
      *         nothing.
      */
+    @Override
     public void remove(MenuComponent item) {
         synchronized (getTreeLock()) {
             int index = items.indexOf(item);
@@ -453,6 +459,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      * keydown).  Returns true if there is an associated
      * keyboard event.
      */
+    @Override
     boolean handleShortcut(KeyEvent e) {
         int nitems = getItemCount();
         for (int i = 0 ; i < nitems ; i++) {
@@ -464,6 +471,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
         return false;
     }
 
+    @Override
     MenuItem getShortcutMenuItem(MenuShortcut s) {
         int nitems = getItemCount();
         for (int i = 0 ; i < nitems ; i++) {
@@ -495,6 +503,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
         return shortcuts.elements();
     }
 
+    @Override
     void deleteShortcut(MenuShortcut s) {
         int nitems = getItemCount();
         for (int i = 0 ; i < nitems ; i++) {
@@ -558,6 +567,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      *
      * @return the parameter string of this menu
      */
+    @Override
     public String paramString() {
         String str = ",tearOff=" + tearOff+",isHelpMenu=" + isHelpMenu;
         return super.paramString() + str;
@@ -583,6 +593,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
      *         AccessibleContext of this Menu
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTMenu();
@@ -593,6 +604,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
     /**
      * Defined in MenuComponent. Overridden here.
      */
+    @Override
     int getAccessibleChildIndex(MenuComponent child) {
         return items.indexOf(child);
     }
@@ -621,6 +633,7 @@ public class Menu extends MenuItem implements MenuContainer, Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.MENU;
         }

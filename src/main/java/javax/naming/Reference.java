@@ -226,8 +226,9 @@ public class Reference implements Cloneable, java.io.Serializable {
         RefAddr addr;
         for (int i = 0; i < len; i++) {
             addr = addrs.elementAt(i);
-            if (addr.getType().compareTo(addrType) == 0)
+            if (addr.getType().compareTo(addrType) == 0) {
                 return addr;
+            }
         }
         return null;
     }
@@ -325,6 +326,7 @@ public class Reference implements Cloneable, java.io.Serializable {
       * @param obj The possibly null object to check.
       * @return true if obj is equal to this reference; false otherwise.
       */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof Reference)) {
             Reference target = (Reference)obj;
@@ -333,9 +335,11 @@ public class Reference implements Cloneable, java.io.Serializable {
                 target.size() ==  this.size()) {
                 Enumeration<RefAddr> mycomps = getAll();
                 Enumeration<RefAddr> comps = target.getAll();
-                while (mycomps.hasMoreElements())
-                    if (!(mycomps.nextElement().equals(comps.nextElement())))
+                while (mycomps.hasMoreElements()) {
+                    if (!(mycomps.nextElement().equals(comps.nextElement()))) {
                         return false;
+                    }
+                }
                 return true;
             }
         }
@@ -348,10 +352,12 @@ public class Reference implements Cloneable, java.io.Serializable {
       *
       * @return A hash code of this reference as an int.
       */
+    @Override
     public int hashCode() {
         int hash = className.hashCode();
-        for (Enumeration<RefAddr> e = getAll(); e.hasMoreElements();)
+        for (Enumeration<RefAddr> e = getAll(); e.hasMoreElements();) {
             hash += e.nextElement().hashCode();
+        }
         return hash;
     }
 
@@ -363,12 +369,14 @@ public class Reference implements Cloneable, java.io.Serializable {
       *
       * @return The non-null string representation of this reference.
       */
+    @Override
     public String toString() {
         StringBuffer buf = new StringBuffer("Reference Class Name: " +
                                             className + "\n");
         int len = addrs.size();
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++) {
             buf.append(get(i).toString());
+        }
 
         return buf.toString();
     }
@@ -379,13 +387,15 @@ public class Reference implements Cloneable, java.io.Serializable {
      * Changes to the newly created copy does not affect this Reference
      * and vice versa.
      */
+    @Override
     public Object clone() {
         Reference r = new Reference(className, classFactory, classFactoryLocation);
         Enumeration<RefAddr> a = getAll();
         r.addrs = new Vector<>();
 
-        while (a.hasMoreElements())
+        while (a.hasMoreElements()) {
             r.addrs.addElement(a.nextElement());
+        }
         return r;
     }
     /**

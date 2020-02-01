@@ -293,7 +293,9 @@ public final class Float extends Number implements Comparable<Float> {
             return s.replaceFirst("p-1022$", "p-126");
         }
         else // double string will be the same as float string
+        {
             return Double.toHexString(f);
+        }
     }
 
     /**
@@ -564,6 +566,7 @@ public final class Float extends Number implements Comparable<Float> {
      * @return  a {@code String} representation of this object.
      * @see java.lang.Float#toString(float)
      */
+    @Override
     public String toString() {
         return Float.toString(value);
     }
@@ -576,6 +579,7 @@ public final class Float extends Number implements Comparable<Float> {
      *          converted to type {@code byte}
      * @jls 5.1.3 Narrowing Primitive Conversions
      */
+    @Override
     public byte byteValue() {
         return (byte)value;
     }
@@ -589,6 +593,7 @@ public final class Float extends Number implements Comparable<Float> {
      * @jls 5.1.3 Narrowing Primitive Conversions
      * @since JDK1.1
      */
+    @Override
     public short shortValue() {
         return (short)value;
     }
@@ -601,6 +606,7 @@ public final class Float extends Number implements Comparable<Float> {
      *          converted to type {@code int}
      * @jls 5.1.3 Narrowing Primitive Conversions
      */
+    @Override
     public int intValue() {
         return (int)value;
     }
@@ -613,6 +619,7 @@ public final class Float extends Number implements Comparable<Float> {
      *          converted to type {@code long}
      * @jls 5.1.3 Narrowing Primitive Conversions
      */
+    @Override
     public long longValue() {
         return (long)value;
     }
@@ -622,6 +629,7 @@ public final class Float extends Number implements Comparable<Float> {
      *
      * @return the {@code float} value represented by this object
      */
+    @Override
     public float floatValue() {
         return value;
     }
@@ -634,6 +642,7 @@ public final class Float extends Number implements Comparable<Float> {
      *         object converted to type {@code double}
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public double doubleValue() {
         return (double)value;
     }
@@ -704,6 +713,7 @@ public final class Float extends Number implements Comparable<Float> {
      *          {@code false} otherwise.
      * @see java.lang.Float#floatToIntBits(float)
      */
+    @Override
     public boolean equals(Object obj) {
         return (obj instanceof Float)
                && (floatToIntBits(((Float)obj).value) == floatToIntBits(value));
@@ -746,8 +756,9 @@ public final class Float extends Number implements Comparable<Float> {
         // exponent and nonzero significand.
         if ( ((result & FloatConsts.EXP_BIT_MASK) ==
               FloatConsts.EXP_BIT_MASK) &&
-             (result & FloatConsts.SIGNIF_BIT_MASK) != 0)
+             (result & FloatConsts.SIGNIF_BIT_MASK) != 0) {
             result = 0x7fc00000;
+        }
         return result;
     }
 
@@ -881,6 +892,7 @@ public final class Float extends Number implements Comparable<Float> {
      * @since   1.2
      * @see Comparable#compareTo(Object)
      */
+    @Override
     public int compareTo(Float anotherFloat) {
         return Float.compare(value, anotherFloat.value);
     }
@@ -904,10 +916,12 @@ public final class Float extends Number implements Comparable<Float> {
      * @since 1.4
      */
     public static int compare(float f1, float f2) {
-        if (f1 < f2)
+        if (f1 < f2) {
             return -1;           // Neither val is NaN, thisVal is smaller
-        if (f1 > f2)
+        }
+        if (f1 > f2) {
             return 1;            // Neither val is NaN, thisVal is larger
+        }
 
         // Cannot use floatToRawIntBits because of possibility of NaNs.
         int thisBits    = Float.floatToIntBits(f1);

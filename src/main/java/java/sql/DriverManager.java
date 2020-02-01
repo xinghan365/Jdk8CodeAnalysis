@@ -504,10 +504,11 @@ public class DriverManager {
         }
 
         logStream = out;
-        if ( out != null )
+        if ( out != null ) {
             logWriter = new java.io.PrintWriter(out);
-        else
+        } else {
             logWriter = null;
+        }
     }
 
     /**
@@ -568,6 +569,7 @@ public class DriverManager {
         String drivers;
         try {
             drivers = AccessController.doPrivileged(new PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return System.getProperty("jdbc.drivers");
                 }
@@ -581,6 +583,7 @@ public class DriverManager {
         // ServiceLoader.load() replaces the sun.misc.Providers()
 
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
+            @Override
             public Void run() {
 
                 ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver.class);

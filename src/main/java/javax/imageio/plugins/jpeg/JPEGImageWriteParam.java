@@ -133,6 +133,7 @@ public class JPEGImageWriteParam extends ImageWriteParam {
      * @exception IllegalStateException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
      */
+    @Override
     public void unsetCompression() {
         if (getCompressionMode() != MODE_EXPLICIT) {
             throw new IllegalStateException
@@ -150,6 +151,7 @@ public class JPEGImageWriteParam extends ImageWriteParam {
      * @exception IllegalStateException if the compression mode is not
      * <code>MODE_EXPLICIT</code>.
      */
+    @Override
     public boolean isCompressionLossless() {
         if (getCompressionMode() != MODE_EXPLICIT) {
             throw new IllegalStateException
@@ -158,6 +160,7 @@ public class JPEGImageWriteParam extends ImageWriteParam {
         return false;
     }
 
+    @Override
     public String[] getCompressionQualityDescriptions() {
         if (getCompressionMode() != MODE_EXPLICIT) {
             throw new IllegalStateException
@@ -170,6 +173,7 @@ public class JPEGImageWriteParam extends ImageWriteParam {
         return (String[])qualityDescs.clone();
     }
 
+    @Override
     public float[] getCompressionQualityValues() {
         if (getCompressionMode() != MODE_EXPLICIT) {
             throw new IllegalStateException

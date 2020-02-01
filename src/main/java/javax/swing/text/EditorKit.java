@@ -60,6 +60,7 @@ public abstract class EditorKit implements Cloneable, Serializable {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         Object o;
         try {

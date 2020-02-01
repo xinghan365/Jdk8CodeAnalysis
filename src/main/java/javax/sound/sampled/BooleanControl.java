@@ -142,6 +142,7 @@ public abstract class BooleanControl extends Control {
      * Provides a string representation of the control
      * @return a string description
      */
+    @Override
     public String toString() {
         return new String(super.toString() + " with current value: " + getStateLabel(getValue()));
     }

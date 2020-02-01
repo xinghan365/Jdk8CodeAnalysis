@@ -187,22 +187,26 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
                 int optionType, int defaultOption) {
 
         if (messageType < INFORMATION || messageType > ERROR ||
-            optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION)
+            optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION) {
             throw new IllegalArgumentException();
+        }
 
         switch (optionType) {
         case YES_NO_OPTION:
-            if (defaultOption != YES && defaultOption != NO)
+            if (defaultOption != YES && defaultOption != NO) {
                 throw new IllegalArgumentException();
+            }
             break;
         case YES_NO_CANCEL_OPTION:
             if (defaultOption != YES && defaultOption != NO &&
-                defaultOption != CANCEL)
+                defaultOption != CANCEL) {
                 throw new IllegalArgumentException();
+            }
             break;
         case OK_CANCEL_OPTION:
-            if (defaultOption != OK && defaultOption != CANCEL)
+            if (defaultOption != OK && defaultOption != CANCEL) {
                 throw new IllegalArgumentException();
+            }
             break;
         }
 
@@ -247,12 +251,14 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
 
         if (messageType < INFORMATION || messageType > ERROR ||
             options == null || options.length == 0 ||
-            defaultOption < 0 || defaultOption >= options.length)
+            defaultOption < 0 || defaultOption >= options.length) {
             throw new IllegalArgumentException();
+        }
 
         for (int i = 0; i < options.length; i++) {
-            if (options[i] == null || options[i].length() == 0)
+            if (options[i] == null || options[i].length() == 0) {
                 throw new IllegalArgumentException();
+            }
         }
 
         this.messageType = messageType;
@@ -301,22 +307,26 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
 
         if (prompt == null || prompt.length() == 0 ||
             messageType < INFORMATION || messageType > ERROR ||
-            optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION)
+            optionType < YES_NO_OPTION || optionType > OK_CANCEL_OPTION) {
             throw new IllegalArgumentException();
+        }
 
         switch (optionType) {
         case YES_NO_OPTION:
-            if (defaultOption != YES && defaultOption != NO)
+            if (defaultOption != YES && defaultOption != NO) {
                 throw new IllegalArgumentException();
+            }
             break;
         case YES_NO_CANCEL_OPTION:
             if (defaultOption != YES && defaultOption != NO &&
-                defaultOption != CANCEL)
+                defaultOption != CANCEL) {
                 throw new IllegalArgumentException();
+            }
             break;
         case OK_CANCEL_OPTION:
-            if (defaultOption != OK && defaultOption != CANCEL)
+            if (defaultOption != OK && defaultOption != CANCEL) {
                 throw new IllegalArgumentException();
+            }
             break;
         }
 
@@ -367,12 +377,14 @@ public class ConfirmationCallback implements Callback, java.io.Serializable {
         if (prompt == null || prompt.length() == 0 ||
             messageType < INFORMATION || messageType > ERROR ||
             options == null || options.length == 0 ||
-            defaultOption < 0 || defaultOption >= options.length)
+            defaultOption < 0 || defaultOption >= options.length) {
             throw new IllegalArgumentException();
+        }
 
         for (int i = 0; i < options.length; i++) {
-            if (options[i] == null || options[i].length() == 0)
+            if (options[i] == null || options[i].length() == 0) {
                 throw new IllegalArgumentException();
+            }
         }
 
         this.prompt = prompt;

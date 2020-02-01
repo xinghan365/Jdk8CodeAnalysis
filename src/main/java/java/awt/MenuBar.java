@@ -77,10 +77,12 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
         }
         AWTAccessor.setMenuBarAccessor(
             new AWTAccessor.MenuBarAccessor() {
+                @Override
                 public Menu getHelpMenu(MenuBar menuBar) {
                     return menuBar.helpMenu;
                 }
 
+                @Override
                 public Vector<Menu> getMenus(MenuBar menuBar) {
                     return menuBar.menus;
                 }
@@ -129,6 +131,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
      * Construct a name for this MenuComponent.  Called by getName() when
      * the name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (MenuBar.class) {
             return base + nameCounter++;
@@ -142,8 +145,9 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
      */
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = Toolkit.getDefaultToolkit().createMenuBar(this);
+            }
 
             int nmenus = getMenuCount();
             for (int i = 0 ; i < nmenus ; i++) {
@@ -157,6 +161,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
      * appearance of the menu bar without changing any of the menu bar's
      * functionality.
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             int nmenus = getMenuCount();
@@ -266,6 +271,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
      * @param        m the menu component to be removed.
      * @see          java.awt.MenuBar#add(java.awt.Menu)
      */
+    @Override
     public void remove(MenuComponent m) {
         synchronized (getTreeLock()) {
             int index = menus.indexOf(m);
@@ -469,6 +475,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
      *         AccessibleContext of this MenuBar
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTMenuBar();
@@ -479,6 +486,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
     /**
      * Defined in MenuComponent. Overridden here.
      */
+    @Override
     int getAccessibleChildIndex(MenuComponent child) {
         return menus.indexOf(child);
     }
@@ -508,6 +516,7 @@ public class MenuBar extends MenuComponent implements MenuContainer, Accessible 
          * object
          * @since 1.4
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.MENU_BAR;
         }

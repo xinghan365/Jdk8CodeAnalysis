@@ -91,6 +91,7 @@ class InQueryExp extends QueryEval implements QueryExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public boolean apply(ObjectName name)
     throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
@@ -119,6 +120,7 @@ class InQueryExp extends QueryEval implements QueryExp {
     /**
      * Returns the string representing the object.
      */
+    @Override
     public String toString()  {
         return val + " in (" + generateValueList() + ")";
     }

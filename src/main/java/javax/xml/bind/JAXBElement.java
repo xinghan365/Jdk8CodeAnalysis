@@ -107,10 +107,13 @@ public class JAXBElement<T> implements Serializable {
                        Class<T> declaredType,
                        Class scope,
                        T value) {
-        if(declaredType==null || name==null)
+        if(declaredType==null || name==null) {
             throw new IllegalArgumentException();
+        }
         this.declaredType = declaredType;
-        if(scope==null)     scope = GlobalScope.class;
+        if(scope==null) {
+            scope = GlobalScope.class;
+        }
         this.scope = scope;
         this.name = name;
         setValue(value);
@@ -210,7 +213,9 @@ public class JAXBElement<T> implements Serializable {
      * type than xml element declaration's declared type.
      */
     public boolean isTypeSubstituted() {
-        if(value==null)     return false;
+        if(value==null) {
+            return false;
+        }
         return value.getClass() != declaredType;
     }
 

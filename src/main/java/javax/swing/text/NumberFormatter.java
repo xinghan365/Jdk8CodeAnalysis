@@ -127,6 +127,7 @@ public class NumberFormatter extends InternationalFormatter {
      *
      * @param format NumberFormat instance used to dictate legal values
      */
+    @Override
     public void setFormat(Format format) {
         super.setFormat(format);
 
@@ -156,6 +157,7 @@ public class NumberFormatter extends InternationalFormatter {
      * Invokes <code>parseObject</code> on <code>f</code>, returning
      * its value.
      */
+    @Override
     Object stringToValue(String text, Format f) throws ParseException {
         if (f == null) {
             return text;
@@ -246,6 +248,7 @@ public class NumberFormatter extends InternationalFormatter {
      * (<code>Character.isDigit()</code>) and
      * not one of the characters defined by the DecimalFormatSymbols.
      */
+    @Override
     boolean isLegalInsertText(String text) {
         if (getAllowsInvalid()) {
             return true;
@@ -265,6 +268,7 @@ public class NumberFormatter extends InternationalFormatter {
      * Subclassed to treat the decimal separator, grouping separator,
      * exponent symbol, percent, permille, currency and sign as literals.
      */
+    @Override
     boolean isLiteral(Map attrs) {
         if (!super.isLiteral(attrs)) {
             if (attrs == null) {
@@ -303,6 +307,7 @@ public class NumberFormatter extends InternationalFormatter {
      * as making the character between the integer field and the next
      * field navigable.
      */
+    @Override
     boolean isNavigatable(int index) {
         if (!super.isNavigatable(index)) {
             // Don't skip the decimal, it causes wierd behavior
@@ -345,6 +350,7 @@ public class NumberFormatter extends InternationalFormatter {
      * Overriden to toggle the value if the positive/minus sign
      * is inserted.
      */
+    @Override
     void replace(DocumentFilter.FilterBypass fb, int offset, int length,
                 String string, AttributeSet attr) throws BadLocationException {
         if (!getAllowsInvalid() && length == 0 && string != null &&

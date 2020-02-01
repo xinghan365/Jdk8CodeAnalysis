@@ -67,6 +67,7 @@ public interface PrintJobAttributeSet extends AttributeSet {
      * @throws  NullPointerException
      *    (unchecked exception) Thrown if the <CODE>attribute</CODE> is null.
      */
+    @Override
     public boolean add(Attribute attribute);
 
     /**
@@ -105,5 +106,6 @@ public interface PrintJobAttributeSet extends AttributeSet {
      *
      * @see #add(Attribute)
      */
+    @Override
     public boolean addAll(AttributeSet attributes);
 }

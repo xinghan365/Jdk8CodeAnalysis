@@ -360,14 +360,16 @@ public class MBeanServerFactory {
 
         checkPermission("findMBeanServer");
 
-        if (agentId == null)
+        if (agentId == null) {
             return new ArrayList<MBeanServer>(mBeanServerList);
+        }
 
         ArrayList<MBeanServer> result = new ArrayList<MBeanServer>();
         for (MBeanServer mbs : mBeanServerList) {
             String name = mBeanServerId(mbs);
-            if (agentId.equals(name))
+            if (agentId.equals(name)) {
                 result.add(mbs);
+            }
         }
         return result;
     }
@@ -482,16 +484,18 @@ public class MBeanServerFactory {
 
             try {
                 final Class<?> newBuilderClass;
-                if (builderClassName == null || builderClassName.length() == 0)
+                if (builderClassName == null || builderClassName.length() == 0) {
                     newBuilderClass = MBeanServerBuilder.class;
-                else
+                } else {
                     newBuilderClass = loadBuilderClass(builderClassName);
+                }
 
                 // Check whether a new builder needs to be created
                 if (builder != null) {
                     final Class<?> builderClass = builder.getClass();
-                    if (newBuilderClass == builderClass)
+                    if (newBuilderClass == builderClass) {
                         return; // no need to create a new builder...
+                    }
                 }
 
                 // Create a new builder

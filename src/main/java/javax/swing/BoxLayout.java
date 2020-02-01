@@ -245,6 +245,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @exception AWTError  if the target isn't the container specified to the
      *                      BoxLayout constructor
      */
+    @Override
     public synchronized void invalidateLayout(Container target) {
         checkContainer(target);
         xChildren = null;
@@ -259,6 +260,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @param name the name of the component
      * @param comp the component
      */
+    @Override
     public void addLayoutComponent(String name, Component comp) {
         invalidateLayout(comp.getParent());
     }
@@ -268,6 +270,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      *
      * @param comp the component
      */
+    @Override
     public void removeLayoutComponent(Component comp) {
         invalidateLayout(comp.getParent());
     }
@@ -278,6 +281,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @param comp the component
      * @param constraints constraints
      */
+    @Override
     public void addLayoutComponent(Component comp, Object constraints) {
         invalidateLayout(comp.getParent());
     }
@@ -294,6 +298,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @see #minimumLayoutSize
      * @see #maximumLayoutSize
      */
+    @Override
     public Dimension preferredLayoutSize(Container target) {
         Dimension size;
         synchronized(this) {
@@ -319,6 +324,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @see #preferredLayoutSize
      * @see #maximumLayoutSize
      */
+    @Override
     public Dimension minimumLayoutSize(Container target) {
         Dimension size;
         synchronized(this) {
@@ -344,6 +350,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @see #preferredLayoutSize
      * @see #minimumLayoutSize
      */
+    @Override
     public Dimension maximumLayoutSize(Container target) {
         Dimension size;
         synchronized(this) {
@@ -369,6 +376,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @exception AWTError  if the target isn't the container specified to the
      *                      BoxLayout constructor
      */
+    @Override
     public synchronized float getLayoutAlignmentX(Container target) {
         checkContainer(target);
         checkRequests();
@@ -386,6 +394,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @exception AWTError  if the target isn't the container specified to the
      *                      BoxLayout constructor
      */
+    @Override
     public synchronized float getLayoutAlignmentY(Container target) {
         checkContainer(target);
         checkRequests();
@@ -401,6 +410,7 @@ public class BoxLayout implements LayoutManager2, Serializable {
      * @exception AWTError  if the target isn't the container specified to the
      *                      BoxLayout constructor
      */
+    @Override
     public void layoutContainer(Container target) {
         checkContainer(target);
         int nChildren = target.getComponentCount();

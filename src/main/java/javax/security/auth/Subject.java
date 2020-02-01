@@ -202,9 +202,10 @@ public final class Subject implements java.io.Serializable {
 
         if (principals == null ||
             pubCredentials == null ||
-            privCredentials == null)
+            privCredentials == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.input.s."));
+        }
 
         this.principals = Collections.synchronizedSet(new SecureSet<Principal>
                                 (this, PRINCIPAL_SET, principals));
@@ -295,10 +296,12 @@ public final class Subject implements java.io.Serializable {
         // return the Subject from the DomainCombiner of the provided context
         return AccessController.doPrivileged
             (new java.security.PrivilegedAction<Subject>() {
+            @Override
             public Subject run() {
                 DomainCombiner dc = acc.getDomainCombiner();
-                if (!(dc instanceof SubjectDomainCombiner))
+                if (!(dc instanceof SubjectDomainCombiner)) {
                     return null;
+                }
                 SubjectDomainCombiner sdc = (SubjectDomainCombiner)dc;
                 return sdc.getSubject();
             }
@@ -347,9 +350,10 @@ public final class Subject implements java.io.Serializable {
         if (sm != null) {
             sm.checkPermission(AuthPermissionHolder.DO_AS_PERMISSION);
         }
-        if (action == null)
+        if (action == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.action.provided"));
+        }
 
         // set up the new Subject-based AccessControlContext
         // for doPrivileged
@@ -410,9 +414,10 @@ public final class Subject implements java.io.Serializable {
             sm.checkPermission(AuthPermissionHolder.DO_AS_PERMISSION);
         }
 
-        if (action == null)
+        if (action == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.action.provided"));
+        }
 
         // set up the new Subject-based AccessControlContext for doPrivileged
         final AccessControlContext currentAcc = AccessController.getContext();
@@ -467,9 +472,10 @@ public final class Subject implements java.io.Serializable {
             sm.checkPermission(AuthPermissionHolder.DO_AS_PRIVILEGED_PERMISSION);
         }
 
-        if (action == null)
+        if (action == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.action.provided"));
+        }
 
         // set up the new Subject-based AccessControlContext
         // for doPrivileged
@@ -534,9 +540,10 @@ public final class Subject implements java.io.Serializable {
             sm.checkPermission(AuthPermissionHolder.DO_AS_PRIVILEGED_PERMISSION);
         }
 
-        if (action == null)
+        if (action == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.action.provided"));
+        }
 
         // set up the new Subject-based AccessControlContext for doPrivileged
         final AccessControlContext callerAcc =
@@ -556,13 +563,15 @@ public final class Subject implements java.io.Serializable {
 
         return java.security.AccessController.doPrivileged
             (new java.security.PrivilegedAction<AccessControlContext>() {
+            @Override
             public AccessControlContext run() {
-                if (subject == null)
+                if (subject == null) {
                     return new AccessControlContext(acc, null);
-                else
+                } else {
                     return new AccessControlContext
                                         (acc,
                                         new SubjectDomainCombiner(subject));
+                }
             }
         });
     }
@@ -615,9 +624,10 @@ public final class Subject implements java.io.Serializable {
      */
     public <T extends Principal> Set<T> getPrincipals(Class<T> c) {
 
-        if (c == null)
+        if (c == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.Class.provided"));
+        }
 
         // always return an empty Set instead of null
         // so LoginModules can add to the Set if necessary
@@ -711,9 +721,10 @@ public final class Subject implements java.io.Serializable {
      */
     public <T> Set<T> getPublicCredentials(Class<T> c) {
 
-        if (c == null)
+        if (c == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.Class.provided"));
+        }
 
         // always return an empty Set instead of null
         // so LoginModules can add to the Set if necessary
@@ -758,9 +769,10 @@ public final class Subject implements java.io.Serializable {
         // would do is protect the set operations themselves
         // (like size()), which don't seem security-sensitive.
 
-        if (c == null)
+        if (c == null) {
             throw new NullPointerException
                 (ResourcesMgr.getString("invalid.null.Class.provided"));
+        }
 
         // always return an empty Set instead of null
         // so LoginModules can add to the Set if necessary
@@ -788,13 +800,16 @@ public final class Subject implements java.io.Serializable {
      *          or if the caller does not have permission to access the
      *          private credentials for the provided {@code Subject}.
      */
+    @Override
     public boolean equals(Object o) {
 
-        if (o == null)
+        if (o == null) {
             return false;
+        }
 
-        if (this == o)
+        if (this == o) {
             return true;
+        }
 
         if (o instanceof Subject) {
 
@@ -839,6 +854,7 @@ public final class Subject implements java.io.Serializable {
      *
      * @return the String representation of this {@code Subject}.
      */
+    @Override
     public String toString() {
         return toString(true);
     }
@@ -903,6 +919,7 @@ public final class Subject implements java.io.Serializable {
      * @exception SecurityException if the caller does not have permission
      *          to access this Subject's private credentials.
      */
+    @Override
     public int hashCode() {
 
         /**
@@ -1040,17 +1057,21 @@ public final class Subject implements java.io.Serializable {
             this.elements = new LinkedList<E>(set);
         }
 
+        @Override
         public int size() {
             return elements.size();
         }
 
+        @Override
         public Iterator<E> iterator() {
             final LinkedList<E> list = elements;
             return new Iterator<E>() {
                 ListIterator<E> i = list.listIterator(0);
 
+                @Override
                 public boolean hasNext() {return i.hasNext();}
 
+                @Override
                 public E next() {
                     if (which != Subject.PRIV_CREDENTIAL_SET) {
                         return i.next();
@@ -1070,6 +1091,7 @@ public final class Subject implements java.io.Serializable {
                     return i.next();
                 }
 
+                @Override
                 public void remove() {
 
                     if (subject.isReadOnly()) {
@@ -1096,6 +1118,7 @@ public final class Subject implements java.io.Serializable {
             };
         }
 
+        @Override
         public boolean add(E o) {
 
             if (subject.isReadOnly()) {
@@ -1131,12 +1154,14 @@ public final class Subject implements java.io.Serializable {
             }
 
             // check for duplicates
-            if (!elements.contains(o))
+            if (!elements.contains(o)) {
                 return elements.add(o);
-            else
+            } else {
                 return false;
+            }
         }
 
+        @Override
         public boolean remove(Object o) {
 
             final Iterator<E> e = iterator();
@@ -1147,6 +1172,7 @@ public final class Subject implements java.io.Serializable {
                 } else {
                     next = java.security.AccessController.doPrivileged
                         (new java.security.PrivilegedAction<E>() {
+                        @Override
                         public E run() {
                             return e.next();
                         }
@@ -1166,6 +1192,7 @@ public final class Subject implements java.io.Serializable {
             return false;
         }
 
+        @Override
         public boolean contains(Object o) {
             final Iterator<E> e = iterator();
             while (e.hasNext()) {
@@ -1188,6 +1215,7 @@ public final class Subject implements java.io.Serializable {
                     }
                     next = java.security.AccessController.doPrivileged
                         (new java.security.PrivilegedAction<E>() {
+                        @Override
                         public E run() {
                             return e.next();
                         }
@@ -1205,6 +1233,7 @@ public final class Subject implements java.io.Serializable {
             return false;
         }
 
+        @Override
         public boolean removeAll(Collection<?> c) {
             Objects.requireNonNull(c);
             boolean modified = false;
@@ -1216,6 +1245,7 @@ public final class Subject implements java.io.Serializable {
                 } else {
                     next = java.security.AccessController.doPrivileged
                         (new java.security.PrivilegedAction<E>() {
+                        @Override
                         public E run() {
                             return e.next();
                         }
@@ -1241,6 +1271,7 @@ public final class Subject implements java.io.Serializable {
             return modified;
         }
 
+        @Override
         public boolean retainAll(Collection<?> c) {
             Objects.requireNonNull(c);
             boolean modified = false;
@@ -1254,6 +1285,7 @@ public final class Subject implements java.io.Serializable {
                 } else {
                     next = java.security.AccessController.doPrivileged
                         (new java.security.PrivilegedAction<E>() {
+                        @Override
                         public E run() {
                             return e.next();
                         }
@@ -1283,6 +1315,7 @@ public final class Subject implements java.io.Serializable {
             return modified;
         }
 
+        @Override
         public void clear() {
             final Iterator<E> e = iterator();
             while (e.hasNext()) {
@@ -1292,6 +1325,7 @@ public final class Subject implements java.io.Serializable {
                 } else {
                     next = java.security.AccessController.doPrivileged
                         (new java.security.PrivilegedAction<E>() {
+                        @Override
                         public E run() {
                             return e.next();
                         }
@@ -1397,6 +1431,7 @@ public final class Subject implements java.io.Serializable {
                 if (which == Subject.PRIV_CREDENTIAL_SET) {
                     next = java.security.AccessController.doPrivileged
                         (new java.security.PrivilegedAction<Object>() {
+                        @Override
                         public Object run() {
                             return iterator.next();
                         }
@@ -1421,14 +1456,17 @@ public final class Subject implements java.io.Serializable {
             }
         }
 
+        @Override
         public int size() {
             return set.size();
         }
 
+        @Override
         public Iterator<T> iterator() {
             return set.iterator();
         }
 
+        @Override
         public boolean add(T o) {
 
             if (!o.getClass().isAssignableFrom(c)) {

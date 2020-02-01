@@ -144,10 +144,12 @@ class MultiUIDefaults extends UIDefaults
             this.iterator = entries.iterator();
         }
 
+        @Override
         public boolean hasMoreElements() {
             return iterator.hasNext();
         }
 
+        @Override
         public Object nextElement() {
             switch (type) {
                 case KEYS: return iterator.next().getKey();

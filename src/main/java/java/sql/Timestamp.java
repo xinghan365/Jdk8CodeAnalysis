@@ -125,6 +125,7 @@ public class Timestamp extends java.util.Date {
      * @see #Timestamp(long time)
      * @see java.util.Calendar
      */
+    @Override
     public void setTime(long time) {
         super.setTime((time/1000)*1000);
         nanos = (int)((time%1000) * 1000000);
@@ -142,6 +143,7 @@ public class Timestamp extends java.util.Date {
      *          represented by this date.
      * @see #setTime
      */
+    @Override
     public long getTime() {
         long time = super.getTime();
         return (time + (nanos / 1000000));
@@ -192,7 +194,9 @@ public class Timestamp extends java.util.Date {
         String delimiterDate = "-";
         String delimiterTime = ":";
 
-        if (s == null) throw new java.lang.IllegalArgumentException("null string");
+        if (s == null) {
+            throw new IllegalArgumentException("null string");
+        }
 
         // Split the string into date and time components
         s = s.trim();
@@ -209,8 +213,9 @@ public class Timestamp extends java.util.Date {
         secondDash = date_s.indexOf('-', firstDash+1);
 
         // Parse the time
-        if (time_s == null)
-            throw new java.lang.IllegalArgumentException(formatError);
+        if (time_s == null) {
+            throw new IllegalArgumentException(formatError);
+        }
         firstColon = time_s.indexOf(':');
         secondColon = time_s.indexOf(':', firstColon+1);
         period = time_s.indexOf('.', secondColon+1);
@@ -247,10 +252,12 @@ public class Timestamp extends java.util.Date {
                 second =
                     Integer.parseInt(time_s.substring(secondColon+1, period));
                 nanos_s = time_s.substring(period+1);
-                if (nanos_s.length() > 9)
-                    throw new java.lang.IllegalArgumentException(formatError);
-                if (!Character.isDigit(nanos_s.charAt(0)))
-                    throw new java.lang.IllegalArgumentException(formatError);
+                if (nanos_s.length() > 9) {
+                    throw new IllegalArgumentException(formatError);
+                }
+                if (!Character.isDigit(nanos_s.charAt(0))) {
+                    throw new IllegalArgumentException(formatError);
+                }
                 nanos_s = nanos_s + zeros.substring(0,9-nanos_s.length());
                 a_nanos = Integer.parseInt(nanos_s);
             } else if (period > 0) {
@@ -273,6 +280,7 @@ public class Timestamp extends java.util.Date {
      * @return a <code>String</code> object in
      *           <code>yyyy-mm-dd hh:mm:ss.fffffffff</code> format
      */
+    @Override
     @SuppressWarnings("deprecation")
     public String toString () {
 
@@ -430,6 +438,7 @@ public class Timestamp extends java.util.Date {
      *         is equal to this <code>Timestamp</code> object;
      *         <code>false</code> otherwise
      */
+    @Override
     public boolean equals(java.lang.Object ts) {
       if (ts instanceof Timestamp) {
         return this.equals((Timestamp)ts);
@@ -503,6 +512,7 @@ public class Timestamp extends java.util.Date {
      *
      * @since   1.5
      */
+    @Override
     public int compareTo(java.util.Date o) {
        if(o instanceof Timestamp) {
             // When Timestamp instance compare it with a Timestamp

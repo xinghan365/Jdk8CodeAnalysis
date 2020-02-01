@@ -104,6 +104,7 @@ public class PatternSyntaxException
      *
      * @return  The full detail message
      */
+    @Override
     public String getMessage() {
         StringBuffer sb = new StringBuffer();
         sb.append(desc);
@@ -115,7 +116,9 @@ public class PatternSyntaxException
         sb.append(pattern);
         if (index >= 0 && pattern != null && index < pattern.length()) {
             sb.append(nl);
-            for (int i = 0; i < index; i++) sb.append(' ');
+            for (int i = 0; i < index; i++) {
+                sb.append(' ');
+            }
             sb.append('^');
         }
         return sb.toString();

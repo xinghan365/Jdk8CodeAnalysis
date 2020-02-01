@@ -75,6 +75,7 @@ public class LayerUI<V extends Component>
      * @param g the {@code Graphics} context in which to paint
      * @param c the component being painted
      */
+    @Override
     public void paint(Graphics g, JComponent c) {
         c.paint(g);
     }
@@ -452,6 +453,7 @@ public class LayerUI<V extends Component>
      *
      * @param c the {@code JLayer} component where this UI delegate is being installed
      */
+    @Override
     public void installUI(JComponent c) {
         addPropertyChangeListener((JLayer) c);
     }
@@ -464,6 +466,7 @@ public class LayerUI<V extends Component>
      *
      * @param c the component from which this UI delegate is being removed.
      */
+    @Override
     public void uninstallUI(JComponent c) {
         removePropertyChangeListener((JLayer) c);
     }
@@ -608,6 +611,7 @@ public class LayerUI<V extends Component>
      * @return baseline or a value &lt; 0 indicating there is no reasonable
      *                  baseline
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         JLayer l = (JLayer) c;
         if (l.getView() != null) {
@@ -625,6 +629,7 @@ public class LayerUI<V extends Component>
      * @return an enum indicating how the baseline changes as the component
      *         size changes
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(JComponent c) {
         JLayer l = (JLayer) c;
         if (l.getView() != null) {
@@ -657,6 +662,7 @@ public class LayerUI<V extends Component>
      * @param c {@code JLayer} to return preferred size for
      * @return preferred size for the passed {@code JLayer}
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         JLayer l = (JLayer) c;
         Component view = l.getView();
@@ -674,6 +680,7 @@ public class LayerUI<V extends Component>
      * @param c {@code JLayer} to return preferred size for
      * @return minimal size for the passed {@code JLayer}
      */
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         JLayer l = (JLayer) c;
         Component view = l.getView();
@@ -691,6 +698,7 @@ public class LayerUI<V extends Component>
      * @param c {@code JLayer} to return preferred size for
      * @return maximum size for the passed {@code JLayer}
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         JLayer l = (JLayer) c;
         Component view = l.getView();

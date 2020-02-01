@@ -117,6 +117,7 @@ public class RMIClassLoader {
     private static final RMIClassLoaderSpi provider =
         AccessController.doPrivileged(
             new PrivilegedAction<RMIClassLoaderSpi>() {
+                @Override
                 public RMIClassLoaderSpi run() { return initializeProvider(); }
             });
 
@@ -630,6 +631,7 @@ public class RMIClassLoader {
      */
     private static RMIClassLoaderSpi newDefaultProviderInstance() {
         return new RMIClassLoaderSpi() {
+            @Override
             public Class<?> loadClass(String codebase, String name,
                                       ClassLoader defaultLoader)
                 throws MalformedURLException, ClassNotFoundException
@@ -638,6 +640,7 @@ public class RMIClassLoader {
                     codebase, name, defaultLoader);
             }
 
+            @Override
             public Class<?> loadProxyClass(String codebase,
                                            String[] interfaces,
                                            ClassLoader defaultLoader)
@@ -647,12 +650,14 @@ public class RMIClassLoader {
                     codebase, interfaces, defaultLoader);
             }
 
+            @Override
             public ClassLoader getClassLoader(String codebase)
                 throws MalformedURLException
             {
                 return sun.rmi.server.LoaderHandler.getClassLoader(codebase);
             }
 
+            @Override
             public String getClassAnnotation(Class<?> cl) {
                 return sun.rmi.server.LoaderHandler.getClassAnnotation(cl);
             }

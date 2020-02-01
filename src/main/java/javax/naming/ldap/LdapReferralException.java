@@ -89,6 +89,7 @@ public abstract class LdapReferralException extends ReferralException {
      * Call either <tt>retryReferral()</tt> or <tt>skipReferral()</tt>
      * to continue processing referrals.
      */
+    @Override
     public abstract Context getReferralContext() throws NamingException;
 
     /**
@@ -113,6 +114,7 @@ public abstract class LdapReferralException extends ReferralException {
      * Call either <tt>retryReferral()</tt> or <tt>skipReferral()</tt>
      * to continue processing referrals.
      */
+    @Override
     public abstract Context
         getReferralContext(Hashtable<?,?> env)
         throws NamingException;

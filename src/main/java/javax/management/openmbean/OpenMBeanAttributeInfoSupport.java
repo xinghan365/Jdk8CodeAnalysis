@@ -446,22 +446,26 @@ public class OpenMBeanAttributeInfoSupport
                     isReadable(), isWritable(), isIs(),
                     makeDescriptor(xopenType, defaultValue, xlegalValues,
                                    xminValue, xmaxValue));
-        } else
+        } else {
             return this;
+        }
     }
 
     static void check(OpenMBeanParameterInfo info) throws OpenDataException {
         OpenType<?> openType = info.getOpenType();
-        if (openType == null)
+        if (openType == null) {
             throw new IllegalArgumentException("OpenType cannot be null");
+        }
 
         if (info.getName() == null ||
-                info.getName().trim().equals(""))
+                info.getName().trim().equals("")) {
             throw new IllegalArgumentException("Name cannot be null or empty");
+        }
 
         if (info.getDescription() == null ||
-                info.getDescription().trim().equals(""))
+                info.getDescription().trim().equals("")) {
             throw new IllegalArgumentException("Description cannot be null or empty");
+        }
 
         // Check and initialize defaultValue
         //
@@ -574,19 +578,23 @@ public class OpenMBeanAttributeInfoSupport
                                          Comparable<T> minValue,
                                          Comparable<T> maxValue) {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (defaultValue != null)
+        if (defaultValue != null) {
             map.put("defaultValue", defaultValue);
+        }
         if (legalValues != null) {
             Set<T> set = new HashSet<T>();
-            for (T v : legalValues)
+            for (T v : legalValues) {
                 set.add(v);
+            }
             set = Collections.unmodifiableSet(set);
             map.put("legalValues", set);
         }
-        if (minValue != null)
+        if (minValue != null) {
             map.put("minValue", minValue);
-        if (maxValue != null)
+        }
+        if (maxValue != null) {
             map.put("maxValue", maxValue);
+        }
         if (map.isEmpty()) {
             return openType.getDescriptor();
         } else {
@@ -601,9 +609,9 @@ public class OpenMBeanAttributeInfoSupport
                                          Comparable<T> minValue,
                                          Comparable<T> maxValue) {
         T[] legals;
-        if (legalValues == null)
+        if (legalValues == null) {
             legals = null;
-        else {
+        } else {
             legals = cast(new Object[legalValues.size()]);
             legalValues.toArray(legals);
         }
@@ -613,8 +621,9 @@ public class OpenMBeanAttributeInfoSupport
 
     static <T> T valueFrom(Descriptor d, String name, OpenType<T> openType) {
         Object x = d.getFieldValue(name);
-        if (x == null)
+        if (x == null) {
             return null;
+        }
         try {
             return convertFrom(x, openType);
         } catch (Exception e) {
@@ -628,8 +637,9 @@ public class OpenMBeanAttributeInfoSupport
     static <T> Set<T> valuesFrom(Descriptor d, String name,
                                  OpenType<T> openType) {
         Object x = d.getFieldValue(name);
-        if (x == null)
+        if (x == null) {
             return null;
+        }
         Collection<?> coll;
         if (x instanceof Set<?>) {
             Set<?> set = (Set<?>) x;
@@ -640,8 +650,9 @@ public class OpenMBeanAttributeInfoSupport
                     break;
                 }
             }
-            if (asis)
+            if (asis) {
                 return cast(set);
+            }
             coll = set;
         } else if (x instanceof Object[]) {
             coll = Arrays.asList((Object[]) x);
@@ -653,16 +664,18 @@ public class OpenMBeanAttributeInfoSupport
         }
 
         Set<T> result = new HashSet<T>();
-        for (Object element : coll)
+        for (Object element : coll) {
             result.add(convertFrom(element, openType));
+        }
         return result;
     }
 
     static <T> Comparable<?> comparableValueFrom(Descriptor d, String name,
                                                  OpenType<T> openType) {
         T t = valueFrom(d, name, openType);
-        if (t == null || t instanceof Comparable<?>)
+        if (t == null || t instanceof Comparable<?>) {
             return (Comparable<?>) t;
+        }
         final String msg =
             "Descriptor field " + name + " with value " + t +
             " is not Comparable";
@@ -678,10 +691,11 @@ public class OpenMBeanAttributeInfoSupport
     }
 
     private static <T> T convertFromStrings(Object x, OpenType<T> openType) {
-        if (openType instanceof ArrayType<?>)
+        if (openType instanceof ArrayType<?>) {
             return convertFromStringArray(x, openType);
-        else if (x instanceof String)
+        } else if (x instanceof String) {
             return convertFromString((String) x, openType);
+        }
         final String msg =
             "Cannot convert value " + x + " of type " +
             x.getClass().getName() + " to type " + openType.getTypeName();
@@ -705,8 +719,9 @@ public class OpenMBeanAttributeInfoSupport
             // was checked before by ReflectUtil.checkPackageAccess(openType.safeGetClassName());
             valueOf = c.getMethod("valueOf", String.class);
             if (!Modifier.isStatic(valueOf.getModifiers()) ||
-                    valueOf.getReturnType() != c)
+                    valueOf.getReturnType() != c) {
                 valueOf = null;
+            }
         } catch (NoSuchMethodException e) {
             valueOf = null;
         }
@@ -756,8 +771,9 @@ public class OpenMBeanAttributeInfoSupport
         OpenType<?> baseType = arrayType.getElementOpenType();
         int dim = arrayType.getDimension();
         String squareBrackets = "[";
-        for (int i = 1; i < dim; i++)
+        for (int i = 1; i < dim; i++) {
             squareBrackets += "[";
+        }
         Class<?> stringArrayClass;
         Class<?> targetArrayClass;
         try {
@@ -781,9 +797,9 @@ public class OpenMBeanAttributeInfoSupport
             throw new IllegalArgumentException(msg);
         }
         OpenType<?> componentOpenType;
-        if (dim == 1)
+        if (dim == 1) {
             componentOpenType = baseType;
-        else {
+        } else {
             try {
                 componentOpenType = new ArrayType<T>(dim - 1, baseType);
             } catch (OpenDataException e) {
@@ -812,6 +828,7 @@ public class OpenMBeanAttributeInfoSupport
      * Returns the open type for the values of the attribute described
      * by this {@code OpenMBeanAttributeInfoSupport} instance.
      */
+    @Override
     public OpenType<?> getOpenType() {
         return openType;
     }
@@ -821,6 +838,7 @@ public class OpenMBeanAttributeInfoSupport
      * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
      * or {@code null} otherwise.
      */
+    @Override
     public Object getDefaultValue() {
 
         // Special case for ArrayType and TabularType
@@ -837,6 +855,7 @@ public class OpenMBeanAttributeInfoSupport
      * described by this {@code OpenMBeanAttributeInfoSupport}
      * instance, if specified, or {@code null} otherwise.
      */
+    @Override
     public Set<?> getLegalValues() {
 
         // Special case for ArrayType and TabularType
@@ -854,6 +873,7 @@ public class OpenMBeanAttributeInfoSupport
      * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
      * or {@code null} otherwise.
      */
+    @Override
     public Comparable<?> getMinValue() {
 
         // Note: only comparable values have a minValue,
@@ -867,6 +887,7 @@ public class OpenMBeanAttributeInfoSupport
      * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
      * or {@code null} otherwise.
      */
+    @Override
     public Comparable<?> getMaxValue() {
 
         // Note: only comparable values have a maxValue,
@@ -881,6 +902,7 @@ public class OpenMBeanAttributeInfoSupport
      * default value for the described attribute, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasDefaultValue() {
 
         return (defaultValue != null);
@@ -892,6 +914,7 @@ public class OpenMBeanAttributeInfoSupport
      * set of legal values for the described attribute, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasLegalValues() {
 
         return (legalValues != null);
@@ -903,6 +926,7 @@ public class OpenMBeanAttributeInfoSupport
      * minimal value for the described attribute, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasMinValue() {
 
         return (minValue != null);
@@ -914,6 +938,7 @@ public class OpenMBeanAttributeInfoSupport
      * maximal value for the described attribute, {@code false}
      * otherwise.
      */
+    @Override
     public boolean hasMaxValue() {
 
         return (maxValue != null);
@@ -932,14 +957,16 @@ public class OpenMBeanAttributeInfoSupport
      * OpenMBeanAttributeInfoSupport} instance, {@code false}
      * otherwise.
      */
+    @Override
     public boolean isValue(Object obj) {
         return isValue(this, obj);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})  // cast to Comparable
     static boolean isValue(OpenMBeanParameterInfo info, Object obj) {
-        if (info.hasDefaultValue() && obj == null)
+        if (info.hasDefaultValue() && obj == null) {
             return true;
+        }
         return
             info.getOpenType().isValue(obj) &&
             (!info.hasLegalValues() || info.getLegalValues().contains(obj)) &&
@@ -979,9 +1006,11 @@ public class OpenMBeanAttributeInfoSupport
      * @return {@code true} if the specified object is equal to this
      * {@code OpenMBeanAttributeInfoSupport} instance.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof OpenMBeanAttributeInfo))
+        if (!(obj instanceof OpenMBeanAttributeInfo)) {
             return false;
+        }
 
         OpenMBeanAttributeInfo other = (OpenMBeanAttributeInfo) obj;
 
@@ -994,14 +1023,17 @@ public class OpenMBeanAttributeInfoSupport
 
     static boolean equal(OpenMBeanParameterInfo x1, OpenMBeanParameterInfo x2) {
         if (x1 instanceof DescriptorRead) {
-            if (!(x2 instanceof DescriptorRead))
+            if (!(x2 instanceof DescriptorRead)) {
                 return false;
+            }
             Descriptor d1 = ((DescriptorRead) x1).getDescriptor();
             Descriptor d2 = ((DescriptorRead) x2).getDescriptor();
-            if (!d1.equals(d2))
+            if (!d1.equals(d2)) {
                 return false;
-        } else if (x2 instanceof DescriptorRead)
+            }
+        } else if (x2 instanceof DescriptorRead) {
             return false;
+        }
 
         return
             x1.getName().equals(x2.getName()) &&
@@ -1050,13 +1082,15 @@ public class OpenMBeanAttributeInfoSupport
      * @return the hash code value for this {@code
      * OpenMBeanAttributeInfoSupport} instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done
         // (ie 1st call to hashCode())
         //
-        if (myHashCode == null)
+        if (myHashCode == null) {
             myHashCode = hashCode(this);
+        }
 
         // return always the same hash code for this instance (immutable)
         //
@@ -1067,16 +1101,21 @@ public class OpenMBeanAttributeInfoSupport
         int value = 0;
         value += info.getName().hashCode();
         value += info.getOpenType().hashCode();
-        if (info.hasDefaultValue())
+        if (info.hasDefaultValue()) {
             value += info.getDefaultValue().hashCode();
-        if (info.hasMinValue())
+        }
+        if (info.hasMinValue()) {
             value += info.getMinValue().hashCode();
-        if (info.hasMaxValue())
+        }
+        if (info.hasMaxValue()) {
             value += info.getMaxValue().hashCode();
-        if (info.hasLegalValues())
+        }
+        if (info.hasLegalValues()) {
             value += info.getLegalValues().hashCode();
-        if (info instanceof DescriptorRead)
+        }
+        if (info instanceof DescriptorRead) {
             value += ((DescriptorRead) info).getDescriptor().hashCode();
+        }
         return value;
     }
 
@@ -1099,13 +1138,15 @@ public class OpenMBeanAttributeInfoSupport
      * @return a string representation of this
      * {@code OpenMBeanAttributeInfoSupport} instance.
      */
+    @Override
     public String toString() {
 
         // Calculate the string value if it has not yet been done
         // (ie 1st call to toString())
         //
-        if (myToString == null)
+        if (myToString == null) {
             myToString = toString(this);
+        }
 
         // return always the same string representation for this
         // instance (immutable)

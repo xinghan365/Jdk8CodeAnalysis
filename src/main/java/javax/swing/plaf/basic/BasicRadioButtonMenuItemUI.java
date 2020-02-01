@@ -43,6 +43,7 @@ public class BasicRadioButtonMenuItemUI extends BasicMenuItemUI
         return new BasicRadioButtonMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "RadioButtonMenuItem";
     }
@@ -55,13 +56,15 @@ public class BasicRadioButtonMenuItemUI extends BasicMenuItemUI
                 manager.clearSelectedPath();
                 item.doClick(0);
                 item.setArmed(false);
-            } else
+            } else {
                 manager.setSelectedPath(path);
+            }
         } else if(item.getModel().isArmed()) {
             MenuElement newPath[] = new MenuElement[path.length-1];
             int i,c;
-            for(i=0,c=path.length-1;i<c;i++)
+            for(i=0,c=path.length-1;i<c;i++) {
                 newPath[i] = path[i];
+            }
             manager.setSelectedPath(newPath);
         }
     }

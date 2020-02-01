@@ -67,6 +67,7 @@ final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
         backwardMap.remove(right);
     }
 
+    @Override
     public Component getComponentAfter(Container focusCycleRoot,
                                        Component aComponent) {
         Component hardCoded = aComponent, prevHardCoded;
@@ -96,6 +97,7 @@ final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
 
         return hardCoded;
     }
+    @Override
     public Component getComponentBefore(Container focusCycleRoot,
                                         Component aComponent) {
         Component hardCoded = aComponent, prevHardCoded;
@@ -125,6 +127,7 @@ final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
 
         return hardCoded;
     }
+    @Override
     public Component getFirstComponent(Container focusCycleRoot) {
         if (delegatePolicy != null) {
             return delegatePolicy.getFirstComponent(focusCycleRoot);
@@ -134,6 +137,7 @@ final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
             return null;
         }
     }
+    @Override
     public Component getLastComponent(Container focusCycleRoot) {
         if (delegatePolicy != null) {
             return delegatePolicy.getLastComponent(focusCycleRoot);
@@ -143,6 +147,7 @@ final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
             return null;
         }
     }
+    @Override
     public Component getDefaultComponent(Container focusCycleRoot) {
         if (delegatePolicy != null) {
             return delegatePolicy.getDefaultComponent(focusCycleRoot);

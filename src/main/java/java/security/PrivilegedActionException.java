@@ -94,10 +94,12 @@ public class PrivilegedActionException extends Exception {
      * @return  the cause of this exception.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return exception;
     }
 
+    @Override
     public String toString() {
         String s = getClass().getName();
         return (exception != null) ? (s + ": " + exception.toString()) : s;

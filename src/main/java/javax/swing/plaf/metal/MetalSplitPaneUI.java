@@ -57,6 +57,7 @@ public class MetalSplitPaneUI extends BasicSplitPaneUI
     /**
       * Creates the default divider.
       */
+    @Override
     public BasicSplitPaneDivider createDefaultDivider() {
         return new MetalSplitPaneDivider(this);
     }

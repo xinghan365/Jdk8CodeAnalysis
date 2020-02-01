@@ -197,6 +197,7 @@ public final class SimpleType<T> extends OpenType<T> {
      * @return <code>true</code> if <var>obj</var> is a value for this
      * <code>SimpleType</code> instance.
      */
+    @Override
     public boolean isValue(Object obj) {
 
         // if obj is null, return false
@@ -225,6 +226,7 @@ public final class SimpleType<T> extends OpenType<T> {
      *
      * @return  <code>true</code> if the specified object is equal to this <code>SimpleType</code> instance.
      */
+    @Override
     public boolean equals(Object obj) {
 
         /* If it weren't for readReplace(), we could replace this method
@@ -232,8 +234,9 @@ public final class SimpleType<T> extends OpenType<T> {
            return (this == obj);
         */
 
-        if (!(obj instanceof SimpleType<?>))
+        if (!(obj instanceof SimpleType<?>)) {
             return false;
+        }
 
         SimpleType<?> other = (SimpleType<?>) obj;
 
@@ -252,6 +255,7 @@ public final class SimpleType<T> extends OpenType<T> {
      *
      * @return  the hash code value for this <code>SimpleType</code> instance
      */
+    @Override
     public int hashCode() {
 
         // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
@@ -277,6 +281,7 @@ public final class SimpleType<T> extends OpenType<T> {
      *
      * @return  a string representation of this <code>SimpleType</code> instance
      */
+    @Override
     public String toString() {
 
         // Calculate the string representation if it has not yet been done (ie 1st call to toString())

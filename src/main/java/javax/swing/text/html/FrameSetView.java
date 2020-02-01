@@ -167,6 +167,7 @@ class FrameSetView extends javax.swing.text.BoxView {
      * @return the offset and span for each child view in the
      *  offsets and spans parameters
      */
+    @Override
     protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets,
                                    int[] spans) {
         if (children == null) {
@@ -299,7 +300,9 @@ class FrameSetView extends javax.swing.text.BoxView {
                 }
 
                 // just in case there are more pixels than frames...should never happen..
-                if (i == span.length)i = 0;
+                if (i == span.length) {
+                    i = 0;
+                }
             }
         }
     }

@@ -283,6 +283,7 @@ public class AudioFileFormat {
      * Provides a string representation of the file format.
      * @return the file format as a string
      */
+    @Override
     public String toString() {
 
         StringBuffer buf = new StringBuffer();
@@ -376,6 +377,7 @@ public class AudioFileFormat {
         /**
          * Finalizes the equals method
          */
+        @Override
         public final boolean equals(Object obj) {
             if (toString() == null) {
                 return (obj != null) && (obj.toString() == null);
@@ -389,6 +391,7 @@ public class AudioFileFormat {
         /**
          * Finalizes the hashCode method
          */
+        @Override
         public final int hashCode() {
             if (toString() == null) {
                 return 0;
@@ -401,6 +404,7 @@ public class AudioFileFormat {
          * of the file type.
          * @return the file type's name
          */
+        @Override
         public final String toString() {
             return name;
         }

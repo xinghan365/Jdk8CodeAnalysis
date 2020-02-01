@@ -74,6 +74,7 @@ public class GrayFilter extends RGBImageFilter {
     /**
      * Overrides <code>RGBImageFilter.filterRGB</code>.
      */
+    @Override
     public int filterRGB(int x, int y, int rgb) {
         // Use NTSC conversion formula.
         int gray = (int)((0.30 * ((rgb >> 16) & 0xff) +
@@ -86,8 +87,12 @@ public class GrayFilter extends RGBImageFilter {
             gray = (gray * (100 - percent) / 100);
         }
 
-        if (gray < 0) gray = 0;
-        if (gray > 255) gray = 255;
+        if (gray < 0) {
+            gray = 0;
+        }
+        if (gray > 255) {
+            gray = 255;
+        }
         return (rgb & 0xff000000) | (gray << 16) | (gray << 8) | (gray << 0);
     }
 }

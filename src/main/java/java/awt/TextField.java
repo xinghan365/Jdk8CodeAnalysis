@@ -206,6 +206,7 @@ public class TextField extends TextComponent {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (TextField.class) {
             return base + nameCounter++;
@@ -216,10 +217,12 @@ public class TextField extends TextComponent {
      * Creates the TextField's peer.  The peer allows us to modify the
      * appearance of the TextField without changing its functionality.
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createTextField(this);
+            }
             super.addNotify();
         }
     }
@@ -292,6 +295,7 @@ public class TextField extends TextComponent {
      * @param       t   the new text.
      * @see         java.awt.TextComponent#getText
      */
+    @Override
     public void setText(String t) {
         super.setText(t);
 
@@ -387,6 +391,7 @@ public class TextField extends TextComponent {
      *                         displaying this text field.
      * @since      JDK1.1
      */
+    @Override
     public Dimension getPreferredSize() {
         return preferredSize();
     }
@@ -395,6 +400,7 @@ public class TextField extends TextComponent {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getPreferredSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension preferredSize() {
         synchronized (getTreeLock()) {
@@ -435,6 +441,7 @@ public class TextField extends TextComponent {
      *                  displaying this text field.
      * @since      JDK1.1
      */
+    @Override
     public Dimension getMinimumSize() {
         return minimumSize();
     }
@@ -443,6 +450,7 @@ public class TextField extends TextComponent {
      * @deprecated As of JDK version 1.1,
      * replaced by <code>getMinimumSize()</code>.
      */
+    @Override
     @Deprecated
     public Dimension minimumSize() {
         synchronized (getTreeLock()) {
@@ -543,6 +551,7 @@ public class TextField extends TextComponent {
      * @see #getActionListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == ActionListener.class) {
@@ -554,6 +563,7 @@ public class TextField extends TextComponent {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == ActionEvent.ACTION_PERFORMED) {
             if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
@@ -580,6 +590,7 @@ public class TextField extends TextComponent {
      * @see        java.awt.TextField#processActionEvent
      * @since      JDK1.1
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof ActionEvent) {
             processActionEvent((ActionEvent)e);
@@ -627,6 +638,7 @@ public class TextField extends TextComponent {
      *
      * @return      the parameter string of this text field
      */
+    @Override
     protected String paramString() {
         String str = super.paramString();
         if (echoChar != 0) {
@@ -724,6 +736,7 @@ public class TextField extends TextComponent {
      *         AccessibleContext of this TextField
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTTextField();
@@ -751,6 +764,7 @@ public class TextField extends TextComponent {
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             states.add(AccessibleState.SINGLE_LINE);

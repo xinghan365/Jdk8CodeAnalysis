@@ -150,8 +150,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
         //setFocusable(false); // for strict win/mac compatibility mode,
                                // this method should be invoked
 
-        if (cm == null)
+        if (cm == null) {
             cm = createDefaultColumnModel();
+        }
         setColumnModel(cm);
 
         // Initialize local ivars
@@ -393,6 +394,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      *                          renderer and, therefore, the proper tip
      * @return the tool tip for this component
      */
+    @Override
     public String getToolTipText(MouseEvent event) {
         String tip = null;
         Point p = event.getPoint();
@@ -431,8 +433,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
         }
 
         // No tip from the renderer get our own tip
-        if (tip == null)
+        if (tip == null) {
             tip = getToolTipText();
+        }
 
         return tip;
     }
@@ -471,6 +474,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI(){
         setUI((TableHeaderUI)UIManager.getUI(this));
 
@@ -490,6 +494,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -553,6 +558,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @param e  the event received
      * @see TableColumnModelListener
      */
+    @Override
     public void columnAdded(TableColumnModelEvent e) { resizeAndRepaint(); }
 
 
@@ -565,6 +571,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @param e  the event received
      * @see TableColumnModelListener
      */
+    @Override
     public void columnRemoved(TableColumnModelEvent e) { resizeAndRepaint(); }
 
 
@@ -577,6 +584,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @param e the event received
      * @see TableColumnModelListener
      */
+    @Override
     public void columnMoved(TableColumnModelEvent e) { repaint(); }
 
 
@@ -589,6 +597,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @param e the event received
      * @see TableColumnModelListener
      */
+    @Override
     public void columnMarginChanged(ChangeEvent e) { resizeAndRepaint(); }
 
 
@@ -606,6 +615,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @param e the event received
      * @see TableColumnModelListener
      */
+    @Override
     public void columnSelectionChanged(ListSelectionEvent e) { } // repaint(); }
 
 //
@@ -731,6 +741,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      *
      * @return  a string representation of this <code>JTableHeader</code>
      */
+    @Override
     protected String paramString() {
         String reorderingAllowedString = (reorderingAllowed ?
                                           "true" : "false");
@@ -759,6 +770,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
      * @return an AccessibleJTableHeader that serves as the
      *         AccessibleContext of this JTableHeader
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJTableHeader();
@@ -794,6 +806,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }
@@ -807,6 +820,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
          * @return the Accessible, if it exists, at the specified location;
          * else null
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             int column;
 
@@ -839,6 +853,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
          *
          * @return the number of accessible children in the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return JTableHeader.this.columnModel.getColumnCount();
         }
@@ -849,6 +864,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
          * @param i zero-based index of child
          * @return the nth Accessible child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             if (i < 0 || i >= getAccessibleChildrenCount()) {
                 return null;
@@ -902,6 +918,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
              *
              * @return this object
              */
+            @Override
             public AccessibleContext getAccessibleContext() {
                 return this;
             }
@@ -962,6 +979,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 
         // AccessibleContext methods
 
+            @Override
             public String getAccessibleName() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -984,6 +1002,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setAccessibleName(String s) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -996,6 +1015,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             //
             // *** should check toolTip text for desc. (needs MouseEvent)
             //
+            @Override
             public String getAccessibleDescription() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1005,6 +1025,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setAccessibleDescription(String s) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1014,6 +1035,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public AccessibleRole getAccessibleRole() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1023,6 +1045,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public AccessibleStateSet getAccessibleStateSet() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1036,10 +1059,12 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public int getAccessibleIndexInParent() {
                 return column;
             }
 
+            @Override
             public int getAccessibleChildrenCount() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1049,6 +1074,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Accessible getAccessibleChild(int i) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1060,6 +1086,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Locale getLocale() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1069,6 +1096,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void addPropertyChangeListener(PropertyChangeListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1078,6 +1106,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void removePropertyChangeListener(PropertyChangeListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac != null) {
@@ -1087,6 +1116,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public AccessibleAction getAccessibleAction() {
                 return getCurrentAccessibleContext().getAccessibleAction();
             }
@@ -1099,18 +1129,22 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             *
             * @return this object
             */
+            @Override
             public AccessibleComponent getAccessibleComponent() {
                 return this; // to override getBounds()
             }
 
+            @Override
             public AccessibleSelection getAccessibleSelection() {
                 return getCurrentAccessibleContext().getAccessibleSelection();
             }
 
+            @Override
             public AccessibleText getAccessibleText() {
                 return getCurrentAccessibleContext().getAccessibleText();
             }
 
+            @Override
             public AccessibleValue getAccessibleValue() {
                 return getCurrentAccessibleContext().getAccessibleValue();
             }
@@ -1118,6 +1152,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 
         // AccessibleComponent methods
 
+            @Override
             public Color getBackground() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1132,6 +1167,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setBackground(Color c) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1144,6 +1180,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Color getForeground() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1158,6 +1195,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setForeground(Color c) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1170,6 +1208,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Cursor getCursor() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1189,6 +1228,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setCursor(Cursor c) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1201,6 +1241,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Font getFont() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1215,6 +1256,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setFont(Font f) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1227,6 +1269,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public FontMetrics getFontMetrics(Font f) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1241,6 +1284,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public boolean isEnabled() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1255,6 +1299,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setEnabled(boolean b) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1267,6 +1312,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public boolean isVisible() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1281,6 +1327,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setVisible(boolean b) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1293,6 +1340,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public boolean isShowing() {
                 if (isVisible() && JTableHeader.this.isShowing()) {
                     return true;
@@ -1301,6 +1349,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public boolean contains(Point p) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1317,6 +1366,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Point getLocationOnScreen() {
                 if (parent != null) {
                     Point parentLocation = parent.getLocationOnScreen();
@@ -1328,6 +1378,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Point getLocation() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1344,12 +1395,14 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void setLocation(Point p) {
 //                if ((parent != null)  && (parent.contains(p))) {
 //                    ensureIndexIsVisible(indexInParent);
 //                }
             }
 
+            @Override
             public Rectangle getBounds() {
                   Rectangle r = table.getCellRect(-1, column, false);
                   r.y = 0;
@@ -1370,6 +1423,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 //              }
             }
 
+            @Override
             public void setBounds(Rectangle r) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1382,6 +1436,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Dimension getSize() {
                 return getBounds().getSize();
 //                AccessibleContext ac = getCurrentAccessibleContext();
@@ -1399,6 +1454,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 //                }
             }
 
+            @Override
             public void setSize (Dimension d) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1411,6 +1467,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public Accessible getAccessibleAt(Point p) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1420,6 +1477,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public boolean isFocusTraversable() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1434,6 +1492,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void requestFocus() {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1446,6 +1505,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void addFocusListener(FocusListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {
@@ -1458,6 +1518,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
+            @Override
             public void removeFocusListener(FocusListener l) {
                 AccessibleContext ac = getCurrentAccessibleContext();
                 if (ac instanceof AccessibleComponent) {

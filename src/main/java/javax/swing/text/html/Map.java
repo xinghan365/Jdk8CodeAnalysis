@@ -290,6 +290,7 @@ class Map implements Serializable {
             }
         }
 
+        @Override
         public boolean contains(int x, int y, int width, int height) {
             if (percents == null) {
                 return contains(x, y);
@@ -381,6 +382,7 @@ class Map implements Serializable {
             }
         }
 
+        @Override
         public boolean contains(int x, int y, int width, int height) {
             if (percentValues == null || (lastWidth == width &&
                                           lastHeight == height)) {
@@ -455,6 +457,7 @@ class Map implements Serializable {
             }
         }
 
+        @Override
         public boolean contains(int x, int y, int width, int height) {
             if (percentValues != null && (lastWidth != width ||
                                           lastHeight != height)) {
@@ -496,6 +499,7 @@ class Map implements Serializable {
             return si;
         }
 
+        @Override
         public boolean contains(int x, int y, int width, int height) {
             return (x <= width && x >= 0 && y >= 0 && y <= width);
         }

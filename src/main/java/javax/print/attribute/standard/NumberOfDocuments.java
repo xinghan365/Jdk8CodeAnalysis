@@ -79,6 +79,7 @@ public final class NumberOfDocuments extends IntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this number of
      *          documents attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof NumberOfDocuments);
@@ -94,6 +95,7 @@ public final class NumberOfDocuments extends IntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return NumberOfDocuments.class;
     }
@@ -107,6 +109,7 @@ public final class NumberOfDocuments extends IntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "number-of-documents";
     }

@@ -37,12 +37,16 @@ import java.io.IOException;
  */
 
 class Inet6AddressImpl implements InetAddressImpl {
+    @Override
     public native String getLocalHostName() throws UnknownHostException;
+    @Override
     public native InetAddress[]
         lookupAllHostAddr(String hostname) throws UnknownHostException;
+    @Override
     public native String getHostByAddr(byte[] addr) throws UnknownHostException;
     private native boolean isReachable0(byte[] addr, int scope, int timeout, byte[] inf, int ttl, int if_scope) throws IOException;
 
+    @Override
     public boolean isReachable(InetAddress addr, int timeout, NetworkInterface netif, int ttl) throws IOException {
         byte[] ifaddr = null;
         int scope = -1;
@@ -72,11 +76,13 @@ class Inet6AddressImpl implements InetAddressImpl {
                 return false;
             }
         }
-        if (addr instanceof Inet6Address)
+        if (addr instanceof Inet6Address) {
             scope = ((Inet6Address) addr).getScopeId();
+        }
         return isReachable0(addr.getAddress(), scope, timeout, ifaddr, ttl, netif_scope);
     }
 
+    @Override
     public synchronized InetAddress anyLocalAddress() {
         if (anyLocalAddress == null) {
             if (InetAddress.preferIPv6Address) {
@@ -89,6 +95,7 @@ class Inet6AddressImpl implements InetAddressImpl {
         return anyLocalAddress;
     }
 
+    @Override
     public synchronized InetAddress loopbackAddress() {
         if (loopbackAddress == null) {
              if (InetAddress.preferIPv6Address) {

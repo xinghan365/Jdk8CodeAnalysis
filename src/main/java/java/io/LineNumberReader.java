@@ -120,13 +120,15 @@ public class LineNumberReader extends BufferedReader {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     @SuppressWarnings("fallthrough")
     public int read() throws IOException {
         synchronized (lock) {
             int c = super.read();
             if (skipLF) {
-                if (c == '\n')
+                if (c == '\n') {
                     c = super.read();
+                }
                 skipLF = false;
             }
             switch (c) {
@@ -160,6 +162,7 @@ public class LineNumberReader extends BufferedReader {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     @SuppressWarnings("fallthrough")
     public int read(char cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
@@ -169,8 +172,9 @@ public class LineNumberReader extends BufferedReader {
                 int c = cbuf[i];
                 if (skipLF) {
                     skipLF = false;
-                    if (c == '\n')
+                    if (c == '\n') {
                         continue;
+                    }
                 }
                 switch (c) {
                 case '\r':
@@ -196,12 +200,14 @@ public class LineNumberReader extends BufferedReader {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     public String readLine() throws IOException {
         synchronized (lock) {
             String l = super.readLine(skipLF);
             skipLF = false;
-            if (l != null)
+            if (l != null) {
                 lineNumber++;
+            }
             return l;
         }
     }
@@ -226,18 +232,22 @@ public class LineNumberReader extends BufferedReader {
      * @throws  IllegalArgumentException
      *          If <tt>n</tt> is negative
      */
+    @Override
     public long skip(long n) throws IOException {
-        if (n < 0)
+        if (n < 0) {
             throw new IllegalArgumentException("skip() value is negative");
+        }
         int nn = (int) Math.min(n, maxSkipBufferSize);
         synchronized (lock) {
-            if ((skipBuffer == null) || (skipBuffer.length < nn))
+            if ((skipBuffer == null) || (skipBuffer.length < nn)) {
                 skipBuffer = new char[nn];
+            }
             long r = n;
             while (r > 0) {
                 int nc = read(skipBuffer, 0, (int) Math.min(r, nn));
-                if (nc == -1)
+                if (nc == -1) {
                     break;
+                }
                 r -= nc;
             }
             return n - r;
@@ -257,6 +267,7 @@ public class LineNumberReader extends BufferedReader {
      * @throws  IOException
      *          If an I/O error occurs
      */
+    @Override
     public void mark(int readAheadLimit) throws IOException {
         synchronized (lock) {
             super.mark(readAheadLimit);
@@ -272,6 +283,7 @@ public class LineNumberReader extends BufferedReader {
      *          If the stream has not been marked, or if the mark has been
      *          invalidated
      */
+    @Override
     public void reset() throws IOException {
         synchronized (lock) {
             super.reset();

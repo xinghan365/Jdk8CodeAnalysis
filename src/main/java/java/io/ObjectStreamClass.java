@@ -90,6 +90,7 @@ public class ObjectStreamClass implements Serializable {
     private static boolean disableSerialConstructorChecks =
         AccessController.doPrivileged(
             new PrivilegedAction<Boolean>() {
+                @Override
                 public Boolean run() {
                     String prop = "jdk.disableSerialConstructorChecks";
                     return "true".equals(System.getProperty(prop))
@@ -271,6 +272,7 @@ public class ObjectStreamClass implements Serializable {
         if (suid == null) {
             suid = AccessController.doPrivileged(
                 new PrivilegedAction<Long>() {
+                    @Override
                     public Long run() {
                         return computeDefaultSUID(cl);
                     }
@@ -327,6 +329,7 @@ public class ObjectStreamClass implements Serializable {
     /**
      * Return a string describing this ObjectStreamClass.
      */
+    @Override
     public String toString() {
         return name + ": static final long serialVersionUID = " +
             getSerialVersionUID() + "L;";
@@ -457,6 +460,7 @@ public class ObjectStreamClass implements Serializable {
             if (interrupted) {
                 AccessController.doPrivileged(
                     new PrivilegedAction<Void>() {
+                        @Override
                         public Void run() {
                             Thread.currentThread().interrupt();
                             return null;
@@ -492,6 +496,7 @@ public class ObjectStreamClass implements Serializable {
 
         if (serializable) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                @Override
                 public Void run() {
                     if (isEnum) {
                         suid = Long.valueOf(0);
@@ -608,7 +613,9 @@ public class ObjectStreamClass implements Serializable {
             while (cls != fnscl) {
                 ProtectionDomain pd = cls.getProtectionDomain();
                 if (pd != null) {
-                    if (pds == null) pds = new HashSet<>();
+                    if (pds == null) {
+                        pds = new HashSet<>();
+                    }
                     pds.add(pd);
                 }
                 cls = cls.getSuperclass();
@@ -616,8 +623,11 @@ public class ObjectStreamClass implements Serializable {
                     // that's not supposed to happen
                     // make a ProtectionDomain with no permission.
                     // should we throw instead?
-                    if (pds == null) pds = new HashSet<>();
-                    else pds.clear();
+                    if (pds == null) {
+                        pds = new HashSet<>();
+                    } else {
+                        pds.clear();
+                    }
                     pds.add(noPermissionsDomain());
                     break;
                 }
@@ -859,8 +869,9 @@ public class ObjectStreamClass implements Serializable {
      * Throws InternalError if not initialized.
      */
     private final void requireInitialized() {
-        if (!initialized)
+        if (!initialized) {
             throw new InternalError("Unexpected call when not initialized");
+        }
     }
 
     /**
@@ -1106,12 +1117,15 @@ public class ObjectStreamClass implements Serializable {
                                    new AccessControlContext(domains));
                     } catch (UndeclaredThrowableException x) {
                         Throwable cause = x.getCause();
-                        if (cause instanceof InstantiationException)
+                        if (cause instanceof InstantiationException) {
                             throw (InstantiationException) cause;
-                        if (cause instanceof InvocationTargetException)
+                        }
+                        if (cause instanceof InvocationTargetException) {
                             throw (InvocationTargetException) cause;
-                        if (cause instanceof IllegalAccessException)
+                        }
+                        if (cause instanceof IllegalAccessException) {
                             throw (IllegalAccessException) cause;
+                        }
                         // not supposed to happen
                         throw x;
                     }
@@ -1919,6 +1933,7 @@ public class ObjectStreamClass implements Serializable {
                 fieldSigs[i] = new MemberSignature(fields[i]);
             }
             Arrays.sort(fieldSigs, new Comparator<MemberSignature>() {
+                @Override
                 public int compare(MemberSignature ms1, MemberSignature ms2) {
                     return ms1.name.compareTo(ms2.name);
                 }
@@ -1950,6 +1965,7 @@ public class ObjectStreamClass implements Serializable {
                 consSigs[i] = new MemberSignature(cons[i]);
             }
             Arrays.sort(consSigs, new Comparator<MemberSignature>() {
+                @Override
                 public int compare(MemberSignature ms1, MemberSignature ms2) {
                     return ms1.signature.compareTo(ms2.signature);
                 }
@@ -1973,6 +1989,7 @@ public class ObjectStreamClass implements Serializable {
                 methSigs[i] = new MemberSignature(methods[i]);
             }
             Arrays.sort(methSigs, new Comparator<MemberSignature>() {
+                @Override
                 public int compare(MemberSignature ms1, MemberSignature ms2) {
                     int comp = ms1.name.compareTo(ms2.name);
                     if (comp == 0) {
@@ -2389,10 +2406,12 @@ public class ObjectStreamClass implements Serializable {
             hash = System.identityHashCode(cl) + sigs.hashCode();
         }
 
+        @Override
         public int hashCode() {
             return hash;
         }
 
+        @Override
         public boolean equals(Object obj) {
             if (obj == this) {
                 return true;
@@ -2508,6 +2527,7 @@ public class ObjectStreamClass implements Serializable {
         /**
          * Returns the identity hash code of the original referent.
          */
+        @Override
         public int hashCode() {
             return hash;
         }
@@ -2518,6 +2538,7 @@ public class ObjectStreamClass implements Serializable {
          * been cleared, if the given object is another WeakClassKey
          * instance with the identical non-null referent as this one.
          */
+        @Override
         public boolean equals(Object obj) {
             if (obj == this) {
                 return true;

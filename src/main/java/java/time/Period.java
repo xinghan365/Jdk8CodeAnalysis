@@ -481,6 +481,7 @@ public final class Period
      *
      * @return true if this period is zero-length
      */
+    @Override
     public boolean isZero() {
         return (this == ZERO);
     }
@@ -492,6 +493,7 @@ public final class Period
      *
      * @return true if any unit of this period is negative
      */
+    @Override
     public boolean isNegative() {
         return years < 0 || months < 0 || days < 0;
     }
@@ -622,6 +624,7 @@ public final class Period
      *  contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
+    @Override
     public Period plus(TemporalAmount amountToAdd) {
         Period isoAmount = Period.from(amountToAdd);
         return create(
@@ -711,6 +714,7 @@ public final class Period
      *  contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
+    @Override
     public Period minus(TemporalAmount amountToSubtract) {
         Period isoAmount = Period.from(amountToSubtract);
         return create(
@@ -785,6 +789,7 @@ public final class Period
      * @return a {@code Period} based on this period with the amounts multiplied by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
+    @Override
     public Period multipliedBy(int scalar) {
         if (this == ZERO || scalar == 1) {
             return this;
@@ -808,6 +813,7 @@ public final class Period
      * @throws ArithmeticException if numeric overflow occurs, which only happens if
      *  one of the units has the value {@code Long.MIN_VALUE}
      */
+    @Override
     public Period negated() {
         return multipliedBy(-1);
     }
@@ -830,6 +836,7 @@ public final class Period
      * @return a {@code Period} based on this period with excess months normalized to years, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
+    @Override
     public Period normalized() {
         long totalMonths = toTotalMonths();
         long splitYears = totalMonths / 12;

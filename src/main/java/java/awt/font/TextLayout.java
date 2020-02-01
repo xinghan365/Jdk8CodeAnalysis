@@ -745,6 +745,7 @@ public final class TextLayout implements Cloneable {
     /**
      * Creates a copy of this <code>TextLayout</code>.
      */
+    @Override
     protected Object clone() {
         /*
          * !!! I think this is safe.  Once created, nothing mutates the
@@ -2198,8 +2199,9 @@ public final class TextLayout implements Cloneable {
 
         if (firstCaret == 0 || secondCaret == 0) {
             GeneralPath ls = leftShape(bounds);
-            if (!ls.getBounds().isEmpty())
+            if (!ls.getBounds().isEmpty()) {
                 result.append(ls, false);
+            }
         }
 
         if (firstCaret == characterCount || secondCaret == characterCount) {
@@ -2572,6 +2574,7 @@ public final class TextLayout implements Cloneable {
      * Returns the hash code of this <code>TextLayout</code>.
      * @return the hash code of this <code>TextLayout</code>.
      */
+    @Override
     public int hashCode() {
         if (hashCodeCache == 0) {
             ensureCache();
@@ -2589,6 +2592,7 @@ public final class TextLayout implements Cloneable {
      *      equals this <code>TextLayout</code>; <code>false</code>
      *      otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         return (obj instanceof TextLayout) && equals((TextLayout)obj);
     }
@@ -2620,6 +2624,7 @@ public final class TextLayout implements Cloneable {
      * @return the <code>textLine</code> of this <code>TextLayout</code>
      *        as a <code>String</code>.
      */
+    @Override
     public String toString() {
         ensureCache();
         return textLine.toString();

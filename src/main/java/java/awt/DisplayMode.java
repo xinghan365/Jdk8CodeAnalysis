@@ -140,6 +140,7 @@ public final class DisplayMode {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object dm) {
         if (dm instanceof DisplayMode) {
             return equals((DisplayMode)dm);
@@ -151,6 +152,7 @@ public final class DisplayMode {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode() {
         return getWidth() + getHeight() + getBitDepth() * 7
             + getRefreshRate() * 13;

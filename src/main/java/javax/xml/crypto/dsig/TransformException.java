@@ -113,6 +113,7 @@ public class TransformException extends Exception {
      * @return the cause of this {@code TransformException} or
      *         {@code null} if the cause is nonexistent or unknown.
      */
+    @Override
     public Throwable getCause() {
         return cause;
     }
@@ -121,6 +122,7 @@ public class TransformException extends Exception {
      * Prints this {@code TransformException}, its backtrace and
      * the cause's backtrace to the standard error stream.
      */
+    @Override
     public void printStackTrace() {
         super.printStackTrace();
         if (cause != null) {
@@ -134,6 +136,7 @@ public class TransformException extends Exception {
      *
      * @param s {@code PrintStream} to use for output
      */
+    @Override
     public void printStackTrace(PrintStream s) {
         super.printStackTrace(s);
         if (cause != null) {
@@ -147,6 +150,7 @@ public class TransformException extends Exception {
      *
      * @param s {@code PrintWriter} to use for output
      */
+    @Override
     public void printStackTrace(PrintWriter s) {
         super.printStackTrace(s);
         if (cause != null) {

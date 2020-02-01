@@ -578,6 +578,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
      * @see #isBorderPainted
      * @see #setBorderPainted
      */
+    @Override
     protected void paintBorder(Graphics g) {
         if (isBorderPainted()) {
             super.paintBorder(g);
@@ -615,6 +616,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ProgressBarUI)UIManager.getUI(this));
     }
@@ -630,6 +632,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
      *        expert: true
      *   description: A string that specifies the name of the look-and-feel class.
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -648,6 +651,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
      * Please see {@link java.beans.XMLEncoder}.
      */
     private class ModelListener implements ChangeListener, Serializable {
+        @Override
         public void stateChanged(ChangeEvent e) {
             fireStateChanged();
         }
@@ -724,8 +728,9 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
@@ -976,6 +981,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
      *
      * @return  a string representation of this <code>JProgressBar</code>
      */
+    @Override
     protected String paramString() {
         String orientationString = (orientation == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
@@ -1013,6 +1019,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
      *       expert: true
      *  description: The AccessibleContext associated with this ProgressBar.
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJProgressBar();
@@ -1045,6 +1052,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          * of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getModel().getValueIsAdjusting()) {
@@ -1064,6 +1072,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PROGRESS_BAR;
         }
@@ -1076,6 +1085,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          *
          * @return this object
          */
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
@@ -1085,6 +1095,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          *
          * @return the current value of this object
          */
+        @Override
         public Number getCurrentAccessibleValue() {
             return Integer.valueOf(getValue());
         }
@@ -1094,6 +1105,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          *
          * @return <code>true</code> if the value was set
          */
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // TIGER- 4422535
             if (n == null) {
@@ -1108,6 +1120,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          *
          * @return the minimum value of this object
          */
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(getMinimum());
         }
@@ -1117,6 +1130,7 @@ public class JProgressBar extends JComponent implements SwingConstants, Accessib
          *
          * @return the maximum value of this object
          */
+        @Override
         public Number getMaximumAccessibleValue() {
             // TIGER - 4422362
             return Integer.valueOf(model.getMaximum() - model.getExtent());

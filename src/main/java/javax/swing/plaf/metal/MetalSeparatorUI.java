@@ -58,12 +58,14 @@ public class MetalSeparatorUI extends BasicSeparatorUI
         return new MetalSeparatorUI();
     }
 
-    protected void installDefaults( JSeparator s )
+    @Override
+    protected void installDefaults(JSeparator s )
     {
         LookAndFeel.installColors( s, "Separator.background", "Separator.foreground" );
     }
 
-    public void paint( Graphics g, JComponent c )
+    @Override
+    public void paint(Graphics g, JComponent c )
     {
         Dimension s = c.getSize();
 
@@ -85,11 +87,13 @@ public class MetalSeparatorUI extends BasicSeparatorUI
         }
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    @Override
+    public Dimension getPreferredSize(JComponent c )
     {
-        if ( ((JSeparator)c).getOrientation() == JSeparator.VERTICAL )
+        if ( ((JSeparator)c).getOrientation() == JSeparator.VERTICAL ) {
             return new Dimension( 2, 0 );
-        else
+        } else {
             return new Dimension( 0, 2 );
+        }
     }
 }

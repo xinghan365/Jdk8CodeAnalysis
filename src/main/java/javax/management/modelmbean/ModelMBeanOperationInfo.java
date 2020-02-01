@@ -343,6 +343,7 @@ public class ModelMBeanOperationInfo extends MBeanOperationInfo
         *
         */
 
+        @Override
         public Object clone ()
         {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -363,6 +364,7 @@ public class ModelMBeanOperationInfo extends MBeanOperationInfo
          * @see #setDescriptor
          */
 
+        @Override
         public Descriptor getDescriptor()
         {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -394,6 +396,7 @@ public class ModelMBeanOperationInfo extends MBeanOperationInfo
          *
          * @see #getDescriptor
          */
+        @Override
         public void setDescriptor(Descriptor inDescriptor)
         {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -408,6 +411,7 @@ public class ModelMBeanOperationInfo extends MBeanOperationInfo
         * Returns a string containing the entire contents of the
         * ModelMBeanOperationInfo in human readable form.
         */
+        @Override
         public String toString()
         {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {

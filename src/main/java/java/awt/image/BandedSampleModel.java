@@ -130,6 +130,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @throws IllegalArgumentException if <code>dataType</code> is not
      *         one of the supported data types
      */
+    @Override
     public SampleModel createCompatibleSampleModel(int w, int h) {
         int[] bandOffs;
 
@@ -157,11 +158,13 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @throws IllegalArgumentException if <code>dataType</code> is not
      *         one of the supported data types
      */
+    @Override
     public SampleModel createSubsetSampleModel(int bands[]) {
-        if (bands.length > bankIndices.length)
+        if (bands.length > bankIndices.length) {
             throw new RasterFormatException("There are only " +
                                             bankIndices.length +
                                             " bands");
+        }
         int newBankIndices[] = new int[bands.length];
         int newBandOffsets[] = new int[bands.length];
 
@@ -182,6 +185,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @throws IllegalArgumentException if <code>dataType</code> is not
      *         one of the supported types.
      */
+    @Override
     public DataBuffer createDataBuffer() {
         DataBuffer dataBuffer = null;
 
@@ -253,6 +257,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @return the data for the specified pixel.
      * @see #setDataElements(int, int, Object, DataBuffer)
      */
+    @Override
     public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -370,6 +375,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @return the samples for the specified pixel.
      * @see #setPixel(int, int, int[], DataBuffer)
      */
+    @Override
     public int[] getPixel(int x, int y, int iArray[], DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -406,6 +412,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @return the samples for the pixels within the specified region.
      * @see #setPixels(int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public int[] getPixels(int x, int y, int w, int h,
                            int iArray[], DataBuffer data) {
         int x1 = x + w;
@@ -454,6 +461,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @return the sample in the specified band for the specified pixel.
      * @see #setSample(int, int, int, int, DataBuffer)
      */
+    @Override
     public int getSample(int x, int y, int b, DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
@@ -478,6 +486,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @return a float value that represents the sample in the specified
      * band for the specified pixel.
      */
+    @Override
     public float getSampleFloat(int x, int y, int b, DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
@@ -502,6 +511,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @return a double value that represents the sample in the specified
      * band for the specified pixel.
      */
+    @Override
     public double getSampleDouble(int x, int y, int b, DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
@@ -530,6 +540,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * the specified region.
      * @see #setSamples(int, int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public int[] getSamples(int x, int y, int w, int h, int b,
                             int iArray[], DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
@@ -593,6 +604,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getDataElements(int, int, Object, DataBuffer)
      */
+    @Override
     public void setDataElements(int x, int y, Object obj, DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -668,6 +680,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getPixel(int, int, int[], DataBuffer)
      */
+    @Override
     public void setPixel(int x, int y, int iArray[], DataBuffer data) {
         if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
             throw new ArrayIndexOutOfBoundsException
@@ -693,6 +706,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getPixels(int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public void setPixels(int x, int y, int w, int h,
                           int iArray[], DataBuffer data) {
         int x1 = x + w;
@@ -733,6 +747,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b, int s,
                           DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
@@ -756,6 +771,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b,
                           float s ,
                           DataBuffer data) {
@@ -780,6 +796,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSample(int, int, int, DataBuffer)
      */
+    @Override
     public void setSample(int x, int y, int b,
                           double s,
                           DataBuffer data) {
@@ -806,6 +823,7 @@ public final class BandedSampleModel extends ComponentSampleModel
      * @param data      The DataBuffer containing the image data
      * @see #getSamples(int, int, int, int, int, int[], DataBuffer)
      */
+    @Override
     public void setSamples(int x, int y, int w, int h, int b,
                            int iArray[], DataBuffer data) {
         // Bounds check for 'b' will be performed automatically
@@ -843,6 +861,7 @@ public final class BandedSampleModel extends ComponentSampleModel
     }
 
     // Differentiate hash code from other ComponentSampleModel subclasses
+    @Override
     public int hashCode() {
         return super.hashCode() ^ 0x2;
     }

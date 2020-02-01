@@ -147,15 +147,19 @@ public class FileDialog extends Dialog {
     static {
         AWTAccessor.setFileDialogAccessor(
             new AWTAccessor.FileDialogAccessor() {
+                @Override
                 public void setFiles(FileDialog fileDialog, File files[]) {
                     fileDialog.setFiles(files);
                 }
+                @Override
                 public void setFile(FileDialog fileDialog, String file) {
                     fileDialog.file = ("".equals(file)) ? null : file;
                 }
+                @Override
                 public void setDirectory(FileDialog fileDialog, String directory) {
                     fileDialog.dir = ("".equals(directory)) ? null : directory;
                 }
+                @Override
                 public boolean isMultipleMode(FileDialog fileDialog) {
                     synchronized (fileDialog.getObjectLock()) {
                         return fileDialog.multipleMode;
@@ -304,6 +308,7 @@ public class FileDialog extends Dialog {
      * Constructs a name for this component. Called by <code>getName()</code>
      * when the name is <code>null</code>.
      */
+    @Override
     String constructComponentName() {
         synchronized (FileDialog.class) {
             return base + nameCounter++;
@@ -314,13 +319,15 @@ public class FileDialog extends Dialog {
      * Creates the file dialog's peer.  The peer allows us to change the look
      * of the file dialog without changing its functionality.
      */
+    @Override
     public void addNotify() {
         synchronized(getTreeLock()) {
             if (parent != null && parent.getPeer() == null) {
                 parent.addNotify();
             }
-            if (peer == null)
+            if (peer == null) {
                 peer = getToolkit().createFileDialog(this);
+            }
             super.addNotify();
         }
     }
@@ -570,6 +577,7 @@ public class FileDialog extends Dialog {
      *
      * @return  the parameter string of this file dialog window
      */
+    @Override
     protected String paramString() {
         String str = super.paramString();
         str += ",dir= " + dir;
@@ -577,6 +585,7 @@ public class FileDialog extends Dialog {
         return str + ((mode == LOAD) ? ",load" : ",save");
     }
 
+    @Override
     boolean postsOldMouseEvents() {
         return false;
     }

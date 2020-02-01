@@ -96,6 +96,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
         }
     }
 
+    @Override
     public void installUI(JComponent c)   {
 
         frame = (JInternalFrame)c;
@@ -108,12 +109,14 @@ public class BasicInternalFrameUI extends InternalFrameUI
         LookAndFeel.installProperty(frame, "opaque", Boolean.TRUE);
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
-        if(c != frame)
+        if(c != frame) {
             throw new IllegalComponentStateException(
                 this + " was asked to deinstall() "
                 + c + " when it only knows about "
                 + frame + ".");
+        }
 
         uninstallKeyboardActions();
         uninstallComponents();
@@ -135,8 +138,9 @@ public class BasicInternalFrameUI extends InternalFrameUI
         Container contentPane = frame.getContentPane();
         if (contentPane != null) {
           Color bg = contentPane.getBackground();
-          if (bg instanceof UIResource)
-            contentPane.setBackground(null);
+          if (bg instanceof UIResource) {
+              contentPane.setBackground(null);
+          }
         }
         frame.setLayout(internalFrameLayout = createLayoutManager());
         frame.setBackground(UIManager.getLookAndFeelDefaults().getColor("control"));
@@ -156,6 +160,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
 
     static void loadActionMap(LazyActionMap map) {
         map.put(new UIAction("showSystemMenu") {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 JInternalFrame iFrame = (JInternalFrame)evt.getSource();
                 if (iFrame.getUI() instanceof BasicInternalFrameUI) {
@@ -168,6 +173,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 }
             }
 
+            @Override
             public boolean isEnabled(Object sender){
                 if (sender instanceof JInternalFrame) {
                     JInternalFrame iFrame = (JInternalFrame)sender;
@@ -331,12 +337,15 @@ public class BasicInternalFrameUI extends InternalFrameUI
 
 
 
+    @Override
     public Dimension getPreferredSize(JComponent x)    {
-        if(frame == x)
+        if(frame == x) {
             return frame.getLayout().preferredLayoutSize(x);
+        }
         return new Dimension(100, 100);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent x)  {
         if(frame == x) {
             return frame.getLayout().minimumLayoutSize(x);
@@ -344,6 +353,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
         return new Dimension(0, 0);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent x) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
@@ -485,6 +495,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
          * Detects changes in state from the JInternalFrame and handles
          * actions.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             getHandler().propertyChange(evt);
         }
@@ -495,22 +506,27 @@ public class BasicInternalFrameUI extends InternalFrameUI
     // its functionality has been moved into Handler. If you need to add
     // new functionality add it to the Handler, but make sure this
     // class calls into the Handler.
+    @Override
     public void addLayoutComponent(String name, Component c) {
         getHandler().addLayoutComponent(name, c);
     }
 
+    @Override
     public void removeLayoutComponent(Component c) {
         getHandler().removeLayoutComponent(c);
     }
 
+    @Override
     public Dimension preferredLayoutSize(Container c)  {
         return getHandler().preferredLayoutSize(c);
     }
 
+    @Override
     public Dimension minimumLayoutSize(Container c) {
         return getHandler().minimumLayoutSize(c);
     }
 
+    @Override
     public void layoutContainer(Container c) {
         getHandler().layoutContainer(c);
     }
@@ -524,10 +540,12 @@ public class BasicInternalFrameUI extends InternalFrameUI
       */
     protected DesktopManager getDesktopManager() {
         if(frame.getDesktopPane() != null
-           && frame.getDesktopPane().getDesktopManager() != null)
+           && frame.getDesktopPane().getDesktopManager() != null) {
             return frame.getDesktopPane().getDesktopManager();
-        if(sharedDesktopManager == null)
-          sharedDesktopManager = createDesktopManager();
+        }
+        if(sharedDesktopManager == null) {
+            sharedDesktopManager = createDesktopManager();
+        }
         return sharedDesktopManager;
     }
 
@@ -637,15 +655,17 @@ public class BasicInternalFrameUI extends InternalFrameUI
 
         int resizeCornerSize = 16;
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             if(e.getClickCount() > 1 && e.getSource() == getNorthPane()) {
                 if(frame.isIconifiable() && frame.isIcon()) {
                     try { frame.setIcon(false); } catch (PropertyVetoException e2) { }
                 } else if(frame.isMaximizable()) {
-                    if(!frame.isMaximum())
+                    if(!frame.isMaximum()) {
                         try { frame.setMaximum(true); } catch (PropertyVetoException e2) { }
-                    else
+                    } else {
                         try { frame.setMaximum(false); } catch (PropertyVetoException e3) { }
+                    }
                 }
             }
         }
@@ -693,10 +713,12 @@ public class BasicInternalFrameUI extends InternalFrameUI
             discardRelease = true;
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             finishMouseReleased();
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             Point p = SwingUtilities.convertPoint((Component)e.getSource(),
                         e.getX(), e.getY(), null);
@@ -820,6 +842,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
             }
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
 
             if ( startingBounds == null ) {
@@ -855,14 +878,18 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newY = startingBounds.y - deltaY;
 
                 // Make sure we stay in-bounds
-                if(newX + i.left <= -__x)
+                if(newX + i.left <= -__x) {
                     newX = -__x - i.left + 1;
-                if(newY + i.top <= -__y)
+                }
+                if(newY + i.top <= -__y) {
                     newY = -__y - i.top + 1;
-                if(newX + __x + i.right >= pWidth)
+                }
+                if(newX + __x + i.right >= pWidth) {
                     newX = pWidth - __x - i.right - 1;
-                if(newY + __y + i.bottom >= pHeight)
+                }
+                if(newY + __y + i.bottom >= pHeight) {
                     newY =  pHeight - __y - i.bottom - 1;
+                }
 
                 getDesktopManager().dragFrame(frame, newX, newY);
                 return;
@@ -883,10 +910,11 @@ public class BasicInternalFrameUI extends InternalFrameUI
             case RESIZE_NONE:
                 return;
             case NORTH:
-                if(startingBounds.height + deltaY < min.height)
+                if(startingBounds.height + deltaY < min.height) {
                     deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
+                } else if(startingBounds.height + deltaY > max.height) {
                     deltaY = max.height - startingBounds.height;
+                }
                 if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
 
                 newX = startingBounds.x;
@@ -895,16 +923,18 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height + deltaY;
                 break;
             case NORTH_EAST:
-                if(startingBounds.height + deltaY < min.height)
+                if(startingBounds.height + deltaY < min.height) {
                     deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
+                } else if(startingBounds.height + deltaY > max.height) {
                     deltaY = max.height - startingBounds.height;
+                }
                 if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
 
-                if(startingBounds.width - deltaX < min.width)
+                if(startingBounds.width - deltaX < min.width) {
                     deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
+                } else if(startingBounds.width - deltaX > max.width) {
                     deltaX = -(max.width - startingBounds.width);
+                }
                 if (startingBounds.x + startingBounds.width - deltaX >
                     parentBounds.width) {
                   deltaX = startingBounds.x + startingBounds.width -
@@ -917,10 +947,11 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height + deltaY;
                 break;
             case EAST:
-                if(startingBounds.width - deltaX < min.width)
+                if(startingBounds.width - deltaX < min.width) {
                     deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
+                } else if(startingBounds.width - deltaX > max.width) {
                     deltaX = -(max.width - startingBounds.width);
+                }
                 if (startingBounds.x + startingBounds.width - deltaX >
                     parentBounds.width) {
                   deltaX = startingBounds.x + startingBounds.width -
@@ -931,20 +962,22 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height;
                 break;
             case SOUTH_EAST:
-                if(startingBounds.width - deltaX < min.width)
+                if(startingBounds.width - deltaX < min.width) {
                     deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
+                } else if(startingBounds.width - deltaX > max.width) {
                     deltaX = -(max.width - startingBounds.width);
+                }
                 if (startingBounds.x + startingBounds.width - deltaX >
                     parentBounds.width) {
                   deltaX = startingBounds.x + startingBounds.width -
                     parentBounds.width;
                 }
 
-                if(startingBounds.height - deltaY < min.height)
+                if(startingBounds.height - deltaY < min.height) {
                     deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
+                } else if(startingBounds.height - deltaY > max.height) {
                     deltaY = -(max.height - startingBounds.height);
+                }
                 if (startingBounds.y + startingBounds.height - deltaY >
                      parentBounds.height) {
                   deltaY = startingBounds.y + startingBounds.height -
@@ -955,10 +988,11 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height - deltaY;
                 break;
             case SOUTH:
-                if(startingBounds.height - deltaY < min.height)
+                if(startingBounds.height - deltaY < min.height) {
                     deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
+                } else if(startingBounds.height - deltaY > max.height) {
                     deltaY = -(max.height - startingBounds.height);
+                }
                 if (startingBounds.y + startingBounds.height - deltaY >
                      parentBounds.height) {
                   deltaY = startingBounds.y + startingBounds.height -
@@ -969,20 +1003,22 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height - deltaY;
                 break;
             case SOUTH_WEST:
-                if(startingBounds.height - deltaY < min.height)
+                if(startingBounds.height - deltaY < min.height) {
                     deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
+                } else if(startingBounds.height - deltaY > max.height) {
                     deltaY = -(max.height - startingBounds.height);
+                }
                 if (startingBounds.y + startingBounds.height - deltaY >
                      parentBounds.height) {
                   deltaY = startingBounds.y + startingBounds.height -
                     parentBounds.height ;
                 }
 
-                if(startingBounds.width + deltaX < min.width)
+                if(startingBounds.width + deltaX < min.width) {
                     deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
+                } else if(startingBounds.width + deltaX > max.width) {
                     deltaX = max.width - startingBounds.width;
+                }
                 if (startingBounds.x - deltaX < 0) {
                   deltaX = startingBounds.x;
                 }
@@ -993,10 +1029,11 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height - deltaY;
                 break;
             case WEST:
-                if(startingBounds.width + deltaX < min.width)
+                if(startingBounds.width + deltaX < min.width) {
                     deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
+                } else if(startingBounds.width + deltaX > max.width) {
                     deltaX = max.width - startingBounds.width;
+                }
                 if (startingBounds.x - deltaX < 0) {
                   deltaX = startingBounds.x;
                 }
@@ -1007,18 +1044,20 @@ public class BasicInternalFrameUI extends InternalFrameUI
                 newH = startingBounds.height;
                 break;
             case NORTH_WEST:
-                if(startingBounds.width + deltaX < min.width)
+                if(startingBounds.width + deltaX < min.width) {
                     deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
+                } else if(startingBounds.width + deltaX > max.width) {
                     deltaX = max.width - startingBounds.width;
+                }
                 if (startingBounds.x - deltaX < 0) {
                   deltaX = startingBounds.x;
                 }
 
-                if(startingBounds.height + deltaY < min.height)
+                if(startingBounds.height + deltaY < min.height) {
                     deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
+                } else if(startingBounds.height + deltaY > max.height) {
                     deltaY = max.height - startingBounds.height;
+                }
                 if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
 
                 newX = startingBounds.x - deltaX;
@@ -1032,10 +1071,12 @@ public class BasicInternalFrameUI extends InternalFrameUI
             getDesktopManager().resizeFrame(frame, newX, newY, newW, newH);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e)    {
 
-            if(!frame.isResizable())
+            if(!frame.isResizable()) {
                 return;
+            }
 
             if (e.getSource() == frame || e.getSource() == getNorthPane()) {
                 Insets i = frame.getInsets();
@@ -1046,46 +1087,53 @@ public class BasicInternalFrameUI extends InternalFrameUI
                     ep.y += np.y;
                 }
                 if(ep.x <= i.left) {
-                    if(ep.y < resizeCornerSize + i.top)
+                    if(ep.y < resizeCornerSize + i.top) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                    else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom)
+                    } else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-                    else
+                    } else {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+                    }
                 } else if(ep.x >= frame.getWidth() - i.right) {
-                    if(e.getY() < resizeCornerSize + i.top)
+                    if(e.getY() < resizeCornerSize + i.top) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-                    else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom)
+                    } else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-                    else
+                    } else {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                    }
                 } else if(ep.y <= i.top) {
-                    if(ep.x < resizeCornerSize + i.left)
+                    if(ep.x < resizeCornerSize + i.left) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                    else if(ep.x > frame.getWidth() - resizeCornerSize - i.right)
+                    } else if(ep.x > frame.getWidth() - resizeCornerSize - i.right) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-                    else
+                    } else {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+                    }
                 } else if(ep.y >= frame.getHeight() - i.bottom) {
-                    if(ep.x < resizeCornerSize + i.left)
+                    if(ep.x < resizeCornerSize + i.left) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-                    else if(ep.x > frame.getWidth() - resizeCornerSize - i.right)
+                    } else if(ep.x > frame.getWidth() - resizeCornerSize - i.right) {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-                    else
+                    } else {
                         frame.setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+                    }
                 }
-                else
+                else {
                     updateFrameCursor();
+                }
                 return;
             }
 
             updateFrameCursor();
         }
 
+        @Override
         public void mouseEntered(MouseEvent e)    {
             updateFrameCursor();
         }
 
+        @Override
         public void mouseExited(MouseEvent e)    {
             updateFrameCursor();
         }
@@ -1098,16 +1146,20 @@ public class BasicInternalFrameUI extends InternalFrameUI
       // new functionality add it to the Handler, but make sure this
       // class calls into the Handler.
       /** Invoked when a JInternalFrame's parent's size changes. */
+      @Override
       public void componentResized(ComponentEvent e) {
           getHandler().componentResized(e);
       }
 
+      @Override
       public void componentMoved(ComponentEvent e) {
           getHandler().componentMoved(e);
       }
+      @Override
       public void componentShown(ComponentEvent e) {
           getHandler().componentShown(e);
       }
+      @Override
       public void componentHidden(ComponentEvent e) {
           getHandler().componentHidden(e);
       }
@@ -1123,30 +1175,37 @@ public class BasicInternalFrameUI extends InternalFrameUI
         // its functionality has been moved into Handler. If you need to add
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
+        @Override
         public void mousePressed(MouseEvent e) {
             getHandler().mousePressed(e);
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             getHandler().mouseEntered(e);
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             getHandler().mouseMoved(e);
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             getHandler().mouseExited(e);
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             getHandler().mouseClicked(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             getHandler().mouseReleased(e);
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             getHandler().mouseDragged(e);
         }
@@ -1163,31 +1222,38 @@ public class BasicInternalFrameUI extends InternalFrameUI
       // its functionality has been moved into Handler. If you need to add
       // new functionality add it to the Handler, but make sure this
       // class calls into the Handler.
+      @Override
       public void internalFrameClosing(InternalFrameEvent e) {
           getHandler().internalFrameClosing(e);
       }
 
+      @Override
       public void internalFrameClosed(InternalFrameEvent e) {
           getHandler().internalFrameClosed(e);
       }
 
+      @Override
       public void internalFrameOpened(InternalFrameEvent e) {
           getHandler().internalFrameOpened(e);
       }
 
+      @Override
       public void internalFrameIconified(InternalFrameEvent e) {
           getHandler().internalFrameIconified(e);
       }
 
+      @Override
       public void internalFrameDeiconified(InternalFrameEvent e) {
           getHandler().internalFrameDeiconified(e);
       }
 
+      @Override
       public void internalFrameActivated(InternalFrameEvent e) {
           getHandler().internalFrameActivated(e);
       }
 
 
+      @Override
       public void internalFrameDeactivated(InternalFrameEvent e) {
           getHandler().internalFrameDeactivated(e);
       }
@@ -1197,9 +1263,11 @@ public class BasicInternalFrameUI extends InternalFrameUI
             LayoutManager, MouseInputListener, PropertyChangeListener,
             WindowFocusListener, SwingConstants {
 
+        @Override
         public void windowGainedFocus(WindowEvent e) {
         }
 
+        @Override
         public void windowLostFocus(WindowEvent e) {
             // Cancel a resize which may be in progress, when a
             // WINDOW_LOST_FOCUS event occurs, which may be
@@ -1209,6 +1277,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
 
         // ComponentHandler methods
         /** Invoked when a JInternalFrame's parent's size changes. */
+        @Override
         public void componentResized(ComponentEvent e) {
             // Get the JInternalFrame's parent container size
             Rectangle parentNewBounds = ((Component) e.getSource()).getBounds();
@@ -1239,42 +1308,58 @@ public class BasicInternalFrameUI extends InternalFrameUI
             }
 
             // Validate the component tree for this container.
-            if (frame != null) frame.validate();
+            if (frame != null) {
+                frame.validate();
+            }
         }
 
+        @Override
         public void componentMoved(ComponentEvent e) {}
+        @Override
         public void componentShown(ComponentEvent e) {}
+        @Override
         public void componentHidden(ComponentEvent e) {}
 
 
         // InternalFrameListener
+        @Override
         public void internalFrameClosed(InternalFrameEvent e) {
             frame.removeInternalFrameListener(getHandler());
         }
 
+        @Override
         public void internalFrameActivated(InternalFrameEvent e) {
             if (!isKeyBindingRegistered()){
                 setKeyBindingRegistered(true);
                 setupMenuOpenKey();
                 setupMenuCloseKey();
             }
-            if (isKeyBindingRegistered())
+            if (isKeyBindingRegistered()) {
                 setKeyBindingActive(true);
+            }
         }
 
+        @Override
         public void internalFrameDeactivated(InternalFrameEvent e) {
             setKeyBindingActive(false);
         }
 
+        @Override
         public void internalFrameClosing(InternalFrameEvent e) { }
+        @Override
         public void internalFrameOpened(InternalFrameEvent e) { }
+        @Override
         public void internalFrameIconified(InternalFrameEvent e) { }
+        @Override
         public void internalFrameDeiconified(InternalFrameEvent e) { }
 
 
         // LayoutManager
+        @Override
         public void addLayoutComponent(String name, Component c) {}
+        @Override
         public void removeLayoutComponent(Component c) {}
+        @Override
         public Dimension preferredLayoutSize(Container c)  {
             Dimension result;
             Insets i = frame.getInsets();
@@ -1309,6 +1394,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
             return result;
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             // The minimum size of the internal frame only takes into
             // account the title pane since you are allowed to resize
@@ -1325,6 +1411,7 @@ public class BasicInternalFrameUI extends InternalFrameUI
             return result;
         }
 
+        @Override
         public void layoutContainer(Container c) {
             Insets i = frame.getInsets();
             int cx, cy, cw, ch;
@@ -1378,21 +1465,29 @@ public class BasicInternalFrameUI extends InternalFrameUI
 
 
         // MouseInputListener
+        @Override
         public void mousePressed(MouseEvent e) { }
 
+        @Override
         public void mouseEntered(MouseEvent e) { }
 
+        @Override
         public void mouseMoved(MouseEvent e) { }
 
+        @Override
         public void mouseExited(MouseEvent e) { }
 
+        @Override
         public void mouseClicked(MouseEvent e) { }
 
+        @Override
         public void mouseReleased(MouseEvent e) { }
 
+        @Override
         public void mouseDragged(MouseEvent e) { }
 
         // PropertyChangeListener
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String prop = evt.getPropertyName();
             JInternalFrame f = (JInternalFrame)evt.getSource();

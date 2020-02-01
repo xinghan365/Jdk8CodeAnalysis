@@ -240,17 +240,20 @@ public class MBeanServerInvocationHandler implements InvocationHandler {
         return JMX.newMBeanProxy(connection, objectName, interfaceClass, notificationBroadcaster);
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args)
             throws Throwable {
         final Class<?> methodClass = method.getDeclaringClass();
 
         if (methodClass.equals(NotificationBroadcaster.class)
-            || methodClass.equals(NotificationEmitter.class))
+            || methodClass.equals(NotificationEmitter.class)) {
             return invokeBroadcasterMethod(proxy, method, args);
+        }
 
         // local or not: equals, toString, hashCode
-        if (shouldDoLocally(proxy, method))
+        if (shouldDoLocally(proxy, method)) {
             return doLocally(proxy, method, args);
+        }
 
         try {
             if (isMXBean()) {
@@ -293,8 +296,9 @@ public class MBeanServerInvocationHandler implements InvocationHandler {
                 }
 
                 final String[] signature = new String[paramTypes.length];
-                for (int i = 0; i < paramTypes.length; i++)
+                for (int i = 0; i < paramTypes.length; i++) {
                     signature[i] = paramTypes[i].getName();
+                }
                 return connection.invoke(objectName, methodName,
                                          args, signature);
             }
@@ -417,13 +421,15 @@ public class MBeanServerInvocationHandler implements InvocationHandler {
         final String methodName = method.getName();
         if ((methodName.equals("hashCode") || methodName.equals("toString"))
             && method.getParameterTypes().length == 0
-            && isLocal(proxy, method))
+            && isLocal(proxy, method)) {
             return true;
+        }
         if (methodName.equals("equals")
             && Arrays.equals(method.getParameterTypes(),
                              new Class<?>[] {Object.class})
-            && isLocal(proxy, method))
+            && isLocal(proxy, method)) {
             return true;
+        }
         if (methodName.equals("finalize")
             && method.getParameterTypes().length == 0) {
             return true;

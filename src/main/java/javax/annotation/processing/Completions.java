@@ -42,17 +42,20 @@ public class Completions {
         private String message;
 
         SimpleCompletion(String value, String message) {
-            if (value == null || message == null)
+            if (value == null || message == null) {
                 throw new NullPointerException("Null completion strings not accepted.");
+            }
             this.value = value;
             this.message = message;
         }
 
+        @Override
         public String getValue() {
             return value;
         }
 
 
+        @Override
         public String getMessage() {
             return message;
         }

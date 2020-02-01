@@ -75,6 +75,7 @@ public class SimpleBindings implements Bindings {
      * @throws NullPointerException if the name is null.
      * @throws IllegalArgumentException if the name is empty.
      */
+    @Override
     public Object put(String name, Object value) {
         checkKey(name);
         return map.put(name,value);
@@ -90,6 +91,7 @@ public class SimpleBindings implements Bindings {
      * @throws IllegalArgumentException
      *         if some key in the map is an empty String.
      */
+    @Override
     public void putAll(Map<? extends String, ? extends Object> toMerge) {
         if (toMerge == null) {
             throw new NullPointerException("toMerge map is null");
@@ -102,6 +104,7 @@ public class SimpleBindings implements Bindings {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void clear() {
         map.clear();
     }
@@ -121,17 +124,20 @@ public class SimpleBindings implements Bindings {
      * @throws ClassCastException if key is not String
      * @throws IllegalArgumentException if key is empty String
      */
+    @Override
     public boolean containsKey(Object key) {
         checkKey(key);
         return map.containsKey(key);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean containsValue(Object value) {
         return map.containsValue(value);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Set<Map.Entry<String, Object>> entrySet() {
         return map.entrySet();
     }
@@ -157,17 +163,20 @@ public class SimpleBindings implements Bindings {
      * @throws ClassCastException if key is not String
      * @throws IllegalArgumentException if key is empty String
      */
+    @Override
     public Object get(Object key) {
         checkKey(key);
         return map.get(key);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isEmpty() {
         return map.isEmpty();
     }
 
     /** {@inheritDoc} */
+    @Override
     public Set<String> keySet() {
         return map.keySet();
     }
@@ -194,17 +203,20 @@ public class SimpleBindings implements Bindings {
      * @throws ClassCastException if key is not String
      * @throws IllegalArgumentException if key is empty String
      */
+    @Override
     public Object remove(Object key) {
         checkKey(key);
         return map.remove(key);
     }
 
     /** {@inheritDoc} */
+    @Override
     public int size() {
         return map.size();
     }
 
     /** {@inheritDoc} */
+    @Override
     public Collection<Object> values() {
         return map.values();
     }

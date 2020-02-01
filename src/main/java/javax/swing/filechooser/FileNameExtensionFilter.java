@@ -98,6 +98,7 @@ public final class FileNameExtensionFilter extends FileFilter {
      * @param f the {@code File} to test
      * @return true if the file is to be accepted, false otherwise
      */
+    @Override
     public boolean accept(File f) {
         if (f != null) {
             if (f.isDirectory()) {
@@ -128,6 +129,7 @@ public final class FileNameExtensionFilter extends FileFilter {
      *
      * @return the description of this filter
      */
+    @Override
     public String getDescription() {
         return description;
     }
@@ -151,6 +153,7 @@ public final class FileNameExtensionFilter extends FileFilter {
      *
      * @return a string representation of this {@code FileNameExtensionFilter}
      */
+    @Override
     public String toString() {
         return super.toString() + "[description=" + getDescription() +
             " extensions=" + java.util.Arrays.asList(getExtensions()) + "]";

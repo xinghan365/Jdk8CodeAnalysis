@@ -94,6 +94,7 @@ class HeapCharBuffer
 
     }
 
+    @Override
     public CharBuffer slice() {
         return new HeapCharBuffer(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapCharBuffer
                                         this.position() + offset);
     }
 
+    @Override
     public CharBuffer duplicate() {
         return new HeapCharBuffer(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapCharBuffer
                                         offset);
     }
 
+    @Override
     public CharBuffer asReadOnlyBuffer() {
 
         return new HeapCharBufferR(hb,
@@ -131,39 +134,47 @@ class HeapCharBuffer
         return i + offset;
     }
 
+    @Override
     public char get() {
         return hb[ix(nextGetIndex())];
     }
 
+    @Override
     public char get(int i) {
         return hb[ix(checkIndex(i))];
     }
 
 
+    @Override
     char getUnchecked(int i) {
 	return hb[ix(i)];
     }
 
 
+    @Override
     public CharBuffer get(char[] dst, int offset, int length) {
         checkBounds(offset, length, dst.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferUnderflowException();
+        }
         System.arraycopy(hb, ix(position()), dst, offset, length);
         position(position() + length);
         return this;
     }
 
+    @Override
     public boolean isDirect() {
         return false;
     }
 
 
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
+    @Override
     public CharBuffer put(char x) {
 
         hb[ix(nextPutIndex())] = x;
@@ -173,6 +184,7 @@ class HeapCharBuffer
 
     }
 
+    @Override
     public CharBuffer put(int i, char x) {
 
         hb[ix(checkIndex(i))] = x;
@@ -182,11 +194,13 @@ class HeapCharBuffer
 
     }
 
+    @Override
     public CharBuffer put(char[] src, int offset, int length) {
 
         checkBounds(offset, length, src.length);
-        if (length > remaining())
+        if (length > remaining()) {
             throw new BufferOverflowException();
+        }
         System.arraycopy(src, offset, hb, ix(position()), length);
         position(position() + length);
         return this;
@@ -195,23 +209,27 @@ class HeapCharBuffer
 
     }
 
+    @Override
     public CharBuffer put(CharBuffer src) {
 
         if (src instanceof HeapCharBuffer) {
-            if (src == this)
+            if (src == this) {
                 throw new IllegalArgumentException();
+            }
             HeapCharBuffer sb = (HeapCharBuffer)src;
             int n = sb.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             System.arraycopy(sb.hb, sb.ix(sb.position()),
                              hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
             int n = src.remaining();
-            if (n > remaining())
+            if (n > remaining()) {
                 throw new BufferOverflowException();
+            }
             src.get(hb, ix(position()), n);
             position(position() + n);
         } else {
@@ -223,6 +241,7 @@ class HeapCharBuffer
 
     }
 
+    @Override
     public CharBuffer compact() {
 
         System.arraycopy(hb, ix(position()), hb, ix(0), remaining());
@@ -562,6 +581,7 @@ class HeapCharBuffer
 
 
 
+    @Override
     String toString(int start, int end) {               // package-private
         try {
             return new String(hb, start + offset, end - start);
@@ -573,11 +593,13 @@ class HeapCharBuffer
 
     // --- Methods to support CharSequence ---
 
+    @Override
     public CharBuffer subSequence(int start, int end) {
         if ((start < 0)
             || (end > length())
-            || (start > end))
+            || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         int pos = position();
         return new HeapCharBuffer(hb,
                                       -1,
@@ -592,6 +614,7 @@ class HeapCharBuffer
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

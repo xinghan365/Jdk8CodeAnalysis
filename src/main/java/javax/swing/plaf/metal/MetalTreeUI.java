@@ -103,12 +103,14 @@ public class MetalTreeUI extends BasicTreeUI {
         super();
     }
 
+    @Override
     protected int getHorizontalLegBuffer()
       {
           return 3;
       }
 
-    public void installUI( JComponent c ) {
+    @Override
+    public void installUI(JComponent c ) {
         super.installUI( c );
         lineColor = UIManager.getColor( "Tree.line" );
 
@@ -118,7 +120,8 @@ public class MetalTreeUI extends BasicTreeUI {
 
     }
 
-    public void uninstallUI( JComponent c) {
+    @Override
+    public void uninstallUI(JComponent c) {
          c.removePropertyChangeListener(lineStyleListener);
          super.uninstallUI(c);
     }
@@ -146,10 +149,11 @@ public class MetalTreeUI extends BasicTreeUI {
         if(tree != null && !isLeaf(row)) {
             int                     boxWidth;
 
-            if(getExpandedIcon() != null)
+            if(getExpandedIcon() != null) {
                 boxWidth = getExpandedIcon().getIconWidth() + 6;
-            else
+            } else {
                 boxWidth = 8;
+            }
 
             Insets i = tree.getInsets();
             int    boxLeftX = (i != null) ? i.left : 0;
@@ -165,6 +169,7 @@ public class MetalTreeUI extends BasicTreeUI {
         return false;
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         super.paint( g, c );
 
@@ -197,14 +202,16 @@ public class MetalTreeUI extends BasicTreeUI {
                                                           (tree, i));
 
                 // Draw a line at the top
-                if(rowBounds != null)
+                if(rowBounds != null) {
                     g.drawLine(clipBounds.x, rowBounds.y,
                                clipBounds.x + clipBounds.width, rowBounds.y);
+                }
             }
         }
 
     }
 
+    @Override
     protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds,
                                           Insets insets, TreePath path) {
         if (lineStyle == LEG_LINE_STYLE) {
@@ -212,6 +219,7 @@ public class MetalTreeUI extends BasicTreeUI {
         }
     }
 
+    @Override
     protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
                                             Insets insets, Rectangle bounds,
                                             TreePath path, int row,
@@ -227,6 +235,7 @@ public class MetalTreeUI extends BasicTreeUI {
 
     /** This class listens for changes in line style */
     class LineListener implements PropertyChangeListener {
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String name = e.getPropertyName();
             if ( name.equals( LINE_STYLE ) ) {

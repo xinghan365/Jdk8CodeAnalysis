@@ -62,6 +62,7 @@ public class PasswordView extends FieldView {
      * @return the X location of the end of the range &gt;= 0
      * @exception BadLocationException if p0 or p1 are out of range
      */
+    @Override
     protected int drawUnselectedText(Graphics g, int x, int y,
                                      int p0, int p1) throws BadLocationException {
 
@@ -101,6 +102,7 @@ public class PasswordView extends FieldView {
      * @return the X location of the end of the range &gt;= 0
      * @exception BadLocationException if p0 or p1 are out of range
      */
+    @Override
     protected int drawSelectedText(Graphics g, int x,
                                    int y, int p0, int p1) throws BadLocationException {
         g.setColor(selected);
@@ -149,6 +151,7 @@ public class PasswordView extends FieldView {
      *   represent a valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         Container c = getContainer();
         if (c instanceof JPasswordField) {
@@ -179,6 +182,7 @@ public class PasswordView extends FieldView {
      *  given point in the view
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float fx, float fy, Shape a, Position.Bias[] bias) {
         bias[0] = Position.Bias.Forward;
         int n = 0;
@@ -215,6 +219,7 @@ public class PasswordView extends FieldView {
      *           that is returned, although there is no guarantee.
      *           The parent may choose to resize or break the view.
      */
+    @Override
     public float getPreferredSpan(int axis) {
         switch (axis) {
         case View.X_AXIS:

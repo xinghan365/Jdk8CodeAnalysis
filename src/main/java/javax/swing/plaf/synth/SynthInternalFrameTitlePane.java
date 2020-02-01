@@ -58,10 +58,12 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         super(f);
     }
 
+    @Override
     public String getUIClassID() {
         return "InternalFrameTitlePaneUI";
     }
 
+    @Override
     public SynthContext getContext(JComponent c) {
         return getContext(c, getComponentState(c));
     }
@@ -83,6 +85,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         return SynthLookAndFeel.getComponentState(c);
     }
 
+    @Override
     protected void addSubComponents() {
         menuButton.setName("InternalFrameTitlePane.menuButton");
         iconButton.setName("InternalFrameTitlePane.iconifyButton");
@@ -95,12 +98,14 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         add(closeButton);
     }
 
+    @Override
     protected void installListeners() {
         super.installListeners();
         frame.addPropertyChangeListener(this);
         addPropertyChangeListener(this);
     }
 
+    @Override
     protected void uninstallListeners() {
         frame.removePropertyChangeListener(this);
         removePropertyChangeListener(this);
@@ -140,11 +145,13 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         context.dispose();
     }
 
+    @Override
     protected void installDefaults() {
         super.installDefaults();
         updateStyle(this);
     }
 
+    @Override
     protected void uninstallDefaults() {
         SynthContext context = getContext(this, ENABLED);
         style.uninstallDefaults(context);
@@ -161,6 +168,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
     private static class JPopupMenuUIResource extends JPopupMenu implements
         UIResource { }
 
+    @Override
     protected void assembleSystemMenu() {
         systemPopupMenu = new JPopupMenuUIResource();
         addSystemMenuItems(systemPopupMenu);
@@ -168,6 +176,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         menuButton = createNoFocusButton();
         updateMenuIcon();
         menuButton.addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 try {
                     frame.setSelected(true);
@@ -214,6 +223,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         }
     }
 
+    @Override
     protected void showSystemMenu() {
         Insets insets = frame.getInsets();
         if (!frame.isIcon()) {
@@ -227,6 +237,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
     }
 
     // SynthInternalFrameTitlePane has no UI, we'll invoke paint on it.
+    @Override
     public void paintComponent(Graphics g) {
         SynthContext context = getContext(this);
         SynthLookAndFeel.update(context, g);
@@ -309,12 +320,14 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         }
     }
 
+    @Override
     public void paintBorder(SynthContext context, Graphics g, int x,
                             int y, int w, int h) {
         context.getPainter().paintInternalFrameTitlePaneBorder(context,
                                                             g, x, y, w, h);
     }
 
+    @Override
     protected LayoutManager createLayout() {
         SynthContext context = getContext(this);
         LayoutManager lm =
@@ -323,6 +336,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
         return (lm != null) ? lm : new SynthTitlePaneLayout();
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() == this) {
             if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
@@ -366,12 +380,16 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
 
 
     class SynthTitlePaneLayout implements LayoutManager {
+        @Override
         public void addLayoutComponent(String name, Component c) {}
+        @Override
         public void removeLayoutComponent(Component c) {}
+        @Override
         public Dimension preferredLayoutSize(Container c)  {
             return minimumLayoutSize(c);
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             SynthContext context = getContext(
                              SynthInternalFrameTitlePane.this);
@@ -453,6 +471,7 @@ class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
             return x;
         }
 
+        @Override
         public void layoutContainer(Container c) {
             Insets insets = c.getInsets();
             Dimension pref;

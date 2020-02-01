@@ -203,6 +203,7 @@ class DirectIntBufferRU
 
     }
 
+    @Override
     public IntBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectIntBufferRU
         return new DirectIntBufferRU(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public IntBuffer duplicate() {
         return new DirectIntBufferRU(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectIntBufferRU
                                               0);
     }
 
+    @Override
     public IntBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectIntBufferRU
 
 
 
+    @Override
     public IntBuffer put(int x) {
 
 
@@ -301,6 +305,7 @@ class DirectIntBufferRU
 
     }
 
+    @Override
     public IntBuffer put(int i, int x) {
 
 
@@ -310,6 +315,7 @@ class DirectIntBufferRU
 
     }
 
+    @Override
     public IntBuffer put(IntBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectIntBufferRU
 
     }
 
+    @Override
     public IntBuffer put(int[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectIntBufferRU
 
     }
 
+    @Override
     public IntBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectIntBufferRU
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -455,6 +465,7 @@ class DirectIntBufferRU
 
 
 
+    @Override
     public ByteOrder order() {
 
 

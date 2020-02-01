@@ -67,18 +67,22 @@ public final class FileDescriptor {
     static {
         sun.misc.SharedSecrets.setJavaIOFileDescriptorAccess(
             new sun.misc.JavaIOFileDescriptorAccess() {
+                @Override
                 public void set(FileDescriptor obj, int fd) {
                     obj.fd = fd;
                 }
 
+                @Override
                 public int get(FileDescriptor obj) {
                     return obj.fd;
                 }
 
+                @Override
                 public void setHandle(FileDescriptor obj, long handle) {
                     obj.handle = handle;
                 }
 
+                @Override
                 public long getHandle(FileDescriptor obj) {
                     return obj.handle;
                 }
@@ -218,12 +222,14 @@ public final class FileDescriptor {
                  * If releaser close() throws IOException
                  * add other exceptions as suppressed.
                  */
-                if (ioe != null)
+                if (ioe != null) {
                     ex.addSuppressed(ioe);
+                }
                 ioe = ex;
             } finally {
-                if (ioe != null)
+                if (ioe != null) {
                     throw ioe;
+                }
             }
         }
     }

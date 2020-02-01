@@ -733,6 +733,7 @@ public class Dialog extends Window {
      * Construct a name for this component.  Called by getName() when the
      * name is null.
      */
+    @Override
     String constructComponentName() {
         synchronized (Dialog.class) {
             return base + nameCounter++;
@@ -748,6 +749,7 @@ public class Dialog extends Window {
      * @see Component#isDisplayable
      * @see #removeNotify
      */
+    @Override
     public void addNotify() {
         synchronized (getTreeLock()) {
             if (parent != null && parent.getPeer() == null) {
@@ -1001,6 +1003,7 @@ public class Dialog extends Window {
      * @see java.awt.Component#validate
      * @see java.awt.Dialog#isModal
      */
+    @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
     }
@@ -1025,6 +1028,7 @@ public class Dialog extends Window {
      * @deprecated As of JDK version 1.5, replaced by
      * {@link #setVisible(boolean) setVisible(boolean)}.
      */
+    @Override
     @Deprecated
     public void show() {
         if (!initialized) {
@@ -1064,6 +1068,7 @@ public class Dialog extends Window {
                             // it may occur that EDT for appContext hasn't been started yet, so
                             // we post an empty invocation event to trigger EDT initialization
                             Runnable createEDT = new Runnable() {
+                                @Override
                                 public void run() {};
                             };
                             eventQueue.postEvent(new InvocationEvent(this, createEDT));
@@ -1076,6 +1081,7 @@ public class Dialog extends Window {
                     try {
                         final EventQueue eventQueue = AccessController.doPrivileged(
                             new PrivilegedAction<EventQueue>() {
+                                @Override
                                 public EventQueue run() {
                                     return Toolkit.getDefaultToolkit().getSystemEventQueue();
                                 }
@@ -1175,6 +1181,7 @@ public class Dialog extends Window {
      * @deprecated As of JDK version 1.5, replaced by
      * {@link #setVisible(boolean) setVisible(boolean)}.
      */
+    @Override
     @Deprecated
     public void hide() {
         hideAndDisposePreHandler();
@@ -1191,6 +1198,7 @@ public class Dialog extends Window {
      * Disposes the Dialog and then causes show() to return if it is currently
      * blocked.
      */
+    @Override
     void doDispose() {
         // fix for 5048370: set isInDispose flag to true to prevent calling
         // to hideAndDisposeHandler() from hide()
@@ -1208,6 +1216,7 @@ public class Dialog extends Window {
      *
      * @see java.awt.Window#toBack
      */
+    @Override
     public void toBack() {
         super.toBack();
         if (visible) {
@@ -1369,6 +1378,7 @@ public class Dialog extends Window {
      *
      * @return    the parameter string of this dialog window.
      */
+    @Override
     protected String paramString() {
         String str = super.paramString() + "," + modalityType;
         if (title != null) {
@@ -1669,6 +1679,7 @@ public class Dialog extends Window {
      *         AccessibleContext of this Dialog
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTDialog();
@@ -1696,6 +1707,7 @@ public class Dialog extends Window {
          * object
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.DIALOG;
         }
@@ -1707,6 +1719,7 @@ public class Dialog extends Window {
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (getFocusOwner() != null) {

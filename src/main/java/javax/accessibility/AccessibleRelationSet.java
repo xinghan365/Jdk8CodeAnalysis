@@ -229,6 +229,7 @@ public class AccessibleRelationSet {
      * @return comma separated localized String
      * @see AccessibleBundle#toDisplayString
      */
+    @Override
     public String toString() {
         String ret = "";
         if ((relations != null) && (relations.size() > 0)) {

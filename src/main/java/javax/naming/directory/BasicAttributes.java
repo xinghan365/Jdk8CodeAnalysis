@@ -139,6 +139,7 @@ public class BasicAttributes implements Attributes {
         this.put(new BasicAttribute(attrID, val));
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Object clone() {
         BasicAttributes attrset;
@@ -151,32 +152,39 @@ public class BasicAttributes implements Attributes {
         return attrset;
     }
 
+    @Override
     public boolean isCaseIgnored() {
         return ignoreCase;
     }
 
+    @Override
     public int size() {
         return attrs.size();
     }
 
+    @Override
     public Attribute get(String attrID) {
         Attribute attr = attrs.get(
                 ignoreCase ? attrID.toLowerCase(Locale.ENGLISH) : attrID);
         return (attr);
     }
 
+    @Override
     public NamingEnumeration<Attribute> getAll() {
         return new AttrEnumImpl();
     }
 
+    @Override
     public NamingEnumeration<String> getIDs() {
         return new IDEnumImpl();
     }
 
+    @Override
     public Attribute put(String attrID, Object val) {
         return this.put(new BasicAttribute(attrID, val));
     }
 
+    @Override
     public Attribute put(Attribute attr) {
         String id = attr.getID();
         if (ignoreCase) {
@@ -185,6 +193,7 @@ public class BasicAttributes implements Attributes {
         return attrs.put(id, attr);
     }
 
+    @Override
     public Attribute remove(String attrID) {
         String id = (ignoreCase ? attrID.toLowerCase(Locale.ENGLISH) : attrID);
         return attrs.remove(id);
@@ -198,6 +207,7 @@ public class BasicAttributes implements Attributes {
      *
      * @return A non-null string listing the contents of this attribute set.
      */
+    @Override
     public String toString() {
         if (attrs.size() == 0) {
             return("No attributes");
@@ -224,6 +234,7 @@ public class BasicAttributes implements Attributes {
      * @return true If obj is equal to this BasicAttributes.
      * @see #hashCode
      */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof Attributes)) {
             Attributes target = (Attributes)obj;
@@ -267,6 +278,7 @@ public class BasicAttributes implements Attributes {
      * @return an int representing the hash code of this BasicAttributes instance.
      * @see #equals
      */
+    @Override
     public int hashCode() {
         int hash = (ignoreCase ? 1 : 0);
         try {
@@ -318,22 +330,27 @@ class AttrEnumImpl implements NamingEnumeration<Attribute> {
         this.elements = attrs.elements();
     }
 
+    @Override
     public boolean hasMoreElements() {
         return elements.hasMoreElements();
     }
 
+    @Override
     public Attribute nextElement() {
         return elements.nextElement();
     }
 
+    @Override
     public boolean hasMore() throws NamingException {
         return hasMoreElements();
     }
 
+    @Override
     public Attribute next() throws NamingException {
         return nextElement();
     }
 
+    @Override
     public void close() throws NamingException {
         elements = null;
     }
@@ -349,23 +366,28 @@ class IDEnumImpl implements NamingEnumeration<String> {
         this.elements = attrs.elements();
     }
 
+    @Override
     public boolean hasMoreElements() {
         return elements.hasMoreElements();
     }
 
+    @Override
     public String nextElement() {
         Attribute attr = elements.nextElement();
         return attr.getID();
     }
 
+    @Override
     public boolean hasMore() throws NamingException {
         return hasMoreElements();
     }
 
+    @Override
     public String next() throws NamingException {
         return nextElement();
     }
 
+    @Override
     public void close() throws NamingException {
         elements = null;
     }

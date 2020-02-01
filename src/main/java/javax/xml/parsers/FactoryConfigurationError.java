@@ -104,6 +104,7 @@ public class FactoryConfigurationError extends Error {
      * @return The error message.
      */
 
+    @Override
     public String getMessage () {
         String message = super.getMessage ();
 

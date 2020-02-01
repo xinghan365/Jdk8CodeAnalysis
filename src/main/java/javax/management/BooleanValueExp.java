@@ -63,6 +63,7 @@ class BooleanValueExp extends QueryEval implements ValueExp {
     /**
      * Returns the string representing the object.
      */
+    @Override
     public String toString()  {
         return String.valueOf(val);
     }
@@ -79,11 +80,13 @@ class BooleanValueExp extends QueryEval implements ValueExp {
      * @exception BadAttributeValueExpException
      * @exception InvalidApplicationException
      */
+    @Override
     public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
         BadAttributeValueExpException, InvalidApplicationException  {
         return this;
     }
 
+    @Override
     @Deprecated
     public void setMBeanServer(MBeanServer s) {
         super.setMBeanServer(s);

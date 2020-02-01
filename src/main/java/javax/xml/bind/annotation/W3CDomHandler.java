@@ -65,8 +65,9 @@ public class W3CDomHandler implements DomHandler<Element,DOMResult> {
      *      a new element.
      */
     public W3CDomHandler(DocumentBuilder builder) {
-        if(builder==null)
+        if(builder==null) {
             throw new IllegalArgumentException();
+        }
         this.builder = builder;
     }
 
@@ -78,13 +79,16 @@ public class W3CDomHandler implements DomHandler<Element,DOMResult> {
         this.builder = builder;
     }
 
+    @Override
     public DOMResult createUnmarshaller(ValidationEventHandler errorHandler) {
-        if(builder==null)
+        if(builder==null) {
             return new DOMResult();
-        else
+        } else {
             return new DOMResult(builder.newDocument());
+        }
     }
 
+    @Override
     public Element getElement(DOMResult r) {
         // JAXP spec is ambiguous about what really happens in this case,
         // so work defensively
@@ -92,10 +96,12 @@ public class W3CDomHandler implements DomHandler<Element,DOMResult> {
         if( n instanceof Document ) {
             return ((Document)n).getDocumentElement();
         }
-        if( n instanceof Element )
+        if( n instanceof Element ) {
             return (Element)n;
-        if( n instanceof DocumentFragment )
+        }
+        if( n instanceof DocumentFragment ) {
             return (Element)n.getChildNodes().item(0);
+        }
 
         // if the result object contains something strange,
         // it is not a user problem, but it is a JAXB provider's problem.
@@ -103,6 +109,7 @@ public class W3CDomHandler implements DomHandler<Element,DOMResult> {
         throw new IllegalStateException(n.toString());
     }
 
+    @Override
     public Source marshal(Element element, ValidationEventHandler errorHandler) {
         return new DOMSource(element);
     }

@@ -42,6 +42,7 @@ import java.util.WeakHashMap;
 final class ThreadGroupContext {
 
     private static final WeakIdentityMap<ThreadGroupContext> contexts = new WeakIdentityMap<ThreadGroupContext>() {
+        @Override
         protected ThreadGroupContext create(Object key) {
             return new ThreadGroupContext();
         }

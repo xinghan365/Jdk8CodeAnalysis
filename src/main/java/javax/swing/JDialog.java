@@ -679,6 +679,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *
      * @see #setDefaultCloseOperation
      */
+    @Override
     protected void processWindowEvent(WindowEvent e) {
         super.processWindowEvent(e);
 
@@ -820,6 +821,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setTransferHandler
      * @since 1.6
      */
+    @Override
     public TransferHandler getTransferHandler() {
         return transferHandler;
     }
@@ -830,6 +832,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *
      * @param g  the {@code Graphics} context in which to paint
      */
+    @Override
     public void update(Graphics g) {
         paint(g);
     }
@@ -915,6 +918,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     protected void addImpl(Component comp, Object constraints, int index)
     {
         if(isRootPaneCheckingEnabled()) {
@@ -937,6 +941,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #add
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void remove(Component comp) {
         if (comp == rootPane) {
             super.remove(comp);
@@ -957,6 +962,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setRootPaneCheckingEnabled
      * @see javax.swing.RootPaneContainer
      */
+    @Override
     public void setLayout(LayoutManager manager) {
         if(isRootPaneCheckingEnabled()) {
             getContentPane().setLayout(manager);
@@ -973,6 +979,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setRootPane
      * @see RootPaneContainer#getRootPane
      */
+    @Override
     public JRootPane getRootPane() {
         return rootPane;
     }
@@ -1016,6 +1023,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setContentPane
      * @see RootPaneContainer#getContentPane
      */
+    @Override
     public Container getContentPane() {
         return getRootPane().getContentPane();
     }
@@ -1043,6 +1051,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *     description: The client area of the dialog where child
      *                  components are normally inserted.
      */
+    @Override
     public void setContentPane(Container contentPane) {
         getRootPane().setContentPane(contentPane);
     }
@@ -1055,6 +1064,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setLayeredPane
      * @see RootPaneContainer#getLayeredPane
      */
+    @Override
     public JLayeredPane getLayeredPane() {
         return getRootPane().getLayeredPane();
     }
@@ -1074,6 +1084,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *     hidden: true
      *     description: The pane which holds the various dialog layers.
      */
+    @Override
     public void setLayeredPane(JLayeredPane layeredPane) {
         getRootPane().setLayeredPane(layeredPane);
     }
@@ -1086,6 +1097,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see #setGlassPane
      * @see RootPaneContainer#getGlassPane
      */
+    @Override
     public Component getGlassPane() {
         return getRootPane().getGlassPane();
     }
@@ -1102,6 +1114,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *     hidden: true
      *     description: A transparent pane used for menu rendering.
      */
+    @Override
     public void setGlassPane(Component glassPane) {
         getRootPane().setGlassPane(glassPane);
     }
@@ -1111,6 +1124,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *
      * @since 1.6
      */
+    @Override
     public Graphics getGraphics() {
         JComponent.getGraphicsInvoked(this);
         return super.getGraphics();
@@ -1129,6 +1143,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @see       RepaintManager
      * @since     1.6
      */
+    @Override
     public void repaint(long time, int x, int y, int width, int height) {
         if (RepaintManager.HANDLE_TOP_LEVEL_PAINT) {
             RepaintManager.currentManager(this).addDirtyRegion(
@@ -1198,6 +1213,7 @@ public class JDialog extends Dialog implements WindowConstants,
      *
      * @return  a string representation of this {@code JDialog}.
      */
+    @Override
     protected String paramString() {
         String defaultCloseOperationString;
         if (defaultCloseOperation == HIDE_ON_CLOSE) {
@@ -1206,7 +1222,9 @@ public class JDialog extends Dialog implements WindowConstants,
             defaultCloseOperationString = "DISPOSE_ON_CLOSE";
         } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
             defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else defaultCloseOperationString = "";
+        } else {
+            defaultCloseOperationString = "";
+        }
         String rootPaneString = (rootPane != null ?
                                  rootPane.toString() : "");
         String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
@@ -1234,6 +1252,7 @@ public class JDialog extends Dialog implements WindowConstants,
      * @return an AccessibleJDialog that serves as the
      *         AccessibleContext of this JDialog
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJDialog();
@@ -1257,6 +1276,7 @@ public class JDialog extends Dialog implements WindowConstants,
          * @return the localized name of the object -- can be null if this
          * object does not have a name
          */
+        @Override
         public String getAccessibleName() {
             if (accessibleName != null) {
                 return accessibleName;
@@ -1276,6 +1296,7 @@ public class JDialog extends Dialog implements WindowConstants,
          * state set of the object
          * @see AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
 

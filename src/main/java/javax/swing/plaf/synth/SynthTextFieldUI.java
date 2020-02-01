@@ -267,10 +267,12 @@ public class SynthTextFieldUI extends BasicTextFieldUI implements SynthUI {
     }
 
     private final class Handler implements FocusListener {
+        @Override
         public void focusGained(FocusEvent e) {
             getComponent().repaint();
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             getComponent().repaint();
         }

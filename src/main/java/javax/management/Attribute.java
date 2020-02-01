@@ -97,6 +97,7 @@ public class Attribute implements Serializable   {
      */
 
 
+    @Override
     public boolean equals(Object object)  {
         if (!(object instanceof Attribute)) {
             return false;
@@ -120,6 +121,7 @@ public class Attribute implements Serializable   {
      *
      * @return a hash code value for this attribute.
      */
+    @Override
     public int hashCode() {
         return name.hashCode() ^ (value == null ? 0 : value.hashCode());
     }
@@ -129,6 +131,7 @@ public class Attribute implements Serializable   {
      * string is not specified, but users can expect that two Attributes return the
      * same string if and only if they are equal.
      */
+    @Override
     public String toString() {
         return getName() + " = " + getValue();
     }

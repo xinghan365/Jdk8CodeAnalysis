@@ -261,8 +261,9 @@ class KeyboardManager {
                      //System.out.println("Trying collision: " + c + " vector = "+ v.size());
                      if ( c.isShowing() && c.isEnabled() ) { // don't want to give these out
                          fireBinding(c, ks, e, pressed);
-                         if (e.isConsumed())
+                         if (e.isConsumed()) {
                              return true;
+                         }
                      }
                  }
              } else  {
@@ -375,6 +376,7 @@ class KeyboardManager {
             keyStroke = key;
         }
 
+        @Override
         public boolean equals(Object o) {
             if ( !(o instanceof ComponentKeyStrokePair)) {
                 return false;
@@ -383,6 +385,7 @@ class KeyboardManager {
             return ((component.equals(ckp.component)) && (keyStroke.equals(ckp.keyStroke)));
         }
 
+        @Override
         public int hashCode() {
             return component.hashCode() * keyStroke.hashCode();
         }

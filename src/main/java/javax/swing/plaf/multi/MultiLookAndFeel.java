@@ -68,6 +68,7 @@ public class MultiLookAndFeel extends LookAndFeel {
      *
      * @return a string such as "Multiplexing Look and Feel"
      */
+    @Override
     public String getName() {
         return "Multiplexing Look and Feel";
     }
@@ -78,6 +79,7 @@ public class MultiLookAndFeel extends LookAndFeel {
      *
      * @return "Multiplex"
      */
+    @Override
     public String getID() {
         return "Multiplex";
     }
@@ -87,6 +89,7 @@ public class MultiLookAndFeel extends LookAndFeel {
      *
      * @return a descriptive string such as "Allows multiple UI instances per component instance"
      */
+    @Override
     public String getDescription() {
         return "Allows multiple UI instances per component instance";
     }
@@ -97,6 +100,7 @@ public class MultiLookAndFeel extends LookAndFeel {
      *
      * @return <code>false</code>
      */
+    @Override
     public boolean isNativeLookAndFeel() {
         return false;
     }
@@ -107,6 +111,7 @@ public class MultiLookAndFeel extends LookAndFeel {
      *
      * @return <code>true</code>
      */
+    @Override
     public boolean isSupportedLookAndFeel() {
         return true;
     }
@@ -124,6 +129,7 @@ public class MultiLookAndFeel extends LookAndFeel {
      * @return an initialized <code>UIDefaults</code> object
      * @see javax.swing.JComponent#getUIClassID
      */
+    @Override
     public UIDefaults getDefaults() {
         String packageName = "javax.swing.plaf.multi.Multi";
         Object[] uiDefaults = {
@@ -297,6 +303,7 @@ class MultiUIDefaults extends UIDefaults {
     MultiUIDefaults(int initialCapacity, float loadFactor) {
         super(initialCapacity, loadFactor);
     }
+    @Override
     protected void getUIError(String msg) {
         System.err.println("Multiplexing LAF:  " + msg);
     }

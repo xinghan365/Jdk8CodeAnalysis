@@ -63,10 +63,12 @@ public class BasicTableHeaderUI extends TableHeaderUI {
     private int selectedColumnIndex = 0; // Read ONLY via getSelectedColumnIndex!
 
     private static FocusListener focusListener = new FocusListener() {
+        @Override
         public void focusGained(FocusEvent e) {
             repaintHeader(e.getSource());
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             repaintHeader(e.getSource());
         }
@@ -96,6 +98,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
         private int mouseXOffset;
         private Cursor otherCursor = resizeCursor;
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -141,6 +144,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             return header.getColumnModel().getColumn(columnIndex);
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -186,6 +190,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             otherCursor = tmp;
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -197,6 +202,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             updateRolloverColumn(e);
        }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -256,6 +262,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             updateRolloverColumn(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -268,6 +275,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             updateRolloverColumn(e);
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -275,6 +283,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             updateRolloverColumn(e);
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             if (!header.isEnabled()) {
                 return;
@@ -316,6 +325,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
 
 //  Installation
 
+    @Override
     public void installUI(JComponent c) {
         header = (JTableHeader)c;
 
@@ -366,6 +376,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
 
 // Uninstall methods
 
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults();
         uninstallListeners();
@@ -590,6 +601,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         int baseline = -1;
@@ -617,6 +629,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
 // Paint Methods and support
 //
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         if (header.getColumnModel().getColumnCount() <= 0) {
             return;
@@ -770,6 +783,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
      * Return the minimum size of the header. The minimum width is the sum
      * of the minimum widths of each column (plus inter-cell spacing).
      */
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         long width = 0;
         Enumeration enumeration = header.getColumnModel().getColumns();
@@ -786,6 +800,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
      * by the header renderers. The preferred width is the sum of the
      * preferred widths of each column (plus inter-cell spacing).
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         long width = 0;
         Enumeration enumeration = header.getColumnModel().getColumns();
@@ -800,6 +815,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
      * Return the maximum size of the header. The maximum width is the sum
      * of the maximum widths of each column (plus inter-cell spacing).
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         long width = 0;
         Enumeration enumeration = header.getColumnModel().getColumns();
@@ -832,6 +848,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             super(name);
         }
 
+        @Override
         public boolean isEnabled(Object sender) {
             if (sender instanceof JTableHeader) {
                 JTableHeader th = (JTableHeader)sender;
@@ -862,6 +879,7 @@ public class BasicTableHeaderUI extends TableHeaderUI {
             return true;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTableHeader th = (JTableHeader)e.getSource();
             BasicTableHeaderUI ui =

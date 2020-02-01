@@ -84,6 +84,7 @@ public class BasicButtonUI extends ButtonUI{
     // ********************************
     //          Install PLAF
     // ********************************
+    @Override
     public void installUI(JComponent c) {
         installDefaults((AbstractButton) c);
         installListeners((AbstractButton) c);
@@ -143,6 +144,7 @@ public class BasicButtonUI extends ButtonUI{
     // ********************************
     //         Uninstall PLAF
     // ********************************
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallKeyboardActions((AbstractButton) c);
         uninstallListeners((AbstractButton) c);
@@ -196,6 +198,7 @@ public class BasicButtonUI extends ButtonUI{
     //          Paint Methods
     // ********************************
 
+    @Override
     public void paint(Graphics g, JComponent c)
     {
         AbstractButton b = (AbstractButton) c;
@@ -362,6 +365,7 @@ public class BasicButtonUI extends ButtonUI{
     // ********************************
     //          Layout Methods
     // ********************************
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -371,11 +375,13 @@ public class BasicButtonUI extends ButtonUI{
         return d;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         AbstractButton b = (AbstractButton)c;
         return BasicGraphicsUtils.getPreferredButtonSize(b, b.getIconTextGap());
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
@@ -393,6 +399,7 @@ public class BasicButtonUI extends ButtonUI{
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         AbstractButton b = (AbstractButton)c;
@@ -414,6 +421,7 @@ public class BasicButtonUI extends ButtonUI{
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);

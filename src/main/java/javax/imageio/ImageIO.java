@@ -518,10 +518,12 @@ public final class ImageIO {
             this.iter = iter;
         }
 
+        @Override
         public boolean hasNext() {
             return iter.hasNext();
         }
 
+        @Override
         public ImageReader next() {
             ImageReaderSpi spi = null;
             try {
@@ -535,6 +537,7 @@ public final class ImageIO {
             return null;
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -549,6 +552,7 @@ public final class ImageIO {
             this.input = input;
         }
 
+        @Override
         public boolean filter(Object elt) {
             try {
                 ImageReaderSpi spi = (ImageReaderSpi)elt;
@@ -588,6 +592,7 @@ public final class ImageIO {
             this.formatName = formatName;
         }
 
+        @Override
         public boolean filter(Object elt) {
             ImageWriterSpi spi = (ImageWriterSpi)elt;
             return Arrays.asList(spi.getFormatNames()).contains(formatName) &&
@@ -608,6 +613,7 @@ public final class ImageIO {
             this.name = name;
         }
 
+        @Override
         public boolean filter(Object elt) {
             try {
                 return contains((String[])method.invoke(elt), name);
@@ -832,10 +838,12 @@ public final class ImageIO {
             this.iter = iter;
         }
 
+        @Override
         public boolean hasNext() {
             return iter.hasNext();
         }
 
+        @Override
         public ImageWriter next() {
             ImageWriterSpi spi = null;
             try {
@@ -848,6 +856,7 @@ public final class ImageIO {
             return null;
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -1184,16 +1193,19 @@ public final class ImageIO {
             this.iter = iter;
         }
 
+        @Override
         public boolean hasNext() {
             return iter.hasNext();
         }
 
+        @Override
         public ImageTranscoder next() {
             ImageTranscoderSpi spi = null;
             spi = (ImageTranscoderSpi)iter.next();
             return spi.createTranscoderInstance();
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -1211,6 +1223,7 @@ public final class ImageIO {
             this.writerSpiName = writerSpi.getClass().getName();
         }
 
+        @Override
         public boolean filter(Object elt) {
             ImageTranscoderSpi spi = (ImageTranscoderSpi)elt;
             String readerName = spi.getReaderServiceProviderName();

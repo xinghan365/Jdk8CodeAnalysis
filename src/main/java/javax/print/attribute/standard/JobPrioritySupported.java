@@ -87,6 +87,7 @@ public final class JobPrioritySupported extends IntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this job
      *          priority supported attribute, false otherwise.
      */
+    @Override
     public boolean equals (Object object) {
 
         return (super.equals(object) &&
@@ -104,6 +105,7 @@ public final class JobPrioritySupported extends IntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return JobPrioritySupported.class;
     }
@@ -117,6 +119,7 @@ public final class JobPrioritySupported extends IntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "job-priority-supported";
     }

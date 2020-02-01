@@ -168,6 +168,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * @throws SerialException if the given starting position is out of bounds;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public byte[] getBytes(long pos, int length) throws SerialException {
         isValid();
         if (length > len) {
@@ -199,6 +200,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * @throws SerialException if an error occurs;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public long length() throws SerialException {
         isValid();
         return len;
@@ -216,6 +218,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * if {@code free} had previously been called on this object
      * @see #setBinaryStream
      */
+    @Override
     public java.io.InputStream getBinaryStream() throws SerialException {
         isValid();
         InputStream stream = new ByteArrayInputStream(buf);
@@ -243,6 +246,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * @throws SQLException if there is an error accessing the <code>BLOB</code>
      *         value from the database
      */
+    @Override
     public long position(byte[] pattern, long start)
             throws SerialException, SQLException {
 
@@ -289,6 +293,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * @throws SQLException if there is an error accessing the <code>BLOB</code>
      *         value from the database
      */
+    @Override
     public long position(Blob pattern, long start)
             throws SerialException, SQLException {
         isValid();
@@ -315,6 +320,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      *         value from the database
      * @see #getBytes
      */
+    @Override
     public int setBytes(long pos, byte[] bytes)
             throws SerialException, SQLException {
         return setBytes(pos, bytes, 0, bytes.length);
@@ -351,6 +357,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      *         value from the database.
      * @see #getBytes
      */
+    @Override
     public int setBytes(long pos, byte[] bytes, int offset, int length)
             throws SerialException, SQLException {
 
@@ -401,6 +408,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * if {@code free} had previously been called on this object
      * @see #getBinaryStream
      */
+    @Override
     public java.io.OutputStream setBinaryStream(long pos)
             throws SerialException, SQLException {
 
@@ -425,6 +433,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      *     or the length to truncate is greater that the SerialBlob length;
      * if {@code free} had previously been called on this object
      */
+    @Override
     public void truncate(long length) throws SerialException {
         isValid();
         if (length > len) {
@@ -460,6 +469,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      *
      * @since 1.6
      */
+    @Override
     public InputStream getBinaryStream(long pos, long length) throws SQLException {
         isValid();
         if (pos < 1 || pos > this.length()) {
@@ -482,6 +492,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * @throws SQLException if an error occurs releasing the Blob's resources
      * @since 1.6
      */
+    @Override
     public void free() throws SQLException {
         if (buf != null) {
             buf = null;
@@ -504,6 +515,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      *          equivalent to this SerialBlob, {@code false} otherwise
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -521,6 +533,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      * Returns a hash code for this {@code SerialBlob}.
      * @return  a hash code value for this object.
      */
+    @Override
     public int hashCode() {
        return ((31 + Arrays.hashCode(buf)) * 31 + (int)len) * 31 + (int)origLen;
     }
@@ -533,6 +546,7 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
      *
      * @return  a clone of this SerialBlob
      */
+    @Override
     public Object clone() {
         try {
             SerialBlob sb = (SerialBlob) super.clone();
@@ -554,12 +568,14 @@ public class SerialBlob implements Blob, Serializable, Cloneable {
 
         ObjectInputStream.GetField fields = s.readFields();
         byte[] tmp = (byte[])fields.get("buf", null);
-        if (tmp == null)
+        if (tmp == null) {
             throw new InvalidObjectException("buf is null and should not be!");
+        }
         buf = tmp.clone();
         len = fields.get("len", 0L);
-        if (buf.length != len)
+        if (buf.length != len) {
             throw new InvalidObjectException("buf is not the expected size");
+        }
         origLen = fields.get("origLen", 0L);
         blob = (Blob) fields.get("blob", null);
     }

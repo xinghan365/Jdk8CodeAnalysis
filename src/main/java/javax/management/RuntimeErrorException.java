@@ -78,6 +78,7 @@ public class RuntimeErrorException extends JMRuntimeException   {
      *
      * @return the wrapped {@link Error}.
      */
+    @Override
     public Throwable getCause() {
         return error;
     }

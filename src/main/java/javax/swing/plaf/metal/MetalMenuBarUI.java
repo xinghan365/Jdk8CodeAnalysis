@@ -61,6 +61,7 @@ public class MetalMenuBarUI extends BasicMenuBarUI  {
      * @param c the component where this UI delegate is being installed
      * @throws NullPointerException if <code>c</code> is null.
      */
+    @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         MetalToolBarUI.register(c);
@@ -73,6 +74,7 @@ public class MetalMenuBarUI extends BasicMenuBarUI  {
      * @param c the component where this UI delegate is being installed
      * @throws NullPointerException if <code>c</code> is null.
      */
+    @Override
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
         MetalToolBarUI.unregister(c);
@@ -90,6 +92,7 @@ public class MetalMenuBarUI extends BasicMenuBarUI  {
      * @see javax.swing.plaf.ComponentUI#paint
      * @since 1.5
      */
+    @Override
     public void update(Graphics g, JComponent c) {
         boolean isOpaque = c.isOpaque();
         if (g == null) {

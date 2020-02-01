@@ -264,6 +264,7 @@ public class RenderContext implements Cloneable {
      *
      * @return the new cloned RenderContext.
      */
+    @Override
     public Object clone() {
         RenderContext newRenderContext = new RenderContext(usr2dev,
                                                            aoi, hints);

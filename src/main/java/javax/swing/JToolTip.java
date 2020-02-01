@@ -98,6 +98,7 @@ public class JToolTip extends JComponent implements Accessible {
      *
      * @see JComponent#updateUI
      */
+    @Override
     public void updateUI() {
         setUI((ToolTipUI)UIManager.getUI(this));
     }
@@ -110,6 +111,7 @@ public class JToolTip extends JComponent implements Accessible {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -183,6 +185,7 @@ public class JToolTip extends JComponent implements Accessible {
      * should always be on top of all other windows.
      */
     // package private
+    @Override
     boolean alwaysOnTop() {
         return true;
     }
@@ -215,6 +218,7 @@ public class JToolTip extends JComponent implements Accessible {
      *
      * @return  a string representation of this <code>JToolTip</code>
      */
+    @Override
     protected String paramString() {
         String tipTextString = (tipText != null ?
                                 tipText : "");
@@ -237,6 +241,7 @@ public class JToolTip extends JComponent implements Accessible {
      * @return an AccessibleJToolTip that serves as the
      *         AccessibleContext of this JToolTip
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJToolTip();
@@ -266,6 +271,7 @@ public class JToolTip extends JComponent implements Accessible {
          *
          * @return a localized String describing this object.
          */
+        @Override
         public String getAccessibleDescription() {
             String description = accessibleDescription;
 
@@ -285,6 +291,7 @@ public class JToolTip extends JComponent implements Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TOOL_TIP;
         }

@@ -360,11 +360,13 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
      *
      * @return a shallow clone of this instance.
      */
+    @Override
     public Object clone() {
         return(new ModelMBeanInfoSupport(this));
     }
 
 
+    @Override
     public Descriptor[] getDescriptors(String inDescriptorType)
     throws MBeanException, RuntimeOperationsException {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -386,7 +388,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(ATTR)) {
             final MBeanAttributeInfo[] attrList = modelMBeanAttributes;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (attrList != null) {
+                numAttrs = attrList.length;
+            }
 
             retList = new Descriptor[numAttrs];
             for (int i=0; i < numAttrs; i++) {
@@ -396,7 +400,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(OPER)) {
             final MBeanOperationInfo[] operList = modelMBeanOperations;
             int numOpers = 0;
-            if (operList != null) numOpers = operList.length;
+            if (operList != null) {
+                numOpers = operList.length;
+            }
 
             retList = new Descriptor[numOpers];
             for (int i=0; i < numOpers; i++) {
@@ -406,7 +412,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(CONS)) {
             final MBeanConstructorInfo[] consList =  modelMBeanConstructors;
             int numCons = 0;
-            if (consList != null) numCons = consList.length;
+            if (consList != null) {
+                numCons = consList.length;
+            }
 
             retList = new Descriptor[numCons];
             for (int i=0; i < numCons; i++) {
@@ -416,7 +424,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(NOTF)) {
             final MBeanNotificationInfo[] notifList = modelMBeanNotifications;
             int numNotifs = 0;
-            if (notifList != null) numNotifs = notifList.length;
+            if (notifList != null) {
+                numNotifs = notifList.length;
+            }
 
             retList = new Descriptor[numNotifs];
             for (int i=0; i < numNotifs; i++) {
@@ -427,19 +437,27 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
             final MBeanAttributeInfo[] attrList = modelMBeanAttributes;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (attrList != null) {
+                numAttrs = attrList.length;
+            }
 
             final MBeanOperationInfo[] operList = modelMBeanOperations;
             int numOpers = 0;
-            if (operList != null) numOpers = operList.length;
+            if (operList != null) {
+                numOpers = operList.length;
+            }
 
             final MBeanConstructorInfo[] consList = modelMBeanConstructors;
             int numCons = 0;
-            if (consList != null) numCons = consList.length;
+            if (consList != null) {
+                numCons = consList.length;
+            }
 
             final MBeanNotificationInfo[] notifList = modelMBeanNotifications;
             int numNotifs = 0;
-            if (notifList != null) numNotifs = notifList.length;
+            if (notifList != null) {
+                numNotifs = notifList.length;
+            }
 
             int count = numAttrs + numCons + numOpers + numNotifs + 1;
             retList = new Descriptor[count];
@@ -484,6 +502,7 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
     }
 
 
+    @Override
     public void setDescriptors(Descriptor[] inDescriptors)
     throws MBeanException, RuntimeOperationsException {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -539,8 +558,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
     }
 
 
+    @Override
     public Descriptor getDescriptor(String inDescriptorName,
-            String inDescriptorType)
+                                    String inDescriptorType)
             throws MBeanException, RuntimeOperationsException {
         if (inDescriptorName==null) {
             // throw RuntimeOperationsException - invalid descriptor
@@ -563,36 +583,45 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
                of them finds a descriptor.  */
         if (ATTR.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
             ModelMBeanAttributeInfo attr = getAttribute(inDescriptorName);
-            if (attr != null)
+            if (attr != null) {
                 return attr.getDescriptor();
-            if (inDescriptorType != null)
+            }
+            if (inDescriptorType != null) {
                 return null;
+            }
         }
         if (OPER.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
             ModelMBeanOperationInfo oper = getOperation(inDescriptorName);
-            if (oper != null)
+            if (oper != null) {
                 return oper.getDescriptor();
-            if (inDescriptorType != null)
+            }
+            if (inDescriptorType != null) {
                 return null;
+            }
         }
         if (CONS.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
             ModelMBeanConstructorInfo oper =
                     getConstructor(inDescriptorName);
-            if (oper != null)
+            if (oper != null) {
                 return oper.getDescriptor();
-            if (inDescriptorType != null)
+            }
+            if (inDescriptorType != null) {
                 return null;
+            }
         }
         if (NOTF.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
             ModelMBeanNotificationInfo notif =
                     getNotification(inDescriptorName);
-            if (notif != null)
+            if (notif != null) {
                 return notif.getDescriptor();
-            if (inDescriptorType != null)
+            }
+            if (inDescriptorType != null) {
                 return null;
+            }
         }
-        if (inDescriptorType == null)
+        if (inDescriptorType == null) {
             return null;
+        }
         throw new RuntimeOperationsException(
                 new IllegalArgumentException("Descriptor Type is invalid"),
                 "Exception occurred trying to find the descriptors of the MBean");
@@ -601,8 +630,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
 
 
+    @Override
     public void setDescriptor(Descriptor inDescriptor,
-            String inDescriptorType)
+                              String inDescriptorType)
             throws MBeanException, RuntimeOperationsException {
         final String excMsg =
                 "Exception occurred trying to set the descriptors of the MBean";
@@ -645,7 +675,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(ATTR)) {
             MBeanAttributeInfo[] attrList =  modelMBeanAttributes;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (attrList != null) {
+                numAttrs = attrList.length;
+            }
 
             for (int i=0; i < numAttrs; i++) {
                 if (inDescriptorName.equals(attrList[i].getName())) {
@@ -670,7 +702,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(OPER)) {
             MBeanOperationInfo[] operList =  modelMBeanOperations;
             int numOpers = 0;
-            if (operList != null) numOpers = operList.length;
+            if (operList != null) {
+                numOpers = operList.length;
+            }
 
             for (int i=0; i < numOpers; i++) {
                 if (inDescriptorName.equals(operList[i].getName())) {
@@ -683,7 +717,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(CONS)) {
             MBeanConstructorInfo[] consList =  modelMBeanConstructors;
             int numCons = 0;
-            if (consList != null) numCons = consList.length;
+            if (consList != null) {
+                numCons = consList.length;
+            }
 
             for (int i=0; i < numCons; i++) {
                 if (inDescriptorName.equals(consList[i].getName())) {
@@ -696,7 +732,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         } else if (inDescriptorType.equalsIgnoreCase(NOTF)) {
             MBeanNotificationInfo[] notifList =  modelMBeanNotifications;
             int numNotifs = 0;
-            if (notifList != null) numNotifs = notifList.length;
+            if (notifList != null) {
+                numNotifs = notifList.length;
+            }
 
             for (int i=0; i < numNotifs; i++) {
                 if (inDescriptorName.equals(notifList[i].getName())) {
@@ -729,6 +767,7 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
     }
 
 
+    @Override
     public ModelMBeanAttributeInfo getAttribute(String inName)
     throws MBeanException, RuntimeOperationsException {
         ModelMBeanAttributeInfo retInfo = null;
@@ -745,7 +784,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         }
         MBeanAttributeInfo[] attrList = modelMBeanAttributes;
         int numAttrs = 0;
-        if (attrList != null) numAttrs = attrList.length;
+        if (attrList != null) {
+            numAttrs = attrList.length;
+        }
 
         for (int i=0; (i < numAttrs) && (retInfo == null); i++) {
             if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -775,6 +816,7 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
 
 
 
+    @Override
     public ModelMBeanOperationInfo getOperation(String inName)
     throws MBeanException, RuntimeOperationsException {
         ModelMBeanOperationInfo retInfo = null;
@@ -791,7 +833,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         }
         MBeanOperationInfo[] operList = modelMBeanOperations; //this.getOperations();
         int numOpers = 0;
-        if (operList != null) numOpers = operList.length;
+        if (operList != null) {
+            numOpers = operList.length;
+        }
 
         for (int i=0; (i < numOpers) && (retInfo == null); i++) {
             if (inName.equals(operList[i].getName())) {
@@ -837,7 +881,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         }
         MBeanConstructorInfo[] consList = modelMBeanConstructors; //this.getConstructors();
         int numCons = 0;
-        if (consList != null) numCons = consList.length;
+        if (consList != null) {
+            numCons = consList.length;
+        }
 
         for (int i=0; (i < numCons) && (retInfo == null); i++) {
             if (inName.equals(consList[i].getName())) {
@@ -854,6 +900,7 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
     }
 
 
+    @Override
     public ModelMBeanNotificationInfo getNotification(String inName)
     throws MBeanException, RuntimeOperationsException {
         ModelMBeanNotificationInfo retInfo = null;
@@ -870,7 +917,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         }
         MBeanNotificationInfo[] notifList = modelMBeanNotifications; //this.getNotifications();
         int numNotifs = 0;
-        if (notifList != null) numNotifs = notifList.length;
+        if (notifList != null) {
+            numNotifs = notifList.length;
+        }
 
         for (int i=0; (i < numNotifs) && (retInfo == null); i++) {
             if (inName.equals(notifList[i].getName())) {
@@ -896,6 +945,7 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         return getMBeanDescriptorNoException();
     }
 
+    @Override
     public Descriptor getMBeanDescriptor() throws MBeanException {
         return getMBeanDescriptorNoException();
     }
@@ -907,8 +957,9 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
                     "getMBeanDescriptorNoException()", "Entry");
         }
 
-        if (modelMBeanDescriptor == null)
+        if (modelMBeanDescriptor == null) {
             modelMBeanDescriptor = validDescriptor(null);
+        }
 
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -919,6 +970,7 @@ public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
         return (Descriptor) modelMBeanDescriptor.clone();
     }
 
+    @Override
     public void setMBeanDescriptor(Descriptor inMBeanDescriptor)
     throws MBeanException, RuntimeOperationsException {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {

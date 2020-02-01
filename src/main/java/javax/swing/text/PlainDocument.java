@@ -110,6 +110,7 @@ public class PlainDocument extends AbstractDocument {
      *   position within the document
      * @see Document#insertString
      */
+    @Override
     public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
         // fields don't want to have multiple lines.  We may provide a field-specific
         // model in the future in which case the filtering logic here will no longer
@@ -136,6 +137,7 @@ public class PlainDocument extends AbstractDocument {
      * @return the root
      * @see Document#getDefaultRootElement
      */
+    @Override
     public Element getDefaultRootElement() {
         return defaultRoot;
     }
@@ -159,6 +161,7 @@ public class PlainDocument extends AbstractDocument {
      * Get the paragraph element containing the given position.  Since this
      * document only models lines, it returns the line instead.
      */
+    @Override
     public Element getParagraphElement(int pos){
         Element lineMap = getDefaultRootElement();
         return lineMap.getElement( lineMap.getElementIndex( pos ) );
@@ -172,6 +175,7 @@ public class PlainDocument extends AbstractDocument {
      * @param chng the change event describing the dit
      * @param attr the set of attributes for the inserted text
      */
+    @Override
     protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
         removed.removeAllElements();
         added.removeAllElements();
@@ -240,6 +244,7 @@ public class PlainDocument extends AbstractDocument {
      *
      * @param chng the change event describing the edit
      */
+    @Override
     protected void removeUpdate(DefaultDocumentEvent chng) {
         removed.removeAllElements();
         BranchElement map = (BranchElement) getDefaultRootElement();
@@ -300,11 +305,13 @@ public class PlainDocument extends AbstractDocument {
         abelem[0] = (BranchElement) createBranchElement(lineMap, null);
         Element[] relem = new Element[1];
         relem[0] = elem;
-        if (elemStart != offset)
+        if (elemStart != offset) {
             added.addElement(createLeafElement(abelem[0], null, elemStart, offset));
+        }
         added.addElement(createLeafElement(abelem[0], attr, offset, offset+length));
-        if (elemEnd != offset+length)
+        if (elemEnd != offset+length) {
             added.addElement(createLeafElement(abelem[0], null, offset+length, elemEnd));
+        }
         Element[] alelem = new Element[added.size()];
         added.copyInto(alelem);
         ElementEdit ee = new ElementEdit(lineMap, index, relem, abelem);

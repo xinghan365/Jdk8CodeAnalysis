@@ -41,6 +41,20 @@ import java.util.stream.StreamSupport;
 import sun.misc.SharedSecrets;
 
 /**
+ *
+ * 此类仅由静态方法组合或返回集合。
+ * 它包含对集合进行操作的多态算法，“包装器”，返回由指定集合支持的新集合，以及其他一些可能的和最终的。
+ * 如果提供给它们的集合或类对象为null，则此类的方法都抛出一个NullPointerException 。
+ *
+ * 该类中包含的多态算法的文档通常包括实现的简要说明 。
+ * 这些描述应被视为实施说明 ，而不是说明书的一部分 。 只要规范本身得到遵守，实现者就可以随意替代其他算法。
+ * （例如，sort使用的算法不一定是一个mergeesort，但它必须是稳定的 。）
+ *
+ * 如果集合不支持适当的突变原语，例如set方法，则该类中包含的“破坏性”算法，
+ * 即修改其操作的集合的算法被指定为抛出UnsupportedOperationException 。
+ * 如果调用对集合没有影响，这些算法可能但不是必须抛出此异常。
+ * 例如，在已经排序的不可修改列表上调用sort方法可以抛出UnsupportedOperationException 。
+ *
  * This class consists exclusively of static methods that operate on or return
  * collections.  It contains polymorphic algorithms that operate on
  * collections, "wrappers", which return a new collection backed by a
@@ -110,6 +124,26 @@ public class Collections {
     private static final int INDEXOFSUBLIST_THRESHOLD =   35;
 
     /**
+     * 根据其元素的natural ordering ，按照升序排列指定的列表。 列表中的所有元素必须实现Comparable接口。
+     * 此外，列表中的所有元素都必须相互可比较 （即e1.compareTo(e2)不能为ClassCastException中的任何元素e1和e2 ）。
+     * 这种保证是稳定的 ：等同的元素将不会被排序作为排序的结果。
+     *
+     * 指定的列表必须是可修改的，但不能调整大小。
+     *
+     * 实现注意事项：这个实现是一个稳定的，自适应的，迭代的mergeesort，
+     * 当输入数组被部分排序时，需要比n lg（n）的比较少得多，同时在输入数组被随机排列时提供传统的mergeesort的性能。
+     * 如果输入数组几乎被排序，则实现需要大致n个比较。 临时存储要求从几乎排序的输入数组的小常数到随机排序的输入数组的n / 2对象引用。
+     *
+     * 该实现在其输入数组中具有上升和下降的同等优势，并且可以在同一输入数组的不同部分中利用升序和降序。
+     * 它非常适合合并两个或多个排序的数组：简单地连接数组并排序生成的数组。
+     *
+     * 实施从Tim Peters的Python列表排序（ TimSort ）进行了改编 。
+     * 它使用Peter McIlroy的“乐观排序和信息理论复杂性”中的技术，在第四届ACM-SIAM离散算法研讨会论文集，
+     * pp 467-474，1993年1月。
+     *
+     * 该实现将指定的列表转储到数组中，对数组进行排序，并在列表中迭代，从列表中的相应位置重新设置每个元素。
+     * 这样可以避免尝试将链表排序到目前为止的n 2 log（n）性能。
+     *
      * Sorts the specified list into ascending order, according to the
      * {@linkplain Comparable natural ordering} of its elements.
      * All elements in the list must implement the {@link Comparable}
@@ -143,7 +177,28 @@ public class Collections {
         list.sort(null);
     }
 
+
     /**
+     *
+     * 根据指定的比较器引起的顺序对指定的列表进行排序。 列表中的所有元素必须使用指定的比较器相互比较
+     * （即， c.compare(e1, e2)不能为ClassCastException中的任何元素e1和e2 ）。
+     * 这种保证是稳定的 ：等同的元素将不会被排序作为排序的结果。
+     *
+     * 指定的列表必须是可修改的，但不能调整大小。
+     *
+     * 实现注意事项：这个实现是一个稳定的，自适应的，迭代的mergeesort，当输入数组被部分排序时，
+     * 需要比n lg（n）的比较少得多，同时在输入数组被随机排列时提供传统的mergeesort的性能。
+     * 如果输入数组几乎被排序，则实现需要大致n个比较。 临时存储要求从几乎排序的输入数组的小常数到随机排序的输入数组的n / 2对象引用。
+     *
+     * 该实现在其输入数组中具有上升和下降的同等优势，并且可以在同一输入数组的不同部分中利用升序和降序。
+     * 它非常适合合并两个或多个排序的数组：简单地连接数组并排序生成的数组。
+     *
+     * 该实现从Tim Peters的Python列表（ TimSort ）进行了改编 。 它使用Peter McIlroy的“乐观排序和信息理论复杂性”
+     * 中的技术，在第四届ACM-SIAM离散算法研讨会论文集，pp 467-474，1993年1月。
+     *
+     * 该实现将指定的列表转储到数组中，对数组进行排序，并在列表中迭代，从列表中的相应位置重新设置每个元素。
+     * 这样可以避免尝试将链表排序到目前为止的n 2 log（n）性能。
+     *
      * Sorts the specified list according to the order induced by the
      * specified comparator.  All elements in the list must be <i>mutually
      * comparable</i> using the specified comparator (that is,
@@ -179,6 +234,13 @@ public class Collections {
 
 
     /**
+     * 使用二叉搜索算法搜索指定对象的指定列表。 该列表必须根据被按升序排列natural ordering元素
+     * （如由sort(List)方法）之前使该呼叫。 如果没有排序，结果是未定义的。
+     * 如果列表包含与指定对象相等的多个元素，则不能保证将找到哪个元素。
+     * 该方法以log（n）时间运行“随机访问”列表（提供近常数位置访问）。
+     * 如果指定的列表没有实现RandomAccess接口并且很大，则该方法将执行基于迭代器的二进制搜索，
+     * 执行O（n）链接遍历和O（log n）元素比较。
+     *
      * Searches the specified list for the specified object using the binary
      * search algorithm.  The list must be sorted into ascending order
      * according to the {@linkplain Comparable natural ordering} of its
@@ -204,6 +266,9 @@ public class Collections {
      *         elements in the list are less than the specified key.  Note
      *         that this guarantees that the return value will be &gt;= 0 if
      *         and only if the key is found.
+     *         搜索关键字的索引，如果它包含在列表中; 否则， (-(insertion point) - 1) 。
+     *         如果列表中的所有元素都小于指定键的第一元件比所述键时，或list.size()的索引：
+     *         插入点被定义为将键插入到列表中的点。 请注意，这确保当且仅当找到该键时返回值将为> = 0。
      * @throws ClassCastException if the list contains elements that are not
      *         <i>mutually comparable</i> (for example, strings and
      *         integers), or the search key is not mutually comparable
@@ -211,10 +276,11 @@ public class Collections {
      */
     public static <T>
     int binarySearch(List<? extends Comparable<? super T>> list, T key) {
-        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD) {
             return Collections.indexedBinarySearch(list, key);
-        else
+        } else {
             return Collections.iteratorBinarySearch(list, key);
+        }
     }
 
     private static <T>
@@ -227,12 +293,13 @@ public class Collections {
             Comparable<? super T> midVal = list.get(mid);
             int cmp = midVal.compareTo(key);
 
-            if (cmp < 0)
+            if (cmp < 0) {
                 low = mid + 1;
-            else if (cmp > 0)
+            } else if (cmp > 0) {
                 high = mid - 1;
-            else
+            } else {
                 return mid; // key found
+            }
         }
         return -(low + 1);  // key not found
     }
@@ -249,12 +316,13 @@ public class Collections {
             Comparable<? super T> midVal = get(i, mid);
             int cmp = midVal.compareTo(key);
 
-            if (cmp < 0)
+            if (cmp < 0) {
                 low = mid + 1;
-            else if (cmp > 0)
+            } else if (cmp > 0) {
                 high = mid - 1;
-            else
+            } else {
                 return mid; // key found
+            }
         }
         return -(low + 1);  // key not found
     }
@@ -315,13 +383,15 @@ public class Collections {
      */
     @SuppressWarnings("unchecked")
     public static <T> int binarySearch(List<? extends T> list, T key, Comparator<? super T> c) {
-        if (c==null)
+        if (c==null) {
             return binarySearch((List<? extends Comparable<? super T>>) list, key);
+        }
 
-        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD)
+        if (list instanceof RandomAccess || list.size()<BINARYSEARCH_THRESHOLD) {
             return Collections.indexedBinarySearch(list, key, c);
-        else
+        } else {
             return Collections.iteratorBinarySearch(list, key, c);
+        }
     }
 
     private static <T> int indexedBinarySearch(List<? extends T> l, T key, Comparator<? super T> c) {
@@ -333,12 +403,13 @@ public class Collections {
             T midVal = l.get(mid);
             int cmp = c.compare(midVal, key);
 
-            if (cmp < 0)
+            if (cmp < 0) {
                 low = mid + 1;
-            else if (cmp > 0)
+            } else if (cmp > 0) {
                 high = mid - 1;
-            else
+            } else {
                 return mid; // key found
+            }
         }
         return -(low + 1);  // key not found
     }
@@ -353,12 +424,13 @@ public class Collections {
             T midVal = get(i, mid);
             int cmp = c.compare(midVal, key);
 
-            if (cmp < 0)
+            if (cmp < 0) {
                 low = mid + 1;
-            else if (cmp > 0)
+            } else if (cmp > 0) {
                 high = mid - 1;
-            else
+            } else {
                 return mid; // key found
+            }
         }
         return -(low + 1);  // key not found
     }
@@ -376,8 +448,9 @@ public class Collections {
     public static void reverse(List<?> list) {
         int size = list.size();
         if (size < REVERSE_THRESHOLD || list instanceof RandomAccess) {
-            for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+            for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--) {
                 swap(list, i, j);
+            }
         } else {
             // instead of using a raw type here, it's possible to capture
             // the wildcard but it will require a call to a supplementary
@@ -393,6 +466,16 @@ public class Collections {
     }
 
     /**
+     * 使用默认的随机源随机排列指定的列表。 所有排列都以大致相等的可能性发生。
+     * 在前面的描述中使用了“大约”对冲，因为默认的随机源仅仅是独立选择的比特的无偏差源。
+     * 如果它是随机选择位的完美来源，则算法将选择具有完美均匀性的排列。
+     *
+     * 该实现从最后一个元素向后移动列表，重复地将随机选择的元素交换到“当前位置”中。
+     * 从从第一个元素运行到当前位置（包括）的列表的部分中随机选择元素。
+     *
+     * 该方法运行在线性时间。 如果指定的列表没有实现RandomAccess接口并且很大，则此实现将混合之前将指定的列表转储到数组中，
+     * 并将该混洗的数组转储回列表中。 这避免了将“顺序访问”列表进行混洗所产生的二次行为。
+     *
      * Randomly permutes the specified list using a default source of
      * randomness.  All permutations occur with approximately equal
      * likelihood.
@@ -422,14 +505,23 @@ public class Collections {
      */
     public static void shuffle(List<?> list) {
         Random rnd = r;
-        if (rnd == null)
+        if (rnd == null) {
             r = rnd = new Random(); // harmless race.
+        }
         shuffle(list, rnd);
     }
 
     private static Random r;
 
     /**
+     * 使用指定的随机源随机排列指定的列表。 如果随机性的来源是公平的，则所有排列都以相等的可能性发生。
+     * 该实现从最后一个元素向后移动列表，重复地将随机选择的元素交换到“当前位置”中。
+     * 从从第一个元素运行到当前位置（包括）的列表的部分中随机选择元素。
+     *
+     * 该方法运行在线性时间。 如果指定的列表没有实现RandomAccess接口，并且很大，
+     * 那么这个实现会将指定的列表转储到数组中，然后再进行混洗，然后将该混洗后的数组转储回列表中。
+     * 这避免了将“顺序访问”列表进行混洗所产生的二次行为。
+     *
      * Randomly permute the specified list using the specified source of
      * randomness.  All permutations occur with equal likelihood
      * assuming that the source of randomness is fair.<p>
@@ -456,14 +548,16 @@ public class Collections {
     public static void shuffle(List<?> list, Random rnd) {
         int size = list.size();
         if (size < SHUFFLE_THRESHOLD || list instanceof RandomAccess) {
-            for (int i=size; i>1; i--)
+            for (int i=size; i>1; i--) {
                 swap(list, i-1, rnd.nextInt(i));
+            }
         } else {
             Object[] arr = list.toArray();
 
             // Shuffle array
-            for (int i=size; i>1; i--)
+            for (int i=size; i>1; i--) {
                 swap(arr, i-1, rnd.nextInt(i));
+            }
 
             // Dump array back into list
             // instead of using a raw type here, it's possible to capture
@@ -478,6 +572,7 @@ public class Collections {
     }
 
     /**
+     * 交换指定列表中指定位置的元素。 （如果指定的位置相等，调用此方法将保持不变。）
      * Swaps the elements at the specified positions in the specified list.
      * (If the specified positions are equal, invoking this method leaves
      * the list unchanged.)
@@ -509,6 +604,8 @@ public class Collections {
     }
 
     /**
+     * 用指定的元素代替指定列表的所有元素。
+     * 该方法运行在线性时间。
      * Replaces all of the elements of the specified list with the specified
      * element. <p>
      *
@@ -524,8 +621,9 @@ public class Collections {
         int size = list.size();
 
         if (size < FILL_THRESHOLD || list instanceof RandomAccess) {
-            for (int i=0; i<size; i++)
+            for (int i=0; i<size; i++) {
                 list.set(i, obj);
+            }
         } else {
             ListIterator<? super T> itr = list.listIterator();
             for (int i=0; i<size; i++) {
@@ -536,6 +634,9 @@ public class Collections {
     }
 
     /**
+     * 将所有元素从一个列表复制到另一个列表中。 操作完成后，目标列表中每个复制元素的索引将与源列表中的其索引相同。
+     * 目的地列表必须至少与源列表一样长。 如果它更长，则目的地列表中的剩余元素不受影响。
+     * 该方法运行在线性时间。
      * Copies all of the elements from one list into another.  After the
      * operation, the index of each copied element in the destination list
      * will be identical to its index in the source list.  The destination
@@ -554,13 +655,15 @@ public class Collections {
      */
     public static <T> void copy(List<? super T> dest, List<? extends T> src) {
         int srcSize = src.size();
-        if (srcSize > dest.size())
+        if (srcSize > dest.size()) {
             throw new IndexOutOfBoundsException("Source does not fit in dest");
+        }
 
         if (srcSize < COPY_THRESHOLD ||
             (src instanceof RandomAccess && dest instanceof RandomAccess)) {
-            for (int i=0; i<srcSize; i++)
+            for (int i=0; i<srcSize; i++) {
                 dest.set(i, src.get(i));
+            }
         } else {
             ListIterator<? super T> di=dest.listIterator();
             ListIterator<? extends T> si=src.listIterator();
@@ -572,6 +675,10 @@ public class Collections {
     }
 
     /**
+     * 根据其元素的自然顺序返回给定集合的最小元素。 集合中的所有元素必须实现Comparable界面。
+     * 此外，集合中的所有元素必须相互可比较 （即， e1.compareTo(e2)不得为集合中的任何元素e1和e2提供ClassCastException）。
+     * 该方法遍历整个集合，因此它需要与集合的大小成比例的时间。
+     *
      * Returns the minimum element of the given collection, according to the
      * <i>natural ordering</i> of its elements.  All elements in the
      * collection must implement the <tt>Comparable</tt> interface.
@@ -599,13 +706,18 @@ public class Collections {
 
         while (i.hasNext()) {
             T next = i.next();
-            if (next.compareTo(candidate) < 0)
+            if (next.compareTo(candidate) < 0) {
                 candidate = next;
+            }
         }
         return candidate;
     }
 
     /**
+     * 根据指定的比较器引发的顺序返回给定集合的最小元素。 集合中的所有元素必须由指定的比较器相互比较
+     * （即， comp.compare(e1, e2)不得为集合中的任何元素e1和e2引发ClassCastException）。
+     * 该方法遍历整个集合，因此它需要与集合的大小成比例的时间。
+     *
      * Returns the minimum element of the given collection, according to the
      * order induced by the specified comparator.  All elements in the
      * collection must be <i>mutually comparable</i> by the specified
@@ -630,21 +742,26 @@ public class Collections {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> T min(Collection<? extends T> coll, Comparator<? super T> comp) {
-        if (comp==null)
+        if (comp==null) {
             return (T)min((Collection) coll);
+        }
 
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
 
         while (i.hasNext()) {
             T next = i.next();
-            if (comp.compare(next, candidate) < 0)
+            if (comp.compare(next, candidate) < 0) {
                 candidate = next;
+            }
         }
         return candidate;
     }
 
     /**
+     * 根据其元素的自然顺序返回给定集合的最大元素。 集合中的所有元素必须实现Comparable接口。
+     * 此外，集合中的所有元素必须相互可比较 （即e1.compareTo(e2)不得为集合中的任何元素e1和e2投掷ClassCastException）。
+     * 该方法遍历整个集合，因此它需要与集合的大小成比例的时间。
      * Returns the maximum element of the given collection, according to the
      * <i>natural ordering</i> of its elements.  All elements in the
      * collection must implement the <tt>Comparable</tt> interface.
@@ -672,13 +789,17 @@ public class Collections {
 
         while (i.hasNext()) {
             T next = i.next();
-            if (next.compareTo(candidate) > 0)
+            if (next.compareTo(candidate) > 0) {
                 candidate = next;
+            }
         }
         return candidate;
     }
 
     /**
+     * 根据指定的比较器引发的顺序返回给定集合的最大元素。 集合中的所有元素必须由指定的比较器相互比较
+     * （即， comp.compare(e1, e2)不得为集合中的任何元素e1和e2投放ClassCastException）。
+     * 该方法遍历整个集合，因此它需要与集合的大小成比例的时间。
      * Returns the maximum element of the given collection, according to the
      * order induced by the specified comparator.  All elements in the
      * collection must be <i>mutually comparable</i> by the specified
@@ -703,21 +824,43 @@ public class Collections {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static <T> T max(Collection<? extends T> coll, Comparator<? super T> comp) {
-        if (comp==null)
+        if (comp==null) {
             return (T)max((Collection) coll);
+        }
 
         Iterator<? extends T> i = coll.iterator();
         T candidate = i.next();
 
         while (i.hasNext()) {
             T next = i.next();
-            if (comp.compare(next, candidate) > 0)
+            if (comp.compare(next, candidate) > 0) {
                 candidate = next;
+            }
         }
         return candidate;
     }
 
     /**
+     * 将指定列表中的元素旋转指定的距离。 调用此方法后，在索引i的元件将是元件预先在索引(i - distance) list.size() MOD，
+     * 用于0和list.size()-1（含）之间的i所有值。 （此方法对列表的大小没有影响。）
+     * 例如，假设list包括[t, a, n, k, s] 。 在调用Collections.rotate(list, 1) （或Collections.rotate(list, -4) ）
+     * 后， list将包括[s, t, a, n, k] 。
+     *
+     * 请注意，该方法可以有效地应用于子列表以移动列表中的一个或多个元素，同时保留剩余元素的顺序。
+     * 例如，以下成语将索引j处的元素向前移动到位置k （必须大于或等于j ）：
+     *
+     *   Collections.rotate(list.subList(j, k+1), -1); 为了使这个具体，假设list包括[a, b, c, d, e] 。
+     *   要将索引1 （ b ）上的元素向前移动两个位置，请执行以下调用：
+     *   Collections.rotate(l.subList(1, 4), -1); 得到的列表是[a, c, d, b, e] 。
+     * 要向前移动多个元素，请增加旋转距离的绝对值。 要向后移动元素，请使用正移位距离。
+     *
+     * 如果指定的列表较小或实现了RandomAccess接口，则该实现将第一个元素交换到应该进行的位置，
+     * 然后重复地将移位的元素交换到应该进行的位置，直到被替换的元素被交换到第一个元素中。
+     * 如果需要，在第二和连续元件上重复该过程，直到旋转完成。 如果指定的列表很大并且没有实现RandomAccess接口，
+     * 则该实现将列表分成索引-distance mod size周围的两个子列表视图。 然后在每个子列表视图中调用reverse(List)方法，
+     * 最后在整个列表中调用它。 有关这两种算法的更完整的描述，
+     * 请参见Jon Bentley 编程珍珠的第2.3节（Addison-Wesley，1986）。
+     *
      * Rotates the elements in the specified list by the specified distance.
      * After calling this method, the element at index <tt>i</tt> will be
      * the element previously at index <tt>(i - distance)</tt> mod
@@ -773,29 +916,34 @@ public class Collections {
      * @since 1.4
      */
     public static void rotate(List<?> list, int distance) {
-        if (list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD)
+        if (list instanceof RandomAccess || list.size() < ROTATE_THRESHOLD) {
             rotate1(list, distance);
-        else
+        } else {
             rotate2(list, distance);
+        }
     }
 
     private static <T> void rotate1(List<T> list, int distance) {
         int size = list.size();
-        if (size == 0)
+        if (size == 0) {
             return;
+        }
         distance = distance % size;
-        if (distance < 0)
+        if (distance < 0) {
             distance += size;
-        if (distance == 0)
+        }
+        if (distance == 0) {
             return;
+        }
 
         for (int cycleStart = 0, nMoved = 0; nMoved != size; cycleStart++) {
             T displaced = list.get(cycleStart);
             int i = cycleStart;
             do {
                 i += distance;
-                if (i >= size)
+                if (i >= size) {
                     i -= size;
+                }
                 displaced = list.set(i, displaced);
                 nMoved ++;
             } while (i != cycleStart);
@@ -804,13 +952,16 @@ public class Collections {
 
     private static void rotate2(List<?> list, int distance) {
         int size = list.size();
-        if (size == 0)
+        if (size == 0) {
             return;
+        }
         int mid =  -distance % size;
-        if (mid < 0)
+        if (mid < 0) {
             mid += size;
-        if (mid == 0)
+        }
+        if (mid == 0) {
             return;
+        }
 
         reverse(list.subList(0, mid));
         reverse(list.subList(mid, size));
@@ -905,9 +1056,11 @@ public class Collections {
             (source instanceof RandomAccess&&target instanceof RandomAccess)) {
         nextCand:
             for (int candidate = 0; candidate <= maxCandidate; candidate++) {
-                for (int i=0, j=candidate; i<targetSize; i++, j++)
-                    if (!eq(target.get(i), source.get(j)))
+                for (int i=0, j=candidate; i<targetSize; i++, j++) {
+                    if (!eq(target.get(i), source.get(j))) {
                         continue nextCand;  // Element mismatch, try next cand
+                    }
+                }
                 return candidate;  // All elements of candidate matched target
             }
         } else {  // Iterator version of above algorithm
@@ -918,8 +1071,9 @@ public class Collections {
                 for (int i=0; i<targetSize; i++) {
                     if (!eq(ti.next(), si.next())) {
                         // Back up source iterator to next candidate
-                        for (int j=0; j<i; j++)
+                        for (int j=0; j<i; j++) {
                             si.previous();
+                        }
                         continue nextCand;
                     }
                 }
@@ -930,6 +1084,10 @@ public class Collections {
     }
 
     /**
+     * 返回指定源列表中指定目标列表的最后一次出现的起始位置，如果没有此类事件则返回-1。
+     * 更正式地，返回最高指数i ，使source.subList(i, i+target.size()).equals(target) ，或-1如果没有这样的索引。
+     * （如果target.size() > source.size()返回-1）
+     * 该实现使用在源列表上迭代的“强力”技术，依次查找每个位置上的目标匹配。
      * Returns the starting position of the last occurrence of the specified
      * target list within the specified source list, or -1 if there is no such
      * occurrence.  More formally, returns the highest index <tt>i</tt>
@@ -958,14 +1116,17 @@ public class Collections {
             source instanceof RandomAccess) {   // Index access version
         nextCand:
             for (int candidate = maxCandidate; candidate >= 0; candidate--) {
-                for (int i=0, j=candidate; i<targetSize; i++, j++)
-                    if (!eq(target.get(i), source.get(j)))
+                for (int i=0, j=candidate; i<targetSize; i++, j++) {
+                    if (!eq(target.get(i), source.get(j))) {
                         continue nextCand;  // Element mismatch, try next cand
+                    }
+                }
                 return candidate;  // All elements of candidate matched target
             }
         } else {  // Iterator version of above algorithm
-            if (maxCandidate < 0)
+            if (maxCandidate < 0) {
                 return -1;
+            }
             ListIterator<?> si = source.listIterator(maxCandidate);
         nextCand:
             for (int candidate = maxCandidate; candidate >= 0; candidate--) {
@@ -974,8 +1135,9 @@ public class Collections {
                     if (!eq(ti.next(), si.next())) {
                         if (candidate != 0) {
                             // Back up source iterator to next candidate
-                            for (int j=0; j<=i+1; j++)
+                            for (int j=0; j<=i+1; j++) {
                                 si.previous();
+                            }
                         }
                         continue nextCand;
                     }
@@ -990,6 +1152,13 @@ public class Collections {
     // Unmodifiable Wrappers
 
     /**
+     * 返回指定集合的不可修改视图。 该方法允许模块向用户提供对内部集合的“只读”访问。
+     * 对返回的集合“读取”查询操作到指定的集合，并尝试修改返回的集合，无论是直接还是通过其迭代器，
+     * 导致UnsupportedOperationException 。
+     * 返回的集合不会通过hashCode并将操作等同于后台集合，而是依赖于Object的equals和hashCode方法。
+     * 在后台集合是集合或列表的情况下，必须保留这些操作的合同。
+     *
+     * 如果指定的集合是可序列化的，则返回的集合将是可序列化的。
      * Returns an unmodifiable view of the specified collection.  This method
      * allows modules to provide users with "read-only" access to internal
      * collections.  Query operations on the returned collection "read through"
@@ -1024,24 +1193,35 @@ public class Collections {
         final Collection<? extends E> c;
 
         UnmodifiableCollection(Collection<? extends E> c) {
-            if (c==null)
+            if (c==null) {
                 throw new NullPointerException();
+            }
             this.c = c;
         }
 
+        @Override
         public int size()                   {return c.size();}
+        @Override
         public boolean isEmpty()            {return c.isEmpty();}
+        @Override
         public boolean contains(Object o)   {return c.contains(o);}
+        @Override
         public Object[] toArray()           {return c.toArray();}
+        @Override
         public <T> T[] toArray(T[] a)       {return c.toArray(a);}
+        @Override
         public String toString()            {return c.toString();}
 
+        @Override
         public Iterator<E> iterator() {
             return new Iterator<E>() {
                 private final Iterator<? extends E> i = c.iterator();
 
+                @Override
                 public boolean hasNext() {return i.hasNext();}
+                @Override
                 public E next()          {return i.next();}
+                @Override
                 public void remove() {
                     throw new UnsupportedOperationException();
                 }
@@ -1053,25 +1233,32 @@ public class Collections {
             };
         }
 
+        @Override
         public boolean add(E e) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public boolean remove(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean containsAll(Collection<?> coll) {
             return c.containsAll(coll);
         }
+        @Override
         public boolean addAll(Collection<? extends E> coll) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public boolean removeAll(Collection<?> coll) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public boolean retainAll(Collection<?> coll) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
@@ -1128,7 +1315,9 @@ public class Collections {
         private static final long serialVersionUID = -9215047833775013803L;
 
         UnmodifiableSet(Set<? extends E> s)     {super(s);}
+        @Override
         public boolean equals(Object o) {return o == this || c.equals(o);}
+        @Override
         public int hashCode()           {return c.hashCode();}
     }
 
@@ -1164,19 +1353,25 @@ public class Collections {
 
         UnmodifiableSortedSet(SortedSet<E> s) {super(s); ss = s;}
 
+        @Override
         public Comparator<? super E> comparator() {return ss.comparator();}
 
+        @Override
         public SortedSet<E> subSet(E fromElement, E toElement) {
             return new UnmodifiableSortedSet<>(ss.subSet(fromElement,toElement));
         }
+        @Override
         public SortedSet<E> headSet(E toElement) {
             return new UnmodifiableSortedSet<>(ss.headSet(toElement));
         }
+        @Override
         public SortedSet<E> tailSet(E fromElement) {
             return new UnmodifiableSortedSet<>(ss.tailSet(fromElement));
         }
 
+        @Override
         public E first()                   {return ss.first();}
+        @Override
         public E last()                    {return ss.last();}
     }
 
@@ -1242,27 +1437,38 @@ public class Collections {
 
         UnmodifiableNavigableSet(NavigableSet<E> s)         {super(s); ns = s;}
 
+        @Override
         public E lower(E e)                             { return ns.lower(e); }
+        @Override
         public E floor(E e)                             { return ns.floor(e); }
+        @Override
         public E ceiling(E e)                         { return ns.ceiling(e); }
+        @Override
         public E higher(E e)                           { return ns.higher(e); }
+        @Override
         public E pollFirst()     { throw new UnsupportedOperationException(); }
+        @Override
         public E pollLast()      { throw new UnsupportedOperationException(); }
+        @Override
         public NavigableSet<E> descendingSet()
                  { return new UnmodifiableNavigableSet<>(ns.descendingSet()); }
+        @Override
         public Iterator<E> descendingIterator()
                                          { return descendingSet().iterator(); }
 
+        @Override
         public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
             return new UnmodifiableNavigableSet<>(
                 ns.subSet(fromElement, fromInclusive, toElement, toInclusive));
         }
 
+        @Override
         public NavigableSet<E> headSet(E toElement, boolean inclusive) {
             return new UnmodifiableNavigableSet<>(
                 ns.headSet(toElement, inclusive));
         }
 
+        @Override
         public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
             return new UnmodifiableNavigableSet<>(
                 ns.tailSet(fromElement, inclusive));
@@ -1305,21 +1511,30 @@ public class Collections {
             this.list = list;
         }
 
+        @Override
         public boolean equals(Object o) {return o == this || list.equals(o);}
+        @Override
         public int hashCode()           {return list.hashCode();}
 
+        @Override
         public E get(int index) {return list.get(index);}
+        @Override
         public E set(int index, E element) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public void add(int index, E element) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public E remove(int index) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public int indexOf(Object o)            {return list.indexOf(o);}
+        @Override
         public int lastIndexOf(Object o)        {return list.lastIndexOf(o);}
+        @Override
         public boolean addAll(int index, Collection<? extends E> c) {
             throw new UnsupportedOperationException();
         }
@@ -1333,26 +1548,37 @@ public class Collections {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public ListIterator<E> listIterator()   {return listIterator(0);}
 
+        @Override
         public ListIterator<E> listIterator(final int index) {
             return new ListIterator<E>() {
                 private final ListIterator<? extends E> i
                     = list.listIterator(index);
 
+                @Override
                 public boolean hasNext()     {return i.hasNext();}
+                @Override
                 public E next()              {return i.next();}
+                @Override
                 public boolean hasPrevious() {return i.hasPrevious();}
+                @Override
                 public E previous()          {return i.previous();}
+                @Override
                 public int nextIndex()       {return i.nextIndex();}
+                @Override
                 public int previousIndex()   {return i.previousIndex();}
 
+                @Override
                 public void remove() {
                     throw new UnsupportedOperationException();
                 }
+                @Override
                 public void set(E e) {
                     throw new UnsupportedOperationException();
                 }
+                @Override
                 public void add(E e) {
                     throw new UnsupportedOperationException();
                 }
@@ -1364,6 +1590,7 @@ public class Collections {
             };
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
             return new UnmodifiableList<>(list.subList(fromIndex, toIndex));
         }
@@ -1397,6 +1624,7 @@ public class Collections {
             super(list);
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
             return new UnmodifiableRandomAccessList<>(
                 list.subList(fromIndex, toIndex));
@@ -1444,26 +1672,36 @@ public class Collections {
         private final Map<? extends K, ? extends V> m;
 
         UnmodifiableMap(Map<? extends K, ? extends V> m) {
-            if (m==null)
+            if (m==null) {
                 throw new NullPointerException();
+            }
             this.m = m;
         }
 
+        @Override
         public int size()                        {return m.size();}
+        @Override
         public boolean isEmpty()                 {return m.isEmpty();}
+        @Override
         public boolean containsKey(Object key)   {return m.containsKey(key);}
+        @Override
         public boolean containsValue(Object val) {return m.containsValue(val);}
+        @Override
         public V get(Object key)                 {return m.get(key);}
 
+        @Override
         public V put(K key, V value) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public V remove(Object key) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public void putAll(Map<? extends K, ? extends V> m) {
             throw new UnsupportedOperationException();
         }
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
@@ -1472,26 +1710,35 @@ public class Collections {
         private transient Set<Map.Entry<K,V>> entrySet;
         private transient Collection<V> values;
 
+        @Override
         public Set<K> keySet() {
-            if (keySet==null)
+            if (keySet==null) {
                 keySet = unmodifiableSet(m.keySet());
+            }
             return keySet;
         }
 
+        @Override
         public Set<Map.Entry<K,V>> entrySet() {
-            if (entrySet==null)
+            if (entrySet==null) {
                 entrySet = new UnmodifiableEntrySet<>(m.entrySet());
+            }
             return entrySet;
         }
 
+        @Override
         public Collection<V> values() {
-            if (values==null)
+            if (values==null) {
                 values = unmodifiableCollection(m.values());
+            }
             return values;
         }
 
+        @Override
         public boolean equals(Object o) {return o == this || m.equals(o);}
+        @Override
         public int hashCode()           {return m.hashCode();}
+        @Override
         public String toString()        {return m.toString();}
 
         // Override default methods in Map
@@ -1577,6 +1824,7 @@ public class Collections {
                 return e -> action.accept(new UnmodifiableEntry<>(e));
             }
 
+            @Override
             public void forEach(Consumer<? super Entry<K, V>> action) {
                 Objects.requireNonNull(action);
                 c.forEach(entryConsumer(action));
@@ -1636,6 +1884,7 @@ public class Collections {
                 }
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public Spliterator<Entry<K,V>> spliterator() {
                 return new UnmodifiableEntrySetSpliterator<>(
@@ -1652,30 +1901,37 @@ public class Collections {
                 return StreamSupport.stream(spliterator(), true);
             }
 
+            @Override
             public Iterator<Map.Entry<K,V>> iterator() {
                 return new Iterator<Map.Entry<K,V>>() {
                     private final Iterator<? extends Map.Entry<? extends K, ? extends V>> i = c.iterator();
 
+                    @Override
                     public boolean hasNext() {
                         return i.hasNext();
                     }
+                    @Override
                     public Map.Entry<K,V> next() {
                         return new UnmodifiableEntry<>(i.next());
                     }
+                    @Override
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
                 };
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public Object[] toArray() {
                 Object[] a = c.toArray();
-                for (int i=0; i<a.length; i++)
-                    a[i] = new UnmodifiableEntry<>((Map.Entry<? extends K, ? extends V>)a[i]);
+                for (int i=0; i<a.length; i++) {
+                    a[i] = new UnmodifiableEntry<>((Entry<? extends K, ? extends V>)a[i]);
+                }
                 return a;
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public <T> T[] toArray(T[] a) {
                 // We don't pass a to c.toArray, to avoid window of
@@ -1683,15 +1939,18 @@ public class Collections {
                 // could get his hands on raw (unwrapped) Entries from c.
                 Object[] arr = c.toArray(a.length==0 ? a : Arrays.copyOf(a, 0));
 
-                for (int i=0; i<arr.length; i++)
-                    arr[i] = new UnmodifiableEntry<>((Map.Entry<? extends K, ? extends V>)arr[i]);
+                for (int i=0; i<arr.length; i++) {
+                    arr[i] = new UnmodifiableEntry<>((Entry<? extends K, ? extends V>)arr[i]);
+                }
 
-                if (arr.length > a.length)
+                if (arr.length > a.length) {
                     return (T[])arr;
+                }
 
                 System.arraycopy(arr, 0, a, 0, arr.length);
-                if (a.length > arr.length)
+                if (a.length > arr.length) {
                     a[arr.length] = null;
+                }
                 return a;
             }
 
@@ -1701,9 +1960,11 @@ public class Collections {
              * that the equality-candidate is Map.Entry and calls its
              * setValue method.
              */
+            @Override
             public boolean contains(Object o) {
-                if (!(o instanceof Map.Entry))
+                if (!(o instanceof Map.Entry)) {
                     return false;
+                }
                 return c.contains(
                     new UnmodifiableEntry<>((Map.Entry<?,?>) o));
             }
@@ -1713,22 +1974,29 @@ public class Collections {
              * an unscrupulous List whose contains(Object o) method senses
              * when o is a Map.Entry, and calls o.setValue.
              */
+            @Override
             public boolean containsAll(Collection<?> coll) {
                 for (Object e : coll) {
                     if (!contains(e)) // Invokes safe contains() above
+                    {
                         return false;
+                    }
                 }
                 return true;
             }
+            @Override
             public boolean equals(Object o) {
-                if (o == this)
+                if (o == this) {
                     return true;
+                }
 
-                if (!(o instanceof Set))
+                if (!(o instanceof Set)) {
                     return false;
+                }
                 Set<?> s = (Set<?>) o;
-                if (s.size() != c.size())
+                if (s.size() != c.size()) {
                     return false;
+                }
                 return containsAll(s); // Invokes safe containsAll() above
             }
 
@@ -1745,21 +2013,29 @@ public class Collections {
                 UnmodifiableEntry(Map.Entry<? extends K, ? extends V> e)
                         {this.e = Objects.requireNonNull(e);}
 
+                @Override
                 public K getKey()        {return e.getKey();}
+                @Override
                 public V getValue()      {return e.getValue();}
+                @Override
                 public V setValue(V value) {
                     throw new UnsupportedOperationException();
                 }
+                @Override
                 public int hashCode()    {return e.hashCode();}
+                @Override
                 public boolean equals(Object o) {
-                    if (this == o)
+                    if (this == o) {
                         return true;
-                    if (!(o instanceof Map.Entry))
+                    }
+                    if (!(o instanceof Map.Entry)) {
                         return false;
+                    }
                     Map.Entry<?,?> t = (Map.Entry<?,?>)o;
                     return eq(e.getKey(),   t.getKey()) &&
                            eq(e.getValue(), t.getValue());
                 }
+                @Override
                 public String toString() {return e.toString();}
             }
         }
@@ -1798,14 +2074,20 @@ public class Collections {
         private final SortedMap<K, ? extends V> sm;
 
         UnmodifiableSortedMap(SortedMap<K, ? extends V> m) {super(m); sm = m; }
+        @Override
         public Comparator<? super K> comparator()   { return sm.comparator(); }
+        @Override
         public SortedMap<K,V> subMap(K fromKey, K toKey)
              { return new UnmodifiableSortedMap<>(sm.subMap(fromKey, toKey)); }
+        @Override
         public SortedMap<K,V> headMap(K toKey)
                      { return new UnmodifiableSortedMap<>(sm.headMap(toKey)); }
+        @Override
         public SortedMap<K,V> tailMap(K fromKey)
                    { return new UnmodifiableSortedMap<>(sm.tailMap(fromKey)); }
+        @Override
         public K firstKey()                           { return sm.firstKey(); }
+        @Override
         public K lastKey()                             { return sm.lastKey(); }
     }
 
@@ -1875,11 +2157,16 @@ public class Collections {
         UnmodifiableNavigableMap(NavigableMap<K, ? extends V> m)
                                                             {super(m); nm = m;}
 
+        @Override
         public K lowerKey(K key)                   { return nm.lowerKey(key); }
+        @Override
         public K floorKey(K key)                   { return nm.floorKey(key); }
+        @Override
         public K ceilingKey(K key)               { return nm.ceilingKey(key); }
+        @Override
         public K higherKey(K key)                 { return nm.higherKey(key); }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Entry<K, V> lowerEntry(K key) {
             Entry<K,V> lower = (Entry<K, V>) nm.lowerEntry(key);
@@ -1888,6 +2175,7 @@ public class Collections {
                 : null;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Entry<K, V> floorEntry(K key) {
             Entry<K,V> floor = (Entry<K, V>) nm.floorEntry(key);
@@ -1896,6 +2184,7 @@ public class Collections {
                 : null;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Entry<K, V> ceilingEntry(K key) {
             Entry<K,V> ceiling = (Entry<K, V>) nm.ceilingEntry(key);
@@ -1905,6 +2194,7 @@ public class Collections {
         }
 
 
+        @Override
         @SuppressWarnings("unchecked")
         public Entry<K, V> higherEntry(K key) {
             Entry<K,V> higher = (Entry<K, V>) nm.higherEntry(key);
@@ -1913,6 +2203,7 @@ public class Collections {
                 : null;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Entry<K, V> firstEntry() {
             Entry<K,V> first = (Entry<K, V>) nm.firstEntry();
@@ -1921,6 +2212,7 @@ public class Collections {
                 : null;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Entry<K, V> lastEntry() {
             Entry<K,V> last = (Entry<K, V>) nm.lastEntry();
@@ -1929,24 +2221,32 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public Entry<K, V> pollFirstEntry()
                                  { throw new UnsupportedOperationException(); }
+        @Override
         public Entry<K, V> pollLastEntry()
                                  { throw new UnsupportedOperationException(); }
+        @Override
         public NavigableMap<K, V> descendingMap()
                        { return unmodifiableNavigableMap(nm.descendingMap()); }
+        @Override
         public NavigableSet<K> navigableKeySet()
                      { return unmodifiableNavigableSet(nm.navigableKeySet()); }
+        @Override
         public NavigableSet<K> descendingKeySet()
                     { return unmodifiableNavigableSet(nm.descendingKeySet()); }
 
+        @Override
         public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
             return unmodifiableNavigableMap(
                 nm.subMap(fromKey, fromInclusive, toKey, toInclusive));
         }
 
+        @Override
         public NavigableMap<K, V> headMap(K toKey, boolean inclusive)
              { return unmodifiableNavigableMap(nm.headMap(toKey, inclusive)); }
+        @Override
         public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive)
            { return unmodifiableNavigableMap(nm.tailMap(fromKey, inclusive)); }
     }
@@ -2013,48 +2313,62 @@ public class Collections {
             this.mutex = Objects.requireNonNull(mutex);
         }
 
+        @Override
         public int size() {
             synchronized (mutex) {return c.size();}
         }
+        @Override
         public boolean isEmpty() {
             synchronized (mutex) {return c.isEmpty();}
         }
+        @Override
         public boolean contains(Object o) {
             synchronized (mutex) {return c.contains(o);}
         }
+        @Override
         public Object[] toArray() {
             synchronized (mutex) {return c.toArray();}
         }
+        @Override
         public <T> T[] toArray(T[] a) {
             synchronized (mutex) {return c.toArray(a);}
         }
 
+        @Override
         public Iterator<E> iterator() {
             return c.iterator(); // Must be manually synched by user!
         }
 
+        @Override
         public boolean add(E e) {
             synchronized (mutex) {return c.add(e);}
         }
+        @Override
         public boolean remove(Object o) {
             synchronized (mutex) {return c.remove(o);}
         }
 
+        @Override
         public boolean containsAll(Collection<?> coll) {
             synchronized (mutex) {return c.containsAll(coll);}
         }
+        @Override
         public boolean addAll(Collection<? extends E> coll) {
             synchronized (mutex) {return c.addAll(coll);}
         }
+        @Override
         public boolean removeAll(Collection<?> coll) {
             synchronized (mutex) {return c.removeAll(coll);}
         }
+        @Override
         public boolean retainAll(Collection<?> coll) {
             synchronized (mutex) {return c.retainAll(coll);}
         }
+        @Override
         public void clear() {
             synchronized (mutex) {c.clear();}
         }
+        @Override
         public String toString() {
             synchronized (mutex) {return c.toString();}
         }
@@ -2133,11 +2447,14 @@ public class Collections {
             super(s, mutex);
         }
 
+        @Override
         public boolean equals(Object o) {
-            if (this == o)
+            if (this == o) {
                 return true;
+            }
             synchronized (mutex) {return c.equals(o);}
         }
+        @Override
         public int hashCode() {
             synchronized (mutex) {return c.hashCode();}
         }
@@ -2205,30 +2522,36 @@ public class Collections {
             ss = s;
         }
 
+        @Override
         public Comparator<? super E> comparator() {
             synchronized (mutex) {return ss.comparator();}
         }
 
+        @Override
         public SortedSet<E> subSet(E fromElement, E toElement) {
             synchronized (mutex) {
                 return new SynchronizedSortedSet<>(
                     ss.subSet(fromElement, toElement), mutex);
             }
         }
+        @Override
         public SortedSet<E> headSet(E toElement) {
             synchronized (mutex) {
                 return new SynchronizedSortedSet<>(ss.headSet(toElement), mutex);
             }
         }
+        @Override
         public SortedSet<E> tailSet(E fromElement) {
             synchronized (mutex) {
                return new SynchronizedSortedSet<>(ss.tailSet(fromElement),mutex);
             }
         }
 
+        @Override
         public E first() {
             synchronized (mutex) {return ss.first();}
         }
+        @Override
         public E last() {
             synchronized (mutex) {return ss.last();}
         }
@@ -2298,50 +2621,64 @@ public class Collections {
             super(s, mutex);
             ns = s;
         }
+        @Override
         public E lower(E e)      { synchronized (mutex) {return ns.lower(e);} }
+        @Override
         public E floor(E e)      { synchronized (mutex) {return ns.floor(e);} }
+        @Override
         public E ceiling(E e)  { synchronized (mutex) {return ns.ceiling(e);} }
+        @Override
         public E higher(E e)    { synchronized (mutex) {return ns.higher(e);} }
+        @Override
         public E pollFirst()  { synchronized (mutex) {return ns.pollFirst();} }
+        @Override
         public E pollLast()    { synchronized (mutex) {return ns.pollLast();} }
 
+        @Override
         public NavigableSet<E> descendingSet() {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.descendingSet(), mutex);
             }
         }
 
+        @Override
         public Iterator<E> descendingIterator()
                  { synchronized (mutex) { return descendingSet().iterator(); } }
 
+        @Override
         public NavigableSet<E> subSet(E fromElement, E toElement) {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.subSet(fromElement, true, toElement, false), mutex);
             }
         }
+        @Override
         public NavigableSet<E> headSet(E toElement) {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.headSet(toElement, false), mutex);
             }
         }
+        @Override
         public NavigableSet<E> tailSet(E fromElement) {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.tailSet(fromElement, true), mutex);
             }
         }
 
+        @Override
         public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), mutex);
             }
         }
 
+        @Override
         public NavigableSet<E> headSet(E toElement, boolean inclusive) {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.headSet(toElement, inclusive), mutex);
             }
         }
 
+        @Override
         public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(ns.tailSet(fromElement, inclusive), mutex);
@@ -2406,47 +2743,60 @@ public class Collections {
             this.list = list;
         }
 
+        @Override
         public boolean equals(Object o) {
-            if (this == o)
+            if (this == o) {
                 return true;
+            }
             synchronized (mutex) {return list.equals(o);}
         }
+        @Override
         public int hashCode() {
             synchronized (mutex) {return list.hashCode();}
         }
 
+        @Override
         public E get(int index) {
             synchronized (mutex) {return list.get(index);}
         }
+        @Override
         public E set(int index, E element) {
             synchronized (mutex) {return list.set(index, element);}
         }
+        @Override
         public void add(int index, E element) {
             synchronized (mutex) {list.add(index, element);}
         }
+        @Override
         public E remove(int index) {
             synchronized (mutex) {return list.remove(index);}
         }
 
+        @Override
         public int indexOf(Object o) {
             synchronized (mutex) {return list.indexOf(o);}
         }
+        @Override
         public int lastIndexOf(Object o) {
             synchronized (mutex) {return list.lastIndexOf(o);}
         }
 
+        @Override
         public boolean addAll(int index, Collection<? extends E> c) {
             synchronized (mutex) {return list.addAll(index, c);}
         }
 
+        @Override
         public ListIterator<E> listIterator() {
             return list.listIterator(); // Must be manually synched by user
         }
 
+        @Override
         public ListIterator<E> listIterator(int index) {
             return list.listIterator(index); // Must be manually synched by user
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
             synchronized (mutex) {
                 return new SynchronizedList<>(list.subList(fromIndex, toIndex),
@@ -2497,6 +2847,7 @@ public class Collections {
             super(list, mutex);
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
             synchronized (mutex) {
                 return new SynchronizedRandomAccessList<>(
@@ -2570,31 +2921,40 @@ public class Collections {
             this.mutex = mutex;
         }
 
+        @Override
         public int size() {
             synchronized (mutex) {return m.size();}
         }
+        @Override
         public boolean isEmpty() {
             synchronized (mutex) {return m.isEmpty();}
         }
+        @Override
         public boolean containsKey(Object key) {
             synchronized (mutex) {return m.containsKey(key);}
         }
+        @Override
         public boolean containsValue(Object value) {
             synchronized (mutex) {return m.containsValue(value);}
         }
+        @Override
         public V get(Object key) {
             synchronized (mutex) {return m.get(key);}
         }
 
+        @Override
         public V put(K key, V value) {
             synchronized (mutex) {return m.put(key, value);}
         }
+        @Override
         public V remove(Object key) {
             synchronized (mutex) {return m.remove(key);}
         }
+        @Override
         public void putAll(Map<? extends K, ? extends V> map) {
             synchronized (mutex) {m.putAll(map);}
         }
+        @Override
         public void clear() {
             synchronized (mutex) {m.clear();}
         }
@@ -2603,38 +2963,48 @@ public class Collections {
         private transient Set<Map.Entry<K,V>> entrySet;
         private transient Collection<V> values;
 
+        @Override
         public Set<K> keySet() {
             synchronized (mutex) {
-                if (keySet==null)
+                if (keySet==null) {
                     keySet = new SynchronizedSet<>(m.keySet(), mutex);
+                }
                 return keySet;
             }
         }
 
+        @Override
         public Set<Map.Entry<K,V>> entrySet() {
             synchronized (mutex) {
-                if (entrySet==null)
+                if (entrySet==null) {
                     entrySet = new SynchronizedSet<>(m.entrySet(), mutex);
+                }
                 return entrySet;
             }
         }
 
+        @Override
         public Collection<V> values() {
             synchronized (mutex) {
-                if (values==null)
+                if (values==null) {
                     values = new SynchronizedCollection<>(m.values(), mutex);
+                }
                 return values;
             }
         }
 
+        @Override
         public boolean equals(Object o) {
-            if (this == o)
+            if (this == o) {
                 return true;
+            }
             synchronized (mutex) {return m.equals(o);}
         }
+        @Override
         public int hashCode() {
             synchronized (mutex) {return m.hashCode();}
         }
+        @Override
         public String toString() {
             synchronized (mutex) {return m.toString();}
         }
@@ -2762,30 +3132,36 @@ public class Collections {
             sm = m;
         }
 
+        @Override
         public Comparator<? super K> comparator() {
             synchronized (mutex) {return sm.comparator();}
         }
 
+        @Override
         public SortedMap<K,V> subMap(K fromKey, K toKey) {
             synchronized (mutex) {
                 return new SynchronizedSortedMap<>(
                     sm.subMap(fromKey, toKey), mutex);
             }
         }
+        @Override
         public SortedMap<K,V> headMap(K toKey) {
             synchronized (mutex) {
                 return new SynchronizedSortedMap<>(sm.headMap(toKey), mutex);
             }
         }
+        @Override
         public SortedMap<K,V> tailMap(K fromKey) {
             synchronized (mutex) {
                return new SynchronizedSortedMap<>(sm.tailMap(fromKey),mutex);
             }
         }
 
+        @Override
         public K firstKey() {
             synchronized (mutex) {return sm.firstKey();}
         }
+        @Override
         public K lastKey() {
             synchronized (mutex) {return sm.lastKey();}
         }
@@ -2863,31 +3239,44 @@ public class Collections {
             nm = m;
         }
 
+        @Override
         public Entry<K, V> lowerEntry(K key)
                         { synchronized (mutex) { return nm.lowerEntry(key); } }
+        @Override
         public K lowerKey(K key)
                           { synchronized (mutex) { return nm.lowerKey(key); } }
+        @Override
         public Entry<K, V> floorEntry(K key)
                         { synchronized (mutex) { return nm.floorEntry(key); } }
+        @Override
         public K floorKey(K key)
                           { synchronized (mutex) { return nm.floorKey(key); } }
+        @Override
         public Entry<K, V> ceilingEntry(K key)
                       { synchronized (mutex) { return nm.ceilingEntry(key); } }
+        @Override
         public K ceilingKey(K key)
                         { synchronized (mutex) { return nm.ceilingKey(key); } }
+        @Override
         public Entry<K, V> higherEntry(K key)
                        { synchronized (mutex) { return nm.higherEntry(key); } }
+        @Override
         public K higherKey(K key)
                          { synchronized (mutex) { return nm.higherKey(key); } }
+        @Override
         public Entry<K, V> firstEntry()
                            { synchronized (mutex) { return nm.firstEntry(); } }
+        @Override
         public Entry<K, V> lastEntry()
                             { synchronized (mutex) { return nm.lastEntry(); } }
+        @Override
         public Entry<K, V> pollFirstEntry()
                        { synchronized (mutex) { return nm.pollFirstEntry(); } }
+        @Override
         public Entry<K, V> pollLastEntry()
                         { synchronized (mutex) { return nm.pollLastEntry(); } }
 
+        @Override
         public NavigableMap<K, V> descendingMap() {
             synchronized (mutex) {
                 return
@@ -2895,16 +3284,19 @@ public class Collections {
             }
         }
 
+        @Override
         public NavigableSet<K> keySet() {
             return navigableKeySet();
         }
 
+        @Override
         public NavigableSet<K> navigableKeySet() {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(nm.navigableKeySet(), mutex);
             }
         }
 
+        @Override
         public NavigableSet<K> descendingKeySet() {
             synchronized (mutex) {
                 return new SynchronizedNavigableSet<>(nm.descendingKeySet(), mutex);
@@ -2912,23 +3304,27 @@ public class Collections {
         }
 
 
+        @Override
         public SortedMap<K,V> subMap(K fromKey, K toKey) {
             synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(
                     nm.subMap(fromKey, true, toKey, false), mutex);
             }
         }
+        @Override
         public SortedMap<K,V> headMap(K toKey) {
             synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(nm.headMap(toKey, false), mutex);
             }
         }
+        @Override
         public SortedMap<K,V> tailMap(K fromKey) {
             synchronized (mutex) {
         return new SynchronizedNavigableMap<>(nm.tailMap(fromKey, true),mutex);
             }
         }
 
+        @Override
         public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
             synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(
@@ -2936,6 +3332,7 @@ public class Collections {
             }
         }
 
+        @Override
         public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
             synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(
@@ -2943,6 +3340,7 @@ public class Collections {
             }
         }
 
+        @Override
         public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
             synchronized (mutex) {
                 return new SynchronizedNavigableMap<>(
@@ -3035,8 +3433,9 @@ public class Collections {
 
         @SuppressWarnings("unchecked")
         E typeCheck(Object o) {
-            if (o != null && !type.isInstance(o))
+            if (o != null && !type.isInstance(o)) {
                 throw new ClassCastException(badElementMsg(o));
+            }
             return (E) o;
         }
 
@@ -3050,35 +3449,51 @@ public class Collections {
             this.type = Objects.requireNonNull(type, "type");
         }
 
+        @Override
         public int size()                 { return c.size(); }
+        @Override
         public boolean isEmpty()          { return c.isEmpty(); }
+        @Override
         public boolean contains(Object o) { return c.contains(o); }
+        @Override
         public Object[] toArray()         { return c.toArray(); }
+        @Override
         public <T> T[] toArray(T[] a)     { return c.toArray(a); }
+        @Override
         public String toString()          { return c.toString(); }
+        @Override
         public boolean remove(Object o)   { return c.remove(o); }
+        @Override
         public void clear()               {        c.clear(); }
 
+        @Override
         public boolean containsAll(Collection<?> coll) {
             return c.containsAll(coll);
         }
+        @Override
         public boolean removeAll(Collection<?> coll) {
             return c.removeAll(coll);
         }
+        @Override
         public boolean retainAll(Collection<?> coll) {
             return c.retainAll(coll);
         }
 
+        @Override
         public Iterator<E> iterator() {
             // JDK-6363904 - unwrapped iterator could be typecast to
             // ListIterator with unsafe set()
             final Iterator<E> it = c.iterator();
             return new Iterator<E>() {
+                @Override
                 public boolean hasNext() { return it.hasNext(); }
+                @Override
                 public E next()          { return it.next(); }
+                @Override
                 public void remove()     {        it.remove(); }};
         }
 
+        @Override
         public boolean add(E e)          { return c.add(typeCheck(e)); }
 
         private E[] zeroLengthElementArray; // Lazily initialized
@@ -3095,8 +3510,9 @@ public class Collections {
                 E[] z = zeroLengthElementArray();
                 a = coll.toArray(z);
                 // Defend against coll violating the toArray contract
-                if (a.getClass() != z.getClass())
+                if (a.getClass() != z.getClass()) {
                     a = Arrays.copyOf(a, a.length, z.getClass());
+                }
             } catch (ArrayStoreException ignore) {
                 // To get better and consistent diagnostics,
                 // we call typeCheck explicitly on each element.
@@ -3104,13 +3520,15 @@ public class Collections {
                 // reference to the returned array and storing a bad
                 // element into it after it has been type checked.
                 a = coll.toArray().clone();
-                for (Object o : a)
+                for (Object o : a) {
                     typeCheck(o);
+                }
             }
             // A slight abuse of the type system, but safe here.
             return (Collection<E>) Arrays.asList(a);
         }
 
+        @Override
         public boolean addAll(Collection<? extends E> coll) {
             // Doing things this way insulates us from concurrent changes
             // in the contents of coll and provides all-or-nothing
@@ -3180,12 +3598,19 @@ public class Collections {
             this.queue = queue;
         }
 
+        @Override
         public E element()              {return queue.element();}
+        @Override
         public boolean equals(Object o) {return o == this || c.equals(o);}
+        @Override
         public int hashCode()           {return c.hashCode();}
+        @Override
         public E peek()                 {return queue.peek();}
+        @Override
         public E poll()                 {return queue.poll();}
+        @Override
         public E remove()               {return queue.remove();}
+        @Override
         public boolean offer(E e)       {return queue.offer(typeCheck(e));}
     }
 
@@ -3230,7 +3655,9 @@ public class Collections {
 
         CheckedSet(Set<E> s, Class<E> elementType) { super(s, elementType); }
 
+        @Override
         public boolean equals(Object o) { return o == this || c.equals(o); }
+        @Override
         public int hashCode()           { return c.hashCode(); }
     }
 
@@ -3282,16 +3709,22 @@ public class Collections {
             ss = s;
         }
 
+        @Override
         public Comparator<? super E> comparator() { return ss.comparator(); }
+        @Override
         public E first()                   { return ss.first(); }
+        @Override
         public E last()                    { return ss.last(); }
 
+        @Override
         public SortedSet<E> subSet(E fromElement, E toElement) {
             return checkedSortedSet(ss.subSet(fromElement,toElement), type);
         }
+        @Override
         public SortedSet<E> headSet(E toElement) {
             return checkedSortedSet(ss.headSet(toElement), type);
         }
+        @Override
         public SortedSet<E> tailSet(E fromElement) {
             return checkedSortedSet(ss.tailSet(fromElement), type);
         }
@@ -3345,35 +3778,49 @@ public class Collections {
             ns = s;
         }
 
+        @Override
         public E lower(E e)                             { return ns.lower(e); }
+        @Override
         public E floor(E e)                             { return ns.floor(e); }
+        @Override
         public E ceiling(E e)                         { return ns.ceiling(e); }
+        @Override
         public E higher(E e)                           { return ns.higher(e); }
+        @Override
         public E pollFirst()                         { return ns.pollFirst(); }
+        @Override
         public E pollLast()                            {return ns.pollLast(); }
+        @Override
         public NavigableSet<E> descendingSet()
                       { return checkedNavigableSet(ns.descendingSet(), type); }
+        @Override
         public Iterator<E> descendingIterator()
             {return checkedNavigableSet(ns.descendingSet(), type).iterator(); }
 
+        @Override
         public NavigableSet<E> subSet(E fromElement, E toElement) {
             return checkedNavigableSet(ns.subSet(fromElement, true, toElement, false), type);
         }
+        @Override
         public NavigableSet<E> headSet(E toElement) {
             return checkedNavigableSet(ns.headSet(toElement, false), type);
         }
+        @Override
         public NavigableSet<E> tailSet(E fromElement) {
             return checkedNavigableSet(ns.tailSet(fromElement, true), type);
         }
 
+        @Override
         public NavigableSet<E> subSet(E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
             return checkedNavigableSet(ns.subSet(fromElement, fromInclusive, toElement, toInclusive), type);
         }
 
+        @Override
         public NavigableSet<E> headSet(E toElement, boolean inclusive) {
             return checkedNavigableSet(ns.headSet(toElement, inclusive), type);
         }
 
+        @Override
         public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
             return checkedNavigableSet(ns.tailSet(fromElement, inclusive), type);
         }
@@ -3427,42 +3874,62 @@ public class Collections {
             this.list = list;
         }
 
+        @Override
         public boolean equals(Object o)  { return o == this || list.equals(o); }
+        @Override
         public int hashCode()            { return list.hashCode(); }
+        @Override
         public E get(int index)          { return list.get(index); }
+        @Override
         public E remove(int index)       { return list.remove(index); }
+        @Override
         public int indexOf(Object o)     { return list.indexOf(o); }
+        @Override
         public int lastIndexOf(Object o) { return list.lastIndexOf(o); }
 
+        @Override
         public E set(int index, E element) {
             return list.set(index, typeCheck(element));
         }
 
+        @Override
         public void add(int index, E element) {
             list.add(index, typeCheck(element));
         }
 
+        @Override
         public boolean addAll(int index, Collection<? extends E> c) {
             return list.addAll(index, checkedCopyOf(c));
         }
+        @Override
         public ListIterator<E> listIterator()   { return listIterator(0); }
 
+        @Override
         public ListIterator<E> listIterator(final int index) {
             final ListIterator<E> i = list.listIterator(index);
 
             return new ListIterator<E>() {
+                @Override
                 public boolean hasNext()     { return i.hasNext(); }
+                @Override
                 public E next()              { return i.next(); }
+                @Override
                 public boolean hasPrevious() { return i.hasPrevious(); }
+                @Override
                 public E previous()          { return i.previous(); }
+                @Override
                 public int nextIndex()       { return i.nextIndex(); }
+                @Override
                 public int previousIndex()   { return i.previousIndex(); }
+                @Override
                 public void remove()         {        i.remove(); }
 
+                @Override
                 public void set(E e) {
                     i.set(typeCheck(e));
                 }
 
+                @Override
                 public void add(E e) {
                     i.add(typeCheck(e));
                 }
@@ -3474,6 +3941,7 @@ public class Collections {
             };
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
             return new CheckedList<>(list.subList(fromIndex, toIndex), type);
         }
@@ -3510,6 +3978,7 @@ public class Collections {
             super(list, type);
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
             return new CheckedRandomAccessList<>(
                     list.subList(fromIndex, toIndex), type);
@@ -3572,11 +4041,13 @@ public class Collections {
         final Class<V> valueType;
 
         private void typeCheck(Object key, Object value) {
-            if (key != null && !keyType.isInstance(key))
+            if (key != null && !keyType.isInstance(key)) {
                 throw new ClassCastException(badKeyMsg(key));
+            }
 
-            if (value != null && !valueType.isInstance(value))
+            if (value != null && !valueType.isInstance(value)) {
                 throw new ClassCastException(badValueMsg(value));
+            }
         }
 
         private BiFunction<? super K, ? super V, ? extends V> typeCheck(
@@ -3605,24 +4076,38 @@ public class Collections {
             this.valueType = Objects.requireNonNull(valueType);
         }
 
+        @Override
         public int size()                      { return m.size(); }
+        @Override
         public boolean isEmpty()               { return m.isEmpty(); }
+        @Override
         public boolean containsKey(Object key) { return m.containsKey(key); }
+        @Override
         public boolean containsValue(Object v) { return m.containsValue(v); }
+        @Override
         public V get(Object key)               { return m.get(key); }
+        @Override
         public V remove(Object key)            { return m.remove(key); }
+        @Override
         public void clear()                    { m.clear(); }
+        @Override
         public Set<K> keySet()                 { return m.keySet(); }
+        @Override
         public Collection<V> values()          { return m.values(); }
+        @Override
         public boolean equals(Object o)        { return o == this || m.equals(o); }
+        @Override
         public int hashCode()                  { return m.hashCode(); }
+        @Override
         public String toString()               { return m.toString(); }
 
+        @Override
         public V put(K key, V value) {
             typeCheck(key, value);
             return m.put(key, value);
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public void putAll(Map<? extends K, ? extends V> t) {
             // Satisfy the following goals:
@@ -3640,15 +4125,18 @@ public class Collections {
                 checked.add(
                         new AbstractMap.SimpleImmutableEntry<>((K)k, (V)v));
             }
-            for (Map.Entry<K,V> e : checked)
+            for (Map.Entry<K,V> e : checked) {
                 m.put(e.getKey(), e.getValue());
+            }
         }
 
         private transient Set<Map.Entry<K,V>> entrySet;
 
+        @Override
         public Set<Map.Entry<K,V>> entrySet() {
-            if (entrySet==null)
+            if (entrySet==null) {
                 entrySet = new CheckedEntrySet<>(m.entrySet(), valueType);
+            }
             return entrySet;
         }
 
@@ -3737,33 +4225,45 @@ public class Collections {
                 this.valueType = valueType;
             }
 
+            @Override
             public int size()        { return s.size(); }
+            @Override
             public boolean isEmpty() { return s.isEmpty(); }
+            @Override
             public String toString() { return s.toString(); }
+            @Override
             public int hashCode()    { return s.hashCode(); }
+            @Override
             public void clear()      {        s.clear(); }
 
+            @Override
             public boolean add(Map.Entry<K, V> e) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean addAll(Collection<? extends Map.Entry<K, V>> coll) {
                 throw new UnsupportedOperationException();
             }
 
+            @Override
             public Iterator<Map.Entry<K,V>> iterator() {
                 final Iterator<Map.Entry<K, V>> i = s.iterator();
                 final Class<V> valueType = this.valueType;
 
                 return new Iterator<Map.Entry<K,V>>() {
+                    @Override
                     public boolean hasNext() { return i.hasNext(); }
+                    @Override
                     public void remove()     { i.remove(); }
 
+                    @Override
                     public Map.Entry<K,V> next() {
                         return checkedEntry(i.next(), valueType);
                     }
                 };
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public Object[] toArray() {
                 Object[] source = s.toArray();
@@ -3776,12 +4276,14 @@ public class Collections {
                     source.getClass().getComponentType()) ? source :
                                  new Object[source.length]);
 
-                for (int i = 0; i < source.length; i++)
-                    dest[i] = checkedEntry((Map.Entry<K,V>)source[i],
+                for (int i = 0; i < source.length; i++) {
+                    dest[i] = checkedEntry((Entry<K,V>)source[i],
                                            valueType);
+                }
                 return dest;
             }
 
+            @Override
             @SuppressWarnings("unchecked")
             public <T> T[] toArray(T[] a) {
                 // We don't pass a to s.toArray, to avoid window of
@@ -3789,15 +4291,18 @@ public class Collections {
                 // could get his hands on raw (unwrapped) Entries from s.
                 T[] arr = s.toArray(a.length==0 ? a : Arrays.copyOf(a, 0));
 
-                for (int i=0; i<arr.length; i++)
-                    arr[i] = (T) checkedEntry((Map.Entry<K,V>)arr[i],
+                for (int i=0; i<arr.length; i++) {
+                    arr[i] = (T) checkedEntry((Entry<K,V>)arr[i],
                                               valueType);
-                if (arr.length > a.length)
+                }
+                if (arr.length > a.length) {
                     return arr;
+                }
 
                 System.arraycopy(arr, 0, a, 0, arr.length);
-                if (a.length > arr.length)
+                if (a.length > arr.length) {
                     a[arr.length] = null;
+                }
                 return a;
             }
 
@@ -3807,9 +4312,11 @@ public class Collections {
              * that the equality-candidate is Map.Entry and calls its
              * setValue method.
              */
+            @Override
             public boolean contains(Object o) {
-                if (!(o instanceof Map.Entry))
+                if (!(o instanceof Map.Entry)) {
                     return false;
+                }
                 Map.Entry<?,?> e = (Map.Entry<?,?>) o;
                 return s.contains(
                     (e instanceof CheckedEntry) ? e : checkedEntry(e, valueType));
@@ -3820,23 +4327,31 @@ public class Collections {
              * against an unscrupulous collection whose contains(Object o)
              * method senses when o is a Map.Entry, and calls o.setValue.
              */
+            @Override
             public boolean containsAll(Collection<?> c) {
-                for (Object o : c)
+                for (Object o : c) {
                     if (!contains(o)) // Invokes safe contains() above
+                    {
                         return false;
+                    }
+                }
                 return true;
             }
 
+            @Override
             public boolean remove(Object o) {
-                if (!(o instanceof Map.Entry))
+                if (!(o instanceof Map.Entry)) {
                     return false;
+                }
                 return s.remove(new AbstractMap.SimpleImmutableEntry
                                 <>((Map.Entry<?,?>)o));
             }
 
+            @Override
             public boolean removeAll(Collection<?> c) {
                 return batchRemove(c, false);
             }
+            @Override
             public boolean retainAll(Collection<?> c) {
                 return batchRemove(c, true);
             }
@@ -3853,11 +4368,14 @@ public class Collections {
                 return modified;
             }
 
+            @Override
             public boolean equals(Object o) {
-                if (o == this)
+                if (o == this) {
                     return true;
-                if (!(o instanceof Set))
+                }
+                if (!(o instanceof Set)) {
                     return false;
+                }
                 Set<?> that = (Set<?>) o;
                 return that.size() == s.size()
                     && containsAll(that); // Invokes safe containsAll() above
@@ -3884,14 +4402,20 @@ public class Collections {
                     this.valueType = Objects.requireNonNull(valueType);
                 }
 
+                @Override
                 public K getKey()        { return e.getKey(); }
+                @Override
                 public V getValue()      { return e.getValue(); }
+                @Override
                 public int hashCode()    { return e.hashCode(); }
+                @Override
                 public String toString() { return e.toString(); }
 
+                @Override
                 public V setValue(V value) {
-                    if (value != null && !valueType.isInstance(value))
+                    if (value != null && !valueType.isInstance(value)) {
                         throw new ClassCastException(badValueMsg(value));
+                    }
                     return e.setValue(value);
                 }
 
@@ -3900,11 +4424,14 @@ public class Collections {
                         " value into map with value type " + valueType;
                 }
 
+                @Override
                 public boolean equals(Object o) {
-                    if (o == this)
+                    if (o == this) {
                         return true;
-                    if (!(o instanceof Map.Entry))
+                    }
+                    if (!(o instanceof Map.Entry)) {
                         return false;
+                    }
                     return e.equals(new AbstractMap.SimpleImmutableEntry
                                     <>((Map.Entry<?,?>)o));
                 }
@@ -3970,17 +4497,23 @@ public class Collections {
             sm = m;
         }
 
+        @Override
         public Comparator<? super K> comparator() { return sm.comparator(); }
+        @Override
         public K firstKey()                       { return sm.firstKey(); }
+        @Override
         public K lastKey()                        { return sm.lastKey(); }
 
+        @Override
         public SortedMap<K,V> subMap(K fromKey, K toKey) {
             return checkedSortedMap(sm.subMap(fromKey, toKey),
                                     keyType, valueType);
         }
+        @Override
         public SortedMap<K,V> headMap(K toKey) {
             return checkedSortedMap(sm.headMap(toKey), keyType, valueType);
         }
+        @Override
         public SortedMap<K,V> tailMap(K fromKey) {
             return checkedSortedMap(sm.tailMap(fromKey), keyType, valueType);
         }
@@ -4044,10 +4577,14 @@ public class Collections {
             nm = m;
         }
 
+        @Override
         public Comparator<? super K> comparator()   { return nm.comparator(); }
+        @Override
         public K firstKey()                           { return nm.firstKey(); }
+        @Override
         public K lastKey()                             { return nm.lastKey(); }
 
+        @Override
         public Entry<K, V> lowerEntry(K key) {
             Entry<K,V> lower = nm.lowerEntry(key);
             return (null != lower)
@@ -4055,8 +4592,10 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public K lowerKey(K key)                   { return nm.lowerKey(key); }
 
+        @Override
         public Entry<K, V> floorEntry(K key) {
             Entry<K,V> floor = nm.floorEntry(key);
             return (null != floor)
@@ -4064,8 +4603,10 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public K floorKey(K key)                   { return nm.floorKey(key); }
 
+        @Override
         public Entry<K, V> ceilingEntry(K key) {
             Entry<K,V> ceiling = nm.ceilingEntry(key);
             return (null != ceiling)
@@ -4073,8 +4614,10 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public K ceilingKey(K key)               { return nm.ceilingKey(key); }
 
+        @Override
         public Entry<K, V> higherEntry(K key) {
             Entry<K,V> higher = nm.higherEntry(key);
             return (null != higher)
@@ -4082,8 +4625,10 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public K higherKey(K key)                 { return nm.higherKey(key); }
 
+        @Override
         public Entry<K, V> firstEntry() {
             Entry<K,V> first = nm.firstEntry();
             return (null != first)
@@ -4091,6 +4636,7 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public Entry<K, V> lastEntry() {
             Entry<K,V> last = nm.lastEntry();
             return (null != last)
@@ -4098,6 +4644,7 @@ public class Collections {
                 : null;
         }
 
+        @Override
         public Entry<K, V> pollFirstEntry() {
             Entry<K,V> entry = nm.pollFirstEntry();
             return (null == entry)
@@ -4105,6 +4652,7 @@ public class Collections {
                 : new CheckedMap.CheckedEntrySet.CheckedEntry<>(entry, valueType);
         }
 
+        @Override
         public Entry<K, V> pollLastEntry() {
             Entry<K,V> entry = nm.pollLastEntry();
             return (null == entry)
@@ -4112,18 +4660,22 @@ public class Collections {
                 : new CheckedMap.CheckedEntrySet.CheckedEntry<>(entry, valueType);
         }
 
+        @Override
         public NavigableMap<K, V> descendingMap() {
             return checkedNavigableMap(nm.descendingMap(), keyType, valueType);
         }
 
+        @Override
         public NavigableSet<K> keySet() {
             return navigableKeySet();
         }
 
+        @Override
         public NavigableSet<K> navigableKeySet() {
             return checkedNavigableSet(nm.navigableKeySet(), keyType);
         }
 
+        @Override
         public NavigableSet<K> descendingKeySet() {
             return checkedNavigableSet(nm.descendingKeySet(), keyType);
         }
@@ -4144,14 +4696,17 @@ public class Collections {
             return checkedNavigableMap(nm.tailMap(fromKey, true), keyType, valueType);
         }
 
+        @Override
         public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
             return checkedNavigableMap(nm.subMap(fromKey, fromInclusive, toKey, toInclusive), keyType, valueType);
         }
 
+        @Override
         public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
             return checkedNavigableMap(nm.headMap(toKey, inclusive), keyType, valueType);
         }
 
+        @Override
         public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
             return checkedNavigableMap(nm.tailMap(fromKey, inclusive), keyType, valueType);
         }
@@ -4187,8 +4742,11 @@ public class Collections {
         static final EmptyIterator<Object> EMPTY_ITERATOR
             = new EmptyIterator<>();
 
+        @Override
         public boolean hasNext() { return false; }
+        @Override
         public E next() { throw new NoSuchElementException(); }
+        @Override
         public void remove() { throw new IllegalStateException(); }
         @Override
         public void forEachRemaining(Consumer<? super E> action) {
@@ -4234,11 +4792,17 @@ public class Collections {
         static final EmptyListIterator<Object> EMPTY_ITERATOR
             = new EmptyListIterator<>();
 
+        @Override
         public boolean hasPrevious() { return false; }
+        @Override
         public E previous() { throw new NoSuchElementException(); }
+        @Override
         public int nextIndex()     { return 0; }
+        @Override
         public int previousIndex() { return -1; }
+        @Override
         public void set(E e) { throw new IllegalStateException(); }
+        @Override
         public void add(E e) { throw new UnsupportedOperationException(); }
     }
 
@@ -4268,7 +4832,9 @@ public class Collections {
         static final EmptyEnumeration<Object> EMPTY_ENUMERATION
             = new EmptyEnumeration<>();
 
+        @Override
         public boolean hasMoreElements() { return false; }
+        @Override
         public E nextElement() { throw new NoSuchElementException(); }
     }
 
@@ -4313,19 +4879,27 @@ public class Collections {
     {
         private static final long serialVersionUID = 1582296315990362920L;
 
+        @Override
         public Iterator<E> iterator() { return emptyIterator(); }
 
+        @Override
         public int size() {return 0;}
+        @Override
         public boolean isEmpty() {return true;}
 
+        @Override
         public boolean contains(Object obj) {return false;}
+        @Override
         public boolean containsAll(Collection<?> c) { return c.isEmpty(); }
 
+        @Override
         public Object[] toArray() { return new Object[0]; }
 
+        @Override
         public <T> T[] toArray(T[] a) {
-            if (a.length > 0)
+            if (a.length > 0) {
                 a[0] = null;
+            }
             return a;
         }
 
@@ -4431,35 +5005,47 @@ public class Collections {
         implements RandomAccess, Serializable {
         private static final long serialVersionUID = 8842843931221139166L;
 
+        @Override
         public Iterator<E> iterator() {
             return emptyIterator();
         }
+        @Override
         public ListIterator<E> listIterator() {
             return emptyListIterator();
         }
 
+        @Override
         public int size() {return 0;}
+        @Override
         public boolean isEmpty() {return true;}
 
+        @Override
         public boolean contains(Object obj) {return false;}
+        @Override
         public boolean containsAll(Collection<?> c) { return c.isEmpty(); }
 
+        @Override
         public Object[] toArray() { return new Object[0]; }
 
+        @Override
         public <T> T[] toArray(T[] a) {
-            if (a.length > 0)
+            if (a.length > 0) {
                 a[0] = null;
+            }
             return a;
         }
 
+        @Override
         public E get(int index) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
 
+        @Override
         public boolean equals(Object o) {
             return (o instanceof List) && ((List<?>)o).isEmpty();
         }
 
+        @Override
         public int hashCode() { return 1; }
 
         @Override
@@ -4573,19 +5159,29 @@ public class Collections {
     {
         private static final long serialVersionUID = 6428348081105594320L;
 
+        @Override
         public int size()                          {return 0;}
+        @Override
         public boolean isEmpty()                   {return true;}
+        @Override
         public boolean containsKey(Object key)     {return false;}
+        @Override
         public boolean containsValue(Object value) {return false;}
+        @Override
         public V get(Object key)                   {return null;}
+        @Override
         public Set<K> keySet()                     {return emptySet();}
+        @Override
         public Collection<V> values()              {return emptySet();}
+        @Override
         public Set<Map.Entry<K,V>> entrySet()      {return emptySet();}
 
+        @Override
         public boolean equals(Object o) {
             return (o instanceof Map) && ((Map<?,?>)o).isEmpty();
         }
 
+        @Override
         public int hashCode()                      {return 0;}
 
         // Override default methods in Map
@@ -4672,9 +5268,11 @@ public class Collections {
     static <E> Iterator<E> singletonIterator(final E e) {
         return new Iterator<E>() {
             private boolean hasNext = true;
+            @Override
             public boolean hasNext() {
                 return hasNext;
             }
+            @Override
             public E next() {
                 if (hasNext) {
                     hasNext = false;
@@ -4682,6 +5280,7 @@ public class Collections {
                 }
                 throw new NoSuchElementException();
             }
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -4755,12 +5354,15 @@ public class Collections {
 
         SingletonSet(E e) {element = e;}
 
+        @Override
         public Iterator<E> iterator() {
             return singletonIterator(element);
         }
 
+        @Override
         public int size() {return 1;}
 
+        @Override
         public boolean contains(Object o) {return eq(o, element);}
 
         // Override default methods for Collection
@@ -4804,17 +5406,22 @@ public class Collections {
 
         SingletonList(E obj)                {element = obj;}
 
+        @Override
         public Iterator<E> iterator() {
             return singletonIterator(element);
         }
 
+        @Override
         public int size()                   {return 1;}
 
+        @Override
         public boolean contains(Object obj) {return eq(obj, element);}
 
+        @Override
         public E get(int index) {
-            if (index != 0)
-              throw new IndexOutOfBoundsException("Index: "+index+", Size: 1");
+            if (index != 0) {
+                throw new IndexOutOfBoundsException("Index: "+index+", Size: 1");
+            }
             return element;
         }
 
@@ -4872,32 +5479,43 @@ public class Collections {
             v = value;
         }
 
+        @Override
         public int size()                                           {return 1;}
+        @Override
         public boolean isEmpty()                                {return false;}
+        @Override
         public boolean containsKey(Object key)             {return eq(key, k);}
+        @Override
         public boolean containsValue(Object value)       {return eq(value, v);}
+        @Override
         public V get(Object key)              {return (eq(key, k) ? v : null);}
 
         private transient Set<K> keySet;
         private transient Set<Map.Entry<K,V>> entrySet;
         private transient Collection<V> values;
 
+        @Override
         public Set<K> keySet() {
-            if (keySet==null)
+            if (keySet==null) {
                 keySet = singleton(k);
+            }
             return keySet;
         }
 
+        @Override
         public Set<Map.Entry<K,V>> entrySet() {
-            if (entrySet==null)
-                entrySet = Collections.<Map.Entry<K,V>>singleton(
+            if (entrySet==null) {
+                entrySet = Collections.<Entry<K,V>>singleton(
                     new SimpleImmutableEntry<>(k, v));
+            }
             return entrySet;
         }
 
+        @Override
         public Collection<V> values() {
-            if (values==null)
+            if (values==null) {
                 values = singleton(v);
+            }
             return values;
         }
 
@@ -4982,8 +5600,9 @@ public class Collections {
      * @see    List#addAll(int, Collection)
      */
     public static <T> List<T> nCopies(int n, T o) {
-        if (n < 0)
+        if (n < 0) {
             throw new IllegalArgumentException("List length = " + n);
+        }
         return new CopiesList<>(n, o);
     }
 
@@ -5005,66 +5624,83 @@ public class Collections {
             element = e;
         }
 
+        @Override
         public int size() {
             return n;
         }
 
+        @Override
         public boolean contains(Object obj) {
             return n != 0 && eq(obj, element);
         }
 
+        @Override
         public int indexOf(Object o) {
             return contains(o) ? 0 : -1;
         }
 
+        @Override
         public int lastIndexOf(Object o) {
             return contains(o) ? n - 1 : -1;
         }
 
+        @Override
         public E get(int index) {
-            if (index < 0 || index >= n)
+            if (index < 0 || index >= n) {
                 throw new IndexOutOfBoundsException("Index: "+index+
                                                     ", Size: "+n);
+            }
             return element;
         }
 
+        @Override
         public Object[] toArray() {
             final Object[] a = new Object[n];
-            if (element != null)
+            if (element != null) {
                 Arrays.fill(a, 0, n, element);
+            }
             return a;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public <T> T[] toArray(T[] a) {
             final int n = this.n;
             if (a.length < n) {
                 a = (T[])java.lang.reflect.Array
                     .newInstance(a.getClass().getComponentType(), n);
-                if (element != null)
+                if (element != null) {
                     Arrays.fill(a, 0, n, element);
+                }
             } else {
                 Arrays.fill(a, 0, n, element);
-                if (a.length > n)
+                if (a.length > n) {
                     a[n] = null;
+                }
             }
             return a;
         }
 
+        @Override
         public List<E> subList(int fromIndex, int toIndex) {
-            if (fromIndex < 0)
+            if (fromIndex < 0) {
                 throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
-            if (toIndex > n)
+            }
+            if (toIndex > n) {
                 throw new IndexOutOfBoundsException("toIndex = " + toIndex);
-            if (fromIndex > toIndex)
+            }
+            if (fromIndex > toIndex) {
                 throw new IllegalArgumentException("fromIndex(" + fromIndex +
                                                    ") > toIndex(" + toIndex + ")");
+            }
             return new CopiesList<>(toIndex - fromIndex, element);
         }
 
         @Override
         public int hashCode() {
-            if (n == 0) return 1;
+            if (n == 0) {
+                return 1;
+            }
             // hashCode of n repeating elements is 31^n + elementHash * Sum(31^k, k = 0..n-1)
             // this implementation completes in O(log(n)) steps taking advantage of
             // 31^(2*n) = (31^n)^2 and Sum(31^k, k = 0..(2*n-1)) = Sum(31^k, k = 0..n-1) * (31^n + 1)
@@ -5083,27 +5719,31 @@ public class Collections {
 
         @Override
         public boolean equals(Object o) {
-            if (o == this)
+            if (o == this) {
                 return true;
+            }
             if (o instanceof CopiesList) {
                 CopiesList<?> other = (CopiesList<?>) o;
                 return n == other.n && (n == 0 || eq(element, other.element));
             }
-            if (!(o instanceof List))
+            if (!(o instanceof List)) {
                 return false;
+            }
 
             int remaining = n;
             E e = element;
             Iterator<?> itr = ((List<?>) o).iterator();
             if (e == null) {
                 while (itr.hasNext() && remaining-- > 0) {
-                    if (itr.next() != null)
+                    if (itr.next() != null) {
                         return false;
+                    }
                 }
             } else {
                 while (itr.hasNext() && remaining-- > 0) {
-                    if (!e.equals(itr.next()))
+                    if (!e.equals(itr.next())) {
                         return false;
+                    }
                 }
             }
             return remaining == 0 && !itr.hasNext();
@@ -5167,6 +5807,7 @@ public class Collections {
         static final ReverseComparator REVERSE_ORDER
             = new ReverseComparator();
 
+        @Override
         public int compare(Comparable<Object> c1, Comparable<Object> c2) {
             return c2.compareTo(c1);
         }
@@ -5197,11 +5838,13 @@ public class Collections {
      * @since 1.5
      */
     public static <T> Comparator<T> reverseOrder(Comparator<T> cmp) {
-        if (cmp == null)
+        if (cmp == null) {
             return reverseOrder();
+        }
 
-        if (cmp instanceof ReverseComparator2)
+        if (cmp instanceof ReverseComparator2) {
             return ((ReverseComparator2<T>)cmp).cmp;
+        }
 
         return new ReverseComparator2<>(cmp);
     }
@@ -5228,16 +5871,19 @@ public class Collections {
             this.cmp = cmp;
         }
 
+        @Override
         public int compare(T t1, T t2) {
             return cmp.compare(t2, t1);
         }
 
+        @Override
         public boolean equals(Object o) {
             return (o == this) ||
                 (o instanceof ReverseComparator2 &&
                  cmp.equals(((ReverseComparator2)o).cmp));
         }
 
+        @Override
         public int hashCode() {
             return cmp.hashCode() ^ Integer.MIN_VALUE;
         }
@@ -5262,10 +5908,12 @@ public class Collections {
         return new Enumeration<T>() {
             private final Iterator<T> i = c.iterator();
 
+            @Override
             public boolean hasMoreElements() {
                 return i.hasNext();
             }
 
+            @Override
             public T nextElement() {
                 return i.next();
             }
@@ -5290,8 +5938,9 @@ public class Collections {
      */
     public static <T> ArrayList<T> list(Enumeration<T> e) {
         ArrayList<T> l = new ArrayList<>();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             l.add(e.nextElement());
+        }
         return l;
     }
 
@@ -5320,13 +5969,17 @@ public class Collections {
     public static int frequency(Collection<?> c, Object o) {
         int result = 0;
         if (o == null) {
-            for (Object e : c)
-                if (e == null)
+            for (Object e : c) {
+                if (e == null) {
                     result++;
+                }
+            }
         } else {
-            for (Object e : c)
-                if (o.equals(e))
+            for (Object e : c) {
+                if (o.equals(e)) {
                     result++;
+                }
+            }
         }
         return result;
     }
@@ -5422,6 +6075,13 @@ public class Collections {
     }
 
     /**
+     * 将所有指定的元素添加到指定的集合。 要添加的元素可以单独指定或作为数组指定。
+     * 这种方便方法的行为与c.addAll(Arrays.asList(elements)) 相同 ，但是在大多数实现中，这种方法可能会显着加快。
+     * 单独指定元素时，此方法为现有集合添加一些元素提供了一种便捷的方法：
+     *
+     *   Collections.addAll(flavors, "Peaches 'n Plutonium", "Rocky Racoon");
+     *
+     *
      * Adds all of the specified elements to the specified collection.
      * Elements to be added may be specified individually or as an array.
      * The behavior of this convenience method is identical to that of
@@ -5451,12 +6111,27 @@ public class Collections {
     @SafeVarargs
     public static <T> boolean addAll(Collection<? super T> c, T... elements) {
         boolean result = false;
-        for (T element : elements)
+        for (T element : elements) {
             result |= c.add(element);
+        }
         return result;
     }
 
     /**
+     *
+     * 返回由指定地图支持的集合。 结果集显示与背景映射相同的排序，并发和性能特征。
+     * 在本质上，此工厂方法提供了一种Set对应于任何执行Map实现。 已经有Set实现（例如HashMap或TreeMap ）
+     * 的Map实现没有必要使用此方法。
+     * 在该方法返回的集合上的每个方法调用都会在后台映射或其keySet视图上完成一个方法调用，但有一个例外。
+     * addAll方法在辅助地图上以put调用的顺序实现。
+     *
+     * 在调用此方法时，指定的映射必须为空，并且在此方法返回后不能直接访问。
+     * 如果映射创建为空，直接传递给此方法，并且不保留对映射的引用，则保证这些条件，如以下代码片段所示：
+     *
+     *   Set<Object> weakHashSet = Collections.newSetFromMap(
+     *         new WeakHashMap<Object, Boolean>());
+     *
+     *
      * Returns a set backed by the specified map.  The resulting set displays
      * the same ordering, concurrency, and performance characteristics as the
      * backing map.  In essence, this factory method provides a {@link Set}
@@ -5501,26 +6176,42 @@ public class Collections {
         private transient Set<E> s;       // Its keySet
 
         SetFromMap(Map<E, Boolean> map) {
-            if (!map.isEmpty())
+            if (!map.isEmpty()) {
                 throw new IllegalArgumentException("Map is non-empty");
+            }
             m = map;
             s = map.keySet();
         }
 
+        @Override
         public void clear()               {        m.clear(); }
+        @Override
         public int size()                 { return m.size(); }
+        @Override
         public boolean isEmpty()          { return m.isEmpty(); }
+        @Override
         public boolean contains(Object o) { return m.containsKey(o); }
+        @Override
         public boolean remove(Object o)   { return m.remove(o) != null; }
+        @Override
         public boolean add(E e) { return m.put(e, Boolean.TRUE) == null; }
+        @Override
         public Iterator<E> iterator()     { return s.iterator(); }
+        @Override
         public Object[] toArray()         { return s.toArray(); }
+        @Override
         public <T> T[] toArray(T[] a)     { return s.toArray(a); }
+        @Override
         public String toString()          { return s.toString(); }
+        @Override
         public int hashCode()             { return s.hashCode(); }
+        @Override
         public boolean equals(Object o)   { return o == this || s.equals(o); }
+        @Override
         public boolean containsAll(Collection<?> c) {return s.containsAll(c);}
+        @Override
         public boolean removeAll(Collection<?> c)   {return s.removeAll(c);}
+        @Override
         public boolean retainAll(Collection<?> c)   {return s.retainAll(c);}
         // addAll is the only inherited implementation
 
@@ -5552,6 +6243,11 @@ public class Collections {
     }
 
     /**
+     * 返回Deque作为先进先出（ Lifo ） Queue的视图 。 方法add被映射到push，remove映射到pop等。
+     * 当您想使用需要Queue但需要Lifo订购的方法时，此视图可能很有用。
+     * 通过此方法返回的队列上的每个方法调用都将在支持deque上完成一个方法调用，但有一个例外。
+     * addAll方法被实现为一个addFirst对支持deque的调用的序列。
+     *
      * Returns a view of a {@link Deque} as a Last-in-first-out (Lifo)
      * {@link Queue}. Method <tt>add</tt> is mapped to <tt>push</tt>,
      * <tt>remove</tt> is mapped to <tt>pop</tt> and so on. This
@@ -5581,23 +6277,41 @@ public class Collections {
         private static final long serialVersionUID = 1802017725587941708L;
         private final Deque<E> q;
         AsLIFOQueue(Deque<E> q)           { this.q = q; }
+        @Override
         public boolean add(E e)           { q.addFirst(e); return true; }
+        @Override
         public boolean offer(E e)         { return q.offerFirst(e); }
+        @Override
         public E poll()                   { return q.pollFirst(); }
+        @Override
         public E remove()                 { return q.removeFirst(); }
+        @Override
         public E peek()                   { return q.peekFirst(); }
+        @Override
         public E element()                { return q.getFirst(); }
+        @Override
         public void clear()               {        q.clear(); }
+        @Override
         public int size()                 { return q.size(); }
+        @Override
         public boolean isEmpty()          { return q.isEmpty(); }
+        @Override
         public boolean contains(Object o) { return q.contains(o); }
+        @Override
         public boolean remove(Object o)   { return q.remove(o); }
+        @Override
         public Iterator<E> iterator()     { return q.iterator(); }
+        @Override
         public Object[] toArray()         { return q.toArray(); }
+        @Override
         public <T> T[] toArray(T[] a)     { return q.toArray(a); }
+        @Override
         public String toString()          { return q.toString(); }
+        @Override
         public boolean containsAll(Collection<?> c) {return q.containsAll(c);}
+        @Override
         public boolean removeAll(Collection<?> c)   {return q.removeAll(c);}
+        @Override
         public boolean retainAll(Collection<?> c)   {return q.retainAll(c);}
         // We use inherited addAll; forwarding addAll would be wrong
 

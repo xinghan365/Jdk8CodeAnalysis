@@ -223,10 +223,11 @@ public class DescriptorSupport
                     DescriptorSupport.class.getName(),
                     "Descriptor(Descriptor)", "Constructor");
         }
-        if (inDescr == null)
+        if (inDescr == null) {
             init(null);
-        else
+        } else {
             init(inDescr.descriptorMap);
+        }
     }
 
 
@@ -333,11 +334,11 @@ public class DescriptorSupport
                 if (eq_separator > 0) {
                     String kwPart = tok.substring(0,eq_separator);
                     String valPart = tok.substring(eq_separator+1);
-                    if (kwPart.equalsIgnoreCase("NAME"))
+                    if (kwPart.equalsIgnoreCase("NAME")) {
                         fieldName = valPart;
-                    else if (kwPart.equalsIgnoreCase("VALUE"))
+                    } else if (kwPart.equalsIgnoreCase("VALUE")) {
                         fieldValue = valPart;
-                    else {  // xml parse exception
+                    } else {  // xml parse exception
                         final String msg =
                             "Expected `name' or `value', got `" + tok + "'";
                         throw new XMLParseException(msg);
@@ -449,8 +450,9 @@ public class DescriptorSupport
                     "Descriptor(String... fields)", "Constructor");
         }
         init(null);
-        if (( fields == null ) || ( fields.length == 0))
+        if (( fields == null ) || ( fields.length == 0)) {
             return;
+        }
 
         init(null);
 
@@ -505,13 +507,15 @@ public class DescriptorSupport
     private void init(Map<String, ?> initMap) {
         descriptorMap =
                 new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
-        if (initMap != null)
+        if (initMap != null) {
             descriptorMap.putAll(initMap);
+        }
     }
 
     // Implementation of the Descriptor interface
 
 
+    @Override
     public synchronized Object getFieldValue(String fieldName)
             throws RuntimeOperationsException {
 
@@ -536,6 +540,7 @@ public class DescriptorSupport
         return(retValue);
     }
 
+    @Override
     public synchronized void setField(String fieldName, Object fieldValue)
             throws RuntimeOperationsException {
 
@@ -580,6 +585,7 @@ public class DescriptorSupport
         descriptorMap.put(fieldName, fieldValue);
     }
 
+    @Override
     public synchronized String[] getFields() {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
@@ -634,6 +640,7 @@ public class DescriptorSupport
         return responseFields;
     }
 
+    @Override
     public synchronized String[] getFieldNames() {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
@@ -679,6 +686,7 @@ public class DescriptorSupport
     }
 
 
+    @Override
     public synchronized Object[] getFieldValues(String... fieldNames) {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
@@ -702,8 +710,9 @@ public class DescriptorSupport
         }
 
         if (fieldNames == null) {
-            for (Object value : descriptorMap.values())
+            for (Object value : descriptorMap.values()) {
                 responseFields[i++] = value;
+            }
         } else {
             for (i=0; i < fieldNames.length; i++) {
                 if ((fieldNames[i] == null) || (fieldNames[i].equals(""))) {
@@ -723,6 +732,7 @@ public class DescriptorSupport
         return responseFields;
     }
 
+    @Override
     public synchronized void setFields(String[] fieldNames,
                                        Object[] fieldValues)
             throws RuntimeOperationsException {
@@ -786,6 +796,7 @@ public class DescriptorSupport
         return(new DescriptorSupport(this));
     }
 
+    @Override
     public synchronized void removeField(String fieldName) {
         if ((fieldName == null) || (fieldName.equals(""))) {
             return;
@@ -821,12 +832,15 @@ public class DescriptorSupport
     //       due to 6369229.
     @Override
     public synchronized boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (! (o instanceof Descriptor))
+        }
+        if (! (o instanceof Descriptor)) {
             return false;
-        if (o instanceof ImmutableDescriptor)
+        }
+        if (o instanceof ImmutableDescriptor) {
             return o.equals(this);
+        }
         return new ImmutableDescriptor(descriptorMap).equals(o);
     }
 
@@ -896,6 +910,7 @@ public class DescriptorSupport
      * fails for any reason, this exception will be thrown.
      */
 
+    @Override
     public synchronized boolean isValid() throws RuntimeOperationsException {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINEST)) {
             MODELMBEAN_LOGGER.logp(Level.FINEST,
@@ -972,8 +987,9 @@ public class DescriptorSupport
 
 
     private boolean validateField(String fldName, Object fldValue) {
-        if ((fldName == null) || (fldName.equals("")))
+        if ((fldName == null) || (fldName.equals(""))) {
             return false;
+        }
         String SfldValue = "";
         boolean isAString = false;
         if ((fldValue != null) && (fldValue instanceof java.lang.String)) {
@@ -989,10 +1005,12 @@ public class DescriptorSupport
             fldName.equalsIgnoreCase("GetMethod") ||
             fldName.equalsIgnoreCase("Role") ||
             fldName.equalsIgnoreCase("Class")) {
-            if (fldValue == null || !isAString)
+            if (fldValue == null || !isAString) {
                 return false;
-            if (nameOrDescriptorType && SfldValue.equals(""))
+            }
+            if (nameOrDescriptorType && SfldValue.equals("")) {
                 return false;
+            }
             return true;
         } else if (fldName.equalsIgnoreCase("visibility")) {
             long v;
@@ -1000,12 +1018,15 @@ public class DescriptorSupport
                 v = toNumeric(SfldValue);
             } else if (fldValue instanceof java.lang.Integer) {
                 v = ((Integer)fldValue).intValue();
-            } else return false;
-
-            if (v >= 1 &&  v <= 4)
-                return true;
-            else
+            } else {
                 return false;
+            }
+
+            if (v >= 1 &&  v <= 4) {
+                return true;
+            } else {
+                return false;
+            }
         } else if (fldName.equalsIgnoreCase("severity")) {
 
             long v;
@@ -1013,7 +1034,9 @@ public class DescriptorSupport
                 v = toNumeric(SfldValue);
             } else if (fldValue instanceof java.lang.Integer) {
                 v = ((Integer)fldValue).intValue();
-            } else return false;
+            } else {
+                return false;
+            }
 
             return (v >= 0 && v <= 6);
         } else if (fldName.equalsIgnoreCase("PersistPolicy")) {
@@ -1034,7 +1057,9 @@ public class DescriptorSupport
                 v = toNumeric(SfldValue);
             } else if (fldValue instanceof java.lang.Number) {
                 v = ((Number)fldValue).longValue();
-            } else return false;
+            } else {
+                return false;
+            }
 
             return (v >= -1);
         } else if (fldName.equalsIgnoreCase("log")) {
@@ -1093,11 +1118,13 @@ public class DescriptorSupport
                up with an encoding like "(java.lang.String/(thing))".  */
             if (value instanceof String) {
                 final String svalue = (String) value;
-                if (!svalue.startsWith("(") || !svalue.endsWith(")"))
+                if (!svalue.startsWith("(") || !svalue.endsWith(")")) {
                     valueString = quote(svalue);
+                }
             }
-            if (valueString == null)
+            if (valueString == null) {
                 valueString = makeFieldValue(value);
+            }
             buf.append("<field name=\"").append(name).append("\" value=\"")
                 .append(valueString).append("\"></field>");
         }
@@ -1124,8 +1151,9 @@ public class DescriptorSupport
         char maxChar = 0;
         for (int i = 0; i < entities.length; i++) {
             final char c = entities[i].charAt(0);
-            if (c > maxChar)
+            if (c > maxChar) {
                 maxChar = c;
+            }
         }
         charToEntityMap = new String[maxChar + 1];
         for (int i = 0; i < entities.length; i++) {
@@ -1155,22 +1183,25 @@ public class DescriptorSupport
                 break;
             }
         }
-        if (!found)
+        if (!found) {
             return s;
+        }
         final StringBuilder buf = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (isMagic(c))
+            if (isMagic(c)) {
                 buf.append(charToEntityMap[c]);
-            else
+            } else {
                 buf.append(c);
+            }
         }
         return buf.toString();
     }
 
     private static String unquote(String s) throws XMLParseException {
-        if (!s.startsWith("\"") || !s.endsWith("\""))
+        if (!s.startsWith("\"") || !s.endsWith("\"")) {
             throw new XMLParseException("Value must be quoted: <" + s + ">");
+        }
         final StringBuilder buf = new StringBuilder();
         final int len = s.length() - 1;
         for (int i = 1; i < len; i++) {
@@ -1183,8 +1214,9 @@ public class DescriptorSupport
                     != null)) {
                 buf.append(quoted);
                 i = semi;
-            } else
+            } else {
                 buf.append(c);
+            }
         }
         return buf.toString();
     }
@@ -1195,8 +1227,9 @@ public class DescriptorSupport
      * @throws RuntimeOperationsException if the value cannot be encoded.
      */
     private static String makeFieldValue(Object value) {
-        if (value == null)
+        if (value == null) {
             return "(null)";
+        }
 
         Class<?> valueClass = value.getClass();
         try {
@@ -1234,10 +1267,12 @@ public class DescriptorSupport
     private static Object parseQuotedFieldValue(String s)
             throws XMLParseException {
         s = unquote(s);
-        if (s.equalsIgnoreCase("(null)"))
+        if (s.equalsIgnoreCase("(null)")) {
             return null;
-        if (!s.startsWith("(") || !s.endsWith(")"))
+        }
+        if (!s.startsWith("(") || !s.endsWith(")")) {
             return s;
+        }
         final int slash = s.indexOf('/');
         if (slash < 0) {
             // compatibility: old code didn't include class name
@@ -1370,8 +1405,9 @@ public class DescriptorSupport
     private void writeObject(ObjectOutputStream out) throws IOException {
         ObjectOutputStream.PutField fields = out.putFields();
         boolean compat = "1.0".equals(serialForm);
-        if (compat)
+        if (compat) {
             fields.put("currClass", currClass);
+        }
 
         /* Purge the field "targetObject" from the DescriptorSupport before
          * serializing since the referenced object is typically not
@@ -1389,10 +1425,12 @@ public class DescriptorSupport
         if (compat || "1.2.0".equals(serialForm) ||
                 "1.2.1".equals(serialForm)) {
             descriptor = new HashMap<String, Object>();
-            for (Map.Entry<String, Object> entry : startMap.entrySet())
+            for (Map.Entry<String, Object> entry : startMap.entrySet()) {
                 descriptor.put(entry.getKey().toLowerCase(), entry.getValue());
-        } else
+            }
+        } else {
             descriptor = new HashMap<String, Object>(startMap);
+        }
 
         fields.put("descriptor", descriptor);
         out.writeFields();

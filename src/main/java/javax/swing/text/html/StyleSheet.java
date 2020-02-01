@@ -353,6 +353,7 @@ public class StyleSheet extends StyleContext {
      *
      * @param nm  the name of the style to remove
      */
+    @Override
     public void removeStyle(String nm) {
         Style       aStyle = getStyle(nm);
 
@@ -550,6 +551,7 @@ public class StyleSheet extends StyleContext {
      * @return the updated attribute set
      * @see MutableAttributeSet#addAttribute
      */
+    @Override
     public AttributeSet addAttribute(AttributeSet old, Object key,
                                      Object value) {
         if (css == null) {
@@ -588,6 +590,7 @@ public class StyleSheet extends StyleContext {
      * @return the updated attribute set
      * @see MutableAttributeSet#addAttribute
      */
+    @Override
     public AttributeSet addAttributes(AttributeSet old, AttributeSet attr) {
         if (!(attr instanceof HTMLDocument.TaggedAttributeSet)) {
             old = removeHTMLTags(old, attr);
@@ -605,6 +608,7 @@ public class StyleSheet extends StyleContext {
      * @return the updated attribute set
      * @see MutableAttributeSet#removeAttribute
      */
+    @Override
     public AttributeSet removeAttribute(AttributeSet old, Object key) {
         if (key instanceof StyleConstants) {
             HTML.Tag tag = HTML.getTagForStyleConstantsKey(
@@ -631,6 +635,7 @@ public class StyleSheet extends StyleContext {
      * @return the updated attribute set
      * @see MutableAttributeSet#removeAttributes
      */
+    @Override
     public AttributeSet removeAttributes(AttributeSet old, Enumeration<?> names) {
         // PENDING: Should really be doing something similar to
         // removeHTMLTags here, but it is rather expensive to have to
@@ -648,6 +653,7 @@ public class StyleSheet extends StyleContext {
      * @return the updated attribute set
      * @see MutableAttributeSet#removeAttributes
      */
+    @Override
     public AttributeSet removeAttributes(AttributeSet old, AttributeSet attrs) {
         if (old != attrs) {
             old = removeHTMLTags(old, attrs);
@@ -665,6 +671,7 @@ public class StyleSheet extends StyleContext {
      * @param a The set of attributes to be represented in the
      *  the compact form.
      */
+    @Override
     protected SmallAttributeSet createSmallAttributeSet(AttributeSet a) {
         return new SmallConversionSet(a);
     }
@@ -681,6 +688,7 @@ public class StyleSheet extends StyleContext {
      * @param a The set of attributes to be represented in the
      *  the larger form.
      */
+    @Override
     protected MutableAttributeSet createLargeAttributeSet(AttributeSet a) {
         return new LargeConversionSet(a);
     }
@@ -785,6 +793,7 @@ public class StyleSheet extends StyleContext {
          * @return true if the attribute is defined
          * @see AttributeSet#isDefined
          */
+        @Override
         public boolean isDefined(Object key) {
             if (key instanceof StyleConstants) {
                 Object cssKey = css.styleConstantsKeyToCSSKey
@@ -803,6 +812,7 @@ public class StyleSheet extends StyleContext {
          * @return the attribute value
          * @see AttributeSet#getAttribute
          */
+        @Override
         public Object getAttribute(Object key) {
             if (key instanceof StyleConstants) {
                 Object cssKey = css.styleConstantsKeyToCSSKey
@@ -841,6 +851,7 @@ public class StyleSheet extends StyleContext {
          * @return true if the attribute is defined
          * @see AttributeSet#isDefined
          */
+        @Override
         public boolean isDefined(Object key) {
             if (key instanceof StyleConstants) {
                 Object cssKey = css.styleConstantsKeyToCSSKey
@@ -859,6 +870,7 @@ public class StyleSheet extends StyleContext {
          * @return the attribute value
          * @see AttributeSet#getAttribute
          */
+        @Override
         public Object getAttribute(Object key) {
             if (key instanceof StyleConstants) {
                 Object cssKey = css.styleConstantsKeyToCSSKey
@@ -880,6 +892,7 @@ public class StyleSheet extends StyleContext {
     /**
      * Fetches the font to use for the given set of attributes.
      */
+    @Override
     public Font getFont(AttributeSet a) {
         return css.getFont(this, a, 12, this);
     }
@@ -892,6 +905,7 @@ public class StyleSheet extends StyleContext {
      * @param a the set of attributes
      * @return the color
      */
+    @Override
     public Color getForeground(AttributeSet a) {
         Color c = css.getColor(a, CSS.Attribute.COLOR);
         if (c == null) {
@@ -908,6 +922,7 @@ public class StyleSheet extends StyleContext {
      * @param a the set of attributes
      * @return the color
      */
+    @Override
     public Color getBackground(AttributeSet a) {
         return css.getColor(a, CSS.Attribute.BACKGROUND_COLOR);
     }
@@ -2031,10 +2046,12 @@ public class StyleSheet extends StyleContext {
                 String tmpstr = null;
                 try {
                     StringTokenizer st = new StringTokenizer(imgstr, "()");
-                    if (st.hasMoreTokens())
+                    if (st.hasMoreTokens()) {
                         tmpstr = st.nextToken();
-                    if (st.hasMoreTokens())
+                    }
+                    if (st.hasMoreTokens()) {
                         tmpstr = st.nextToken();
+                    }
                     URL u = new URL(tmpstr);
                     img = new ImageIcon(u);
                 } catch (MalformedURLException e) {
@@ -2697,6 +2714,7 @@ public class StyleSheet extends StyleContext {
          * @return true if the attribute is defined
          * @see AttributeSet#isDefined
          */
+        @Override
         public boolean isDefined(Object key) {
             if (key instanceof StyleConstants) {
                 Object cssKey = css.styleConstantsKeyToCSSKey
@@ -2717,6 +2735,7 @@ public class StyleSheet extends StyleContext {
          * @return the attribute value
          * @see AttributeSet#getAttribute
          */
+        @Override
         public Object getAttribute(Object key) {
             if (key instanceof StyleConstants) {
                 Object cssKey = css.styleConstantsKeyToCSSKey
@@ -2743,8 +2762,9 @@ public class StyleSheet extends StyleContext {
                 CSS.Attribute css = (CSS.Attribute) key;
                 if (css.isInherited()) {
                     AttributeSet parent = getResolveParent();
-                    if (parent != null)
+                    if (parent != null) {
                         return parent.getAttribute(key);
+                    }
                 }
             }
             return null;
@@ -2757,6 +2777,7 @@ public class StyleSheet extends StyleContext {
          * @return the attributes from the parent
          * @see AttributeSet#getResolveParent
          */
+        @Override
         public AttributeSet getResolveParent() {
             if (host == null) {
                 return null;
@@ -2990,14 +3011,23 @@ public class StyleSheet extends StyleContext {
             return retValue;
         }
 
+        @Override
         public void addAttribute(Object name, Object value) {}
+        @Override
         public void addAttributes(AttributeSet attributes) {}
+        @Override
         public void removeAttribute(Object name) {}
+        @Override
         public void removeAttributes(Enumeration<?> names) {}
+        @Override
         public void removeAttributes(AttributeSet attributes) {}
+        @Override
         public void setResolveParent(AttributeSet parent) {}
+        @Override
         public String getName() {return name;}
+        @Override
         public void addChangeListener(ChangeListener l) {}
+        @Override
         public void removeChangeListener(ChangeListener l) {}
         public ChangeListener[] getChangeListeners() {
             return new ChangeListener[0];
@@ -3197,6 +3227,7 @@ public class StyleSheet extends StyleContext {
          * <code>MalformedURLException</code> is not thrown in creating
          * the URL.
          */
+        @Override
         public void handleImport(String importString) {
             URL url = CSS.getURL(base, importString);
             if (url != null) {
@@ -3207,6 +3238,7 @@ public class StyleSheet extends StyleContext {
         /**
          * A selector has been encountered.
          */
+        @Override
         public void handleSelector(String selector) {
             //class and index selectors are case sensitive
             if (!(selector.startsWith(".")
@@ -3230,6 +3262,7 @@ public class StyleSheet extends StyleContext {
         /**
          * Invoked when the start of a rule is encountered.
          */
+        @Override
         public void startRule() {
             if (selectorTokens.size() > 0) {
                 addSelector();
@@ -3240,6 +3273,7 @@ public class StyleSheet extends StyleContext {
         /**
          * Invoked when a property name is encountered.
          */
+        @Override
         public void handleProperty(String property) {
             propertyName = property;
         }
@@ -3247,6 +3281,7 @@ public class StyleSheet extends StyleContext {
         /**
          * Invoked when a property value is encountered.
          */
+        @Override
         public void handleValue(String value) {
             if (propertyName != null && value != null && value.length() > 0) {
                 CSS.Attribute cssKey = CSS.getAttribute(propertyName);
@@ -3274,6 +3309,7 @@ public class StyleSheet extends StyleContext {
         /**
          * Invoked when the end of a rule is encountered.
          */
+        @Override
         public void endRule() {
             int n = selectors.size();
             for (int i = 0; i < n; i++) {

@@ -151,6 +151,7 @@ public class ParameterBlock implements Cloneable, Serializable {
      *
      * @return an Object clone of the <code>ParameterBlock</code>.
      */
+    @Override
     public Object clone() {
         ParameterBlock theClone;
 

@@ -132,9 +132,10 @@ class NameImpl {
                 }
 
                 // no ending quote found
-                if (i >= len)
+                if (i >= len) {
                     throw
                         new InvalidNameException(name + ": no close quote");
+                }
 //                      new Exception("no close quote");
 
                 i += endQuote.length();
@@ -186,9 +187,10 @@ class NameImpl {
                 }
 
                 // no ending quote found
-                if (i >= len)
+                if (i >= len) {
                     throw
                         new InvalidNameException(name + ": typeval no close quote");
+                }
 
                 i += endQuote.length();
                 answer.append(endQuote); // add back
@@ -205,10 +207,11 @@ class NameImpl {
             start = false;
         }
 
-        if (syntaxDirection == RIGHT_TO_LEFT)
+        if (syntaxDirection == RIGHT_TO_LEFT) {
             comps.insertElementAt(answer.toString(), 0);
-        else
+        } else {
             comps.addElement(answer.toString());
+        }
         return i;
     }
 
@@ -252,16 +255,18 @@ class NameImpl {
 
         syntaxBeginQuote1 = p.getProperty("jndi.syntax.beginquote");
         syntaxEndQuote1 = p.getProperty("jndi.syntax.endquote");
-        if (syntaxEndQuote1 == null && syntaxBeginQuote1 != null)
+        if (syntaxEndQuote1 == null && syntaxBeginQuote1 != null) {
             syntaxEndQuote1 = syntaxBeginQuote1;
-        else if (syntaxBeginQuote1 == null && syntaxEndQuote1 != null)
+        } else if (syntaxBeginQuote1 == null && syntaxEndQuote1 != null) {
             syntaxBeginQuote1 = syntaxEndQuote1;
+        }
         syntaxBeginQuote2 = p.getProperty("jndi.syntax.beginquote2");
         syntaxEndQuote2 = p.getProperty("jndi.syntax.endquote2");
-        if (syntaxEndQuote2 == null && syntaxBeginQuote2 != null)
+        if (syntaxEndQuote2 == null && syntaxBeginQuote2 != null) {
             syntaxEndQuote2 = syntaxBeginQuote2;
-        else if (syntaxBeginQuote2 == null && syntaxEndQuote2 != null)
+        } else if (syntaxBeginQuote2 == null && syntaxEndQuote2 != null) {
             syntaxBeginQuote2 = syntaxEndQuote2;
+        }
 
         syntaxAvaSeparator = p.getProperty("jndi.syntax.separator.ava");
         syntaxTypevalSeparator =
@@ -310,8 +315,9 @@ class NameImpl {
         this(syntax);
 
         // %% comps could shrink in the middle.
-        while (comps.hasMoreElements())
+        while (comps.hasMoreElements()) {
             components.addElement(comps.nextElement());
+        }
     }
 /*
     // Determines whether this component needs any escaping.
@@ -353,8 +359,9 @@ class NameImpl {
             } else if (syntaxBeginQuote2 != null) {
                 beginQuote = syntaxBeginQuote2;
                 endQuote = syntaxEndQuote2;
-            } else if (syntaxEscape != null)
+            } else if (syntaxEscape != null) {
                 escapeSeparator = true;
+            }
         }
         if (syntaxSeparator2 != null &&
             comp.indexOf(syntaxSeparator2) >= 0) {
@@ -368,8 +375,9 @@ class NameImpl {
                     beginQuote = syntaxBeginQuote2;
                     endQuote = syntaxEndQuote2;
                 }
-            } else if (syntaxEscape != null)
+            } else if (syntaxEscape != null) {
                 escapeSeparator2 = true;
+            }
         }
 
         // if quoting component,
@@ -448,6 +456,7 @@ class NameImpl {
         return (strbuf.toString());
     }
 
+    @Override
     public String toString() {
         StringBuffer answer = new StringBuffer();
         String comp;
@@ -461,17 +470,21 @@ class NameImpl {
             } else {
                 comp = stringifyComp(components.elementAt(i));
             }
-            if ((i != 0) && (syntaxSeparator != null))
+            if ((i != 0) && (syntaxSeparator != null)) {
                 answer.append(syntaxSeparator);
-            if (comp.length() >= 1)
+            }
+            if (comp.length() >= 1) {
                 compsAllEmpty = false;
+            }
             answer = answer.append(comp);
         }
-        if (compsAllEmpty && (size >= 1) && (syntaxSeparator != null))
+        if (compsAllEmpty && (size >= 1) && (syntaxSeparator != null)) {
             answer = answer.append(syntaxSeparator);
+        }
         return (answer.toString());
     }
 
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof NameImpl)) {
             NameImpl target = (NameImpl)obj;
@@ -487,11 +500,13 @@ class NameImpl {
                         his = his.trim();
                     }
                     if (syntaxCaseInsensitive) {
-                        if (!(my.equalsIgnoreCase(his)))
+                        if (!(my.equalsIgnoreCase(his))) {
                             return false;
+                        }
                     } else {
-                        if (!(my.equals(his)))
+                        if (!(my.equals(his))) {
                             return false;
+                        }
                     }
                 }
                 return true;
@@ -589,11 +604,13 @@ class NameImpl {
                     his = his.trim();
                 }
                 if (syntaxCaseInsensitive) {
-                    if (!(my.equalsIgnoreCase(his)))
+                    if (!(my.equalsIgnoreCase(his))) {
                         return false;
+                    }
                 } else {
-                    if (!(my.equals(his)))
+                    if (!(my.equals(his))) {
                         return false;
+                    }
                 }
             }
         } catch (NoSuchElementException e) {
@@ -621,11 +638,13 @@ class NameImpl {
                     his = his.trim();
                 }
                 if (syntaxCaseInsensitive) {
-                    if (!(my.equalsIgnoreCase(his)))
+                    if (!(my.equalsIgnoreCase(his))) {
                         return false;
+                    }
                 } else {
-                    if (!(my.equals(his)))
+                    if (!(my.equals(his))) {
                         return false;
+                    }
                 }
             }
         } catch (NoSuchElementException e) {
@@ -693,6 +712,7 @@ class NameImpl {
         return r;
     }
 
+    @Override
     public int hashCode() {
         int hash = 0;
         for (Enumeration<String> e = getAll(); e.hasMoreElements();) {
@@ -722,10 +742,12 @@ class NameImplEnumerator implements Enumeration<String> {
         limit = lim;
     }
 
+    @Override
     public boolean hasMoreElements() {
         return count < limit;
     }
 
+    @Override
     public String nextElement() {
         if (count < limit) {
             return vector.elementAt(count++);

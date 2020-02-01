@@ -110,6 +110,7 @@ public class ScriptException extends Exception {
      * line and column numbers and filename if any of these are known.
      * @return The error message.
      */
+    @Override
     public String getMessage() {
         String ret = super.getMessage();
         if (fileName != null) {

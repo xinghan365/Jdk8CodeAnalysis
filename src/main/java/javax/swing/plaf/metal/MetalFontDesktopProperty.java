@@ -79,6 +79,7 @@ class MetalFontDesktopProperty extends com.sun.java.swing.plaf.windows.DesktopPr
      * Overriden to create a Font with the size coming from the desktop
      * and the style and name coming from DefaultMetalTheme.
      */
+    @Override
     protected Object configureValue(Object value) {
         if (value instanceof Integer) {
             value = new Font(DefaultMetalTheme.getDefaultFontName(type),
@@ -91,6 +92,7 @@ class MetalFontDesktopProperty extends com.sun.java.swing.plaf.windows.DesktopPr
     /**
      * Returns the default font.
      */
+    @Override
     protected Object getDefaultValue() {
         return new Font(DefaultMetalTheme.getDefaultFontName(type),
                         DefaultMetalTheme.getDefaultFontStyle(type),

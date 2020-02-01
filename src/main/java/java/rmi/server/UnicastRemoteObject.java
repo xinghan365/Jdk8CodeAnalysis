@@ -244,6 +244,7 @@ public class UnicastRemoteObject extends RemoteServer {
      * @return the new remote object
      * @since JDK1.1
      */
+    @Override
     public Object clone() throws CloneNotSupportedException
     {
         try {

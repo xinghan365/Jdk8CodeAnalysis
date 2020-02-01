@@ -110,6 +110,7 @@ public class ComponentView extends View  {
      * @param a the shape
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         if (c != null) {
             Rectangle alloc = (a instanceof Rectangle) ?
@@ -131,6 +132,7 @@ public class ComponentView extends View  {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public float getPreferredSpan(int axis) {
         if ((axis != X_AXIS) && (axis != Y_AXIS)) {
             throw new IllegalArgumentException("Invalid axis: " + axis);
@@ -159,6 +161,7 @@ public class ComponentView extends View  {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public float getMinimumSpan(int axis) {
         if ((axis != X_AXIS) && (axis != Y_AXIS)) {
             throw new IllegalArgumentException("Invalid axis: " + axis);
@@ -187,6 +190,7 @@ public class ComponentView extends View  {
      *           The parent may choose to resize or break the view.
      * @exception IllegalArgumentException for an invalid axis
      */
+    @Override
     public float getMaximumSpan(int axis) {
         if ((axis != X_AXIS) && (axis != Y_AXIS)) {
             throw new IllegalArgumentException("Invalid axis: " + axis);
@@ -214,6 +218,7 @@ public class ComponentView extends View  {
      *   away from the origin.  An alignment of 0.5 would be the
      *   center of the view.
      */
+    @Override
     public float getAlignment(int axis) {
         if (c != null) {
             switch (axis) {
@@ -248,12 +253,14 @@ public class ComponentView extends View  {
      *
      * @param p the parent
      */
+    @Override
     public void setParent(View p) {
         super.setParent(p);
         if (SwingUtilities.isEventDispatchThread()) {
             setComponentParent();
         } else {
             Runnable callSetComponentParent = new Runnable() {
+                @Override
                 public void run() {
                     Document doc = getDocument();
                     try {
@@ -326,6 +333,7 @@ public class ComponentView extends View  {
      *   represent a valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         int p0 = getStartOffset();
         int p1 = getEndOffset();
@@ -351,6 +359,7 @@ public class ComponentView extends View  {
      *    the given point in the view
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
         Rectangle alloc = (Rectangle) a;
         if (x < alloc.x + (alloc.width / 2)) {
@@ -394,6 +403,7 @@ public class ComponentView extends View  {
          * so the views (which position the component)
          * can have their layout recomputed.
          */
+        @Override
         public void invalidate() {
             super.invalidate();
             if (getParent() != null) {
@@ -401,10 +411,12 @@ public class ComponentView extends View  {
             }
         }
 
+        @Override
         public void doLayout() {
             cacheChildSizes();
         }
 
+        @Override
         public void setBounds(int x, int y, int w, int h) {
             super.setBounds(x, y, w, h);
             if (getComponentCount() > 0) {
@@ -440,6 +452,7 @@ public class ComponentView extends View  {
          * @see #isVisible
          * @since JDK1.1
          */
+        @Override
         public void setVisible(boolean b) {
             super.setVisible(b);
             if (getComponentCount() > 0) {
@@ -452,40 +465,48 @@ public class ComponentView extends View  {
          * is painted when inside a CellRendererPane which is normally
          * invisible.
          */
+        @Override
         public boolean isShowing() {
             return true;
         }
 
+        @Override
         public Dimension getMinimumSize() {
             validateIfNecessary();
             return min;
         }
 
+        @Override
         public Dimension getPreferredSize() {
             validateIfNecessary();
             return pref;
         }
 
+        @Override
         public Dimension getMaximumSize() {
             validateIfNecessary();
             return max;
         }
 
+        @Override
         public float getAlignmentX() {
             validateIfNecessary();
             return xalign;
         }
 
+        @Override
         public float getAlignmentY() {
             validateIfNecessary();
             return yalign;
         }
 
+        @Override
         public Set<AWTKeyStroke> getFocusTraversalKeys(int id) {
             return KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getDefaultFocusTraversalKeys(id);
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent ev) {
             Boolean enable = (Boolean) ev.getNewValue();
             if (getComponentCount() > 0) {

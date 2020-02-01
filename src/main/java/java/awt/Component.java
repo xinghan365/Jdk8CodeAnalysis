@@ -837,15 +837,19 @@ public abstract class Component implements ImageObserver, MenuContainer,
 
     static {
         AWTAccessor.setComponentAccessor(new AWTAccessor.ComponentAccessor() {
+            @Override
             public void setBackgroundEraseDisabled(Component comp, boolean disabled) {
                 comp.backgroundEraseDisabled = disabled;
             }
+            @Override
             public boolean getBackgroundEraseDisabled(Component comp) {
                 return comp.backgroundEraseDisabled;
             }
+            @Override
             public Rectangle getBounds(Component comp) {
                 return new Rectangle(comp.x, comp.y, comp.width, comp.height);
             }
+            @Override
             public void setMixingCutoutShape(Component comp, Shape shape) {
                 Region region = shape == null ?  null :
                     Region.getInstance(shape, null);
@@ -875,102 +879,132 @@ public abstract class Component implements ImageObserver, MenuContainer,
                 }
             }
 
+            @Override
             public void setGraphicsConfiguration(Component comp,
-                    GraphicsConfiguration gc)
+                                                 GraphicsConfiguration gc)
             {
                 comp.setGraphicsConfiguration(gc);
             }
+            @Override
             public boolean requestFocus(Component comp, CausedFocusEvent.Cause cause) {
                 return comp.requestFocus(cause);
             }
+            @Override
             public boolean canBeFocusOwner(Component comp) {
                 return comp.canBeFocusOwner();
             }
 
+            @Override
             public boolean isVisible(Component comp) {
                 return comp.isVisible_NoClientCode();
             }
+            @Override
             public void setRequestFocusController
                 (RequestFocusController requestController)
             {
                  Component.setRequestFocusController(requestController);
             }
+            @Override
             public AppContext getAppContext(Component comp) {
                  return comp.appContext;
             }
+            @Override
             public void setAppContext(Component comp, AppContext appContext) {
                  comp.appContext = appContext;
             }
+            @Override
             public Container getParent(Component comp) {
                 return comp.getParent_NoClientCode();
             }
+            @Override
             public void setParent(Component comp, Container parent) {
                 comp.parent = parent;
             }
+            @Override
             public void setSize(Component comp, int width, int height) {
                 comp.width = width;
                 comp.height = height;
             }
+            @Override
             public Point getLocation(Component comp) {
                 return comp.location_NoClientCode();
             }
+            @Override
             public void setLocation(Component comp, int x, int y) {
                 comp.x = x;
                 comp.y = y;
             }
+            @Override
             public boolean isEnabled(Component comp) {
                 return comp.isEnabledImpl();
             }
+            @Override
             public boolean isDisplayable(Component comp) {
                 return comp.peer != null;
             }
+            @Override
             public Cursor getCursor(Component comp) {
                 return comp.getCursor_NoClientCode();
             }
+            @Override
             public ComponentPeer getPeer(Component comp) {
                 return comp.peer;
             }
+            @Override
             public void setPeer(Component comp, ComponentPeer peer) {
                 comp.peer = peer;
             }
+            @Override
             public boolean isLightweight(Component comp) {
                 return (comp.peer instanceof LightweightPeer);
             }
+            @Override
             public boolean getIgnoreRepaint(Component comp) {
                 return comp.ignoreRepaint;
             }
+            @Override
             public int getWidth(Component comp) {
                 return comp.width;
             }
+            @Override
             public int getHeight(Component comp) {
                 return comp.height;
             }
+            @Override
             public int getX(Component comp) {
                 return comp.x;
             }
+            @Override
             public int getY(Component comp) {
                 return comp.y;
             }
+            @Override
             public Color getForeground(Component comp) {
                 return comp.foreground;
             }
+            @Override
             public Color getBackground(Component comp) {
                 return comp.background;
             }
+            @Override
             public void setBackground(Component comp, Color background) {
                 comp.background = background;
             }
+            @Override
             public Font getFont(Component comp) {
                 return comp.getFont_NoClientCode();
             }
+            @Override
             public void processEvent(Component comp, AWTEvent e) {
                 comp.processEvent(e);
             }
 
+            @Override
             public AccessControlContext getAccessControlContext(Component comp) {
                 return comp.getAccessControlContext();
             }
 
+            @Override
             public void revalidateSynchronously(Component comp) {
                 comp.revalidateSynchronously();
             }
@@ -1012,8 +1046,9 @@ public abstract class Component implements ImageObserver, MenuContainer,
     public String getName() {
         if (name == null && !nameExplicitlySet) {
             synchronized(getObjectLock()) {
-                if (name == null && !nameExplicitlySet)
+                if (name == null && !nameExplicitlySet) {
                     name = constructComponentName();
+                }
             }
         }
         return name;
@@ -1080,13 +1115,16 @@ public abstract class Component implements ImageObserver, MenuContainer,
      */
 
     public synchronized void setDropTarget(DropTarget dt) {
-        if (dt == dropTarget || (dropTarget != null && dropTarget.equals(dt)))
+        if (dt == dropTarget || (dropTarget != null && dropTarget.equals(dt))) {
             return;
+        }
 
         DropTarget old;
 
         if ((old = dropTarget) != null) {
-            if (peer != null) dropTarget.removeNotify(peer);
+            if (peer != null) {
+                dropTarget.removeNotify(peer);
+            }
 
             DropTarget t = dropTarget;
 
@@ -1104,12 +1142,16 @@ public abstract class Component implements ImageObserver, MenuContainer,
         if ((dropTarget = dt) != null) {
             try {
                 dropTarget.setComponent(this);
-                if (peer != null) dropTarget.addNotify(peer);
+                if (peer != null) {
+                    dropTarget.addNotify(peer);
+                }
             } catch (IllegalArgumentException iae) {
                 if (old != null) {
                     try {
                         old.setComponent(this);
-                        if (peer != null) dropTarget.addNotify(peer);
+                        if (peer != null) {
+                            dropTarget.addNotify(peer);
+                        }
                     } catch (IllegalArgumentException iae1) {
                         // ignore it!
                     }
@@ -1387,6 +1429,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
 
         PointerInfo pi = java.security.AccessController.doPrivileged(
                                                                      new java.security.PrivilegedAction<PointerInfo>() {
+                                                                         @Override
                                                                          public PointerInfo run() {
                                                                              return MouseInfo.getPointerInfo();
                                                                          }
@@ -1578,8 +1621,9 @@ public abstract class Component implements ImageObserver, MenuContainer,
      */
     public void enableInputMethods(boolean enable) {
         if (enable) {
-            if ((eventMask & AWTEvent.INPUT_METHODS_ENABLED_MASK) != 0)
+            if ((eventMask & AWTEvent.INPUT_METHODS_ENABLED_MASK) != 0) {
                 return;
+            }
 
             // If this component already has focus, then activate the
             // input method by dispatching a synthesized focus gained
@@ -1855,6 +1899,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
      * @see #setFont
      * @since JDK1.0
      */
+    @Override
     @Transient
     public Font getFont() {
         return getFont_NoClientCode();
@@ -3025,9 +3070,13 @@ public abstract class Component implements ImageObserver, MenuContainer,
             // This is for a lightweight component, need to
             // translate coordinate spaces and clip relative
             // to the parent.
-            if (parent == null) return null;
+            if (parent == null) {
+                return null;
+            }
             Graphics g = parent.getGraphics();
-            if (g == null) return null;
+            if (g == null) {
+                return null;
+            }
             if (g instanceof ConstrainableGraphics) {
                 ((ConstrainableGraphics) g).constrain(x, y, width, height);
             } else {
@@ -3049,9 +3098,13 @@ public abstract class Component implements ImageObserver, MenuContainer,
             // translate coordinate spaces and clip relative
             // to the parent.
             Container parent = this.parent;
-            if (parent == null) return null;
+            if (parent == null) {
+                return null;
+            }
             Graphics g = parent.getGraphics_NoClientCode();
-            if (g == null) return null;
+            if (g == null) {
+                return null;
+            }
             if (g instanceof ConstrainableGraphics) {
                 ((ConstrainableGraphics) g).constrain(x, y, width, height);
             } else {
@@ -3137,7 +3190,9 @@ public abstract class Component implements ImageObserver, MenuContainer,
         if (peer instanceof LightweightPeer) {
             Container nativeContainer = getNativeContainer();
 
-            if (nativeContainer == null) return;
+            if (nativeContainer == null) {
+                return;
+            }
 
             ComponentPeer cPeer = nativeContainer.getPeer();
 
@@ -3524,6 +3579,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
      * @see     java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
      * @since   JDK1.0
      */
+    @Override
     public boolean imageUpdate(Image img, int infoflags,
                                int x, int y, int w, int h) {
         int rate = -1;
@@ -4121,6 +4177,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
         /**
          * @return the buffering capabilities of this strategy
          */
+        @Override
         public BufferCapabilities getCapabilities() {
             if (caps instanceof ProxyCapabilities) {
                 return ((ProxyCapabilities)caps).orig;
@@ -4135,6 +4192,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * threads should be handled at the application level.  Disposal of the
          * graphics object must be handled by the application.
          */
+        @Override
         public Graphics getDrawGraphics() {
             revalidate();
             return drawBuffer.getGraphics();
@@ -4190,6 +4248,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return whether the drawing buffer was lost since the last call to
          * <code>getDrawGraphics</code>
          */
+        @Override
         public boolean contentsLost() {
             if (drawVBuffer == null) {
                 return false;
@@ -4201,6 +4260,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return whether the drawing buffer was recently restored from a lost
          * state and reinitialized to the default background color (white)
          */
+        @Override
         public boolean contentsRestored() {
             return validatedContents;
         }
@@ -4209,6 +4269,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * Makes the next available buffer visible by either blitting or
          * flipping.
          */
+        @Override
         public void show() {
             flip(caps.getFlipContents());
         }
@@ -4225,6 +4286,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * {@inheritDoc}
          * @since 1.6
          */
+        @Override
         public void dispose() {
             if (Component.this.bufferStrategy == this) {
                 Component.this.bufferStrategy = null;
@@ -4284,6 +4346,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * {@inheritDoc}
          * @since 1.6
          */
+        @Override
         public void dispose() {
             if (backBuffers != null) {
                 for (int counter = backBuffers.length - 1; counter >= 0;
@@ -4340,6 +4403,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
         /**
          * @return the buffering capabilities of this strategy
          */
+        @Override
         public BufferCapabilities getCapabilities() {
             return caps;
         }
@@ -4347,6 +4411,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
         /**
          * @return the draw graphics
          */
+        @Override
         public Graphics getDrawGraphics() {
             revalidate();
             Image backBuffer = getBackBuffer();
@@ -4375,6 +4440,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
         /**
          * Makes the next available buffer visible.
          */
+        @Override
         public void show() {
             showSubRegion(insets.left, insets.top,
                           width - insets.right,
@@ -4472,6 +4538,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return whether the drawing buffer was lost since the last call to
          * <code>getDrawGraphics</code>
          */
+        @Override
         public boolean contentsLost() {
             if (backBuffers == null) {
                 return false;
@@ -4484,6 +4551,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return whether the drawing buffer was recently restored from a lost
          * state and reinitialized to the default background color (white)
          */
+        @Override
         public boolean contentsRestored() {
             return validatedContents;
         }
@@ -4503,11 +4571,13 @@ public abstract class Component implements ImageObserver, MenuContainer,
             super(numBuffers, caps);
         }
 
+        @Override
         public void show(int x1, int y1, int x2, int y2) {
             showSubRegion(x1, y1, x2, y2);
         }
 
         // This is invoked by Swing on the toolkit thread.
+        @Override
         public boolean showIfNotLost(int x1, int y1, int x2, int y2) {
             if (!contentsLost()) {
                 showSubRegion(x1, y1, x2, y2);
@@ -4533,11 +4603,13 @@ public abstract class Component implements ImageObserver, MenuContainer,
             super(numBuffers, caps);
         }
 
+        @Override
         public void show(int x1, int y1, int x2, int y2) {
             showSubRegion(x1, y1, x2, y2);
         }
 
         // This method is called by Swing on the toolkit thread.
+        @Override
         public boolean showIfNotLost(int x1, int y1, int x2, int y2) {
             if (!contentsLost()) {
                 showSubRegion(x1, y1, x2, y2);
@@ -4563,18 +4635,23 @@ public abstract class Component implements ImageObserver, MenuContainer,
         public SingleBufferStrategy(BufferCapabilities caps) {
             this.caps = caps;
         }
+        @Override
         public BufferCapabilities getCapabilities() {
             return caps;
         }
+        @Override
         public Graphics getDrawGraphics() {
             return getGraphics();
         }
+        @Override
         public boolean contentsLost() {
             return false;
         }
+        @Override
         public boolean contentsRestored() {
             return false;
         }
+        @Override
         public void show() {
             // Do nothing
         }
@@ -5187,6 +5264,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
      * @deprecated As of JDK version 1.1,
      * replaced by dispatchEvent(AWTEvent).
      */
+    @Override
     @Deprecated
     public boolean postEvent(Event e) {
         ComponentPeer peer = this.peer;
@@ -6174,6 +6252,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
              // Need to check non-bootstraps.
              Boolean enabled = java.security.AccessController.doPrivileged(
                  new java.security.PrivilegedAction<Boolean>() {
+                     @Override
                      public Boolean run() {
                          return isCoalesceEventsOverriden(clazz);
                      }
@@ -6944,7 +7023,9 @@ public abstract class Component implements ImageObserver, MenuContainer,
                 popup.addNotify();
             }
 
-            if (dropTarget != null) dropTarget.addNotify(peer);
+            if (dropTarget != null) {
+                dropTarget.addNotify(peer);
+            }
 
             peerFont = getFont();
 
@@ -7031,7 +7112,9 @@ public abstract class Component implements ImageObserver, MenuContainer,
                     ((FlipBufferStrategy)bufferStrategy).destroyBuffers();
                 }
 
-                if (dropTarget != null) dropTarget.removeNotify(peer);
+                if (dropTarget != null) {
+                    dropTarget.removeNotify(peer);
+                }
 
                 // Hide peer first to stop system events such as cursor moves.
                 if (visible) {
@@ -7799,6 +7882,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
     // Swing access this method through reflection to implement InputVerifier's functionality.
     // Perhaps, we should make this method public (later ;)
     private static class DummyRequestFocusController implements RequestFocusController {
+        @Override
         public boolean acceptRequestFocus(Component from, Component to,
                                           boolean temporary, boolean focusedWindowChangeAllowed,
                                           CausedFocusEvent.Cause cause)
@@ -8098,6 +8182,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
      * @see       #add(PopupMenu)
      * @since     JDK1.1
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void remove(MenuComponent popup) {
         synchronized (getTreeLock()) {
@@ -8143,6 +8228,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
      * @return    a string representation of this component
      * @since     JDK1.0
      */
+    @Override
     public String toString() {
         return getClass().getName() + '[' + paramString() + ']';
     }
@@ -8613,6 +8699,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
                 // Find the first override of the compWriteObjectNotify method
                 Method[] methods = AccessController.doPrivileged(
                                                                  new PrivilegedAction<Method[]>() {
+                                                                     @Override
                                                                      public Method[] run() {
                                                                          return swingClass.getDeclaredMethods();
                                                                      }
@@ -8624,6 +8711,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
                         // We found it, use doPrivileged to make it accessible
                         // to use.
                         AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                                @Override
                                 public Void run() {
                                     method.setAccessible(true);
                                     return null;
@@ -8749,26 +8837,22 @@ public abstract class Component implements ImageObserver, MenuContainer,
         while(null != (keyOrNull = s.readObject())) {
             String key = ((String)keyOrNull).intern();
 
-            if (componentListenerK == key)
+            if (componentListenerK == key) {
                 addComponentListener((ComponentListener)(s.readObject()));
-
-            else if (focusListenerK == key)
+            } else if (focusListenerK == key) {
                 addFocusListener((FocusListener)(s.readObject()));
-
-            else if (keyListenerK == key)
+            } else if (keyListenerK == key) {
                 addKeyListener((KeyListener)(s.readObject()));
-
-            else if (mouseListenerK == key)
+            } else if (mouseListenerK == key) {
                 addMouseListener((MouseListener)(s.readObject()));
-
-            else if (mouseMotionListenerK == key)
+            } else if (mouseMotionListenerK == key) {
                 addMouseMotionListener((MouseMotionListener)(s.readObject()));
-
-            else if (inputMethodListenerK == key)
+            } else if (inputMethodListenerK == key) {
                 addInputMethodListener((InputMethodListener)(s.readObject()));
-
-            else // skip value for unrecognized key
+            } else // skip value for unrecognized key
+            {
                 s.readObject();
+            }
 
         }
 
@@ -9073,6 +9157,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @since 1.3
          */
         protected class AccessibleAWTComponentHandler implements ComponentListener {
+            @Override
             public void componentHidden(ComponentEvent e)  {
                 if (accessibleContext != null) {
                     accessibleContext.firePropertyChange(
@@ -9081,6 +9166,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
                 }
             }
 
+            @Override
             public void componentShown(ComponentEvent e)  {
                 if (accessibleContext != null) {
                     accessibleContext.firePropertyChange(
@@ -9089,9 +9175,11 @@ public abstract class Component implements ImageObserver, MenuContainer,
                 }
             }
 
+            @Override
             public void componentMoved(ComponentEvent e)  {
             }
 
+            @Override
             public void componentResized(ComponentEvent e)  {
             }
         } // inner class AccessibleAWTComponentHandler
@@ -9103,6 +9191,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @since 1.3
          */
         protected class AccessibleAWTFocusHandler implements FocusListener {
+            @Override
             public void focusGained(FocusEvent event) {
                 if (accessibleContext != null) {
                     accessibleContext.firePropertyChange(
@@ -9110,6 +9199,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
                                                          null, AccessibleState.FOCUSED);
                 }
             }
+            @Override
             public void focusLost(FocusEvent event) {
                 if (accessibleContext != null) {
                     accessibleContext.firePropertyChange(
@@ -9125,6 +9215,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param listener  the property change listener to be added
          */
+        @Override
         public void addPropertyChangeListener(PropertyChangeListener listener) {
             if (accessibleAWTComponentHandler == null) {
                 accessibleAWTComponentHandler = new AccessibleAWTComponentHandler();
@@ -9146,6 +9237,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param listener  The PropertyChangeListener to be removed
          */
+        @Override
         public void removePropertyChangeListener(PropertyChangeListener listener) {
             if (--propertyListenersCount == 0) {
                 Component.this.removeComponentListener(accessibleAWTComponentHandler);
@@ -9171,6 +9263,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *         object does not have a name
          * @see javax.accessibility.AccessibleContext#setAccessibleName
          */
+        @Override
         public String getAccessibleName() {
             return accessibleName;
         }
@@ -9190,6 +9283,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *        <code>null</code> if this object does not have a description
          * @see javax.accessibility.AccessibleContext#setAccessibleDescription
          */
+        @Override
         public String getAccessibleDescription() {
             return accessibleDescription;
         }
@@ -9201,6 +9295,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *      describing the role of the object
          * @see javax.accessibility.AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.AWT_COMPONENT;
         }
@@ -9212,6 +9307,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *       containing the current state set of the object
          * @see javax.accessibility.AccessibleState
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             return Component.this.getAccessibleStateSet();
         }
@@ -9225,6 +9321,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *      object -- can be <code>null</code> if this
          *      object does not have an <code>Accessible</code> parent
          */
+        @Override
         public Accessible getAccessibleParent() {
             if (accessibleParent != null) {
                 return accessibleParent;
@@ -9244,6 +9341,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *    object does not have an accessible parent
          * @see #getAccessibleParent
          */
+        @Override
         public int getAccessibleIndexInParent() {
             return Component.this.getAccessibleIndexInParent();
         }
@@ -9255,6 +9353,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return the number of accessible children in the object
          */
+        @Override
         public int getAccessibleChildrenCount() {
             return 0; // Components don't have children
         }
@@ -9265,6 +9364,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @param i zero-based index of child
          * @return the nth <code>Accessible</code> child of the object
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             return null; // Components don't have children
         }
@@ -9274,6 +9374,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return the locale of this object
          */
+        @Override
         public Locale getLocale() {
             return Component.this.getLocale();
         }
@@ -9285,6 +9386,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return the component
          */
+        @Override
         public AccessibleComponent getAccessibleComponent() {
             return this;
         }
@@ -9298,6 +9400,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return the background color, if supported, of the object;
          *      otherwise, <code>null</code>
          */
+        @Override
         public Color getBackground() {
             return Component.this.getBackground();
         }
@@ -9309,6 +9412,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @param c the new <code>Color</code> for the background
          * @see Component#isOpaque
          */
+        @Override
         public void setBackground(Color c) {
             Component.this.setBackground(c);
         }
@@ -9319,6 +9423,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return the foreground color, if supported, of the object;
          *     otherwise, <code>null</code>
          */
+        @Override
         public Color getForeground() {
             return Component.this.getForeground();
         }
@@ -9328,6 +9433,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param c the new <code>Color</code> for the foreground
          */
+        @Override
         public void setForeground(Color c) {
             Component.this.setForeground(c);
         }
@@ -9338,6 +9444,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return the <code>Cursor</code>, if supported,
          *     of the object; otherwise, <code>null</code>
          */
+        @Override
         public Cursor getCursor() {
             return Component.this.getCursor();
         }
@@ -9350,6 +9457,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * changing the mouse cursor shape.
          * @param cursor the new <code>Cursor</code> for the object
          */
+        @Override
         public void setCursor(Cursor cursor) {
             Component.this.setCursor(cursor);
         }
@@ -9360,6 +9468,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return the <code>Font</code>, if supported,
          *    for the object; otherwise, <code>null</code>
          */
+        @Override
         public Font getFont() {
             return Component.this.getFont();
         }
@@ -9369,6 +9478,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param f the new <code>Font</code> for the object
          */
+        @Override
         public void setFont(Font f) {
             Component.this.setFont(f);
         }
@@ -9381,6 +9491,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *     the object; otherwise, <code>null</code>
          * @see #getFont
          */
+        @Override
         public FontMetrics getFontMetrics(Font f) {
             if (f == null) {
                 return null;
@@ -9394,6 +9505,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return true if object is enabled; otherwise, false
          */
+        @Override
         public boolean isEnabled() {
             return Component.this.isEnabled();
         }
@@ -9403,6 +9515,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param b if true, enables this object; otherwise, disables it
          */
+        @Override
         public void setEnabled(boolean b) {
             boolean old = Component.this.isEnabled();
             Component.this.setEnabled(b);
@@ -9430,6 +9543,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return true if object is visible; otherwise, false
          */
+        @Override
         public boolean isVisible() {
             return Component.this.isVisible();
         }
@@ -9439,6 +9553,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param b if true, shows this object; otherwise, hides it
          */
+        @Override
         public void setVisible(boolean b) {
             boolean old = Component.this.isVisible();
             Component.this.setVisible(b);
@@ -9466,6 +9581,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return true if object is showing; otherwise, false
          */
+        @Override
         public boolean isShowing() {
             return Component.this.isShowing();
         }
@@ -9479,6 +9595,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *     coordinate system of the object
          * @return true if object contains <code>Point</code>; otherwise false
          */
+        @Override
         public boolean contains(Point p) {
             return Component.this.contains(p);
         }
@@ -9489,6 +9606,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return location of object on screen -- can be
          *    <code>null</code> if this object is not on the screen
          */
+        @Override
         public Point getLocationOnScreen() {
             synchronized (Component.this.getTreeLock()) {
                 if (Component.this.isShowing()) {
@@ -9508,6 +9626,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * the object's bounds in the coordinate space of the screen;
          * <code>null</code> if this object or its parent are not on the screen
          */
+        @Override
         public Point getLocation() {
             return Component.this.getLocation();
         }
@@ -9516,6 +9635,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * Sets the location of the object relative to the parent.
          * @param p  the coordinates of the object
          */
+        @Override
         public void setLocation(Point p) {
             Component.this.setLocation(p);
         }
@@ -9528,6 +9648,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return a rectangle indicating this component's bounds;
          *   <code>null</code> if this object is not on the screen
          */
+        @Override
         public Rectangle getBounds() {
             return Component.this.getBounds();
         }
@@ -9540,6 +9661,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param r a rectangle indicating this component's bounds
          */
+        @Override
         public void setBounds(Rectangle r) {
             Component.this.setBounds(r);
         }
@@ -9555,6 +9677,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *     the size of this component; <code>null</code> if
          *     this object is not on the screen
          */
+        @Override
         public Dimension getSize() {
             return Component.this.getSize();
         }
@@ -9564,6 +9687,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param d - the dimension specifying the new size of the object
          */
+        @Override
         public void setSize(Dimension d) {
             Component.this.setSize(d);
         }
@@ -9580,6 +9704,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          * @return the <code>Accessible</code>, if it exists,
          *      at the specified location; else <code>null</code>
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             return null; // Components don't have children
         }
@@ -9589,6 +9714,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @return true if object can accept focus; otherwise false
          */
+        @Override
         public boolean isFocusTraversable() {
             return Component.this.isFocusTraversable();
         }
@@ -9596,6 +9722,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
         /**
          * Requests focus for this object.
          */
+        @Override
         public void requestFocus() {
             Component.this.requestFocus();
         }
@@ -9606,6 +9733,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param l the focus listener
          */
+        @Override
         public void addFocusListener(FocusListener l) {
             Component.this.addFocusListener(l);
         }
@@ -9616,6 +9744,7 @@ public abstract class Component implements ImageObserver, MenuContainer,
          *
          * @param l the focus listener
          */
+        @Override
         public void removeFocusListener(FocusListener l) {
             Component.this.removeFocusListener(l);
         }
@@ -9712,8 +9841,12 @@ public abstract class Component implements ImageObserver, MenuContainer,
      *         false, otherwise, or if obj or className is null
      */
     static boolean isInstanceOf(Object obj, String className) {
-        if (obj == null) return false;
-        if (className == null) return false;
+        if (obj == null) {
+            return false;
+        }
+        if (className == null) {
+            return false;
+        }
 
         Class<?> cls = obj.getClass();
         while (cls != null) {

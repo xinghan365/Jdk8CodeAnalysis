@@ -279,8 +279,9 @@ public abstract class Charset
     static boolean atBugLevel(String bl) {              // package-private
         String level = bugLevel;
         if (level == null) {
-            if (!sun.misc.VM.isBooted())
+            if (!sun.misc.VM.isBooted()) {
                 return false;
+            }
             bugLevel = level = AccessController.doPrivileged(
                 new GetPropertyAction("sun.nio.cs.bugLevel", ""));
         }
@@ -299,19 +300,36 @@ public abstract class Charset
     private static void checkName(String s) {
         int n = s.length();
         if (!atBugLevel("1.4")) {
-            if (n == 0)
+            if (n == 0) {
                 throw new IllegalCharsetNameException(s);
+            }
         }
         for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
-            if (c >= 'A' && c <= 'Z') continue;
-            if (c >= 'a' && c <= 'z') continue;
-            if (c >= '0' && c <= '9') continue;
-            if (c == '-' && i != 0) continue;
-            if (c == '+' && i != 0) continue;
-            if (c == ':' && i != 0) continue;
-            if (c == '_' && i != 0) continue;
-            if (c == '.' && i != 0) continue;
+            if (c >= 'A' && c <= 'Z') {
+                continue;
+            }
+            if (c >= 'a' && c <= 'z') {
+                continue;
+            }
+            if (c >= '0' && c <= '9') {
+                continue;
+            }
+            if (c == '-' && i != 0) {
+                continue;
+            }
+            if (c == '+' && i != 0) {
+                continue;
+            }
+            if (c == ':' && i != 0) {
+                continue;
+            }
+            if (c == '_' && i != 0) {
+                continue;
+            }
+            if (c == '.' && i != 0) {
+                continue;
+            }
             throw new IllegalCharsetNameException(s);
         }
     }
@@ -347,8 +365,9 @@ public abstract class Charset
                 private boolean getNext() {
                     while (next == null) {
                         try {
-                            if (!i.hasNext())
+                            if (!i.hasNext()) {
                                 return false;
+                            }
                             next = i.next();
                         } catch (ServiceConfigurationError sce) {
                             if (sce.getCause() instanceof SecurityException) {
@@ -361,18 +380,22 @@ public abstract class Charset
                     return true;
                 }
 
+                @Override
                 public boolean hasNext() {
                     return getNext();
                 }
 
+                @Override
                 public CharsetProvider next() {
-                    if (!getNext())
+                    if (!getNext()) {
                         throw new NoSuchElementException();
+                    }
                     CharsetProvider n = next;
                     next = null;
                     return n;
                 }
 
+                @Override
                 public void remove() {
                     throw new UnsupportedOperationException();
                 }
@@ -394,24 +417,29 @@ public abstract class Charset
         // that loader to be prematurely initialized with incomplete
         // information.
         //
-        if (!sun.misc.VM.isBooted())
+        if (!sun.misc.VM.isBooted()) {
             return null;
+        }
 
         if (gate.get() != null)
             // Avoid recursive provider lookups
+        {
             return null;
+        }
         try {
             gate.set(gate);
 
             return AccessController.doPrivileged(
                 new PrivilegedAction<Charset>() {
+                    @Override
                     public Charset run() {
                         for (Iterator<CharsetProvider> i = providers();
                              i.hasNext();) {
                             CharsetProvider cp = i.next();
                             Charset cs = cp.charsetForName(charsetName);
-                            if (cs != null)
+                            if (cs != null) {
                                 return cs;
+                            }
                         }
                         return null;
                     }
@@ -429,6 +457,7 @@ public abstract class Charset
         private static CharsetProvider extendedProvider() {
             return AccessController.doPrivileged(
                        new PrivilegedAction<CharsetProvider>() {
+                           @Override
                            public CharsetProvider run() {
                                 try {
                                     Class<?> epc
@@ -453,11 +482,13 @@ public abstract class Charset
     }
 
     private static Charset lookup(String charsetName) {
-        if (charsetName == null)
+        if (charsetName == null) {
             throw new IllegalArgumentException("Null charset name");
+        }
         Object[] a;
-        if ((a = cache1) != null && charsetName.equals(a[0]))
+        if ((a = cache1) != null && charsetName.equals(a[0])) {
             return (Charset)a[1];
+        }
         // We expect most programs to use one Charset repeatedly.
         // We convey a hint to this effect to the VM by putting the
         // level 1 cache miss code in a separate method.
@@ -526,8 +557,9 @@ public abstract class Charset
      */
     public static Charset forName(String charsetName) {
         Charset cs = lookup(charsetName);
-        if (cs != null)
+        if (cs != null) {
             return cs;
+        }
         throw new UnsupportedCharsetException(charsetName);
     }
 
@@ -537,8 +569,9 @@ public abstract class Charset
     private static void put(Iterator<Charset> i, Map<String,Charset> m) {
         while (i.hasNext()) {
             Charset cs = i.next();
-            if (!m.containsKey(cs.name()))
+            if (!m.containsKey(cs.name())) {
                 m.put(cs.name(), cs);
+            }
         }
     }
 
@@ -571,14 +604,16 @@ public abstract class Charset
     public static SortedMap<String,Charset> availableCharsets() {
         return AccessController.doPrivileged(
             new PrivilegedAction<SortedMap<String,Charset>>() {
+                @Override
                 public SortedMap<String,Charset> run() {
                     TreeMap<String,Charset> m =
                         new TreeMap<String,Charset>(
                             ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
                     put(standardProvider.charsets(), m);
                     CharsetProvider ecp = ExtendedProviderHolder.extendedProvider;
-                    if (ecp != null)
+                    if (ecp != null) {
                         put(ecp.charsets(), m);
+                    }
                     for (Iterator<CharsetProvider> i = providers(); i.hasNext();) {
                         CharsetProvider cp = i.next();
                         put(cp.charsets(), m);
@@ -607,10 +642,11 @@ public abstract class Charset
                 String csn = AccessController.doPrivileged(
                     new GetPropertyAction("file.encoding"));
                 Charset cs = lookup(csn);
-                if (cs != null)
+                if (cs != null) {
                     defaultCharset = cs;
-                else
+                } else {
                     defaultCharset = forName("UTF-8");
+                }
             }
         }
         return defaultCharset;
@@ -639,8 +675,9 @@ public abstract class Charset
     protected Charset(String canonicalName, String[] aliases) {
         checkName(canonicalName);
         String[] as = (aliases == null) ? new String[0] : aliases;
-        for (int i = 0; i < as.length; i++)
+        for (int i = 0; i < as.length; i++) {
             checkName(as[i]);
+        }
         this.name = canonicalName;
         this.aliases = as;
     }
@@ -660,12 +697,14 @@ public abstract class Charset
      * @return  An immutable set of this charset's aliases
      */
     public final Set<String> aliases() {
-        if (aliasSet != null)
+        if (aliasSet != null) {
             return aliasSet;
+        }
         int n = aliases.length;
         HashSet<String> hs = new HashSet<String>(n);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             hs.add(aliases[i]);
+        }
         aliasSet = Collections.unmodifiableSet(hs);
         return aliasSet;
     }
@@ -875,6 +914,7 @@ public abstract class Charset
      * @return A negative integer, zero, or a positive integer as this charset
      *         is less than, equal to, or greater than the specified charset
      */
+    @Override
     public final int compareTo(Charset that) {
         return (name().compareToIgnoreCase(that.name()));
     }
@@ -884,6 +924,7 @@ public abstract class Charset
      *
      * @return  An integer hashcode
      */
+    @Override
     public final int hashCode() {
         return name().hashCode();
     }
@@ -897,11 +938,14 @@ public abstract class Charset
      * @return  <tt>true</tt> if, and only if, this charset is equal to the
      *          given object
      */
+    @Override
     public final boolean equals(Object ob) {
-        if (!(ob instanceof Charset))
+        if (!(ob instanceof Charset)) {
             return false;
-        if (this == ob)
+        }
+        if (this == ob) {
             return true;
+        }
         return name.equals(((Charset)ob).name());
     }
 
@@ -910,6 +954,7 @@ public abstract class Charset
      *
      * @return  A string describing this charset
      */
+    @Override
     public final String toString() {
         return name();
     }

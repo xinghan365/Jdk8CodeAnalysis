@@ -116,6 +116,7 @@ public final class SimpleDoc implements Doc {
      *
      * @return  Doc flavor.
      */
+    @Override
     public DocFlavor getDocFlavor() {
         return flavor;
     }
@@ -136,6 +137,7 @@ public final class SimpleDoc implements Doc {
      *          to obtain all attribute values from the job's attribute
      *          set.
      */
+    @Override
     public DocAttributeSet getAttributes() {
         return attributes;
     }
@@ -155,6 +157,7 @@ public final class SimpleDoc implements Doc {
      * @exception  IOException if the representation class is a stream and
      *     there was an I/O error while constructing the stream.
      */
+    @Override
     public Object getPrintData() throws IOException {
         return printData;
     }
@@ -185,6 +188,7 @@ public final class SimpleDoc implements Doc {
      * @exception  IOException if there was an I/O error while creating
      *             the reader.
      */
+    @Override
     public Reader getReaderForText() throws IOException {
 
         if (printData instanceof Reader) {
@@ -233,6 +237,7 @@ public final class SimpleDoc implements Doc {
      * @exception  IOException
      *     if there was an I/O error while creating the input stream.
      */
+    @Override
     public InputStream getStreamForBytes() throws IOException {
 
         if (printData instanceof InputStream) {

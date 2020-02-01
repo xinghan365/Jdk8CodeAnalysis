@@ -96,13 +96,15 @@ public class ActivationException extends Exception {
      *
      * @return  the detail message
      */
+    @Override
     public String getMessage() {
-        if (detail == null)
+        if (detail == null) {
             return super.getMessage();
-        else
+        } else {
             return super.getMessage() +
                 "; nested exception is: \n\t" +
                 detail.toString();
+        }
     }
 
     /**
@@ -112,6 +114,7 @@ public class ActivationException extends Exception {
      * @return  the cause, which may be <tt>null</tt>.
      * @since   1.4
      */
+    @Override
     public Throwable getCause() {
         return detail;
     }

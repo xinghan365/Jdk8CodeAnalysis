@@ -61,6 +61,7 @@ class NoFramesView extends BlockView {
      * @see #isVisible
      * @see text.ParagraphView#paint
      */
+    @Override
     public void paint(Graphics g, Shape allocation) {
         Container host = getContainer();
         if (host != null &&
@@ -85,6 +86,7 @@ class NoFramesView extends BlockView {
      * @param p the parent View.
      * @see BlockView#setParent
      */
+    @Override
     public void setParent(View p) {
         if (p != null) {
             Container host = p.getContainer();
@@ -99,6 +101,7 @@ class NoFramesView extends BlockView {
      * Returns a true/false value that represents
      * whether the view is visible or not.
      */
+    @Override
     public boolean isVisible() {
         return visible;
     }
@@ -108,6 +111,7 @@ class NoFramesView extends BlockView {
      * Do nothing if the view is not visible, otherwise
      * invoke the superclass to perform layout.
      */
+    @Override
     protected void layout(int width, int height) {
         if (!isVisible()) {
             return;
@@ -128,6 +132,7 @@ class NoFramesView extends BlockView {
      *           the parent may choose to resize or break the view
      * @see text.ParagraphView#getPreferredSpan
      */
+    @Override
     public float getPreferredSpan(int axis) {
         if (!visible) {
             return 0;
@@ -145,6 +150,7 @@ class NoFramesView extends BlockView {
      * @return  the minimum span the view can be rendered into
      * @see text.ParagraphView#getMinimumSpan
      */
+    @Override
     public float getMinimumSpan(int axis) {
         if (!visible) {
             return 0;
@@ -162,6 +168,7 @@ class NoFramesView extends BlockView {
      * @return  the maximum span the view can be rendered into
      * @see text.ParagraphView#getMaximumSpan
      */
+    @Override
     public float getMaximumSpan(int axis) {
         if (!visible) {
             return 0;

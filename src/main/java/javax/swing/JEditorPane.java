@@ -196,6 +196,7 @@ public class JEditorPane extends JTextComponent {
         super();
         setFocusCycleRoot(true);
         setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                @Override
                 public Component getComponentAfter(Container focusCycleRoot,
                                                    Component aComponent) {
                     if (focusCycleRoot != JEditorPane.this ||
@@ -211,6 +212,7 @@ public class JEditorPane extends JTextComponent {
                             : null;
                     }
                 }
+                @Override
                 public Component getComponentBefore(Container focusCycleRoot,
                                                     Component aComponent) {
                     if (focusCycleRoot != JEditorPane.this ||
@@ -226,6 +228,7 @@ public class JEditorPane extends JTextComponent {
                             : null;
                     }
                 }
+                @Override
                 public Component getDefaultComponent(Container focusCycleRoot)
                 {
                     return (focusCycleRoot != JEditorPane.this ||
@@ -233,6 +236,7 @@ public class JEditorPane extends JTextComponent {
                         ? super.getDefaultComponent(focusCycleRoot)
                         : null;
                 }
+                @Override
                 protected boolean accept(Component aComponent) {
                     return (aComponent != JEditorPane.this)
                         ? super.accept(aComponent)
@@ -472,6 +476,7 @@ public class JEditorPane extends JTextComponent {
             else {
                 // Have to scroll after painted.
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         scrollToReference(reference);
                     }
@@ -615,6 +620,7 @@ public class JEditorPane extends JTextComponent {
          * to the reference (if specified).  When done, fire
          * a page property change event.
          */
+        @Override
         protected URL doInBackground() {
             boolean pageLoaded = false;
             try {
@@ -631,6 +637,7 @@ public class JEditorPane extends JTextComponent {
                 if (doc == null) {
                     try {
                         SwingUtilities.invokeAndWait(new Runnable() {
+                            @Override
                             public void run() {
                                 doc = initializeModel(kit, page);
                                 setDocument(doc);
@@ -655,6 +662,7 @@ public class JEditorPane extends JTextComponent {
                     // event thread... that is the only guarantee that
                     // modelToView can be safely called.
                     Runnable callScrollToReference = new Runnable() {
+                        @Override
                         public void run() {
                             URL u = (URL) getDocument().getProperty
                                 (Document.StreamDescriptionProperty);
@@ -670,6 +678,7 @@ public class JEditorPane extends JTextComponent {
             } finally {
                 if (pageLoaded) {
                     SwingUtilities.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             JEditorPane.this.firePropertyChange("page", old, page);
                         }
@@ -755,6 +764,7 @@ public class JEditorPane extends JTextComponent {
         } else {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
+                    @Override
                     public void run() {
                         handleConnectionProperties(conn);
                     }
@@ -887,6 +897,7 @@ public class JEditorPane extends JTextComponent {
      * @see JComponent#getUIClassID
      * @see UIDefaults#getUI
      */
+    @Override
     public String getUIClassID() {
         return uiClassID;
     }
@@ -1329,6 +1340,7 @@ public class JEditorPane extends JTextComponent {
      *
      * @return a <code>Dimension</code> containing the preferred size
      */
+    @Override
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
         Container parent = SwingUtilities.getUnwrappedParent(this);
@@ -1404,6 +1416,7 @@ public class JEditorPane extends JTextComponent {
      * @beaninfo
      * description: the text of this component
      */
+    @Override
     public void setText(String t) {
         try {
             Document doc = getDocument();
@@ -1432,6 +1445,7 @@ public class JEditorPane extends JTextComponent {
      * @return the text
      * @see #setText
      */
+    @Override
     public String getText() {
         String txt;
         try {
@@ -1453,6 +1467,7 @@ public class JEditorPane extends JTextComponent {
      * @return true if a viewport should force the Scrollables width to
      * match its own, false otherwise
      */
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         Container parent = SwingUtilities.getUnwrappedParent(this);
         if (parent instanceof JViewport) {
@@ -1476,6 +1491,7 @@ public class JEditorPane extends JTextComponent {
      *          <code>Scrollable</code>'s height to match its own,
      *          false otherwise
      */
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         Container parent = SwingUtilities.getUnwrappedParent(this);
         if (parent instanceof JViewport) {
@@ -1587,6 +1603,7 @@ public class JEditorPane extends JTextComponent {
      *
      * @return  a string representation of this <code>JEditorPane</code>
      */
+    @Override
     protected String paramString() {
         String kitString = (kit != null ?
                             kit.toString() : "");
@@ -1613,6 +1630,7 @@ public class JEditorPane extends JTextComponent {
      * @return an AccessibleJEditorPane that serves as the
      *         AccessibleContext of this JEditorPane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (getEditorKit() instanceof HTMLEditorKit) {
             if (accessibleContext == null || accessibleContext.getClass() !=
@@ -1653,6 +1671,7 @@ public class JEditorPane extends JTextComponent {
          *
          * @see #setAccessibleName
          */
+        @Override
         public String getAccessibleDescription() {
             String description = accessibleDescription;
 
@@ -1673,6 +1692,7 @@ public class JEditorPane extends JTextComponent {
          * of the object
          * @see AccessibleStateSet
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             states.add(AccessibleState.MULTI_LINE);
@@ -1699,6 +1719,7 @@ public class JEditorPane extends JTextComponent {
 
         private AccessibleContext accessibleContext;
 
+        @Override
         public AccessibleText getAccessibleText() {
             return new JEditorPaneAccessibleHypertextSupport();
         }
@@ -1713,6 +1734,7 @@ public class JEditorPane extends JTextComponent {
          *
          * @return the number of accessible children of the object.
          */
+        @Override
         public int getAccessibleChildrenCount() {
             if (accessibleContext != null) {
                 return accessibleContext.getAccessibleChildrenCount();
@@ -1731,6 +1753,7 @@ public class JEditorPane extends JTextComponent {
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
+        @Override
         public Accessible getAccessibleChild(int i) {
             if (accessibleContext != null) {
                 return accessibleContext.getAccessibleChild(i);
@@ -1747,6 +1770,7 @@ public class JEditorPane extends JTextComponent {
          * @return the Accessible, if it exists, at the specified location;
          * otherwise null
          */
+        @Override
         public Accessible getAccessibleAt(Point p) {
             if (accessibleContext != null && p != null) {
                 try {
@@ -1793,6 +1817,7 @@ public class JEditorPane extends JTextComponent {
              * @return a flag indicating whether this link is still valid with
              *         respect to the AccessibleHypertext it belongs to
              */
+            @Override
             public boolean isValid() {
                 return JEditorPaneAccessibleHypertextSupport.this.linksValid;
             }
@@ -1805,6 +1830,7 @@ public class JEditorPane extends JTextComponent {
              *
              * @return the zero-based number of Actions in this object
              */
+            @Override
             public int getAccessibleActionCount() {
                 return 1;
             }
@@ -1816,6 +1842,7 @@ public class JEditorPane extends JTextComponent {
              * @return true if the the action was performed; else false.
              * @see #getAccessibleActionCount
              */
+            @Override
             public boolean doAccessibleAction(int i) {
                 if (i == 0 && isValid() == true) {
                     URL u = (URL) getAccessibleActionObject(i);
@@ -1839,6 +1866,7 @@ public class JEditorPane extends JTextComponent {
              * @return a String description of the action
              * @see #getAccessibleActionCount
              */
+            @Override
             public String getAccessibleActionDescription(int i) {
                 if (i == 0 && isValid() == true) {
                     Document d = JEditorPane.this.getDocument();
@@ -1861,6 +1889,7 @@ public class JEditorPane extends JTextComponent {
              * @return an URL representing the HTML link itself
              * @see #getAccessibleActionCount
              */
+            @Override
             public Object getAccessibleActionObject(int i) {
                 if (i == 0 && isValid() == true) {
                     AttributeSet as = element.getAttributes();
@@ -1896,6 +1925,7 @@ public class JEditorPane extends JTextComponent {
              * @return an Object representing the hypertext anchor
              * @see #getAccessibleActionCount
              */
+            @Override
             public Object getAccessibleActionAnchor(int i) {
                 return getAccessibleActionDescription(i);
             }
@@ -1907,6 +1937,7 @@ public class JEditorPane extends JTextComponent {
              *
              * @return index of start of link
              */
+            @Override
             public int getStartIndex() {
                 return element.getStartOffset();
             }
@@ -1917,6 +1948,7 @@ public class JEditorPane extends JTextComponent {
              *
              * @return index of end of link
              */
+            @Override
             public int getEndIndex() {
                 return element.getEndOffset();
             }
@@ -1973,12 +2005,15 @@ public class JEditorPane extends JTextComponent {
             Document d = JEditorPane.this.getDocument();
             if (d != null) {
                 d.addDocumentListener(new DocumentListener() {
+                    @Override
                     public void changedUpdate(DocumentEvent theEvent) {
                         linksValid = false;
                     }
+                    @Override
                     public void insertUpdate(DocumentEvent theEvent) {
                         linksValid = false;
                     }
+                    @Override
                     public void removeUpdate(DocumentEvent theEvent) {
                         linksValid = false;
                     }
@@ -1991,6 +2026,7 @@ public class JEditorPane extends JTextComponent {
          *
          * @return number of links in this hypertext doc.
          */
+        @Override
         public int getLinkCount() {
             if (linksValid == false) {
                 buildLinkTable();
@@ -2006,6 +2042,7 @@ public class JEditorPane extends JTextComponent {
          * @param  charIndex index within the text
          * @return index into the set of hyperlinks for this hypertext doc.
          */
+        @Override
         public int getLinkIndex(int charIndex) {
             if (linksValid == false) {
                 buildLinkTable();
@@ -2033,6 +2070,7 @@ public class JEditorPane extends JTextComponent {
          * @param linkIndex into the set of hyperlinks for this hypertext doc.
          * @return string representation of the hyperlink
          */
+        @Override
         public AccessibleHyperlink getLink(int linkIndex) {
             if (linksValid == false) {
                 buildLinkTable();
@@ -2081,6 +2119,7 @@ public class JEditorPane extends JTextComponent {
          *
          * @return the view factory
          */
+        @Override
         public ViewFactory getViewFactory() {
             return this;
         }
@@ -2093,6 +2132,7 @@ public class JEditorPane extends JTextComponent {
          * @return the view
          * @see View
          */
+        @Override
         public View create(Element elem) {
             Document doc = elem.getDocument();
             Object i18nFlag
@@ -2129,6 +2169,7 @@ public class JEditorPane extends JTextComponent {
                 layoutPool.setParent(this);
             }
 
+            @Override
             protected void setPropertiesFromAttributes() {
                 Component c = getContainer();
                 if ((c != null)
@@ -2144,6 +2185,7 @@ public class JEditorPane extends JTextComponent {
              * Fetch the constraining span to flow against for
              * the given child index.
              */
+            @Override
             public int getFlowSpan(int index) {
                 Component c = getContainer();
                 if (c instanceof JTextArea) {
@@ -2156,8 +2198,9 @@ public class JEditorPane extends JTextComponent {
                 return super.getFlowSpan(index);
             }
 
+            @Override
             protected SizeRequirements calculateMinorAxisRequirements(int axis,
-                                                            SizeRequirements r)
+                                                                      SizeRequirements r)
             {
                 SizeRequirements req
                     = super.calculateMinorAxisRequirements(axis, r);
@@ -2185,6 +2228,7 @@ public class JEditorPane extends JTextComponent {
                     super(elem);
                 }
 
+                @Override
                 protected int getViewIndexAtPosition(int pos) {
                     Element elem = getElement();
                     if (elem.getElementCount() > 0) {
@@ -2193,6 +2237,7 @@ public class JEditorPane extends JTextComponent {
                     return 0;
                 }
 
+                @Override
                 protected boolean
                 updateChildren(DocumentEvent.ElementChange ec,
                                DocumentEvent e, ViewFactory f)
@@ -2200,6 +2245,7 @@ public class JEditorPane extends JTextComponent {
                     return false;
                 }
 
+                @Override
                 protected void loadChildren(ViewFactory f) {
                     Element elem = getElement();
                     if (elem.getElementCount() > 0) {
@@ -2210,9 +2256,11 @@ public class JEditorPane extends JTextComponent {
                     }
                 }
 
+                @Override
                 public float getPreferredSpan(int axis) {
-                    if( getViewCount() != 1 )
+                    if( getViewCount() != 1 ) {
                         throw new Error("One child view is assumed.");
+                    }
 
                     View v = getView(0);
                     //((GlyphView)v).setGlyphPainter(null);
@@ -2234,6 +2282,7 @@ public class JEditorPane extends JTextComponent {
                  * @see #forwardUpdate
                  * @since 1.3
                  */
+                @Override
                 protected void forwardUpdateToView(View v, DocumentEvent e,
                                                    Shape a, ViewFactory f) {
                     v.setParent(this);
@@ -2243,21 +2292,26 @@ public class JEditorPane extends JTextComponent {
                 // The following methods don't do anything useful, they
                 // simply keep the class from being abstract.
 
+                @Override
                 public void paint(Graphics g, Shape allocation) {
                 }
 
+                @Override
                 protected boolean isBefore(int x, int y, Rectangle alloc) {
                     return false;
                 }
 
+                @Override
                 protected boolean isAfter(int x, int y, Rectangle alloc) {
                     return false;
                 }
 
+                @Override
                 protected View getViewAtPoint(int x, int y, Rectangle alloc) {
                     return null;
                 }
 
+                @Override
                 protected void childAllocation(int index, Rectangle a) {
                 }
             }
@@ -2370,14 +2424,16 @@ static class HeaderParser {
     }
 
     public String findKey(int i) {
-        if (i < 0 || i > 10)
+        if (i < 0 || i > 10) {
             return null;
+        }
         return tab[i][0];
     }
 
     public String findValue(int i) {
-        if (i < 0 || i > 10)
+        if (i < 0 || i > 10) {
             return null;
+        }
         return tab[i][1];
     }
 
@@ -2386,8 +2442,9 @@ static class HeaderParser {
     }
 
     public String findValue(String k, String Default) {
-        if (k == null)
+        if (k == null) {
             return Default;
+        }
         k = k.toLowerCase();
         for (int i = 0; i < 10; ++i) {
             if (tab[i][0] == null) {

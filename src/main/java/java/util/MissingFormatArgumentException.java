@@ -50,8 +50,9 @@ public class MissingFormatArgumentException extends IllegalFormatException {
      *         Format specifier which does not have a corresponding argument
      */
     public MissingFormatArgumentException(String s) {
-        if (s == null)
+        if (s == null) {
             throw new NullPointerException();
+        }
         this.s = s;
     }
 
@@ -64,6 +65,7 @@ public class MissingFormatArgumentException extends IllegalFormatException {
         return s;
     }
 
+    @Override
     public String getMessage() {
         return "Format specifier '" + s + "'";
     }

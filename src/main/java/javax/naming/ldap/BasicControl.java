@@ -89,6 +89,7 @@ public class BasicControl implements Control {
      *
      * @return The non-null object identifier string.
      */
+    @Override
     public String getID() {
         return id;
     }
@@ -98,6 +99,7 @@ public class BasicControl implements Control {
      *
      * @return true if the control is critical; false otherwise.
      */
+    @Override
     public boolean isCritical() {
         return criticality;
     }
@@ -111,6 +113,7 @@ public class BasicControl implements Control {
      *          ASN.1 BER encoded value. It is not cloned - any changes to the
      *          returned value will affect the contents of the control.
      */
+    @Override
     public byte[] getEncodedValue() {
         return value;
     }

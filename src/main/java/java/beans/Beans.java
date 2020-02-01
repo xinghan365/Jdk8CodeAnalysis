@@ -176,10 +176,11 @@ public class Beans {
 
         // Try to find a serialized object with this name
         final String serName = beanName.replace('.','/').concat(".ser");
-        if (cls == null)
+        if (cls == null) {
             ins =  ClassLoader.getSystemResourceAsStream(serName);
-        else
+        } else {
             ins =  cls.getResourceAsStream(serName);
+        }
         if (ins != null) {
             try {
                 if (cls == null) {
@@ -272,8 +273,9 @@ public class Beans {
                     // Now get the URL correponding to the resource name.
                     if (cls == null) {
                         objectUrl = ClassLoader.getSystemResource(resourceName);
-                    } else
+                    } else {
                         objectUrl = cls.getResource(resourceName);
+                    }
 
                     // If we found a URL, we try to locate the docbase by taking
                     // of the final path name component, and the code base by taking
@@ -327,9 +329,13 @@ public class Beans {
 
                 if (needDummies) {
                   ((BeansAppletStub)stub).active = true;
-                } else initializer.activate(applet);
+                } else {
+                    initializer.activate(applet);
+                }
 
-            } else if (beanContext != null) unsafeBeanContextAdd(beanContext, result);
+            } else if (beanContext != null) {
+                unsafeBeanContextAdd(beanContext, result);
+            }
         }
 
         return result;
@@ -484,6 +490,7 @@ class ObjectInputStreamWithLoader extends ObjectInputStream
     /**
      * Use the given ClassLoader rather than using the system class
      */
+    @Override
     @SuppressWarnings("rawtypes")
     protected Class resolveClass(ObjectStreamClass classDesc)
         throws IOException, ClassNotFoundException {
@@ -506,6 +513,7 @@ class BeansAppletContext implements AppletContext {
         this.target = target;
     }
 
+    @Override
     public AudioClip getAudioClip(URL url) {
         // We don't currently support audio clips in the Beans.instantiate
         // applet context, unless by some luck there exists a URL content
@@ -517,6 +525,7 @@ class BeansAppletContext implements AppletContext {
         }
     }
 
+    @Override
     public synchronized Image getImage(URL url) {
         Object o = imageCache.get(url);
         if (o != null) {
@@ -541,37 +550,45 @@ class BeansAppletContext implements AppletContext {
         }
     }
 
+    @Override
     public Applet getApplet(String name) {
         return null;
     }
 
+    @Override
     public Enumeration<Applet> getApplets() {
         Vector<Applet> applets = new Vector<>();
         applets.addElement(target);
         return applets.elements();
     }
 
+    @Override
     public void showDocument(URL url) {
         // We do nothing.
     }
 
+    @Override
     public void showDocument(URL url, String target) {
         // We do nothing.
     }
 
+    @Override
     public void showStatus(String status) {
         // We do nothing.
     }
 
+    @Override
     public void setStream(String key, InputStream stream)throws IOException{
         // We do nothing.
     }
 
+    @Override
     public InputStream getStream(String key){
         // We do nothing.
         return null;
     }
 
+    @Override
     public Iterator<String> getStreamKeys(){
         // We do nothing.
         return null;
@@ -598,28 +615,34 @@ class BeansAppletStub implements AppletStub {
         this.docBase = docBase;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public URL getDocumentBase() {
         // use the root directory of the applet's class-loader
         return docBase;
     }
 
+    @Override
     public URL getCodeBase() {
         // use the directory where we found the class or serialized object.
         return codeBase;
     }
 
+    @Override
     public String getParameter(String name) {
         return null;
     }
 
+    @Override
     public AppletContext getAppletContext() {
         return context;
     }
 
+    @Override
     public void appletResize(int width, int height) {
         // we do nothing.
     }

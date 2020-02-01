@@ -218,8 +218,9 @@ class ZipFile implements ZipConstants, Closeable {
                 sm.checkDelete(name);
             }
         }
-        if (charset == null)
+        if (charset == null) {
             throw new NullPointerException("charset is null");
+        }
         this.zc = ZipCoder.get(charset);
         long t0 = System.nanoTime();
         jzfile = open(name, mode, file.lastModified(), usemmap);
@@ -292,8 +293,9 @@ class ZipFile implements ZipConstants, Closeable {
         synchronized (this) {
             ensureOpen();
             byte[] bcomm = getCommentBytes(jzfile);
-            if (bcomm == null)
+            if (bcomm == null) {
                 return null;
+            }
             return zc.toString(bcomm, bcomm.length);
         }
     }
@@ -383,8 +385,12 @@ class ZipFile implements ZipConstants, Closeable {
             case DEFLATED:
                 // MORE: Compute good size for inflater stream:
                 long size = getEntrySize(jzentry) + 2; // Inflater likes a bit of slack
-                if (size > 65536) size = 8192;
-                if (size <= 0) size = 4096;
+                if (size > 65536) {
+                    size = 8192;
+                }
+                if (size <= 0) {
+                    size = 4096;
+                }
                 Inflater inf = getInflater();
                 InputStream is =
                     new ZipFileInflaterInputStream(in, inf, (int)size);
@@ -409,9 +415,11 @@ class ZipFile implements ZipConstants, Closeable {
             this.zfin = zfin;
         }
 
+        @Override
         public void close() throws IOException {
-            if (closeRequested)
+            if (closeRequested) {
                 return;
+            }
             closeRequested = true;
 
             super.close();
@@ -427,6 +435,7 @@ class ZipFile implements ZipConstants, Closeable {
         // Override fill() method to provide an extra "dummy" byte
         // at the end of the input stream. This is required when
         // using the "nowrap" Inflater option.
+        @Override
         protected void fill() throws IOException {
             if (eof) {
                 throw new EOFException("Unexpected end of ZLIB input stream");
@@ -440,14 +449,17 @@ class ZipFile implements ZipConstants, Closeable {
             inf.setInput(buf, 0, len);
         }
 
+        @Override
         public int available() throws IOException {
-            if (closeRequested)
+            if (closeRequested) {
                 return 0;
+            }
             long avail = zfin.size() - inf.getBytesWritten();
             return (avail > (long) Integer.MAX_VALUE ?
                     Integer.MAX_VALUE : (int) avail);
         }
 
+        @Override
         protected void finalize() throws Throwable {
             close();
         }
@@ -499,10 +511,12 @@ class ZipFile implements ZipConstants, Closeable {
             ensureOpen();
         }
 
+        @Override
         public boolean hasMoreElements() {
             return hasNext();
         }
 
+        @Override
         public boolean hasNext() {
             synchronized (ZipFile.this) {
                 ensureOpen();
@@ -510,10 +524,12 @@ class ZipFile implements ZipConstants, Closeable {
             }
         }
 
+        @Override
         public ZipEntry nextElement() {
             return next();
         }
 
+        @Override
         public ZipEntry next() {
             synchronized (ZipFile.this) {
                 ensureOpen();
@@ -622,9 +638,11 @@ class ZipFile implements ZipConstants, Closeable {
      *
      * @throws IOException if an I/O error has occurred
      */
+    @Override
     public void close() throws IOException {
-        if (closeRequested)
+        if (closeRequested) {
             return;
+        }
         closeRequested = true;
 
         synchronized (this) {
@@ -675,6 +693,7 @@ class ZipFile implements ZipConstants, Closeable {
      * @throws IOException if an I/O error has occurred
      * @see    java.util.zip.ZipFile#close()
      */
+    @Override
     protected void finalize() throws IOException {
         close();
     }
@@ -715,6 +734,7 @@ class ZipFile implements ZipConstants, Closeable {
             this.jzentry = jzentry;
         }
 
+        @Override
         public int read(byte b[], int off, int len) throws IOException {
             synchronized (ZipFile.this) {
                 long rem = this.rem;
@@ -744,6 +764,7 @@ class ZipFile implements ZipConstants, Closeable {
             return len;
         }
 
+        @Override
         public int read() throws IOException {
             byte[] b = new byte[1];
             if (read(b, 0, 1) == 1) {
@@ -753,9 +774,11 @@ class ZipFile implements ZipConstants, Closeable {
             }
         }
 
+        @Override
         public long skip(long n) {
-            if (n > rem)
+            if (n > rem) {
                 n = rem;
+            }
             pos += n;
             rem -= n;
             if (rem == 0) {
@@ -764,6 +787,7 @@ class ZipFile implements ZipConstants, Closeable {
             return n;
         }
 
+        @Override
         public int available() {
             return rem > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rem;
         }
@@ -772,9 +796,11 @@ class ZipFile implements ZipConstants, Closeable {
             return size;
         }
 
+        @Override
         public void close() {
-            if (zfisCloseRequested)
+            if (zfisCloseRequested) {
                 return;
+            }
             zfisCloseRequested = true;
 
             rem = 0;
@@ -789,6 +815,7 @@ class ZipFile implements ZipConstants, Closeable {
             }
         }
 
+        @Override
         protected void finalize() {
             close();
         }
@@ -797,6 +824,7 @@ class ZipFile implements ZipConstants, Closeable {
     static {
         sun.misc.SharedSecrets.setJavaUtilZipFileAccess(
             new sun.misc.JavaUtilZipFileAccess() {
+                @Override
                 public boolean startsWithLocHeader(ZipFile zip) {
                     return zip.startsWithLocHeader();
                 }

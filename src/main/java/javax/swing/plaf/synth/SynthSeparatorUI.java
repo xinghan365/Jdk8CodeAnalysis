@@ -251,6 +251,7 @@ public class SynthSeparatorUI extends SeparatorUI
         return SynthContext.getContext(c, style, state);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
             updateStyle((JSeparator)evt.getSource());

@@ -108,6 +108,7 @@ public abstract class CollationKey implements Comparable<CollationKey> {
      * zero if this is greater than target.
      * @see java.text.Collator#compare
      */
+    @Override
     abstract public int compareTo(CollationKey target);
 
     /**

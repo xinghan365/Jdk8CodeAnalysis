@@ -109,6 +109,7 @@ public abstract class IntegerSyntax implements Serializable, Cloneable {
      * @return  True if <CODE>object</CODE> is equivalent to this integer
      *          attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
 
         return (object != null && object instanceof IntegerSyntax &&
@@ -119,6 +120,7 @@ public abstract class IntegerSyntax implements Serializable, Cloneable {
      * Returns a hash code value for this integer attribute. The hash code is
      * just this integer attribute's integer value.
      */
+    @Override
     public int hashCode() {
         return value;
     }
@@ -128,6 +130,7 @@ public abstract class IntegerSyntax implements Serializable, Cloneable {
      * string value is just this integer attribute's integer value converted to
      * a string.
      */
+    @Override
     public String toString() {
         return "" + value;
     }

@@ -206,6 +206,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     void addFirst(E e);
 
     /**
@@ -221,6 +222,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     void addLast(E e);
 
     /**
@@ -237,6 +239,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     boolean offerFirst(E e);
 
     /**
@@ -253,6 +256,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     boolean offerLast(E e);
 
     /**
@@ -393,6 +397,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      *         (<a href="../Collection.html#optional-restrictions">optional</a>)
      */
+    @Override
     boolean removeFirstOccurrence(Object o);
 
     /**
@@ -411,6 +416,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      *         (<a href="../Collection.html#optional-restrictions">optional</a>)
      */
+    @Override
     boolean removeLastOccurrence(Object o);
 
     // *** BlockingQueue methods ***
@@ -434,6 +440,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws IllegalArgumentException if some property of the specified
      *         element prevents it from being added to this deque
      */
+    @Override
     boolean add(E e);
 
     /**
@@ -454,6 +461,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws IllegalArgumentException if some property of the specified
      *         element prevents it from being added to this deque
      */
+    @Override
     boolean offer(E e);
 
     /**
@@ -471,6 +479,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws IllegalArgumentException if some property of the specified
      *         element prevents it from being added to this deque
      */
+    @Override
     void put(E e) throws InterruptedException;
 
     /**
@@ -491,6 +500,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws IllegalArgumentException if some property of the specified
      *         element prevents it from being added to this deque
      */
+    @Override
     boolean offer(E e, long timeout, TimeUnit unit)
         throws InterruptedException;
 
@@ -505,6 +515,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @return the head of the queue represented by this deque
      * @throws NoSuchElementException if this deque is empty
      */
+    @Override
     E remove();
 
     /**
@@ -516,6 +527,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      *
      * @return the head of this deque, or {@code null} if this deque is empty
      */
+    @Override
     E poll();
 
     /**
@@ -528,6 +540,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @return the head of this deque
      * @throws InterruptedException if interrupted while waiting
      */
+    @Override
     E take() throws InterruptedException;
 
     /**
@@ -542,6 +555,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      *         specified waiting time elapses before an element is available
      * @throws InterruptedException if interrupted while waiting
      */
+    @Override
     E poll(long timeout, TimeUnit unit)
         throws InterruptedException;
 
@@ -556,6 +570,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @return the head of this deque
      * @throws NoSuchElementException if this deque is empty
      */
+    @Override
     E element();
 
     /**
@@ -567,6 +582,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      *
      * @return the head of this deque, or {@code null} if this deque is empty
      */
+    @Override
     E peek();
 
     /**
@@ -588,6 +604,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      *         (<a href="../Collection.html#optional-restrictions">optional</a>)
      */
+    @Override
     boolean remove(Object o);
 
     /**
@@ -603,6 +620,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      *         (<a href="../Collection.html#optional-restrictions">optional</a>)
      */
+    @Override
     public boolean contains(Object o);
 
     /**
@@ -610,6 +628,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      *
      * @return the number of elements in this deque
      */
+    @Override
     public int size();
 
     /**
@@ -618,6 +637,7 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      *
      * @return an iterator over the elements in this deque in proper sequence
      */
+    @Override
     Iterator<E> iterator();
 
     // *** Stack methods ***
@@ -635,5 +655,6 @@ public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
      * @throws NullPointerException if the specified element is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
+    @Override
     void push(E e);
 }

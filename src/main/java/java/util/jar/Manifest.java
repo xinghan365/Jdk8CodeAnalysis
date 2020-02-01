@@ -321,6 +321,7 @@ public class Manifest implements Cloneable {
      * @return true if the specified Object is also a Manifest and has
      * the same main Attributes and entries
      */
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Manifest) {
             Manifest m = (Manifest)o;
@@ -334,6 +335,7 @@ public class Manifest implements Cloneable {
     /**
      * Returns the hash code for this Manifest.
      */
+    @Override
     public int hashCode() {
         return attr.hashCode() + entries.hashCode();
     }
@@ -346,6 +348,7 @@ public class Manifest implements Cloneable {
      * </pre>
      * @return a shallow copy of this Manifest
      */
+    @Override
     public Object clone() {
         return new Manifest(this);
     }
@@ -367,6 +370,7 @@ public class Manifest implements Cloneable {
             buf = new byte[size];
         }
 
+        @Override
         public int read() throws IOException {
             if (pos >= count) {
                 fill();
@@ -377,6 +381,7 @@ public class Manifest implements Cloneable {
             return Byte.toUnsignedInt(buf[pos++]);
         }
 
+        @Override
         public int read(byte[] b, int off, int len) throws IOException {
             int avail = count - pos;
             if (avail <= 0) {
@@ -419,7 +424,9 @@ public class Manifest implements Cloneable {
                 }
                 int tpos = pos;
                 int maxpos = tpos + n;
-                while (tpos < maxpos && tbuf[tpos++] != '\n') ;
+                while (tpos < maxpos && tbuf[tpos++] != '\n') {
+                    ;
+                }
                 n = tpos - pos;
                 System.arraycopy(tbuf, pos, b, off, n);
                 off += n;
@@ -433,10 +440,12 @@ public class Manifest implements Cloneable {
         }
 
         public byte peek() throws IOException {
-            if (pos == count)
+            if (pos == count) {
                 fill();
-            if (pos == count)
+            }
+            if (pos == count) {
                 return -1; // nothing left in buffer
+            }
             return buf[pos];
         }
 
@@ -444,6 +453,7 @@ public class Manifest implements Cloneable {
             return readLine(b, 0, b.length);
         }
 
+        @Override
         public long skip(long n) throws IOException {
             if (n <= 0) {
                 return 0;
@@ -459,10 +469,12 @@ public class Manifest implements Cloneable {
             return n;
         }
 
+        @Override
         public int available() throws IOException {
             return (count - pos) + in.available();
         }
 
+        @Override
         public void close() throws IOException {
             if (in != null) {
                 in.close();

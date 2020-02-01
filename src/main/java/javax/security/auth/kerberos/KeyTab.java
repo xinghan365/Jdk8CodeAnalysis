@@ -316,11 +316,16 @@ public final class KeyTab {
         return !takeSnapshot().isMissing();
     }
 
+    @Override
     public String toString() {
         String s = (file == null) ? "Default keytab" : file.toString();
-        if (!bound) return s;
-        else if (princ == null) return s + " for someone";
-        else return s + " for " + princ;
+        if (!bound) {
+            return s;
+        } else if (princ == null) {
+            return s + " for someone";
+        } else {
+            return s + " for " + princ;
+        }
     }
 
     /**
@@ -328,6 +333,7 @@ public final class KeyTab {
      *
      * @return a hashCode() for the {@code KeyTab}
      */
+    @Override
     public int hashCode() {
         return Objects.hash(file, princ, bound);
     }
@@ -341,9 +347,11 @@ public final class KeyTab {
      * @param other the Object to compare to
      * @return true if the specified object is equal to this KeyTab
      */
+    @Override
     public boolean equals(Object other) {
-        if (other == this)
+        if (other == this) {
             return true;
+        }
 
         if (! (other instanceof KeyTab)) {
             return false;

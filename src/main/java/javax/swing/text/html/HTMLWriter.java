@@ -130,6 +130,7 @@ public class HTMLWriter extends AbstractWriter {
      *            location within the document.
      *
      */
+    @Override
     public void write() throws IOException, BadLocationException {
         ElementIterator it = getElementIterator();
         Element current = null;
@@ -249,6 +250,7 @@ public class HTMLWriter extends AbstractWriter {
      * @exception IOException on any I/O error
      *
      */
+    @Override
     protected void writeAttributes(AttributeSet attr) throws IOException {
         // translate css attributes to html
         convAttr.removeAttributes(convAttr);
@@ -487,6 +489,7 @@ public class HTMLWriter extends AbstractWriter {
      * @exception BadLocationException if pos represents an invalid
      *            location within the document.
      */
+    @Override
     protected void text(Element elem) throws BadLocationException, IOException {
         int start = Math.max(getStartOffset(), elem.getStartOffset());
         int end = Math.min(getEndOffset(), elem.getEndOffset());
@@ -1166,6 +1169,7 @@ public class HTMLWriter extends AbstractWriter {
      * replace the newline content in case it is outside normal ascii.
      * @since 1.3
      */
+    @Override
     protected void writeLineSeparator() throws IOException {
         boolean oldReplace = replaceEntities;
         replaceEntities = false;
@@ -1180,6 +1184,7 @@ public class HTMLWriter extends AbstractWriter {
      * write the content.
      * @since 1.3
      */
+    @Override
     protected void output(char[] chars, int start, int length)
                    throws IOException {
         if (!replaceEntities) {

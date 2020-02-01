@@ -41,6 +41,7 @@ class ColorPaintContext implements PaintContext {
         this.color = color;
     }
 
+    @Override
     public void dispose() {
     }
 
@@ -60,10 +61,12 @@ class ColorPaintContext implements PaintContext {
         return color;
     }
 
+    @Override
     public ColorModel getColorModel() {
         return ColorModel.getRGBdefault();
     }
 
+    @Override
     public synchronized Raster getRaster(int x, int y, int w, int h) {
         WritableRaster t = savedTile;
 

@@ -340,6 +340,7 @@ public class DropTargetContext implements Serializable {
          * @return an array of data flavors in which the data can be
          *         provided by the encapsulated transferable
          */
+        @Override
         public DataFlavor[] getTransferDataFlavors() {
             return proxy.getTransferDataFlavors();
         }
@@ -351,6 +352,7 @@ public class DropTargetContext implements Serializable {
          * @return <code>true</code> if the data flavor is supported,
          *         <code>false</code> otherwise
          */
+        @Override
         public boolean isDataFlavorSupported(DataFlavor flavor) {
             return proxy.isDataFlavorSupported(flavor);
         }
@@ -370,6 +372,7 @@ public class DropTargetContext implements Serializable {
          * @throws UnsupportedFlavorException if the requested data flavor is
          *              not supported.
          */
+        @Override
         public Object getTransferData(DataFlavor df)
             throws UnsupportedFlavorException, IOException
         {

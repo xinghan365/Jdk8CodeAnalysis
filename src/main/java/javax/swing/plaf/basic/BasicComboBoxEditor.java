@@ -48,6 +48,7 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
         editor = createEditorComponent();
     }
 
+    @Override
     public Component getEditorComponent() {
         return editor;
     }
@@ -70,6 +71,7 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
      *
      * @param anObject the displayed value of the editor
      */
+    @Override
     public void setItem(Object anObject) {
         String text;
 
@@ -88,6 +90,7 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
         }
     }
 
+    @Override
     public Object getItem() {
         Object newValue = editor.getText();
 
@@ -110,6 +113,7 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
         return newValue;
     }
 
+    @Override
     public void selectAll() {
         editor.selectAll();
         editor.requestFocus();
@@ -117,16 +121,20 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
 
     // This used to do something but now it doesn't.  It couldn't be
     // removed because it would be an API change to do so.
+    @Override
     public void focusGained(FocusEvent e) {}
 
     // This used to do something but now it doesn't.  It couldn't be
     // removed because it would be an API change to do so.
+    @Override
     public void focusLost(FocusEvent e) {}
 
+    @Override
     public void addActionListener(ActionListener l) {
         editor.addActionListener(l);
     }
 
+    @Override
     public void removeActionListener(ActionListener l) {
         editor.removeActionListener(l);
     }
@@ -137,6 +145,7 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
         }
 
         // workaround for 4530952
+        @Override
         public void setText(String s) {
             if (getText().equals(s)) {
                 return;
@@ -144,6 +153,7 @@ public class BasicComboBoxEditor implements ComboBoxEditor,FocusListener {
             super.setText(s);
         }
 
+        @Override
         public void setBorder(Border b) {
             if (!(b instanceof UIResource)) {
                 super.setBorder(b);

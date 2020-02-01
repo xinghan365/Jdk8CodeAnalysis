@@ -131,6 +131,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * register this DragGestureRecognizer's Listeners with the Component
      */
 
+    @Override
     protected void registerListeners() {
         component.addMouseListener(this);
         component.addMouseMotionListener(this);
@@ -143,6 +144,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      */
 
 
+    @Override
     protected void unregisterListeners() {
         component.removeMouseListener(this);
         component.removeMouseMotionListener(this);
@@ -154,6 +156,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mouseClicked(MouseEvent e) { }
 
     /**
@@ -163,6 +166,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mousePressed(MouseEvent e) { }
 
     /**
@@ -171,6 +175,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mouseReleased(MouseEvent e) { }
 
     /**
@@ -179,6 +184,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mouseEntered(MouseEvent e) { }
 
     /**
@@ -187,6 +193,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mouseExited(MouseEvent e) { }
 
     /**
@@ -195,6 +202,7 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mouseDragged(MouseEvent e) { }
 
     /**
@@ -204,5 +212,6 @@ public abstract class MouseDragGestureRecognizer extends DragGestureRecognizer i
      * @param e the <code>MouseEvent</code>
      */
 
+    @Override
     public void mouseMoved(MouseEvent e) { }
 }

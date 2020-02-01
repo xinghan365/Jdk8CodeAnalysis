@@ -78,6 +78,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable
      * @param column  the column being queried
      * @return a string containing the default name of <code>column</code>
      */
+    @Override
     public String getColumnName(int column) {
         String result = "";
         for (; column >= 0; column = column / 26 - 1) {
@@ -111,6 +112,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable
      *  @param columnIndex  the column being queried
      *  @return the Object.class
      */
+    @Override
     public Class<?> getColumnClass(int columnIndex) {
         return Object.class;
     }
@@ -122,6 +124,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable
      *  @param  columnIndex the column being queried
      *  @return false
      */
+    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
@@ -134,6 +137,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable
      *  @param  rowIndex   row of cell
      *  @param  columnIndex  column of cell
      */
+    @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
     }
 
@@ -148,6 +152,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable
      *
      * @param   l               the TableModelListener
      */
+    @Override
     public void addTableModelListener(TableModelListener l) {
         listenerList.add(TableModelListener.class, l);
     }
@@ -158,6 +163,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable
      *
      * @param   l               the TableModelListener
      */
+    @Override
     public void removeTableModelListener(TableModelListener l) {
         listenerList.remove(TableModelListener.class, l);
     }

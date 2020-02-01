@@ -1587,7 +1587,9 @@ public final class DateTimeFormatterBuilder {
             char cur = pattern.charAt(pos);
             if ((cur >= 'A' && cur <= 'Z') || (cur >= 'a' && cur <= 'z')) {
                 int start = pos++;
-                for ( ; pos < pattern.length() && pattern.charAt(pos) == cur; pos++);  // short loop
+                for ( ; pos < pattern.length() && pattern.charAt(pos) == cur; pos++) {
+                    ;  // short loop
+                }
                 int count = pos - start;
                 // padding
                 if (cur == 'p') {
@@ -1597,7 +1599,9 @@ public final class DateTimeFormatterBuilder {
                         if ((cur >= 'A' && cur <= 'Z') || (cur >= 'a' && cur <= 'z')) {
                             pad = count;
                             start = pos++;
-                            for ( ; pos < pattern.length() && pattern.charAt(pos) == cur; pos++);  // short loop
+                            for ( ; pos < pattern.length() && pattern.charAt(pos) == cur; pos++) {
+                                ;  // short loop
+                            }
                             count = pos - start;
                         }
                     }
@@ -2368,10 +2372,12 @@ public final class DateTimeFormatterBuilder {
             this.value = value;
         }
 
+        @Override
         public boolean format(DateTimePrintContext context, StringBuilder buf) {
             return true;
         }
 
+        @Override
         public int parse(DateTimeParseContext context, CharSequence text, int position) {
             if (context.getParsed(field) == null) {
                 context.setParsedField(field, value, position, position);
@@ -4194,6 +4200,7 @@ public final class DateTimeFormatterBuilder {
                 return c == ' ' || c == '_' || c == '/';
             }
 
+            @Override
             protected String toKey(String k) {
                 for (int i = 0; i < k.length(); i++) {
                     if (isLenientChar(k.charAt(i))) {

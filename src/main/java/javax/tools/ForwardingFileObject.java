@@ -57,10 +57,12 @@ public class ForwardingFileObject<F extends FileObject> implements FileObject {
         this.fileObject = fileObject;
     }
 
+    @Override
     public URI toUri() {
         return fileObject.toUri();
     }
 
+    @Override
     public String getName() {
         return fileObject.getName();
     }
@@ -70,6 +72,7 @@ public class ForwardingFileObject<F extends FileObject> implements FileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public InputStream openInputStream() throws IOException {
         return fileObject.openInputStream();
     }
@@ -79,6 +82,7 @@ public class ForwardingFileObject<F extends FileObject> implements FileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public OutputStream openOutputStream() throws IOException {
         return fileObject.openOutputStream();
     }
@@ -88,6 +92,7 @@ public class ForwardingFileObject<F extends FileObject> implements FileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public Reader openReader(boolean ignoreEncodingErrors) throws IOException {
         return fileObject.openReader(ignoreEncodingErrors);
     }
@@ -97,6 +102,7 @@ public class ForwardingFileObject<F extends FileObject> implements FileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
         return fileObject.getCharContent(ignoreEncodingErrors);
     }
@@ -106,14 +112,17 @@ public class ForwardingFileObject<F extends FileObject> implements FileObject {
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      */
+    @Override
     public Writer openWriter() throws IOException {
         return fileObject.openWriter();
     }
 
+    @Override
     public long getLastModified() {
         return fileObject.getLastModified();
     }
 
+    @Override
     public boolean delete() {
         return fileObject.delete();
     }

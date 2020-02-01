@@ -289,10 +289,14 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
         final MouseListener delegate = super.createMouseListener();
         final MouseMotionListener delegate2 = (MouseMotionListener)delegate;
         return new MouseListener() {
+            @Override
             public void mouseClicked(MouseEvent e) { delegate.mouseClicked(e); }
+            @Override
             public void mouseEntered(MouseEvent e) { delegate.mouseEntered(e); }
+            @Override
             public void mouseExited(MouseEvent e) { delegate.mouseExited(e); }
 
+            @Override
             public void mousePressed(MouseEvent e) {
                 if (!tabPane.isEnabled()) {
                     return;
@@ -312,6 +316,7 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
                 delegate.mousePressed(e);
             }
 
+            @Override
             public void mouseReleased(MouseEvent e) {
                 if (selectedTabIsPressed) {
                     selectedTabIsPressed = false;
@@ -486,6 +491,7 @@ public class SynthTabbedPaneUI extends BasicTabbedPaneUI
         paintContentBorder(tabContentContext, g, tabPlacement, selectedIndex);
     }
 
+    @Override
     protected void paintTabArea(Graphics g, int tabPlacement,
                                 int selectedIndex) {
         // This can be invoked from ScrollabeTabPanel

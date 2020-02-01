@@ -859,6 +859,7 @@ public class MessageFormat extends Format {
      *            <code>arguments</code> array is not of the type
      *            expected by the format element(s) that use it.
      */
+    @Override
     public final StringBuffer format(Object arguments, StringBuffer result,
                                      FieldPosition pos)
     {
@@ -900,6 +901,7 @@ public class MessageFormat extends Format {
      *            expected by the format element(s) that use it.
      * @since 1.4
      */
+    @Override
     public AttributedCharacterIterator formatToCharacterIterator(Object arguments) {
         StringBuffer result = new StringBuffer();
         ArrayList<AttributedCharacterIterator> iterators = new ArrayList<>();
@@ -997,9 +999,10 @@ public class MessageFormat extends Format {
                     return null; // leave index as is to signal error
                 } else {
                     String strValue= source.substring(sourceOffset,next);
-                    if (!strValue.equals("{"+argumentNumbers[i]+"}"))
+                    if (!strValue.equals("{"+argumentNumbers[i]+"}")) {
                         resultArray[argumentNumbers[i]]
                             = source.substring(sourceOffset,next);
+                    }
                     sourceOffset = next;
                 }
             } else {
@@ -1041,7 +1044,9 @@ public class MessageFormat extends Format {
         ParsePosition pos  = new ParsePosition(0);
         Object[] result = parse(source, pos);
         if (pos.index == 0)  // unchanged, returned object is null
+        {
             throw new ParseException("MessageFormat parse error!", pos.errorIndex);
+        }
 
         return result;
     }
@@ -1070,6 +1075,7 @@ public class MessageFormat extends Format {
      *         error, returns null.
      * @exception NullPointerException if <code>pos</code> is null.
      */
+    @Override
     public Object parseObject(String source, ParsePosition pos) {
         return parse(source, pos);
     }
@@ -1079,14 +1085,16 @@ public class MessageFormat extends Format {
      *
      * @return a clone of this instance.
      */
+    @Override
     public Object clone() {
         MessageFormat other = (MessageFormat) super.clone();
 
         // clone arrays. Can't do with utility because of bug in Cloneable
         other.formats = formats.clone(); // shallow clone
         for (int i = 0; i < formats.length; ++i) {
-            if (formats[i] != null)
+            if (formats[i] != null) {
                 other.formats[i] = (Format)formats[i].clone();
+            }
         }
         // for primitives or immutables, shallow clone is enough
         other.offsets = offsets.clone();
@@ -1098,11 +1106,15 @@ public class MessageFormat extends Format {
     /**
      * Equality comparison between two message format objects
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)                      // quick check
+        {
             return true;
-        if (obj == null || getClass() != obj.getClass())
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
+        }
         MessageFormat other = (MessageFormat) obj;
         return (maxOffset == other.maxOffset
                 && pattern.equals(other.pattern)
@@ -1116,6 +1128,7 @@ public class MessageFormat extends Format {
     /**
      * Generates a hash code for the message format object.
      */
+    @Override
     public int hashCode() {
         return pattern.hashCode(); // enough for reasonable distribution
     }
@@ -1149,6 +1162,7 @@ public class MessageFormat extends Format {
          *         resolved.
          * @return resolved MessageFormat.Field constant
          */
+        @Override
         protected Object readResolve() throws InvalidObjectException {
             if (this.getClass() != MessageFormat.Field.class) {
                 throw new InvalidObjectException("subclass didn't correctly implement readResolve");
@@ -1278,7 +1292,9 @@ public class MessageFormat extends Format {
 
                 } else {
                     arg = obj.toString();
-                    if (arg == null) arg = "null";
+                    if (arg == null) {
+                        arg = "null";
+                    }
                 }
 
                 // At this point we are in two states, either subFormatter
@@ -1532,16 +1548,18 @@ public class MessageFormat extends Format {
 
     private static final int findKeyword(String s, String[] list) {
         for (int i = 0; i < list.length; ++i) {
-            if (s.equals(list[i]))
+            if (s.equals(list[i])) {
                 return i;
+            }
         }
 
         // Try trimmed lowercase.
         String ls = s.trim().toLowerCase(Locale.ROOT);
         if (ls != s) {
             for (int i = 0; i < list.length; ++i) {
-                if (ls.equals(list[i]))
+                if (ls.equals(list[i])) {
                     return i;
+                }
             }
         }
         return -1;

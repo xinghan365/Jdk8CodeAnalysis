@@ -66,6 +66,7 @@ public class PropertyChangeListenerProxy
      *
      * @param event  the property change event
      */
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         getListener().propertyChange(event);
     }

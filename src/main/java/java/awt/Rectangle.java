@@ -265,6 +265,7 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the X coordinate of the bounding <code>Rectangle</code>.
      */
+    @Override
     public double getX() {
         return x;
     }
@@ -274,6 +275,7 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the Y coordinate of the bounding <code>Rectangle</code>.
      */
+    @Override
     public double getY() {
         return y;
     }
@@ -283,6 +285,7 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the width of the bounding <code>Rectangle</code>.
      */
+    @Override
     public double getWidth() {
         return width;
     }
@@ -292,6 +295,7 @@ public class Rectangle extends Rectangle2D
      * <code>double</code> precision.
      * @return the height of the bounding <code>Rectangle</code>.
      */
+    @Override
     public double getHeight() {
         return height;
     }
@@ -309,6 +313,7 @@ public class Rectangle extends Rectangle2D
      * @see       #setBounds(int, int, int, int)
      * @since     1.1
      */
+    @Override
     @Transient
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
@@ -318,6 +323,7 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public Rectangle2D getBounds2D() {
         return new Rectangle(x, y, width, height);
     }
@@ -374,6 +380,7 @@ public class Rectangle extends Rectangle2D
      * @param width the width of the specified rectangle
      * @param height the new height of the specified rectangle
      */
+    @Override
     public void setRect(double x, double y, double width, double height) {
         int newx, newy, neww, newh;
 
@@ -389,7 +396,9 @@ public class Rectangle extends Rectangle2D
             neww = -1;
         } else {
             newx = clip(x, false);
-            if (width >= 0) width += x-newx;
+            if (width >= 0) {
+                width += x-newx;
+            }
             neww = clip(width, width >= 0);
         }
 
@@ -399,7 +408,9 @@ public class Rectangle extends Rectangle2D
             newh = -1;
         } else {
             newy = clip(y, false);
-            if (height >= 0) height += y-newy;
+            if (height >= 0) {
+                height += y-newy;
+            }
             newh = clip(height, height >= 0);
         }
 
@@ -545,7 +556,9 @@ public class Rectangle extends Rectangle2D
                     width += newv - Integer.MAX_VALUE;
                     // With large widths and large displacements
                     // we may overflow so we need to check it.
-                    if (width < 0) width = Integer.MAX_VALUE;
+                    if (width < 0) {
+                        width = Integer.MAX_VALUE;
+                    }
                 }
                 newv = Integer.MAX_VALUE;
             }
@@ -570,7 +583,9 @@ public class Rectangle extends Rectangle2D
                 // positive overflow
                 if (height >= 0) {
                     height += newv - Integer.MAX_VALUE;
-                    if (height < 0) height = Integer.MAX_VALUE;
+                    if (height < 0) {
+                        height = Integer.MAX_VALUE;
+                    }
                 }
                 newv = Integer.MAX_VALUE;
             }
@@ -719,19 +734,27 @@ public class Rectangle extends Rectangle2D
             // either original w or W was zero or
             // x+w did not overflow or
             // the overflowed x+w is smaller than the overflowed X+W
-            if (w >= x || W > w) return false;
+            if (w >= x || W > w) {
+                return false;
+            }
         } else {
             // X+W did not overflow and W was not zero, return false if...
             // original w was zero or
             // x+w did not overflow and x+w is smaller than X+W
-            if (w >= x && W > w) return false;
+            if (w >= x && W > w) {
+                return false;
+            }
         }
         h += y;
         H += Y;
         if (H <= Y) {
-            if (h >= y || H > h) return false;
+            if (h >= y || H > h) {
+                return false;
+            }
         } else {
-            if (h >= y && H > h) return false;
+            if (h >= y && H > h) {
+                return false;
+            }
         }
         return true;
     }
@@ -825,17 +848,29 @@ public class Rectangle extends Rectangle2D
         long ty2 = ty1; ty2 += this.height;
         long rx2 = rx1; rx2 += r.width;
         long ry2 = ry1; ry2 += r.height;
-        if (tx1 < rx1) tx1 = rx1;
-        if (ty1 < ry1) ty1 = ry1;
-        if (tx2 > rx2) tx2 = rx2;
-        if (ty2 > ry2) ty2 = ry2;
+        if (tx1 < rx1) {
+            tx1 = rx1;
+        }
+        if (ty1 < ry1) {
+            ty1 = ry1;
+        }
+        if (tx2 > rx2) {
+            tx2 = rx2;
+        }
+        if (ty2 > ry2) {
+            ty2 = ry2;
+        }
         tx2 -= tx1;
         ty2 -= ty1;
         // tx2,ty2 will never overflow (they will never be
         // larger than the smallest of the two source w,h)
         // they might underflow, though...
-        if (tx2 < Integer.MIN_VALUE) tx2 = Integer.MIN_VALUE;
-        if (ty2 < Integer.MIN_VALUE) ty2 = Integer.MIN_VALUE;
+        if (tx2 < Integer.MIN_VALUE) {
+            tx2 = Integer.MIN_VALUE;
+        }
+        if (ty2 < Integer.MIN_VALUE) {
+            ty2 = Integer.MIN_VALUE;
+        }
         return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
     }
 
@@ -887,17 +922,29 @@ public class Rectangle extends Rectangle2D
         int ry1 = r.y;
         rx2 += rx1;
         ry2 += ry1;
-        if (tx1 > rx1) tx1 = rx1;
-        if (ty1 > ry1) ty1 = ry1;
-        if (tx2 < rx2) tx2 = rx2;
-        if (ty2 < ry2) ty2 = ry2;
+        if (tx1 > rx1) {
+            tx1 = rx1;
+        }
+        if (ty1 > ry1) {
+            ty1 = ry1;
+        }
+        if (tx2 < rx2) {
+            tx2 = rx2;
+        }
+        if (ty2 < ry2) {
+            ty2 = ry2;
+        }
         tx2 -= tx1;
         ty2 -= ty1;
         // tx2,ty2 will never underflow since both original rectangles
         // were already proven to be non-empty
         // they might overflow, though...
-        if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
-        if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
+        if (tx2 > Integer.MAX_VALUE) {
+            tx2 = Integer.MAX_VALUE;
+        }
+        if (ty2 > Integer.MAX_VALUE) {
+            ty2 = Integer.MAX_VALUE;
+        }
         return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
     }
 
@@ -941,14 +988,26 @@ public class Rectangle extends Rectangle2D
         long y2 = this.height;
         x2 += x1;
         y2 += y1;
-        if (x1 > newx) x1 = newx;
-        if (y1 > newy) y1 = newy;
-        if (x2 < newx) x2 = newx;
-        if (y2 < newy) y2 = newy;
+        if (x1 > newx) {
+            x1 = newx;
+        }
+        if (y1 > newy) {
+            y1 = newy;
+        }
+        if (x2 < newx) {
+            x2 = newx;
+        }
+        if (y2 < newy) {
+            y2 = newy;
+        }
         x2 -= x1;
         y2 -= y1;
-        if (x2 > Integer.MAX_VALUE) x2 = Integer.MAX_VALUE;
-        if (y2 > Integer.MAX_VALUE) y2 = Integer.MAX_VALUE;
+        if (x2 > Integer.MAX_VALUE) {
+            x2 = Integer.MAX_VALUE;
+        }
+        if (y2 > Integer.MAX_VALUE) {
+            y2 = Integer.MAX_VALUE;
+        }
         reshape(x1, y1, (int) x2, (int) y2);
     }
 
@@ -1025,17 +1084,29 @@ public class Rectangle extends Rectangle2D
         int ry1 = r.y;
         rx2 += rx1;
         ry2 += ry1;
-        if (tx1 > rx1) tx1 = rx1;
-        if (ty1 > ry1) ty1 = ry1;
-        if (tx2 < rx2) tx2 = rx2;
-        if (ty2 < ry2) ty2 = ry2;
+        if (tx1 > rx1) {
+            tx1 = rx1;
+        }
+        if (ty1 > ry1) {
+            ty1 = ry1;
+        }
+        if (tx2 < rx2) {
+            tx2 = rx2;
+        }
+        if (ty2 < ry2) {
+            ty2 = ry2;
+        }
         tx2 -= tx1;
         ty2 -= ty1;
         // tx2,ty2 will never underflow since both original
         // rectangles were non-empty
         // they might overflow, though...
-        if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
-        if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
+        if (tx2 > Integer.MAX_VALUE) {
+            tx2 = Integer.MAX_VALUE;
+        }
+        if (ty2 > Integer.MAX_VALUE) {
+            ty2 = Integer.MAX_VALUE;
+        }
         reshape(tx1, ty1, (int) tx2, (int) ty2);
     }
 
@@ -1081,35 +1152,57 @@ public class Rectangle extends Rectangle2D
             // it is clipped so that we avoid the risk that the clipping
             // of x0 will reverse the ordering of x0 and x1.
             x1 -= x0;
-            if (x1 < Integer.MIN_VALUE) x1 = Integer.MIN_VALUE;
-            if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
-            else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
+            if (x1 < Integer.MIN_VALUE) {
+                x1 = Integer.MIN_VALUE;
+            }
+            if (x0 < Integer.MIN_VALUE) {
+                x0 = Integer.MIN_VALUE;
+            } else if (x0 > Integer.MAX_VALUE) {
+                x0 = Integer.MAX_VALUE;
+            }
         } else { // (x1 >= x0)
             // Clip x0 before we subtract it from x1 in case the clipping
             // affects the representable area of the rectangle.
-            if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
-            else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
+            if (x0 < Integer.MIN_VALUE) {
+                x0 = Integer.MIN_VALUE;
+            } else if (x0 > Integer.MAX_VALUE) {
+                x0 = Integer.MAX_VALUE;
+            }
             x1 -= x0;
             // The only way x1 can be negative now is if we clipped
             // x0 against MIN and x1 is less than MIN - in which case
             // we want to leave the width negative since the result
             // did not intersect the representable area.
-            if (x1 < Integer.MIN_VALUE) x1 = Integer.MIN_VALUE;
-            else if (x1 > Integer.MAX_VALUE) x1 = Integer.MAX_VALUE;
+            if (x1 < Integer.MIN_VALUE) {
+                x1 = Integer.MIN_VALUE;
+            } else if (x1 > Integer.MAX_VALUE) {
+                x1 = Integer.MAX_VALUE;
+            }
         }
 
         if (y1 < y0) {
             // Non-existant in Y direction
             y1 -= y0;
-            if (y1 < Integer.MIN_VALUE) y1 = Integer.MIN_VALUE;
-            if (y0 < Integer.MIN_VALUE) y0 = Integer.MIN_VALUE;
-            else if (y0 > Integer.MAX_VALUE) y0 = Integer.MAX_VALUE;
+            if (y1 < Integer.MIN_VALUE) {
+                y1 = Integer.MIN_VALUE;
+            }
+            if (y0 < Integer.MIN_VALUE) {
+                y0 = Integer.MIN_VALUE;
+            } else if (y0 > Integer.MAX_VALUE) {
+                y0 = Integer.MAX_VALUE;
+            }
         } else { // (y1 >= y0)
-            if (y0 < Integer.MIN_VALUE) y0 = Integer.MIN_VALUE;
-            else if (y0 > Integer.MAX_VALUE) y0 = Integer.MAX_VALUE;
+            if (y0 < Integer.MIN_VALUE) {
+                y0 = Integer.MIN_VALUE;
+            } else if (y0 > Integer.MAX_VALUE) {
+                y0 = Integer.MAX_VALUE;
+            }
             y1 -= y0;
-            if (y1 < Integer.MIN_VALUE) y1 = Integer.MIN_VALUE;
-            else if (y1 > Integer.MAX_VALUE) y1 = Integer.MAX_VALUE;
+            if (y1 < Integer.MIN_VALUE) {
+                y1 = Integer.MIN_VALUE;
+            } else if (y1 > Integer.MAX_VALUE) {
+                y1 = Integer.MAX_VALUE;
+            }
         }
 
         reshape((int) x0, (int) y0, (int) x1, (int) y1);
@@ -1119,6 +1212,7 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public boolean isEmpty() {
         return (width <= 0) || (height <= 0);
     }
@@ -1127,6 +1221,7 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public int outcode(double x, double y) {
         /*
          * Note on casts to double below.  If the arithmetic of
@@ -1159,6 +1254,7 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public Rectangle2D createIntersection(Rectangle2D r) {
         if (r instanceof Rectangle) {
             return intersection((Rectangle) r);
@@ -1172,6 +1268,7 @@ public class Rectangle extends Rectangle2D
      * {@inheritDoc}
      * @since 1.2
      */
+    @Override
     public Rectangle2D createUnion(Rectangle2D r) {
         if (r instanceof Rectangle) {
             return union((Rectangle) r);
@@ -1193,6 +1290,7 @@ public class Rectangle extends Rectangle2D
      * @return    <code>true</code> if the objects are equal;
      *            <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Rectangle) {
             Rectangle r = (Rectangle)obj;
@@ -1210,6 +1308,7 @@ public class Rectangle extends Rectangle2D
      * @return a <code>String</code> representing this
      *               <code>Rectangle</code> object's coordinate and size values.
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }

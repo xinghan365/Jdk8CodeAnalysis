@@ -95,6 +95,7 @@ public final class JobImpressionsSupported extends SetOfIntegerSyntax
      * @return  True if <CODE>object</CODE> is equivalent to this job
      *          impressions supported attribute, false otherwise.
      */
+    @Override
     public boolean equals(Object object) {
         return (super.equals (object) &&
                 object instanceof JobImpressionsSupported);
@@ -110,6 +111,7 @@ public final class JobImpressionsSupported extends SetOfIntegerSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return JobImpressionsSupported.class;
     }
@@ -123,6 +125,7 @@ public final class JobImpressionsSupported extends SetOfIntegerSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "job-impressions-supported";
     }

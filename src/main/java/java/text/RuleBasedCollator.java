@@ -351,6 +351,7 @@ public class RuleBasedCollator extends Collator{
      *
      * @exception NullPointerException if <code>source</code> or <code>target</code> is null.
      */
+    @Override
     public synchronized int compare(String source, String target)
     {
         if (source == null || target == null) {
@@ -400,13 +401,22 @@ public class RuleBasedCollator extends Collator{
         while(true) {
             // Get the next collation element in each of the strings, unless
             // we've been requested to skip it.
-            if (gets) sOrder = sourceCursor.next(); else gets = true;
-            if (gett) tOrder = targetCursor.next(); else gett = true;
+            if (gets) {
+                sOrder = sourceCursor.next();
+            } else {
+                gets = true;
+            }
+            if (gett) {
+                tOrder = targetCursor.next();
+            } else {
+                gett = true;
+            }
 
             // If we've hit the end of one of the strings, jump out of the loop
             if ((sOrder == CollationElementIterator.NULLORDER)||
-                (tOrder == CollationElementIterator.NULLORDER))
+                (tOrder == CollationElementIterator.NULLORDER)) {
                 break;
+            }
 
             int pSOrder = CollationElementIterator.primaryOrder(sOrder);
             int pTOrder = CollationElementIterator.primaryOrder(tOrder);
@@ -532,8 +542,9 @@ public class RuleBasedCollator extends Collator{
                 if (CollationElementIterator.primaryOrder(tOrder) != 0)
                     // We found an additional non-ignorable base character in the target string.
                     // This is a primary difference, so the source is less
+                {
                     return Collator.LESS; // (strength is PRIMARY)
-                else if (CollationElementIterator.secondaryOrder(tOrder) != 0) {
+                } else if (CollationElementIterator.secondaryOrder(tOrder) != 0) {
                     // Additional secondary elements in the target mean the source string is less
                     if (checkSecTer) {
                         result = Collator.LESS;  // (strength is SECONDARY)
@@ -568,6 +579,7 @@ public class RuleBasedCollator extends Collator{
      * with CollationKey.compareTo. This overrides java.text.Collator.getCollationKey.
      * It can be overriden in a subclass.
      */
+    @Override
     public synchronized CollationKey getCollationKey(String source)
     {
         //
@@ -600,8 +612,9 @@ public class RuleBasedCollator extends Collator{
         //
         // Collation Key:      1125<null>1000<null>1010
         //
-        if (source == null)
+        if (source == null) {
             return null;
+        }
 
         if (primResult == null) {
             primResult = new StringBuffer();
@@ -660,12 +673,14 @@ public class RuleBasedCollator extends Collator{
             }
             else
             {
-                if (compareSec && secOrder != 0)
+                if (compareSec && secOrder != 0) {
                     secResult.append((char)
                         (secOrder + tables.getMaxSecOrder() + COLLATIONKEYOFFSET));
-                if (compareTer && terOrder != 0)
+                }
+                if (compareTer && terOrder != 0) {
                     terResult.append((char)
                         (terOrder + tables.getMaxTerOrder() + COLLATIONKEYOFFSET));
+                }
             }
         }
         if (tables.isFrenchSec())
@@ -700,6 +715,7 @@ public class RuleBasedCollator extends Collator{
     /**
      * Standard override; no change in semantics.
      */
+    @Override
     public Object clone() {
         // if we know we're not actually a subclass of RuleBasedCollator
         // (this class really should have been made final), bypass
@@ -724,9 +740,14 @@ public class RuleBasedCollator extends Collator{
      * @return true if the current table-based collation object is the same
      * as the table-based collation object obj; false otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!super.equals(obj)) return false;  // super does class check
+        if (obj == null) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;  // super does class check
+        }
         RuleBasedCollator other = (RuleBasedCollator) obj;
         // all other non-transient information is also contained in rules.
         return (getRules().equals(other.getRules()));
@@ -735,6 +756,7 @@ public class RuleBasedCollator extends Collator{
     /**
      * Generates the hash code for the table-based collation object
      */
+    @Override
     public int hashCode() {
         return getRules().hashCode();
     }

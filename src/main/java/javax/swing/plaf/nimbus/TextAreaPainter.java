@@ -100,6 +100,7 @@ final class TextAreaPainter extends AbstractRegionPainter {
         }
     }
         
+    @Override
     protected Object[] getExtendedCacheKeys(JComponent c) {
         Object[] extendedCacheKeys = null;
         switch(state) {

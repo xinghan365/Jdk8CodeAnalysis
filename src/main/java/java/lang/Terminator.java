@@ -46,8 +46,11 @@ class Terminator {
      */
 
     static void setup() {
-        if (handler != null) return;
+        if (handler != null) {
+            return;
+        }
         SignalHandler sh = new SignalHandler() {
+            @Override
             public void handle(Signal sig) {
                 Shutdown.exit(sig.getNumber() + 0200);
             }

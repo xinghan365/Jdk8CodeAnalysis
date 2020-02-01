@@ -208,6 +208,7 @@ public class SynthDesktopIconUI extends BasicDesktopIconUI
         context.getPainter().paintDesktopIconBorder(context, g, x, y, w, h);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getSource() instanceof JInternalFrame.JDesktopIcon) {
             if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
@@ -231,6 +232,7 @@ public class SynthDesktopIconUI extends BasicDesktopIconUI
     }
 
     private final class Handler implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent evt) {
             if (evt.getSource() instanceof JToggleButton) {
                 // Either iconify the frame or deiconify and activate it.

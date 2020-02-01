@@ -56,6 +56,7 @@ abstract class ShadowEffect extends Effect {
         this.color = color;
     }
 
+    @Override
     float getOpacity() {
         return opacity;
     }

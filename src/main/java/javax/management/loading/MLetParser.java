@@ -115,8 +115,9 @@ class MLetParser {
         Map<String,String> atts = new HashMap<String,String>();
         skipSpace(in);
         while (c >= 0 && c != '>') {
-            if (c == '<')
+            if (c == '<') {
                 throw new IOException("Missing '>' in tag");
+            }
             String att = scanIdentifier(in);
             String val = "";
             skipSpace(in);
@@ -180,15 +181,17 @@ class MLetParser {
         // debug("parse","*** Parsing " + url );
         while(true) {
             c = in.read();
-            if (c == -1)
+            if (c == -1) {
                 break;
+            }
             if (c == '<') {
                 c = in.read();
                 if (c == '/') {
                     c = in.read();
                     String nm = scanIdentifier(in);
-                    if (c != '>')
+                    if (c != '>') {
                         throw new IOException("Missing '>' in tag");
+                    }
                     if (nm.equalsIgnoreCase(tag)) {
                         if (atts != null) {
                             mlets.add(new MLetContent(url, atts, types, values));

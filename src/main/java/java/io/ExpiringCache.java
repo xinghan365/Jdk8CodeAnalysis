@@ -65,6 +65,7 @@ class ExpiringCache {
     ExpiringCache(long millisUntilExpiration) {
         this.millisUntilExpiration = millisUntilExpiration;
         map = new LinkedHashMap<String,Entry>() {
+            @Override
             protected boolean removeEldestEntry(Map.Entry<String,Entry> eldest) {
               return size() > MAX_ENTRIES;
             }

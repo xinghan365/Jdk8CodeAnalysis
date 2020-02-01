@@ -53,6 +53,7 @@ class CharacterIteratorFieldDelegate implements Format.FieldDelegate {
         attributedStrings = new ArrayList<>();
     }
 
+    @Override
     public void formatted(Format.Field attr, Object value, int start, int end,
                           StringBuffer buffer) {
         if (start != end) {
@@ -92,6 +93,7 @@ class CharacterIteratorFieldDelegate implements Format.FieldDelegate {
         }
     }
 
+    @Override
     public void formatted(int fieldID, Format.Field attr, Object value,
                           int start, int end, StringBuffer buffer) {
         formatted(attr, value, start, end, buffer);

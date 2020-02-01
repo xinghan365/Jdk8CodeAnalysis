@@ -433,6 +433,7 @@ public class PopupFactory {
                     final Window w = window;
 
                     w.addWindowListener(new WindowAdapter() {
+                        @Override
                         public void windowClosed(WindowEvent e) {
                             List<HeavyWeightPopup> popups;
 
@@ -470,6 +471,7 @@ public class PopupFactory {
         //
         // Popup methods
         //
+        @Override
         public void hide() {
             super.hide();
             if (isCacheEnabled) {
@@ -484,6 +486,7 @@ public class PopupFactory {
          * thus this method does nothing, instead use <code>_dipose</code>
          * which will handle the disposing.
          */
+        @Override
         void dispose() {
         }
 
@@ -506,6 +509,7 @@ public class PopupFactory {
         /** Desired y location. */
         int y;
 
+        @Override
         public void hide() {
             Component component = getComponent();
 
@@ -522,6 +526,7 @@ public class PopupFactory {
             }
             owner = null;
         }
+        @Override
         public void pack() {
             Component component = getComponent();
 
@@ -530,6 +535,7 @@ public class PopupFactory {
             }
         }
 
+        @Override
         void reset(Component owner, Component contents, int ownerX,
                    int ownerY) {
             if ((owner instanceof JFrame) || (owner instanceof JDialog) ||
@@ -646,12 +652,15 @@ public class PopupFactory {
             return popup;
         }
 
+        @Override
         Component createComponent(Component owner) {
             return new Panel(new BorderLayout());
         }
 
+        @Override
         public void show() {
         }
+        @Override
         public void hide() {
         }
     }
@@ -731,6 +740,7 @@ public class PopupFactory {
         //
         // Popup methods
         //
+        @Override
         public void hide() {
             super.hide();
 
@@ -739,6 +749,7 @@ public class PopupFactory {
             component.removeAll();
             recycleLightWeightPopup(this);
         }
+        @Override
         public void show() {
             Container parent = null;
 
@@ -780,6 +791,7 @@ public class PopupFactory {
             }
         }
 
+        @Override
         Component createComponent(Component owner) {
             JComponent component = new JPanel(new BorderLayout(), true);
 
@@ -794,6 +806,7 @@ public class PopupFactory {
         /**
          * Resets the <code>Popup</code> to an initial state.
          */
+        @Override
         void reset(Component owner, Component contents, int ownerX,
                    int ownerY) {
             super.reset(owner, contents, ownerX, ownerY);
@@ -888,11 +901,13 @@ public class PopupFactory {
         // Popup
         //
 
+        @Override
         public void hide() {
             super.hide();
             rootPane.getContentPane().removeAll();
             recycleMediumWeightPopup(this);
         }
+        @Override
         public void show() {
             Component component = getComponent();
             Container parent = null;
@@ -932,6 +947,7 @@ public class PopupFactory {
             component.setVisible(true);
         }
 
+        @Override
         Component createComponent(Component owner) {
             Panel component = new MediumWeightComponent();
 
@@ -948,6 +964,7 @@ public class PopupFactory {
         /**
          * Resets the <code>Popup</code> to an initial state.
          */
+        @Override
         void reset(Component owner, Component contents, int ownerX,
                    int ownerY) {
             super.reset(owner, contents, ownerX, ownerY);

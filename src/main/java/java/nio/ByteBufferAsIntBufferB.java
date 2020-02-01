@@ -69,6 +69,7 @@ class ByteBufferAsIntBufferB                  // package-private
 
     }
 
+    @Override
     public IntBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsIntBufferB                  // package-private
         return new ByteBufferAsIntBufferB(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public IntBuffer duplicate() {
         return new ByteBufferAsIntBufferB(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsIntBufferB                  // package-private
                                                     offset);
     }
 
+    @Override
     public IntBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsIntBufferRB(bb,
@@ -107,10 +110,12 @@ class ByteBufferAsIntBufferB                  // package-private
         return (i << 2) + offset;
     }
 
+    @Override
     public int get() {
         return Bits.getIntB(bb, ix(nextGetIndex()));
     }
 
+    @Override
     public int get(int i) {
         return Bits.getIntB(bb, ix(checkIndex(i)));
     }
@@ -123,6 +128,7 @@ class ByteBufferAsIntBufferB                  // package-private
 
 
 
+    @Override
     public IntBuffer put(int x) {
 
         Bits.putIntB(bb, ix(nextPutIndex()), x);
@@ -132,6 +138,7 @@ class ByteBufferAsIntBufferB                  // package-private
 
     }
 
+    @Override
     public IntBuffer put(int i, int x) {
 
         Bits.putIntB(bb, ix(checkIndex(i)), x);
@@ -141,6 +148,7 @@ class ByteBufferAsIntBufferB                  // package-private
 
     }
 
+    @Override
     public IntBuffer compact() {
 
         int pos = position();
@@ -163,10 +171,12 @@ class ByteBufferAsIntBufferB                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
@@ -213,6 +223,7 @@ class ByteBufferAsIntBufferB                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;

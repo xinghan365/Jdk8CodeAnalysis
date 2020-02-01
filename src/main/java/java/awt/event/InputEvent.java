@@ -294,6 +294,7 @@ public abstract class InputEvent extends ComponentEvent {
         }
         AWTAccessor.setInputEventAccessor(
             new AWTAccessor.InputEventAccessor() {
+                @Override
                 public int[] getButtonDownMasks() {
                     return InputEvent.getButtonDownMasks();
                 }
@@ -461,6 +462,7 @@ public abstract class InputEvent extends ComponentEvent {
      * Consumes this event so that it will not be processed
      * in the default manner by the source which originated it.
      */
+    @Override
     public void consume() {
         consumed = true;
     }
@@ -469,6 +471,7 @@ public abstract class InputEvent extends ComponentEvent {
      * Returns whether or not this event has been consumed.
      * @see #consume
      */
+    @Override
     public boolean isConsumed() {
         return consumed;
     }

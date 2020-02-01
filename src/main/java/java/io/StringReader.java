@@ -52,8 +52,9 @@ public class StringReader extends Reader {
 
     /** Check to make sure that the stream has not been closed */
     private void ensureOpen() throws IOException {
-        if (str == null)
+        if (str == null) {
             throw new IOException("Stream closed");
+        }
     }
 
     /**
@@ -64,11 +65,13 @@ public class StringReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read() throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (next >= length)
+            if (next >= length) {
                 return -1;
+            }
             return str.charAt(next++);
         }
     }
@@ -85,6 +88,7 @@ public class StringReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read(char cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -94,8 +98,9 @@ public class StringReader extends Reader {
             } else if (len == 0) {
                 return 0;
             }
-            if (next >= length)
+            if (next >= length) {
                 return -1;
+            }
             int n = Math.min(length - next, len);
             str.getChars(next, next + n, cbuf, off);
             next += n;
@@ -119,11 +124,13 @@ public class StringReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public long skip(long ns) throws IOException {
         synchronized (lock) {
             ensureOpen();
-            if (next >= length)
+            if (next >= length) {
                 return 0;
+            }
             // Bound skip by beginning and end of the source
             long n = Math.min(length - next, ns);
             n = Math.max(-next, n);
@@ -139,6 +146,7 @@ public class StringReader extends Reader {
      *
      * @exception  IOException  If the stream is closed
      */
+    @Override
     public boolean ready() throws IOException {
         synchronized (lock) {
         ensureOpen();
@@ -149,6 +157,7 @@ public class StringReader extends Reader {
     /**
      * Tells whether this stream supports the mark() operation, which it does.
      */
+    @Override
     public boolean markSupported() {
         return true;
     }
@@ -166,6 +175,7 @@ public class StringReader extends Reader {
      * @exception  IllegalArgumentException  If {@code readAheadLimit < 0}
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void mark(int readAheadLimit) throws IOException {
         if (readAheadLimit < 0){
             throw new IllegalArgumentException("Read-ahead limit < 0");
@@ -182,6 +192,7 @@ public class StringReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public void reset() throws IOException {
         synchronized (lock) {
             ensureOpen();
@@ -195,6 +206,7 @@ public class StringReader extends Reader {
      * ready(), mark(), or reset() invocations will throw an IOException.
      * Closing a previously closed stream has no effect.
      */
+    @Override
     public void close() {
         str = null;
     }

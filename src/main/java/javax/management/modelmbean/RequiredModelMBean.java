@@ -254,6 +254,7 @@ public class RequiredModelMBean
      * </ul>
      *
      **/
+    @Override
     public void setModelMBeanInfo(ModelMBeanInfo mbi)
         throws MBeanException, RuntimeOperationsException {
 
@@ -343,6 +344,7 @@ public class RequiredModelMBean
      * @exception RuntimeOperationsException Wraps a {@link
      *            RuntimeException} when setting the resource.
      **/
+    @Override
     public void setManagedResource(Object mr, String mr_type)
         throws MBeanException, RuntimeOperationsException,
                InstanceNotFoundException, InvalidTargetObjectTypeException {
@@ -400,6 +402,7 @@ public class RequiredModelMBean
      * @exception InstanceNotFoundException Could not find or load
      * this MBean from persistent storage
      */
+    @Override
     public void load()
         throws MBeanException, RuntimeOperationsException,
                InstanceNotFoundException {
@@ -442,6 +445,7 @@ public class RequiredModelMBean
      * @exception InstanceNotFoundException Could not find/access the
      * persistent store
      */
+    @Override
     public void store()
         throws MBeanException, RuntimeOperationsException,
                InstanceNotFoundException {
@@ -568,8 +572,11 @@ public class RequiredModelMBean
                     descr.getFieldValue("lastUpdatedTimeStamp");
 
                 String tStamp;
-                if (objtStamp != null) tStamp = objtStamp.toString();
-                else tStamp = null;
+                if (objtStamp != null) {
+                    tStamp = objtStamp.toString();
+                } else {
+                    tStamp = null;
+                }
 
                 if (tracing) {
                     MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -577,8 +584,9 @@ public class RequiredModelMBean
                         "lastUpdatedTimeStamp: " + tStamp);
                 }
 
-                if (tStamp == null)
+                if (tStamp == null) {
                     tStamp = "0";
+                }
 
                 long lastTime = (new Long(tStamp)).longValue();
 
@@ -670,6 +678,7 @@ public class RequiredModelMBean
      *          attributes, operations, and Notifications of this MBean.
      *
      **/
+    @Override
     public MBeanInfo getMBeanInfo() {
 
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -911,6 +920,7 @@ public class RequiredModelMBean
       loader because when we call Method.invoke we must call it on
       a Method that is implemented by the target object.
      */
+    @Override
     public Object invoke(String opName, Object[] opArgs, String[] sig)
             throws MBeanException, ReflectionException {
 
@@ -938,14 +948,16 @@ public class RequiredModelMBean
         if (opSplitter > 0) {
             opClassName = opName.substring(0,opSplitter);
             opMethodName = opName.substring(opSplitter+1);
-        } else
+        } else {
             opMethodName = opName;
+        }
 
         /* Ignore anything after a left paren.  We keep this for
            compatibility but it isn't specified.  */
         opSplitter = opMethodName.indexOf("(");
-        if (opSplitter > 0)
+        if (opSplitter > 0) {
             opMethodName = opMethodName.substring(0,opSplitter);
+        }
 
         if (tracing) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -978,8 +990,9 @@ public class RequiredModelMBean
             return cached;
         }
 
-        if (opClassName == null)
+        if (opClassName == null) {
             opClassName = (String) opDescr.getFieldValue("class");
+        }
         // may still be null now
 
         opMethodName = (String) opDescr.getFieldValue("name");
@@ -1000,10 +1013,11 @@ public class RequiredModelMBean
         }
 
         final Object targetObjectField = opDescr.getFieldValue("targetObject");
-        if (tracing && targetObjectField != null)
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                    RequiredModelMBean.class.getName(),
-                        mth, "Found target object in descriptor");
+        if (tracing && targetObjectField != null) {
+            MODELMBEAN_LOGGER.logp(Level.FINER,
+                RequiredModelMBean.class.getName(),
+                    mth, "Found target object in descriptor");
+        }
 
         /* Now look for the method, either in RequiredModelMBean itself
            or in the target object.  Set "method" and "targetObject"
@@ -1014,17 +1028,17 @@ public class RequiredModelMBean
         method = findRMMBMethod(opMethodName, targetObjectField,
                                 opClassName, sig);
 
-        if (method != null)
+        if (method != null) {
             targetObject = this;
-        else {
+        } else {
             if (tracing) {
                 MODELMBEAN_LOGGER.logp(Level.FINER,
                     RequiredModelMBean.class.getName(),
                         mth, "looking for method in managedResource class");
             }
-            if (targetObjectField != null)
+            if (targetObjectField != null) {
                 targetObject = targetObjectField;
-            else {
+            } else {
                 targetObject = managedResource;
                 if (targetObject == null) {
                     final String msg =
@@ -1069,8 +1083,9 @@ public class RequiredModelMBean
                         "class for invoke " + opName + " not found";
                     throw new ReflectionException(e, msg);
                 }
-            } else
+            } else {
                 targetClass = targetObject.getClass();
+            }
 
             method = resolveMethod(targetClass, opMethodName, sig);
         }
@@ -1090,8 +1105,9 @@ public class RequiredModelMBean
                     mth, "successfully invoked method");
         }
 
-        if (result != null)
+        if (result != null) {
             cacheResult(opInfo, opDescr, result);
+        }
 
         return result;
     }
@@ -1110,9 +1126,9 @@ public class RequiredModelMBean
 
         final Class<?>[] argClasses;
 
-        if (sig == null)
+        if (sig == null) {
             argClasses = null;
-        else {
+        } else {
             final AccessControlContext stack = AccessController.getContext();
             final ReflectionException[] caughtException = new ReflectionException[1];
             final ClassLoader targetClassLoader = targetClass.getClassLoader();
@@ -1196,15 +1212,17 @@ public class RequiredModelMBean
                   "looking for method in RequiredModelMBean class");
         }
 
-        if (!isRMMBMethodName(opMethodName))
+        if (!isRMMBMethodName(opMethodName)) {
             return null;
-        if (targetObjectField != null)
+        }
+        if (targetObjectField != null) {
             return null;
+        }
         final Class<RequiredModelMBean> rmmbClass = RequiredModelMBean.class;
         final Class<?> targetClass;
-        if (opClassName == null)
+        if (opClassName == null) {
             targetClass = rmmbClass;
-        else {
+        } else {
             AccessControlContext stack = AccessController.getContext();
             final String className = opClassName;
             targetClass = javaSecurityAccess.doIntersectionPrivilege(new PrivilegedAction<Class<?>>() {
@@ -1217,8 +1235,9 @@ public class RequiredModelMBean
                             rmmbClass.getClassLoader();
                         Class clz = Class.forName(className, false,
                                                     targetClassLoader);
-                        if (!rmmbClass.isAssignableFrom(clz))
+                        if (!rmmbClass.isAssignableFrom(clz)) {
                             return null;
+                        }
                         return clz;
                     } catch (ClassNotFoundException e) {
                         return null;
@@ -1374,8 +1393,9 @@ public class RequiredModelMBean
             try {
                 Set<String> names = new HashSet<String>();
                 Method[] methods = RequiredModelMBean.class.getMethods();
-                for (int i = 0; i < methods.length; i++)
+                for (int i = 0; i < methods.length; i++) {
                     names.add(methods[i].getName());
+                }
                 rmmbMethodNames = names;
             } catch (Exception e) {
                 return true;
@@ -1492,14 +1512,16 @@ public class RequiredModelMBean
      *
      * @see #setAttribute(javax.management.Attribute)
      **/
+    @Override
     public Object getAttribute(String attrName)
         throws AttributeNotFoundException, MBeanException,
                ReflectionException {
-        if (attrName == null)
+        if (attrName == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("attributeName must not be null"),
                 "Exception occurred trying to get attribute of a " +
                 "RequiredModelMBean");
+        }
         final String mth = "getAttribute(String)";
         final boolean tracing = MODELMBEAN_LOGGER.isLoggable(Level.FINER);
         if (tracing) {
@@ -1512,24 +1534,27 @@ public class RequiredModelMBean
         Object response;
 
         try {
-            if (modelMBeanInfo == null)
+            if (modelMBeanInfo == null) {
                 throw new AttributeNotFoundException(
                       "getAttribute failed: ModelMBeanInfo not found for "+
                       attrName);
+            }
 
             ModelMBeanAttributeInfo attrInfo = modelMBeanInfo.getAttribute(attrName);
             Descriptor mmbDesc = modelMBeanInfo.getMBeanDescriptor();
 
-            if (attrInfo == null)
+            if (attrInfo == null) {
                 throw new AttributeNotFoundException("getAttribute failed:"+
                       " ModelMBeanAttributeInfo not found for " + attrName);
+            }
 
             Descriptor attrDescr = attrInfo.getDescriptor();
             if (attrDescr != null) {
-                if (!attrInfo.isReadable())
+                if (!attrInfo.isReadable()) {
                     throw new AttributeNotFoundException(
                           "getAttribute failed: " + attrName +
                           " is not readable ");
+                }
 
                 response = resolveForCacheValue(attrDescr);
 
@@ -1578,14 +1603,20 @@ public class RequiredModelMBean
                                 attrDescr.getFieldValue("currencyTimeLimit");
 
                             String ctl;
-                            if (objctl != null) ctl = objctl.toString();
-                            else ctl = null;
+                            if (objctl != null) {
+                                ctl = objctl.toString();
+                            } else {
+                                ctl = null;
+                            }
 
                             if ((ctl == null) && (mmbDesc != null)) {
                                 objctl = mmbDesc.
                                     getFieldValue("currencyTimeLimit");
-                                if (objctl != null) ctl = objctl.toString();
-                                else ctl = null;
+                                if (objctl != null) {
+                                    ctl = objctl.toString();
+                                } else {
+                                    ctl = null;
+                                }
                             }
 
                             if ((ctl != null) && !(ctl.equals("-1"))) {
@@ -1660,15 +1691,17 @@ public class RequiredModelMBean
                         for (int i = 0; i < primitiveTypes.length; i++) {
                             if (respType.equals(primitiveTypes[i])) {
                                 primitiveType = true;
-                                if (responseClass.equals(primitiveWrappers[i]))
+                                if (responseClass.equals(primitiveWrappers[i])) {
                                     correspondingTypes = true;
+                                }
                                 break;
                             }
                         }
                         if (primitiveType) {
                             // inequality may come from primitive/wrapper class
-                            if (!correspondingTypes)
+                            if (!correspondingTypes) {
                                 wrongType = true;
+                            }
                         } else {
                             // inequality may come from type subclassing
                             boolean subtype;
@@ -1708,8 +1741,9 @@ public class RequiredModelMBean
                                         mth, "Exception: ",e);
                                 }
                             }
-                            if (!subtype)
+                            if (!subtype) {
                                 wrongType = true;
+                            }
                         }
                         if (wrongType) {
                             if (tracing) {
@@ -1781,6 +1815,7 @@ public class RequiredModelMBean
      *
      * @see #setAttributes(javax.management.AttributeList)
      */
+    @Override
     public AttributeList getAttributes(String[] attrNames)      {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -1788,11 +1823,12 @@ public class RequiredModelMBean
             "getAttributes(String[])","Entry");
         }
 
-        if (attrNames == null)
+        if (attrNames == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("attributeNames must not be null"),
                 "Exception occurred trying to get attributes of a "+
                 "RequiredModelMBean");
+        }
 
         AttributeList responseList = new AttributeList();
         for (int i = 0; i < attrNames.length; i++) {
@@ -1896,6 +1932,7 @@ public class RequiredModelMBean
      *
      * @see #getAttribute(java.lang.String)
      **/
+    @Override
     public void setAttribute(Attribute attribute)
         throws AttributeNotFoundException, InvalidAttributeValueException,
                MBeanException, ReflectionException {
@@ -1906,11 +1943,12 @@ public class RequiredModelMBean
                 "setAttribute()","Entry");
         }
 
-        if (attribute == null)
+        if (attribute == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("attribute must not be null"),
                 "Exception occurred trying to set an attribute of a "+
                 "RequiredModelMBean");
+        }
 
         /* run setMethod if there is one */
         /* return cached value if its current */
@@ -1924,17 +1962,19 @@ public class RequiredModelMBean
         ModelMBeanAttributeInfo attrInfo =
             modelMBeanInfo.getAttribute(attrName);
 
-        if (attrInfo == null)
+        if (attrInfo == null) {
             throw new AttributeNotFoundException("setAttribute failed: " +
                                                attrName + " is not found ");
+        }
 
         Descriptor mmbDesc = modelMBeanInfo.getMBeanDescriptor();
         Descriptor attrDescr = attrInfo.getDescriptor();
 
         if (attrDescr != null) {
-            if (!attrInfo.isWritable())
+            if (!attrInfo.isWritable()) {
                 throw new AttributeNotFoundException("setAttribute failed: "
                                           + attrName + " is not writable ");
+            }
 
             String attrSetMethod = (String)
                 (attrDescr.getFieldValue("setMethod"));
@@ -1957,11 +1997,13 @@ public class RequiredModelMBean
                 if (attrValue != null) {
                     try {
                         final Class<?> clazz = loadClass(attrType);
-                        if (! clazz.isInstance(attrValue))  throw new
-                            InvalidAttributeValueException(clazz.getName() +
-                                                           " expected, "   +
-                                            attrValue.getClass().getName() +
-                                                           " received.");
+                        if (! clazz.isInstance(attrValue)) {
+                            throw new
+                                InvalidAttributeValueException(clazz.getName() +
+                                                               " expected, "   +
+                                                attrValue.getClass().getName() +
+                                                               " received.");
+                        }
                     } catch (ClassNotFoundException x) {
                         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
                             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -1982,22 +2024,29 @@ public class RequiredModelMBean
             /* change cached value */
             Object objctl = attrDescr.getFieldValue("currencyTimeLimit");
             String ctl;
-            if (objctl != null) ctl = objctl.toString();
-            else ctl = null;
+            if (objctl != null) {
+                ctl = objctl.toString();
+            } else {
+                ctl = null;
+            }
 
             if ((ctl == null) && (mmbDesc != null)) {
                 objctl = mmbDesc.getFieldValue("currencyTimeLimit");
-                if (objctl != null) ctl = objctl.toString();
-                else ctl = null;
+                if (objctl != null) {
+                    ctl = objctl.toString();
+                } else {
+                    ctl = null;
+                }
             }
 
             final boolean updateCache = ((ctl != null) && !(ctl.equals("-1")));
 
-             if(attrSetMethod == null  && !updateCache && attrGetMethod != null)
-                throw new MBeanException(new ServiceNotFoundException("No " +
-                        "setMethod field is defined in the descriptor for " +
-                        attrName + " attribute and caching is not enabled " +
-                        "for it"));
+             if(attrSetMethod == null  && !updateCache && attrGetMethod != null) {
+                 throw new MBeanException(new ServiceNotFoundException("No " +
+                         "setMethod field is defined in the descriptor for " +
+                         attrName + " attribute and caching is not enabled " +
+                         "for it"));
+             }
 
             if (updateCache || updateDescriptor) {
                 if (tracing) {
@@ -2079,6 +2128,7 @@ public class RequiredModelMBean
      *
      * @see #getAttributes
      **/
+    @Override
     public AttributeList setAttributes(AttributeList attributes) {
 
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -2087,11 +2137,12 @@ public class RequiredModelMBean
                 "setAttribute(Attribute)", "Entry");
         }
 
-        if (attributes == null)
+        if (attributes == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("attributes must not be null"),
                 "Exception occurred trying to set attributes of a "+
                 "RequiredModelMBean");
+        }
 
         final AttributeList responseList = new AttributeList();
 
@@ -2185,6 +2236,7 @@ public class RequiredModelMBean
      *
      * @see #removeNotificationListener
      */
+    @Override
     public void addNotificationListener(NotificationListener listener,
                                         NotificationFilter filter,
                                         Object handback)
@@ -2196,12 +2248,14 @@ public class RequiredModelMBean
                         RequiredModelMBean.class.getName(), mth, "Entry");
         }
 
-        if (listener == null)
+        if (listener == null) {
             throw new IllegalArgumentException(
                   "notification listener must not be null");
+        }
 
-        if (generalBroadcaster == null)
+        if (generalBroadcaster == null) {
             generalBroadcaster = new NotificationBroadcasterSupport();
+        }
 
         generalBroadcaster.addNotificationListener(listener, filter,
                                                    handback);
@@ -2226,11 +2280,13 @@ public class RequiredModelMBean
      *
      * @see #addNotificationListener
      **/
+    @Override
     public void removeNotificationListener(NotificationListener listener)
         throws ListenerNotFoundException {
-        if (listener == null)
+        if (listener == null) {
             throw new ListenerNotFoundException(
                       "Notification listener is null");
+        }
 
         final String mth="removeNotificationListener(NotificationListener)";
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -2238,9 +2294,10 @@ public class RequiredModelMBean
                     RequiredModelMBean.class.getName(), mth, "Entry");
         }
 
-        if (generalBroadcaster == null)
+        if (generalBroadcaster == null) {
             throw new ListenerNotFoundException(
                   "No notification listeners registered");
+        }
 
 
         generalBroadcaster.removeNotificationListener(listener);
@@ -2251,14 +2308,16 @@ public class RequiredModelMBean
 
     }
 
+    @Override
     public void removeNotificationListener(NotificationListener listener,
                                            NotificationFilter filter,
                                            Object handback)
         throws ListenerNotFoundException {
 
-        if (listener == null)
+        if (listener == null) {
             throw new ListenerNotFoundException(
                       "Notification listener is null");
+        }
 
         final String mth = "removeNotificationListener(" +
                 "NotificationListener, NotificationFilter, Object)";
@@ -2268,9 +2327,10 @@ public class RequiredModelMBean
                     RequiredModelMBean.class.getName(), mth, "Entry");
         }
 
-        if (generalBroadcaster == null)
+        if (generalBroadcaster == null) {
             throw new ListenerNotFoundException(
                   "No notification listeners registered");
+        }
 
 
         generalBroadcaster.removeNotificationListener(listener,filter,
@@ -2283,6 +2343,7 @@ public class RequiredModelMBean
 
     }
 
+    @Override
     public void sendNotification(Notification ntfyObj)
         throws MBeanException, RuntimeOperationsException {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -2291,12 +2352,13 @@ public class RequiredModelMBean
                 "sendNotification(Notification)", "Entry");
         }
 
-        if (ntfyObj == null)
+        if (ntfyObj == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("notification object must not be "+
                                          "null"),
                 "Exception occurred trying to send a notification from a "+
                 "RequiredModelMBean");
+        }
 
 
         // log notification if specified in descriptor
@@ -2308,8 +2370,9 @@ public class RequiredModelMBean
             String logging = (String) ntfyDesc.getFieldValue("log");
 
             if (logging == null) {
-                if (mmbDesc != null)
+                if (mmbDesc != null) {
                     logging = (String) mmbDesc.getFieldValue("log");
+                }
             }
 
             if ((logging != null) &&
@@ -2318,8 +2381,9 @@ public class RequiredModelMBean
 
                 String logfile = (String) ntfyDesc.getFieldValue("logfile");
                 if (logfile == null) {
-                    if (mmbDesc != null)
+                    if (mmbDesc != null) {
                         logfile = (String)mmbDesc.getFieldValue("logfile");
+                    }
                 }
                 if (logfile != null) {
                     try {
@@ -2357,6 +2421,7 @@ public class RequiredModelMBean
     }
 
 
+    @Override
     public void sendNotification(String ntfyText)
         throws MBeanException, RuntimeOperationsException {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
@@ -2365,12 +2430,13 @@ public class RequiredModelMBean
                 "sendNotification(String)","Entry");
         }
 
-        if (ntfyText == null)
+        if (ntfyText == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("notification message must not "+
                                          "be null"),
                 "Exception occurred trying to send a text notification "+
                 "from a ModelMBean");
+        }
 
         Notification myNtfyObj = new Notification("jmx.modelmbean.generic",
                                                   this, 1, ntfyText);
@@ -2393,8 +2459,11 @@ public class RequiredModelMBean
         boolean hasNotification(final ModelMBeanInfo info,
                                 final String notifName) {
         try {
-            if (info == null) return false;
-            else return (info.getNotification(notifName)!=null);
+            if (info == null) {
+                return false;
+            } else {
+                return (info.getNotification(notifName)!=null);
+            }
         } catch (MBeanException x) {
             return false;
         } catch (RuntimeOperationsException r) {
@@ -2460,6 +2529,7 @@ public class RequiredModelMBean
      * @return MBeanNotificationInfo[]
      *
      **/
+    @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -2507,13 +2577,17 @@ public class RequiredModelMBean
         if (!hasGeneric)
             // We need to add description for GENERIC notification
             // (bug 4744667)
+        {
             respInfo[inserted++] = makeGenericInfo();
+        }
 
 
         if (!hasAttributeChange)
             // We need to add description for ATTRIBUTE_CHANGE notification
             // (bug 4744667)
+        {
             respInfo[inserted++] = makeAttributeChangeInfo();
+        }
 
         // Now copy user supplied list in returned list.
         //
@@ -2533,6 +2607,7 @@ public class RequiredModelMBean
     }
 
 
+    @Override
     public void addAttributeChangeNotificationListener(NotificationListener
                                                        inlistener,
                                                        String
@@ -2548,13 +2623,15 @@ public class RequiredModelMBean
                     RequiredModelMBean.class.getName(),mth,"Entry");
         }
 
-        if (inlistener == null)
+        if (inlistener == null) {
             throw new IllegalArgumentException(
                   "Listener to be registered must not be null");
+        }
 
 
-        if (attributeBroadcaster == null)
+        if (attributeBroadcaster == null) {
             attributeBroadcaster = new NotificationBroadcasterSupport();
+        }
 
         AttributeChangeNotificationFilter currFilter =
             new AttributeChangeNotificationFilter();
@@ -2607,12 +2684,15 @@ public class RequiredModelMBean
         }
     }
 
+    @Override
     public void removeAttributeChangeNotificationListener(
             NotificationListener inlistener, String inAttributeName)
         throws MBeanException, RuntimeOperationsException,
                ListenerNotFoundException {
-        if (inlistener == null) throw new
-            ListenerNotFoundException("Notification listener is null");
+        if (inlistener == null) {
+            throw new
+                ListenerNotFoundException("Notification listener is null");
+        }
 
         final String mth = "removeAttributeChangeNotificationListener(" +
                 "NotificationListener, String)";
@@ -2623,9 +2703,10 @@ public class RequiredModelMBean
         }
 
 
-        if (attributeBroadcaster == null)
+        if (attributeBroadcaster == null) {
             throw new ListenerNotFoundException(
                   "No attribute change notification listeners registered");
+        }
 
 
         MBeanAttributeInfo[] attrInfo = modelMBeanInfo.getAttributes();
@@ -2659,6 +2740,7 @@ public class RequiredModelMBean
         }
     }
 
+    @Override
     public void sendAttributeChangeNotification(AttributeChangeNotification
                                                 ntfyObj)
         throws MBeanException, RuntimeOperationsException {
@@ -2670,18 +2752,23 @@ public class RequiredModelMBean
                     RequiredModelMBean.class.getName(),mth,"Entry");
         }
 
-        if (ntfyObj == null)
+        if (ntfyObj == null) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException(
                 "attribute change notification object must not be null"),
                 "Exception occurred trying to send "+
                 "attribute change notification of a ModelMBean");
+        }
 
         Object oldv = ntfyObj.getOldValue();
         Object newv =  ntfyObj.getNewValue();
 
-        if (oldv == null) oldv = "null";
-        if (newv == null) newv = "null";
+        if (oldv == null) {
+            oldv = "null";
+        }
+        if (newv == null) {
+            newv = "null";
+        }
 
         if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
             MODELMBEAN_LOGGER.logp(Level.FINER,
@@ -2701,16 +2788,18 @@ public class RequiredModelMBean
         if (ntfyDesc != null) {
             logging =(String)  ntfyDesc.getFieldValue("log");
             if (logging == null) {
-                if (mmbDesc != null)
+                if (mmbDesc != null) {
                     logging = (String) mmbDesc.getFieldValue("log");
+                }
             }
             if ((logging != null) &&
                 ( logging.equalsIgnoreCase("t") ||
                   logging.equalsIgnoreCase("true"))) {
                 logfile = (String) ntfyDesc.getFieldValue("logfile");
                 if (logfile == null) {
-                    if (mmbDesc != null)
+                    if (mmbDesc != null) {
                         logfile = (String)mmbDesc.getFieldValue("logfile");
+                    }
                 }
 
                 if (logfile != null) {
@@ -2783,6 +2872,7 @@ public class RequiredModelMBean
         }
     }
 
+    @Override
     public void sendAttributeChangeNotification(Attribute inOldVal,
                                                 Attribute inNewVal)
         throws MBeanException, RuntimeOperationsException {
@@ -2795,27 +2885,31 @@ public class RequiredModelMBean
         }
 
         // do we really want to do this?
-        if ((inOldVal == null) || (inNewVal == null))
+        if ((inOldVal == null) || (inNewVal == null)) {
             throw new RuntimeOperationsException(new
                IllegalArgumentException("Attribute object must not be null"),
                "Exception occurred trying to send " +
                "attribute change notification of a ModelMBean");
+        }
 
 
-        if (!(inOldVal.getName().equals(inNewVal.getName())))
+        if (!(inOldVal.getName().equals(inNewVal.getName()))) {
             throw new RuntimeOperationsException(new
                 IllegalArgumentException("Attribute names are not the same"),
                 "Exception occurred trying to send " +
                 "attribute change notification of a ModelMBean");
+        }
 
 
         Object newVal = inNewVal.getValue();
         Object oldVal = inOldVal.getValue();
         String className = "unknown";
-        if (newVal != null)
+        if (newVal != null) {
             className = newVal.getClass().getName();
-        if (oldVal != null)
+        }
+        if (oldVal != null) {
             className = oldVal.getClass().getName();
+        }
 
         AttributeChangeNotification myNtfyObj = new
             AttributeChangeNotification(this,
@@ -2866,7 +2960,9 @@ public class RequiredModelMBean
                     final ClassLoaderRepository clr =
                         getClassLoaderRepository();
                     try {
-                        if (clr == null) throw new ClassNotFoundException(className);
+                        if (clr == null) {
+                            throw new ClassNotFoundException(className);
+                        }
                         return clr.loadClass(className);
                     } catch (ClassNotFoundException ex) {
                         caughtException[0] = ex;
@@ -2918,14 +3014,17 @@ public class RequiredModelMBean
      * {@link javax.management.MBeanRegistrationException
      * MBeanRegistrationException}.
      */
+    @Override
     public ObjectName preRegister(MBeanServer server,
                                   ObjectName name)
         throws java.lang.Exception  {
         // Since ModelMbeanInfo cannot be null (otherwise exception
         // thrown at creation)
         // no exception thrown on ModelMBeanInfo not set.
-        if (name == null) throw new NullPointerException(
-                     "name of RequiredModelMBean to registered is null");
+        if (name == null) {
+            throw new NullPointerException(
+                         "name of RequiredModelMBean to registered is null");
+        }
         this.server = server;
         return name;
     }
@@ -2943,6 +3042,7 @@ public class RequiredModelMBean
      * been successfully registered in the MBean server. The value
      * false means that the registration phase has failed.
      */
+    @Override
     public void postRegister(Boolean registrationDone) {
         registered = registrationDone.booleanValue();
     }
@@ -2961,6 +3061,7 @@ public class RequiredModelMBean
      * {@link javax.management.MBeanRegistrationException
      * MBeanRegistrationException}.
      */
+    @Override
     public void preDeregister() throws java.lang.Exception {
     }
 
@@ -2973,6 +3074,7 @@ public class RequiredModelMBean
      * method should call <code>super.postDeregister()</code> in its own
      * <code>postDeregister</code> implementation.
      */
+    @Override
     public void postDeregister() {
         registered = false;
         this.server=null;

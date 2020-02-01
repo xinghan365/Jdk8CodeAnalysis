@@ -219,6 +219,7 @@ public final class URLPermission extends Permission {
      * There is no white space in the returned String. If header-names is empty
      * then the colon separator will not be present.
      */
+    @Override
     public String getActions() {
         return actions;
     }
@@ -258,6 +259,7 @@ public final class URLPermission extends Permission {
      * <tr><td>/a/b/*</td><td>/a/b/c/-</td><td>no</td></tr>
      * </table>
      */
+    @Override
     public boolean implies(Permission p) {
         if (! (p instanceof URLPermission)) {
             return false;
@@ -328,6 +330,7 @@ public final class URLPermission extends Permission {
      * Returns true if, this.getActions().equals(p.getActions())
      * and p's url equals this's url.  Returns false otherwise.
      */
+    @Override
     public boolean equals(Object p) {
         if (!(p instanceof URLPermission)) {
             return false;
@@ -353,6 +356,7 @@ public final class URLPermission extends Permission {
      * Returns a hashcode calculated from the hashcode of the
      * actions String and the url string.
      */
+    @Override
     public int hashCode() {
         return getActions().hashCode()
             + scheme.hashCode()
@@ -368,8 +372,9 @@ public final class URLPermission extends Permission {
             char c = methods.charAt(i);
             if (c == ',') {
                 String s = b.toString();
-                if (s.length() > 0)
+                if (s.length() > 0) {
                     l.add(s);
+                }
                 b = new StringBuilder();
             } else if (c == ' ' || c == '\t') {
                 throw new IllegalArgumentException(
@@ -382,8 +387,9 @@ public final class URLPermission extends Permission {
             }
         }
         String s = b.toString();
-        if (s.length() > 0)
+        if (s.length() > 0) {
             l.add(s);
+        }
         return l;
     }
 
@@ -407,8 +413,9 @@ public final class URLPermission extends Permission {
                 b.append(c);
             } else if (c == ',') {
                 String s = b.toString();
-                if (s.length() > 0)
+                if (s.length() > 0) {
                     l.add(s);
+                }
                 b = new StringBuilder();
                 capitalizeNext = true;
             } else {
@@ -417,8 +424,9 @@ public final class URLPermission extends Permission {
             }
         }
         String s = b.toString();
-        if (s.length() > 0)
+        if (s.length() > 0) {
             l.add(s);
+        }
         return l;
     }
 
@@ -532,6 +540,7 @@ public final class URLPermission extends Permission {
             return this.p.equals(that.p);
         }
 
+        @Override
         public int hashCode() {
             return p.hashCode();
         }

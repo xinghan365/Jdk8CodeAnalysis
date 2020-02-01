@@ -124,6 +124,7 @@ public class TabStop implements Serializable {
      * Returns true if the tabs are equal.
      * @return true if the tabs are equal, otherwise false
      */
+    @Override
     public boolean equals(Object other)
     {
         if (other == this) {
@@ -144,11 +145,13 @@ public class TabStop implements Serializable {
      *
      * @return the hashCode for the object
      */
+    @Override
     public int hashCode() {
         return alignment ^ leader ^ Math.round(position);
     }
 
     /* This is for debugging; perhaps it should be removed before release */
+    @Override
     public String toString() {
         String buf;
         switch(alignment) {
@@ -170,8 +173,9 @@ public class TabStop implements Serializable {
             break;
         }
         buf = buf + "tab @" + String.valueOf(position);
-        if (leader != LEAD_NONE)
+        if (leader != LEAD_NONE) {
             buf = buf + " (w/leaders)";
+        }
         return buf;
     }
 }

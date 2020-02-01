@@ -307,8 +307,9 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
         Point pt = new Point(e.getX(), e.getY());
         Position.Bias[] biasRet = new Position.Bias[1];
         int pos = component.getUI().viewToModel(component, pt, biasRet);
-        if(biasRet[0] == null)
+        if(biasRet[0] == null) {
             biasRet[0] = Position.Bias.Forward;
+        }
         if (pos >= 0) {
             setDot(pos, biasRet[0]);
         }
@@ -326,8 +327,9 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
         Point pt = new Point(e.getX(), e.getY());
         Position.Bias[] biasRet = new Position.Bias[1];
         int pos = component.getUI().viewToModel(component, pt, biasRet);
-        if(biasRet[0] == null)
+        if(biasRet[0] == null) {
             biasRet[0] = Position.Bias.Forward;
+        }
         if (pos >= 0) {
             moveDot(pos, biasRet[0]);
         }
@@ -343,6 +345,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the focus event
      * @see FocusListener#focusGained
      */
+    @Override
     public void focusGained(FocusEvent e) {
         if (component.isEnabled()) {
             if (component.isEditable()) {
@@ -360,6 +363,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the focus event
      * @see FocusListener#focusLost
      */
+    @Override
     public void focusLost(FocusEvent e) {
         setVisible(false);
         setSelectionVisible(ownsSelection || e.isTemporary());
@@ -402,6 +406,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseListener#mouseClicked
      */
+    @Override
     public void mouseClicked(MouseEvent e) {
         if (getComponent() == null) {
             return;
@@ -485,6 +490,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseListener#mousePressed
      */
+    @Override
     public void mousePressed(MouseEvent e) {
         int nclicks = SwingUtilities2.getAdjustedClickCount(getComponent(), e);
 
@@ -542,6 +548,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseListener#mouseReleased
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (!e.isConsumed()
                 && shouldHandleRelease
@@ -557,6 +564,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseListener#mouseEntered
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
@@ -566,6 +574,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseListener#mouseExited
      */
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
@@ -581,6 +590,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseMotionListener#mouseDragged
      */
+    @Override
     public void mouseDragged(MouseEvent e) {
         if ((! e.isConsumed()) && SwingUtilities.isLeftMouseButton(e)) {
             moveCaret(e);
@@ -593,6 +603,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param e the mouse event
      * @see MouseMotionListener#mouseMoved
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 
@@ -614,6 +625,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param g the graphics context
      * @see #damage
      */
+    @Override
     public void paint(Graphics g) {
         if(isVisible()) {
             try {
@@ -681,6 +693,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param c the component
      * @see Caret#install
      */
+    @Override
     public void install(JTextComponent c) {
         component = c;
         Document doc = c.getDocument();
@@ -724,6 +737,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param c the component
      * @see Caret#deinstall
      */
+    @Override
     public void deinstall(JTextComponent c) {
         c.removeMouseListener(this);
         c.removeMouseMotionListener(this);
@@ -750,6 +764,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param l the listener
      * @see Caret#addChangeListener
      */
+    @Override
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
@@ -760,6 +775,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param l the listener
      * @see Caret#removeChangeListener
      */
+    @Override
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
@@ -797,8 +813,9 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==ChangeListener.class) {
                 // Lazily create the event:
-                if (changeEvent == null)
+                if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
+                }
                 ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
             }
         }
@@ -849,6 +866,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      *
      * @param vis the new visibility
      */
+    @Override
     public void setSelectionVisible(boolean vis) {
         if (vis != selectionVisible) {
             selectionVisible = vis;
@@ -881,6 +899,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      *
      * @return true if the selection is visible
      */
+    @Override
     public boolean isSelectionVisible() {
         return selectionVisible;
     }
@@ -920,6 +939,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @see Caret#isVisible
      * @see #isActive
      */
+    @Override
     public boolean isVisible() {
         return visible;
     }
@@ -958,6 +978,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @see #isActive
      * @see Caret#setVisible
      */
+    @Override
     public void setVisible(boolean e) {
         // focus lost notification can come in later after the
         // caret has been deinstalled, in which case the component
@@ -991,6 +1012,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param rate the rate in milliseconds, 0 to stop blinking
      * @see Caret#setBlinkRate
      */
+    @Override
     public void setBlinkRate(int rate) {
         if (rate != 0) {
             if (flasher == null) {
@@ -1013,6 +1035,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      *  zero the caret will not blink.
      * @see Caret#getBlinkRate
      */
+    @Override
     public int getBlinkRate() {
         return (flasher == null) ? 0 : flasher.getDelay();
     }
@@ -1023,6 +1046,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @return the position &gt;= 0
      * @see Caret#getDot
      */
+    @Override
     public int getDot() {
         return dot;
     }
@@ -1034,6 +1058,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @return the position &gt;= 0
      * @see Caret#getMark
      */
+    @Override
     public int getMark() {
         return mark;
     }
@@ -1047,6 +1072,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @see #setDot(int, Position.Bias)
      * @see Caret#setDot
      */
+    @Override
     public void setDot(int dot) {
         setDot(dot, Position.Bias.Forward);
     }
@@ -1059,6 +1085,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @see #moveDot(int, javax.swing.text.Position.Bias)
      * @see Caret#moveDot
      */
+    @Override
     public void moveDot(int dot) {
         moveDot(dot, Position.Bias.Forward);
     }
@@ -1164,8 +1191,9 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
         dot = Math.max(dot, 0);
 
         // The position (0,Backward) is out of range so disallow it.
-        if( dot == 0 )
+        if( dot == 0 ) {
             dotBias = Position.Bias.Forward;
+        }
 
         mark = dot;
         if (this.dot != dot || this.dotBias != dotBias ||
@@ -1211,8 +1239,9 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
 
     boolean isPositionLTR(int position, Position.Bias bias) {
         Document doc = component.getDocument();
-        if(bias == Position.Bias.Backward && --position < 0)
+        if(bias == Position.Bias.Backward && --position < 0) {
             position = 0;
+        }
         return AbstractDocument.isLeftToRight(doc, position, position);
     }
 
@@ -1283,6 +1312,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
         // order or the fact that this might happen on
         // an unsafe thread).
         Runnable callRepaintNewCaret = new Runnable() {
+            @Override
             public void run() {
                 repaintNewCaret();
             }
@@ -1403,6 +1433,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @param p the position
      * @see #getMagicCaretPosition
      */
+    @Override
     public void setMagicCaretPosition(Point p) {
         magicCaretPosition = p;
     }
@@ -1413,6 +1444,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @return the position
      * see #setMagicCaretPosition
      */
+    @Override
     public Point getMagicCaretPosition() {
         return magicCaretPosition;
     }
@@ -1427,10 +1459,12 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
      * @return    <code>true</code> if the objects are equal;
      *            <code>false</code> otherwise
      */
+    @Override
     public boolean equals(Object obj) {
         return (this == obj);
     }
 
+    @Override
     public String toString() {
         String s = "Dot=(" + dot + ", " + dotBias + ")";
         s += " Mark=(" + mark + ", " + markBias + ")";
@@ -1467,12 +1501,16 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
                 // either original w or W was zero or
                 // x+w did not overflow or
                 // the overflowed x+w is smaller than the overflowed X+W
-                if (w >= x || W > w) return false;
+                if (w >= x || W > w) {
+                    return false;
+                }
             } else {
                 // X+W did not overflow and W was not zero, return false if...
                 // original w was zero or
                 // x+w did not overflow and x+w is smaller than X+W
-                if (w >= x && W > w) return false;
+                if (w >= x && W > w) {
+                    return false;
+                }
             }
         }
         else if ((x + w) < X) {
@@ -1482,9 +1520,13 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
             h += y;
             H += Y;
             if (H <= Y) {
-                if (h >= y || H > h) return false;
+                if (h >= y || H > h) {
+                    return false;
+                }
             } else {
-                if (h >= y && H > h) return false;
+                if (h >= y && H > h) {
+                    return false;
+                }
             }
         }
         else if ((y + h) < Y) {
@@ -1615,6 +1657,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
             this.r = r;
         }
 
+        @Override
         public void run() {
             if (component != null) {
                 component.scrollRectToVisible(r);
@@ -1636,6 +1679,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
          *
          * @param e the action event
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (width == 0 || height == 0) {
                 // setVisible(true) will cause a scroll, only do this if the
@@ -1665,6 +1709,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
          * @param e the document event
          * @see DocumentListener#insertUpdate
          */
+        @Override
         public void insertUpdate(DocumentEvent e) {
             if (getUpdatePolicy() == NEVER_UPDATE ||
                     (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
@@ -1743,6 +1788,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
          * @param e the document event
          * @see DocumentListener#removeUpdate
          */
+        @Override
         public void removeUpdate(DocumentEvent e) {
             if (getUpdatePolicy() == NEVER_UPDATE ||
                     (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
@@ -1825,6 +1871,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
          * @param e the document event
          * @see DocumentListener#changedUpdate
          */
+        @Override
         public void changedUpdate(DocumentEvent e) {
             if (getUpdatePolicy() == NEVER_UPDATE ||
                     (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
@@ -1842,6 +1889,7 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
          * This method gets called when a bound property is changed.
          * We are looking for document changes on the editor.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Object oldValue = evt.getOldValue();
             Object newValue = evt.getNewValue();
@@ -1892,8 +1940,9 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
         /**
          * Toggles the visibility of the selection when ownership is lost.
          */
+        @Override
         public void lostOwnership(Clipboard clipboard,
-                                      Transferable contents) {
+                                  Transferable contents) {
             if (ownsSelection) {
                 ownsSelection = false;
                 if (component != null && !component.hasFocus()) {
@@ -1905,14 +1954,17 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
 
 
     private class DefaultFilterBypass extends NavigationFilter.FilterBypass {
+        @Override
         public Caret getCaret() {
             return DefaultCaret.this;
         }
 
+        @Override
         public void setDot(int dot, Position.Bias bias) {
             handleSetDot(dot, bias);
         }
 
+        @Override
         public void moveDot(int dot, Position.Bias bias) {
             handleMoveDot(dot, bias);
         }

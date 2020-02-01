@@ -142,6 +142,7 @@ public class Kernel implements Cloneable {
      * Clones this object.
      * @return a clone of this object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();

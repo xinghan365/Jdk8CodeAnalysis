@@ -849,6 +849,7 @@ public class BufferedImage extends java.awt.Image
      * @return the <code>ColorModel</code> of this
      *  <code>BufferedImage</code>.
      */
+    @Override
     public ColorModel getColorModel() {
         return colorModel;
     }
@@ -1066,6 +1067,7 @@ public class BufferedImage extends java.awt.Image
      * Returns the width of the <code>BufferedImage</code>.
      * @return the width of this <code>BufferedImage</code>
      */
+    @Override
     public int getWidth() {
         return raster.getWidth();
     }
@@ -1074,6 +1076,7 @@ public class BufferedImage extends java.awt.Image
      * Returns the height of the <code>BufferedImage</code>.
      * @return the height of this <code>BufferedImage</code>
      */
+    @Override
     public int getHeight() {
         return raster.getHeight();
     }
@@ -1083,6 +1086,7 @@ public class BufferedImage extends java.awt.Image
      * @param observer ignored
      * @return the width of this <code>BufferedImage</code>
      */
+    @Override
     public int getWidth(ImageObserver observer) {
         return raster.getWidth();
     }
@@ -1092,6 +1096,7 @@ public class BufferedImage extends java.awt.Image
      * @param observer ignored
      * @return the height of this <code>BufferedImage</code>
      */
+    @Override
     public int getHeight(ImageObserver observer) {
         return raster.getHeight();
     }
@@ -1102,6 +1107,7 @@ public class BufferedImage extends java.awt.Image
      * pixels for this image.
      * @see ImageProducer
      */
+    @Override
     public ImageProducer getSource() {
         if (osis == null) {
             if (properties == null) {
@@ -1133,6 +1139,7 @@ public class BufferedImage extends java.awt.Image
      * @see ImageObserver
      * @see java.awt.Image#UndefinedProperty
      */
+    @Override
     public Object getProperty(String name, ImageObserver observer) {
         return getProperty(name);
     }
@@ -1144,6 +1151,7 @@ public class BufferedImage extends java.awt.Image
      *          the specified <code>name</code>.
      * @throws NullPointerException if the property name is null.
      */
+    @Override
     public Object getProperty(String name) {
         if (name == null) {
             throw new NullPointerException("null property name is not allowed");
@@ -1166,6 +1174,7 @@ public class BufferedImage extends java.awt.Image
      * @return a <code>Graphics2D</code>, which can be used to draw into
      *          this image.
      */
+    @Override
     public java.awt.Graphics getGraphics() {
         return createGraphics();
     }
@@ -1237,6 +1246,7 @@ public class BufferedImage extends java.awt.Image
      * @return a <code>String</code> representing this
      *          <code>BufferedImage</code>.
      */
+    @Override
     public String toString() {
         return "BufferedImage@"+Integer.toHexString(hashCode())
             +": type = "+imageType
@@ -1258,6 +1268,7 @@ public class BufferedImage extends java.awt.Image
      *          <code>Vector</code> if this <code>BufferedImage</code>
      *          has no immediate sources.
      */
+    @Override
     public Vector<RenderedImage> getSources() {
         return null;
     }
@@ -1270,6 +1281,7 @@ public class BufferedImage extends java.awt.Image
      *          names that <code>getProperty(String)</code> recognizes;
      *          or <code>null</code> if no property names are recognized.
      */
+    @Override
     public String[] getPropertyNames() {
         if (properties == null || properties.isEmpty()) {
             return null;
@@ -1284,6 +1296,7 @@ public class BufferedImage extends java.awt.Image
      * @return the minimum x coordinate of this
      *          <code>BufferedImage</code>.
      */
+    @Override
     public int getMinX() {
         return raster.getMinX();
     }
@@ -1294,6 +1307,7 @@ public class BufferedImage extends java.awt.Image
      * @return the minimum y coordinate of this
      *          <code>BufferedImage</code>.
      */
+    @Override
     public int getMinY() {
         return raster.getMinY();
     }
@@ -1304,6 +1318,7 @@ public class BufferedImage extends java.awt.Image
      * @return the <code>SampleModel</code> of this
      *          <code>BufferedImage</code>.
      */
+    @Override
     public SampleModel getSampleModel() {
         return raster.getSampleModel();
     }
@@ -1313,6 +1328,7 @@ public class BufferedImage extends java.awt.Image
      * This is always one.
      * @return the number of tiles in the x direction.
      */
+    @Override
     public int getNumXTiles() {
         return 1;
     }
@@ -1322,6 +1338,7 @@ public class BufferedImage extends java.awt.Image
      * This is always one.
      * @return the number of tiles in the y direction.
      */
+    @Override
     public int getNumYTiles() {
         return 1;
     }
@@ -1331,6 +1348,7 @@ public class BufferedImage extends java.awt.Image
      * This is always zero.
      * @return the minimum tile index in the x direction.
      */
+    @Override
     public int getMinTileX() {
         return 0;
     }
@@ -1340,6 +1358,7 @@ public class BufferedImage extends java.awt.Image
      * This is always zero.
      * @return the minimum tile index in the y direction.
      */
+    @Override
     public int getMinTileY() {
         return 0;
     }
@@ -1348,6 +1367,7 @@ public class BufferedImage extends java.awt.Image
      * Returns the tile width in pixels.
      * @return the tile width in pixels.
      */
+    @Override
     public int getTileWidth() {
        return raster.getWidth();
     }
@@ -1356,6 +1376,7 @@ public class BufferedImage extends java.awt.Image
      * Returns the tile height in pixels.
      * @return the tile height in pixels.
      */
+    @Override
     public int getTileHeight() {
        return raster.getHeight();
     }
@@ -1366,6 +1387,7 @@ public class BufferedImage extends java.awt.Image
      * (0,&nbsp;0).  This is always zero.
      * @return the x offset of the tile grid.
      */
+    @Override
     public int getTileGridXOffset() {
         return raster.getSampleModelTranslateX();
     }
@@ -1376,6 +1398,7 @@ public class BufferedImage extends java.awt.Image
      * (0,&nbsp;0).  This is always zero.
      * @return the y offset of the tile grid.
      */
+    @Override
     public int getTileGridYOffset() {
         return raster.getSampleModelTranslateY();
     }
@@ -1394,6 +1417,7 @@ public class BufferedImage extends java.awt.Image
      *          <code>tileX</code> and <code>tileY</code> are not
      *          equal to 0
      */
+    @Override
     public Raster getTile(int tileX, int tileY) {
         if (tileX == 0 && tileY == 0) {
             return raster;
@@ -1409,6 +1433,7 @@ public class BufferedImage extends java.awt.Image
      * @return a <code>Raster</code> that is a copy of the image data.
      * @see #setData(Raster)
      */
+    @Override
     public Raster getData() {
 
         // REMIND : this allocates a whole new tile if raster is a
@@ -1443,6 +1468,7 @@ public class BufferedImage extends java.awt.Image
      *          the specified region of the <code>BufferedImage</code>
      * @see #setData(Raster)
      */
+    @Override
     public Raster getData(Rectangle rect) {
         SampleModel sm = raster.getSampleModel();
         SampleModel nsm = sm.createCompatibleSampleModel(rect.width,
@@ -1478,6 +1504,7 @@ public class BufferedImage extends java.awt.Image
      * @return a reference to the supplied or created
      *          <code>WritableRaster</code>.
      */
+    @Override
     public WritableRaster copyData(WritableRaster outRaster) {
         if (outRaster == null) {
             return (WritableRaster) getData();
@@ -1507,6 +1534,7 @@ public class BufferedImage extends java.awt.Image
      * @see #getData
      * @see #getData(Rectangle)
     */
+    @Override
     public void setData(Raster r) {
         int width = r.getWidth();
         int height = r.getHeight();
@@ -1541,6 +1569,7 @@ public class BufferedImage extends java.awt.Image
    * it receives multiple notifications.
    * @param to the specified {@link TileObserver}
    */
+    @Override
     public void addTileObserver (TileObserver to) {
     }
 
@@ -1550,6 +1579,7 @@ public class BufferedImage extends java.awt.Image
    * notifications, it is now registered for one fewer notification.
    * @param to the specified <code>TileObserver</code>.
    */
+    @Override
     public void removeTileObserver (TileObserver to) {
     }
 
@@ -1564,6 +1594,7 @@ public class BufferedImage extends java.awt.Image
      *          <code>tileX</code> and <code>tileY</code> are not equal
      *          to 0
      */
+    @Override
     public boolean isTileWritable (int tileX, int tileY) {
         if (tileX == 0 && tileY == 0) {
             return true;
@@ -1579,6 +1610,7 @@ public class BufferedImage extends java.awt.Image
      *          are checked out for writing, or <code>null</code> if no
      *          tiles are checked out for writing.
      */
+    @Override
     public Point[] getWritableTileIndices() {
         Point[] p = new Point[1];
         p[0] = new Point(0, 0);
@@ -1595,6 +1627,7 @@ public class BufferedImage extends java.awt.Image
      * @return <code>true</code> if any tile is checked out for writing;
      *          <code>false</code> otherwise.
      */
+    @Override
     public boolean hasTileWriters () {
         return true;
     }
@@ -1608,6 +1641,7 @@ public class BufferedImage extends java.awt.Image
    * @return a <code>WritableRaster</code> that is the tile, indicated by
    *            the specified indices, to be checked out for writing.
    */
+    @Override
     public WritableRaster getWritableTile (int tileX, int tileY) {
         return raster;
     }
@@ -1623,6 +1657,7 @@ public class BufferedImage extends java.awt.Image
    * @param tileX the x index of the tile
    * @param tileY the y index of the tile
    */
+    @Override
     public void releaseWritableTile (int tileX, int tileY) {
     }
 
@@ -1635,6 +1670,7 @@ public class BufferedImage extends java.awt.Image
      * @see Transparency#TRANSLUCENT
      * @since 1.5
      */
+    @Override
     public int getTransparency() {
         return colorModel.getTransparency();
     }

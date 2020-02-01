@@ -165,6 +165,7 @@ public class BasicScrollBarUI
     }
 
 
+    @Override
     public void installUI(JComponent c)   {
         scrollbar = (JScrollBar)c;
         thumbRect = new Rectangle(0, 0, 0, 0);
@@ -175,6 +176,7 @@ public class BasicScrollBarUI
         installKeyboardActions();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         scrollbar = (JScrollBar)c;
         uninstallListeners();
@@ -426,6 +428,7 @@ public class BasicScrollBarUI
         return thumbActive;
     }
 
+    @Override
     public void paint(Graphics g, JComponent c) {
         paintTrack(g, c, getTrackBounds());
         Rectangle thumbBounds = getThumbBounds();
@@ -451,6 +454,7 @@ public class BasicScrollBarUI
      * @see #getMaximumSize
      * @see #getMinimumSize
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return (scrollbar.getOrientation() == JScrollBar.VERTICAL)
             ? new Dimension(scrollBarWidth, 48)
@@ -464,6 +468,7 @@ public class BasicScrollBarUI
      * @see #getMinimumSize
      * @see #getPreferredSize
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
@@ -627,13 +632,17 @@ public class BasicScrollBarUI
      * LayoutManager Implementation
      */
 
+    @Override
     public void addLayoutComponent(String name, Component child) {}
+    @Override
     public void removeLayoutComponent(Component child) {}
 
+    @Override
     public Dimension preferredLayoutSize(Container scrollbarContainer)  {
         return getPreferredSize((JComponent)scrollbarContainer);
     }
 
+    @Override
     public Dimension minimumLayoutSize(Container scrollbarContainer) {
         return getMinimumSize((JComponent)scrollbarContainer);
     }
@@ -850,6 +859,7 @@ public class BasicScrollBarUI
         }
     }
 
+    @Override
     public void layoutContainer(Container scrollbarContainer)
     {
         /* If the user is dragging the value, we'll assume that the
@@ -1047,6 +1057,7 @@ public class BasicScrollBarUI
      *
      */
     protected class ModelListener implements ChangeListener {
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (!useCachedValue) {
                 scrollBarValue = scrollbar.getValue();
@@ -1067,6 +1078,7 @@ public class BasicScrollBarUI
         protected transient int currentMouseX, currentMouseY;
         private transient int direction = +1;
 
+        @Override
         public void mouseReleased(MouseEvent e)
         {
             if (isDragging) {
@@ -1074,10 +1086,12 @@ public class BasicScrollBarUI
             }
             if (SwingUtilities.isRightMouseButton(e) ||
                 (!getSupportsAbsolutePositioning() &&
-                 SwingUtilities.isMiddleMouseButton(e)))
+                 SwingUtilities.isMiddleMouseButton(e))) {
                 return;
-            if(!scrollbar.isEnabled())
+            }
+            if(!scrollbar.isEnabled()) {
                 return;
+            }
 
             Rectangle r = getTrackBounds();
             scrollbar.repaint(r.x, r.y, r.width, r.height);
@@ -1098,14 +1112,17 @@ public class BasicScrollBarUI
          * thumb then page up if the mouse is in the upper half
          * of the track.
          */
+        @Override
         public void mousePressed(MouseEvent e)
         {
             if (SwingUtilities.isRightMouseButton(e) ||
                 (!getSupportsAbsolutePositioning() &&
-                 SwingUtilities.isMiddleMouseButton(e)))
+                 SwingUtilities.isMiddleMouseButton(e))) {
                 return;
-            if(!scrollbar.isEnabled())
+            }
+            if(!scrollbar.isEnabled()) {
                 return;
+            }
 
             if (!scrollbar.hasFocus() && scrollbar.isRequestFocusEnabled()) {
                 scrollbar.requestFocus();
@@ -1187,11 +1204,13 @@ public class BasicScrollBarUI
          * left-to-right/right-to-left scrollbar relative to the origin of the
          * track.
          */
+        @Override
         public void mouseDragged(MouseEvent e) {
             if (SwingUtilities.isRightMouseButton(e) ||
                 (!getSupportsAbsolutePositioning() &&
-                 SwingUtilities.isMiddleMouseButton(e)))
+                 SwingUtilities.isMiddleMouseButton(e))) {
                 return;
+            }
             if(!scrollbar.isEnabled() || getThumbBounds().isEmpty()) {
                 return;
             }
@@ -1333,6 +1352,7 @@ public class BasicScrollBarUI
             }
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
             if (!isDragging) {
                 updateThumbState(e.getX(), e.getY());
@@ -1345,6 +1365,7 @@ public class BasicScrollBarUI
          * @param e MouseEvent further describing the event
          * @since 1.5
          */
+        @Override
         public void mouseExited(MouseEvent e) {
             if (!isDragging) {
                 setThumbRollover(false);
@@ -1363,6 +1384,7 @@ public class BasicScrollBarUI
         // (keyfocus on scrollbars causes action without mousePress
         boolean handledEvent;
 
+        @Override
         public void mousePressed(MouseEvent e)          {
             if(!scrollbar.isEnabled()) { return; }
             // not an unmodified left mouse button
@@ -1383,6 +1405,7 @@ public class BasicScrollBarUI
             }
         }
 
+        @Override
         public void mouseReleased(MouseEvent e)         {
             scrollTimer.stop();
             handledEvent = false;
@@ -1413,6 +1436,7 @@ public class BasicScrollBarUI
         public void setDirection(int direction) { this.direction = direction; }
         public void setScrollByBlock(boolean block) { this.useBlockIncrement = block; }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if(useBlockIncrement)       {
                 scrollByBlock(direction);
@@ -1420,8 +1444,9 @@ public class BasicScrollBarUI
                 if(scrollbar.getOrientation() == JScrollBar.VERTICAL)   {
                     if(direction > 0)   {
                         if(getThumbBounds().y + getThumbBounds().height
-                                >= trackListener.currentMouseY)
-                                    ((Timer)e.getSource()).stop();
+                                >= trackListener.currentMouseY) {
+                            ((Timer)e.getSource()).stop();
+                        }
                     } else if(getThumbBounds().y <= trackListener.currentMouseY)        {
                         ((Timer)e.getSource()).stop();
                     }
@@ -1438,11 +1463,12 @@ public class BasicScrollBarUI
 
             if(direction > 0
                 && scrollbar.getValue()+scrollbar.getVisibleAmount()
-                        >= scrollbar.getMaximum())
+                        >= scrollbar.getMaximum()) {
                 ((Timer)e.getSource()).stop();
-            else if(direction < 0
-                && scrollbar.getValue() <= scrollbar.getMinimum())
+            } else if(direction < 0
+                && scrollbar.getValue() <= scrollbar.getMinimum()) {
                 ((Timer)e.getSource()).stop();
+            }
         }
     }
 
@@ -1498,6 +1524,7 @@ public class BasicScrollBarUI
         // new functionality add it to the Handler, but make sure this
         // class calls into the Handler.
 
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             getHandler().propertyChange(e);
         }
@@ -1523,6 +1550,7 @@ public class BasicScrollBarUI
             super(name);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JScrollBar scrollBar = (JScrollBar)e.getSource();
             String key = getName();
@@ -1587,10 +1615,12 @@ public class BasicScrollBarUI
         //
         // FocusListener
         //
+        @Override
         public void focusGained(FocusEvent e) {
             scrollbar.repaint();
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             scrollbar.repaint();
         }
@@ -1599,6 +1629,7 @@ public class BasicScrollBarUI
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
 

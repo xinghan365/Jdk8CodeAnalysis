@@ -311,6 +311,7 @@ public final class System {
             // which will loop infinitely if there is a non-system class
             // (in this case: the new security manager class) on the stack).
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     s.getClass().getProtectionDomain().implies
                         (SecurityConstants.ALL_PERMISSION);
@@ -1223,49 +1224,64 @@ public final class System {
     private static void setJavaLangAccess() {
         // Allow privileged classes outside of java.lang
         sun.misc.SharedSecrets.setJavaLangAccess(new sun.misc.JavaLangAccess(){
+            @Override
             public sun.reflect.ConstantPool getConstantPool(Class<?> klass) {
                 return klass.getConstantPool();
             }
+            @Override
             public boolean casAnnotationType(Class<?> klass, AnnotationType oldType, AnnotationType newType) {
                 return klass.casAnnotationType(oldType, newType);
             }
+            @Override
             public AnnotationType getAnnotationType(Class<?> klass) {
                 return klass.getAnnotationType();
             }
+            @Override
             public Map<Class<? extends Annotation>, Annotation> getDeclaredAnnotationMap(Class<?> klass) {
                 return klass.getDeclaredAnnotationMap();
             }
+            @Override
             public byte[] getRawClassAnnotations(Class<?> klass) {
                 return klass.getRawAnnotations();
             }
+            @Override
             public byte[] getRawClassTypeAnnotations(Class<?> klass) {
                 return klass.getRawTypeAnnotations();
             }
+            @Override
             public byte[] getRawExecutableTypeAnnotations(Executable executable) {
                 return Class.getExecutableTypeAnnotationBytes(executable);
             }
+            @Override
             public <E extends Enum<E>>
                     E[] getEnumConstantsShared(Class<E> klass) {
                 return klass.getEnumConstantsShared();
             }
+            @Override
             public void blockedOn(Thread t, Interruptible b) {
                 t.blockedOn(b);
             }
+            @Override
             public void registerShutdownHook(int slot, boolean registerShutdownInProgress, Runnable hook) {
                 Shutdown.add(slot, registerShutdownInProgress, hook);
             }
+            @Override
             public int getStackTraceDepth(Throwable t) {
                 return t.getStackTraceDepth();
             }
+            @Override
             public StackTraceElement getStackTraceElement(Throwable t, int i) {
                 return t.getStackTraceElement(i);
             }
+            @Override
             public String newStringUnsafe(char[] chars) {
                 return new String(chars, true);
             }
+            @Override
             public Thread newThreadWithAcc(Runnable target, AccessControlContext acc) {
                 return new Thread(target, acc);
             }
+            @Override
             public void invokeFinalize(Object o) throws Throwable {
                 o.finalize();
             }

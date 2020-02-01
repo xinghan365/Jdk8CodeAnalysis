@@ -158,12 +158,13 @@ public enum SourceVersion {
         try {
             String specVersion = System.getProperty("java.specification.version");
 
-            if ("1.8".equals(specVersion))
+            if ("1.8".equals(specVersion)) {
                 return RELEASE_8;
-            else if("1.7".equals(specVersion))
+            } else if("1.7".equals(specVersion)) {
                 return RELEASE_7;
-            else if("1.6".equals(specVersion))
+            } else if("1.6".equals(specVersion)) {
                 return RELEASE_6;
+            }
         } catch (SecurityException se) {}
 
         return RELEASE_5;
@@ -233,8 +234,9 @@ public enum SourceVersion {
         String id = name.toString();
 
         for(String s : id.split("\\.", -1)) {
-            if (!isIdentifier(s) || isKeyword(s))
+            if (!isIdentifier(s) || isKeyword(s)) {
                 return false;
+            }
         }
         return true;
     }
@@ -256,8 +258,9 @@ public enum SourceVersion {
             // literals
             "null",     "true",         "false"
         };
-        for(String kw : kws)
+        for(String kw : kws) {
             s.add(kw);
+        }
         keywords = Collections.unmodifiableSet(s);
     }
 

@@ -61,6 +61,7 @@ public class AttributeChangeNotificationFilter implements NotificationFilter {
      * @param notification The attribute change notification to be sent.
      * @return <CODE>true</CODE> if the notification has to be sent to the listener, <CODE>false</CODE> otherwise.
      */
+    @Override
     public synchronized boolean isNotificationEnabled(Notification notification) {
 
         String type = notification.getType();

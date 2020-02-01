@@ -162,11 +162,13 @@ public class TextComponent extends Component implements Accessible {
      * @see #processKeyEvent
      * @since 1.2
      */
+    @Override
     public void enableInputMethods(boolean enable) {
         checkForEnableIM = false;
         super.enableInputMethods(enable);
     }
 
+    @Override
     boolean areInputMethodsEnabled() {
         // moved from the constructor above to here and addNotify below,
         // this call will initialize the toolkit if not already initialized.
@@ -179,10 +181,14 @@ public class TextComponent extends Component implements Accessible {
         return (eventMask & AWTEvent.INPUT_METHODS_ENABLED_MASK) != 0;
     }
 
+    @Override
     public InputMethodRequests getInputMethodRequests() {
         TextComponentPeer peer = (TextComponentPeer)this.peer;
-        if (peer != null) return peer.getInputMethodRequests();
-        else return null;
+        if (peer != null) {
+            return peer.getInputMethodRequests();
+        } else {
+            return null;
+        }
     }
 
 
@@ -194,6 +200,7 @@ public class TextComponent extends Component implements Accessible {
      * not be called directly by programs.
      * @see       java.awt.TextComponent#removeNotify
      */
+    @Override
     public void addNotify() {
         super.addNotify();
         enableInputMethodsIfNecessary();
@@ -205,6 +212,7 @@ public class TextComponent extends Component implements Accessible {
      * <code>TextComponent</code> without changing its
      * functionality.
      */
+    @Override
     public void removeNotify() {
         synchronized (getTreeLock()) {
             TextComponentPeer peer = (TextComponentPeer)this.peer;
@@ -315,6 +323,7 @@ public class TextComponent extends Component implements Accessible {
      * @see #setBackground(Color)
      * @since JDK1.0
      */
+    @Override
     public Color getBackground() {
         if (!editable && !backgroundSetByClientCode) {
             return SystemColor.control;
@@ -332,6 +341,7 @@ public class TextComponent extends Component implements Accessible {
      * @see #getBackground()
      * @since JDK1.0
      */
+    @Override
     public void setBackground(Color c) {
         backgroundSetByClientCode = true;
         super.setBackground(c);
@@ -633,6 +643,7 @@ public class TextComponent extends Component implements Accessible {
      * @see #getTextListeners
      * @since 1.3
      */
+    @Override
     public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
         EventListener l = null;
         if  (listenerType == TextListener.class) {
@@ -644,6 +655,7 @@ public class TextComponent extends Component implements Accessible {
     }
 
     // REMIND: remove when filtering is done at lower level
+    @Override
     boolean eventEnabled(AWTEvent e) {
         if (e.id == TextEvent.TEXT_VALUE_CHANGED) {
             if ((eventMask & AWTEvent.TEXT_EVENT_MASK) != 0 ||
@@ -665,6 +677,7 @@ public class TextComponent extends Component implements Accessible {
      *
      * @param e the event
      */
+    @Override
     protected void processEvent(AWTEvent e) {
         if (e instanceof TextEvent) {
             processTextEvent((TextEvent)e);
@@ -714,6 +727,7 @@ public class TextComponent extends Component implements Accessible {
      *
      * @return      the parameter string of this text component
      */
+    @Override
     protected String paramString() {
         String str = super.paramString() + ",text=" + getText();
         if (editable) {
@@ -727,7 +741,9 @@ public class TextComponent extends Component implements Accessible {
      */
     private boolean canAccessClipboard() {
         SecurityManager sm = System.getSecurityManager();
-        if (sm == null) return true;
+        if (sm == null) {
+            return true;
+        }
         try {
             sm.checkPermission(SecurityConstants.AWT.ACCESS_CLIPBOARD_PERMISSION);
             return true;
@@ -832,6 +848,7 @@ public class TextComponent extends Component implements Accessible {
      *         AccessibleContext of this TextComponent
      * @since 1.3
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleAWTTextComponent();
@@ -865,6 +882,7 @@ public class TextComponent extends Component implements Accessible {
         /**
          * TextListener notification of a text value change.
          */
+        @Override
         public void textValueChanged(TextEvent textEvent)  {
             Integer cpos = Integer.valueOf(TextComponent.this.getCaretPosition());
             firePropertyChange(ACCESSIBLE_TEXT_PROPERTY, null, cpos);
@@ -883,6 +901,7 @@ public class TextComponent extends Component implements Accessible {
          * @see AccessibleState
          * @see #addPropertyChangeListener
          */
+        @Override
         public AccessibleStateSet getAccessibleStateSet() {
             AccessibleStateSet states = super.getAccessibleStateSet();
             if (TextComponent.this.isEditable()) {
@@ -899,6 +918,7 @@ public class TextComponent extends Component implements Accessible {
          * object (AccessibleRole.TEXT)
          * @see AccessibleRole
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.TEXT;
         }
@@ -911,6 +931,7 @@ public class TextComponent extends Component implements Accessible {
          *
          * @return this object
          */
+        @Override
         public AccessibleText getAccessibleText() {
             return this;
         }
@@ -931,6 +952,7 @@ public class TextComponent extends Component implements Accessible {
          * @param p the Point in local coordinates
          * @return the zero-based index of the character under Point p.
          */
+        @Override
         public int getIndexAtPoint(Point p) {
             return -1;
         }
@@ -944,6 +966,7 @@ public class TextComponent extends Component implements Accessible {
          * @param i the index into the String &gt;= 0
          * @return the screen coordinates of the character's bounding box
          */
+        @Override
         public Rectangle getCharacterBounds(int i) {
             return null;
         }
@@ -953,6 +976,7 @@ public class TextComponent extends Component implements Accessible {
          *
          * @return the number of characters &gt;= 0
          */
+        @Override
         public int getCharCount() {
             return TextComponent.this.getText().length();
         }
@@ -966,6 +990,7 @@ public class TextComponent extends Component implements Accessible {
          *
          * @return the zero-based offset of the caret.
          */
+        @Override
         public int getCaretPosition() {
             return TextComponent.this.getCaretPosition();
         }
@@ -976,6 +1001,7 @@ public class TextComponent extends Component implements Accessible {
          * @param i the zero-based index into the text
          * @return the AttributeSet of the character
          */
+        @Override
         public AttributeSet getCharacterAttribute(int i) {
             return null; // No attributes in TextComponent
         }
@@ -989,6 +1015,7 @@ public class TextComponent extends Component implements Accessible {
          *
          * @return the index into the text of the start of the selection &gt;= 0
          */
+        @Override
         public int getSelectionStart() {
             return TextComponent.this.getSelectionStart();
         }
@@ -1002,6 +1029,7 @@ public class TextComponent extends Component implements Accessible {
          *
          * @return the index into the text of the end of the selection &gt;= 0
          */
+        @Override
         public int getSelectionEnd() {
             return TextComponent.this.getSelectionEnd();
         }
@@ -1011,6 +1039,7 @@ public class TextComponent extends Component implements Accessible {
          *
          * @return the text, null if no selection
          */
+        @Override
         public String getSelectedText() {
             String selText = TextComponent.this.getSelectedText();
             // Fix for 4256662
@@ -1029,6 +1058,7 @@ public class TextComponent extends Component implements Accessible {
          * @return the letter, word, or sentence,
          *   null for an invalid index or part
          */
+        @Override
         public String getAtIndex(int part, int index) {
             if (index < 0 || index >= TextComponent.this.getText().length()) {
                 return null;
@@ -1095,6 +1125,7 @@ public class TextComponent extends Component implements Accessible {
          * @return the letter, word, or sentence, null for an invalid
          *  index or part
          */
+        @Override
         public String getAfterIndex(int part, int index) {
             if (index < 0 || index >= TextComponent.this.getText().length()) {
                 return null;
@@ -1148,6 +1179,7 @@ public class TextComponent extends Component implements Accessible {
          * @return the letter, word, or sentence, null for an invalid index
          *  or part
          */
+        @Override
         public String getBeforeIndex(int part, int index) {
             if (index < 0 || index > TextComponent.this.getText().length()-1) {
                 return null;

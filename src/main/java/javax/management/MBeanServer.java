@@ -268,6 +268,7 @@ public interface MBeanServer extends MBeanServerConnection {
      * @throws RuntimeMBeanException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
+    @Override
     public ObjectInstance createMBean(String className, ObjectName name)
             throws ReflectionException, InstanceAlreadyExistsException,
                    MBeanRegistrationException, MBeanException,
@@ -282,6 +283,7 @@ public interface MBeanServer extends MBeanServerConnection {
      * @throws RuntimeMBeanException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
+    @Override
     public ObjectInstance createMBean(String className, ObjectName name,
                                       ObjectName loaderName)
             throws ReflectionException, InstanceAlreadyExistsException,
@@ -297,6 +299,7 @@ public interface MBeanServer extends MBeanServerConnection {
      * @throws RuntimeMBeanException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
+    @Override
     public ObjectInstance createMBean(String className, ObjectName name,
                                       Object params[], String signature[])
             throws ReflectionException, InstanceAlreadyExistsException,
@@ -312,6 +315,7 @@ public interface MBeanServer extends MBeanServerConnection {
      * @throws RuntimeMBeanException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
+    @Override
     public ObjectInstance createMBean(String className, ObjectName name,
                                       ObjectName loaderName, Object params[],
                                       String signature[])
@@ -384,10 +388,12 @@ public interface MBeanServer extends MBeanServerConnection {
      * @throws RuntimeMBeanException {@inheritDoc}
      * @throws RuntimeErrorException {@inheritDoc}
      */
+    @Override
     public void unregisterMBean(ObjectName name)
             throws InstanceNotFoundException, MBeanRegistrationException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public ObjectInstance getObjectInstance(ObjectName name)
             throws InstanceNotFoundException;
 
@@ -395,18 +401,21 @@ public interface MBeanServer extends MBeanServerConnection {
      * {@inheritDoc}
       * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query);
 
     /**
      * {@inheritDoc}
       * @throws RuntimeOperationsException {@inheritDoc}
     */
+    @Override
     public Set<ObjectName> queryNames(ObjectName name, QueryExp query);
 
     // doc comment inherited from MBeanServerConnection
     /**
      * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public boolean isRegistered(ObjectName name);
 
     /**
@@ -416,12 +425,14 @@ public interface MBeanServer extends MBeanServerConnection {
      * If the caller's permissions are restricted, this number may
      * be greater than the number of MBeans the caller can access.
      */
+    @Override
     public Integer getMBeanCount();
 
     // doc comment inherited from MBeanServerConnection
     /**
      * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public Object getAttribute(ObjectName name, String attribute)
             throws MBeanException, AttributeNotFoundException,
                    InstanceNotFoundException, ReflectionException;
@@ -430,6 +441,7 @@ public interface MBeanServer extends MBeanServerConnection {
     /**
      * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public AttributeList getAttributes(ObjectName name, String[] attributes)
             throws InstanceNotFoundException, ReflectionException;
 
@@ -437,6 +449,7 @@ public interface MBeanServer extends MBeanServerConnection {
     /**
      * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public void setAttribute(ObjectName name, Attribute attribute)
             throws InstanceNotFoundException, AttributeNotFoundException,
                    InvalidAttributeValueException, MBeanException,
@@ -446,20 +459,24 @@ public interface MBeanServer extends MBeanServerConnection {
     /**
      * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public AttributeList setAttributes(ObjectName name,
                                        AttributeList attributes)
         throws InstanceNotFoundException, ReflectionException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public Object invoke(ObjectName name, String operationName,
                          Object params[], String signature[])
             throws InstanceNotFoundException, MBeanException,
                    ReflectionException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public String getDefaultDomain();
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public String[] getDomains();
 
     // doc comment inherited from MBeanServerConnection, plus:
@@ -469,6 +486,7 @@ public interface MBeanServer extends MBeanServerConnection {
      * is a reference to an MBean object, the MBean server will replace it
      * by that MBean's ObjectName.  Otherwise the source is unchanged.
      */
+    @Override
     public void addNotificationListener(ObjectName name,
                                         NotificationListener listener,
                                         NotificationFilter filter,
@@ -479,6 +497,7 @@ public interface MBeanServer extends MBeanServerConnection {
      * {@inheritDoc}
      * @throws RuntimeOperationsException {@inheritDoc}
      */
+    @Override
     public void addNotificationListener(ObjectName name,
                                         ObjectName listener,
                                         NotificationFilter filter,
@@ -486,11 +505,13 @@ public interface MBeanServer extends MBeanServerConnection {
             throws InstanceNotFoundException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public void removeNotificationListener(ObjectName name,
                                            ObjectName listener)
         throws InstanceNotFoundException, ListenerNotFoundException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public void removeNotificationListener(ObjectName name,
                                            ObjectName listener,
                                            NotificationFilter filter,
@@ -498,11 +519,13 @@ public interface MBeanServer extends MBeanServerConnection {
             throws InstanceNotFoundException, ListenerNotFoundException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public void removeNotificationListener(ObjectName name,
                                            NotificationListener listener)
             throws InstanceNotFoundException, ListenerNotFoundException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public void removeNotificationListener(ObjectName name,
                                            NotificationListener listener,
                                            NotificationFilter filter,
@@ -510,12 +533,14 @@ public interface MBeanServer extends MBeanServerConnection {
             throws InstanceNotFoundException, ListenerNotFoundException;
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public MBeanInfo getMBeanInfo(ObjectName name)
             throws InstanceNotFoundException, IntrospectionException,
                    ReflectionException;
 
 
     // doc comment inherited from MBeanServerConnection
+    @Override
     public boolean isInstanceOf(ObjectName name, String className)
             throws InstanceNotFoundException;
 

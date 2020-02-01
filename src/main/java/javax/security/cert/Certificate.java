@@ -73,20 +73,26 @@ public abstract class Certificate {
      * @return true if the encoded forms of the two certificates
      *         match, false otherwise.
      */
+    @Override
     public boolean equals(Object other) {
-        if (this == other)
+        if (this == other) {
             return true;
-        if (!(other instanceof Certificate))
+        }
+        if (!(other instanceof Certificate)) {
             return false;
+        }
         try {
             byte[] thisCert = this.getEncoded();
             byte[] otherCert = ((Certificate)other).getEncoded();
 
-            if (thisCert.length != otherCert.length)
+            if (thisCert.length != otherCert.length) {
                 return false;
-            for (int i = 0; i < thisCert.length; i++)
-                 if (thisCert[i] != otherCert[i])
-                     return false;
+            }
+            for (int i = 0; i < thisCert.length; i++) {
+                if (thisCert[i] != otherCert[i]) {
+                    return false;
+                }
+            }
             return true;
         } catch (CertificateException e) {
             return false;
@@ -99,6 +105,7 @@ public abstract class Certificate {
      *
      * @return the hashcode value.
      */
+    @Override
     public int hashCode() {
         int     retval = 0;
         try {
@@ -166,6 +173,7 @@ public abstract class Certificate {
      *
      * @return a string representation of this certificate.
      */
+    @Override
     public abstract String toString();
 
     /**

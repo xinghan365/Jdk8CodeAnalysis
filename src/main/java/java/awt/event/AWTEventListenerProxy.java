@@ -66,6 +66,7 @@ public class AWTEventListenerProxy
      *
      * @param event  the AWT event
      */
+    @Override
     public void eventDispatched(AWTEvent event) {
         getListener().eventDispatched(event);
     }

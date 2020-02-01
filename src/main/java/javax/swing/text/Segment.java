@@ -114,6 +114,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      *
      * @return the string
      */
+    @Override
     public String toString() {
         if (array != null) {
             return new String(array, offset, count);
@@ -130,6 +131,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @see #getBeginIndex
      * @since 1.3
      */
+    @Override
     public char first() {
         pos = offset;
         if (count != 0) {
@@ -145,6 +147,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @see #getEndIndex
      * @since 1.3
      */
+    @Override
     public char last() {
         pos = offset + count;
         if (count != 0) {
@@ -161,6 +164,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @see #getIndex
      * @since 1.3
      */
+    @Override
     public char current() {
         if (count != 0 && pos < offset + count) {
             return array[pos];
@@ -177,6 +181,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * position is off the end of the text range.
      * @since 1.3
      */
+    @Override
     public char next() {
         pos += 1;
         int end = offset + count;
@@ -195,6 +200,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * position is equal to getBeginIndex().
      * @since 1.3
      */
+    @Override
     public char previous() {
         if (pos == offset) {
             return DONE;
@@ -212,6 +218,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @return the character at the specified position or DONE if the specified position is equal to getEndIndex()
      * @since 1.3
      */
+    @Override
     public char setIndex(int position) {
         int end = offset + count;
         if ((position < offset) || (position > end)) {
@@ -229,6 +236,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @return the index at which the text begins.
      * @since 1.3
      */
+    @Override
     public int getBeginIndex() {
         return offset;
     }
@@ -239,6 +247,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @return the index after the last character in the text
      * @since 1.3
      */
+    @Override
     public int getEndIndex() {
         return offset + count;
     }
@@ -248,6 +257,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * @return the current index.
      * @since 1.3
      */
+    @Override
     public int getIndex() {
         return pos;
     }
@@ -258,6 +268,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public char charAt(int index) {
         if (index < 0
             || index >= count) {
@@ -270,6 +281,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public int length() {
         return count;
     }
@@ -278,6 +290,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      * {@inheritDoc}
      * @since 1.6
      */
+    @Override
     public CharSequence subSequence(int start, int end) {
         if (start < 0) {
             throw new StringIndexOutOfBoundsException(start);
@@ -300,6 +313,7 @@ public class Segment implements Cloneable, CharacterIterator, CharSequence {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         Object o;
         try {

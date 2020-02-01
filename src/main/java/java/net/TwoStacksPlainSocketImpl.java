@@ -89,6 +89,7 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
      * Creates a socket with a boolean that specifies whether this
      * is a stream socket (true) or an unconnected UDP socket (false).
      */
+    @Override
     protected synchronized void create(boolean stream) throws IOException {
         fd1 = new FileDescriptor();
         try {
@@ -104,6 +105,7 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
      * @param address the address
      * @param port the port
      */
+    @Override
     protected synchronized void bind(InetAddress address, int lport)
         throws IOException
     {
@@ -113,6 +115,7 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
         }
     }
 
+    @Override
     public Object getOption(int opt) throws SocketException {
         if (isClosedOrPending()) {
             throw new SocketException("Socket Closed");
@@ -128,8 +131,9 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
         } else if (opt == SO_REUSEADDR && exclusiveBind) {
             // SO_REUSEADDR emulated when using exclusive bind
             return isReuseAddress;
-        } else
+        } else {
             return super.getOption(opt);
+        }
     }
 
     @Override
@@ -142,10 +146,11 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
         throws SocketException
     {
         // SO_REUSEADDR emulated when using exclusive bind
-        if (opt == SO_REUSEADDR && exclusiveBind)
+        if (opt == SO_REUSEADDR && exclusiveBind) {
             isReuseAddress = on;
-        else
+        } else {
             socketNativeSetOption(opt, on, value);
+        }
     }
 
     /**
@@ -216,28 +221,37 @@ class TwoStacksPlainSocketImpl extends AbstractPlainSocketImpl
 
     static native void initProto();
 
+    @Override
     native void socketCreate(boolean isServer) throws IOException;
 
+    @Override
     native void socketConnect(InetAddress address, int port, int timeout)
         throws IOException;
 
     native void socketBind(InetAddress address, int port, boolean exclBind)
         throws IOException;
 
+    @Override
     native void socketListen(int count) throws IOException;
 
+    @Override
     native void socketAccept(SocketImpl s) throws IOException;
 
+    @Override
     native int socketAvailable() throws IOException;
 
+    @Override
     native void socketClose0(boolean useDeferredClose) throws IOException;
 
+    @Override
     native void socketShutdown(int howto) throws IOException;
 
     native void socketNativeSetOption(int cmd, boolean on, Object value)
         throws SocketException;
 
+    @Override
     native int socketGetOption(int opt, Object iaContainerObj) throws SocketException;
 
+    @Override
     native void socketSendUrgentData(int data) throws IOException;
 }

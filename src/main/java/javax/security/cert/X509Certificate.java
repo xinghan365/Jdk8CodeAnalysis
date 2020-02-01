@@ -141,6 +141,7 @@ public abstract class X509Certificate extends Certificate {
     static {
         X509Provider = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return Security.getProperty(X509_PROVIDER);
                 }
@@ -219,8 +220,9 @@ public abstract class X509Certificate extends Certificate {
                 params = new Class<?>[] { InputStream.class };
             } else if (value instanceof byte[]) {
                 params = new Class<?>[] { value.getClass() };
-            } else
+            } else {
                 throw new CertificateException("Unsupported argument type");
+            }
             Class<?> certClass = Class.forName(className);
 
             // get the appropriate constructor and instantiate it

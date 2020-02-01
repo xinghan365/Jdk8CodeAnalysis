@@ -117,6 +117,7 @@ public class PipedWriter extends Writer {
      *          {@link #connect(java.io.PipedReader) unconnected}, closed
      *          or an I/O error occurs.
      */
+    @Override
     public void write(int c)  throws IOException {
         if (sink == null) {
             throw new IOException("Pipe not connected");
@@ -141,6 +142,7 @@ public class PipedWriter extends Writer {
      *          {@link #connect(java.io.PipedReader) unconnected}, closed
      *          or an I/O error occurs.
      */
+    @Override
     public void write(char cbuf[], int off, int len) throws IOException {
         if (sink == null) {
             throw new IOException("Pipe not connected");
@@ -157,6 +159,7 @@ public class PipedWriter extends Writer {
      *
      * @exception  IOException  if the pipe is closed, or an I/O error occurs.
      */
+    @Override
     public synchronized void flush() throws IOException {
         if (sink != null) {
             if (sink.closedByReader || closed) {
@@ -175,6 +178,7 @@ public class PipedWriter extends Writer {
      *
      * @exception  IOException  if an I/O error occurs.
      */
+    @Override
     public void close()  throws IOException {
         closed = true;
         if (sink != null) {

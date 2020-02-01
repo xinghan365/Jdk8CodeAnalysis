@@ -110,30 +110,37 @@ public class BasicIconFactory implements Serializable
     }
 
     public static Icon createEmptyFrameIcon() {
-        if(frame_icon == null)
+        if(frame_icon == null) {
             frame_icon = new EmptyFrameIcon();
+        }
         return frame_icon;
     }
 
     private static class EmptyFrameIcon implements Icon, Serializable {
         int height = 16;
         int width = 14;
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
         }
+        @Override
         public int getIconWidth() { return width; }
+        @Override
         public int getIconHeight() { return height; }
     };
 
     private static class CheckBoxIcon implements Icon, Serializable
     {
         final static int csize = 13;
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
         }
 
+        @Override
         public int getIconWidth() {
             return csize;
         }
 
+        @Override
         public int getIconHeight() {
             return csize;
         }
@@ -141,13 +148,16 @@ public class BasicIconFactory implements Serializable
 
     private static class RadioButtonIcon implements Icon, UIResource, Serializable
     {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
         }
 
+        @Override
         public int getIconWidth() {
             return 13;
         }
 
+        @Override
         public int getIconHeight() {
             return 13;
         }
@@ -156,6 +166,7 @@ public class BasicIconFactory implements Serializable
 
     private static class CheckBoxMenuItemIcon implements Icon, UIResource, Serializable
     {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             AbstractButton b = (AbstractButton) c;
             ButtonModel model = b.getModel();
@@ -170,7 +181,9 @@ public class BasicIconFactory implements Serializable
                 g.drawLine(x+1, y+3, x+1, y+5);
             }
         }
+        @Override
         public int getIconWidth() { return 9; }
+        @Override
         public int getIconHeight() { return 9; }
 
     } // End class CheckBoxMenuItemIcon
@@ -178,6 +191,7 @@ public class BasicIconFactory implements Serializable
 
     private static class RadioButtonMenuItemIcon implements Icon, UIResource, Serializable
     {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             AbstractButton b = (AbstractButton) c;
             ButtonModel model = b.getModel();
@@ -185,29 +199,38 @@ public class BasicIconFactory implements Serializable
                 g.fillOval(x+1, y+1, getIconWidth(), getIconHeight());
             }
         }
+        @Override
         public int getIconWidth() { return 6; }
+        @Override
         public int getIconHeight() { return 6; }
 
     } // End class RadioButtonMenuItemIcon
 
 
     private static class MenuItemCheckIcon implements Icon, UIResource, Serializable{
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
         }
+        @Override
         public int getIconWidth() { return 9; }
+        @Override
         public int getIconHeight() { return 9; }
 
     } // End class MenuItemCheckIcon
 
     private static class MenuItemArrowIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
         }
+        @Override
         public int getIconWidth() { return 4; }
+        @Override
         public int getIconHeight() { return 8; }
 
     } // End class MenuItemArrowIcon
 
     private static class MenuArrowIcon implements Icon, UIResource, Serializable {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Polygon p = new Polygon();
             p.addPoint(x, y);
@@ -216,7 +239,9 @@ public class BasicIconFactory implements Serializable
             g.fillPolygon(p);
 
         }
+        @Override
         public int getIconWidth() { return 4; }
+        @Override
         public int getIconHeight() { return 8; }
     } // End class MenuArrowIcon
 }

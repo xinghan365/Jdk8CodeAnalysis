@@ -80,6 +80,7 @@ public interface Position {
         /**
          * string representation
          */
+        @Override
         public String toString() {
             return name;
         }

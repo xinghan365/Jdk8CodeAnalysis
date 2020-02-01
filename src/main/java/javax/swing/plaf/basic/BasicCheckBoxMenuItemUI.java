@@ -46,6 +46,7 @@ public class BasicCheckBoxMenuItemUI extends BasicMenuItemUI {
         return new BasicCheckBoxMenuItemUI();
     }
 
+    @Override
     protected String getPropertyPrefix() {
         return "CheckBoxMenuItem";
     }
@@ -57,13 +58,15 @@ public class BasicCheckBoxMenuItemUI extends BasicMenuItemUI {
             if(e.getID() == MouseEvent.MOUSE_RELEASED) {
                 manager.clearSelectedPath();
                 item.doClick(0);
-            } else
+            } else {
                 manager.setSelectedPath(path);
+            }
         } else if(item.getModel().isArmed()) {
             MenuElement newPath[] = new MenuElement[path.length-1];
             int i,c;
-            for(i=0,c=path.length-1;i<c;i++)
+            for(i=0,c=path.length-1;i<c;i++) {
                 newPath[i] = path[i];
+            }
             manager.setSelectedPath(newPath);
         }
     }

@@ -78,12 +78,14 @@ public abstract class AbstractProcessor implements Processor {
      * @return the options recognized by this processor, or an empty
      * set if none
      */
+    @Override
     public Set<String> getSupportedOptions() {
         SupportedOptions so = this.getClass().getAnnotation(SupportedOptions.class);
-        if  (so == null)
+        if  (so == null) {
             return Collections.emptySet();
-        else
+        } else {
             return arrayToSet(so.value());
+        }
     }
 
     /**
@@ -95,18 +97,21 @@ public abstract class AbstractProcessor implements Processor {
      * @return the names of the annotation types supported by this
      * processor, or an empty set if none
      */
+    @Override
     public Set<String> getSupportedAnnotationTypes() {
             SupportedAnnotationTypes sat = this.getClass().getAnnotation(SupportedAnnotationTypes.class);
             if  (sat == null) {
-                if (isInitialized())
+                if (isInitialized()) {
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING,
                                                              "No SupportedAnnotationTypes annotation " +
                                                              "found on " + this.getClass().getName() +
                                                              ", returning an empty set.");
+                }
                 return Collections.emptySet();
             }
-            else
+            else {
                 return arrayToSet(sat.value());
+            }
         }
 
     /**
@@ -117,18 +122,21 @@ public abstract class AbstractProcessor implements Processor {
      *
      * @return the latest source version supported by this processor
      */
+    @Override
     public SourceVersion getSupportedSourceVersion() {
         SupportedSourceVersion ssv = this.getClass().getAnnotation(SupportedSourceVersion.class);
         SourceVersion sv = null;
         if (ssv == null) {
             sv = SourceVersion.RELEASE_6;
-            if (isInitialized())
+            if (isInitialized()) {
                 processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING,
                                                          "No SupportedSourceVersion annotation " +
                                                          "found on " + this.getClass().getName() +
                                                          ", returning " + sv + ".");
-        } else
+            }
+        } else {
             sv = ssv.value();
+        }
         return sv;
     }
 
@@ -144,9 +152,11 @@ public abstract class AbstractProcessor implements Processor {
      * provides to the processor
      * @throws IllegalStateException if this method is called more than once.
      */
+    @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
-        if (initialized)
+        if (initialized) {
             throw new IllegalStateException("Cannot call init more than once.");
+        }
         Objects.requireNonNull(processingEnv, "Tool provided null ProcessingEnvironment");
 
         this.processingEnv = processingEnv;
@@ -156,6 +166,7 @@ public abstract class AbstractProcessor implements Processor {
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract boolean process(Set<? extends TypeElement> annotations,
                                     RoundEnvironment roundEnv);
 
@@ -167,6 +178,7 @@ public abstract class AbstractProcessor implements Processor {
      * @param member {@inheritDoc}
      * @param userText {@inheritDoc}
      */
+    @Override
     public Iterable<? extends Completion> getCompletions(Element element,
                                                          AnnotationMirror annotation,
                                                          ExecutableElement member,
@@ -188,8 +200,9 @@ public abstract class AbstractProcessor implements Processor {
     private static Set<String> arrayToSet(String[] array) {
         assert array != null;
         Set<String> set = new HashSet<String>(array.length);
-        for (String s : array)
+        for (String s : array) {
             set.add(s);
+        }
         return Collections.unmodifiableSet(set);
     }
 }

@@ -237,6 +237,7 @@ public class Timer implements Serializable
      */
     class DoPostEvent implements Runnable
     {
+        @Override
         public void run() {
             if (logTimers) {
                 System.out.println("Timer ringing: " + Timer.this);
@@ -610,6 +611,7 @@ public class Timer implements Serializable
     void post() {
          if (notify.compareAndSet(false, true) || !coalesce) {
              AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                 @Override
                  public Void run() {
                      SwingUtilities.invokeLater(doPostEvent);
                      return null;

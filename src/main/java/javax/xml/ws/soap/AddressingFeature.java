@@ -240,6 +240,7 @@ public final class AddressingFeature extends WebServiceFeature {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getID() {
         return ID;
     }

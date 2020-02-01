@@ -60,10 +60,12 @@ public class URISyntaxException
      */
     public URISyntaxException(String input, String reason, int index) {
         super(reason);
-        if ((input == null) || (reason == null))
+        if ((input == null) || (reason == null)) {
             throw new NullPointerException();
-        if (index < -1)
+        }
+        if (index < -1) {
             throw new IllegalArgumentException();
+        }
         this.input = input;
         this.index = index;
     }
@@ -120,6 +122,7 @@ public class URISyntaxException
      *
      * @return  A string describing the parse error
      */
+    @Override
     public String getMessage() {
         StringBuffer sb = new StringBuffer();
         sb.append(getReason());

@@ -203,6 +203,7 @@ class DirectShortBufferRS
 
     }
 
+    @Override
     public ShortBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -213,6 +214,7 @@ class DirectShortBufferRS
         return new DirectShortBufferRS(this, -1, 0, rem, rem, off);
     }
 
+    @Override
     public ShortBuffer duplicate() {
         return new DirectShortBufferRS(this,
                                               this.markValue(),
@@ -222,6 +224,7 @@ class DirectShortBufferRS
                                               0);
     }
 
+    @Override
     public ShortBuffer asReadOnlyBuffer() {
 
 
@@ -292,6 +295,7 @@ class DirectShortBufferRS
 
 
 
+    @Override
     public ShortBuffer put(short x) {
 
 
@@ -301,6 +305,7 @@ class DirectShortBufferRS
 
     }
 
+    @Override
     public ShortBuffer put(int i, short x) {
 
 
@@ -310,6 +315,7 @@ class DirectShortBufferRS
 
     }
 
+    @Override
     public ShortBuffer put(ShortBuffer src) {
 
 
@@ -351,6 +357,7 @@ class DirectShortBufferRS
 
     }
 
+    @Override
     public ShortBuffer put(short[] src, int offset, int length) {
 
 
@@ -384,6 +391,7 @@ class DirectShortBufferRS
 
     }
 
+    @Override
     public ShortBuffer compact() {
 
 
@@ -401,10 +409,12 @@ class DirectShortBufferRS
 
     }
 
+    @Override
     public boolean isDirect() {
         return true;
     }
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
@@ -455,6 +465,7 @@ class DirectShortBufferRS
 
 
 
+    @Override
     public ByteOrder order() {
 
         return ((ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN)

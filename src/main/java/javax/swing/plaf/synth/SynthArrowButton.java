@@ -43,10 +43,12 @@ class SynthArrowButton extends JButton implements SwingConstants, UIResource {
         setDefaultCapable(false);
     }
 
+    @Override
     public String getUIClassID() {
         return "ArrowButtonUI";
     }
 
+    @Override
     public void updateUI() {
         setUI(new SynthArrowButtonUI());
     }
@@ -61,14 +63,17 @@ class SynthArrowButton extends JButton implements SwingConstants, UIResource {
         return direction;
     }
 
+    @Override
     public void setFocusable(boolean focusable) {}
 
     private static class SynthArrowButtonUI extends SynthButtonUI {
+        @Override
         protected void installDefaults(AbstractButton b) {
             super.installDefaults(b);
             updateStyle(b);
         }
 
+        @Override
         protected void paint(SynthContext context, Graphics g) {
             SynthArrowButton button = (SynthArrowButton)context.
                                       getComponent();
@@ -77,11 +82,13 @@ class SynthArrowButton extends JButton implements SwingConstants, UIResource {
                 button.getDirection());
         }
 
+        @Override
         void paintBackground(SynthContext context, Graphics g, JComponent c) {
             context.getPainter().paintArrowButtonBackground(context, g, 0, 0,
                                                 c.getWidth(), c.getHeight());
         }
 
+        @Override
         public void paintBorder(SynthContext context, Graphics g, int x,
                                 int y, int w, int h) {
             context.getPainter().paintArrowButtonBorder(context, g, x, y, w,h);
@@ -95,6 +102,7 @@ class SynthArrowButton extends JButton implements SwingConstants, UIResource {
             return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
 
+        @Override
         public Dimension getPreferredSize(JComponent c) {
             SynthContext context = getContext(c);
             Dimension dim = null;

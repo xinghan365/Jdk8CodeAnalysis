@@ -80,6 +80,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * @return the length &gt;= 1
      * @see AbstractDocument.Content#length
      */
+    @Override
     public int length() {
         return count;
     }
@@ -93,6 +94,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * @exception BadLocationException if the specified position is invalid
      * @see AbstractDocument.Content#insertString
      */
+    @Override
     public UndoableEdit insertString(int where, String str) throws BadLocationException {
         if (where >= count || where < 0) {
             throw new BadLocationException("Invalid location", count);
@@ -114,6 +116,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * @exception BadLocationException if the specified position is invalid
      * @see AbstractDocument.Content#remove
      */
+    @Override
     public UndoableEdit remove(int where, int nitems) throws BadLocationException {
         if (where + nitems >= count) {
             throw new BadLocationException("Invalid range", count);
@@ -137,6 +140,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * @exception BadLocationException if the specified position is invalid
      * @see AbstractDocument.Content#getString
      */
+    @Override
     public String getString(int where, int len) throws BadLocationException {
         if (where + len > count) {
             throw new BadLocationException("Invalid range", count);
@@ -153,6 +157,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * @exception BadLocationException if the specified position is invalid
      * @see AbstractDocument.Content#getChars
      */
+    @Override
     public void getChars(int where, int len, Segment chars) throws BadLocationException {
         if (where + len > count) {
             throw new BadLocationException("Invalid location", count);
@@ -170,6 +175,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
      * @return the position
      * @exception BadLocationException if the specified position is invalid
      */
+    @Override
     public Position createPosition(int offset) throws BadLocationException {
         // some small documents won't have any sticky positions
         // at all, so the buffer is created lazily.
@@ -282,8 +288,9 @@ public final class StringContent implements AbstractDocument.Content, Serializab
                 marks.removeElementAt(i);
                 i -= 1;
                 n -= 1;
-            } else if(mark.offset >= offset && mark.offset <= end)
+            } else if(mark.offset >= offset && mark.offset <= end) {
                 placeIn.addElement(new UndoPosRef(mark));
+            }
         }
         return placeIn;
     }
@@ -304,8 +311,9 @@ public final class StringContent implements AbstractDocument.Content, Serializab
             if(ref.rec.unused) {
                 positions.removeElementAt(counter);
             }
-            else
+            else {
                 ref.resetLocation();
+            }
         }
     }
 
@@ -344,16 +352,19 @@ public final class StringContent implements AbstractDocument.Content, Serializab
             marks.addElement(rec);
         }
 
+        @Override
         public int getOffset() {
             return rec.offset;
         }
 
+        @Override
         protected void finalize() throws Throwable {
             // schedule the record to be removed later
             // on another thread.
             rec.unused = true;
         }
 
+        @Override
         public String toString() {
             return Integer.toString(getOffset());
         }
@@ -395,13 +406,15 @@ public final class StringContent implements AbstractDocument.Content, Serializab
             this.length = length;
         }
 
+        @Override
         public void undo() throws CannotUndoException {
             super.undo();
             try {
                 synchronized(StringContent.this) {
                     // Get the Positions in the range being removed.
-                    if(marks != null)
+                    if(marks != null) {
                         posRefs = getPositionsInRange(null, offset, length);
+                    }
                     string = getString(offset, length);
                     remove(offset, length);
                 }
@@ -410,6 +423,7 @@ public final class StringContent implements AbstractDocument.Content, Serializab
             }
         }
 
+        @Override
         public void redo() throws CannotRedoException {
             super.redo();
             try {
@@ -449,10 +463,12 @@ public final class StringContent implements AbstractDocument.Content, Serializab
             this.offset = offset;
             this.string = string;
             this.length = string.length();
-            if(marks != null)
+            if(marks != null) {
                 posRefs = getPositionsInRange(null, offset, length);
+            }
         }
 
+        @Override
         public void undo() throws CannotUndoException {
             super.undo();
             try {
@@ -470,14 +486,16 @@ public final class StringContent implements AbstractDocument.Content, Serializab
             }
         }
 
+        @Override
         public void redo() throws CannotRedoException {
             super.redo();
             try {
                 synchronized(StringContent.this) {
                     string = getString(offset, length);
                     // Get the Positions in the range being removed.
-                    if(marks != null)
+                    if(marks != null) {
                         posRefs = getPositionsInRange(null, offset, length);
+                    }
                     remove(offset, length);
                 }
             } catch (BadLocationException bl) {

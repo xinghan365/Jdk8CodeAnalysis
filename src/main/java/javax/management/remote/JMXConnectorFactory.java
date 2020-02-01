@@ -264,8 +264,9 @@ public class JMXConnectorFactory {
     public static JMXConnector connect(JMXServiceURL serviceURL,
                                        Map<String,?> environment)
             throws IOException {
-        if (serviceURL == null)
+        if (serviceURL == null) {
             throw new NullPointerException("Null JMXServiceURL");
+        }
         JMXConnector conn = newJMXConnector(serviceURL, environment);
         conn.connect(environment);
         return conn;
@@ -313,9 +314,9 @@ public class JMXConnectorFactory {
             throws IOException {
 
         final Map<String,Object> envcopy;
-        if (environment == null)
+        if (environment == null) {
             envcopy = newHashMap();
-        else {
+        } else {
             EnvHelp.checkAttributes(environment);
             envcopy = newHashMap(environment);
         }
@@ -342,8 +343,9 @@ public class JMXConnectorFactory {
                 try {
                     JMXConnector connection =
                         getConnectorAsService(loader, providerURL, envcopy);
-                    if (connection != null)
+                    if (connection != null) {
                         return connection;
+                    }
                 } catch (JMXProviderException e) {
                     throw e;
                 } catch (IOException e) {
@@ -376,19 +378,23 @@ public class JMXConnectorFactory {
 
         Object pkgsObject = null;
 
-        if (env != null)
+        if (env != null) {
             pkgsObject = env.get(PROTOCOL_PROVIDER_PACKAGES);
+        }
 
-        if (pkgsObject == null)
+        if (pkgsObject == null) {
             pkgsObject =
                 AccessController.doPrivileged(new PrivilegedAction<String>() {
+                    @Override
                     public String run() {
                         return System.getProperty(PROTOCOL_PROVIDER_PACKAGES);
                     }
                 });
+        }
 
-        if (pkgsObject == null)
+        if (pkgsObject == null) {
             return null;
+        }
 
         if (!(pkgsObject instanceof String)) {
             final String msg = "Value of " + PROTOCOL_PROVIDER_PACKAGES +
@@ -398,8 +404,9 @@ public class JMXConnectorFactory {
         }
 
         final String pkgs = (String) pkgsObject;
-        if (pkgs.trim().equals(""))
+        if (pkgs.trim().equals("")) {
             return null;
+        }
 
         // pkgs may not contain an empty element
         if (pkgs.startsWith("|") || pkgs.endsWith("|") ||
@@ -478,10 +485,11 @@ public class JMXConnectorFactory {
             } catch (JMXProviderException e) {
                 throw e;
             } catch (Exception e) {
-                if (logger.traceOn())
+                if (logger.traceOn()) {
                     logger.trace("getConnectorAsService",
                                  "URL[" + url +
                                  "] Service provider exception: " + e);
+                }
                 if (!(e instanceof MalformedURLException)) {
                     if (exception == null) {
                         if (e instanceof IOException) {
@@ -495,10 +503,11 @@ public class JMXConnectorFactory {
                 continue;
             }
         }
-        if (exception == null)
+        if (exception == null) {
             return null;
-        else
+        } else {
             throw exception;
+        }
     }
 
     static <T> T getProvider(String protocol,

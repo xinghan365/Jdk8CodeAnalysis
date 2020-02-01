@@ -113,6 +113,7 @@ public class BasicSpinnerUI extends SpinnerUI
      * @see #createPreviousButton
      * @see #createEditor
      */
+    @Override
     public void installUI(JComponent c) {
         this.spinner = (JSpinner)c;
         installDefaults();
@@ -131,6 +132,7 @@ public class BasicSpinnerUI extends SpinnerUI
      *
      * @param c the JSpinner (not used)
      */
+    @Override
     public void uninstallUI(JComponent c) {
         uninstallDefaults();
         uninstallListeners();
@@ -556,6 +558,7 @@ public class BasicSpinnerUI extends SpinnerUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public int getBaseline(JComponent c, int width, int height) {
         super.getBaseline(c, width, height);
         JComponent editor = spinner.getEditor();
@@ -579,6 +582,7 @@ public class BasicSpinnerUI extends SpinnerUI
      * @see javax.swing.JComponent#getBaseline(int, int)
      * @since 1.6
      */
+    @Override
     public Component.BaselineResizeBehavior getBaselineResizeBehavior(
             JComponent c) {
         super.getBaselineResizeBehavior(c);
@@ -623,6 +627,7 @@ public class BasicSpinnerUI extends SpinnerUI
             return (src instanceof JSpinner) ? (JSpinner)src : null;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JSpinner spinner = this.spinner;
 
@@ -762,6 +767,7 @@ public class BasicSpinnerUI extends SpinnerUI
             return -1;
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e) && e.getComponent().isEnabled()) {
                 spinner = eventToSpinner(e);
@@ -771,21 +777,25 @@ public class BasicSpinnerUI extends SpinnerUI
             }
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             autoRepeatTimer.stop();
             arrowButton = null;
             spinner = null;
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
             if (spinner != null && !autoRepeatTimer.isRunning() && spinner == eventToSpinner(e)) {
                 autoRepeatTimer.start();
             }
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
             if (autoRepeatTimer.isRunning()) {
                 autoRepeatTimer.stop();
@@ -819,9 +829,11 @@ public class BasicSpinnerUI extends SpinnerUI
             }
         }
 
+        @Override
         public void focusGained(FocusEvent e) {
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             if (spinner == eventToSpinner(e)) {
                 if (autoRepeatTimer.isRunning()) {
@@ -848,6 +860,7 @@ public class BasicSpinnerUI extends SpinnerUI
         private Component previousButton = null;
         private Component editor = null;
 
+        @Override
         public void addLayoutComponent(String name, Component c) {
             if ("Next".equals(name)) {
                 nextButton = c;
@@ -860,6 +873,7 @@ public class BasicSpinnerUI extends SpinnerUI
             }
         }
 
+        @Override
         public void removeLayoutComponent(Component c) {
             if (c == nextButton) {
                 nextButton = null;
@@ -876,6 +890,7 @@ public class BasicSpinnerUI extends SpinnerUI
             return (c == null) ? zeroSize : c.getPreferredSize();
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension nextD = preferredSize(nextButton);
             Dimension previousD = preferredSize(previousButton);
@@ -893,6 +908,7 @@ public class BasicSpinnerUI extends SpinnerUI
             return size;
         }
 
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             return preferredLayoutSize(parent);
         }
@@ -903,6 +919,7 @@ public class BasicSpinnerUI extends SpinnerUI
             }
         }
 
+        @Override
         public void layoutContainer(Container parent) {
             int width  = parent.getWidth();
             int height = parent.getHeight();
@@ -958,6 +975,7 @@ public class BasicSpinnerUI extends SpinnerUI
         //
         // PropertyChangeListener
         //
+        @Override
         public void propertyChange(PropertyChangeEvent e)
         {
             String propertyName = e.getPropertyName();
@@ -1046,6 +1064,7 @@ public class BasicSpinnerUI extends SpinnerUI
             }
         }
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (e.getSource() instanceof JSpinner) {
                 JSpinner spinner = (JSpinner)e.getSource();

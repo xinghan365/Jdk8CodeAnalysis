@@ -68,8 +68,9 @@ public class LDAPCertStoreParameters implements CertStoreParameters {
      * {@code null}
      */
     public LDAPCertStoreParameters(String serverName, int port) {
-        if (serverName == null)
+        if (serverName == null) {
             throw new NullPointerException();
+        }
         this.serverName = serverName;
         this.port = port;
     }
@@ -123,6 +124,7 @@ public class LDAPCertStoreParameters implements CertStoreParameters {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -137,6 +139,7 @@ public class LDAPCertStoreParameters implements CertStoreParameters {
      *
      * @return a formatted string describing the parameters
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("LDAPCertStoreParameters: [\n");

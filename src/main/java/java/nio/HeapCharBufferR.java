@@ -94,6 +94,7 @@ class HeapCharBufferR
 
     }
 
+    @Override
     public CharBuffer slice() {
         return new HeapCharBufferR(hb,
                                         -1,
@@ -103,6 +104,7 @@ class HeapCharBufferR
                                         this.position() + offset);
     }
 
+    @Override
     public CharBuffer duplicate() {
         return new HeapCharBufferR(hb,
                                         this.markValue(),
@@ -112,6 +114,7 @@ class HeapCharBufferR
                                         offset);
     }
 
+    @Override
     public CharBuffer asReadOnlyBuffer() {
 
 
@@ -160,10 +163,12 @@ class HeapCharBufferR
 
 
 
+    @Override
     public boolean isReadOnly() {
         return true;
     }
 
+    @Override
     public CharBuffer put(char x) {
 
 
@@ -173,6 +178,7 @@ class HeapCharBufferR
 
     }
 
+    @Override
     public CharBuffer put(int i, char x) {
 
 
@@ -182,6 +188,7 @@ class HeapCharBufferR
 
     }
 
+    @Override
     public CharBuffer put(char[] src, int offset, int length) {
 
 
@@ -195,6 +202,7 @@ class HeapCharBufferR
 
     }
 
+    @Override
     public CharBuffer put(CharBuffer src) {
 
 
@@ -223,6 +231,7 @@ class HeapCharBufferR
 
     }
 
+    @Override
     public CharBuffer compact() {
 
 
@@ -562,6 +571,7 @@ class HeapCharBufferR
 
 
 
+    @Override
     String toString(int start, int end) {               // package-private
         try {
             return new String(hb, start + offset, end - start);
@@ -573,11 +583,13 @@ class HeapCharBufferR
 
     // --- Methods to support CharSequence ---
 
+    @Override
     public CharBuffer subSequence(int start, int end) {
         if ((start < 0)
             || (end > length())
-            || (start > end))
+            || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         int pos = position();
         return new HeapCharBufferR(hb,
                                       -1,
@@ -592,6 +604,7 @@ class HeapCharBufferR
 
 
 
+    @Override
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }

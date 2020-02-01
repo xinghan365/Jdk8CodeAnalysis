@@ -198,8 +198,9 @@ import java.util.Arrays;
      */
     @Override
     public synchronized char charAt(int index) {
-        if ((index < 0) || (index >= count))
+        if ((index < 0) || (index >= count)) {
             throw new StringIndexOutOfBoundsException(index);
+        }
         return value[index];
     }
 
@@ -251,8 +252,9 @@ import java.util.Arrays;
      */
     @Override
     public synchronized void setCharAt(int index, char ch) {
-        if ((index < 0) || (index >= count))
+        if ((index < 0) || (index >= count)) {
             throw new StringIndexOutOfBoundsException(index);
+        }
         toStringCache = null;
         value[index] = ch;
     }
@@ -295,6 +297,7 @@ import java.util.Arrays;
      * @return  a reference to this object.
      * @since 1.4
      */
+    @Override
     public synchronized StringBuffer append(StringBuffer sb) {
         toStringCache = null;
         super.append(sb);

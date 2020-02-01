@@ -309,6 +309,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * Returns the String representation of the current value.
      * @return the String representation of the current value
      */
+    @Override
     public String toString() {
         return Long.toString(get());
     }
@@ -318,6 +319,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * after a narrowing primitive conversion.
      * @jls 5.1.3 Narrowing Primitive Conversions
      */
+    @Override
     public int intValue() {
         return (int)get();
     }
@@ -325,6 +327,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
     /**
      * Returns the value of this {@code AtomicLong} as a {@code long}.
      */
+    @Override
     public long longValue() {
         return get();
     }
@@ -334,6 +337,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * after a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public float floatValue() {
         return (float)get();
     }
@@ -343,6 +347,7 @@ public class AtomicLong extends Number implements java.io.Serializable {
      * after a widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
+    @Override
     public double doubleValue() {
         return (double)get();
     }

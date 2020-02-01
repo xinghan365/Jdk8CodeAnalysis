@@ -607,6 +607,7 @@ public interface Descriptor extends Serializable, Cloneable
      *
      * @since 1.6
      */
+    @Override
     public boolean equals(Object obj);
 
     /**
@@ -630,5 +631,6 @@ public interface Descriptor extends Serializable, Cloneable
      *
      * @since 1.6
      */
+    @Override
     public int hashCode();
 }

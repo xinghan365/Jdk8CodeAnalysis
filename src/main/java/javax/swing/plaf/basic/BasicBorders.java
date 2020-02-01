@@ -153,7 +153,8 @@ public class BasicBorders {
             super(shadow, darkShadow, highlight, lightHighlight);
         }
 
-        public void paintBorder( Component c, Graphics g, int x, int y, int w, int h ) {
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h ) {
             AbstractButton b = (AbstractButton) c;
             ButtonModel model = b.getModel();
 
@@ -204,6 +205,7 @@ public class BasicBorders {
             super(3,3,3,3); // hardcoded margin for JLF requirements.
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             Insets margin = null;
 
@@ -241,8 +243,9 @@ public class BasicBorders {
             this.lightHighlight = lightHighlight;
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
-                            int width, int height) {
+                                int width, int height) {
             boolean isPressed = false;
             boolean isDefault = false;
 
@@ -261,6 +264,7 @@ public class BasicBorders {
                                    darkShadow, highlight, lightHighlight);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets)       {
             // leave room for default visual
             insets.set(2, 3, 3, 3);
@@ -276,6 +280,7 @@ public class BasicBorders {
             super(shadow, darkShadow, highlight, lightHighlight);
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int width, int height) {
                 BasicGraphicsUtils.drawBezel(g, x, y, width, height,
@@ -284,6 +289,7 @@ public class BasicBorders {
                                              highlight, lightHighlight);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets)       {
             insets.set(2, 2, 2, 2);
             return insets;
@@ -298,6 +304,7 @@ public class BasicBorders {
         }
 
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 
             if (c instanceof AbstractButton) {
@@ -320,6 +327,7 @@ public class BasicBorders {
             }
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets)       {
             insets.set(2, 2, 2, 2);
             return insets;
@@ -335,6 +343,7 @@ public class BasicBorders {
             this.highlight = highlight;
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Color oldColor = g.getColor();
             g.translate(x, y);
@@ -346,6 +355,7 @@ public class BasicBorders {
             g.setColor(oldColor);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets)       {
             insets.set(0, 0, 2, 0);
             return insets;
@@ -353,6 +363,7 @@ public class BasicBorders {
     }
 
     public static class MarginBorder extends AbstractBorder implements UIResource {
+        @Override
         public Insets getBorderInsets(Component c, Insets insets)       {
             Insets margin = null;
             //
@@ -393,13 +404,15 @@ public class BasicBorders {
             this.lightHighlight = lightHighlight;
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
-                            int width, int height) {
+                                int width, int height) {
             BasicGraphicsUtils.drawEtchedRect(g, x, y, width, height,
                                               shadow, darkShadow,
                                               highlight, lightHighlight);
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             Insets margin = null;
             if (c instanceof JTextComponent) {
@@ -429,6 +442,7 @@ public class BasicBorders {
             this.shadow = shadow;
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int width, int height) {
             if (!(c instanceof BasicSplitPaneDivider)) {
@@ -468,6 +482,7 @@ public class BasicBorders {
                 }
             }
         }
+        @Override
         public Insets getBorderInsets(Component c) {
             Insets insets = new Insets(0,0,0,0);
             if (c instanceof BasicSplitPaneDivider) {
@@ -494,6 +509,7 @@ public class BasicBorders {
             insets.top = insets.bottom = insets.left = insets.right = 1;
             return insets;
         }
+        @Override
         public boolean isBorderOpaque() { return true; }
     }
 
@@ -511,6 +527,7 @@ public class BasicBorders {
             this.shadow = shadow;
         }
 
+        @Override
         public void paintBorder(Component c, Graphics g, int x, int y,
                                 int width, int height) {
             if (!(c instanceof JSplitPane)) {
@@ -593,9 +610,11 @@ public class BasicBorders {
                 }
             }
         }
+        @Override
         public Insets getBorderInsets(Component c) {
             return new Insets(1, 1, 1, 1);
         }
+        @Override
         public boolean isBorderOpaque() { return true; }
     }
 

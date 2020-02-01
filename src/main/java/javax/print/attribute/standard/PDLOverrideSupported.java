@@ -87,6 +87,7 @@ public class PDLOverrideSupported extends EnumSyntax
     /**
      * Returns the string table for class PDLOverrideSupported.
      */
+    @Override
     protected String[] getStringTable() {
         return (String[])myStringTable.clone();
     }
@@ -94,6 +95,7 @@ public class PDLOverrideSupported extends EnumSyntax
     /**
      * Returns the enumeration value table for class PDLOverrideSupported.
      */
+    @Override
     protected EnumSyntax[] getEnumValueTable() {
         return (EnumSyntax[])myEnumValueTable.clone();
     }
@@ -108,6 +110,7 @@ public class PDLOverrideSupported extends EnumSyntax
      * @return  Printing attribute class (category), an instance of class
      *          {@link java.lang.Class java.lang.Class}.
      */
+    @Override
     public final Class<? extends Attribute> getCategory() {
         return PDLOverrideSupported.class;
     }
@@ -121,6 +124,7 @@ public class PDLOverrideSupported extends EnumSyntax
      *
      * @return  Attribute category name.
      */
+    @Override
     public final String getName() {
         return "pdl-override-supported";
     }

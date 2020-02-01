@@ -66,6 +66,7 @@ class TimerAlarmClock extends java.util.TimerTask {
     /**
      * This method is called by the timer when it is started.
      */
+    @Override
     public void run() {
 
         try {

@@ -100,12 +100,14 @@ public class ChoiceCallback implements Callback, java.io.Serializable {
 
         if (prompt == null || prompt.length() == 0 ||
             choices == null || choices.length == 0 ||
-            defaultChoice < 0 || defaultChoice >= choices.length)
+            defaultChoice < 0 || defaultChoice >= choices.length) {
             throw new IllegalArgumentException();
+        }
 
         for (int i = 0; i < choices.length; i++) {
-            if (choices[i] == null || choices[i].length() == 0)
+            if (choices[i] == null || choices[i].length() == 0) {
                 throw new IllegalArgumentException();
+            }
         }
 
         this.prompt = prompt;
@@ -190,8 +192,9 @@ public class ChoiceCallback implements Callback, java.io.Serializable {
      * @see #getSelectedIndexes
      */
     public void setSelectedIndexes(int[] selections) {
-        if (!multipleSelectionsAllowed)
+        if (!multipleSelectionsAllowed) {
             throw new UnsupportedOperationException();
+        }
         this.selections = selections;
     }
 

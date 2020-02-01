@@ -67,7 +67,8 @@ public class MetalComboBoxButton extends JButton {
     MetalComboBoxButton() {
         super( "" );
         DefaultButtonModel model = new DefaultButtonModel() {
-            public void setArmed( boolean armed ) {
+            @Override
+            public void setArmed(boolean armed ) {
                 super.setArmed( isPressed() ? true : armed );
             }
         };
@@ -90,10 +91,12 @@ public class MetalComboBoxButton extends JButton {
         iconOnly = onlyIcon;
     }
 
+    @Override
     public boolean isFocusTraversable() {
         return false;
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
@@ -107,7 +110,8 @@ public class MetalComboBoxButton extends JButton {
         }
     }
 
-    public void paintComponent( Graphics g ) {
+    @Override
+    public void paintComponent(Graphics g ) {
         boolean leftToRight = MetalUtils.isLeftToRight(comboBox);
 
         // Paint the button as usual
@@ -214,6 +218,7 @@ public class MetalComboBoxButton extends JButton {
         }
     }
 
+    @Override
     public Dimension getMinimumSize() {
         Dimension ret = new Dimension();
         Insets insets = getInsets();

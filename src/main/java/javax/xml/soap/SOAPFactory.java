@@ -263,8 +263,9 @@ public abstract class SOAPFactory {
         try {
             SOAPFactory factory = (SOAPFactory) FactoryFinder.find(
                     SOAP_FACTORY_PROPERTY, DEFAULT_SOAP_FACTORY, false);
-            if (factory != null)
+            if (factory != null) {
                 return factory;
+            }
             return newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
         } catch (Exception ex) {
             throw new SOAPException(

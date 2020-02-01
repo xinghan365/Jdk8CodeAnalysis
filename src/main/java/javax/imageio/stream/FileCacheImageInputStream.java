@@ -98,11 +98,12 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
             throw new IllegalArgumentException("Not a directory!");
         }
         this.stream = stream;
-        if (cacheDir == null)
+        if (cacheDir == null) {
             this.cacheFile = Files.createTempFile("imageio", ".tmp").toFile();
-        else
+        } else {
             this.cacheFile = Files.createTempFile(cacheDir.toPath(), "imageio", ".tmp")
                                   .toFile();
+        }
         this.cache = new RandomAccessFile(cacheFile, "rw");
 
         this.closeAction = StreamCloser.createCloseAction(this);
@@ -153,6 +154,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
         return pos;
     }
 
+    @Override
     public int read() throws IOException {
         checkClosed();
         bitOffset = 0;
@@ -166,6 +168,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
         }
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         checkClosed();
 
@@ -208,6 +211,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
      * @see #isCachedMemory
      * @see #isCachedFile
      */
+    @Override
     public boolean isCached() {
         return true;
     }
@@ -221,6 +225,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
      * @see #isCached
      * @see #isCachedMemory
      */
+    @Override
     public boolean isCachedFile() {
         return true;
     }
@@ -235,6 +240,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
      * @see #isCached
      * @see #isCachedFile
      */
+    @Override
     public boolean isCachedMemory() {
         return false;
     }
@@ -246,6 +252,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
      *
      * @exception IOException if an error occurs.
      */
+    @Override
     public void close() throws IOException {
         super.close();
         disposerRecord.dispose(); // this will close/delete the cache file
@@ -258,6 +265,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void finalize() throws Throwable {
         // Empty finalizer: for performance reasons we instead use the
         // Disposer mechanism for ensuring that the underlying
@@ -273,6 +281,7 @@ public class FileCacheImageInputStream extends ImageInputStreamImpl {
             this.cache = cache;
         }
 
+        @Override
         public synchronized void dispose() {
             if (cache != null) {
                 try {

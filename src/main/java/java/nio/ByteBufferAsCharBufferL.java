@@ -69,6 +69,7 @@ class ByteBufferAsCharBufferL                  // package-private
 
     }
 
+    @Override
     public CharBuffer slice() {
         int pos = this.position();
         int lim = this.limit();
@@ -79,6 +80,7 @@ class ByteBufferAsCharBufferL                  // package-private
         return new ByteBufferAsCharBufferL(bb, -1, 0, rem, rem, off);
     }
 
+    @Override
     public CharBuffer duplicate() {
         return new ByteBufferAsCharBufferL(bb,
                                                     this.markValue(),
@@ -88,6 +90,7 @@ class ByteBufferAsCharBufferL                  // package-private
                                                     offset);
     }
 
+    @Override
     public CharBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsCharBufferRL(bb,
@@ -107,15 +110,18 @@ class ByteBufferAsCharBufferL                  // package-private
         return (i << 1) + offset;
     }
 
+    @Override
     public char get() {
         return Bits.getCharL(bb, ix(nextGetIndex()));
     }
 
+    @Override
     public char get(int i) {
         return Bits.getCharL(bb, ix(checkIndex(i)));
     }
 
 
+   @Override
    char getUnchecked(int i) {
         return Bits.getCharL(bb, ix(i));
     }
@@ -123,6 +129,7 @@ class ByteBufferAsCharBufferL                  // package-private
 
 
 
+    @Override
     public CharBuffer put(char x) {
 
         Bits.putCharL(bb, ix(nextPutIndex()), x);
@@ -132,6 +139,7 @@ class ByteBufferAsCharBufferL                  // package-private
 
     }
 
+    @Override
     public CharBuffer put(int i, char x) {
 
         Bits.putCharL(bb, ix(checkIndex(i)), x);
@@ -141,6 +149,7 @@ class ByteBufferAsCharBufferL                  // package-private
 
     }
 
+    @Override
     public CharBuffer compact() {
 
         int pos = position();
@@ -163,19 +172,23 @@ class ByteBufferAsCharBufferL                  // package-private
 
     }
 
+    @Override
     public boolean isDirect() {
         return bb.isDirect();
     }
 
+    @Override
     public boolean isReadOnly() {
         return false;
     }
 
 
 
+    @Override
     public String toString(int start, int end) {
-        if ((end > limit()) || (start > end))
+        if ((end > limit()) || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         try {
             int len = end - start;
             char[] ca = new char[len];
@@ -193,6 +206,7 @@ class ByteBufferAsCharBufferL                  // package-private
 
     // --- Methods to support CharSequence ---
 
+    @Override
     public CharBuffer subSequence(int start, int end) {
         int pos = position();
         int lim = limit();
@@ -200,8 +214,9 @@ class ByteBufferAsCharBufferL                  // package-private
         pos = (pos <= lim ? pos : lim);
         int len = lim - pos;
 
-        if ((start < 0) || (end > len) || (start > end))
+        if ((start < 0) || (end > len) || (start > end)) {
             throw new IndexOutOfBoundsException();
+        }
         return new ByteBufferAsCharBufferL(bb,
                                                   -1,
                                                   pos + start,
@@ -213,6 +228,7 @@ class ByteBufferAsCharBufferL                  // package-private
 
 
 
+    @Override
     public ByteOrder order() {
 
 

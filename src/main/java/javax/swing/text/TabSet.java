@@ -66,8 +66,9 @@ public class TabSet implements Serializable
             this.tabs = new TabStop[tabCount];
             System.arraycopy(tabs, 0, this.tabs, 0, tabCount);
         }
-        else
+        else {
             this.tabs = null;
+        }
     }
 
     /**
@@ -85,9 +86,10 @@ public class TabSet implements Serializable
     public TabStop getTab(int index) {
         int          numTabs = getTabCount();
 
-        if(index < 0 || index >= numTabs)
+        if(index < 0 || index >= numTabs) {
             throw new IllegalArgumentException(index +
                                               " is outside the range of tabs");
+        }
         return tabs[index];
     }
 
@@ -108,8 +110,11 @@ public class TabSet implements Serializable
     public int getTabIndex(TabStop tab) {
         for(int counter = getTabCount() - 1; counter >= 0; counter--)
             // should this use .equals?
-            if(getTab(counter) == tab)
+        {
+            if(getTab(counter) == tab) {
                 return counter;
+            }
+        }
         return -1;
     }
 
@@ -125,14 +130,16 @@ public class TabSet implements Serializable
         while(min != max) {
             current = (max - min) / 2 + min;
             if(location > tabs[current].getPosition()) {
-                if(min == current)
+                if(min == current) {
                     min = max;
-                else
+                } else {
                     min = current;
+                }
             }
             else {
-                if(current == 0 || location > tabs[current - 1].getPosition())
+                if(current == 0 || location > tabs[current - 1].getPosition()) {
                     return current;
+                }
                 max = current;
             }
         }
@@ -150,6 +157,7 @@ public class TabSet implements Serializable
      *
      * @since 1.5
      */
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
@@ -179,6 +187,7 @@ public class TabSet implements Serializable
      *
      * @since 1.5
      */
+    @Override
     public int hashCode() {
         if (hashCode == Integer.MAX_VALUE) {
             hashCode = 0;
@@ -197,13 +206,15 @@ public class TabSet implements Serializable
     /**
      * Returns the string representation of the set of tabs.
      */
+    @Override
     public String toString() {
         int            tabCount = getTabCount();
         StringBuilder buffer = new StringBuilder("[ ");
 
         for(int counter = 0; counter < tabCount; counter++) {
-            if(counter > 0)
+            if(counter > 0) {
                 buffer.append(" - ");
+            }
             buffer.append(getTab(counter).toString());
         }
         buffer.append(" ]");

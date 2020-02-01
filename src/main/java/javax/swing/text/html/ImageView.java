@@ -240,6 +240,7 @@ public class ImageView extends View {
      * implemented to multiplex the attributes specified in the
      * model with a StyleSheet.
      */
+    @Override
     public AttributeSet getAttributes() {
         sync();
         return attr;
@@ -252,6 +253,7 @@ public class ImageView extends View {
      *
      * @see JTextComponent#getToolTipText
      */
+    @Override
     public String getToolTipText(float x, float y, Shape allocation) {
         return getAltText();
     }
@@ -311,6 +313,7 @@ public class ImageView extends View {
      * Establishes the parent view for this view.
      * Seize this moment to cache the AWT Container I'm in.
      */
+    @Override
     public void setParent(View parent) {
         View oldParent = getParent();
         super.setParent(parent);
@@ -325,6 +328,7 @@ public class ImageView extends View {
     /**
      * Invoked when the Elements attributes have changed. Recreates the image.
      */
+    @Override
     public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
         super.changedUpdate(e,a,f);
 
@@ -343,6 +347,7 @@ public class ImageView extends View {
      * @param a the allocated region to render into
      * @see View#paint
      */
+    @Override
     public void paint(Graphics g, Shape a) {
         sync();
 
@@ -439,6 +444,7 @@ public class ImageView extends View {
      *           that is returned, although there is no guarantee;
      *           the parent may choose to resize or break the view
      */
+    @Override
     public float getPreferredSpan(int axis) {
         sync();
 
@@ -495,6 +501,7 @@ public class ImageView extends View {
      *   away from the origin; an alignment of 0.5 would be the
      *   center of the view
      */
+    @Override
     public float getAlignment(int axis) {
         switch (axis) {
         case View.Y_AXIS:
@@ -515,6 +522,7 @@ public class ImageView extends View {
      *   valid location in the associated document
      * @see View#modelToView
      */
+    @Override
     public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
         int p0 = getStartOffset();
         int p1 = getEndOffset();
@@ -540,6 +548,7 @@ public class ImageView extends View {
      *  given point of view
      * @see View#viewToModel
      */
+    @Override
     public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
         Rectangle alloc = (Rectangle) a;
         if (x < alloc.x + alloc.width) {
@@ -557,6 +566,7 @@ public class ImageView extends View {
      * @param width the width &gt;= 0
      * @param height the height &gt;= 0
      */
+    @Override
     public void setSize(float width, float height) {
         sync();
 
@@ -632,8 +642,9 @@ public class ImageView extends View {
                 }
             }
             return i;
-        } else
+        } else {
             return deflt;
+        }
     }
 
     /**
@@ -844,6 +855,7 @@ public class ImageView extends View {
         }
         else {
             SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         safePreferenceChanged();
                     }
@@ -895,6 +907,7 @@ public class ImageView extends View {
         // preference changed, or repaint, we just reset the fWidth/fHeight as
         // necessary and return. This is ok as we know when loading finishes
         // it will pick up the new height/width, if necessary.
+        @Override
         public boolean imageUpdate(Image img, int flags, int x, int y,
                                    int newWidth, int newHeight ) {
             if (img != image && img != disabledImage ||
@@ -1005,6 +1018,7 @@ public class ImageView extends View {
             segment = new Segment(text.toCharArray(), 0, text.length());
         }
 
+        @Override
         public void paint(Graphics g, Shape a) {
             // Don't use supers paint, otherwise selection will be wrong
             // as our start/end offsets are fake.
@@ -1016,6 +1030,7 @@ public class ImageView extends View {
             }
         }
 
+        @Override
         public Segment getText(int p0, int p1) {
             if (p0 < 0 || p1 > segment.array.length) {
                 throw new RuntimeException("ImageLabelView: Stale view");
@@ -1025,19 +1040,23 @@ public class ImageView extends View {
             return segment;
         }
 
+        @Override
         public int getStartOffset() {
             return 0;
         }
 
+        @Override
         public int getEndOffset() {
             return segment.array.length;
         }
 
+        @Override
         public View breakView(int axis, int p0, float pos, float len) {
             // Don't allow a break
             return this;
         }
 
+        @Override
         public Color getForeground() {
             View parent;
             if (fg == null && (parent = getParent()) != null) {

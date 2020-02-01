@@ -95,8 +95,9 @@ public class InputStreamReader extends Reader {
         throws UnsupportedEncodingException
     {
         super(in);
-        if (charsetName == null)
+        if (charsetName == null) {
             throw new NullPointerException("charsetName");
+        }
         sd = StreamDecoder.forInputStreamReader(in, this, charsetName);
     }
 
@@ -111,8 +112,9 @@ public class InputStreamReader extends Reader {
      */
     public InputStreamReader(InputStream in, Charset cs) {
         super(in);
-        if (cs == null)
+        if (cs == null) {
             throw new NullPointerException("charset");
+        }
         sd = StreamDecoder.forInputStreamReader(in, this, cs);
     }
 
@@ -127,8 +129,9 @@ public class InputStreamReader extends Reader {
      */
     public InputStreamReader(InputStream in, CharsetDecoder dec) {
         super(in);
-        if (dec == null)
+        if (dec == null) {
             throw new NullPointerException("charset decoder");
+        }
         sd = StreamDecoder.forInputStreamReader(in, this, dec);
     }
 
@@ -164,6 +167,7 @@ public class InputStreamReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read() throws IOException {
         return sd.read();
     }
@@ -180,6 +184,7 @@ public class InputStreamReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public int read(char cbuf[], int offset, int length) throws IOException {
         return sd.read(cbuf, offset, length);
     }
@@ -191,10 +196,12 @@ public class InputStreamReader extends Reader {
      *
      * @exception  IOException  If an I/O error occurs
      */
+    @Override
     public boolean ready() throws IOException {
         return sd.ready();
     }
 
+    @Override
     public void close() throws IOException {
         sd.close();
     }

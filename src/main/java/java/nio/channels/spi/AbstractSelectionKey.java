@@ -49,6 +49,7 @@ public abstract class AbstractSelectionKey
 
     private volatile boolean valid = true;
 
+    @Override
     public final boolean isValid() {
         return valid;
     }
@@ -63,6 +64,7 @@ public abstract class AbstractSelectionKey
      * <p> If this key has not yet been cancelled then it is added to its
      * selector's cancelled-key set while synchronized on that set.  </p>
      */
+    @Override
     public final void cancel() {
         // Synchronizing "this" to prevent this key from getting canceled
         // multiple times by different threads, which might cause race
