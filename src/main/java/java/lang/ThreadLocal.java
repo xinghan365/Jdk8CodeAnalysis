@@ -100,6 +100,8 @@ public class ThreadLocal<T> {
         new AtomicInteger();
 
     /**
+     * 连续生成的哈希码之间的差隐式序列线程局部id的近似最优扩散两个大小表的幂的乘法散列值。
+     *
      * The difference between successively generated hash codes - turns
      * implicit sequential thread-local IDs into near-optimally spread
      * multiplicative hash values for power-of-two-sized tables.
