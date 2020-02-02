@@ -29,6 +29,19 @@ import java.util.Map.Entry;
 import sun.misc.SharedSecrets;
 
 /**
+ * 一个专门Map实现与枚举类型键一起使用。 枚举映射中的所有密钥必须来自创建映射时明确或隐式指定的单个枚举类型。 枚举地图在内部表示为数组。 这种表示非常紧凑和高效。
+ * 枚举映射以其键的自然顺序 （枚举枚举常数被声明的顺序）维护。 这反映在由所述集合的视图（返回的迭代keySet() ， entrySet()和values() ）。
+ *
+ * 由集合视图返回的迭代器弱一致 ：它们不会抛出ConcurrentModificationException ，并且它们可能显示或可能不显示在迭代进行时发生的映射的任何修改的影响。
+ *
+ * 不允许使用空键。 尝试插入空键将丢失NullPointerException 。 然而，尝试测试是否存在空键或删除一个将会正常工作。 允许空值。
+ *
+ * 像大多数集合实现一样， EnumMap不同步。 如果多个线程同时访问枚举映射，并且至少有一个线程修改映射，则应该在外部进行同步。 这通常通过在自然地封装枚举映射的某些对象上进行同步来实现。 如果没有此类对象存在，则应使用Collections.synchronizedMap(java.util.Map<K, V>)方法“包装”地图。 这最好在创建时完成，以防止意外的不同步访问：
+ *
+ *   Map<EnumKey, V> m
+ *          = Collections.synchronizedMap(new EnumMap<EnumKey, V>(...)); 实现注意事项：所有基本操作都在不间断的时间内执行。 他们可能（虽然不能保证）比他们的HashMap同行更快。
+ *
+ *
  * A specialized {@link Map} implementation for use with enum type keys.  All
  * of the keys in an enum map must come from a single enum type that is
  * specified, explicitly or implicitly, when the map is created.  Enum maps

@@ -42,6 +42,24 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.LockSupport;
 
 /**
+ * 一种基于能力的锁，具有三种模式用于控制读/写访问。 StampedLock的状态由版本和模式组成。 锁定采集方法返回一个表示和控制相对于锁定状态的访问的印记; 这些方法的“尝试”版本可能会返回特殊值为零以表示获取访问失败。 锁定释放和转换方法要求邮票作为参数，如果它们与锁的状态不匹配则失败。 这三种模式是：
+ * 写作。 方法writeLock()可能阻止等待独占访问，返回可以在方法unlockWrite(long)中使用的邮票来释放锁定。 不定时的和定时版本tryWriteLock ，还提供。 当锁保持写入模式时，不能获得读取锁定，并且所有乐观读取验证都将失败。
+ * 读。 方法readLock()可能阻止等待非独占访问，返回可用于方法unlockRead(long)释放锁的戳记 。 不定时的和定时版本tryReadLock ，还提供。
+ * 乐观阅读 方法tryOptimisticRead()只有当锁当前未保持在写入模式时才返回非零标记。 方法validate(long)返回true，如果在获取给定的邮票时尚未在写入模式中获取锁定。 这种模式可以被认为是一个非常弱的版本的读锁，可以随时由作家打破。 对简单的只读代码段使用乐观模式通常会减少争用并提高吞吐量。 然而，其使用本质上是脆弱的。 乐观阅读部分只能读取字段并将其保存在局部变量中，以供后验证使用。 以乐观模式读取的字段可能会非常不一致，因此只有在熟悉数据表示以检查一致性和/或重复调用方法validate()时，使用情况才适用。 例如，当首次读取对象或数组引用，然后访问其字段，元素或方法之一时，通常需要这样的步骤。
+ * 此类还支持有条件地在三种模式下提供转换的方法。 例如，方法tryConvertToWriteLock(long)尝试“升级”模式，如果（1）在读取模式下已经在写入模式（2）中并且没有其他读取器或（3）处于乐观模式并且锁可用，则返回有效写入戳记。 这些方法的形式旨在帮助减少在基于重试的设计中出现的一些代码膨胀。
+ *
+ * StampedLocks设计用作线程安全组件开发中的内部实用程序。 他们的使用依赖于他们保护的数据，对象和方法的内部属性的知识。 它们不是可重入的，所以锁定的机构不应该调用其他可能尝试重新获取锁的未知方法（尽管您可以将戳记传递给可以使用或转换它的其他方法）。 读锁定模式的使用依赖于相关的代码段是无副作用的。 未经验证的乐观阅读部分不能调用不知道容忍潜在不一致的方法。 邮票使用有限表示，并且不是加密安全的（即，有效的邮票可能是可猜测的）。 邮票值可以在连续运行一年后（不早于）回收。 不超过此期限使用或验证的邮票可能无法正确验证。 StampedLocks是可序列化的，但总是反序列化为初始解锁状态，因此它们对于远程锁定无用。
+ *
+ * StampedLock的调度策略不一致优先于读者，反之亦然。 所有“尝试”方法都是尽力而为，并不一定符合任何调度或公平政策。 用于获取或转换锁定的任何“try”方法的零返回不携带关于锁的状态的任何信息; 随后的调用可能会成功。
+ *
+ * 因为它支持跨多个锁模式的协调使用，所以该类不直接实现Lock或ReadWriteLock接口。 然而，StampedLock可以看作asReadLock() ， asWriteLock() ，或asReadWriteLock()中，仅需要在一组相关联的功能的应用程序。
+ *
+ * 样品用法。 下面说明了一个维护简单二维点的类中的一些使用习语。 示例代码说明了一些try / catch约定，即使这些惯例在这里不是严格需要的，因为它们的身体中不会发生异常。
+ *
+ *
+ *    class Point { private double x, y; private final StampedLock sl = new StampedLock(); void move(double deltaX, double deltaY) { // an exclusively locked method long stamp = sl.writeLock(); try { x += deltaX; y += deltaY; } finally { sl.unlockWrite(stamp); } } double distanceFromOrigin() { // A read-only method long stamp = sl.tryOptimisticRead(); double currentX = x, currentY = y; if (!sl.validate(stamp)) { stamp = sl.readLock(); try { currentX = x; currentY = y; } finally { sl.unlockRead(stamp); } } return Math.sqrt(currentX * currentX + currentY * currentY); } void moveIfAtOrigin(double newX, double newY) { // upgrade // Could instead start with optimistic, not read mode long stamp = sl.readLock(); try { while (x == 0.0 && y == 0.0) { long ws = sl.tryConvertToWriteLock(stamp); if (ws != 0L) { stamp = ws; x = newX; y = newY; break; } else { sl.unlockRead(stamp); stamp = sl.writeLock(); } } } finally { sl.unlock(stamp); } } } 从以下版本开始
+ *
+ *
  * A capability-based lock with three modes for controlling read/write
  * access.  The state of a StampedLock consists of a version and mode.
  * Lock acquisition methods return a stamp that represents and

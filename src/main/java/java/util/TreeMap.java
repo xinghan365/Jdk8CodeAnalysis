@@ -31,6 +31,19 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 /**
+ * 一个红黑树基于NavigableMap实现。 该地图是根据排序natural ordering其密钥，或通过Comparator在地图创建时提供，这取决于所使用的构造方法。
+ * 此实现提供了保证的log（n）时间成本containsKey ， get ， put和remove操作。 算法是Cormen，Leiserson和Rivest的算法介绍中的算法的适应性 。
+ *
+ * 请注意，如果这个排序的映射要正确地实现Map接口，那么由树映射维护的排序（如任何排序的映射）以及是否提供显式比较器都必须与equals Map一致。 （参见Comparable或Comparator为一致的精确定义与equals）。这是因为该Map接口在来定义equals的操作，但一个排序映射使用它所有的键比较compareTo （或compare ）方法，于是两个从排序图的角度来说，通过该方法认为相等的键是相等的。 排序地图的行为是明确定义的，即使其排序与equals ; 它只是没有遵守Map界面的总体合同。
+ *
+ * 请注意，此实现不同步。 如果多个线程同时访问映射，并且至少一个线程在结构上修改映射，则必须在外部进行同步。 （结构修改是添加或删除一个或多个映射的任何操作;仅改变与现有密钥相关联的值不是结构修改。）这通常通过对自然封装映射的一些对象进行同步来实现。 如果没有这样的对象存在，应该使用Collections.synchronizedSortedMap方法“包装”地图。 这最好在创建时完成，以防止意外的不同步访问地图：
+ *
+ *   SortedMap m = Collections.synchronizedSortedMap(new TreeMap(...)); 由这个类的“集合视图方法”返回的iterator方法返回的迭代器是故障快速的 ：如果映射在迭代器创建之后的任何时间被结构地修改，除了通过迭代器自己的remove方法，迭代器会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速的迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
+ *
+ * 通过此类中的方法返回的所有Map.Entry对，其视图表示生成时映射的快照。 他们不支持Entry.setValue方法。 （请注意，可以使用put更改关联地图中的put 。）
+ *
  * A Red-Black tree based {@link NavigableMap} implementation.
  * The map is sorted according to the {@linkplain Comparable natural
  * ordering} of its keys, or by a {@link Comparator} provided at map

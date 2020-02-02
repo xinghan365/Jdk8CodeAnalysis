@@ -26,6 +26,11 @@
 package java.util;
 
 /**
+ * Dictionary类是任何类的抽象父类，例如Hashtable ，它将键映射到值。 每个键和每个值都是一个对象。 在任何一个Dictionary对象中，每个键最多与一个值相关联。 给定一个Dictionary和一个键，可以查找关联的元素。 任何非null对象都可以用作键和值。
+ * 通常， equals实现应该使用equals方法来确定两个键是否相同。
+ *
+ * 注意：此类已过时。 新的实现应该实现Map接口，而不是扩展这个类。
+ *
  * The <code>Dictionary</code> class is the abstract parent of any
  * class, such as <code>Hashtable</code>, which maps keys to values.
  * Every key and every value is an object. In any one <tt>Dictionary</tt>

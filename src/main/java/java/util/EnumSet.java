@@ -28,6 +28,15 @@ package java.util;
 import sun.misc.SharedSecrets;
 
 /**
+ * 一个专门Set实现与枚举类型一起使用。 枚举集中的所有元素都必须来自创建集合时明确或隐式指定的单个枚举类型。 枚举集在内部表示为位向量。 这种表示非常紧凑和高效。 这个课程的空间和时间表现应该足够好，可以将其作为基于传统int的“位标志”的高品质，类型安全的替代品使用 。 即使批量操作（如containsAll和retainAll ）也应该很快运行，如果他们的参数也是枚举集。
+ * 由iterator返回的迭代器以自然顺序 （枚举枚举常量的声明顺序）遍历元素。 返回的迭代器是弱一致的 ：它永远不会抛出ConcurrentModificationException ，它可能显示或可能不显示在迭代进行中发生的集合的任何修改的影响。
+ *
+ * 不允许使用零元素。 尝试插入一个空元素将抛出NullPointerException 。 然而，尝试测试null元素的存在或删除一个将会正常工作。
+ *
+ * 像大多数集合实现一样， EnumSet不同步。 如果多个线程同时访问枚举集，并且至少有一个线程修改该集合，则它应该在外部同步。 这通常通过在自然地封装枚举集的一些对象上进行同步来实现。 如果没有这样的对象存在，那么该组件应该使用Collections.synchronizedSet(java.util.Set<T>)方法“包装”。 这最好在创建时完成，以防止意外的不同步访问：
+ *
+ *   Set<MyEnum> s = Collections.synchronizedSet(EnumSet.noneOf(MyEnum.class)); 实现注意事项：所有基本操作都在不间断的时间内执行。 他们很可能（虽然不能保证）比他们的HashSet同行快得多。 如果它们的参数也是一个枚举集，那么即使批量操作也会在一段时间内执行。
+ *
  * A specialized {@link Set} implementation for use with enum types.  All of
  * the elements in an enum set must come from a single enum type that is
  * specified, explicitly or implicitly, when the set is created.  Enum sets

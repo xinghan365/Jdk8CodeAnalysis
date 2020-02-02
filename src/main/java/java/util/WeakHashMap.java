@@ -34,6 +34,22 @@ import java.util.function.Consumer;
 
 
 /**
+ * 基于哈希表的Map 接口实现，具有弱键 。 WeakHashMap中的条目将在其密钥不再普通使用时自动删除。 更准确地说，给定密钥的映射的存在不会阻止该密钥被垃圾收集器丢弃，也就是可以最终确定，最终确定，然后被回收。 当一个密钥被丢弃时，它的条目被有效地从地图上移除，所以这个类与其他Map实现有所不同。
+ * 支持null值和空值。 该类具有与HashMap类相似的性能特征 ，具有初始容量和负载因子的相同效率参数 。
+ *
+ * 像大多数集合类一样，此类不同步。 甲同步WeakHashMap可使用被构造Collections.synchronizedMap方法。
+ *
+ * 这个类主要用于与主要对象，它们的equals方法测试使用==操作对象标识使用。 一旦这样的密钥被丢弃，它就永远不会被重新创建，所以不可能在稍后的一个WeakHashMap中查找该密钥，并且惊讶到它的条目被删除了。 这个类将非常适用于equals方法不基于对象标识的关键对象，例如String实例。 然而，对于这种可重用的关键对象，自动删除已被丢弃密钥的WeakHashMap条目可能会令人困惑。
+ *
+ * WeakHashMap类的行为部分取决于垃圾收集器的操作，因此几个熟悉（但不是必需）的Map不变量不适用于此类。 因为垃圾收集器可能随时丢弃密钥，所以WeakHashMap可能表现为未知线程静默地删除条目。 特别是，即使您在WeakHashMap实例上进行同步 ，也没有调用其变异器方法， size方法可以随时间返回较小的值， isEmpty方法可以返回false然后返回true ，对于containsKey方法返回true及以后的false对于给定的键，对于get方法返回给定键的值，但后来返回null ，为put方法返回null和remove方法返回false以前似乎是在地图，以及密钥集的连续检查，值集合和条目集合，以产生相继较少数量的元素。
+ *
+ * WeakHashMap中的每个关键对象间接存储为弱引用的对象。 因此，只有在地图的内部和外部的弱引用之后，密钥才会被垃圾收集器清除。
+ *
+ * 实现注意： WeakHashMap中的值对象由普通的强引用保存。 因此，应注意确保值对象不直接或间接强烈地引用其自己的键，因为这将阻止键被丢弃。 注意，值对象可以通过WeakHashMap本身间接地引用其键; 也就是说，值对象可能强烈地引用一些其他关键对象，其关联值对象又强烈地引用第一个值对象的键。 如果地图中的值不依赖于强调引用它们的地图，那么处理这种情况的一种方法是在插入之前将值本身包含在WeakReferences之前，如： m.put(key, new WeakReference(value)) ，然后在每个get上展开 。
+ *
+ * 由所有此类的“collection视图方法”返回的藏品iterator方法返回的迭代器是快速失败的 ：如果地图随时结构上修改后的迭代器创建的，以任何方式，除了通过迭代器自己remove方法，迭代器会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
  * Hash table based implementation of the <tt>Map</tt> interface, with
  * <em>weak keys</em>.
  * An entry in a <tt>WeakHashMap</tt> will automatically be removed when

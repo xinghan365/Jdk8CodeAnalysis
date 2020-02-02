@@ -33,6 +33,27 @@ import java.util.function.BiFunction;
 import sun.misc.SharedSecrets;
 
 /**
+ * 该类实现了一个哈希表，它将键映射到值。 任何非null对象都可以用作键值或值。
+ * 为了从散列表成功存储和检索对象，用作键的对象必须实现hashCode方法和equals方法。
+ *
+ * Hashtable一个实例有两个影响其性能的参数： 初始容量和负载因子 。 容量是哈希表中的桶数， 初始容量只是创建哈希表时的容量。 请注意，哈希表是打开的 ：在“哈希冲突”的情况下，单个存储桶存储多个条目，必须依次搜索。 负载因子是在容量自动增加之前允许哈希表得到满足的度量。 初始容量和负载因子参数仅仅是实现的暗示。 关于何时以及是否调用rehash方法的具体细节是依赖于实现的。
+ *
+ * 通常，默认负载因子（.75）提供了时间和空间成本之间的良好折衷。 更高的值会减少空间开销，但会增加查询条目的时间成本（这反映在大多数Hashtable操作中，包括get和put ）。
+ *
+ * 初始容量控制了浪费空间与需要rehash操作之间的折中，这是耗时的。 没有rehash如果初始容量大于项Hashtable将其负载因子包含除以最大数量永远不会发生的操作。 然而，设置初始容量太高可能会浪费空间。
+ *
+ * 如果将多个条目制作为Hashtable ，则以足够大的容量创建它可能会使条目更有效地插入，以使其根据需要执行自动重新排序以增长表。
+ *
+ * 此示例创建数字的散列表。 它使用数字的名称作为键：
+ *
+ *    Hashtable<String, Integer> numbers = new Hashtable<String, Integer>(); numbers.put("one", 1); numbers.put("two", 2); numbers.put("three", 3); 要检索一个数字，请使用以下代码：
+ *
+ *    Integer n = numbers.get("two"); if (n != null) { System.out.println("two = " + n); } 由所有这个类的“集合视图方法”返回的集合的iterator方法返回的迭代器是故障快速的 ：如果Hashtable在迭代器创建之后的任何时间被结构地修改，除了通过迭代器自己的remove方法，迭代器会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。 Hashtable的键和元素方法返回的枚举不是故障快速的。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
+ *
+ * 从Java 2平台v1.2，这个类被改造为实现Map接口，使其成为成员Java Collections Framework 。 与新的集合实现不同， Hashtable是同步的。 如果不需要线程安全的实现，建议使用HashMap代替Hashtable 。 如果需要线程安全的并发实现，那么建议使用ConcurrentHashMap代替Hashtable 。
+ *
  * This class implements a hash table, which maps keys to values. Any
  * non-<code>null</code> object can be used as a key or as a value. <p>
  *

@@ -36,6 +36,15 @@
 package java.util;
 
 /**
+ * A SortedMap扩展了导航方法返回给定搜索目标的最接近的匹配。 方法lowerEntry ， floorEntry ， ceilingEntry和higherEntry返回Map.Entry与键相关联的对象比比大于给定的密钥分别更少，小于或等于，大于或等于，大于，返回null如果不存在这样的密钥。 同样，方法lowerKey ， floorKey ， ceilingKey和higherKey回报只有相关联的密钥。 所有这些方法都设计用于定位，而不是遍历条目。
+ * A NavigableMap可以按升序或降序键顺序访问和遍历。 descendingMap方法返回地图的视图，其中所有关系和方向方向的意义都反转。 上升操作和观点的表现可能比降序更快。 方法subMap ， headMap和tailMap从等命名的不同SortedMap在接受描述的下限和上限是否是包含性的抗排斥附加参数的方法。 任何NavigableMap必须实现NavigableMap接口。
+ *
+ * 此接口还定义了方法firstEntry ， pollFirstEntry ， lastEntry和pollLastEntry返回和/或删除至少和最大的映射关系，如果存在，否则返回null 。
+ *
+ * 输入返回方法的实现预计将返回Map.Entry对，表示生成映射的快照，因此通常不支持可选的Entry.setValue方法。 但是请注意，可以使用方法put更改关联地图中的映射。
+ *
+ * 方法subMap(K, K) ， headMap(K)和tailMap(K)被指定为返回SortedMap ，以允许现有的实现SortedMap能相容地改进来实现NavigableMap ，但鼓励扩展和该接口的实现重写这些方法返回NavigableMap 。 同样， SortedMap.keySet()可以覆盖以返回NavigableSet 。
+ *
  * A {@link SortedMap} extended with navigation methods returning the
  * closest matches for given search targets. Methods
  * {@code lowerEntry}, {@code floorEntry}, {@code ceilingEntry},

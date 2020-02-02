@@ -37,6 +37,10 @@ package java.util.concurrent.atomic;
 import java.io.Serializable;
 
 /**
+ * 一个或多个变量一起保持初始为零double总和。 当跨线程争用更新（方法add(double) ）时，该变量集可以动态增长以减少争用。 方法sum() （或等价于doubleValue() ）返回保持总和的整个变量组合的当前总和。 线程内或跨线程的累积顺序不能保证。 因此，如果需要数值稳定性，特别是当组合几乎不同数量级的值时，该类可能不适用。
+ * 当多个线程更新用于诸如经常更新但较不频繁读取的摘要统计信息的常用值时，此类通常优于替代方案。
+ *
+ * 该类扩展Number ，但不定义诸如方法equals ， hashCode和compareTo ，因为实例预计将发生突变，所以不如收集钥匙有用。
  * One or more variables that together maintain an initially zero
  * {@code double} sum.  When updates (method {@link #add}) are
  * contended across threads, the set of variables may grow dynamically

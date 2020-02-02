@@ -26,6 +26,16 @@
 package java.util;
 
 /**
+ * 此类提供的骨干实现的List接口以最小化来实现该接口由一个“随机访问”数据存储备份所需的工作（如阵列）。 对于顺序存取的数据（如链接列表）， AbstractSequentialList应优先使用此类。
+ * 要实现一个不可修改的列表，程序员只需要扩展这个类并提供get(int)和size()方法的实现。
+ *
+ * 要实现可修改的列表，程序员必须另外覆盖set(int, E)方法（否则会抛出一个UnsupportedOperationException ）。 如果列表是可变大小，则程序员必须另外覆盖add(int, E)和remove(int)方法。
+ *
+ * 根据Collection接口规范中的建议，程序员通常应该提供一个void（无参数）和集合构造函数。
+ *
+ * 不像其他的抽象集合实现，程序员不必提供迭代器实现; 迭代器和列表迭代器由此类实现的，对的“随机访问”方法上： get(int) ， set(int, E) ， add(int, E)和remove(int) 。
+ *
+ * 该类中每个非抽象方法的文档详细描述了其实现。 如果正在实施的集合承认更有效的实现，则可以覆盖这些方法中的每一种。
  * This class provides a skeletal implementation of the {@link List}
  * interface to minimize the effort required to implement this interface
  * backed by a "random access" data store (such as an array).  For sequential
@@ -77,6 +87,12 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     }
 
     /**
+     * 将指定的元素追加到此列表的末尾（可选操作）。
+     * 支持此操作的列表可能会限制可能添加到此列表中的元素。 特别地，一些列表将拒绝添加null元素，而其他列表将对可能添加的元素的类型施加限制。 列表类应在其文档中明确指定可能添加哪些元素的限制。
+     *
+     * 这个实现调用add(size(), e) 。
+     *
+     * 请注意，此实现将抛出UnsupportedOperationException ，除非add(int, E)被覆盖。
      * Appends the specified element to the end of this list (optional
      * operation).
      *
@@ -251,6 +267,10 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     }
 
     /**
+     * 将指定集合中的所有元素插入到此列表中的指定位置（可选操作）。 将当前位于该位置（如果有的话）的元素和随后的任何元素移动到右边（增加其索引）。 新元素将按照指定集合的迭代器返回的顺序显示在此列表中。 如果在操作进行中修改了指定的集合，则此操作的行为是未定义的。 （注意，如果指定的集合是此列表，并且它是非空的，则会发生这种情况。）
+     * 此实现越过指定的集合和在其上迭代的迭代器，插入在适当的位置，一次一个，使用从所述迭代器获得到该列表中的元素add(int, E) 。 许多实现将覆盖此方法的效率。
+     *
+     * 请注意，此实现将抛出UnsupportedOperationException ，除非add(int, E)被覆盖。
      * {@inheritDoc}
      *
      * <p>This implementation gets an iterator over the specified collection
@@ -307,6 +327,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     }
 
     /**
+     * 返回列表中的列表迭代器（按适当的顺序）。
+     * 此实现返回listIterator(0) 。
      * {@inheritDoc}
      *
      * <p>This implementation returns {@code listIterator(0)}.
@@ -319,6 +341,12 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     }
 
     /**
+     * 从列表中的指定位置开始，返回列表中的元素（按正确顺序）的列表迭代器。 指定的索引表示初始调用将返回的第一个元素为next 。 初始调用previous将返回指定索引减1的元素。
+     * 此实现返回一个简单的贯彻ListIterator扩展了实施接口Iterator通过返回的接口iterator()方法。 该ListIterator实现依赖于后台列表的get(int) ， set(int, E) ， add(int, E)和remove(int)方法。
+     *
+     * 请注意，此实现返回的列表迭代器将抛出一个UnsupportedOperationException响应其remove ， set和add方法，除非列表的remove(int) ， set(int, E)和add(int, E)方法被覆盖。
+     *
+     * 如同（protected） modCount字段的规范中所描述的那样，这种实现可以面对并发修改来抛出运行时异常。
      * {@inheritDoc}
      *
      * <p>This implementation returns a straightforward implementation of the
@@ -479,6 +507,19 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     }
 
     /**
+     * 返回指定的fromIndex （含）和toIndex之间的列表部分的视图。 （如果fromIndex和toIndex相等，返回的列表为空。）返回的列表由此列表支持，因此返回的列表中的非结构性更改将反映在此列表中，反之亦然。 返回的列表支持此列表支持的所有可选列表操作。
+     * 该方法消除了对显式范围操作（对于数组通常存在的排序）的需要。 任何期望列表的操作都可以通过传递一个子列表视图而不是整个列表来用作范围操作。 例如，以下成语从列表中移除了一系列元素：
+     *
+     *    list.subList(from, to).clear();  可以为indexOf和lastIndexOf构造类似的成语，并且Collections类中的所有算法都可以应用于子列表 。
+     * 如果支持列表（即，此列表）以除了通过返回的列表之外的任何方式进行结构修改 ，则此方法返回的列表的语义将变得未定义。 （结构修改是那些改变此列表的大小，或以其他方式扰乱它，使得正在进行的迭代可能产生不正确的结果）。
+     *
+     * 此实现返回一个子AbstractList的列表。 子类在私有字段中存储支持列表modCount列表的偏移量，子列表的大小（可以在其生命周期内更改）以及后备列表的预期值modCount 。 子类有两个变体，其中一个实现了RandomAccess 。 如果此列表实现了RandomAccess则返回的列表将是实现RandomAccess的子类的实例。
+     *
+     * 子类的set(int, E) ， get(int) ， add(int, E) ， remove(int) ， addAll(int, Collection)和removeRange(int, int)方法都委托给支持抽象列表上的相应方法，边界检查的指标和调整偏移后。 addAll(Collection c)方法只返回addAll(size, c) 。
+     *
+     * listIterator(int)方法通过支持列表上的列表迭代器返回“包装对象”，该列表是使用后备列表上的相应方法创建的。 iterator方法只返回listIterator() ，而size方法只返回子类的size字段。
+     *
+     * 所有方法首先检查后台列表的实际modCount是否等于其预期值，如果不是，则抛出ConcurrentModificationException 。
      * {@inheritDoc}
      *
      * <p>This implementation returns a list that subclasses
@@ -523,6 +564,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     // Comparison and hashing
 
     /**
+     * 将指定的对象与此列表进行比较以获得相等性。 返回true当且仅当指定的对象也是列表时，两个列表都具有相同的大小，并且两个列表中所有相应的元素对相等 。 （两个元素e1和e2 等于 (e1==null ? e2==null : e1.equals(e2)) ）。换句话说，如果两个列表以相同的顺序包含相同的元素，则它们被定义为相等。
+     * 此实现首先检查指定的对象是否是此列表。 如果是，则返回true ; 如果不是，它检查指定的对象是否是一个列表。 如果没有，则返回false ; 如果是这样，它会遍历两个列表，比较相应的元素对。 如果任何比较返回false ，此方法返回false 。 如果任何一个迭代器在其他元素之前用完，则返回false （因为列表的长度不等）; 否则返回true当迭代完成。
      * Compares the specified object with this list for equality.  Returns
      * {@code true} if and only if the specified object is also a list, both
      * lists have the same size, and all corresponding pairs of elements in

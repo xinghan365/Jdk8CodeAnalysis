@@ -27,6 +27,14 @@ package java.util;
 import java.util.Map.Entry;
 
 /**
+ * 此类提供了Map接口的骨架实现，以尽量减少实现此接口所需的工作量。
+ * 为了实现一个不可修改的地图，程序员只需要扩展这个类并为entrySet方法提供一个实现，该方法返回地图映射的设置视图。 通常，返回的集合又将在AbstractSet顶部实现 。 这个集合不应该支持add或remove方法，而且它的迭代器不应该支持remove方法。
+ *
+ * 要实现可修改的映射，程序员必须另外覆盖此类的put方法（否则将抛出UnsupportedOperationException ），由entrySet().iterator()返回的迭代器必须另外实现其remove方法。
+ *
+ * 程序员通常应该提供一个空隙（无参数）和图构造器，按照在Map接口规范的建议。
+ *
+ * 该类中每个非抽象方法的文档详细描述了其实现。 如果实施的地图承认更有效的实施，则可以覆盖这些方法中的每一个。
  * This class provides a skeletal implementation of the <tt>Map</tt>
  * interface, to minimize the effort required to implement this interface.
  *
@@ -98,6 +106,11 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
     }
 
     /**
+     * 如果此映射将一个或多个键映射到指定的值，则返回true 。 更正式地，返回true，当且仅当此映射包含至少一个映射到值v ，使得(value==null ? v==null : value.equals(v)) 。 此操作可能会需要在地图大小为Map接口的大多数实现时间呈线性关系。
+     * Specified by:
+     * containsValue在界面 Map<K,V>
+     * 实现要求：
+     * 此实现遍历entrySet()搜索具有指定值的条目。 如果找到这样的条目，则返回true 。 如果迭代结束而没有找到这样的条目，则返回false 。 请注意，此实现需要在地图大小上具有线性时间。
      * {@inheritDoc}
      *
      * @implSpec

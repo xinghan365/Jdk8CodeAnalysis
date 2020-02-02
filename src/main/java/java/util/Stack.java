@@ -26,6 +26,14 @@
 package java.util;
 
 /**
+ * Stack类代表最先进先出（LIFO）堆栈的对象。 它扩展了类别Vector与五个操作，允许一个向量被视为堆栈。 设置在通常的push和pop操作，以及作为一种方法来peek在堆栈，以测试堆栈是否为empty的方法，以及向search在栈中的项目的方法在顶部项目和发现多远它是从顶部。
+ * 当首次创建堆栈时，它不包含任何项目。
+ *
+ * Deque接口及其实现提供了更完整和一致的LIFO堆栈操作集，这些接口应优先于此类。 例如：
+ *
+ *    Deque<Integer> stack = new ArrayDeque<Integer>();
+ *
+ *
  * The <code>Stack</code> class represents a last-in-first-out
  * (LIFO) stack of objects. It extends class <tt>Vector</tt> with five
  * operations that allow a vector to be treated as a stack. The usual

@@ -26,6 +26,11 @@
 package java.util;
 
 /**
+ * 此类提供的骨干实现Set界面最小化以实现此接口所需的工作。
+ * 通过扩展此类实现集合的过程与通过扩展AbstractCollection实现集合的过程相同，除了此类的子类中的所有方法和构造函数必须遵守Set接口施加的附加约束（例如，添加方法不能允许将一个对象的多个实例添加到集合中）。
+ *
+ * 请注意，此类不会覆盖AbstractCollection类中的任何实现。 它只是添加了equals和hashCode的实现 。
+ *
  * This class provides a skeletal implementation of the <tt>Set</tt>
  * interface to minimize the effort required to implement this
  * interface. <p>

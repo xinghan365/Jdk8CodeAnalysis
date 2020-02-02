@@ -38,6 +38,51 @@ import java.util.concurrent.TimeUnit;
 import java.util.Collection;
 
 /**
+ * ReadWriteLock的一个实现支持类似的语义到ReentrantLock 。
+ * 此类具有以下属性：
+ *
+ * 收购令
+ * 此类不会强加读卡器或写入器优先顺序锁定访问。 但是，它确实支持可选的公平政策。
+ *
+ * 非公平模式（默认）
+ * 当被构造为不公平（默认）时，进入读写锁定的顺序是未指定的，受到重入限制。 持续竞争的非空格锁可能无限期地推迟一个或多个读卡器或写入器线程，但通常具有比公平锁定更高的吞吐量。
+ * 公平模式
+ * 当公平地构建时，线程使用近似到达订单策略来争取进入。 当释放当前持有的锁时，最长等待的单个写入器线程将被分配写入锁定，或者如果有一组读取器线程等待比所有等待写入器线程长的时间，则该组将被分配读取锁定。
+ * 尝试获取公平读锁（不可重入）的线程将阻塞，如果写锁定或有等待的写入程序线程。 直到最旧的当前正在等待的写入程序线程获取并释放写入锁之后，该线程才会获取读锁定。 当然，如果一个等待的作家放弃了等待，留下一个或多个阅读器线程作为队列中最长的服务器，其中写锁定空闲，那么这些读取器将被分配读取锁定。
+ *
+ * 尝试获取公平写入锁（非重入）的线程将阻止，除非读锁定和写锁定都是空闲的（这意味着没有等待线程）。 （请注意，无阻塞ReentrantReadWriteLock.ReadLock.tryLock()和ReentrantReadWriteLock.WriteLock.tryLock()方法不符合此公平的设置，如果可能，将立即获取锁定，而不管等待线程。）
+ *
+ *
+ * 可重入
+ * 这把锁既让读者和作家重新获取读取或写入锁在风格ReentrantLock 。 在写入线程所持有的所有写入锁已经被释放之前，不允许非重入读取器。
+ *
+ * 另外，写入器可以获取读锁，但反之亦然。 在其他应用程序中，当在执行在读锁定下执行读取的方法的调用或回调期间保留写入锁时，重入可能是有用的。 如果读者尝试获取写入锁定，它将永远不会成功。
+ *
+ * 锁定降级
+ * 重入还允许通过获取写入锁定，然后读取锁定然后释放写入锁定从写入锁定到读取锁定。 但是，从读锁定升级到写锁是不可能的。
+ *
+ * 中断锁获取
+ * 读取锁定和写入锁定在锁定采集期间都支持中断。
+ *
+ * Condition支持
+ * 写入锁提供了一个Condition实现，其行为以同样的方式，相对于写入锁定，为Condition所提供的实施ReentrantLock.newCondition()确实为ReentrantLock 。 这个Condition当然只能用于写锁。
+ *
+ * 读锁不支持Condition和readLock().newCondition()投掷UnsupportedOperationException 。
+ *
+ * 仪器仪表
+ * 该类支持确定锁是否被保持或竞争的方法。 这些方法设计用于监视系统状态，而不是进行同步控制。
+ *
+ * 此类的序列化与内置锁的操作方式相同：反序列化锁处于未锁定状态，无论其序列化时的状态如何。
+ *
+ * 示例用法 这是一个代码草图，显示了如何在更新缓存后执行锁定降级（异常处理在以非嵌套方式处理多个锁时尤为棘手）：
+ *
+ *    class CachedData { Object data; volatile boolean cacheValid; final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock(); void processCachedData() { rwl.readLock().lock(); if (!cacheValid) { // Must release read lock before acquiring write lock rwl.readLock().unlock(); rwl.writeLock().lock(); try { // Recheck state because another thread might have // acquired write lock and changed state before we did. if (!cacheValid) { data = ... cacheValid = true; } // Downgrade by acquiring read lock before releasing write lock rwl.readLock().lock(); } finally { rwl.writeLock().unlock(); // Unlock write, still hold read } } try { use(data); } finally { rwl.readLock().unlock(); } } } ReentrantReadWriteLocks可用于改进某些类型集合的某些用途中的并发性。 这通常只有当集合被预期为较大时才能访问，比读者线程更多的读者线程访问，并且需要超出同步开销的开销的操作。 例如，这里是一个使用TreeMap的类，该类将被大量并且被同时访问。
+ *    class RWDictionary { private final Map<String, Data> m = new TreeMap<String, Data>(); private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock(); private final Lock r = rwl.readLock(); private final Lock w = rwl.writeLock(); public Data get(String key) { r.lock(); try { return m.get(key); } finally { r.unlock(); } } public String[] allKeys() { r.lock(); try { return m.keySet().toArray(); } finally { r.unlock(); } } public Data put(String key, Data value) { w.lock(); try { return m.put(key, value); } finally { w.unlock(); } } public void clear() { w.lock(); try { m.clear(); } finally { w.unlock(); } } } 实施说明
+ * 此锁最多支持65535个递归写锁和65535个读锁。 尝试超过这些限制导致Error从锁定方法抛出。
+ *
+ * 从以下版本开始：
+ * 1.5
+ *
  * An implementation of {@link ReadWriteLock} supporting similar
  * semantics to {@link ReentrantLock}.
  * <p>This class has the following properties:

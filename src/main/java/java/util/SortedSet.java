@@ -26,6 +26,19 @@
 package java.util;
 
 /**
+ * A Set进一步提供其元素的总排序 。 元素使用他们的natural ordering或通常在排序集创建时提供的Comparator进行排序。 集合的迭代器将以递增的元素顺序遍历集合。 提供了几个额外的操作来利用订购。 （此接口是该组类似物SortedMap ）。
+ * 插入到排序集中的所有元素必须实现Comparable接口（或被指定的比较器接受）。 此外，所有这些元素都必须是可相互比较 ：e1.compareTo(e2)（或comparator.compare(e1, e2)）不得为任何元件在分类组e1和e2抛出ClassCastException。 尝试违反此限制将导致违规方法或构造函数调用抛出ClassCastException 。
+ *
+ * 请注意，如果排序集合要正确实现Set接口， 则由排序集维护的排序（无论是否提供显式比较器）必须与equals一致。 （请参阅Comparable接口或Comparator接口的一致的精确定义与equals）。这是因为该Set接口在equals操作定义的，但有序set使用其compareTo（或compare）方法执行的所有元件的比较因此，从排序集合的观点来看，通过该方法认为相等的两个元素是相等的。 排序集合的行为是明确定义的，即使其排序与equals不一致; 它只是没有遵守Set接口的总体合同。
+ *
+ * 所有通用排序集实现类应提供四个“标准”构造函数：1）一个void（无参数）构造函数，它创建一个根据其元素的自然排序排序的空排序集。 2）具有Comparator类型的单个参数的构造函数 ，它创建根据指定的比较器排序的空排序集。 3）具有类型为Collection的单个参数的构造函数 ，它创建一个具有与其参数相同的元素的新的排序集合，并根据元素的自然排序进行排序。 4）具有类型为SortedSet的单个参数的构造函数 ，其创建具有与输入排序集相同的元素和相同排序的新排序集。 无法执行此建议，因为接口不能包含构造函数。
+ *
+ * 注意：几种方法返回限制范围的子集。 这种范围是半开放的 ，也就是说，它们包括其低端点，但不包括其高端点（如适用）。 如果您需要一个封闭范围 （包括两个端点），并且元素类型允许计算给定值的后继，只需将子范围从lowEndpoint请求到successor(highEndpoint) 。 例如，假设s是一组排序的字符串。 下面的语句获取包含所有从low在s弦到high的图，包括：
+ *
+ *   SortedSet<String> sub = s.subSet(low, high+"\0");
+ *   可以使用类似的技术来生成开放范围 （其不包含端点）。 以下成语获得包含s中的所有字符串的视图，从low到high ，独占：
+ *   SortedSet<String> sub = s.subSet(low+"\0", high);
+ *
  * A {@link Set} that further provides a <i>total ordering</i> on its elements.
  * The elements are ordered using their {@linkplain Comparable natural
  * ordering}, or by a {@link Comparator} typically provided at sorted

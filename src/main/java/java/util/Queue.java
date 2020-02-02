@@ -36,6 +36,21 @@
 package java.util;
 
 /**
+ * 设计用于在处理之前保留元素的集合。 除了基本的Collection操作之外，队列还提供额外的插入，提取和检查操作。 这些方法中的每一种都有两种形式：如果操作失败，则抛出一个异常，另一种返回一个特殊值（ null或false ，具体取决于操作）。 插入操作的后一种形式专门设计用于容量限制的Queue实现; 在大多数实现中，插入操作不能失败。 Summary of Queue methods Throws exception Returns special value Insert add(e) offer(e) Remove remove() poll() Examine element() peek()
+ * 队列通常但不一定是以FIFO（先进先出）方式排序元素。 除了优先级队列之外，优先级队列是根据提供的比较器对元素进行排序，还是元素的自然排序，以及对元素LIFO（先进先出）进行排序的LIFO队列（或堆栈）。 无论使用什么顺序，队列的头都是通过调用remove()或poll()删除的元素。 在一个FIFO队列，所有新元素插入到队列的尾部 。 其他类型的队列可以使用不同的布局规则。 每个Queue实现必须指定其排序属性。
+ *
+ * 如果可能， offer方法插入一个元素，否则返回false 。 这与Collection.add方法不同，只能通过抛出未经检查的异常来添加元素。 offer方法设计用于在故障是正常的情况下使用，而不是异常发生，例如在固定容量（或“有界”）队列中。
+ *
+ * remove()和poll()方法删除并返回队列的头。 从队列中删除哪个元素是队列排序策略的一个功能，它与实现不同。 remove()和poll()方法在队列为空时的行为不同： remove()方法抛出异常，而poll()方法返回null 。
+ *
+ * element()和peek()方法返回，但不要删除，头的队列。
+ *
+ * Queue接口没有定义阻塞队列方法 ，这在并发编程中是常见的。 这些等待元素出现或空格变得可用的方法在BlockingQueue接口中定义，该接口扩展了此接口。
+ *
+ * Queue实现通常不允许插入null元素，尽管一些实现（例如LinkedList ）不禁止插入null 。 即使在允许它的实现中， null插入到Queue ，因为null也被poll方法用作特殊的返回值，以指示队列不包含元素。
+ *
+ * Queue实现通常不定义基于元素的方法equals和hashCode的方法，而是从类别Object继承基于标识的版本，因为基于元素的等式并不总是很好地定义了具有相同元素但不同的排序属性的队列。
+ *
  * A collection designed for holding elements prior to processing.
  * Besides basic {@link java.util.Collection Collection} operations,
  * queues provide additional insertion, extraction, and inspection

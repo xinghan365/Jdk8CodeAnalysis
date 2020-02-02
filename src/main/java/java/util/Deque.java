@@ -36,6 +36,28 @@
 package java.util;
 
 /**
+ * 支持两端元素插入和移除的线性集合。 名称deque是“双端队列”的缩写，通常发音为“deck”。 大多数Deque实现对它们可能包含的元素的数量没有固定的限制，但是该接口支持容量限制的deques以及没有固定大小限制的deques。
+ * 该界面定义了访问deque两端元素的方法。 提供了插入，移除和检查元素的方法。 这些方法中的每一种存在两种形式：如果操作失败，则会抛出异常，另一种方法返回一个特殊值（ null或false ，具体取决于操作）。 插入操作的后一种形式专门设计用于容量限制的Deque实现; 在大多数实现中，插入操作不能失败。
+ *
+ * 上述十二种方法总结在下表中：
+ *
+ * Summary of Deque methods First Element (Head) Last Element (Tail) Throws exception Special value Throws exception Special value Insert addFirst(e) offerFirst(e) addLast(e) offerLast(e) Remove removeFirst() pollFirst() removeLast() pollLast() Examine getFirst() peekFirst() getLast() peekLast()
+ * 此接口扩展了Queue接口。 当使用deque作为队列时，FIFO（先进先出）行为的结果。 元素将添加到deque的末尾，并从头开始删除。 从Queue接口Deque方法正好等同于下表所示的Deque方法：
+ *
+ * Comparison of Queue and Deque methods Queue Method Equivalent Deque Method add(e) addLast(e) offer(e) offerLast(e) remove() removeFirst() poll() pollFirst() element() getFirst() peek() peekFirst()
+ * Deques也可以用作LIFO（先进先出）堆栈。 这个接口应该优先于传统的Stack类。 当一个deque作为一个堆栈时，元素从deque的开头被推出并弹出。 堆栈方法正好等同于下表所示的Deque方法：
+ *
+ * Comparison of Stack and Deque methods Stack Method Equivalent Deque Method push(e) addFirst(e) pop() removeFirst() peek() peekFirst()
+ * 请注意，当使用deque作为队列或堆栈时， peek方法同样适用; 在任何一种情况下，元素都是从德甲开始绘出的。
+ *
+ * 该界面提供了两种方法去除内部元素， removeFirstOccurrence和removeLastOccurrence 。
+ *
+ * 与List接口不同，此接口不支持索引访问元素。
+ *
+ * 虽然Deque实现不是严格要求禁止插入空元素，但是强烈建议他们这样做。 强烈鼓励任何允许空元素的任何Deque实现的用户不能利用插入空值的能力。 这是因为null被用作特殊的返回值通过各种方法来表示deque是空的。
+ *
+ * Deque实现通常不定义基于元素的equals和hashCode方法的版本，而是从类别Object继承基于身份的版本。
+ *
  * A linear collection that supports element insertion and removal at
  * both ends.  The name <i>deque</i> is short for "double ended queue"
  * and is usually pronounced "deck".  Most {@code Deque}
@@ -192,6 +214,8 @@ package java.util;
  */
 public interface Deque<E> extends Queue<E> {
     /**
+     * 插入此双端队列的前面，如果它是立即可行且不会违反容量限制，抛出一个指定的元素IllegalStateException如果当前没有空间可用。 当使用容量限制的deque时，通常最好使用方法offerFirst(E) 。
+     *
      * Inserts the specified element at the front of this deque if it is
      * possible to do so immediately without violating capacity restrictions,
      * throwing an {@code IllegalStateException} if no space is currently
@@ -211,6 +235,8 @@ public interface Deque<E> extends Queue<E> {
     void addFirst(E e);
 
     /**
+     * 在插入如果它是立即可行且不会违反容量限制，抛出此双端队列的末尾指定元素IllegalStateException如果当前没有空间可用。 当使用容量限制的deque时，通常最好使用方法offerLast(E) 。
+     *
      * Inserts the specified element at the end of this deque if it is
      * possible to do so immediately without violating capacity restrictions,
      * throwing an {@code IllegalStateException} if no space is currently

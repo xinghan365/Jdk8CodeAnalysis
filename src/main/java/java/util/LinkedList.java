@@ -28,6 +28,16 @@ package java.util;
 import java.util.function.Consumer;
 
 /**
+ *
+ * 双链表实现了List和Deque接口。 实现所有可选列表操作，并允许所有元素（包括null ）。
+ * 所有的操作都能像双向列表一样预期。 索引到列表中的操作将从开始或结束遍历列表，以更接近指定的索引为准。
+ *
+ * 请注意，此实现不同步。 如果多个线程同时访问链接列表，并且至少有一个线程在结构上修改列表，则必须在外部进行同步。 （结构修改是添加或删除一个或多个元素的任何操作;仅设置元素的值不是结构修改。）这通常通过在自然封装列表的对象上进行同步来实现。 如果没有这样的对象存在，列表应该使用Collections.synchronizedList方法“包装”。 这最好在创建时完成，以防止意外的不同步访问列表：
+ *
+ *   List list = Collections.synchronizedList(new LinkedList(...)); 这个类的iterator和listIterator方法返回的迭代器是故障快速的 ：如果列表在迭代器创建之后的任何时间被结构化地修改，除了通过迭代器自己的remove或add方法之外，迭代器将会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
+ *
  * Doubly-linked list implementation of the {@code List} and {@code Deque}
  * interfaces.  Implements all optional list operations, and permits all
  * elements (including {@code null}).

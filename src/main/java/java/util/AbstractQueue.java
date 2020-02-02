@@ -36,6 +36,9 @@
 package java.util;
 
 /**
+ * 这个类提供了一些Queue操作的骨架实现。 当基实现不允许 null个元件在这个类的实现是合适的。 方法add ， remove和element基于offer ， poll和peek ，分别，但抛出异常，而不是通过false个或null返回表示失败。
+ * 扩展此类甲Queue实现必须最低限度地限定的方法Queue.offer(E)它不允许null个元件的插入，与方法一起Queue.peek() ， Queue.poll() ， Collection.size()和Collection.iterator() 。 通常，其他方法也将被覆盖。 如果无法满足这些要求，请考虑将其分类为AbstractCollection 。
+ *
  * This class provides skeletal implementations of some {@link Queue}
  * operations. The implementations in this class are appropriate when
  * the base implementation does <em>not</em> allow <tt>null</tt>

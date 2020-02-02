@@ -26,6 +26,22 @@
 package java.util;
 
 /**
+ * A Map进一步提供其键上的总排序 。 地图根据其键的natural ordering或通过在分类地图创建时提供的Comparator进行排序。 当迭代排序的地图的集合视图（由keySet和values方法返回）时，将entrySet此顺序。 提供了几个额外的操作来利用订购。 （此接口是在地图类似物SortedSet ）。
+ * 插入排序映射的所有键必须实现Comparable接口（或被指定的比较器接受）。 另外，所有这些键必须是可互相比较的 ： k1.compareTo(k2) （或comparator.compare(k1, k2) ）不得抛出ClassCastException任何键k1和k2在分类图。 尝试违反此限制将导致违规方法或构造函数调用抛出ClassCastException 。
+ *
+ * 请注意，如果有序映射要正确实现由有序映射（无论是否提供了明确的比较器）保持的顺序必须与equals一致 Map接口。 （请参阅Comparable接口或Comparator接口的一致的精确定义与equals）。这是因为该Map接口在来定义equals的操作，但一个有序映射使用其执行所有关键比compareTo （或compare ）方法因此，从排序图的角度来看，通过这种方法认为相等的两个关键字是相等的。 树图的行为是明确定义的，即使其顺序与equals不一致; 它只是没有遵守Map接口的总体合同。
+ *
+ * 所有通用排序映射实现类应提供四个“标准”构造函数。 无法通过接口指定必要的构造函数来执行此建议。 所有排序地图实现的预期“标准”构造函数是：
+ *
+ * 一个void（无参数）构造函数，它创建一个根据其键的自然顺序排序的空排序映射。
+ * 一个具有Comparator类型的单个参数的构造Comparator ，它创建一个根据指定的比较器排序的空的排序映射。
+ * 具有类型为Map的单个参数的构造Map ，其创建具有与其参数相同的键值映射的新映射，根据密钥的自然排序进行排序。
+ * 具有类型为SortedMap的单个参数的构造SortedMap ，其创建具有与输入排序映射相同的键值映射和相同顺序的新的排序映射。
+ * 注意 ：几个方法返回带有限制键范围的子图。 这种范围是半开放的 ，也就是说，它们包括其低端点，但不包括其高端点（如适用）。 如果您需要一个封闭的范围 （包括两个端点），并且键类型允许计算给定键的后继，只需要从lowEndpoint到successor(highEndpoint)的子范围。 例如，假设m是其键是字符串的地图。 以下成语获得包含m中所有键值映射的m ，其关键在low和high之间，包括：
+ *
+ *   SortedMap<String, V> sub = m.subMap(low, high+"\0"); 可以使用类似的技术来生成开放范围 （其不包含端点）。 以下成语获得包含m中所有键值映射的m ，其关键在low和high之间，独占：
+ *   SortedMap<String, V> sub = m.subMap(low+"\0", high);
+ *
  * A {@link Map} that further provides a <em>total ordering</em> on its keys.
  * The map is ordered according to the {@linkplain Comparable natural
  * ordering} of its keys, or by a {@link Comparator} typically

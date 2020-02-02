@@ -26,6 +26,25 @@
 package java.util;
 
 /**
+ *
+ * 哈希表和链表实现了Set接口，具有可预测的迭代次序。 这种实现不同于HashSet，它维持于所有条目的运行双向链表。 该链表定义了迭代排序，它是将元素插入集合（插入顺序 ） 的顺序 。 请注意，如果一个元件被重新插入到组插入顺序不受影响 。 （元件e重新插入一组s如果当s.contains(e)将返回true之前立即调用s.add(e)被调用。）
+ *
+ * 此实现可以让客户从提供的指定，通常杂乱无章的排序HashSet ，而不会导致与其相关的成本增加TreeSet 。 它可以用于生成与原始文件具有相同顺序的集合的副本，而不管原始集的实现：
+ *
+ *   void foo(Set s) {
+ *          Set copy = new LinkedHashSet(s);
+ *          ...
+ *      } 如果模块在输入上进行设置，复制它，并且稍后返回其顺序由该副本确定的结果，则此技术特别有用。 （客户一般都喜欢以相同的顺序返回事情。）
+ * 该类提供了所有可选的Set操作，并允许null元素。 像HashSet，它提供了基本操作（add，contains和remove）稳定的性能，假定散列函数散桶中适当的元件。 性能可能略低于HashSet ，由于维护链表的额外费用，但有一个例外：LinkedHashSet的迭代需要与集合的大小成比例的时间，无论其容量如何。 HashSet的迭代可能更昂贵，需要与其容量成比例的时间。
+ *
+ * 链接哈希集具有影响其性能的两个参数： 初始容量和负载因子 。 它们的定义精确到HashSet 。 但是请注意，该惩罚为初始容量选择非常高的值是该类比HashSet不太严重的，因为迭代次数对于这个类是由容量不受影响。
+ *
+ * 请注意，此实现不同步。 如果多个线程同时访问链接的散列集，并且至少有一个线程修改该集合，那么它必须在外部进行同步。 这通常通过在自然地封装集合的一些对象上进行同步来实现。 如果没有这样的对象存在，则应该使用Collections.synchronizedSet方法“包装”。 这最好在创建时完成，以防止对该集合的意外不同步访问：
+ *
+ *   Set s = Collections.synchronizedSet(new LinkedHashSet(...)); 该类iterator方法返回的迭代器是故障快速的 ：如果在创建迭代器之后的任何时间对该集合进行了修改，除了通过迭代器自己的remove方法之外，迭代器将会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
+ *
  * <p>Hash table and linked list implementation of the <tt>Set</tt> interface,
  * with predictable iteration order.  This implementation differs from
  * <tt>HashSet</tt> in that it maintains a doubly-linked list running through

@@ -36,6 +36,11 @@
 package java.util;
 
 /**
+ * A SortedSet扩展了导航方法，报告给定搜索目标的最匹配的匹配。 方法lower ， floor ， ceiling和higher返回元件分别大于给定的元素小于，小于或等于，大于或等于，大于，返回null如果不存在这样的元件。 A NavigableSet可以按升序或降序进行访问和遍历。 descendingSet方法返回集合的视图，其中所有关系和方向方法的感觉都反转。 上升操作和观点的表现可能比降序更快。 该接口另外定义方法pollFirst和pollLast ，返回并移除最低和最高元素（如果存在），否则返回null 。 方法subSet ， headSet和tailSet从等命名的不同SortedSet在接受描述的下限和上限是否是包含性的抗排斥附加参数的方法。 任何NavigableSet子集必须实现NavigableSet接口。
+ * 在允许null元素的实现中，导航方法的返回值可能不明确。 然而，即使在这种情况下，结果可以通过检查contains(null)来消除contains(null) 。 为了避免这样的问题，鼓励这个接口的实现不允许插入null元件。 （请注意， Comparable元素的排序集本质上不允许null ））
+ *
+ * 方法subSet(E, E) ， headSet(E)和tailSet(E)被指定为返回SortedSet ，以允许现有的实现SortedSet能相容地改进来实现NavigableSet ，但鼓励扩展和该接口的实现重写这些方法返回NavigableSet 。
+ *
  * A {@link SortedSet} extended with navigation methods reporting
  * closest matches for given search targets. Methods {@code lower},
  * {@code floor}, {@code ceiling}, and {@code higher} return elements

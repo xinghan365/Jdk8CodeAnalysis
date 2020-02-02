@@ -26,6 +26,16 @@
 package java.util;
 
 /**
+ * A NavigableSet实现基于TreeMap 。 的元件使用其有序natural ordering ，或由Comparator集合创建时提供，这取决于所使用的构造方法。
+ * 此实现提供了基本的操作（保证的log（n）时间成本add ， remove和contains ）。
+ *
+ * 需要注意的是由一组（无论是否提供了明确的比较器）保持的顺序必须与equals一致 ，如果它是要正确实现Set接口。 （参见Comparable或Comparator为一致的精确定义与equals）。这是因为该Set接口在来定义equals的操作，但一个TreeSet例如使用其执行所有元件比较compareTo （或compare ）方法，于是两个通过该方法认为相等的元素从集合的角度来看是相等的。 集合的行为是明确定义的，即使其排序与equals不一致; 它只是没有遵守Set界面的总体合同。
+ *
+ * 请注意，此实现不同步。 如果多个线程并发访问树，并且至少有一个线程修改该集合，则必须在外部进行同步。 这通常通过在自然地封装集合的一些对象上进行同步来实现。 如果没有这样的对象存在，那么该集合应该使用Collections.synchronizedSortedSet方法“包装”。 这最好在创建时完成，以防止对该集合的意外不同步访问：
+ *
+ *   SortedSet s = Collections.synchronizedSortedSet(new TreeSet(...)); 该类iterator方法返回的迭代器是故障快速的 ：如果在迭代器创建之后的任何时间对该集合进行了修改，除了通过迭代器自己的remove方法之外，迭代器将抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
  * A {@link NavigableSet} implementation based on a {@link TreeMap}.
  * The elements are ordered using their {@linkplain Comparable natural
  * ordering}, or by a {@link Comparator} provided at set creation

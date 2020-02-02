@@ -29,6 +29,14 @@ import java.io.InvalidObjectException;
 import sun.misc.SharedSecrets;
 
 /**
+ * 此类实现Set接口，由哈希表（实际为HashMap实例）支持。 对集合的迭代次序不作任何保证; 特别是，它不能保证订单在一段时间内保持不变。 这个类允许null元素。
+ * 这个类提供了基本操作（add，remove，contains和size）固定的时间性能，假定哈希函数将分散的桶中正确的元素。 迭代此集合需要与HashSet实例的大小（元素数量）和后台HashMap实例（桶数）的“容量”的总和成比例的时间。 因此，如果迭代性能很重要，不要将初始容量设置得太高（或负载因子太低）是非常重要的。
+ *
+ * 请注意，此实现不同步。 如果多个线程并发访问哈希集，并且至少有一个线程修改该集合，那么它必须在外部进行同步。 这通常通过在自然地封装集合的一些对象上进行同步来实现。 如果没有这样的对象存在，那么该集合应该使用Collections.synchronizedSet方法“包装”。 这最好在创建时完成，以防止对该集合的意外不同步访问：
+ *
+ *   Set s = Collections.synchronizedSet(new HashSet(...)); 该类iterator方法返回的迭代器是故障快速的 ：如果集合在迭代器创建之后的任何时间被修改，除了通过迭代器自己的remove方法之外，迭代器会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
  * This class implements the <tt>Set</tt> interface, backed by a hash table
  * (actually a <tt>HashMap</tt> instance).  It makes no guarantees as to the
  * iteration order of the set; in particular, it does not guarantee that the

@@ -31,6 +31,31 @@ import java.util.function.BiFunction;
 import java.io.IOException;
 
 /**
+ * 哈希表和链表实现的Map接口，具有可预测的迭代次序。 这种实现不同于HashMap，它维持于所有条目的运行双向链表。 此链接列表定义迭代排序，通常是将键插入到地图（插入顺序 ）中的顺序 。 请注意，如果将键重新插入到地图中，则插入顺序不受影响。 （A键k被重新插入到地图m如果当m.containsKey(k)将返回true之前立即调用m.put(k, v)被调用。）
+ *
+ * 此实现可以让客户从提供的指定，通常杂乱无章的排序HashMap （及Hashtable ），而不会导致与其相关的成本增加TreeMap 。 无论原始地图的实现如何，它都可用于生成与原始地图相同顺序的地图副本：
+ *
+ *   void foo(Map m) {
+ *          Map copy = new LinkedHashMap(m);
+ *          ...
+ *      } 如果模块在输入上进行映射，复制它，然后返回其顺序由该副本决定的结果，则此技术特别有用。 （客户一般都喜欢以相同的顺序返回事情。）
+ * 提供了一种特殊的constructor来创建一个链接的哈希映射，其迭代顺序是最后访问的条目的顺序，从最近最近访问到最近的（ 访问顺序 ）。 这种地图非常适合建立LRU缓存。 调用put ， putIfAbsent ， get ， getOrDefault ， compute ， computeIfAbsent ， computeIfPresent ，或merge中的相应条目的接入方法的结果（假设调用完成后它存在）。 replace方法只会导致条目的访问，如果该值被替换。 putAll方法按照指定地图的条目集迭代器提供的键值映射的顺序，为指定地图中的每个映射生成一个条目访问。 没有其他方法生成条目访问。 特别地，对于集合视图的操作不会影响背景映射的迭代顺序。
+ *
+ * removeEldestEntry(Map.Entry)方法可能会被覆盖，以便在将新的映射添加到地图时，自动执行删除过时映射的策略。
+ *
+ * 此类提供了所有可选的Map操作，并允许空元素。 像HashMap，它提供了基本操作（add，contains和remove）稳定的性能，假定散列函数散桶中适当的元件。 表现可能略低于HashMap的水平 ，这是由于维护链表的额外费用，除了一个例外：LinkedHashMap的收集视图的迭代需要与地图大小成比例的时间，无论其容量如何。 HashMap的迭代可能更昂贵，需要与其容量成比例的时间。
+ *
+ * 链接的哈希映射有两个参数影响其性能： 初始容量和负载因子 。 它们的定义正如HashMap 。 但是请注意，该惩罚为初始容量选择非常高的值是该类比HashMap不太严重的，因为迭代次数对于这个类是由容量不受影响。
+ *
+ * 请注意，此实现不同步。 如果多个线程同时访问链接的散列映射，并且至少一个线程在结构上修改映射，则必须在外部进行同步。 这通常通过在自然地封装地图的一些对象上同步来实现。 如果没有这样的对象存在，应该使用Collections.synchronizedMap方法“包装”地图。 这最好在创建时完成，以防止意外的不同步访问地图：
+ *
+ *   Map m = Collections.synchronizedMap(new LinkedHashMap(...)); 结构修改是添加或删除一个或多个映射的任何操作，或者在访问有序链接的散列图的情况下，影响迭代顺序。 在插入有序的链接散列图中，仅改变与已经包含在地图中的键相关联的值不是结构修改。 在访问有序的链接散列图中，仅使用get查询地图是一种结构修改。 ）
+ * 通过所有这些类的集合视图方法返回的藏品iterator方法返回的迭代器是快速失败的 ：如果地图是在任何时间从结构上修改创建迭代器之后，以任何方式，除了通过迭代器自己remove方法，迭代器会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
+ *
+ * 由所有这个类的集合视图方法返回的集合的spliterator方法返回的分配器是late-binding ， fail-fast ，另外报告Spliterator.ORDERED 。
+ *
  * <p>Hash table and linked list implementation of the <tt>Map</tt> interface,
  * with predictable iteration order.  This implementation differs from
  * <tt>HashMap</tt> in that it maintains a doubly-linked list running through

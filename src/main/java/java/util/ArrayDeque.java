@@ -39,6 +39,15 @@ import java.util.function.Consumer;
 import sun.misc.SharedSecrets;
 
 /**
+ * 可调整大小的数组的实现的Deque接口。 数组deques没有容量限制; 他们根据需要增长以支持使用。 它们不是线程安全的; 在没有外部同步的情况下，它们不支持多线程的并发访问。 零元素被禁止。 当用作堆栈时，此类可能会比Stack快，并且当用作队列时速度高于LinkedList 。
+ * 大多数ArrayDeque操作以摊销的恒定时间运行。 例外包括remove ， removeFirstOccurrence ， removeLastOccurrence ， contains ， iterator.remove()和批量操作，所有这些都在运行线性时间。
+ *
+ * 该类iterator方法返回的迭代器是故障快速的 ：如果在迭代器创建之后的任何时候修改deque，除了通过迭代器自己的remove方法之外，迭代器通常会抛出一个ConcurrentModificationException 。 因此，面对并发修改，迭代器将快速而干净地失败，而不是在未来未确定的时间冒着任意的非确定性行为。
+ *
+ * 请注意，迭代器的故障快速行为无法保证，因为一般来说，在不同步并发修改的情况下，无法做出任何硬性保证。 失败快速迭代器尽力投入ConcurrentModificationException 。 因此，编写依赖于此异常的程序的正确性将是错误的：迭代器的故障快速行为应仅用于检测错误。
+ *
+ * 该类及其迭代器实现了Collection和Iterator接口的所有可选方法。
+ *
  * Resizable-array implementation of the {@link Deque} interface.  Array
  * deques have no capacity restrictions; they grow as necessary to support
  * usage.  They are not thread-safe; in the absence of external
@@ -378,6 +387,9 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     }
 
     /**
+     * 删除此deque中指定元素的第一个出现（从头到尾遍历deque时）。
+     * 如果deque不包含元素，则它不变。 更正式地，删除第一个元素e ，使得o.equals(e) （如果这样的元素存在）。
+     * 如果此deque包含指定的元素（或等效地，如果此deque由于调用而更改），则返回true 。
      * Removes the first occurrence of the specified element in this
      * deque (when traversing the deque from head to tail).
      * If the deque does not contain the element, it is unchanged.
@@ -408,6 +420,9 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     }
 
     /**
+     * 删除此deque中指定元素的最后一次（从头到尾遍历deque时）。 如果deque不包含元素，则它不变。 更正式地，删除最后一个元素e ，
+     * 使得o.equals(e) （如果这样的元素存在）。
+     * 如果此deque包含指定的元素（或等效地，如果此deque由于调用而更改），则返回true 。
      * Removes the last occurrence of the specified element in this
      * deque (when traversing the deque from head to tail).
      * If the deque does not contain the element, it is unchanged.
@@ -850,6 +865,18 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     }
 
     /**
+     * 以正确的顺序返回一个包含此deque中所有元素的数组（从第一个到最后一个元素）;
+     * 返回的数组的运行时类型是指定数组的运行时类型。 如果deque适合指定的数组，则返回其中。
+     * 否则，将为指定数组的运行时类型和此deque的大小分配一个新数组。
+     * 如果这个deque适合指定的数组，有空余的空间（即数组的元素比这个deque更多），
+     * 紧接着deque结尾之后的数组中的元素被设置为null 。
+     *
+     * 像toArray()方法一样，此方法充当基于数组和基于集合的API之间的桥梁。
+     * 此外，该方法允许精确地控制输出阵列的运行时类型，并且在某些情况下可以用于节省分配成本。
+     *
+     * 假设x是一个已知只包含字符串的deque。 下面的代码可用于双端队列转储到一个新分配的阵列String ：
+     *
+     *    String[] y = x.toArray(new String[0]); 请注意， toArray(new Object[0])的功能与toArray() 。
      * Returns an array containing all of the elements in this deque in
      * proper sequence (from first to last element); the runtime type of the
      * returned array is that of the specified array.  If the deque fits in

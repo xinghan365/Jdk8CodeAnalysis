@@ -38,6 +38,15 @@ import java.io.Serializable;
 import java.util.function.LongBinaryOperator;
 
 /**
+ * 一个或多个变量一起保持使用提供的功能更新的运行的值long 。 当跨线程争用更新（方法accumulate(long) ）时，该变量集可以动态增长以减少争用。 方法get() （或等价于longValue() ）返回维护更新的变量的当前值。
+ * 当多线程更新用于收集统计信息的公共值时，此类通常优于AtomicLong，而不是细粒度的同步控制。 在低更新争议下，这两类具有相似的特征。 但是，在高度争议的情况下，这一类的预期吞吐量明显高于牺牲更高的空间消耗。
+ *
+ * 线程内或跨线程的累积顺序不能得到保证，不能依赖，所以此类仅适用于积累顺序无关的功能。 提供的累加器功能应该是无效的，因为尝试的更新由于线程之间的争用而失败时可能会被重新应用。 该函数应用当前值作为其第一个参数，给定的更新作为第二个参数。 例如，为了保持最大值，您可以提供Long::max以及Long.MIN_VALUE作为身份。
+ *
+ * LongAdder课程提供了类别功能的类别，用于维护计数和总和的常见特殊情况。 电话new LongAdder()相当于new LongAccumulator((x, y) -> x + y, 0L 。
+ *
+ * 该类扩展Number ，但不定义诸如方法equals ， hashCode和compareTo ，因为实例预计将发生突变，所以不如收集钥匙有用。
+ *
  * One or more variables that together maintain a running {@code long}
  * value updated using a supplied function.  When updates (method
  * {@link #accumulate}) are contended across threads, the set of variables

@@ -37,6 +37,13 @@ package java.util.concurrent.atomic;
 import java.io.Serializable;
 
 /**
+ * 一个或多个变量一起维持初始为零long总和。 当更新（方法add(long) ）跨线程竞争时，变量集可以动态增长以减少争用。 方法sum() （或等效地， longValue() ）返回保持总和的整个变量组合的当前总和。
+ * 这个类是通常优选AtomicLong当多个线程更新时使用，用于诸如收集统计信息，不用于细粒度同步控制的共同总和。 在低更新争议下，这两类具有相似的特征。 但是，在高度争议的情况下，这一类的预期吞吐量明显高于牺牲更高的空间消耗。
+ *
+ * LongAdders可以使用ConcurrentHashMap来维护可扩展的频率映射（一种直方图或多集）。 例如，要向ConcurrentHashMap<String,LongAdder> freqs添加一个计数，如果尚未存在，则可以使用freqs.computeIfAbsent(k -> new LongAdder()).increment();
+ *
+ * 该类扩展Number ，但不定义诸如方法equals ， hashCode和compareTo ，因为实例预计将发生突变，所以不如收集钥匙有用。
+ *
  * One or more variables that together maintain an initially zero
  * {@code long} sum.  When updates (method {@link #add}) are contended
  * across threads, the set of variables may grow dynamically to reduce

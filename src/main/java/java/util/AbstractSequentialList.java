@@ -26,6 +26,15 @@
 package java.util;
 
 /**
+ * 此类提供的骨干实现List界面最小化以实现此接口由“连续访问”数据存储备份所需的工作（如链接列表）。 对于随机访问数据（如数组）， AbstractList应优先于此类。
+ * 这个类是在这个意义上AbstractList类相反，它实现了对列表的列表迭代器顶部的“随机访问”方法（get(int index)，set(int index, E element)，add(int index, E element)和remove(int index)），而不是周围的其他方法。
+ *
+ * 为了实现一个列表，程序员只需要扩展这个类，并提供listIterator和size方法的实现。 对于一个不可修改的列表，程序员只需要实现列表迭代器的hasNext，next，hasPrevious，previous和index方法。
+ *
+ * 对于可修改的列表，程序员应该另外实现list iterator的set方法。 对于可变大小的列表，程序员应该另外实现list iterator的remove和add方法。
+ *
+ * 根据Collection接口规范中的建议，程序员通常应该提供一个void（无参数）和集合构造函数。
+ *
  * This class provides a skeletal implementation of the <tt>List</tt>
  * interface to minimize the effort required to implement this interface
  * backed by a "sequential access" data store (such as a linked list).  For
@@ -124,6 +133,11 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
     }
 
     /**
+     * 将指定的元素插入此列表中的指定位置（可选操作）。 将当前位于该位置的元素（如果有）和任何后续元素（向其索引添加一个）移动。
+     * 此实现首先获取指向索引元素的列表迭代器（具有listIterator(index) ）。 然后，它插入与ListIterator.add指定的元素。
+     *
+     * 注意，此实现将抛出UnsupportedOperationException如果列表迭代器没有实现add操作。
+     *
      * Inserts the specified element at the specified position in this list
      * (optional operation).  Shifts the element currently at that position
      * (if any) and any subsequent elements to the right (adds one to their
@@ -153,6 +167,11 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
     }
 
     /**
+     * 删除该列表中指定位置的元素（可选操作）。 将任何后续元素移动到左侧（从其索引中减去一个元素）。 返回从列表中删除的元素。
+     * 此实现首先获取指向索引元素的列表迭代器（使用listIterator(index) ）。 然后，它用ListIterator.remove删除元素。
+     *
+     * 注意，此实现将抛出UnsupportedOperationException如果列表迭代器没有实现remove操作。
+     *
      * Removes the element at the specified position in this list (optional
      * operation).  Shifts any subsequent elements to the left (subtracts one
      * from their indices).  Returns the element that was removed from the
@@ -185,6 +204,11 @@ public abstract class AbstractSequentialList<E> extends AbstractList<E> {
     // Bulk Operations
 
     /**
+     * 将指定集合中的所有元素插入到此列表中的指定位置（可选操作）。 将当前位于该位置（如果有的话）的元素和随后的任何元素移动到右边（增加其索引）。 新元素将按照指定集合的迭代器返回的顺序显示在此列表中。 如果在操作进行中修改了指定的集合，则此操作的行为是未定义的。 （注意，如果指定的集合是此列表，并且它是非空的，则会发生这种情况。）
+     * 该实现在指定的集合上获得一个迭代器，并通过该列表指向索引元素（具有listIterator(index) ）的列表迭代器。 然后，它迭代指定的集合，将从迭代器获取的元素插入到此列表中，一次一个，使用ListIterator.add后跟ListIterator.next （跳过添加的元素）。
+     *
+     * 注意，此实现将抛出UnsupportedOperationException如果由listIterator方法返回的列表迭代器没有实现add操作。
+     *
      * Inserts all of the elements in the specified collection into this
      * list at the specified position (optional operation).  Shifts the
      * element currently at that position (if any) and any subsequent
