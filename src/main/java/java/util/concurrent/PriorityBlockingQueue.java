@@ -51,6 +51,13 @@ import java.util.function.Consumer;
 import sun.misc.SharedSecrets;
 
 /**
+ * 一个无界的blocking queue使用与PriorityQueue类相同的排序规则，并提供阻塞检索操作。 虽然这个队列在逻辑上是无界的，但由于资源耗尽，尝试的添加可能会失败（导致OutOfMemoryError ）。 这个类不允许null元素。 根据natural ordering的优先级队列也不允许插入不可比较的对象（这样做在ClassCastException ）。
+ * 该类及其迭代器实现Collection和Iterator接口的所有可选方法。 方法iterator()中提供的迭代器不能保证以任何特定的顺序遍历PriorityBlockingQueue的元素。 如果需要排序遍历，请考虑使用Arrays.sort(pq.toArray()) 。 此外，方法drainTo可以用于以优先级顺序移除一些或所有元素并将它们放置在另一集合中。
+ *
+ * 这个类的操作不会保证等同优先级的元素的排序。 如果需要强制执行排序，您可以定义自定义类或比较器，它们使用辅助键来破坏主优先级值的关系。 例如，这里是一个适用于先进先出的打破破坏类似元素的课程。 要使用它，您将插入一个new FIFOEntry(anEntry)而不是一个简单的条目对象。
+ *
+ *    class FIFOEntry<E extends Comparable<? super E>> implements Comparable<FIFOEntry<E>> { static final AtomicLong seq = new AtomicLong(0); final long seqNum; final E entry; public FIFOEntry(E entry) { seqNum = seq.getAndIncrement(); this.entry = entry; } public E getEntry() { return entry; } public int compareTo(FIFOEntry<E> other) { int res = entry.compareTo(other.entry); if (res == 0 && other.entry != this.entry) res = (seqNum < other.seqNum ? -1 : 1); return res; } }
+ *
  * An unbounded {@linkplain BlockingQueue blocking queue} that uses
  * the same ordering rules as class {@link PriorityQueue} and supplies
  * blocking retrieval operations.  While this queue is logically

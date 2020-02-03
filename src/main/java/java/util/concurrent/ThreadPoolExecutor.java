@@ -45,6 +45,45 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.*;
 
 /**
+ * 一个ExecutorService ，使用可能的几个合并的线程执行每个提交的任务，通常使用Executors工厂方法配置。
+ * 线程池解决两个不同的问题：由于每个任务的调用开销减少，它们通常在执行大量异步任务时提供改进的性能，并且它们提供了一种限制和管理资源（包括执行一个任务。 每个ThreadPoolExecutor还维护一些基本统计信息，例如已完成任务的数量。
+ *
+ * 为了在广泛的上下文中有用，此类提供了许多可调参数和可扩展性钩子。 然而，程序员被敦促使用更方便的Executors工厂方法Executors.newCachedThreadPool() （无限线程池，具有自动线程回收）， Executors.newFixedThreadPool(int) （固定大小的线程池）和Executors.newSingleThreadExecutor() （单个后台线程），可以预先配置最常用的使用场景设置。 否则，手动配置和调优此类时，请使用以下指南：
+ *
+ * 核心和最大池大小
+ * 甲ThreadPoolExecutor将自动调整池大小（见getPoolSize()根据corePoolSize（参见设定的界限） getCorePoolSize() ）和maximumPoolSize（参见getMaximumPoolSize() ）。 当方法execute(Runnable)中提交了新任务，并且运行的corePoolSize线程少于一个，即使其他工作线程处于空闲状态，也会创建一个新的线程来处理该请求。 如果超过corePoolSize但小于maximumPoolSize线程运行，则仅当队列已满时才会创建一个新线程。 通过将corePoolSize和maximumPoolSize设置为相同，您将创建一个固定大小的线程池。 通过将maximumPoolSize设置为本质上无限制的值（如Integer.MAX_VALUE ，您可以允许池容纳任意数量的并发任务。 最典型的是，核心和最大池大小只能在构建时进行设置，但也可以使用setCorePoolSize(int)和setMaximumPoolSize(int)进行动态 更改 。
+ * 按需施工
+ * 默认情况下，即使核心线程最初创建并且只有在新任务到达时才启动，但是可以使用方法prestartCoreThread()或prestartAllCoreThreads()动态地覆盖 。 如果您使用非空队列构建池，则可能需要预先提供线程。
+ * 创建新线程
+ * 新线程使用ThreadFactory创建。 如果没有另外指定，则使用Executors.defaultThreadFactory() ，它创建所有线程与所有相同的ThreadGroup并且具有相同的优先级和非守护进程状态NORM_PRIORITY 。 通过提供不同的ThreadFactory，您可以更改线程的名称，线程组，优先级，守护进程状态等。如果ThreadFactory在从newThread返回null请求时无法创建线程，则执行程序将继续，但可能无法执行任务 线程应该拥有“modifyThread” RuntimePermission 。 如果使用池的工作线程或其他线程不具有此权限，则服务可能会降级：配置更改可能不会及时生效，并且关闭池可能仍处于可能终止但未完成的状态。
+ * 活着的时代
+ * 如果池当前具有多于corePoolSize线程，则如果空闲超过keepAliveTime（见getKeepAliveTime(TimeUnit) ），则多余的线程将被终止。 这提供了当池未被主动使用时减少资源消耗的方法。 如果稍后池变得更加活跃，将构建新的线程。 此参数也可以使用方法setKeepAliveTime(long, TimeUnit)动态更改 。 使用值Long.MAX_VALUE TimeUnit.NANOSECONDS有效地禁用空闲线程在关闭之前终止。 默认情况下，仅当存在多于corePoolSize线程时，保持活动策略才适用。 但是方法allowCoreThreadTimeOut(boolean)也可以用于将这个超时策略应用于核心线程，只要keepAliveTime值不为零。
+ * 排队
+ * 任何BlockingQueue可用于传送和保留提交的任务。 这个队列的使用与池大小相互作用：
+ * 如果少于corePoolSize线程正在运行，Executor总是喜欢添加一个新线程，而不是排队。
+ * 如果corePoolSize或更多的线程正在运行，Executor总是喜欢排队请求而不是添加一个新的线程。
+ * 如果请求无法排队，则会创建一个新线程，除非这将超出maximumPoolSize，否则任务将被拒绝。
+ * 排队有三种一般策略：
+ * 直接切换 一个工作队列的一个很好的默认选择是一个SynchronousQueue ，将任务交给线程，无需另外控制。 在这里，如果没有线程可以立即运行，那么尝试排队任务会失败，因此将构建一个新的线程。 处理可能具有内部依赖关系的请求集时，此策略可避免锁定。 直接切换通常需要无限制的maximumPoolSizes，以避免拒绝新提交的任务。 这反过来允许无限线程增长的可能性，当命令继续以平均速度比他们可以处理的速度更快地到达时。
+ * 无界队列 使用无界队列（例如LinkedBlockingQueue没有预定容量）会导致新的任务，在队列中等待，当所有corePoolSize线程都很忙。 因此，不会再创建corePoolSize线程。 （因此，最大值大小的值没有任何影响。）每个任务完全独立于其他任务时，这可能是适当的，因此任务不会影响其他执行; 例如，在网页服务器中。 虽然这种排队风格可以有助于平滑瞬态突发的请求，但是当命令继续达到的平均速度比可以处理的速度更快时，它承认无界工作队列增长的可能性。
+ * 有边界的队列。 有限队列（例如， ArrayBlockingQueue ）有助于在使用有限maxPoolSizes时防止资源耗尽，但可能更难调整和控制。 队列大小和最大池大小可能彼此交易：使用大队列和小型池可以最大限度地减少CPU使用率，OS资源和上下文切换开销，但可能导致人为的低吞吐量。 如果任务频繁阻塞（例如，如果它们是I / O绑定），则系统可能能够安排比您允许的更多线程的时间。 使用小型队列通常需要较大的池大小，这样可以使CPU繁忙，但可能会遇到不可接受的调度开销，这也降低了吞吐量。
+ * 被拒绝的任务
+ * 方法execute(Runnable)中提交的新任务将在执行程序关闭时被拒绝 ，并且当执行程序对最大线程和工作队列容量使用有限边界并且饱和时。 在任一情况下， execute方法调用RejectedExecutionHandler.rejectedExecution(Runnable, ThreadPoolExecutor)其的方法RejectedExecutionHandler 。 提供了四个预定义的处理程序策略：
+ * 在默认ThreadPoolExecutor.AbortPolicy ，处理程序会引发运行RejectedExecutionException后排斥反应。
+ * 在ThreadPoolExecutor.CallerRunsPolicy中，调用execute本身的线程运行任务。 这提供了一个简单的反馈控制机制，将降低新任务提交的速度。
+ * 在ThreadPoolExecutor.DiscardPolicy中 ，简单地删除无法执行的任务。
+ * 在ThreadPoolExecutor.DiscardOldestPolicy中 ，如果执行程序没有关闭，则工作队列头部的任务被删除，然后重试执行（可能会再次失败，导致重复）。
+ * 可以定义和使用其他类型的RejectedExecutionHandler类。 这样做需要特别注意，特别是当策略被设计为仅在特定容量或排队策略下工作时。
+ * 钩子方法
+ * 该类提供了在每个任务执行之前和之后调用的protected覆盖的beforeExecute(Thread, Runnable)和afterExecute(Runnable, Throwable)方法。 这些可以用来操纵执行环境; 例如，重新初始化ThreadLocals，收集统计信息或添加日志条目。 另外，方法terminated()可以被覆盖，以执行执行程序完全终止后需要执行的任何特殊处理。
+ * 如果钩子或回调方法抛出异常，内部工作线程可能会失败并突然终止。
+ *
+ * 队列维护
+ * 方法getQueue()允许访问工作队列以进行监视和调试。 强烈不鼓励将此方法用于任何其他目的。 当提供大量排队任务被取消时，两种提供的方法remove(Runnable)和purge()可用于协助进行存储回收。
+ * 定稿
+ * 即不再在程序中引用， 并没有剩余的线程将成为池shutdown自动。 如果您希望确保未引用的池被回收，即使用户忘记调用shutdown() ，则必须安排未使用的线程最终死机，通过设置适当的保持活动时间，使用零个核心线程的下限和/或设置allowCoreThreadTimeOut(boolean) 。
+ * 扩展示例 。 这个类的大部分扩展覆盖了一个或多个受保护的钩子方法。 例如，这里是一个添加一个简单的暂停/恢复功能的子类：
+ *
  * An {@link ExecutorService} that executes each submitted task using
  * one of possibly several pooled threads, normally configured
  * using {@link Executors} factory methods.

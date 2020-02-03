@@ -60,6 +60,19 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
+ * 一个可扩展的并发ConcurrentNavigableMap实现。 该地图是根据排序natural ordering其密钥，或通过Comparator在地图创建时提供，这取决于所使用的构造方法。
+ * 这个类实现的并发变种SkipLists提供预期平均log（n）的时间成本，为containsKey ， get ， put和remove操作及其变体。 插入，删除，更新和访问操作由多个线程并发执行安全地执行。
+ *
+ * 迭代器和拼接器是weakly consistent 。
+ *
+ * 升序关键排序视图及其迭代器比降序更快。
+ *
+ * 通过此类中的方法返回的所有Map.Entry对，其视图表示生成时映射的快照。 他们不支持Entry.setValue方法。 （不过要注意的是可以利用改变相关的地图映射put ， putIfAbsent ，或replace ，取决于你所需要究竟哪些效果。）
+ *
+ * 请注意，与大多数集合不同， size方法不是一个恒定时间的操作。 由于这些映射的异步性质，确定当前元素数量需要遍历元素，因此如果在遍历期间修改此集合，则可能会报告不准确的结果。 此外，该批量操作putAll ， equals ， toArray ， containsValue和clear被原子方式执行， 不能保证。 例如，一个迭代用同时操作putAll操作可能只查看一些所添加的元素。
+ *
+ * 此类及其视图和迭代器实现所有的可选方法Map个Iterator接口。 与大多数其他并发集合，这个类不允许使用null键或值，因为有些空返回值不能从存在的元素的可靠地区分。
+ *
  * A scalable concurrent {@link ConcurrentNavigableMap} implementation.
  * The map is sorted according to the {@linkplain Comparable natural
  * ordering} of its keys, or by a {@link Comparator} provided at map

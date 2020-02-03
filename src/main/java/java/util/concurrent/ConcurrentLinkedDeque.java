@@ -47,6 +47,15 @@ import java.util.Spliterators;
 import java.util.function.Consumer;
 
 /**
+ * 基于链接节点的无界并发deque 。 并发插入，删除和访问操作可以跨多个线程安全执行。 A ConcurrentLinkedDeque是许多线程将共享对公共集合的访问的适当选择。 像大多数其他并发集合实现一样，此类不允许使用null元素。
+ * 迭代器和分配器是weakly consistent 。
+ *
+ * 请注意，与大多数集合不同， size方法不是一个恒定时间的操作。 由于这些deques的异步性质，确定当前元素数量需要遍历元素，因此如果在遍历期间修改此集合，则可能会报告不准确的结果。 此外，该批量操作addAll ， removeAll ， retainAll ， containsAll ， equals和toArray被原子方式执行， 不能保证。 例如，一个迭代与同时操作addAll操作可能只查看一些所添加的元素。
+ *
+ * 该类及其迭代器实现了Deque和Iterator接口的所有可选方法。
+ *
+ * 内存一致性效果：与其他并发集合一样，在将对象放入ConcurrentLinkedDeque happen-before ConcurrentLinkedDeque的线程中的ConcurrentLinkedDeque ，在另一个线程中从ConcurrentLinkedDeque访问或删除该元素之后。
+ *
  * An unbounded concurrent {@linkplain Deque deque} based on linked nodes.
  * Concurrent insertion, removal, and access operations execute safely
  * across multiple threads.

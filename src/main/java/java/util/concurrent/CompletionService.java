@@ -36,6 +36,11 @@
 package java.util.concurrent;
 
 /**
+ * 一种将新异步任务的生产与已完成任务的结果消耗相分离的服务。 生产者submit执行任务。 消费者take完成任务并按照完成的顺序处理其结果。 甲CompletionService可以例如被用来管理异步I / O，其中执行读取的程序或系统的一个组成部分被提交，然后任务在程序的不同部分采取行动在所涉及的读出完成时，可能当不同于他们要求的顺序。
+ * 通常， CompletionService依靠单独的Executor来实际执行任务，在这种情况下， CompletionService仅管理内部完成队列。 ExecutorCompletionService类提供了这种方法的实现。
+ *
+ * 内存一致性效果：提交任务的前行动线程CompletionService happen-before由该任务所采取的行动，进而发生，之前从以下相应的成功返回行动take() 。
+ *
  * A service that decouples the production of new asynchronous tasks
  * from the consumption of the results of completed tasks.  Producers
  * {@code submit} tasks for execution. Consumers {@code take}

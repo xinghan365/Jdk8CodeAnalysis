@@ -42,6 +42,13 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 
 /**
+ * A blocking queue其中每个插入操作必须等待另一个线程相应的删除操作，反之亦然。 同步队列没有任何内部容量，甚至没有一个容量。 你不能peek在同步队列，因为一个元素，当您尝试删除它才存在; 您无法插入元素（使用任何方法），除非另有线程正在尝试删除它; 你不能迭代，因为没有什么可以迭代。 队列的头部是第一个排队的插入线程尝试添加到队列中的元素; 如果没有这样排队的线程，那么没有元素可用于删除，并且poll()将返回null 。 为了其他Collection方法（例如contains ）的目的， SynchronousQueue充当空集合。 此队列不允许null元素。
+ * 同步队列类似于CSP和Ada中使用的会合通道。 它们非常适用于切换设计，其中运行在一个线程中的对象必须与在另一个线程中运行的对象同步，以便交付一些信息，事件或任务。
+ *
+ * 此类支持可选的公平策略，用于订购等待的生产者和消费者线程。 默认情况下，此订单不能保证。 然而，以公平设置为true的队列以FIFO顺序授予线程访问权限。
+ *
+ * 该类及其迭代器实现Collection和Iterator接口的所有可选方法。
+ *
  * A {@linkplain BlockingQueue blocking queue} in which each insert
  * operation must wait for a corresponding remove operation by another
  * thread, and vice versa.  A synchronous queue does not have any

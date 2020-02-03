@@ -50,6 +50,13 @@ import java.util.stream.StreamSupport;
 import sun.misc.VM;
 
 /**
+ * 与当前线程隔离的随机数生成器。 像Math类使用的全局Random发生器ThreadLocalRandom ，ThreadLocalRandom用内部生成的种子进行初始化，可能不会被修改。 适用时，在并发程序中使用ThreadLocalRandom而不是共享的Random对象通常会遇到更少的开销和争用。 当多个任务（例如，每个ForkJoinTask ）在线程池中并行使用随机数时，使用ThreadLocalRandom是特别合适的。
+ * 这个类的用途通常应该是这样的形式： ThreadLocalRandom.current().nextX(...) （其中X是Int ， Long ，等）。 当所有用法都是这种形式时，绝对不可能跨多个线程共享一个ThreadLocalRandom 。
+ *
+ * 该类还提供了其他常用的有界随机生成方法。
+ *
+ * ThreadLocalRandom的ThreadLocalRandom不是加密安全的。 在安全敏感的应用程序中考虑使用SecureRandom。 此外，默认构造的实例不使用加密随机种子，除非system property java.util.secureRandomSeed设置为true 。
+ *
  * A random number generator isolated to the current thread.  Like the
  * global {@link java.util.Random} generator used by the {@link
  * java.lang.Math} class, a {@code ThreadLocalRandom} is initialized

@@ -36,6 +36,13 @@
 package java.util.concurrent;
 
 /**
+ * 递归结果ForkJoinTask 。
+ * 对于一个典型的例子，这里是一个任务计算斐波纳契数字：
+ *
+ *    class Fibonacci extends RecursiveTask<Integer> { final int n; Fibonacci(int n) { this.n = n; } Integer compute() { if (n <= 1) return n; Fibonacci f1 = new Fibonacci(n - 1); f1.fork(); Fibonacci f2 = new Fibonacci(n - 2); return f2.compute() + f1.join(); } }
+ * 然而，除了计算斐波纳契函数的一种愚蠢的方法（有一个简单的快速线性算法，您将在实践中使用），
+ * 这很可能表现不佳，因为最小的子任务太小而不能被分解。 相反，正如几乎所有fork / join应用程序的情况一样，您可以选择一些最小粒度大小（例如，在此为10），您始终依次解决而不是细分。
+ *
  * A recursive result-bearing {@link ForkJoinTask}.
  *
  * <p>For a classic example, here is a task computing Fibonacci numbers:

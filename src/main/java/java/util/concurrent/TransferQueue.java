@@ -36,6 +36,9 @@
 package java.util.concurrent;
 
 /**
+ * A BlockingQueue其中生产者可以等待消费者接收元素。 A TransferQueue可用于例如消息传递应用程序，其中生产者有时（使用方法transfer(E) ）等待消费者调用take或poll ，而在其他时间，等待元素（通过方法put ）而不等待接收。 Non-blocking和time-out版本的tryTransfer也可用。 甲TransferQueue也可以查询，经由hasWaitingConsumer() ，是否有等待项，这是一种相反的类似于一个任何线程peek操作。
+ * 像其他阻塞队列一样， TransferQueue可能是容量有限的。 如果是这样，尝试的转移操作可以最初阻止等待可用空间，和/或随后阻止等待消费者的接收。 请注意，在与零容量的队列，如SynchronousQueue ， put和transfer是有效的代名词。
+ *
  * A {@link BlockingQueue} in which producers may wait for consumers
  * to receive elements.  A {@code TransferQueue} may be useful for
  * example in message passing applications in which producers

@@ -47,6 +47,13 @@ import java.util.Spliterators;
 import java.util.function.Consumer;
 
 /**
+ * 基于链接节点的无界TransferQueue 。 这个队列相对于任何给定的生产者订购元素FIFO（先进先出）。 队列的头部是那些已经排队的元素是一些生产者的最长时间。 队列的尾部是那些已经在队列上的元素是一些生产者的最短时间。
+ * 请注意，与大多数集合不同， size方法不是一个常时操作。 由于这些队列的异步性质，确定当前元素数量需要遍历元素，因此如果在遍历期间修改此集合，则可能会报告不准确的结果。 此外，该批量操作addAll ， removeAll ， retainAll ， containsAll ， equals和toArray被原子方式执行， 不能保证。 例如，一个迭代与同时操作addAll操作可能只查看一些所添加的元素。
+ *
+ * 该类及其迭代器实现了Collection和Iterator接口的所有可选方法。
+ *
+ * 存储器一致性效果：当与其他并发集合，事先将物体放置成在一个线程动作LinkedTransferQueue happen-before到该元素的从访问或移除后续动作LinkedTransferQueue在另一个线程。
+ *
  * An unbounded {@link TransferQueue} based on linked nodes.
  * This queue orders elements FIFO (first-in-first-out) with respect
  * to any given producer.  The <em>head</em> of the queue is that

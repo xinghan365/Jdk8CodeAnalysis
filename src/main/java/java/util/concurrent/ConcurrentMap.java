@@ -41,6 +41,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
+ * A Map提供线程安全和原子性保证。
+ * 内存一致性效果：与其他并发集合一样，在将对象放入ConcurrentMap作为键或happen-before之前的线程中的操作，在另一个线程中从ConcurrentMap访问或删除该对象之后。
+ *
  * A {@link java.util.Map} providing thread safety and atomicity
  * guarantees.
  *

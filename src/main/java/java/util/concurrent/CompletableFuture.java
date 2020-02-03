@@ -53,6 +53,19 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.locks.LockSupport;
 
 /**
+ * 甲Future可以明确地完成（设定其值和状态），并且可以被用作CompletionStage ，支持有关的功能和它的完成时触发动作。
+ * 当两个或多个线程试图complete ， completeExceptionally ，或cancel一个CompletableFuture，只有一个成功。
+ *
+ * 除了直接操作状态和结果的这些和相关方法外，CompletableFuture还实现了接口CompletionStage ，具有以下策略：
+ *
+ * 为异步方法的依赖完成提供的操作可以由完成当前CompletableFuture的线程或完成方法的任何其他调用者执行。
+ * 所有不使用显式Executor参数的异步方法都使用ForkJoinPool.commonPool()执行 （除非它不支持至少两个并行级别，在这种情况下，使用新的线程）。 为了简化监视，调试和跟踪，所有生成的异步任务都是标记接口CompletableFuture.AsynchronousCompletionTask的实例 。
+ * 所有CompletionStage方法都是独立于其他公共方法实现的，因此一个方法的行为不会受到子类中其他方法的覆盖的影响。
+ * CompletableFuture还实施Future ，具有以下政策：
+ *
+ * 由于（不同于FutureTask ），这个类不能直接控制导致其完成的计算，所以取消被视为另一种形式的异常完成。 方法cancel具有相同的效果completeExceptionally(new CancellationException()) 。 方法isCompletedExceptionally()可用于确定CompletableFuture是否以任何特殊方式完成。
+ * 如果使用CompletionException异常完成，方法get()和get(long, TimeUnit)将抛出与对应的CompletionException中保持的相同原因的ExecutionException。 为了简化大多数情况下的使用，此类还定义了方法join()和getNow(T) ，而是在这些情况下直接抛出CompletionException。
+ *
  * A {@link Future} that may be explicitly completed (setting its
  * value and status), and may be used as a {@link CompletionStage},
  * supporting dependent functions and actions that trigger upon its

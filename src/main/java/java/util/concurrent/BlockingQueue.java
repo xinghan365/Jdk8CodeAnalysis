@@ -39,6 +39,25 @@ import java.util.Collection;
 import java.util.Queue;
 
 /**
+ * A Queue另外支持在检索元素时等待队列变为非空的操作，并且在存储元素时等待队列中的空间变得可用。
+ * BlockingQueue方法有四种形式，具有不同的操作方式，不能立即满足，但可能在将来的某个时间点满足：一个抛出异常，第二个返回一个特殊值（ null或false ，具体取决于操作），第三个程序将无限期地阻止当前线程，直到操作成功为止，而第四个程序块在放弃之前只有给定的最大时限。 这些方法总结在下表中：
+ *
+ * Summary of BlockingQueue methods Throws exception Special value Blocks Times out Insert add(e) offer(e) put(e) offer(e, time, unit) Remove remove() poll() take() poll(time, unit) Examine element() peek() not applicable not applicable
+ * A BlockingQueue不接受null元素。 实现抛出NullPointerException上尝试add ， put或offer一个null 。 A null用作哨兵值以指示poll操作失败。
+ *
+ * A BlockingQueue可能是容量有限的。 在任何给定的时间它可能有一个remainingCapacity超过其中没有额外的元素可以put没有阻止。 没有任何内在容量限制的A BlockingQueue总是报告剩余容量为Integer.MAX_VALUE 。
+ *
+ * BlockingQueue实现被设计为主要用于生产者 - 消费者队列，但另外支持Collection接口。 因此，例如，可以使用remove(x)从队列中删除任意元素。 然而，这样的操作通常不能非常有效地执行，并且仅用于偶尔使用，例如当排队的消息被取消时。
+ *
+ * BlockingQueue实现是线程安全的。 所有排队方法使用内部锁或其他形式的并发控制在原子上实现其效果。 然而， 大量的Collection操作addAll ， containsAll ， retainAll和removeAll 不一定原子除非在实现中另有规定执行。 因此有可能，例如，为addAll(c)到只增加一些元件在后失败（抛出异常） c 。
+ *
+ * A BlockingQueue上不支持任何类型的“关闭”或“关闭”操作，表示不再添加项目。 这些功能的需求和使用往往依赖于实现。 例如，一个常见的策略是生产者插入特殊的尾流或毒物 ，这些消费者在被消费者摄取时被相应地解释。
+ *
+ * 使用示例，基于典型的生产者 - 消费者场景。 请注意， BlockingQueue可以安全地与多个生产者和多个消费者一起使用。
+ *
+ *    class Producer implements Runnable { private final BlockingQueue queue; Producer(BlockingQueue q) { queue = q; } public void run() { try { while (true) { queue.put(produce()); } } catch (InterruptedException ex) { ... handle ...} } Object produce() { ... } } class Consumer implements Runnable { private final BlockingQueue queue; Consumer(BlockingQueue q) { queue = q; } public void run() { try { while (true) { consume(queue.take()); } } catch (InterruptedException ex) { ... handle ...} } void consume(Object x) { ... } } class Setup { void main() { BlockingQueue q = new SomeQueueImplementation(); Producer p = new Producer(q); Consumer c1 = new Consumer(q); Consumer c2 = new Consumer(q); new Thread(p).start(); new Thread(c1).start(); new Thread(c2).start(); } } 存储器一致性效果：当与其他并发集合，事先将物体放置成在一个线程动作BlockingQueue happen-before到该元素的从访问或移除后续动作BlockingQueue在另一个线程。
+ *
+ *
  * A {@link java.util.Queue} that additionally supports operations
  * that wait for the queue to become non-empty when retrieving an
  * element, and wait for space to become available in the queue when

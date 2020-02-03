@@ -44,6 +44,17 @@ import java.util.function.Predicate;
 import java.util.function.Consumer;
 
 /**
+ * 一个Set使用内部CopyOnWriteArrayList其所有操作。 因此，它具有相同的基本属性：
+ * 它最适合于集合大小通常保持较小，只读操作大大超过突变操作的应用程序，并且您需要防止遍历期间线程之间的干扰。
+ * 它是线程安全的。
+ * 可变操作（ add ， set ， remove ，等）是昂贵的，因为它们通常意味着复制整个底层数组。
+ * 迭代器不支持突变remove操作。
+ * 遍历遍历迭代器是快速的，不能遇到来自其他线程的干扰。 迭代器构建时迭代器依赖于数组的不变快照。
+ * 样品用法。 以下代码草图使用写时复制集来维护在状态更新时执行某些操作的一组Handler对象。
+ *
+ *    class Handler { void handle(); ... } class X { private final CopyOnWriteArraySet<Handler> handlers = new CopyOnWriteArraySet<Handler>(); public void addHandler(Handler h) { handlers.add(h); } private long internalState; private synchronized void changeState() { internalState = ...; } public void update() { changeState(); for (Handler handler : handlers) handler.handle(); } }
+ *
+ *
  * A {@link java.util.Set} that uses an internal {@link CopyOnWriteArrayList}
  * for all of its operations.  Thus, it shares the same basic properties:
  * <ul>

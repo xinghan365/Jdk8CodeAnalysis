@@ -53,6 +53,13 @@ import java.util.function.UnaryOperator;
 import sun.misc.SharedSecrets;
 
 /**
+ * 一个线程安全的变体ArrayList ，其中所有可变操作（ add ， set ，等等）通过对底层数组的最新副本实现。
+ * 这通常是太昂贵的，但是当遍历操作大大超过突变时，可能比替代方法更有效，并且在不能或不想同步遍历时需要有用，但需要排除并发线程之间的干扰。 “快照”样式迭代器方法在创建迭代器的时候使用对数组状态的引用。 该数组在迭代器的生命周期内永远不会改变，所以干扰是不可能的，迭代器保证不会丢弃ConcurrentModificationException 。 自迭代器创建以来，迭代器将不会反映列表的添加，删除或更改。 元变化的迭代器操作本身（ remove ， set和add ）不被支持。 这些方法抛出UnsupportedOperationException 。
+ *
+ * 允许所有元素，包括null 。
+ *
+ * 内存一致性效果：与其他并发集合一样，在将对象放入CopyOnWriteArrayList
+ *
  * A thread-safe variant of {@link java.util.ArrayList} in which all mutative
  * operations ({@code add}, {@code set}, and so on) are implemented by
  * making a fresh copy of the underlying array.

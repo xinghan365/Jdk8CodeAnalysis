@@ -41,6 +41,20 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.*;
 
 /**
+ * A ThreadPoolExecutor可另外调度在给定延迟之后运行的命令，或定期执行。 该类优选的是Timer需要多个工作线程时，或当附加灵活性或能力ThreadPoolExecutor需要（这此类扩展）。
+ * 延迟任务执行时间早于启用，但没有任何实时保证，在启用后，他们将开始。 计划执行完全相同执行时间的任务将以先进先出（FIFO）的提交顺序启用。
+ *
+ * 提交的任务在运行之前被取消，执行被抑制。 默认情况下，这样一个取消的任务在工作队列中不会自动删除，直到其延迟过去。 虽然这样可以进一步检查和监控，但也可能导致取消任务的无限制保留。 为避免这种情况，请将setRemoveOnCancelPolicy(boolean)设置为true ，这将导致任务在取消时立即从工作队列中删除。
+ *
+ * 通过scheduleAtFixedRate或scheduleWithFixedDelay的任务的scheduleWithFixedDelay执行不重叠。 虽然不同的执行可以通过不同的线程来执行，先前执行的效果happen-before那些随后的那些的。
+ *
+ * 虽然这个类继承自ThreadPoolExecutor ，但是一些继承的调优方法对它没有用。 特别是因为它作为使用corePoolSize线程和无限队列的固定大小的池，对maximumPoolSize没有任何有用的效果。 此外，将corePoolSize设置为零或使用allowCoreThreadTimeOut几乎不是一个好主意，因为这可能会使池没有线程来处理任务，只要它们有资格运行。
+ *
+ * 扩展笔记：此类覆盖execute和submit方法以生成内部ScheduledFuture对象来控制每个任务的延迟和调度。 为了保护功能，子类中这些方法的任何进一步覆盖都必须调用超类版本，这有效地禁用其他任务自定义。 然而，此类提供替代保护扩展方法decorateTask （每一个用于一个版本Runnable和Callable ），其可以被用于定制用于执行经由输入的命令的具体任务类型execute ， submit ， schedule ， scheduleAtFixedRate和scheduleWithFixedDelay 。 默认情况下， ScheduledThreadPoolExecutor使用扩展为FutureTask的任务类型。 但是，可以使用以下形式的子类修改或替换：
+ *
+ *    public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor { static class CustomTask<V> implements RunnableScheduledFuture<V> { ... } protected <V> RunnableScheduledFuture<V> decorateTask( Runnable r, RunnableScheduledFuture<V> task) { return new CustomTask<V>(r, task); } protected <V> RunnableScheduledFuture<V> decorateTask( Callable<V> c, RunnableScheduledFuture<V> task) { return new CustomTask<V>(c, task); } // ... add constructors, etc. }
+ *
+ *
  * A {@link ThreadPoolExecutor} that can additionally schedule
  * commands to run after a given delay, or to execute
  * periodically. This class is preferable to {@link java.util.Timer}

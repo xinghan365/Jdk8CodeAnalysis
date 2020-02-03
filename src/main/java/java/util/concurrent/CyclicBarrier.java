@@ -38,6 +38,20 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * 允许一组线程全部等待彼此达到共同屏障点的同步辅助。 循环阻塞在涉及固定大小的线程方的程序中很有用，这些线程必须偶尔等待彼此。 屏障被称为循环 ，因为它可以在等待的线程被释放之后重新使用。
+ * A CyclicBarrier支持一个可选的Runnable命令，每个屏障点运行一次，在派对中的最后一个线程到达之后，但在任何线程释放之前。 在任何一方继续进行之前，此屏障操作对更新共享状态很有用。
+ *
+ * 示例用法：以下是在并行分解设计中使用障碍的示例：
+ *
+ *    class Solver { final int N; final float[][] data; final CyclicBarrier barrier; class Worker implements Runnable { int myRow; Worker(int row) { myRow = row; } public void run() { while (!done()) { processRow(myRow); try { barrier.await(); } catch (InterruptedException ex) { return; } catch (BrokenBarrierException ex) { return; } } } } public Solver(float[][] matrix) { data = matrix; N = matrix.length; Runnable barrierAction = new Runnable() { public void run() { mergeRows(...); }}; barrier = new CyclicBarrier(N, barrierAction); List<Thread> threads = new ArrayList<Thread>(N); for (int i = 0; i < N; i++) { Thread thread = new Thread(new Worker(i)); threads.add(thread); thread.start(); } // wait until done for (Thread thread : threads) thread.join(); } }
+ * 这里，每个工作线程处理矩阵的一行，然后等待屏障，直到所有行都被处理。 当处理所有行时，执行提供的Runnable屏障操作并合并行。 如果合并确定已经找到解决方案，那么done()将返回true ，并且每个工作人员将终止。
+ * 如果屏障操作不依赖于执行方暂停的各方，那么该方可以在释放任何线程时执行该操作。 为了方便这一点，每次调用await()返回该线程在屏障上的到达索引。 然后，您可以选择哪个线程应该执行屏障操作，例如：
+ *
+ *    if (barrier.await() == 0) { // log the completion of this iteration }
+ * CyclicBarrier对失败的同步尝试使用all-or-none断裂模型：如果线程由于中断，故障或超时而过早离开障碍点，那么在该障碍点等待的所有其他线程也将通过BrokenBarrierException （或InterruptedException）异常离开如果他们也在同一时间被打断）。
+ *
+ * 内存一致性效果：线程中调用的行动之前， await() happen-before行动是屏障操作的一部分，进而发生，之前的动作之后，从相应的成功返回await()其他线程。
+ *
  * A synchronization aid that allows a set of threads to all wait for
  * each other to reach a common barrier point.  CyclicBarriers are
  * useful in programs involving a fixed sized party of threads that

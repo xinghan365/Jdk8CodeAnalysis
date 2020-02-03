@@ -36,6 +36,14 @@
 package java.util.concurrent;
 
 /**
+ * 递归结果ForkJoinTask 。 该类确定了将无结果动作Void ForkJoinTask ，如Void ForkJoinTask 。 因为null类型是唯一有效的值Void ，如方法join总是返回null完成时。
+ * 示例用法 这是一个简单但完整的ForkJoin排序，排序给定的long[]数组：
+ *
+ *    static class SortTask extends RecursiveAction { final long[] array; final int lo, hi; SortTask(long[] array, int lo, int hi) { this.array = array; this.lo = lo; this.hi = hi; } SortTask(long[] array) { this(array, 0, array.length); } protected void compute() { if (hi - lo < THRESHOLD) sortSequentially(lo, hi); else { int mid = (lo + hi) >>> 1; invokeAll(new SortTask(array, lo, mid), new SortTask(array, mid, hi)); merge(lo, mid, hi); } } // implementation details follow: static final int THRESHOLD = 1000; void sortSequentially(int lo, int hi) { Arrays.sort(array, lo, hi); } void merge(int lo, int mid, int hi) { long[] buf = Arrays.copyOfRange(array, lo, mid); for (int i = 0, j = lo, k = mid; i < buf.length; j++) array[j] = (k == hi || buf[i] < array[k]) ? buf[i++] : array[k++]; } }
+ * 然后，您可以进行排序anArray创建new SortTask(anArray) ，并在ForkJoinPool调用它。 作为一个更具体的简单示例，以下任务会增加数组的每个元素：
+ *    class IncrementTask extends RecursiveAction { final long[] array; final int lo, hi; IncrementTask(long[] array, int lo, int hi) { this.array = array; this.lo = lo; this.hi = hi; } protected void compute() { if (hi - lo < THRESHOLD) { for (int i = lo; i < hi; ++i) array[i]++; } else { int mid = (lo + hi) >>> 1; invokeAll(new IncrementTask(array, lo, mid), new IncrementTask(array, mid, hi)); } } }
+ * 以下示例说明了可能导致更好性能的一些改进和习语：递归方法不需要完全递归，只要它们保持基本的划分和征服方法。 这是一个通过将只有重复划分的右手区域除以2的方式来对双阵列的每个元素的平方进行求和的类，并用next引用链来跟踪它们。 它使用基于方法getSurplusQueuedTaskCount的动态阈getSurplusQueuedTaskCount ，但是通过直接执行叶片动作来解决潜在的过度分割，而不是进一步细分。
+ *
  * A recursive resultless {@link ForkJoinTask}.  This class
  * establishes conventions to parameterize resultless actions as
  * {@code Void} {@code ForkJoinTask}s. Because {@code null} is the

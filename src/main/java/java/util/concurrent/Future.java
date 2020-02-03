@@ -36,6 +36,14 @@
 package java.util.concurrent;
 
 /**
+ * A Future计算的结果。 提供方法来检查计算是否完成，等待其完成，并检索计算结果。 结果只能在计算完成后使用方法get进行检索，如有必要，阻塞，直到准备就绪。 取消由cancel方法执行。 提供其他方法来确定任务是否正常完成或被取消。 计算完成后，不能取消计算。 如果您想使用Future ，以便不可撤销，但不提供可用的结果，则可以声明Future<?>表格的类型，并返回null作为基础任务的结果。
+ * 示例使用 （请注意，以下课程都是化妆品。）
+ *
+ *    interface ArchiveSearcher { String search(String target); } class App { ExecutorService executor = ... ArchiveSearcher searcher = ... void showSearch(final String target) throws InterruptedException { Future<String> future = executor.submit(new Callable<String>() { public String call() { return searcher.search(target); }}); displayOtherThings(); // do other things while searching try { displayText(future.get()); // use future } catch (ExecutionException ex) { cleanup(); return; } } }
+ * FutureTask类是实现Future ，实现Runnable ，所以可以由Executor执行。 例如，以上建设与submit可以替换为：
+ *    FutureTask<String> future = new FutureTask<String>(new Callable<String>() { public String call() { return searcher.search(target); }}); executor.execute(future);
+ * 内存一致性影响：异步运算采取的操作happen-before操作在另一个线程中相应的Future.get() Future.get() 。
+ *
  * A {@code Future} represents the result of an asynchronous
  * computation.  Methods are provided to check if the computation is
  * complete, to wait for its completion, and to retrieve the result of

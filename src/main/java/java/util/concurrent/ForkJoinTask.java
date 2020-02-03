@@ -53,6 +53,31 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.lang.reflect.Constructor;
 
 /**
+ * 在ForkJoinPool内运行的任务的抽象基类。 A ForkJoinTask是一个线程实体，其重量比普通线程轻得多。 大量任务和子任务可能由ForkJoinPool中的少量实际线程托管，价格为某些使用限制。
+ * A“主” ForkJoinTask开始执行时，明确提出到ForkJoinPool ，或者，如果不是已经从事ForkJoin计算，在开始ForkJoinPool.commonPool()通过fork() ， invoke() ，或相关方法。 一旦开始，它通常反过来启动其他子任务。 如该类的名称所示，许多使用ForkJoinTask程序ForkJoinTask使用方法fork()和join() ，或衍生物，例如invokeAll 。 然而，这个课程还提供了许多可以在高级用途中发挥作用的其他方法，以及允许支持新形式的叉/连接处理的扩展机制。
+ *
+ * 甲ForkJoinTask是轻质形式Future 。 ForkJoinTask的ForkJoinTask来源于一组限制（仅部分可静态执行），反映出它们主要用作计算纯函数或在纯孤立对象上运行的计算任务。 主要的协调机制是fork() ，该安排异步执行，并join() ，不继续，直到任务的结果被计算出来。 理想情况下，计算应避免使用synchronized方法或块，并应尽可能减少其他阻止同步，除了加入其他任务，或者使用同步器，例如被广告与fork / join调度合作的Phasers。 可分割的任务也不应该执行阻塞I / O，理想情况下，访问完全独立于其他运行任务访问的变量。 这些准则是通过不允许检查异常，如松散地执行IOExceptions抛出。 但是，计算可能仍然会遇到未经检查的异常，这些异常被转移给尝试加入它们的呼叫者。 这些例外可以另外包括RejectedExecutionException从内部资源耗尽所产生，如未能分配内部任务队列。 Rethrown异常的行为与常规异常的方式相同，但是如果可能，包含启动计算的线程以及实际遇到异常的线程的堆栈跟踪（例如使用ex.printStackTrace() ）; 最低限度只有后者。
+ *
+ * 可以定义和使用可能会阻塞的ForkJoinTasks，但是做的还需要另外三个考虑事项：（1）如果任何其他任务应该依赖于阻塞外部同步或I / O的任务，则完成很少。 事件风格的异步任务从未加入（例如，这些子类别CountedCompleter ）通常属于此类别。 （2）尽量减少资源影响，任务要小; 理想地仅执行（可能）阻塞动作。 （3）除非使用ForkJoinPool.ManagedBlocker API，否则已知可能已阻止的任务数量小于池的ForkJoinPool.getParallelism()级别，否则池不能保证有足够的线程可用于确保进度或性能良好。
+ *
+ * 等待完成和提取任务结果的主要方法是join() ，但有几种变体： Future.get()方法支持可中断和/或定时等待完成，并使用Future约定报告结果。 方法invoke()在语义上等同于fork(); join()但总是试图在当前线程中开始执行。 这些方法的“ 安静 ”形式不能提取结果或报告异常。 当执行一组任务时，这些可能很有用，并且您需要延迟对结果或异常的处理，直到完成。 方法invokeAll （可用于多个版本）执行最常见的并行调用形式：分派一组任务并将其全部加入。
+ *
+ * 在最典型的用法中，fork-join对就像一个调用（fork）并从并行递归函数返回（join）。 与其他形式的递归调用一样，返回（连接）应该是最内层的。 例如， a.fork(); b.fork(); b.join(); a.join();可能比在a之前加入a更b 。
+ *
+ * 任务的执行状态可以在多个细节层次查询： isDone()如果以任何方式完成任务（包括任务被取消而不执行的情况）则为真; isCompletedNormally()如果任务在没有取消或遇到异常的情况下完成，则为true; isCancelled()如果任务被取消，则为真（在这种情况下getException()返回一个CancellationException ）; 如果任务被取消或遇到异常，则isCompletedAbnormally()为真，在这种情况下， getException()将返回遇到的异常或CancellationException 。
+ *
+ * ForkJoinTask类通常不是直接子类。 相反，你继承了支持叉的特定风格/连接处理，通常是抽象类的一个RecursiveAction对于不返回结果大多数计算， RecursiveTask对于那些做了， CountedCompleter对于那些在已完成的操作触发其它动作。 通常，具体的ForkJoinTask子类声明包含其构造函数中建立的参数的字段，然后定义compute方法，该方法以某种方式使用此基类提供的控制方法。
+ *
+ * 方法join()及其变体仅在完成依赖性为非循环时才适用; 也就是说，并行计算可以被描述为有向无环图（DAG）。 否则，任务可能会遇到一种形式的死锁，因为任务周期性地等待对方。 然而，该框架支持的其它方法和技术（例如使用Phaser ， helpQuiesce()和complete(V) ），其可以使用在构建定制子类为没有静态构造为DAG的问题。 为了支持这样的用途中，ForkJoinTask可以用原子标记有short使用值setForkJoinTaskTag(short)或compareAndSetForkJoinTaskTag(short, short)和使用托运getForkJoinTaskTag() 。 ForkJoinTask实现不会为了任何目的使用这些protected方法或标签，但它们可能在构建专门的子类中有用。 例如，并行图遍历可以使用提供的方法来避免重新访问已经被处理的节点/任务。 （标记的方法名称部分笨重，以鼓励定义反映其使用模式的方法。）
+ *
+ * 大多数基础支持方法是final ，以防止覆盖本质上与底层轻量级任务调度框架相关联的实现。 开发者创建新的基本样式叉/加入处理应最低限度地实现protected方法exec() ， setRawResult(V)和getRawResult() ，同时还引入，可以在其子类来实现的抽象计算方法，可能依赖于其他protected由此类提供的方法。
+ *
+ * ForkJoinTasks应该执行相对较少的计算量。 大型任务应分为较小的子任务，通常通过递归分解。 作为一个非常粗略的经验法则，任务应该执行超过100个和少于10000个基本的计算步骤，并且应该避免不确定的循环。 如果任务太大，则并行性不能提高吞吐量。 如果太小，则内存和内部任务维护开销可能会压制处理。
+ *
+ * 这个类提供adapt方法Runnable和Callable ，混合执行时可能使用的ForkJoinTasks与其他类型的任务。 当所有任务都是这种形式时，请考虑使用以asyncMode构造的池 。
+ *
+ * ForkJoinTasks是Serializable ，它使它们可以用于扩展，如远程执行框架。 仅在执行之前或之后序列化任务是明智的，而不是执行期间。 序列化在执行本身时不依赖。
+ *
  * Abstract base class for tasks that run within a {@link ForkJoinPool}.
  * A {@code ForkJoinTask} is a thread-like entity that is much
  * lighter weight than a normal thread.  Huge numbers of tasks and

@@ -47,6 +47,11 @@ import java.util.Spliterators;
 import java.util.function.Consumer;
 
 /**
+ * 基于链接节点的可选限定的blocking queue 。 这个队列排列元素FIFO（先进先出）。 队列的头部是队列中最长的元素。 队列的尾部是队列中最短时间的元素。 新元素插入队列的尾部，队列检索操作获取队列头部的元素。 链接队列通常具有比基于阵列的队列更高的吞吐量，但在大多数并发应用程序中的可预测性能较低。
+ * 可选容量绑定构造函数参数用作防止过多队列扩展的一种方法。 容量，如果未指定，等于Integer.MAX_VALUE 。 链接节点在每次插入时动态创建，除非这将使队列高于容量。
+ *
+ * 该类及其迭代器实现了Collection和Iterator接口的所有可选方法。
+ *
  * An optionally-bounded {@linkplain BlockingQueue blocking queue} based on
  * linked nodes.
  * This queue orders elements FIFO (first-in-first-out).

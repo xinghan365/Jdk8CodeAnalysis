@@ -42,6 +42,15 @@ import java.util.function.BiFunction;
 import java.util.concurrent.Executor;
 
 /**
+ * 可能的异步计算的阶段，当另一个完成时间完成时，执行一个动作或计算一个值。 一个阶段在其计算结束时完成，但这又可能触发其他相关阶段。 此界面中定义的功能只需要几种基本形式，从而扩展到更大的方法来捕获一系列使用风格：
+ * 阶段执行的计算可以表示为功能，消费者或可运行（分别使用名称包括apply ， accept或run的方法），具体取决于是否需要参数和/或生成结果。 例如， stage.thenApply(x -> square(x)).thenAccept(x -> System.out.print(x)).thenRun(() -> System.out.println()) 。 另外一个表单（ 组合 ）应用阶段本身的功能，而不是它们的结果。
+ * 一个阶段的执行可以通过完成一个阶段，或两个阶段的完成，或两个阶段中的任一阶段来触发。 在一个单级的依赖关系使用的是带有前缀方法然后配置。 这些都通过两个阶段的结束为契机可以结合自己的成绩和效果，使用相应的命名方法。 由两个阶段中的任一阶段触发的那些不能保证结果或效果中的哪一个用于依赖阶段的计算。
+ * 阶段之间的依赖性控制计算的触发，但是否则不保证任何特定的顺序。 此外，新阶段计算的执行可以以三种方式中的任一种进行排列：默认执行，默认异步执行（使用使用阶段的默认异步执行工具的后缀异步方法）或自定义（通过提供的Executor ）。 默认和异步模式的执行属性由CompletionStage实现指定，而不是此接口。 具有显式Executor参数的方法可能具有任意执行属性，甚至可能不支持并发执行，而是以适应异步方式进行处理。
+ * 两种方法形式支持处理触发阶段是否正常或异常完成：方法whenComplete允许注入动作而不考虑结果，否则保留完成结果。 方法handle还允许阶段计算可以使其他依赖阶段进一步处理的替换结果。 在所有其他情况下，如果一个阶段的计算以（未检查）的异常或错误突然终止，那么所有依赖阶段都要求完成异常， CompletionException将异常作为其原因。 如果一个阶段是依赖于两个两个阶段，都非常完整，那么CompletionException可以对应于这些例外的任何一个。 如果一个阶段依赖于两个其他的任何一个，并且只有一个完成异常，则不能保证依赖阶段是否正常或异常完成。 在方法whenComplete的情况下，当提供的操作本身遇到异常时，如果没有特别地完成，那么该阶段异常地完成该异常。
+ * 所有方法都遵循上述触发，执行和特殊完成规范（在各个方法规范中不重复）。 另外，对于接受它们的方法，用于传递完成结果的参数（也就是对于参数类型为T的T ）可能为空，为任何其他参数传递空值将导致抛出NullPointerException 。
+ *
+ * 该接口没有定义初始创建方法，强制完成正常或异常的探测完成状态或结果，或等待阶段完成。 CompletionStage的实施可能会提供适当的方式来实现这种效果。 方法toCompletableFuture()通过提供公共转换类型实现了该接口的不同实现之间的互操作性。
+ *
  * A stage of a possibly asynchronous computation, that performs an
  * action or computes a value when another CompletionStage completes.
  * A stage completes upon termination of its computation, but this may

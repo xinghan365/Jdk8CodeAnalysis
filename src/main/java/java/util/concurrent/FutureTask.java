@@ -37,6 +37,11 @@ package java.util.concurrent;
 import java.util.concurrent.locks.LockSupport;
 
 /**
+ * 可取消的异步计算。 该类提供了一个Future的基本实现 ，具有启动和取消计算的方法，查询计算是否完整，并检索计算结果。 结果只能在计算完成后才能检索; 如果计算尚未完成，则get方法将阻止。 一旦计算完成，则无法重新启动或取消计算（除非使用runAndReset()调用计算 ）。
+ * A FutureTask可用于包装Callable或Runnable对象。 因为FutureTask实现Runnable ，一个FutureTask可以提交到一个Executor执行。
+ *
+ * 除了作为独立类之外，此类还提供了protected功能，在创建自定义任务类时可能很有用。
+ *
  * A cancellable asynchronous computation.  This class provides a base
  * implementation of {@link Future}, with methods to start and cancel
  * a computation, query to see if the computation is complete, and

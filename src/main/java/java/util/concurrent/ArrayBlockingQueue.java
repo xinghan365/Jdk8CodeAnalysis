@@ -45,6 +45,13 @@ import java.util.Spliterators;
 import java.util.Spliterator;
 
 /**
+ * 一个有限的blocking queue由数组支持。 这个队列排列元素FIFO（先进先出）。 队列的头部是队列中最长的元素。 队列的尾部是队列中最短时间的元素。 新元素插入队列的尾部，队列检索操作获取队列头部的元素。
+ * 这是一个经典的“有界缓冲区”，其中固定大小的数组保存由生产者插入的元素并由消费者提取。 创建后，容量无法更改。 尝试put成满的队列的元件将导致在操作阻挡; 尝试take从空队列的元件将类似地阻塞。
+ *
+ * 此类支持可选的公平策略，用于订购等待的生产者和消费者线程。 默认情况下，此订单不能保证。 然而，以公平设置为true的队列以FIFO顺序授予线程访问权限。 公平性通常会降低吞吐量，但会降低变异性并避免饥饿。
+ *
+ * 该类及其迭代器实现了Collection和Iterator接口的所有可选方法。
+ *
  * A bounded {@linkplain BlockingQueue blocking queue} backed by an
  * array.  This queue orders elements FIFO (first-in-first-out).  The
  * <em>head</em> of the queue is that element that has been on the

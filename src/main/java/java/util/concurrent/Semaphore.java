@@ -38,6 +38,20 @@ import java.util.Collection;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 /**
+ * 一个计数信号量。 在概念上，信号量维持一组许可证。 如果有必要，每个acquire()都会阻塞，直到许可证可用，然后才能使用它。 每个release()添加许可证，潜在地释放阻塞获取方。 但是，没有使用实际的许可证对象; Semaphore只保留可用数量的计数，并相应地执行。
+ * 信号量通常用于限制线程数，而不是访问某些（物理或逻辑）资源。 例如，这是一个使用信号量来控制对一个项目池的访问的类：
+ *
+ *    class Pool { private static final int MAX_AVAILABLE = 100; private final Semaphore available = new Semaphore(MAX_AVAILABLE, true); public Object getItem() throws InterruptedException { available.acquire(); return getNextAvailableItem(); } public void putItem(Object x) { if (markAsUnused(x)) available.release(); } // Not a particularly efficient data structure; just for demo protected Object[] items = ... whatever kinds of items being managed protected boolean[] used = new boolean[MAX_AVAILABLE]; protected synchronized Object getNextAvailableItem() { for (int i = 0; i < MAX_AVAILABLE; ++i) { if (!used[i]) { used[i] = true; return items[i]; } } return null; // not reached } protected synchronized boolean markAsUnused(Object item) { for (int i = 0; i < MAX_AVAILABLE; ++i) { if (item == items[i]) { if (used[i]) { used[i] = false; return true; } else return false; } } return false; } } 在获得项目之前，每个线程必须从信号量获取许可证，以确保某个项目可用。 当线程完成该项目后，它将返回到池中，并将许可证返回到信号量，允许另一个线程获取该项目。 请注意，当调用acquire()时，不会保持同步锁定，因为这将阻止某个项目返回到池中。 信号量封装了限制对池的访问所需的同步，与保持池本身一致性所需的任何同步分开。
+ *
+ * 信号量被初始化为一个，并且被使用，使得它只有至多一个允许可用，可以用作互斥锁。 这通常被称为二进制信号量 ，因为它只有两个状态：一个许可证可用，或零个许可证可用。 当以这种方式使用时，二进制信号量具有属性（与许多Lock实现不同），“锁”可以由除所有者之外的线程释放（因为信号量没有所有权概念）。 这在某些专门的上下文中是有用的，例如死锁恢复。
+ *
+ * 此类的构造函数可选择接受公平参数。 当设置为false时，此类不会保证线程获取许可的顺序。 特别是， 闯入是允许的，也就是说，一个线程调用acquire()可以提前已经等待线程分配的许可证-在等待线程队列的头部逻辑新的线程将自己。 当公平设置为真时，信号量保证调用acquire方法的线程被选择以按照它们调用这些方法的顺序获得许可（先进先出; FIFO）。 请注意，FIFO排序必须适用于这些方法中的特定内部执行点。 因此，一个线程可以在另一个线程之前调用acquire ，但是在另一个线程之后到达排序点，并且类似地从方法返回。 另请注意， 未定义的tryAcquire方法不符合公平性设置，但将采取任何可用的许可证。
+ *
+ * 通常，用于控制资源访问的信号量应该被公平地初始化，以确保线程没有被访问资源。 当使用信号量进行其他类型的同步控制时，非正常排序的吞吐量优势往往超过公平性。
+ *
+ * 本课程还提供了方便的方法， 一次acquire和release多个许可证。 当没有公平地使用这些方法时，请注意增加无限期延期的风险。
+ *
+ * 内存一致性效应：在另一个线程中成功执行“获取”方法（如acquire()之前，调用“释放”方法之前的线程中的操作，例如release() happen-before 。
  * A counting semaphore.  Conceptually, a semaphore maintains a set of
  * permits.  Each {@link #acquire} blocks if necessary until a permit is
  * available, and then takes it.  Each {@link #release} adds a permit,

@@ -36,6 +36,20 @@
 package java.util.concurrent;
 
 /**
+ * ExecutorService可以调度命令在给定的延迟之后运行，或定期执行。
+ * schedule方法创建具有各种延迟的任务，并返回可用于取消或检查执行的任务对象。 scheduleAtFixedRate和scheduleWithFixedDelay方法创建并执行定期运行的任务，直到取消。
+ *
+ * 使用Executor.execute(Runnable)和ExecutorService submit方法提交的命令以请求的延迟为零进行调度。 在schedule方法中也允许零和负延迟（但不是周期），并被视为立即执行的请求。
+ *
+ * 所有schedule方法接受相对延迟和句点作为参数，而不是绝对时间或日期。 这是一个简单的事情变换表示为绝对时间Date至所需的形式。 例如，要在一定的未来date ，您可以使用： schedule(task, date.getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS) 。 然而，请注意，由于网络时间同步协议，时钟漂移或其他因素，相对延迟的到期不需要与任务启用的当前Date重合。
+ *
+ * Executors类为此包中提供的ScheduledExecutorService实现提供了方便的工厂方法。
+ *
+ * 用法示例
+ * 这是一个类，其方法是将ScheduledExecutorService设置为每10秒钟发出一个小时的蜂鸣声：
+ *    import static java.util.concurrent.TimeUnit.*; class BeeperControl { private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); public void beepForAnHour() { final Runnable beeper = new Runnable() { public void run() { System.out.println("beep"); } }; final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, 10, 10, SECONDS); scheduler.schedule(new Runnable() { public void run() { beeperHandle.cancel(true); } }, 60 * 60, SECONDS); } }
+ *
+ *
  * An {@link ExecutorService} that can schedule commands to run after a given
  * delay, or to execute periodically.
  *

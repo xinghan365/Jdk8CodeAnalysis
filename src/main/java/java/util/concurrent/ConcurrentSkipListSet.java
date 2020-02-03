@@ -47,6 +47,17 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 
 /**
+ * 基于ConcurrentSkipListMap的可扩展并发NavigableSet 实现 。 根据它们的natural ordering或由设置创建时间提供的Comparator ，根据使用的构造方法，集合的元素将被保持排序。
+ * 此实现提供预期平均log（n）的时间成本，为contains ， add和remove操作及其变体。 插入，删除和访问操作由多个线程并发执行安全地执行。
+ *
+ * 迭代器和拼接器是weakly consistent 。
+ *
+ * 升序排序视图及其迭代器比降序更快。
+ *
+ * 请注意，与大多数集合不同， size方法不是一个常时操作。 由于这些集合的异步性质，确定当前元素数量需要遍历元素，因此如果在遍历期间修改此集合，则可能会报告不准确的结果。 此外，该批量操作addAll ， removeAll ， retainAll ， containsAll ， equals和toArray被原子方式执行， 不能保证。 例如，一个迭代与同时操作addAll操作可能只查看一些所添加的元素。
+ *
+ * 该类及其迭代器实现了Set和Iterator接口的所有可选方法。 像大多数其他并发集合实现一样，此类不允许使用null元素，因为null参数和返回值不能与不存在元素可靠地区分开。
+ *
  * A scalable concurrent {@link NavigableSet} implementation based on
  * a {@link ConcurrentSkipListMap}.  The elements of the set are kept
  * sorted according to their {@linkplain Comparable natural ordering},

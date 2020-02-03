@@ -40,6 +40,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
 /**
+ * 线程可以在成对内配对和交换元素的同步点。 每个线程在输入exchange方法时提供一些对象，与合作者线程匹配，并在返回时接收其合作伙伴的对象。 交换器可以被视为一个的双向形式SynchronousQueue 。 交换器在诸如遗传算法和管道设计的应用中可能是有用的。
+ * 示例用法：以下是使用Exchanger在线程之间交换缓冲区的类的Exchanger ，以便填充缓冲区的线程在需要时将其清空，将已填充的线程移交给清空缓冲区的线程。
+ *
+ *    class FillAndEmpty { Exchanger<DataBuffer> exchanger = new Exchanger<DataBuffer>(); DataBuffer initialEmptyBuffer = ... a made-up type DataBuffer initialFullBuffer = ... class FillingLoop implements Runnable { public void run() { DataBuffer currentBuffer = initialEmptyBuffer; try { while (currentBuffer != null) { addToBuffer(currentBuffer); if (currentBuffer.isFull()) currentBuffer = exchanger.exchange(currentBuffer); } } catch (InterruptedException ex) { ... handle ... } } } class EmptyingLoop implements Runnable { public void run() { DataBuffer currentBuffer = initialFullBuffer; try { while (currentBuffer != null) { takeFromBuffer(currentBuffer); if (currentBuffer.isEmpty()) currentBuffer = exchanger.exchange(currentBuffer); } } catch (InterruptedException ex) { ... handle ...} } } void start() { new Thread(new FillingLoop()).start(); new Thread(new EmptyingLoop()).start(); } }
+ * 内存一致性效果：对于每对线程，其经成功交换对象Exchanger ，现有的行动exchange()中的每个线程happen-before那些从相应的返回后续exchange()中的其他线程。
+ *
  * A synchronization point at which threads can pair and swap elements
  * within pairs.  Each thread presents some object on entry to the
  * {@link #exchange exchange} method, matches with a partner thread,

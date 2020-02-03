@@ -38,6 +38,21 @@ import java.util.List;
 import java.util.Collection;
 
 /**
+ * 一个Executor ，提供方法来管理终端和方法，可以产生Future为跟踪一个或多个异步任务执行。
+ * 一个ExecutorService可以关闭，这将导致它拒绝新的任务。 提供了两种不同的方法来关闭ExecutorService 。 shutdown()方法将允许先前提交的任务在终止之前执行，而shutdownNow()方法可以防止等待任务启动并尝试停止当前正在执行的任务。 一旦终止，执行者没有任务正在执行，没有任务正在等待执行，并且不能提交新的任务。 应关闭未使用的ExecutorService以允许资源的回收。
+ *
+ * 方法submit延伸的基方法Executor.execute(Runnable)通过创建并返回一个Future可用于取消执行和/或等待完成。 方法invokeAny和invokeAll执行invokeAll执行最常用的形式，执行任务集合，然后等待至少一个或全部完成。 （类别ExecutorCompletionService可用于编写这些方法的自定义变体。）
+ *
+ * Executors类为此包中提供的执行程序服务提供了工厂方法。
+ *
+ * 用法示例
+ * 这是一个网络服务的草图，其中线程池中的线程服务传入请求。 它使用预配置的Executors.newFixedThreadPool(int)工厂方法：
+ *    class NetworkService implements Runnable { private final ServerSocket serverSocket; private final ExecutorService pool; public NetworkService(int port, int poolSize) throws IOException { serverSocket = new ServerSocket(port); pool = Executors.newFixedThreadPool(poolSize); } public void run() { // run the service try { for (;;) { pool.execute(new Handler(serverSocket.accept())); } } catch (IOException ex) { pool.shutdown(); } } } class Handler implements Runnable { private final Socket socket; Handler(Socket socket) { this.socket = socket; } public void run() { // read and service request on socket } }
+ *
+ * 以下方法ExecutorService两个阶段关闭ExecutorService ，首先通过拨打shutdown拒绝接收任务，然后调用shutdownNow ，如有必要，可以取消任何延迟任务：
+ *    void shutdownAndAwaitTermination(ExecutorService pool) { pool.shutdown(); // Disable new tasks from being submitted try { // Wait a while for existing tasks to terminate if (!pool.awaitTermination(60, TimeUnit.SECONDS)) { pool.shutdownNow(); // Cancel currently executing tasks // Wait a while for tasks to respond to being cancelled if (!pool.awaitTermination(60, TimeUnit.SECONDS)) System.err.println("Pool did not terminate"); } } catch (InterruptedException ie) { // (Re-)Cancel if current thread also interrupted pool.shutdownNow(); // Preserve interrupt status Thread.currentThread().interrupt(); } }
+ * 内存一致性效果：操作在提交之前的螺纹Runnable或Callable任务到ExecutorService happen-before由任务采取的任何行动，这反过来又发生-之前结果通过检索Future.get() 。
+ *
  * An {@link Executor} that provides methods to manage termination and
  * methods that can produce a {@link Future} for tracking progress of
  * one or more asynchronous tasks.

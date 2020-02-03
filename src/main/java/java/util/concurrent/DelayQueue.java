@@ -40,6 +40,10 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.*;
 
 /**
+ *
+ * 一个无限制的blocking queue的Delayed元素，其中元素只能在其延迟到期时才被使用。 队列的头是Delayed元素，其延迟期满后保存时间。 如果没有延迟到期，那么没有头， poll会返回null 。 当元素的getDelay(TimeUnit.NANOSECONDS)方法返回小于或等于零的值时，就会发生getDelay(TimeUnit.NANOSECONDS) 。 即使未使用的元素不能使用take或poll ，它们另外被视为普通元素。 例如， size方法返回到期和未到期元素的计数。 此队列不允许空元素。
+ * 该类及其迭代器实现了Collection和Iterator接口的所有可选方法。 方法iterator()中提供的迭代器不能保证以任何特定顺序遍历DelayQueue的元素。
+ *
  * An unbounded {@linkplain BlockingQueue blocking queue} of
  * {@code Delayed} elements, in which an element can only be taken
  * when its delay has expired.  The <em>head</em> of the queue is that
